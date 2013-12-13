@@ -2,19 +2,28 @@ package com.dynious.blex.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+
+import java.io.DataOutput;
+import java.io.DataOutputStream;
 
 public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink
 
@@ -25,6 +34,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     private IFluidHandler fluidHandler;
     private IPowerReceptor powerReceptor;
     private IEnergySink energySink;
+
+    public TileBlockExtender()
+    {
+        super();
+    }
 
     public void setConnectedSide(int connectedSide)
     {
@@ -56,7 +70,26 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
 
     public void setEnergySink(IEnergySink energySink)
     {
-        this.energySink = energySink;
+        if (this.energySink == null && energySink != null)
+        {
+            this.energySink = energySink;
+            MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+        }
+        else
+        {
+            if (energySink == null)
+            {
+                MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            }
+            this.energySink = energySink;
+        }
+    }
+
+    @Override
+    public void invalidate()
+    {
+        MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        super.invalidate();
     }
 
     @Override
@@ -65,7 +98,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         super.updateEntity();
         if (connectedDirection != ForgeDirection.UNKNOWN)
         {
-            if (inventory == null && fluidHandler == null)
+            if (inventory == null && fluidHandler == null && powerReceptor == null && energySink == null)
             {
                 TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
                 if (tile != null)
@@ -251,20 +284,6 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
-        super.readFromNBT(compound);
-        connectedDirection = ForgeDirection.getOrientation(compound.getByte("side"));
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound compound)
-    {
-        super.writeToNBT(compound);
-        compound.setByte("side", (byte)connectedDirection.ordinal());
-    }
-
-    @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
     {
         if (fluidHandler != null)
@@ -391,5 +410,34 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             return energySink.acceptsEnergyFrom(tileEntity, forgeDirection);
         }
         return false;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound)
+    {
+        super.readFromNBT(compound);
+        connectedDirection = ForgeDirection.getOrientation(compound.getByte("side"));
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound compound)
+    {
+        super.writeToNBT(compound);
+        compound.setByte("side", (byte)connectedDirection.ordinal());
+    }
+
+    @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    {
+        super.onDataPacket(net, pkt);
+        pkt.data.getByte("side")
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        Packet packet = new Packet132TileEntityData();
+        packet.writePacketData();
+        return super.getDescriptionPacket();
     }
 }
