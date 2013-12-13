@@ -24,7 +24,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-@InterfaceList({@Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"), @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2")})
+@InterfaceList(value = {@Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"), @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy")})
 public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink
 
 {
@@ -33,7 +33,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     private int[] accessibleSlots;
     private IFluidHandler fluidHandler;
     private IPowerReceptor powerReceptor;
-    //private IEnergySink energySink;
+    private IEnergySink energySink;
 
     public TileBlockExtender()
     {
@@ -68,7 +68,6 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         this.powerReceptor = powerReceptor;
     }
 
-    /*
     public void setEnergySink(IEnergySink energySink)
     {
         if (this.energySink == null && energySink != null)
@@ -85,7 +84,6 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             this.energySink = energySink;
         }
     }
-    */
 
     @Override
     public void invalidate()
@@ -119,7 +117,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                     }
                     if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
                     {
-                        //setEnergySink((IEnergySink) tile);
+                        setEnergySink((IEnergySink) tile);
                     }
                 }
             }
@@ -136,10 +134,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             return true;
         }
-/*        if (Loader.isModLoaded("IC2") && energySink != null)
+        if (Loader.isModLoaded("IC2") && energySink != null)
         {
             return true;
-        }*/
+        }
         return false;
     }
 
@@ -398,10 +396,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public double demandedEnergyUnits()
     {
-/*        if (energySink != null)
+        if (energySink != null)
         {
             return energySink.demandedEnergyUnits();
-        }*/
+        }
         return 0;
     }
 
@@ -409,10 +407,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
     {
-/*        if (energySink != null)
+        if (energySink != null)
         {
             return energySink.injectEnergyUnits(forgeDirection, v);
-        }*/
+        }
         return 0;
     }
 
@@ -420,10 +418,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public int getMaxSafeInput()
     {
-/*        if (energySink != null)
+        if (energySink != null)
         {
             return energySink.getMaxSafeInput();
-        }*/
+        }
         return 0;
     }
 
@@ -431,10 +429,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public boolean acceptsEnergyFrom(TileEntity tileEntity, ForgeDirection forgeDirection)
     {
-/*        if (energySink != null)
+        if (energySink != null)
         {
             return energySink.acceptsEnergyFrom(tileEntity, forgeDirection);
-        }*/
+        }
         return false;
     }
 
