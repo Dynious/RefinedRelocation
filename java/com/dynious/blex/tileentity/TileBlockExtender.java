@@ -2,6 +2,7 @@ package com.dynious.blex.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
+import cpw.mods.fml.common.Optional.*;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
@@ -22,9 +23,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-
+@InterfaceList({@Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"), @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2")})
 public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink
 
 {
@@ -343,6 +342,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return new FluidTankInfo[0];
     }
 
+    @Method(modid = "BuildCraft|Energy")
     @Override
     public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
     {
@@ -353,6 +353,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return null;
     }
 
+    @Method(modid = "BuildCraft|Energy")
     @Override
     public void doWork(PowerHandler powerHandler)
     {
@@ -362,6 +363,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
     }
 
+    @Method(modid = "BuildCraft|Energy")
     @Override
     public World getWorld()
     {
@@ -372,6 +374,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return null;
     }
 
+    @Method(modid = "IC2")
     @Override
     public double demandedEnergyUnits()
     {
@@ -382,6 +385,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return 0;
     }
 
+    @Method(modid = "IC2")
     @Override
     public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
     {
@@ -392,6 +396,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return 0;
     }
 
+    @Method(modid = "IC2")
     @Override
     public int getMaxSafeInput()
     {
@@ -402,6 +407,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return 0;
     }
 
+    @Method(modid = "IC2")
     @Override
     public boolean acceptsEnergyFrom(TileEntity tileEntity, ForgeDirection forgeDirection)
     {
@@ -411,6 +417,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
         return false;
     }
+
+    /*
+    NBT stuffs
+     */
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
@@ -429,15 +439,15 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
     {
+        readFromNBT(pkt.data);
         super.onDataPacket(net, pkt);
-        pkt.data.getByte("side")
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
-        Packet packet = new Packet132TileEntityData();
-        packet.writePacketData();
-        return super.getDescriptionPacket();
+        NBTTagCompound compound = new NBTTagCompound();
+        writeToNBT(compound);
+        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
     }
 }
