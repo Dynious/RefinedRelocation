@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "blex",
+  "name": "Block Extenders",
+  "description": "Extend you block!",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authors": ["Dynious"],
+  "credits": "Dynious, for making the mod!",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
