@@ -28,12 +28,12 @@ import net.minecraftforge.fluids.IFluidHandler;
 public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink
 
 {
-    private ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
-    private IInventory inventory;
-    private int[] accessibleSlots;
-    private IFluidHandler fluidHandler;
-    private IPowerReceptor powerReceptor;
-    private IEnergySink energySink;
+    protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
+    protected IInventory inventory;
+    protected int[] accessibleSlots;
+    protected IFluidHandler fluidHandler;
+    protected IPowerReceptor powerReceptor;
+    protected IEnergySink energySink;
 
     public TileBlockExtender()
     {
