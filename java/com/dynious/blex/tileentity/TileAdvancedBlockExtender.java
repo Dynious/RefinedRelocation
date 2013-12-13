@@ -28,6 +28,6 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
                 }
             }
         }
-        super.setInventorySlotContents(2, itemStack);
+        super.setInventorySlotContents(bestSlot, itemStack);
     }
 }
