@@ -98,9 +98,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         super.updateEntity();
         if (connectedDirection != ForgeDirection.UNKNOWN)
         {
+            TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
             if (!hasConnection())
             {
-                TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
                 if (tile != null)
                 {
                     if (tile instanceof IInventory)
@@ -120,6 +120,13 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                         setEnergySink((IEnergySink) tile);
                     }
                 }
+            }
+            else if (tile == null)
+            {
+                setInventory(null);
+                setFluidHandler(null);
+                setPowerReceptor(null);
+                setEnergySink(null);
             }
         }
     }
