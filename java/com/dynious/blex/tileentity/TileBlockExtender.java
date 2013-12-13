@@ -7,12 +7,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileBlockExtender extends TileEntity implements ISidedInventory
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler
 {
     private ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     private IInventory inventory;
     private int[] accessibleSlots;
+    private IFluidHandler fluidHandler;
 
     public void setConnectedSide(int connectedSide)
     {
@@ -29,20 +34,29 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory
         }
     }
 
+    public void setFluidHandler(IFluidHandler fluidHandler)
+    {
+        this.fluidHandler = fluidHandler;
+    }
+
     @Override
     public void updateEntity()
     {
         super.updateEntity();
         if (connectedDirection != ForgeDirection.UNKNOWN)
         {
-            if (inventory == null)
+            if (inventory == null && fluidHandler == null)
             {
                 TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
                 if (tile != null)
                 {
                     if (tile instanceof IInventory)
                     {
-                        setInventory((IInventory)inventory);
+                        setInventory((IInventory)tile);
+                    }
+                    if (tile instanceof IFluidHandler)
+                    {
+                        setFluidHandler((IFluidHandler)tile);
                     }
                 }
             }
@@ -220,5 +234,65 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory
     {
         super.writeToNBT(compound);
         compound.setByte("side", (byte)connectedDirection.ordinal());
+    }
+
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+    {
+        if (fluidHandler != null)
+        {
+            return fluidHandler.fill(from, resource, doFill);
+        }
+        return 0;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
+    {
+        if (fluidHandler != null)
+        {
+            return fluidHandler.drain(from, resource, doDrain);
+        }
+        return null;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
+    {
+        if (fluidHandler != null)
+        {
+            return fluidHandler.drain(from, maxDrain, doDrain);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid)
+    {
+        if (fluidHandler != null)
+        {
+            return fluidHandler.canFill(from, fluid);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid)
+    {
+        if (fluidHandler != null)
+        {
+            return fluidHandler.canDrain(from, fluid);
+        }
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from)
+    {
+        if (fluidHandler != null)
+        {
+            return fluidHandler.getTankInfo(from);
+        }
+        return new FluidTankInfo[0];
     }
 }
