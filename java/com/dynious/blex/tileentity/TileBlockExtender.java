@@ -2,6 +2,7 @@ package com.dynious.blex.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional.*;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
@@ -32,7 +33,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     private int[] accessibleSlots;
     private IFluidHandler fluidHandler;
     private IPowerReceptor powerReceptor;
-    private IEnergySink energySink;
+    //private IEnergySink energySink;
 
     public TileBlockExtender()
     {
@@ -67,6 +68,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         this.powerReceptor = powerReceptor;
     }
 
+    /*
     public void setEnergySink(IEnergySink energySink)
     {
         if (this.energySink == null && energySink != null)
@@ -83,6 +85,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             this.energySink = energySink;
         }
     }
+    */
 
     @Override
     public void invalidate()
@@ -97,7 +100,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         super.updateEntity();
         if (connectedDirection != ForgeDirection.UNKNOWN)
         {
-            if (inventory == null && fluidHandler == null && powerReceptor == null && energySink == null)
+            if (!hasConnection())
             {
                 TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
                 if (tile != null)
@@ -110,17 +113,34 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                     {
                         setFluidHandler((IFluidHandler)tile);
                     }
-                    if (tile instanceof IPowerReceptor)
+                    if (Loader.isModLoaded("BuildCraft|Energy") && tile instanceof IPowerReceptor)
                     {
                         setPowerReceptor((IPowerReceptor)tile);
                     }
-                    if (tile instanceof IEnergySink)
+                    if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
                     {
-                        setEnergySink((IEnergySink) tile);
+                        //setEnergySink((IEnergySink) tile);
                     }
                 }
             }
         }
+    }
+
+    private boolean hasConnection()
+    {
+        if (inventory != null || fluidHandler != null)
+        {
+            return true;
+        }
+        if (Loader.isModLoaded("BuildCraft|Energy") && powerReceptor != null)
+        {
+            return true;
+        }
+/*        if (Loader.isModLoaded("IC2") && energySink != null)
+        {
+            return true;
+        }*/
+        return false;
     }
 
     @Override
@@ -378,10 +398,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public double demandedEnergyUnits()
     {
-        if (energySink != null)
+/*        if (energySink != null)
         {
             return energySink.demandedEnergyUnits();
-        }
+        }*/
         return 0;
     }
 
@@ -389,10 +409,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
     {
-        if (energySink != null)
+/*        if (energySink != null)
         {
             return energySink.injectEnergyUnits(forgeDirection, v);
-        }
+        }*/
         return 0;
     }
 
@@ -400,10 +420,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public int getMaxSafeInput()
     {
-        if (energySink != null)
+/*        if (energySink != null)
         {
             return energySink.getMaxSafeInput();
-        }
+        }*/
         return 0;
     }
 
@@ -411,10 +431,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public boolean acceptsEnergyFrom(TileEntity tileEntity, ForgeDirection forgeDirection)
     {
-        if (energySink != null)
+/*        if (energySink != null)
         {
             return energySink.acceptsEnergyFrom(tileEntity, forgeDirection);
-        }
+        }*/
         return false;
     }
 
