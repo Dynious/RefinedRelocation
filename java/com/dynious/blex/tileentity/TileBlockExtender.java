@@ -1,23 +1,30 @@
 package com.dynious.blex.tileentity;
 
+import buildcraft.api.power.IPowerReceptor;
+import buildcraft.api.power.PowerHandler;
+import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink
+
 {
     private ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     private IInventory inventory;
     private int[] accessibleSlots;
     private IFluidHandler fluidHandler;
+    private IPowerReceptor powerReceptor;
+    private IEnergySink energySink;
 
     public void setConnectedSide(int connectedSide)
     {
@@ -27,16 +34,29 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void setInventory(IInventory inventory)
     {
         this.inventory = inventory;
-        accessibleSlots = new int[inventory.getSizeInventory()];
-        for (int i = 0; i < inventory.getSizeInventory(); i++)
+        if (inventory != null)
         {
-            accessibleSlots[i] = i;
+            accessibleSlots = new int[inventory.getSizeInventory()];
+            for (int i = 0; i < inventory.getSizeInventory(); i++)
+            {
+                accessibleSlots[i] = i;
+            }
         }
     }
 
     public void setFluidHandler(IFluidHandler fluidHandler)
     {
         this.fluidHandler = fluidHandler;
+    }
+
+    public void setPowerReceptor(IPowerReceptor powerReceptor)
+    {
+        this.powerReceptor = powerReceptor;
+    }
+
+    public void setEnergySink(IEnergySink energySink)
+    {
+        this.energySink = energySink;
     }
 
     @Override
@@ -57,6 +77,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                     if (tile instanceof IFluidHandler)
                     {
                         setFluidHandler((IFluidHandler)tile);
+                    }
+                    if (tile instanceof IPowerReceptor)
+                    {
+                        setPowerReceptor((IPowerReceptor)tile);
+                    }
+                    if (tile instanceof IEnergySink)
+                    {
+                        setEnergySink((IEnergySink) tile);
                     }
                 }
             }
@@ -294,5 +322,74 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             return fluidHandler.getTankInfo(from);
         }
         return new FluidTankInfo[0];
+    }
+
+    @Override
+    public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
+    {
+        if (powerReceptor != null)
+        {
+            return powerReceptor.getPowerReceiver(forgeDirection);
+        }
+        return null;
+    }
+
+    @Override
+    public void doWork(PowerHandler powerHandler)
+    {
+        if (powerReceptor != null)
+        {
+            powerReceptor.doWork(powerHandler);
+        }
+    }
+
+    @Override
+    public World getWorld()
+    {
+        if (powerReceptor != null)
+        {
+            return powerReceptor.getWorld();
+        }
+        return null;
+    }
+
+    @Override
+    public double demandedEnergyUnits()
+    {
+        if (energySink != null)
+        {
+            return energySink.demandedEnergyUnits();
+        }
+        return 0;
+    }
+
+    @Override
+    public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
+    {
+        if (energySink != null)
+        {
+            return energySink.injectEnergyUnits(forgeDirection, v);
+        }
+        return 0;
+    }
+
+    @Override
+    public int getMaxSafeInput()
+    {
+        if (energySink != null)
+        {
+            return energySink.getMaxSafeInput();
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean acceptsEnergyFrom(TileEntity tileEntity, ForgeDirection forgeDirection)
+    {
+        if (energySink != null)
+        {
+            return energySink.acceptsEnergyFrom(tileEntity, forgeDirection);
+        }
+        return false;
     }
 }
