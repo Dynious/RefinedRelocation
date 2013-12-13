@@ -2,6 +2,7 @@ package com.dynious.blex;
 
 import com.dynious.blex.block.ModBlocks;
 import com.dynious.blex.config.ConfigHandler;
+import com.dynious.blex.creativetab.CreativeTabBlEx;
 import com.dynious.blex.lib.Reference;
 import com.dynious.blex.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
@@ -9,6 +10,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import net.minecraft.creativetab.CreativeTabs;
 
 @Mod(modid = Reference.modid, name = Reference.name, version = Reference.version)
 public class BlockExtenders
@@ -18,6 +20,8 @@ public class BlockExtenders
 
     @SidedProxy(clientSide = Reference.clientProxy, serverSide = Reference.commonProxy)
     public static CommonProxy proxy;
+
+    public static CreativeTabs tabBlEx = new CreativeTabBlEx(CreativeTabs.getNextID(), Reference.modid);
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
