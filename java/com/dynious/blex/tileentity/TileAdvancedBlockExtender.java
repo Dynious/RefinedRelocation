@@ -6,21 +6,28 @@ import net.minecraft.item.ItemStack;
 public class TileAdvancedBlockExtender extends TileBlockExtender
 {
     @Override
-    public int[] getAccessibleSlotsFromSide(int i)
+    public void setInventorySlotContents(int i, ItemStack itemStack)
     {
         int[] slots = super.getAccessibleSlotsFromSide(i);
         int bestSlot = Integer.MAX_VALUE;
+        int bestSize = Integer.MAX_VALUE;
         for (int slot : slots)
         {
             ItemStack stack = getStackInSlot(slot);
-            if (ItemStack.areItemStacksEqual())
+            if (stack == null)
+            {
+                bestSlot = slot;
+                break;
+            }
+            if (ItemStack.areItemStacksEqual(stack, itemStack) && stack.stackSize + itemStack.stackSize <= stack.getMaxStackSize())
+            {
+                if (stack.stackSize < bestSize)
+                {
+                    bestSlot = slot;
+                    bestSize = stack.stackSize;
+                }
+            }
         }
-        return new int[0];
-    }
-
-    @Override
-    public boolean canInsertItem(int i, ItemStack itemStack, int i2)
-    {
-        return super.canInsertItem(i, itemStack, i2);
+        super.setInventorySlotContents(2, itemStack);
     }
 }
