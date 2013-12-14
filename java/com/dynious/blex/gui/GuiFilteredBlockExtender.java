@@ -45,7 +45,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
-            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width/2 - 35, height/2 - 30 + i*(ITEM_SIZE-1), 0);
+            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width/2 - 35, height/2 - 30 + i*ITEM_SIZE, 0);
         }
     }
 
@@ -106,6 +106,19 @@ public class GuiFilteredBlockExtender extends GuiScreen
     protected void mouseClicked(int x, int y, int type)
     {
         super.mouseClicked(x, y, type);
+        if (type == 0)
+        {
+            if (x >= width/2 - 60 && x <= width/2 + 60)
+            for (int i = 0; i < ITEMS_PER_SCREEN; i++)
+            {
+                this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 0, 81, 120, 14);
+                int itemPlace = i + index;
+                if (blockExtender.filter.getValue(itemPlace))
+                    this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 135, 81, 14, 14);
+                else
+                    this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 121, 81, 14, 14);
+            }
+        }
     }
 
     private void drawContainerBackground()
@@ -120,7 +133,12 @@ public class GuiFilteredBlockExtender extends GuiScreen
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
-            this.drawTexturedModalRect(width/2 - 40, height/2 - 35 + i*(ITEM_SIZE-1), 176, 42, 80, 14);
+            this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 0, 81, 120, 14);
+            int itemPlace = i + index;
+            if (blockExtender.filter.getValue(itemPlace))
+                this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 135, 81, 14, 14);
+            else
+                this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 121, 81, 14, 14);
         }
     }
 
