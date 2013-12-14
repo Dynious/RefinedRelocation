@@ -45,7 +45,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
-            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width/2 - 35, height/2 - 30 + i*ITEM_SIZE, 0);
+            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width/2 - 35, height/2 - 66 + i*ITEM_SIZE, 0);
         }
     }
 
@@ -108,15 +108,15 @@ public class GuiFilteredBlockExtender extends GuiScreen
         super.mouseClicked(x, y, type);
         if (type == 0)
         {
-            if (x >= width/2 - 60 && x <= width/2 + 60)
-            for (int i = 0; i < ITEMS_PER_SCREEN; i++)
+            if (x >= width/2 - 75 && x <= width/2 + 75)
             {
-                this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 0, 81, 120, 14);
-                int itemPlace = i + index;
-                if (blockExtender.filter.getValue(itemPlace))
-                    this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 135, 81, 14, 14);
-                else
-                    this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 121, 81, 14, 14);
+                for (int i = 0; i < ITEMS_PER_SCREEN; i++)
+                {
+                    if (y >= height/2 - 70 + i*ITEM_SIZE && y <= height/2 - 70 + (1+i)*ITEM_SIZE)
+                    {
+                        blockExtender.filter.setValue(index + i, !blockExtender.filter.getValue(index + i));
+                    }
+                }
             }
         }
     }
@@ -124,21 +124,21 @@ public class GuiFilteredBlockExtender extends GuiScreen
     private void drawContainerBackground()
     {
         int xSize = 176;
-        int ySize = 80;
+        int ySize = 153;
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(Resources.GUI_ADVANCED_BLOCK_EXTENDER);
+        mc.renderEngine.bindTexture(Resources.GUI_FILTERED_BLOCK_EXTENDER);
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
-            this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 0, 81, 120, 14);
+            this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 0, 154, 150, 14);
             int itemPlace = i + index;
             if (blockExtender.filter.getValue(itemPlace))
-                this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 135, 81, 14, 14);
+                this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 165, 154, 14, 14);
             else
-                this.drawTexturedModalRect(width/2 - 60, height/2 - 35 + i*ITEM_SIZE, 121, 81, 14, 14);
+                this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 151, 154, 14, 14);
         }
     }
 
