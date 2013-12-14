@@ -490,6 +490,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
+        //
         return 0;
     }
 
