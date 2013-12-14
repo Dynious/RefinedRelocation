@@ -86,6 +86,10 @@ public class BlockExtender extends BlockContainer
                 }
                 else if (tile instanceof TileAdvancedBlockExtender)
                 {
+                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender)tile));
+                }
+                else if (tile instanceof TileAdvancedFilteredBlockExtender)
+                {
                     FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender)tile));
                 }
             }

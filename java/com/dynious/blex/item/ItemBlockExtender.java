@@ -1,5 +1,6 @@
 package com.dynious.blex.item;
 
+import com.dynious.blex.block.ModBlocks;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,5 +37,11 @@ public class ItemBlockExtender extends ItemBlock
     @Override
     public int getMetadata(int par1) {
         return par1;
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack i)
+    {
+        return ModBlocks.blockExtender.getUnlocalizedName() + i.getItemDamage();
     }
 }

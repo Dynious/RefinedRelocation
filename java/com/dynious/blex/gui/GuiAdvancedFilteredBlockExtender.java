@@ -123,7 +123,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         int ySize = 153;
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(Resources.GUI_ADVANCED_BLOCK_EXTENDER);
+        mc.renderEngine.bindTexture(Resources.GUI_ADVANCED_FILTERED_BLOCK_EXTENDER);
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
@@ -140,9 +140,9 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
                 //Bottom
                 case 0:
                     if (connection)
-                        this.drawTexturedModalRect(width / 2 + 28 + 34, height / 2 + 10, 176, 28, 14, 14);
+                        this.drawTexturedModalRect(width / 2 + 28 + 34, height / 2 + 10, 207, 154, 14, 14);
                     else
-                        this.drawTexturedModalRect(width / 2 + 28 + 34, height / 2 + 10, 176, hasTile ? 0 : 14, 14, 14);
+                        this.drawTexturedModalRect(width / 2 + 28 + 34, height / 2 + 10, hasTile ? 179 : 193, 154, 14, 14);
                     break;
                 //Top
                 case 1:
