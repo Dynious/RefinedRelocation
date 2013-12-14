@@ -4,6 +4,7 @@ import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileFilteredBlockExtender;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 public class GuiFilteredBlockExtender extends GuiScreen
@@ -11,6 +12,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
     private TileFilteredBlockExtender blockExtender;
     private int index = 0;
     private int size;
+    private float currentScroll = 0;
     private static final int ITEMS_PER_SCREEN = 10;
     private static final int ITEM_SIZE = 14;
 
@@ -19,8 +21,6 @@ public class GuiFilteredBlockExtender extends GuiScreen
         this.blockExtender = blockExtender;
         size = blockExtender.filter.getSize();
     }
-
-
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
@@ -41,11 +41,37 @@ public class GuiFilteredBlockExtender extends GuiScreen
         drawDefaultBackground();
         drawContainerBackground();
         super.drawScreen(h, j, f);
+
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
+            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width/2 - 35, height/2 - 30 + i*(ITEM_SIZE-1), 0);
         }
     }
+
+    /**
+     * Handles mouse input.
+     */
+    public void handleMouseInput()
+    {
+        super.handleMouseInput();
+        int i = Mouse.getEventDWheel();
+
+        if (i != 0)
+        {
+            if (i > 0)
+            {
+                i = 1;
+            }
+
+            if (i < 0)
+            {
+                i = -1;
+            }
+            index += i;
+        }
+    }
+
     @Override
     public void updateScreen()
     {
@@ -80,7 +106,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
-            this.drawTexturedModalRect(xStart + 10, yStart + 10 + (i*13), 176, 42, 80, 14);
+            this.drawTexturedModalRect(width/2 - 40, height/2 - 35 + i*(ITEM_SIZE-1), 176, 42, 80, 14);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.dynious.blex.config;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -77,7 +78,7 @@ public class Filter
             case 4:
                 return "Dusts";
             default:
-                return CreativeTabs.creativeTabArray[place - STATIC_SIZE].getTranslatedTabLabel();
+                return I18n.getString(CreativeTabs.creativeTabArray[place - STATIC_SIZE].getTranslatedTabLabel());
         }
     }
     public void writeToNBT(NBTTagCompound compound)
