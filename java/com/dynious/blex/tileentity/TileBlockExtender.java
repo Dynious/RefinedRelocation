@@ -490,31 +490,50 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
-        //
+        if (energyHandler != null)
+        {
+            return energyHandler.receiveEnergy(forgeDirection, i, b);
+        }
         return 0;
     }
 
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
+        if (energyHandler != null)
+        {
+            return energyHandler.extractEnergy(forgeDirection, i, b);
+        }
         return 0;
     }
 
     @Override
     public boolean canInterface(ForgeDirection forgeDirection)
     {
+        if (energyHandler != null)
+        {
+            return energyHandler.canInterface(forgeDirection);
+        }
         return false;
     }
 
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
+        if (energyHandler != null)
+        {
+            return energyHandler.getEnergyStored(forgeDirection);
+        }
         return 0;
     }
 
     @Override
     public int getMaxEnergyStored(ForgeDirection forgeDirection)
     {
+        if (energyHandler != null)
+        {
+            return energyHandler.getMaxEnergyStored(forgeDirection);
+        }
         return 0;
     }
 
