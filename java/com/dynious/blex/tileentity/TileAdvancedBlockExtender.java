@@ -48,8 +48,9 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             {
                 return false;
             }
+            System.out.println(bestSlot);
             shouldUpdateBestSlot = true;
-            return true;
+            return true ;
         }
         else
         {
@@ -57,21 +58,21 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         }
     }
 
-    /*
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
     {
         if (spreadItems)
         {
-            if (lastSlotSide != i || shouldUpdateBestSlot)
+            if (lastSlotSide != i ||!ItemStack.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
             {
-                updateBestSlot(i);
+                updateBestSlot(i, itemStack);
                 shouldUpdateBestSlot = false;
             }
             if (!super.isItemValidForSlot(bestSlot, itemStack) || i != bestSlot)
             {
                 return false;
             }
+            System.out.println(bestSlot);
             shouldUpdateBestSlot = true;
             return true;
         }
@@ -80,7 +81,6 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             return super.isItemValidForSlot(i, itemStack);
         }
     }
-    */
 
     private void updateBestSlot(int side, ItemStack itemStack)
     {
@@ -88,6 +88,10 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         for (int slot = 0; slot < getSizeInventory(); slot++)
         {
             ItemStack stack = getStackInSlot(slot);
+            if (!super.canInsertItem(slot, itemStack, side))
+            {
+                break;
+            }
             if (stack == null)
             {
                 bestSlot = slot;
