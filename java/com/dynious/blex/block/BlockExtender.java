@@ -107,4 +107,22 @@ public class BlockExtender extends BlockContainer
             ((TileBlockExtender)tile).blocksChanged = true;
         }
     }
+
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+
+    @Override
+    public int getRenderType()
+    {
+        return -1;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+
+        return false;
+    }
 }

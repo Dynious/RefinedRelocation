@@ -9,7 +9,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy
 {
-    public static void initTileEntities()
+    public void initTileEntities()
     {
         GameRegistry.registerTileEntity(TileBlockExtender.class, Names.blockExtender);
         GameRegistry.registerTileEntity(TileAdvancedBlockExtender.class, Names.advancedBlockExtender);
