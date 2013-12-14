@@ -26,9 +26,9 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     {
         if (spreadItems)
         {
-            if (shouldUpdateBestSlot)
+            if (lastSlotSide != i || shouldUpdateBestSlot)
             {
-                updateBestSlot();
+                updateBestSlot(i);
                 shouldUpdateBestSlot = false;
             }
             if (!super.isItemValidForSlot(bestSlot, itemStack) || i != bestSlot)
@@ -44,9 +44,9 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         }
     }
 
-    private void updateBestSlot()
+    private void updateBestSlot(int side)
     {
-        int[] slots = super.getAccessibleSlotsFromSide(i);
+        int[] slots = super.getAccessibleSlotsFromSide(insertDirection[side]);
         int bestSize = Integer.MAX_VALUE;
         for (int slot : slots)
         {
@@ -62,6 +62,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
                 bestSize = stack.stackSize;
             }
         }
+        lastSlotSide = side;
     }
 
     @Override

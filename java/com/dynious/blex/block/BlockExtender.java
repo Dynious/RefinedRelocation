@@ -4,6 +4,7 @@ import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
 import com.dynious.blex.tileentity.TileBlockExtender;
+import com.dynious.blex.tileentity.TileFilteredBlockExtender;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -38,8 +39,9 @@ public class BlockExtender extends BlockContainer
             case 0:
                 return new TileBlockExtender();
             case 1:
-                System.out.println("ADVANCED!");
                 return new TileAdvancedBlockExtender();
+            case 2:
+                return new TileFilteredBlockExtender();
             default:
                 return null;
         }
@@ -50,7 +52,7 @@ public class BlockExtender extends BlockContainer
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
-        for (int j = 0; j < 2; ++j)
+        for (int j = 0; j < 3; ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }
