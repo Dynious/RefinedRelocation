@@ -24,7 +24,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     {
         super.initGui();
         this.buttonList.clear();
-        this.buttonList.add(spreadItems = new GuiButton(0, width/2, height/2, blockExtender.spreadItems? "Spread on": "Spread off"));
+        this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 80, height/2 - 10, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
     }
 
     /**
@@ -35,6 +35,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     {
         drawDefaultBackground();
         drawContainerBackground();
+        super.drawScreen(i, j, f);
     }
     @Override
     public void updateScreen()
@@ -57,12 +58,18 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     private void drawContainerBackground()
     {
         int xSize = 176;
-        int ySize = 166;
+        int ySize = 80;
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(Resources.GUI_ADVANCED_BLOCK_EXTENDER);
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
+    }
+
+    @Override
+    public boolean doesGuiPauseGame()
+    {
+        return false;
     }
 }

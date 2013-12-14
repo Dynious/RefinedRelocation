@@ -47,9 +47,8 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
 
     private void updateBestSlot(int side)
     {
-        int[] slots = super.getAccessibleSlotsFromSide(insertDirection[side]);
         int bestSize = Integer.MAX_VALUE;
-        for (int slot : slots)
+        for (int slot = 0; slot < getSizeInventory(); slot++)
         {
             ItemStack stack = getStackInSlot(slot);
             if (stack == null)
