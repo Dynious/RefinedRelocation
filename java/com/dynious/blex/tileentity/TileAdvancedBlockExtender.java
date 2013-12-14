@@ -2,6 +2,7 @@ package com.dynious.blex.tileentity;
 
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 
 public class TileAdvancedBlockExtender extends TileBlockExtender
@@ -77,5 +78,21 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             return accessibleSlots;
         }
         return new int[0];
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound)
+    {
+        super.readFromNBT(compound);
+        spreadItems = compound.getBoolean("spreadItems");
+        insertDirection = compound.getByteArray("insertDirection");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound compound)
+    {
+        super.writeToNBT(compound);
+        compound.setBoolean("spreadItems", spreadItems);
+        compound.setByteArray("insertDirection", insertDirection);
     }
 }
