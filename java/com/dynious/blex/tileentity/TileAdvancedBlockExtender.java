@@ -34,6 +34,29 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     }
 
     @Override
+    public boolean canInsertItem(int i, ItemStack itemStack, int i2)
+    {
+        if (spreadItems)
+        {
+            if (lastSlotSide != i || shouldUpdateBestSlot)
+            {
+                updateBestSlot(i);
+                shouldUpdateBestSlot = false;
+            }
+            if (!super.canInsertItem(bestSlot, itemStack, i2) || i != bestSlot)
+            {
+                return false;
+            }
+            shouldUpdateBestSlot = true;
+            return true;
+        }
+        else
+        {
+            return super.canInsertItem(i, itemStack, i2);
+        }
+    }
+
+    @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
     {
         if (spreadItems)
