@@ -12,7 +12,6 @@ public class GuiFilteredBlockExtender extends GuiScreen
     private TileFilteredBlockExtender blockExtender;
     private int index = 0;
     private int size;
-    private float currentScroll = 0;
     private static final int ITEMS_PER_SCREEN = 10;
     private static final int ITEM_SIZE = 14;
 
@@ -20,16 +19,6 @@ public class GuiFilteredBlockExtender extends GuiScreen
     {
         this.blockExtender = blockExtender;
         size = blockExtender.filter.getSize();
-    }
-
-    /**
-     * Adds the buttons (and other controls) to the screen in question.
-     */
-    @Override
-    public void initGui()
-    {
-        super.initGui();
-        this.buttonList.clear();
     }
 
     /**
@@ -52,6 +41,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
     /**
      * Handles mouse input.
      */
+    @Override
     public void handleMouseInput()
     {
         super.handleMouseInput();
@@ -84,22 +74,6 @@ public class GuiFilteredBlockExtender extends GuiScreen
             i = size - ITEMS_PER_SCREEN;
         }
         this.index = i;
-    }
-
-    @Override
-    public void updateScreen()
-    {
-        super.updateScreen();
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton guibutton)
-    {
-        switch(guibutton.id)
-        {
-            case 0:
-
-        }
     }
 
     @Override
