@@ -34,6 +34,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected IFluidHandler fluidHandler;
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
+    protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
+    public boolean blocksChanged = true;
 
     public TileBlockExtender()
     {
@@ -85,6 +87,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
     }
 
+    public TileEntity[] getTiles()
+    {
+        return tiles;
+    }
+
     @Override
     public void invalidate()
     {
@@ -129,6 +136,21 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 setEnergySink(null);
             }
         }
+        if (blocksChanged)
+        {
+            for (ForgeDirection direction : ForgeDirection.values())
+            {
+                if (direction != connectedDirection)
+                {
+                    TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
+                    if (tile != null)
+                    {
+                        tiles[direction.ordinal()] = tile;
+                    }
+                }
+            }
+            blocksChanged = false;
+        }
     }
 
     private boolean hasConnection()
@@ -147,6 +169,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
         return false;
     }
+
+    /*
+    Item/Fluid/Power interaction
+     */
 
     @Override
     public int[] getAccessibleSlotsFromSide(int i)
@@ -451,7 +477,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        connectedDirection = ForgeDirection.getOrientation(compound.getByte("side"));
+        setConnectedSide(compound.getByte("side"));
     }
 
     @Override

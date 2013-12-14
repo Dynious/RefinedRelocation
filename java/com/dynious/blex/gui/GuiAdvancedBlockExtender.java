@@ -4,6 +4,7 @@ import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 public class GuiAdvancedBlockExtender extends GuiScreen
@@ -65,6 +66,21 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
+        for (int i = 0; i < ForgeDirection.values().length; i++)
+        {
+            //28 + 17
+            switch(i)
+            {
+                case 0:
+                    if (blockExtender.getTiles()[i] != null)
+                    {
+                        this.drawTexturedModalRect(width/2 + 28 + 34, height/2 + 10, 167, 0, 14, 14);
+                    } else
+                    {
+                        this.drawTexturedModalRect(width/2 + 28 + 34, height/2 + 10, 167, 14, 14, 14);
+                    }
+            }
+        }
     }
 
     @Override

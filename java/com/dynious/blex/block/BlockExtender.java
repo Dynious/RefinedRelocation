@@ -80,4 +80,15 @@ public class BlockExtender extends BlockContainer
         }
         return true;
     }
+
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, int par5)
+    {
+        super.onNeighborBlockChange(world, x, y, z, par5);
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileBlockExtender)
+        {
+            ((TileBlockExtender)tile).blocksChanged = true;
+        }
+    }
 }
