@@ -32,11 +32,44 @@ public class GuiAdvancedBlockExtender extends GuiScreen
      * Draws the screen and all the components in it.
      */
     @Override
-    public void drawScreen(int i, int j, float f)
+    public void drawScreen(int h, int j, float f)
     {
         drawDefaultBackground();
         drawContainerBackground();
-        super.drawScreen(i, j, f);
+        super.drawScreen(h, j, f);
+
+        for (int i = 0; i < blockExtender.getInsertDirection().length; i++)
+        {
+            ForgeDirection direction = ForgeDirection.getOrientation(blockExtender.getInsertDirection()[i]);
+            String letter = Character.toString(direction.toString().charAt(0));
+            switch(i)
+            {
+                //Bottom
+                case 0:
+                    fontRenderer.drawString(letter, width / 2 + 28 + 34 + 4, height / 2 + 10 + 4, 0);
+                    break;
+                //Top
+                case 1:
+                    fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 - 7 + 4, 0);
+                    break;
+                //North
+                case 2:
+                    fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 - 24 + 4, 0);
+                    break;
+                //South
+                case 3:
+                    fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 + 10 + 4, 0);
+                    break;
+                //West
+                case 4:
+                    fontRenderer.drawString(letter, width / 2 + 28 + 4, height / 2 - 7 + 4, 0);
+                    break;
+                //East
+                case 5:
+                    fontRenderer.drawString(letter, width / 2 + 28 + 34 + 4, height / 2 - 7 + 4, 0);
+                    break;
+            }
+        }
     }
     @Override
     public void updateScreen()
