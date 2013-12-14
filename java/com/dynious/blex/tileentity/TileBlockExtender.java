@@ -100,7 +100,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public void invalidate()
     {
-        MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        if (this.energySink != null)
+            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         super.invalidate();
     }
 

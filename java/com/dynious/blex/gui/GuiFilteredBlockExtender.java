@@ -20,9 +20,12 @@ public class GuiFilteredBlockExtender extends GuiScreen
         size = blockExtender.filter.getSize();
     }
 
+    
+
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @Override
     public void initGui()
     {
         super.initGui();

@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class Filter
 {
+    public static final int STATIC_SIZE = 5;
     public boolean ingots = false;
     public boolean ores = false;
     public boolean wood = false;
@@ -14,7 +15,51 @@ public class Filter
 
     public int getSize()
     {
-        return creativeTabs.length + 5;
+        return creativeTabs.length + STATIC_SIZE;
+    }
+
+    public void setValue(int place, boolean value)
+    {
+        switch(place)
+        {
+            case 0:
+                ingots = value;
+                break;
+            case 1:
+                ores = value;
+                break;
+            case 2:
+                wood = value;
+                break;
+            case 3:
+                planks = value;
+                break;
+            case 4:
+                dusts = value;
+                break;
+            default:
+                creativeTabs[place - STATIC_SIZE] = value;
+                break;
+        }
+    }
+
+    public boolean getValue(int place)
+    {
+        switch(place)
+        {
+            case 0:
+                return ingots;
+            case 1:
+                return ores;
+            case 2:
+                return wood;
+            case 3:
+                return planks;
+            case 4:
+                return dusts;
+            default:
+                return creativeTabs[place - STATIC_SIZE];
+        }
     }
     public void writeToNBT(NBTTagCompound compound)
     {
