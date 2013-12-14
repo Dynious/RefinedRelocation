@@ -1,7 +1,9 @@
 package com.dynious.blex.renderer;
 
+import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
 import com.dynious.blex.tileentity.TileBlockExtender;
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
@@ -22,12 +24,14 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             GL11.glPushMatrix();
 
-            GL11.glScalef(1F, 1F, 1F);
-            GL11.glTranslated(x, y, z);
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
+
+            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
+            GL11.glScalef(0.5F, 0.5F, 0.5F);
 
             modelBlockExtender.render();
 
-            GL11.glPushMatrix();
+            GL11.glPopMatrix();
 
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_CULL_FACE);
