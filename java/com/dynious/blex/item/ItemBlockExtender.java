@@ -1,12 +1,15 @@
 package com.dynious.blex.item;
 
 import com.dynious.blex.tileentity.TileBlockExtender;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+
+import java.util.List;
 
 public class ItemBlockExtender extends ItemBlock
 {
