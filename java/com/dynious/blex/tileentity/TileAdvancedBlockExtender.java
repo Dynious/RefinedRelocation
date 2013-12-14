@@ -25,6 +25,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
                 {
                     bestSlot = slot;
                     bestSize = stack.stackSize;
+                    //STARTING AGAIN
                 }
             }
         }
