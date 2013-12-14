@@ -15,7 +15,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
-    private boolean blackList = false;
+    public boolean blackList = false;
     public Filter filter = new Filter();
 
     public TileAdvancedFilteredBlockExtender()

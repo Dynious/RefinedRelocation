@@ -12,6 +12,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
 {
     private TileAdvancedFilteredBlockExtender blockExtender;
     private GuiButton spreadItems;
+    private GuiButton blacklist;
     private int index = 0;
     private int size;
     private static final int ITEMS_PER_SCREEN = 10;
@@ -30,7 +31,9 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     {
         super.initGui();
         this.buttonList.clear();
-        this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 120, height/2 - 50, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
+        this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 120, height/2 - 65, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
+        this.buttonList.add(blacklist = new GuiButton(0, width/2 - 120, height/2 - 35, 80, 20, blockExtender.spreadItems? "Blacklist": "Whitelist"));
+
     }
 
     /**
@@ -55,6 +58,20 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             }
             setIndex(index - i);
         }
+    }
+
+    public void setIndex(int index)
+    {
+        int i = index;
+        if (i < 0)
+        {
+            i = 0;
+        }
+        if (i > size - ITEMS_PER_SCREEN)
+        {
+            i = size - ITEMS_PER_SCREEN;
+        }
+        this.index = i;
     }
 
     /**
@@ -105,7 +122,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
-            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width/2 - 35, height/2 - 66 + i*ITEM_SIZE, 0);
+            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width/2 + 10, height/2 - 66 + i*ITEM_SIZE, 0);
         }
     }
     @Override
@@ -122,6 +139,10 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         {
             case 0:
                 blockExtender.spreadItems = !blockExtender.spreadItems;
+                break;
+            case 1:
+                blockExtender.blackList = !blockExtender.blackList;
+                break;
         }
     }
 
@@ -149,6 +170,16 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             //East
             if (x >= width / 2 - 105 + 34 && x <= width / 2 - 105 + 34 + 14 && y >= height / 2 + 20 - 7 && y <= height / 2 + 20 - 7 + 14)
                 blockExtender.setInsertDirection(5, blockExtender.getInsertDirection()[5]+ 1);
+            if (x >= width/2 - 30 && x <= width/2 + 120)
+            {
+                for (int i = 0; i < ITEMS_PER_SCREEN; i++)
+                {
+                    if (y >= height/2 - 70 + i*ITEM_SIZE && y <= height/2 - 70 + (1+i)*ITEM_SIZE)
+                    {
+                        blockExtender.filter.setValue(index + i, !blockExtender.filter.getValue(index + i));
+                    }
+                }
+            }
         }
     }
 
@@ -218,12 +249,12 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         }
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
-            this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 0, 154, 150, 14);
+            this.drawTexturedModalRect(width/2 - 30, height/2 - 70 + i*ITEM_SIZE, 0, 154, 150, 14);
             int itemPlace = i + index;
             if (blockExtender.filter.getValue(itemPlace))
-                this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 165, 154, 14, 14);
+                this.drawTexturedModalRect(width/2 - 30, height/2 - 70 + i*ITEM_SIZE, 165, 154, 14, 14);
             else
-                this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 151, 154, 14, 14);
+                this.drawTexturedModalRect(width/2 - 30, height/2 - 70 + i*ITEM_SIZE, 151, 154, 14, 14);
         }
     }
 

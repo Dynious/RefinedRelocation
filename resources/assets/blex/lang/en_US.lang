@@ -3,3 +3,5 @@ tile.blockExtender0.name=Block Extender
 tile.blockExtender1.name=Advanced Block Extender
 tile.blockExtender2.name=Filtered Block Extender
 tile.blockExtender3.name=Advanced Filtered Block Extender
+# Inventory localizations
+itemGroup.BlEx=Block Extenders
