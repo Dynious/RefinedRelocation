@@ -2,6 +2,7 @@ package com.dynious.blex.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
+import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional.*;
 import ic2.api.energy.event.EnergyTileLoadEvent;
@@ -24,8 +25,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-@InterfaceList(value = {@Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"), @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy")})
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink
+@InterfaceList(value = {@Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"), @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"), @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")})
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler
 
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
@@ -34,6 +35,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected IFluidHandler fluidHandler;
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
+    protected IEnergyHandler energyHandler;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
     public boolean blocksChanged = true;
 
@@ -73,6 +75,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void setPowerReceptor(IPowerReceptor powerReceptor)
     {
         this.powerReceptor = powerReceptor;
+    }
+
+    public void setEnergyHandler(IEnergyHandler energyHandler)
+    {
+        this.energyHandler = energyHandler;
     }
 
     public void setEnergySink(IEnergySink energySink)
@@ -132,6 +139,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                     {
                         setEnergySink((IEnergySink) tile);
                     }
+                    if (Loader.isModLoaded("CoFHCore") && tile instanceof IEnergyHandler)
+                    {
+                        setEnergyHandler((IEnergyHandler) tile);
+                    }
                 }
             }
             else if (tile == null)
@@ -140,6 +151,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 setFluidHandler(null);
                 setPowerReceptor(null);
                 setEnergySink(null);
+                setEnergyHandler(null);
             }
         }
         if (blocksChanged)
@@ -166,6 +178,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             return true;
         }
         if (Loader.isModLoaded("IC2") && energySink != null)
+        {
+            return true;
+        }
+        if (Loader.isModLoaded("CoFHCore") && energyHandler != null)
         {
             return true;
         }
@@ -469,6 +485,36 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             return energySink.acceptsEnergyFrom(tileEntity, forgeDirection);
         }
         return false;
+    }
+
+    @Override
+    public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean canInterface(ForgeDirection forgeDirection)
+    {
+        return false;
+    }
+
+    @Override
+    public int getEnergyStored(ForgeDirection forgeDirection)
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMaxEnergyStored(ForgeDirection forgeDirection)
+    {
+        return 0;
     }
 
     /*
