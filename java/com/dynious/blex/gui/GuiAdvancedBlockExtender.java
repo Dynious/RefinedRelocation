@@ -10,7 +10,6 @@ import org.lwjgl.opengl.GL11;
 public class GuiAdvancedBlockExtender extends GuiScreen
 {
     private TileAdvancedBlockExtender blockExtender;
-    private int currentTab = 0;
     private GuiButton spreadItems;
 
     public GuiAdvancedBlockExtender(TileAdvancedBlockExtender blockExtender)

@@ -2,6 +2,7 @@ package com.dynious.blex.block;
 
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.gui.GuiAdvancedBlockExtender;
+import com.dynious.blex.gui.GuiFilteredBlockExtender;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
 import com.dynious.blex.tileentity.TileBlockExtender;
@@ -64,7 +65,6 @@ public class BlockExtender extends BlockContainer
     public boolean onBlockActivated(World world, int x, int y, int z,
                                     EntityPlayer player, int par6, float par7, float par8, float par9)
     {
-
         if (player.isSneaking())
             return false;
         else
@@ -75,6 +75,10 @@ public class BlockExtender extends BlockContainer
                 if (tile instanceof TileAdvancedBlockExtender)
                 {
                     FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender)tile));
+                }
+                else if (tile instanceof TileFilteredBlockExtender)
+                {
+                    FMLCommonHandler.instance().showGuiScreen(new GuiFilteredBlockExtender((TileFilteredBlockExtender)tile));
                 }
             }
         }
