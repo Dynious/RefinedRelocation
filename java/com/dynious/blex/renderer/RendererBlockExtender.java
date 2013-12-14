@@ -27,9 +27,8 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
 
-            rotate(tile);
+            rotate(tile, x, y, z);
 
-            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
             GL11.glScalef(0.5F, 0.5F, 0.5F);
 
             modelBlockExtender.render();
@@ -41,25 +40,31 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
         }
     }
 
-    public void rotate(TileBlockExtender tile)
+    public void rotate(TileBlockExtender tile, double x, double y, double z)
     {
         switch(tile.getConnectedDirection())
         {
             case DOWN:
+                GL11.glTranslated(x + 0.5F, y, z + 0.5F);
                 break;
             case UP:
+                GL11.glTranslated(x + 0.5F, y + 1F, z + 0.5F);
                 GL11.glRotatef(180F, 1F, 0F, 0F);
                 break;
             case NORTH:
-                GL11.glRotatef(-90F, 1F, 0F, 0F);
-                break;
-            case SOUTH:
+                GL11.glTranslated(x + 0.5F, y + 0.5, z);
                 GL11.glRotatef(90F, 1F, 0F, 0F);
                 break;
+            case SOUTH:
+                GL11.glTranslated(x + 0.5F, y + 0.5F, z + 1F);
+                GL11.glRotatef(-90F, 1F, 0F, 0F);
+                break;
             case WEST:
+                GL11.glTranslated(x, y + 0.5F, z + 0.5F);
                 GL11.glRotatef(-90F, 0F, 0F, 1F);
                 break;
             case EAST:
+                GL11.glTranslated(x + 1F, y + 0.5F, z + 0.5F);
                 GL11.glRotatef(90F, 0F, 0F, 1F);
                 break;
         }
