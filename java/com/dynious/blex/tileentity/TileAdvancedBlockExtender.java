@@ -2,46 +2,51 @@ package com.dynious.blex.tileentity;
 
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeDirection;
 
 public class TileAdvancedBlockExtender extends TileBlockExtender
 {
-    @Override
-    public boolean canInsertItem(int i, ItemStack itemStack, int i2)
+    private boolean spreadItems = false;
+    private byte[] insertDirection;
+    private int bestSlot;
+    private boolean shouldUpdateBestSlot = true;
+    private int lastSlotSide;
+
+    public TileAdvancedBlockExtender()
     {
-        if (!super.canInsertItem(i, itemStack, i2))
+        insertDirection = new byte[ForgeDirection.values().length];
+        for (int i : insertDirection)
         {
-            return false;
+            insertDirection[i] = (byte)i;
         }
-        int[] slots = super.getAccessibleSlotsFromSide(i);
-        int bestSlot = Integer.MAX_VALUE;
-        int bestSize = Integer.MAX_VALUE;
-        for (int slot : slots)
-        {
-            ItemStack stack = getStackInSlot(slot);
-            if (stack == null)
-            {
-                bestSlot = slot;
-                break;
-            }
-            if (stack.stackSize < bestSize)
-            {
-                bestSlot = slot;
-                bestSize = stack.stackSize;
-                //STARTING AGAIN
-            }
-        }
-        return i == bestSlot;
     }
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
     {
-        if (!super.isItemValidForSlot(i, itemStack))
+        if (spreadItems)
         {
-            return false;
+            if (shouldUpdateBestSlot)
+            {
+                updateBestSlot();
+                shouldUpdateBestSlot = false;
+            }
+            if (!super.isItemValidForSlot(bestSlot, itemStack) || i != bestSlot)
+            {
+                return false;
+            }
+            shouldUpdateBestSlot = true;
+            return true;
         }
+        else
+        {
+            return super.isItemValidForSlot(i, itemStack);
+        }
+    }
+
+    private void updateBestSlot()
+    {
         int[] slots = super.getAccessibleSlotsFromSide(i);
-        int bestSlot = Integer.MAX_VALUE;
         int bestSize = Integer.MAX_VALUE;
         for (int slot : slots)
         {
@@ -55,9 +60,21 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             {
                 bestSlot = slot;
                 bestSize = stack.stackSize;
-                //STARTING AGAIN
             }
         }
-        return i == bestSlot;
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int i)
+    {
+        if (inventory != null)
+        {
+            if (inventory instanceof ISidedInventory)
+            {
+                return ((ISidedInventory)inventory).getAccessibleSlotsFromSide(insertDirection[i]);
+            }
+            return accessibleSlots;
+        }
+        return new int[0];
     }
 }
