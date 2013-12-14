@@ -1,6 +1,7 @@
 package com.dynious.blex.tileentity;
 
 import com.dynious.blex.config.Filter;
+import com.dynious.blex.helper.ItemStackHelper;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,6 +15,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
+    private ItemStack lastStack;
     public boolean blacklist = false;
     public Filter filter = new Filter();
 
@@ -51,6 +53,34 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
             {
                 return false;
             }
+            shouldUpdateBestSlot = true;
+            return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
+        }
+        else
+        {
+            if (!super.isItemValidForSlot(i, itemStack))
+            {
+                return false;
+            }
+            return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
+        }
+    }
+
+    @Override
+    public boolean canInsertItem(int i, ItemStack itemStack, int i2)
+    {
+        if (spreadItems)
+        {
+            if (lastSlotSide != i || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
+            {
+                updateBestSlot(i2, itemStack);
+                shouldUpdateBestSlot = false;
+            }
+            if (i != bestSlot || !super.canInsertItem(bestSlot, itemStack, i2))
+            {
+                return false;
+            }
+            System.out.println(bestSlot);
             shouldUpdateBestSlot = true;
             return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
         }

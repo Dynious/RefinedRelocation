@@ -1,5 +1,6 @@
 package com.dynious.blex.tileentity;
 
+import com.dynious.blex.helper.ItemStackHelper;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,13 +35,12 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         insertDirection[from] = (byte)value;
     }
 
-    /*
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {
         if (spreadItems)
         {
-            if (lastSlotSide != i || !ItemStack.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
+            if (lastSlotSide != i || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
             {
                 updateBestSlot(i2, itemStack);
                 shouldUpdateBestSlot = false;
@@ -58,14 +58,14 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             return super.canInsertItem(i, itemStack, i2);
         }
     }
-    */
 
+    /*
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
     {
         if (spreadItems)
         {
-            if (lastSlotSide != i || !ItemStack.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
+            if (lastSlotSide != i || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
             {
                 updateBestSlot(i, itemStack);
                 shouldUpdateBestSlot = false;
@@ -83,6 +83,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             return super.isItemValidForSlot(i, itemStack);
         }
     }
+    */
 
     private void updateBestSlot(int side, ItemStack itemStack)
     {
@@ -99,7 +100,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
                 bestSlot = slot;
                 break;
             }
-            if (ItemStack.areItemStacksEqual(itemStack, stack) && stack.stackSize < bestSize)
+            if (ItemStackHelper.areItemStacksEqual(itemStack, stack) && stack.stackSize < bestSize)
             {
                 bestSlot = slot;
                 bestSize = stack.stackSize;
