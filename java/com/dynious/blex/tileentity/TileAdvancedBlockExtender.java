@@ -33,4 +33,31 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         return i == bestSlot;
     }
 
+    @Override
+    public boolean isItemValidForSlot(int i, ItemStack itemStack)
+    {
+        if (!super.isItemValidForSlot(i, itemStack))
+        {
+            return false;
+        }
+        int[] slots = super.getAccessibleSlotsFromSide(i);
+        int bestSlot = Integer.MAX_VALUE;
+        int bestSize = Integer.MAX_VALUE;
+        for (int slot : slots)
+        {
+            ItemStack stack = getStackInSlot(slot);
+            if (stack == null)
+            {
+                bestSlot = slot;
+                break;
+            }
+            if (stack.stackSize < bestSize)
+            {
+                bestSlot = slot;
+                bestSize = stack.stackSize;
+                //STARTING AGAIN
+            }
+        }
+        return i == bestSlot;
+    }
 }
