@@ -16,7 +16,7 @@ public class Filter
 
     public int getSize()
     {
-        return creativeTabs.length + STATIC_SIZE;
+        return creativeTabs.length - 2 + STATIC_SIZE;
     }
 
     public void setValue(int place, boolean value)
@@ -39,7 +39,7 @@ public class Filter
                 dusts = value;
                 break;
             default:
-                creativeTabs[place - STATIC_SIZE] = value;
+                creativeTabs[getCreativeTab(place)] = value;
                 break;
         }
     }
@@ -59,7 +59,7 @@ public class Filter
             case 4:
                 return dusts;
             default:
-                return creativeTabs[place - STATIC_SIZE];
+                return creativeTabs[getCreativeTab(place)];
         }
     }
 
@@ -78,9 +78,20 @@ public class Filter
             case 4:
                 return "Dusts";
             default:
-                return I18n.getString(CreativeTabs.creativeTabArray[place - STATIC_SIZE].getTranslatedTabLabel());
+                return I18n.getString(CreativeTabs.creativeTabArray[getCreativeTab(place)].getTranslatedTabLabel());
         }
     }
+
+    public int getCreativeTab(int place)
+    {
+        int index = place - STATIC_SIZE;
+        if (index >= 5)
+            index++;
+        if (index >= 11)
+            index++;
+        return index;
+    }
+
     public void writeToNBT(NBTTagCompound compound)
     {
         compound.setBoolean("ingots", ingots);
