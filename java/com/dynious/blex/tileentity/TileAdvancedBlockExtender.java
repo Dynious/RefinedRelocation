@@ -16,9 +16,9 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     public TileAdvancedBlockExtender()
     {
         insertDirection = new byte[ForgeDirection.values().length];
-        for (int i : insertDirection)
+        for (byte i = 0; i < insertDirection.length; i++)
         {
-            insertDirection[i] = (byte)i;
+            insertDirection[i] = i;
         }
     }
 

@@ -13,6 +13,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import net.minecraft.creativetab.CreativeTabs;
 
 @Mod(modid = Reference.modid, name = Reference.name, version = Reference.version)
+@NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class BlockExtenders
 {
     @Mod.Instance(Reference.modid)

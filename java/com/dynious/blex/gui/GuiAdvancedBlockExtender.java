@@ -88,6 +88,11 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         }
     }
 
+    @Override
+    protected void mouseClicked(int i, int i2, int i3)
+    {
+        super.mouseClicked(i, i2, i3);
+    }
 
     private void drawContainerBackground()
     {
