@@ -61,6 +61,25 @@ public class Filter
                 return creativeTabs[place - STATIC_SIZE];
         }
     }
+
+    public String getName(int place)
+    {
+        switch(place)
+        {
+            case 0:
+                return "Ingots";
+            case 1:
+                return "Ores";
+            case 2:
+                return "Wood";
+            case 3:
+                return "Planks";
+            case 4:
+                return "Dusts";
+            default:
+                return CreativeTabs.creativeTabArray[place - STATIC_SIZE].getTranslatedTabLabel();
+        }
+    }
     public void writeToNBT(NBTTagCompound compound)
     {
         compound.setBoolean("ingots", ingots);

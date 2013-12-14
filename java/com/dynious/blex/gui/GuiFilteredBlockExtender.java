@@ -20,7 +20,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
         size = blockExtender.filter.getSize();
     }
 
-    
+
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
@@ -41,6 +41,10 @@ public class GuiFilteredBlockExtender extends GuiScreen
         drawDefaultBackground();
         drawContainerBackground();
         super.drawScreen(h, j, f);
+        for (int i = 0; i < ITEMS_PER_SCREEN; i++)
+        {
+            int itemPlace = i + index;
+        }
     }
     @Override
     public void updateScreen()
@@ -74,6 +78,10 @@ public class GuiFilteredBlockExtender extends GuiScreen
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
+        for (int i = 0; i < ITEMS_PER_SCREEN; i++)
+        {
+            this.drawTexturedModalRect(xStart + 10, yStart + 10 + (i*13), 176, 42, 80, 14);
+        }
     }
 
     @Override
