@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 public class GuiFilteredBlockExtender extends GuiScreen
 {
     private TileFilteredBlockExtender blockExtender;
+    private GuiButton blacklist;
     private int index = 0;
     private int size;
     private static final int ITEMS_PER_SCREEN = 10;
@@ -19,6 +20,16 @@ public class GuiFilteredBlockExtender extends GuiScreen
     {
         this.blockExtender = blockExtender;
         size = blockExtender.filter.getSize();
+    }
+
+    /**
+     * Adds the buttons (and other controls) to the screen in question.
+     */
+    public void initGui()
+    {
+        super.initGui();
+        this.buttonList.clear();
+        this.buttonList.add(blacklist = new GuiButton(0, width/2 - 40, height/2 - 100, 80, 20, blockExtender.blacklist ? "Blacklist": "Whitelist"));
     }
 
     /**
@@ -74,6 +85,24 @@ public class GuiFilteredBlockExtender extends GuiScreen
             i = size - ITEMS_PER_SCREEN;
         }
         this.index = i;
+    }
+
+    @Override
+    public void updateScreen()
+    {
+        super.updateScreen();
+        blacklist.displayString = blockExtender.blacklist ? "Blacklist": "Whitelist";
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton guibutton)
+    {
+        switch(guibutton.id)
+        {
+            case 0:
+                blockExtender.blacklist = !blockExtender.blacklist;
+                break;
+        }
     }
 
     @Override

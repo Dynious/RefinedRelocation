@@ -1,6 +1,5 @@
 package com.dynious.blex.tileentity;
 
-import com.dynious.blex.block.BlockExtender;
 import com.dynious.blex.config.Filter;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
-    public boolean blackList = false;
+    public boolean blacklist = false;
     public Filter filter = new Filter();
 
     public TileAdvancedFilteredBlockExtender()
@@ -53,7 +52,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
                 return false;
             }
             shouldUpdateBestSlot = true;
-            return blackList? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
+            return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
         }
         else
         {
@@ -61,7 +60,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
             {
                 return false;
             }
-            return blackList? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
+            return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
         }
     }
 
@@ -130,7 +129,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
         super.readFromNBT(compound);
         spreadItems = compound.getBoolean("spreadItems");
         insertDirection = compound.getByteArray("insertDirection");
-        blackList = compound.getBoolean("blackList");
+        blacklist = compound.getBoolean("blacklist");
         filter.readFromNBT(compound);
     }
 
@@ -140,7 +139,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
         super.writeToNBT(compound);
         compound.setBoolean("spreadItems", spreadItems);
         compound.setByteArray("insertDirection", insertDirection);
-        compound.setBoolean("blackList", blackList);
+        compound.setBoolean("blacklist", blacklist);
         filter.writeToNBT(compound);
     }
 }

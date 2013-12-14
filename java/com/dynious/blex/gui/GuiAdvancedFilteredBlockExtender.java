@@ -32,8 +32,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         super.initGui();
         this.buttonList.clear();
         this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 120, height/2 - 65, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
-        this.buttonList.add(blacklist = new GuiButton(0, width/2 - 120, height/2 - 35, 80, 20, blockExtender.spreadItems? "Blacklist": "Whitelist"));
-
+        this.buttonList.add(blacklist = new GuiButton(1, width/2 - 120, height/2 - 35, 80, 20, blockExtender.blacklist? "Blacklist": "Whitelist"));
     }
 
     /**
@@ -130,6 +129,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     {
         super.updateScreen();
         spreadItems.displayString = blockExtender.spreadItems? "Spread on": "Spread off";
+        blacklist.displayString = blockExtender.blacklist ? "Blacklist": "Whitelist";
     }
 
     @Override
@@ -141,7 +141,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
                 blockExtender.spreadItems = !blockExtender.spreadItems;
                 break;
             case 1:
-                blockExtender.blackList = !blockExtender.blackList;
+                blockExtender.blacklist = !blockExtender.blacklist;
                 break;
         }
     }

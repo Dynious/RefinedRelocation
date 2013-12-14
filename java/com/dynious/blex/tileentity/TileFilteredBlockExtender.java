@@ -7,7 +7,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class TileFilteredBlockExtender extends TileBlockExtender
 {
-    private boolean blackList = false;
+    public boolean blacklist = false;
     public Filter filter = new Filter();
 
     @Override
@@ -17,7 +17,7 @@ public class TileFilteredBlockExtender extends TileBlockExtender
         {
             return false;
         }
-        return blackList? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
+        return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
     }
 
     private boolean doesItemStackPassFilter(ItemStack itemStack)
@@ -49,7 +49,7 @@ public class TileFilteredBlockExtender extends TileBlockExtender
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setBoolean("blackList", blackList);
+        compound.setBoolean("blacklist", blacklist);
         filter.writeToNBT(compound);
     }
 
@@ -57,7 +57,7 @@ public class TileFilteredBlockExtender extends TileBlockExtender
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        blackList = compound.getBoolean("blackList");
+        blacklist = compound.getBoolean("blacklist");
         filter.readFromNBT(compound);
     }
 }
