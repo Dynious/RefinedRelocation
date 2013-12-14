@@ -1,7 +1,6 @@
 package com.dynious.blex.config;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class Filter
@@ -13,6 +12,10 @@ public class Filter
     public boolean dusts = false;
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
 
+    public int getSize()
+    {
+        return creativeTabs.length + 5;
+    }
     public void writeToNBT(NBTTagCompound compound)
     {
         compound.setBoolean("ingots", ingots);

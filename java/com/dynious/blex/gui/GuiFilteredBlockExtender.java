@@ -9,10 +9,15 @@ import org.lwjgl.opengl.GL11;
 public class GuiFilteredBlockExtender extends GuiScreen
 {
     private TileFilteredBlockExtender blockExtender;
+    private int index = 0;
+    private int size;
+    private static final int ITEMS_PER_SCREEN = 10;
+    private static final int ITEM_SIZE = 14;
 
     public GuiFilteredBlockExtender(TileFilteredBlockExtender blockExtender)
     {
         this.blockExtender = blockExtender;
+        size = blockExtender.filter.getSize();
     }
 
     /**

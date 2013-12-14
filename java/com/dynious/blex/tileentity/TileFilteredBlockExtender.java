@@ -8,7 +8,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class TileFilteredBlockExtender extends TileBlockExtender
 {
     private boolean blackList = false;
-    private Filter filter = new Filter();
+    public Filter filter = new Filter();
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
