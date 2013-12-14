@@ -68,8 +68,22 @@ public class GuiFilteredBlockExtender extends GuiScreen
             {
                 i = -1;
             }
-            index += i;
+            setIndex(index - i);
         }
+    }
+
+    public void setIndex(int index)
+    {
+        int i = index;
+        if (i < 0)
+        {
+            i = 0;
+        }
+        if (i > size - ITEMS_PER_SCREEN)
+        {
+            i = size - ITEMS_PER_SCREEN;
+        }
+        this.index = i;
     }
 
     @Override
