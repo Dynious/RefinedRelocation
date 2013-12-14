@@ -38,6 +38,7 @@ public class BlockExtender extends BlockContainer
             case 0:
                 return new TileBlockExtender();
             case 1:
+                System.out.println("ADVANCED!");
                 return new TileAdvancedBlockExtender();
             default:
                 return null;

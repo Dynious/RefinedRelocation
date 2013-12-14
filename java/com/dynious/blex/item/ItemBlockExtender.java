@@ -32,4 +32,9 @@ public class ItemBlockExtender extends ItemBlock
         }
         return true;
     }
+
+    @Override
+    public int getMetadata(int par1) {
+        return par1;
+    }
 }
