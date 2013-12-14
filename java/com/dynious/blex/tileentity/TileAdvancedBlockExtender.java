@@ -34,6 +34,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         insertDirection[from] = (byte)value;
     }
 
+    /*
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {
@@ -57,13 +58,14 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             return super.canInsertItem(i, itemStack, i2);
         }
     }
+    */
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
     {
         if (spreadItems)
         {
-            if (lastSlotSide != i ||!ItemStack.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
+            if (lastSlotSide != i || !ItemStack.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
             {
                 updateBestSlot(i, itemStack);
                 shouldUpdateBestSlot = false;
@@ -90,7 +92,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             ItemStack stack = getStackInSlot(slot);
             if (!super.canInsertItem(slot, itemStack, side))
             {
-                break;
+                continue;
             }
             if (stack == null)
             {
@@ -101,6 +103,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             {
                 bestSlot = slot;
                 bestSize = stack.stackSize;
+                System.out.println(bestSlot + ":" + bestSize);
             }
         }
         lastSlotSide = side;
