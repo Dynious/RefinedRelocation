@@ -7,7 +7,7 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class TileAdvancedBlockExtender extends TileBlockExtender
 {
-    private boolean spreadItems = false;
+    public boolean spreadItems = false;
     private byte[] insertDirection;
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
