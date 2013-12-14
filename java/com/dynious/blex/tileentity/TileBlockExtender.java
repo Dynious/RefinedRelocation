@@ -47,6 +47,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         this.connectedDirection = ForgeDirection.getOrientation(connectedSide);
     }
 
+    public ForgeDirection getConnectedDirection()
+    {
+        return connectedDirection;
+    }
+
     public void setInventory(IInventory inventory)
     {
         this.inventory = inventory;
@@ -142,11 +147,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             {
                 if (direction != connectedDirection)
                 {
-                    TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
-                    if (tile != null)
-                    {
-                        tiles[direction.ordinal()] = tile;
-                    }
+                    tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);;
                 }
             }
             blocksChanged = false;
