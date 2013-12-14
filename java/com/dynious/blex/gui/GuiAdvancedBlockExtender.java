@@ -41,33 +41,36 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         for (int i = 0; i < blockExtender.getInsertDirection().length; i++)
         {
             ForgeDirection direction = ForgeDirection.getOrientation(blockExtender.getInsertDirection()[i]);
-            String letter = Character.toString(direction.toString().charAt(0));
-            switch(i)
+            if (i != blockExtender.getConnectedDirection().ordinal())
             {
-                //Bottom
-                case 0:
-                    fontRenderer.drawString(letter, width / 2 + 28 + 34 + 4, height / 2 + 10 + 4, 0);
-                    break;
-                //Top
-                case 1:
-                    fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 - 7 + 4, 0);
-                    break;
-                //North
-                case 2:
-                    fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 - 24 + 4, 0);
-                    break;
-                //South
-                case 3:
-                    fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 + 10 + 4, 0);
-                    break;
-                //West
-                case 4:
-                    fontRenderer.drawString(letter, width / 2 + 28 + 4, height / 2 - 7 + 4, 0);
-                    break;
-                //East
-                case 5:
-                    fontRenderer.drawString(letter, width / 2 + 28 + 34 + 4, height / 2 - 7 + 4, 0);
-                    break;
+                String letter = Character.toString(direction.toString().charAt(0));
+                switch(i)
+                {
+                    //Bottom
+                    case 0:
+                        fontRenderer.drawString(letter, width / 2 + 28 + 34 + 4, height / 2 + 10 + 4, 0);
+                        break;
+                    //Top
+                    case 1:
+                        fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 - 7 + 4, 0);
+                        break;
+                    //North
+                    case 2:
+                        fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 - 24 + 4, 0);
+                        break;
+                    //South
+                    case 3:
+                        fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 + 10 + 4, 0);
+                        break;
+                    //West
+                    case 4:
+                        fontRenderer.drawString(letter, width / 2 + 28 + 4, height / 2 - 7 + 4, 0);
+                        break;
+                    //East
+                    case 5:
+                        fontRenderer.drawString(letter, width / 2 + 28 + 34 + 4, height / 2 - 7 + 4, 0);
+                        break;
+                }
             }
         }
     }
@@ -89,9 +92,30 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     }
 
     @Override
-    protected void mouseClicked(int i, int i2, int i3)
+    protected void mouseClicked(int x, int y, int type)
     {
-        super.mouseClicked(i, i2, i3);
+        super.mouseClicked(x, y, type);
+        if (type == 0)
+        {
+            //Bottom
+            if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
+                blockExtender.setInsertDirection(0, blockExtender.getInsertDirection()[0]+ 1);
+            //Top
+            if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
+                blockExtender.setInsertDirection(1, blockExtender.getInsertDirection()[1]+ 1);
+            //North
+            if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 24 && y <= height / 2 - 24 + 14)
+                blockExtender.setInsertDirection(2, blockExtender.getInsertDirection()[2]+ 1);
+            //South
+            if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
+                blockExtender.setInsertDirection(3, blockExtender.getInsertDirection()[3]+ 1);
+            //West
+            if (x >= width / 2 + 28 && x <= width / 2 + 28 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
+                blockExtender.setInsertDirection(4, blockExtender.getInsertDirection()[4]+ 1);
+            //East
+            if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
+                blockExtender.setInsertDirection(5, blockExtender.getInsertDirection()[5]+ 1);
+        }
     }
 
     private void drawContainerBackground()

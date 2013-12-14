@@ -27,6 +27,12 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         return insertDirection;
     }
 
+    public void setInsertDirection(int from, int value)
+    {
+        if (value > 5) value = 0;
+        insertDirection[from] = (byte)value;
+    }
+
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
     {
