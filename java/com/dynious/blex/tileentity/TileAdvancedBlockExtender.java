@@ -12,6 +12,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
+    private ItemStack lastStack;
 
     public TileAdvancedBlockExtender()
     {
@@ -38,12 +39,12 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     {
         if (spreadItems)
         {
-            if (lastSlotSide != i || shouldUpdateBestSlot)
+            if (lastSlotSide != i || !ItemStack.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
             {
-                updateBestSlot(i);
+                updateBestSlot(i2, itemStack);
                 shouldUpdateBestSlot = false;
             }
-            if (!super.canInsertItem(bestSlot, itemStack, i2) || i != bestSlot)
+            if (i != bestSlot || !super.canInsertItem(bestSlot, itemStack, i2))
             {
                 return false;
             }
@@ -56,6 +57,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         }
     }
 
+    /*
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
     {
@@ -78,8 +80,9 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             return super.isItemValidForSlot(i, itemStack);
         }
     }
+    */
 
-    private void updateBestSlot(int side)
+    private void updateBestSlot(int side, ItemStack itemStack)
     {
         int bestSize = Integer.MAX_VALUE;
         for (int slot = 0; slot < getSizeInventory(); slot++)
@@ -90,13 +93,14 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
                 bestSlot = slot;
                 break;
             }
-            if (stack.stackSize < bestSize)
+            if (ItemStack.areItemStacksEqual(itemStack, stack) && stack.stackSize < bestSize)
             {
                 bestSlot = slot;
                 bestSize = stack.stackSize;
             }
         }
         lastSlotSide = side;
+        lastStack = itemStack;
     }
 
     @Override
