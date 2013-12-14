@@ -26,7 +26,21 @@ public class TileFilteredBlockExtender extends TileBlockExtender
             return false;
         if (filter.ores && !oreName.contains("ore"))
             return false;
-        if(filter.)
+        if(filter.wood && !oreName.contains("wood"))
+            return false;
+        if (filter.planks && !oreName.contains("plank"))
+            return false;
+        if (filter.dusts && !(oreName.contains("dust") || oreName.contains("crushed")))
+            return false;
+
+        int index = itemStack.getItem().getCreativeTab().getTabIndex();
+        for (int i = 0; i < filter.creativeTabs.length; i++)
+        {
+            if (filter.creativeTabs[i] && index != i)
+            {
+                return false;
+            }
+        }
         return true;
     }
 }
