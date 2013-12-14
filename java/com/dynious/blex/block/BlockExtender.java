@@ -1,14 +1,16 @@
 package com.dynious.blex.block;
 
 import com.dynious.blex.BlockExtenders;
+import com.dynious.blex.gui.GuiAdvancedBlockExtender;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import com.dynious.blex.tileentity.TileFilteredBlockExtender;
-import net.minecraft.block.Block;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -56,5 +58,26 @@ public class BlockExtender extends BlockContainer
         {
             par3List.add(new ItemStack(par1, 1, j));
         }
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z,
+                                    EntityPlayer player, int par6, float par7, float par8, float par9)
+    {
+
+        if (player.isSneaking())
+            return false;
+        else
+        {
+            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            if (tile != null)
+            {
+                if (tile instanceof TileAdvancedBlockExtender)
+                {
+                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender)tile));
+                }
+            }
+        }
+        return true;
     }
 }
