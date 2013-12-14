@@ -15,6 +15,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     public GuiAdvancedBlockExtender(TileAdvancedBlockExtender blockExtender)
     {
         this.blockExtender = blockExtender;
+        //
     }
 
     /**
