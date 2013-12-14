@@ -40,33 +40,6 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     }
 
     @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemStack)
-    {
-        if (spreadItems)
-        {
-            if (lastSlotSide != i || shouldUpdateBestSlot)
-            {
-                updateBestSlot(i);
-                shouldUpdateBestSlot = false;
-            }
-            if (!super.isItemValidForSlot(bestSlot, itemStack) || i != bestSlot)
-            {
-                return false;
-            }
-            shouldUpdateBestSlot = true;
-            return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
-        }
-        else
-        {
-            if (!super.isItemValidForSlot(i, itemStack))
-            {
-                return false;
-            }
-            return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
-        }
-    }
-
-    @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {
         if (spreadItems)
@@ -80,7 +53,6 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
             {
                 return false;
             }
-            System.out.println(bestSlot);
             shouldUpdateBestSlot = true;
             return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
         }
@@ -94,24 +66,29 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
         }
     }
 
-    private void updateBestSlot(int side)
+    private void updateBestSlot(int side, ItemStack itemStack)
     {
         int bestSize = Integer.MAX_VALUE;
         for (int slot = 0; slot < getSizeInventory(); slot++)
         {
             ItemStack stack = getStackInSlot(slot);
+            if (!super.canInsertItem(slot, itemStack, side))
+            {
+                continue;
+            }
             if (stack == null)
             {
                 bestSlot = slot;
                 break;
             }
-            if (stack.stackSize < bestSize)
+            if (ItemStackHelper.areItemStacksEqual(itemStack, stack) && stack.stackSize < bestSize)
             {
                 bestSlot = slot;
                 bestSize = stack.stackSize;
             }
         }
         lastSlotSide = side;
+        lastStack = itemStack;
     }
 
     private boolean doesItemStackPassFilter(ItemStack itemStack)

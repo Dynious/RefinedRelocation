@@ -49,7 +49,6 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             {
                 return false;
             }
-            System.out.println(bestSlot);
             shouldUpdateBestSlot = true;
             return true ;
         }
@@ -58,32 +57,6 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             return super.canInsertItem(i, itemStack, i2);
         }
     }
-
-    /*
-    @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemStack)
-    {
-        if (spreadItems)
-        {
-            if (lastSlotSide != i || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
-            {
-                updateBestSlot(i, itemStack);
-                shouldUpdateBestSlot = false;
-            }
-            if (!super.isItemValidForSlot(bestSlot, itemStack) || i != bestSlot)
-            {
-                return false;
-            }
-            System.out.println(bestSlot);
-            shouldUpdateBestSlot = true;
-            return true;
-        }
-        else
-        {
-            return super.isItemValidForSlot(i, itemStack);
-        }
-    }
-    */
 
     private void updateBestSlot(int side, ItemStack itemStack)
     {
