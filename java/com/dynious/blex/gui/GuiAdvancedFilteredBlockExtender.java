@@ -33,8 +33,8 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     {
         super.initGui();
         this.buttonList.clear();
-        this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 120, height/2 - 65, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
-        this.buttonList.add(blacklist = new GuiButton(1, width/2 - 120, height/2 - 35, 80, 20, blockExtender.blacklist? "Blacklist": "Whitelist"));
+        this.buttonList.add(blacklist = new GuiButton(1, width/2 - 120, height/2 - 65, 80, 20, blockExtender.blacklist? "Blacklist": "Whitelist"));
+        this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 120, height/2 - 35, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
         stackSize = new GuiTextField(fontRenderer, width/2 - 90, height/2 - 5, 20, 15);
         stackSize.setMaxStringLength(2);
         stackSize.setFocused(true);

@@ -130,7 +130,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
         {
             return Math.min(super.getInventoryStackLimit(), maxStackSize);
         }
-        return 0;
+        return maxStackSize;
     }
 
     @Override
