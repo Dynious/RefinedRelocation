@@ -3,6 +3,7 @@ package com.dynious.blex;
 import com.dynious.blex.block.ModBlocks;
 import com.dynious.blex.config.ConfigHandler;
 import com.dynious.blex.creativetab.CreativeTabBlEx;
+import com.dynious.blex.item.ModItems;
 import com.dynious.blex.lib.Reference;
 import com.dynious.blex.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
@@ -30,6 +31,8 @@ public class BlockExtenders
         ConfigHandler.init(event.getSuggestedConfigurationFile());
 
         ModBlocks.init();
+
+        ModItems.init();
     }
 
     @Mod.EventHandler

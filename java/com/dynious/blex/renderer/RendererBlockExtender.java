@@ -95,6 +95,9 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
                 GL11.glTranslated(x - 0.5F, y + 0.5F, z + 0.5F);
                 GL11.glRotatef(-90F, 0F, 0F, 1F);
                 break;
+            case UNKNOWN:
+                GL11.glTranslated(x + 0.5F, y + 1.5F, z + 0.5F);
+                GL11.glRotatef(180F, 1F, 0F, 0F);
         }
     }
 }

@@ -14,6 +14,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -71,7 +72,19 @@ public class BlockExtender extends BlockContainer
                                     EntityPlayer player, int par6, float par7, float par8, float par9)
     {
         if (player.isSneaking())
+        {
+            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            if (tile != null && tile instanceof TileWirelessBlockExtender)
+            {
+                if (player.getItemInUse().getItem() == ModItems.linker && player.getItemInUse().hasTagCompound())
+                {
+                    NBTTagCompound tag = player.getItemInUse().getTagCompound();
+                    ((TileWirelessBlockExtender) tile).setConnection(tag.getInteger("tileX"), tag.getInteger("tileY"), tag.getInteger("tileZ"));
+                    return true;
+                }
+            }
             return false;
+        }
         else
         {
             TileEntity tile = world.getBlockTileEntity(x, y, z);
@@ -95,9 +108,10 @@ public class BlockExtender extends BlockContainer
                 }
                 else if (tile instanceof TileWirelessBlockExtender)
                 {
-                    if (player.getItemInUse().getItem() == ModItems.linker)
+                    if (player.getItemInUse().getItem() == ModItems.linker && player.getItemInUse().hasTagCompound())
                     {
-                        ItemLinker.linkTileAtPosition(player.getItemInUse(), x, y, z);
+                        NBTTagCompound tag = player.getItemInUse().getTagCompound();
+                        ((TileWirelessBlockExtender) tile).setConnection(tag.getInteger("tileX"), tag.getInteger("tileY"), tag.getInteger("tileZ"));
                         return true;
                     }
                     else

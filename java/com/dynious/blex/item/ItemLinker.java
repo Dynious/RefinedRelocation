@@ -41,16 +41,15 @@ public class ItemLinker extends Item
     public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (tile != null)
+        if (tile != null && !(tile instanceof TileWirelessBlockExtender))
         {
             linkTileAtPosition(itemStack, x, y, z);
             return true;
         }
-        
         return false;
     }
 
-    public static void linkTileAtPosition(ItemStack stack, int x, int y, int z)
+    private static void linkTileAtPosition(ItemStack stack, int x, int y, int z)
     {
         if (!stack.hasTagCompound())
         {

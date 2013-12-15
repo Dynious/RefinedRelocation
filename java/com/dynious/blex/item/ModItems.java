@@ -13,6 +13,6 @@ public class ModItems
     {
         linker = new ItemLinker(ItemIds.LINKER);
 
-        GameRegistry.addShapelessRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'e', Item.enderPearl);
+        GameRegistry.addShapedRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'e', Item.enderPearl);
     }
 }

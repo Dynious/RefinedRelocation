@@ -80,6 +80,10 @@ public class ItemRendererBlockExtender implements IItemRenderer
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
         }
+        else if (itemStack.getItemDamage() == 4)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
+        }
 
         modelBlockExtender.renderBase();
         modelBlockExtender.renderPilars();
