@@ -25,13 +25,31 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             GL11.glPushMatrix();
 
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
-
             rotate(tile, x, y, z);
 
             GL11.glScalef(0.5F, 0.5F, 0.5F);
 
-            modelBlockExtender.render();
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BASE_BLOCK_EXTENDER);
+
+            modelBlockExtender.renderBase();
+
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_PILAR_BLOCK_EXTENDER);
+
+            modelBlockExtender.renderPilars();
+
+            GL11.glPushMatrix();
+
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            GL11.glColor4f(1F, 1F, 1F, 0.3F);
+
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_SIDE_BLOCK_EXTENDER);
+
+            modelBlockExtender.renderSides();
+
+            GL11.glDisable(GL11.GL_BLEND);
+
+            GL11.glPopMatrix();
 
             GL11.glPopMatrix();
 

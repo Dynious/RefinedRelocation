@@ -17,4 +17,18 @@ public class ModelBlockExtender
     {
         modelCustom.renderAll();
     }
+
+    public void renderBase()
+    {
+        modelCustom.renderPart("Base");
+    }
+
+    public void renderPilars()
+    {
+        modelCustom.renderOnly("PilarA", "PilarB", "PilarC", "PilarD", "PilarE", "PilarF", "PilarG", "PilarH");
+    }
+    public void renderSides()
+    {
+        modelCustom.renderOnly("SideNorth", "SideSouth", "SideWest", "SideEast", "SideUp");
+    }
 }
