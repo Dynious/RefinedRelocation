@@ -487,6 +487,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return false;
     }
 
+    @Method(modid = "CoFHCore")
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -497,6 +498,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return 0;
     }
 
+    @Method(modid = "CoFHCore")
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -507,6 +509,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return 0;
     }
 
+    @Method(modid = "CoFHCore")
     @Override
     public boolean canInterface(ForgeDirection forgeDirection)
     {
@@ -517,6 +520,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return false;
     }
 
+    @Method(modid = "CoFHCore")
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
@@ -527,6 +531,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return 0;
     }
 
+    @Method(modid = "CoFHCore")
     @Override
     public int getMaxEnergyStored(ForgeDirection forgeDirection)
     {
