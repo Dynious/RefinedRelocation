@@ -1,17 +1,16 @@
 package com.dynious.blex.renderer;
 
 import com.dynious.blex.lib.Resources;
-import com.dynious.blex.model.ModelBlockExtender;
+import com.dynious.blex.model.OldModelBlockExtender;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 public class RendererBlockExtender extends TileEntitySpecialRenderer
 {
-    private ModelBlockExtender modelBlockExtender = new ModelBlockExtender();
+    private OldModelBlockExtender modelBlockExtender = new OldModelBlockExtender();
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float timer)
