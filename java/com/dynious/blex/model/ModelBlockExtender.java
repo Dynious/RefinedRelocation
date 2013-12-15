@@ -38,7 +38,7 @@ public class ModelBlockExtender extends ModelBase
       SideUp.setTextureSize(128, 128);
       SideUp.mirror = true;
       setRotation(SideUp, 0F, 0F, 0F);
-      Base = new ModelRenderer(this, 65, 0);
+      Base = new ModelRenderer(this, 64, 0);
       Base.addBox(0F, 0F, 0F, 16, 2, 16);
       Base.setRotationPoint(-8F, 22F, -8F);
       Base.setTextureSize(128, 128);

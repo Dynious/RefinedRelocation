@@ -8,7 +8,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class Filter
 {
-    public static final int STATIC_SIZE = 7;
+    public static final int STATIC_SIZE = 9;
     public boolean ingots = false;
     public boolean ores = false;
     public boolean wood = false;
@@ -16,6 +16,8 @@ public class Filter
     public boolean dusts = false;
     public boolean crushedOres = false;
     public boolean purifiedCrushedOres = false;
+    public boolean plates = false;
+    public boolean gems = false;
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
 
     public int getSize()
@@ -39,6 +41,10 @@ public class Filter
         if (crushedOres && oreName.toLowerCase().contains("crushed") && !oreName.toLowerCase().contains("purified"))
             return true;
         if (purifiedCrushedOres && !oreName.toLowerCase().contains("purified"))
+            return true;
+        if (plates && !oreName.toLowerCase().contains("plate"))
+            return true;
+        if (gems && !oreName.toLowerCase().contains("gem"))
             return true;
 
         int index = itemStack.getItem().getCreativeTab().getTabIndex();
@@ -77,6 +83,12 @@ public class Filter
             case 6:
                 purifiedCrushedOres = value;
                 break;
+            case 7:
+                plates = value;
+                break;
+            case 8:
+                gems = value;
+                break;
             default:
                 creativeTabs[getCreativeTab(place)] = value;
                 break;
@@ -101,6 +113,10 @@ public class Filter
                 return crushedOres;
             case 6:
                 return purifiedCrushedOres;
+            case 7:
+                return plates;
+            case 8:
+                return gems;
             default:
                 return creativeTabs[getCreativeTab(place)];
         }
@@ -124,6 +140,10 @@ public class Filter
                 return "All Crushed Ores";
             case 6:
                 return "All Purified Ores";
+            case 7:
+                return "All Plates";
+            case 8:
+                return "All Gems";
             default:
                 return I18n.getString(CreativeTabs.creativeTabArray[getCreativeTab(place)].getTranslatedTabLabel());
         }
@@ -148,6 +168,8 @@ public class Filter
         compound.setBoolean("dusts", dusts);
         compound.setBoolean("crushedOres", crushedOres);
         compound.setBoolean("purifiedCrushedOres", purifiedCrushedOres);
+        compound.setBoolean("plates", plates);
+        compound.setBoolean("gems", gems);
         for (int i = 0; i < creativeTabs.length; i++)
         {
             compound.setBoolean("creativeTabs" + i, creativeTabs[i]);
@@ -163,6 +185,8 @@ public class Filter
         dusts = compound.getBoolean("dusts");
         crushedOres = compound.getBoolean("crushedOres");
         purifiedCrushedOres = compound.getBoolean("purifiedCrushedOres");
+        plates = compound.getBoolean("plates");
+        gems = compound.getBoolean("gems");
         for (int i = 0; i < creativeTabs.length; i++)
         {
             creativeTabs[i] = compound.getBoolean("creativeTabs" + i);
