@@ -36,6 +36,11 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         insertDirection[from] = (byte)value;
     }
 
+    public void setMaxStackSize(byte maxStackSize)
+    {
+        this.maxStackSize = maxStackSize;
+    }
+
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {

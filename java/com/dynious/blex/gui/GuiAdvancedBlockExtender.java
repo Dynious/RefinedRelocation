@@ -26,10 +26,10 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     {
         super.initGui();
         this.buttonList.clear();
-        this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 80, height/2 - 10, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
-        stackSize = new GuiTextField(fontRenderer, width / 2, height / 2 - 73,
-            80, 15);
+        this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 80, height/2 - 20, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
+        stackSize = new GuiTextField(fontRenderer, width/2 - 80, height/2 + 20, 20, 15);
         stackSize.setMaxStringLength(2);
+        stackSize.setFocused(true);
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
     }
 
@@ -86,14 +86,26 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     {
         super.updateScreen();
         spreadItems.displayString = blockExtender.spreadItems? "Spread on": "Spread off";
+        if (blockExtender.getInventoryStackLimit() == 0)
+        {
+            stackSize.setText("");
+            return;
+        }
+        stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
     }
     @Override
     public void keyTyped(char c, int i)
     {
         super.keyTyped(c, i);
-        if (Character.isDigit(c))
+        if (Character.isDigit(c) || Character.getType(c) == 15)
         {
             stackSize.textboxKeyTyped(c, i);
+            if (stackSize.getText() == "")
+            {
+                blockExtender.setMaxStackSize((byte)0);
+                return;
+            }
+            blockExtender.setMaxStackSize(Byte.parseByte(stackSize.getText()));
         }
     }
 
