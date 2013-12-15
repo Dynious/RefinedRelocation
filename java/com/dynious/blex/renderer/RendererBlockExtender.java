@@ -20,7 +20,7 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
     {
         if (tileEntity != null && tileEntity instanceof TileBlockExtender)
         {
-            TileBlockExtender tile = (TileBlockExtender)tileEntity;
+            TileBlockExtender tile = (TileBlockExtender) tileEntity;
 
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_CULL_FACE);
@@ -33,15 +33,15 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
 
-            if(tileEntity instanceof TileAdvancedBlockExtender)
+            if (tileEntity instanceof TileAdvancedBlockExtender)
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER);
             }
-            else if(tileEntity instanceof TileFilteredBlockExtender)
+            else if (tileEntity instanceof TileFilteredBlockExtender)
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
             }
-            else if(tileEntity instanceof TileAdvancedFilteredBlockExtender)
+            else if (tileEntity instanceof TileAdvancedFilteredBlockExtender)
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
             }
@@ -70,7 +70,7 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
     public void rotate(TileBlockExtender tile, double x, double y, double z)
     {
-        switch(tile.getConnectedDirection())
+        switch (tile.getConnectedDirection())
         {
             case DOWN:
                 GL11.glTranslated(x + 0.5F, y + 1.5F, z + 0.5F);

@@ -32,8 +32,9 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
 
     public void setInsertDirection(int from, int value)
     {
-        if (value > 5) value = 0;
-        insertDirection[from] = (byte)value;
+        if (value > 5)
+            value = 0;
+        insertDirection[from] = (byte) value;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     {
         if (spreadItems)
         {
-            if (lastSlotSide != i || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
+            if (lastSlotSide != i || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack) || shouldUpdateBestSlot)
             {
                 updateBestSlot(i2, itemStack);
                 shouldUpdateBestSlot = false;
@@ -51,7 +52,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
                 return false;
             }
             shouldUpdateBestSlot = true;
-            return true ;
+            return true;
         }
         else
         {
@@ -91,7 +92,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory)inventory).getAccessibleSlotsFromSide(insertDirection[i]);
+                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(insertDirection[i]);
             }
             return accessibleSlots;
         }

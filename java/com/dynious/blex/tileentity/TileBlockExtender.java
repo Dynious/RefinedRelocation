@@ -4,7 +4,9 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Optional.*;
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.InterfaceList;
+import cpw.mods.fml.common.Optional.Method;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
@@ -128,15 +130,15 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 {
                     if (tile instanceof IInventory)
                     {
-                        setInventory((IInventory)tile);
+                        setInventory((IInventory) tile);
                     }
                     if (tile instanceof IFluidHandler)
                     {
-                        setFluidHandler((IFluidHandler)tile);
+                        setFluidHandler((IFluidHandler) tile);
                     }
                     if (Loader.isModLoaded("BuildCraft|Energy") && tile instanceof IPowerReceptor)
                     {
-                        setPowerReceptor((IPowerReceptor)tile);
+                        setPowerReceptor((IPowerReceptor) tile);
                     }
                     if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
                     {
@@ -163,7 +165,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             {
                 if (direction != connectedDirection)
                 {
-                    tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);;
+                    tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
                 }
             }
             blocksChanged = false;
@@ -202,7 +204,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory)inventory).getAccessibleSlotsFromSide(i);
+                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(i);
             }
             return accessibleSlots;
         }
@@ -216,7 +218,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory)inventory).canInsertItem(i, itemStack, i2);
+                return ((ISidedInventory) inventory).canInsertItem(i, itemStack, i2);
             }
             return true;
         }
@@ -230,7 +232,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory)inventory).canExtractItem(i, itemStack, i2);
+                return ((ISidedInventory) inventory).canExtractItem(i, itemStack, i2);
             }
             return true;
         }
@@ -560,7 +562,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setByte("side", (byte)connectedDirection.ordinal());
+        compound.setByte("side", (byte) connectedDirection.ordinal());
     }
 
     @Override

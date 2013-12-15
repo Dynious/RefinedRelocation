@@ -2,9 +2,6 @@ package com.dynious.blex.renderer;
 
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
-import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
-import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
-import com.dynious.blex.tileentity.TileFilteredBlockExtender;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
@@ -67,19 +64,19 @@ public class ItemRendererBlockExtender implements IItemRenderer
         GL11.glRotatef(180F, 1F, 0F, 0F);
         GL11.glScalef(1F, 1F, 1F);
 
-        if(itemStack.getItemDamage() == 0)
+        if (itemStack.getItemDamage() == 0)
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
         }
-        else if(itemStack.getItemDamage() == 1)
+        else if (itemStack.getItemDamage() == 1)
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER);
         }
-        else if(itemStack.getItemDamage() == 2)
+        else if (itemStack.getItemDamage() == 2)
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
         }
-        else if(itemStack.getItemDamage() == 3)
+        else if (itemStack.getItemDamage() == 3)
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
         }

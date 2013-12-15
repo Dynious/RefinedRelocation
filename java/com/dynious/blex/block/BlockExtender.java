@@ -39,7 +39,7 @@ public class BlockExtender extends BlockContainer
     @Override
     public TileEntity createTileEntity(World world, int metadata)
     {
-        switch(metadata)
+        switch (metadata)
         {
             case 0:
                 return new TileBlockExtender();
@@ -55,7 +55,7 @@ public class BlockExtender extends BlockContainer
     }
 
     @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
@@ -78,19 +78,19 @@ public class BlockExtender extends BlockContainer
             {
                 if (tile instanceof TileAdvancedBlockExtender)
                 {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender)tile));
+                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender) tile));
                 }
                 else if (tile instanceof TileFilteredBlockExtender)
                 {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiFilteredBlockExtender((TileFilteredBlockExtender)tile));
+                    FMLCommonHandler.instance().showGuiScreen(new GuiFilteredBlockExtender((TileFilteredBlockExtender) tile));
                 }
                 else if (tile instanceof TileAdvancedBlockExtender)
                 {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender)tile));
+                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender) tile));
                 }
                 else if (tile instanceof TileAdvancedFilteredBlockExtender)
                 {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender)tile));
+                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender) tile));
                 }
             }
         }
@@ -104,7 +104,7 @@ public class BlockExtender extends BlockContainer
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileBlockExtender)
         {
-            ((TileBlockExtender)tile).blocksChanged = true;
+            ((TileBlockExtender) tile).blocksChanged = true;
         }
     }
 
@@ -121,7 +121,8 @@ public class BlockExtender extends BlockContainer
     }
 
     @Override
-    public boolean renderAsNormalBlock() {
+    public boolean renderAsNormalBlock()
+    {
 
         return false;
     }

@@ -2,15 +2,12 @@ package com.dynious.blex.item;
 
 import com.dynious.blex.block.ModBlocks;
 import com.dynious.blex.tileentity.TileBlockExtender;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-
-import java.util.List;
 
 public class ItemBlockExtender extends ItemBlock
 {
@@ -29,13 +26,14 @@ public class ItemBlockExtender extends ItemBlock
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileBlockExtender)
         {
-            ((TileBlockExtender)tile).setConnectedSide(ForgeDirection.OPPOSITES[side]);
+            ((TileBlockExtender) tile).setConnectedSide(ForgeDirection.OPPOSITES[side]);
         }
         return true;
     }
 
     @Override
-    public int getMetadata(int par1) {
+    public int getMetadata(int par1)
+    {
         return par1;
     }
 

@@ -29,7 +29,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
     {
         super.initGui();
         this.buttonList.clear();
-        this.buttonList.add(blacklist = new GuiButton(0, width/2 - 40, height/2 - 100, 80, 20, blockExtender.blacklist ? "Blacklist": "Whitelist"));
+        this.buttonList.add(blacklist = new GuiButton(0, width / 2 - 40, height / 2 - 100, 80, 20, blockExtender.blacklist ? "Blacklist" : "Whitelist"));
     }
 
     /**
@@ -45,7 +45,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
-            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width/2 - 35, height/2 - 66 + i*ITEM_SIZE, 0);
+            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width / 2 - 35, height / 2 - 66 + i * ITEM_SIZE, 0);
         }
     }
 
@@ -91,13 +91,13 @@ public class GuiFilteredBlockExtender extends GuiScreen
     public void updateScreen()
     {
         super.updateScreen();
-        blacklist.displayString = blockExtender.blacklist ? "Blacklist": "Whitelist";
+        blacklist.displayString = blockExtender.blacklist ? "Blacklist" : "Whitelist";
     }
 
     @Override
     protected void actionPerformed(GuiButton guibutton)
     {
-        switch(guibutton.id)
+        switch (guibutton.id)
         {
             case 0:
                 blockExtender.blacklist = !blockExtender.blacklist;
@@ -111,11 +111,11 @@ public class GuiFilteredBlockExtender extends GuiScreen
         super.mouseClicked(x, y, type);
         if (type == 0)
         {
-            if (x >= width/2 - 75 && x <= width/2 + 75)
+            if (x >= width / 2 - 75 && x <= width / 2 + 75)
             {
                 for (int i = 0; i < ITEMS_PER_SCREEN; i++)
                 {
-                    if (y >= height/2 - 70 + i*ITEM_SIZE && y <= height/2 - 70 + (1+i)*ITEM_SIZE)
+                    if (y >= height / 2 - 70 + i * ITEM_SIZE && y <= height / 2 - 70 + (1 + i) * ITEM_SIZE)
                     {
                         blockExtender.filter.setValue(index + i, !blockExtender.filter.getValue(index + i));
                     }
@@ -136,12 +136,12 @@ public class GuiFilteredBlockExtender extends GuiScreen
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
-            this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 0, 154, 150, 14);
+            this.drawTexturedModalRect(width / 2 - 75, height / 2 - 70 + i * ITEM_SIZE, 0, 154, 150, 14);
             int itemPlace = i + index;
             if (blockExtender.filter.getValue(itemPlace))
-                this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 165, 154, 14, 14);
+                this.drawTexturedModalRect(width / 2 - 75, height / 2 - 70 + i * ITEM_SIZE, 165, 154, 14, 14);
             else
-                this.drawTexturedModalRect(width/2 - 75, height/2 - 70 + i*ITEM_SIZE, 151, 154, 14, 14);
+                this.drawTexturedModalRect(width / 2 - 75, height / 2 - 70 + i * ITEM_SIZE, 151, 154, 14, 14);
         }
     }
 

@@ -27,7 +27,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         super.initGui();
         this.buttonList.clear();
         this.buttonList.add(spreadItems = new GuiButton(0, width / 2 - 80, height / 2 - 20, 80, 20, blockExtender.spreadItems ? "Spread on" : "Spread off"));
-        stackSize = new GuiTextField(fontRenderer, width/2 - 50, height/2 + 10, 20, 15);
+        stackSize = new GuiTextField(fontRenderer, width / 2 - 50, height / 2 + 10, 20, 15);
         stackSize.setMaxStringLength(2);
         stackSize.setFocused(true);
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
@@ -51,7 +51,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
             if (i != blockExtender.getConnectedDirection().ordinal())
             {
                 String letter = Character.toString(direction.toString().charAt(0));
-                switch(i)
+                switch (i)
                 {
                     //Bottom
                     case 0:
@@ -80,13 +80,13 @@ public class GuiAdvancedBlockExtender extends GuiScreen
                 }
             }
         }
-}
-    
+    }
+
     @Override
     public void updateScreen()
     {
         super.updateScreen();
-        spreadItems.displayString = blockExtender.spreadItems? "Spread on": "Spread off";
+        spreadItems.displayString = blockExtender.spreadItems ? "Spread on" : "Spread off";
         if (blockExtender.getInventoryStackLimit() == 0)
         {
             stackSize.setText("");
@@ -104,7 +104,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
             stackSize.textboxKeyTyped(c, i);
             if (stackSize.getText().isEmpty())
             {
-                blockExtender.setMaxStackSize((byte)0);
+                blockExtender.setMaxStackSize((byte) 0);
                 return;
             }
             blockExtender.setMaxStackSize(Byte.parseByte(stackSize.getText()));
@@ -115,7 +115,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     @Override
     protected void actionPerformed(GuiButton guibutton)
     {
-        switch(guibutton.id)
+        switch (guibutton.id)
         {
             case 0:
                 blockExtender.spreadItems = !blockExtender.spreadItems;
@@ -130,22 +130,22 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         {
             //Bottom
             if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
-                blockExtender.setInsertDirection(0, blockExtender.getInsertDirection()[0]+ 1);
+                blockExtender.setInsertDirection(0, blockExtender.getInsertDirection()[0] + 1);
             //Top
             if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
-                blockExtender.setInsertDirection(1, blockExtender.getInsertDirection()[1]+ 1);
+                blockExtender.setInsertDirection(1, blockExtender.getInsertDirection()[1] + 1);
             //North
             if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 24 && y <= height / 2 - 24 + 14)
-                blockExtender.setInsertDirection(2, blockExtender.getInsertDirection()[2]+ 1);
+                blockExtender.setInsertDirection(2, blockExtender.getInsertDirection()[2] + 1);
             //South
             if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
-                blockExtender.setInsertDirection(3, blockExtender.getInsertDirection()[3]+ 1);
+                blockExtender.setInsertDirection(3, blockExtender.getInsertDirection()[3] + 1);
             //West
             if (x >= width / 2 + 28 && x <= width / 2 + 28 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
-                blockExtender.setInsertDirection(4, blockExtender.getInsertDirection()[4]+ 1);
+                blockExtender.setInsertDirection(4, blockExtender.getInsertDirection()[4] + 1);
             //East
             if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
-                blockExtender.setInsertDirection(5, blockExtender.getInsertDirection()[5]+ 1);
+                blockExtender.setInsertDirection(5, blockExtender.getInsertDirection()[5] + 1);
         }
     }
 
@@ -167,7 +167,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
                 connection = true;
             }
             boolean hasTile = blockExtender.getTiles()[i] != null;
-            switch(i)
+            switch (i)
             {
                 //Bottom
                 case 0:

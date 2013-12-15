@@ -6,7 +6,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
 {
@@ -36,8 +35,9 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
 
     public void setInsertDirection(int from, int value)
     {
-        if (value > 5) value = 0;
-        insertDirection[from] = (byte)value;
+        if (value > 5)
+            value = 0;
+        insertDirection[from] = (byte) value;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     {
         if (spreadItems)
         {
-            if (lastSlotSide != i || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack)  || shouldUpdateBestSlot)
+            if (lastSlotSide != i || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack) || shouldUpdateBestSlot)
             {
                 updateBestSlot(i2, itemStack);
                 shouldUpdateBestSlot = false;
@@ -55,7 +55,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
                 return false;
             }
             shouldUpdateBestSlot = true;
-            return blacklist ? !filter.passesFilter(itemStack): filter.passesFilter(itemStack);
+            return blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack);
         }
         else
         {
@@ -63,7 +63,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
             {
                 return false;
             }
-            return blacklist ? !filter.passesFilter(itemStack): filter.passesFilter(itemStack);
+            return blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack);
         }
     }
 
@@ -114,7 +114,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory)inventory).getAccessibleSlotsFromSide(insertDirection[i]);
+                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(insertDirection[i]);
             }
             return accessibleSlots;
         }

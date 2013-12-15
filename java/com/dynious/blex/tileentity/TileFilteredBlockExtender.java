@@ -3,7 +3,6 @@ package com.dynious.blex.tileentity;
 import com.dynious.blex.config.Filter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileFilteredBlockExtender extends TileBlockExtender
 {
@@ -17,7 +16,7 @@ public class TileFilteredBlockExtender extends TileBlockExtender
         {
             return false;
         }
-        return blacklist ? !filter.passesFilter(itemStack): filter.passesFilter(itemStack);
+        return blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack);
     }
 
     @Override

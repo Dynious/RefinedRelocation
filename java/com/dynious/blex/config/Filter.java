@@ -33,7 +33,7 @@ public class Filter
             return true;
         if (ores && oreName.toLowerCase().contains("ore"))
             return true;
-        if(wood && oreName.toLowerCase().contains("wood"))
+        if (wood && oreName.toLowerCase().contains("wood"))
             return true;
         if (planks && oreName.toLowerCase().contains("plank"))
             return true;
@@ -61,7 +61,7 @@ public class Filter
 
     public void setValue(int place, boolean value)
     {
-        switch(place)
+        switch (place)
         {
             case 0:
                 ingots = value;
@@ -98,7 +98,7 @@ public class Filter
 
     public boolean getValue(int place)
     {
-        switch(place)
+        switch (place)
         {
             case 0:
                 return ingots;
@@ -125,7 +125,7 @@ public class Filter
 
     public String getName(int place)
     {
-        switch(place)
+        switch (place)
         {
             case 0:
                 return "All Ingots";
