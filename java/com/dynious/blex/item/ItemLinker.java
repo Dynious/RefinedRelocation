@@ -46,6 +46,7 @@ public class ItemLinker extends Item
             linkTileAtPosition(itemStack, x, y, z);
             return true;
         }
+        
         return false;
     }
 
