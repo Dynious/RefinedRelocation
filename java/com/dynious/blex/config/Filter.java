@@ -28,7 +28,7 @@ public class Filter
     public boolean passesFilter(ItemStack itemStack)
     {
         String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
-        
+
         if (ingots && oreName.toLowerCase().contains("ingot"))
             return true;
         if (ores && oreName.toLowerCase().contains("ore"))

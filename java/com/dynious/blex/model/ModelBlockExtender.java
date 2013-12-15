@@ -160,6 +160,7 @@ public class ModelBlockExtender extends ModelBase
         SideEast.render(size);
         SideNorth.render(size);
         SideSouth.render(size);
+        SideUp.render(size);
     }
 
   private void setRotation(ModelRenderer model, float x, float y, float z)
