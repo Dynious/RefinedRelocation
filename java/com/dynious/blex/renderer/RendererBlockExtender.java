@@ -2,10 +2,7 @@ package com.dynious.blex.renderer;
 
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
-import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
-import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
-import com.dynious.blex.tileentity.TileBlockExtender;
-import com.dynious.blex.tileentity.TileFilteredBlockExtender;
+import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -40,6 +37,10 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             else if (tileEntity instanceof TileFilteredBlockExtender)
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
+            }
+            else if (tileEntity instanceof TileWirelessBlockExtender)
+            {
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_WIRELESS_BLOCK_EXTENDER);
             }
             else if (tileEntity instanceof TileAdvancedFilteredBlockExtender)
             {

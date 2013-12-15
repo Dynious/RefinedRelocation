@@ -17,6 +17,7 @@ public class Resources
     public static final ResourceLocation MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "blockExtender1.png");
     public static final ResourceLocation MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "blockExtender2.png");
     public static final ResourceLocation MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "blockExtender3.png");
+    public static final ResourceLocation MODEL_TEXTURE_WIRELESS_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "blockExtender4.png");
 }
 
 

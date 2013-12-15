@@ -43,6 +43,7 @@ public class ItemLinker extends Item
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && !(tile instanceof TileWirelessBlockExtender))
         {
+            System.out.println("ddd");
             linkTileAtPosition(itemStack, x, y, z);
             return true;
         }

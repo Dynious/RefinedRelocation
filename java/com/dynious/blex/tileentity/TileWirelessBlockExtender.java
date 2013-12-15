@@ -18,6 +18,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 
     public void setConnection(int x, int y, int z)
     {
+        System.out.println(x + ":" + y + ":" +  z);
         this.xConnected = x;
         this.yConnected = y;
         this.zConnected = z;

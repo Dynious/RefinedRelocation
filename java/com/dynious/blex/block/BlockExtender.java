@@ -76,9 +76,10 @@ public class BlockExtender extends BlockContainer
             TileEntity tile = world.getBlockTileEntity(x, y, z);
             if (tile != null && tile instanceof TileWirelessBlockExtender)
             {
-                if (player.getItemInUse().getItem() == ModItems.linker && player.getItemInUse().hasTagCompound())
+                if (player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
                 {
-                    NBTTagCompound tag = player.getItemInUse().getTagCompound();
+                    System.out.println("TAGGG");
+                    NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
                     ((TileWirelessBlockExtender) tile).setConnection(tag.getInteger("tileX"), tag.getInteger("tileY"), tag.getInteger("tileZ"));
                     return true;
                 }
@@ -108,9 +109,10 @@ public class BlockExtender extends BlockContainer
                 }
                 else if (tile instanceof TileWirelessBlockExtender)
                 {
-                    if (player.getItemInUse().getItem() == ModItems.linker && player.getItemInUse().hasTagCompound())
+                    if (player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
                     {
-                        NBTTagCompound tag = player.getItemInUse().getTagCompound();
+                        System.out.println("TAGGG");
+                        NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
                         ((TileWirelessBlockExtender) tile).setConnection(tag.getInteger("tileX"), tag.getInteger("tileY"), tag.getInteger("tileZ"));
                         return true;
                     }
