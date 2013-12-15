@@ -55,7 +55,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
                 return false;
             }
             shouldUpdateBestSlot = true;
-            return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
+            return blacklist ? !filter.passesFilter(itemStack): filter.passesFilter(itemStack);
         }
         else
         {
@@ -63,7 +63,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
             {
                 return false;
             }
-            return blacklist ? !doesItemStackPassFilter(itemStack): doesItemStackPassFilter(itemStack);
+            return blacklist ? !filter.passesFilter(itemStack): filter.passesFilter(itemStack);
         }
     }
 
@@ -91,32 +91,6 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
         lastSlotSide = side;
         lastStack = itemStack;
     }
-
-    private boolean doesItemStackPassFilter(ItemStack itemStack)
-    {
-        String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
-        if (filter.ingots && oreName.toLowerCase().contains("ingot"))
-            return true;
-        if (filter.ores && oreName.toLowerCase().contains("ore"))
-            return true;
-        if(filter.wood && oreName.toLowerCase().contains("wood"))
-            return true;
-        if (filter.planks && oreName.toLowerCase().contains("plank"))
-            return true;
-        if (filter.dusts && (oreName.toLowerCase().contains("dust") || oreName.toLowerCase().contains("crushed")))
-            return true;
-
-        int index = itemStack.getItem().getCreativeTab().getTabIndex();
-        for (int i = 0; i < filter.creativeTabs.length; i++)
-        {
-            if (filter.creativeTabs[i] && index == i)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     public void setMaxStackSize(byte maxStackSize)
     {
