@@ -1,6 +1,7 @@
 package com.dynious.blex.config;
 
 import com.dynious.blex.lib.BlockIds;
+import com.dynious.blex.lib.ItemIds;
 import com.dynious.blex.lib.Names;
 import net.minecraftforge.common.Configuration;
 
@@ -16,6 +17,8 @@ public class ConfigHandler
         try
         {
             BlockIds.BLOCK_EXTENDER = configuration.getBlock(Names.blockExtender, BlockIds.BLOCK_EXTENDER_DEFAULT).getInt(BlockIds.BLOCK_EXTENDER_DEFAULT);
+
+            ItemIds.LINKER = configuration.getItem(Names.linker, ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);
         } catch (Exception e)
         {
 

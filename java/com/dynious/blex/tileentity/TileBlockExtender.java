@@ -172,7 +172,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
     }
 
-    private boolean hasConnection()
+    protected boolean hasConnection()
     {
         if (inventory != null || fluidHandler != null)
         {

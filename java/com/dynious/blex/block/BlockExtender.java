@@ -4,11 +4,10 @@ import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.gui.GuiAdvancedBlockExtender;
 import com.dynious.blex.gui.GuiAdvancedFilteredBlockExtender;
 import com.dynious.blex.gui.GuiFilteredBlockExtender;
+import com.dynious.blex.item.ItemLinker;
+import com.dynious.blex.item.ModItems;
 import com.dynious.blex.lib.Names;
-import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
-import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
-import com.dynious.blex.tileentity.TileBlockExtender;
-import com.dynious.blex.tileentity.TileFilteredBlockExtender;
+import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -49,6 +48,8 @@ public class BlockExtender extends BlockContainer
                 return new TileFilteredBlockExtender();
             case 3:
                 return new TileAdvancedFilteredBlockExtender();
+            case 4:
+                return new TileWirelessBlockExtender();
             default:
                 return null;
         }
@@ -59,7 +60,7 @@ public class BlockExtender extends BlockContainer
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
-        for (int j = 0; j < 4; ++j)
+        for (int j = 0; j < 5; ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }
@@ -91,6 +92,18 @@ public class BlockExtender extends BlockContainer
                 else if (tile instanceof TileAdvancedFilteredBlockExtender)
                 {
                     FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender) tile));
+                }
+                else if (tile instanceof TileWirelessBlockExtender)
+                {
+                    if (player.getItemInUse().getItem() == ModItems.linker)
+                    {
+                        ItemLinker.linkTileAtPosition(player.getItemInUse(), x, y, z);
+                        return true;
+                    }
+                    else
+                    {
+                        FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender) tile));
+                    }
                 }
             }
         }
