@@ -76,6 +76,7 @@ public class ItemRendererBlockExtender implements IItemRenderer
         GL11.glColor4f(1F, 1F, 1F, 0.2F);
 
         modelBlockExtender.renderSides();
+        
 
         GL11.glDisable(GL11.GL_BLEND);
 
