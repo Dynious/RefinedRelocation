@@ -14,6 +14,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
     private ItemStack lastStack;
+    private byte maxStackSize = 64;
 
     public TileAdvancedBlockExtender()
     {
@@ -77,7 +78,6 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
             {
                 bestSlot = slot;
                 bestSize = stack.stackSize;
-                System.out.println(bestSlot + ":" + bestSize);
             }
         }
         lastSlotSide = side;
@@ -99,11 +99,22 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     }
 
     @Override
+    public int getInventoryStackLimit()
+    {
+        if (inventory != null)
+        {
+            return Math.min(super.getInventoryStackLimit(), maxStackSize);
+        }
+        return 0;
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
         spreadItems = compound.getBoolean("spreadItems");
         insertDirection = compound.getByteArray("insertDirection");
+        maxStackSize = compound.getByte("maxStackSize");
     }
 
     @Override
@@ -112,5 +123,6 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         super.writeToNBT(compound);
         compound.setBoolean("spreadItems", spreadItems);
         compound.setByteArray("insertDirection", insertDirection);
+        compound.setByte("maxStackSize", maxStackSize);
     }
 }

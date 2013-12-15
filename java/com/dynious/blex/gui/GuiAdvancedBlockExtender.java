@@ -4,6 +4,7 @@ import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
@@ -11,6 +12,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
 {
     private TileAdvancedBlockExtender blockExtender;
     private GuiButton spreadItems;
+    private GuiTextField stackSize;
 
     public GuiAdvancedBlockExtender(TileAdvancedBlockExtender blockExtender)
     {
@@ -25,6 +27,10 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         super.initGui();
         this.buttonList.clear();
         this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 80, height/2 - 10, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
+        stackSize = new GuiTextField(fontRenderer, width / 2, height / 2 - 73,
+            80, 15);
+        stackSize.setMaxStringLength(2);
+        stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
     }
 
     /**
@@ -36,6 +42,8 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         drawDefaultBackground();
         drawContainerBackground();
         super.drawScreen(h, j, f);
+
+        stackSize.drawTextBox();
 
         for (int i = 0; i < blockExtender.getInsertDirection().length; i++)
         {
@@ -79,6 +87,16 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         super.updateScreen();
         spreadItems.displayString = blockExtender.spreadItems? "Spread on": "Spread off";
     }
+    @Override
+    public void keyTyped(char c, int i)
+    {
+        super.keyTyped(c, i);
+        if (Character.isDigit(c))
+        {
+            stackSize.textboxKeyTyped(c, i);
+        }
+    }
+
 
     @Override
     protected void actionPerformed(GuiButton guibutton)
