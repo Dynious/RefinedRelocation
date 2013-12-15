@@ -12,13 +12,12 @@ import net.minecraftforge.fluids.IFluidHandler;
 
 public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 {
-    private int xConnected = Integer.MAX_VALUE;
-    private int yConnected = Integer.MAX_VALUE;
-    private int zConnected = Integer.MAX_VALUE;
+    public int xConnected = Integer.MAX_VALUE;
+    public int yConnected = Integer.MAX_VALUE;
+    public int zConnected = Integer.MAX_VALUE;
 
     public void setConnection(int x, int y, int z)
     {
-        System.out.println(x + ":" + y + ":" +  z);
         this.xConnected = x;
         this.yConnected = y;
         this.zConnected = z;
@@ -42,7 +41,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
             TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
             if (!hasConnection())
             {
-                if (tile != null && !(tile instanceof TileBlockExtender))
+                if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender)tile).connectedDirection == this.connectedDirection.getOpposite()))
                 {
                     if (tile instanceof IInventory)
                     {

@@ -126,7 +126,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
             if (!hasConnection())
             {
-                if (tile != null && !(tile instanceof TileBlockExtender))
+                if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender)tile).connectedDirection == this.connectedDirection.getOpposite()))
                 {
                     if (tile instanceof IInventory)
                     {
@@ -568,15 +568,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
     {
-        readFromNBT(pkt.data);
-        super.onDataPacket(net, pkt);
+        setConnectedSide(pkt.data.getByte("side"));
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
         NBTTagCompound compound = new NBTTagCompound();
-        writeToNBT(compound);
+        compound.setByte("side", (byte) connectedDirection.ordinal());
         return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
     }
 }

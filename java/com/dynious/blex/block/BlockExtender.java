@@ -4,6 +4,7 @@ import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.gui.GuiAdvancedBlockExtender;
 import com.dynious.blex.gui.GuiAdvancedFilteredBlockExtender;
 import com.dynious.blex.gui.GuiFilteredBlockExtender;
+import com.dynious.blex.gui.GuiWirelessBlockExtender;
 import com.dynious.blex.item.ItemLinker;
 import com.dynious.blex.item.ModItems;
 import com.dynious.blex.lib.Names;
@@ -16,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -76,11 +78,13 @@ public class BlockExtender extends BlockContainer
             TileEntity tile = world.getBlockTileEntity(x, y, z);
             if (tile != null && tile instanceof TileWirelessBlockExtender)
             {
-                if (player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
+                if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
                 {
-                    System.out.println("TAGGG");
                     NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
                     ((TileWirelessBlockExtender) tile).setConnection(tag.getInteger("tileX"), tag.getInteger("tileY"), tag.getInteger("tileZ"));
+                    if (world.isRemote)
+                        player.sendChatToPlayer(new ChatMessageComponent()
+                                .addText("This Wireless Block Extender is now link with the TileEntity at: " + tag.getInteger("tileX") + ":" + tag.getInteger("tileY") + ":" + tag.getInteger("tileZ")));
                     return true;
                 }
             }
@@ -103,23 +107,25 @@ public class BlockExtender extends BlockContainer
                 {
                     FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender) tile));
                 }
-                else if (tile instanceof TileAdvancedFilteredBlockExtender)
-                {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender) tile));
-                }
                 else if (tile instanceof TileWirelessBlockExtender)
                 {
-                    if (player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
+                    if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
                     {
-                        System.out.println("TAGGG");
                         NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
                         ((TileWirelessBlockExtender) tile).setConnection(tag.getInteger("tileX"), tag.getInteger("tileY"), tag.getInteger("tileZ"));
+                        if (world.isRemote)
+                            player.sendChatToPlayer(new ChatMessageComponent()
+                                    .addText("This Wireless Block Extender is now link with the TileEntity at: " + tag.getInteger("tileX") + ":"  + tag.getInteger("tileY") + ":" + tag.getInteger("tileZ")));
                         return true;
                     }
                     else
                     {
-                        FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender) tile));
+                        FMLCommonHandler.instance().showGuiScreen(new GuiWirelessBlockExtender((TileWirelessBlockExtender) tile));
                     }
+                }
+                else if (tile instanceof TileAdvancedFilteredBlockExtender)
+                {
+                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender) tile));
                 }
             }
         }
