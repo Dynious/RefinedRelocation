@@ -41,7 +41,7 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            GL11.glColor4f(1F, 1F, 1F, 0.3F);
+            GL11.glColor4f(1F, 1F, 1F, 0.1F);
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_SIDE_BLOCK_EXTENDER);
 
