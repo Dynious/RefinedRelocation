@@ -2,7 +2,6 @@ package com.dynious.blex.renderer;
 
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
-import com.dynious.blex.model.OldModelBlockExtender;
 import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
 import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
 import com.dynious.blex.tileentity.TileBlockExtender;

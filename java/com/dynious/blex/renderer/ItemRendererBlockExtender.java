@@ -2,6 +2,9 @@ package com.dynious.blex.renderer;
 
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
+import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
+import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
+import com.dynious.blex.tileentity.TileFilteredBlockExtender;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
@@ -30,22 +33,22 @@ public class ItemRendererBlockExtender implements IItemRenderer
         {
             case ENTITY:
             {
-                render(-0.5F, 0.0F, -0.5F);
+                render(-0.5F, 0.0F, -0.5F, item);
                 return;
             }
             case EQUIPPED:
             {
-                render(0.0F, 0.0F, 0.0F);
+                render(0.0F, 0.0F, 0.0F, item);
                 return;
             }
             case EQUIPPED_FIRST_PERSON:
             {
-                render(0.5F, 0.5F, 0.3F);
+                render(0.5F, 0.5F, 0.3F, item);
                 return;
             }
             case INVENTORY:
             {
-                render(0.5F, 0.3F, 0.5F);
+                render(0.5F, 0.3F, 0.5F, item);
                 return;
             }
             default:
@@ -53,7 +56,7 @@ public class ItemRendererBlockExtender implements IItemRenderer
         }
     }
 
-    public void render(float x, float y, float z)
+    public void render(float x, float y, float z, ItemStack itemStack)
     {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
@@ -64,7 +67,22 @@ public class ItemRendererBlockExtender implements IItemRenderer
         GL11.glRotatef(180F, 1F, 0F, 0F);
         GL11.glScalef(1F, 1F, 1F);
 
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
+        if(itemStack.getItemDamage() == 0)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
+        }
+        else if(itemStack.getItemDamage() == 1)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER);
+        }
+        else if(itemStack.getItemDamage() == 2)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
+        }
+        else if(itemStack.getItemDamage() == 3)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
+        }
 
         modelBlockExtender.renderBase();
         modelBlockExtender.renderPilars();
