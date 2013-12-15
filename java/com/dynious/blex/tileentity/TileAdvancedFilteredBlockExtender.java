@@ -18,6 +18,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     private ItemStack lastStack;
     public boolean blacklist = false;
     public Filter filter = new Filter();
+    private byte maxStackSize = 64;
 
     public TileAdvancedFilteredBlockExtender()
     {
@@ -114,6 +115,22 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
             }
         }
         return false;
+    }
+
+
+    public void setMaxStackSize(byte maxStackSize)
+    {
+        this.maxStackSize = maxStackSize;
+    }
+
+    @Override
+    public int getInventoryStackLimit()
+    {
+        if (inventory != null)
+        {
+            return Math.min(super.getInventoryStackLimit(), maxStackSize);
+        }
+        return 0;
     }
 
     @Override

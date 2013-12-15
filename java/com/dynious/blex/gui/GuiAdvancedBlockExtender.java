@@ -26,8 +26,8 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     {
         super.initGui();
         this.buttonList.clear();
-        this.buttonList.add(spreadItems = new GuiButton(0, width/2 - 80, height/2 - 20, 80, 20, blockExtender.spreadItems? "Spread on": "Spread off"));
-        stackSize = new GuiTextField(fontRenderer, width/2 - 80, height/2 + 20, 20, 15);
+        this.buttonList.add(spreadItems = new GuiButton(0, width / 2 - 80, height / 2 - 20, 80, 20, blockExtender.spreadItems ? "Spread on" : "Spread off"));
+        stackSize = new GuiTextField(fontRenderer, width/2 - 50, height/2 + 10, 20, 15);
         stackSize.setMaxStringLength(2);
         stackSize.setFocused(true);
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
@@ -80,7 +80,8 @@ public class GuiAdvancedBlockExtender extends GuiScreen
                 }
             }
         }
-    }
+}
+    
     @Override
     public void updateScreen()
     {
@@ -93,6 +94,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         }
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
     }
+
     @Override
     public void keyTyped(char c, int i)
     {
@@ -100,7 +102,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         if (Character.isDigit(c) || Character.getType(c) == 15)
         {
             stackSize.textboxKeyTyped(c, i);
-            if (stackSize.getText() == "")
+            if (stackSize.getText().isEmpty())
             {
                 blockExtender.setMaxStackSize((byte)0);
                 return;
