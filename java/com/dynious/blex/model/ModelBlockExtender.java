@@ -31,8 +31,8 @@ public class ModelBlockExtender extends ModelBase
   {
     textureWidth = 128;
     textureHeight = 128;
-    
-      SideUp = new ModelRenderer(this, 0, 30);
+
+      SideUp = new ModelRenderer(this, 60, 60);
       SideUp.addBox(0F, 0F, 0F, 12, 2, 12);
       SideUp.setRotationPoint(-6F, 8F, -6F);
       SideUp.setTextureSize(128, 128);
@@ -98,19 +98,19 @@ public class ModelBlockExtender extends ModelBase
       SideWest.setTextureSize(128, 128);
       SideWest.mirror = true;
       setRotation(SideWest, 0F, 0F, 0F);
-      SideEast = new ModelRenderer(this, 0, 30);
+      SideEast = new ModelRenderer(this, 0, 60);
       SideEast.addBox(0F, 0F, 0F, 2, 12, 12);
       SideEast.setRotationPoint(-8F, 10F, -6F);
       SideEast.setTextureSize(128, 128);
       SideEast.mirror = true;
       setRotation(SideEast, 0F, 0F, 0F);
-      SideNorth = new ModelRenderer(this, 0, 30);
+      SideNorth = new ModelRenderer(this, 0, 90);
       SideNorth.addBox(0F, 0F, 0F, 12, 12, 2);
       SideNorth.setRotationPoint(-6F, 10F, -8F);
       SideNorth.setTextureSize(128, 128);
       SideNorth.mirror = true;
       setRotation(SideNorth, 0F, 0F, 0F);
-      SideSouth = new ModelRenderer(this, 0, 30);
+      SideSouth = new ModelRenderer(this, 60, 30);
       SideSouth.addBox(0F, 0F, 0F, 12, 12, 2);
       SideSouth.setRotationPoint(-6F, 10F, 6F);
       SideSouth.setTextureSize(128, 128);
@@ -137,7 +137,31 @@ public class ModelBlockExtender extends ModelBase
     SideNorth.render(f5);
     SideSouth.render(f5);
   }
-  
+
+    public void renderBase()
+    {
+        Base.render(size);
+    }
+
+    public void renderPilars()
+    {
+        Pilar1.render(size);
+        Pilar2.render(size);
+        Pilar3.render(size);
+        Pilar4.render(size);
+        Pilar5.render(size);
+        Pilar6.render(size);
+        Pilar7.render(size);
+        Pilar8.render(size);
+    }
+    public void renderSides()
+    {
+        SideWest.render(size);
+        SideEast.render(size);
+        SideNorth.render(size);
+        SideSouth.render(size);
+    }
+
   private void setRotation(ModelRenderer model, float x, float y, float z)
   {
     model.rotateAngleX = x;

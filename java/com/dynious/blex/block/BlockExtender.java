@@ -125,4 +125,16 @@ public class BlockExtender extends BlockContainer
 
         return false;
     }
+
+    @Override
+    public int getRenderBlockPass()
+    {
+        return 1;
+    }
+
+    @Override
+    protected String getTextureName()
+    {
+        return "obsidian";
+    }
 }

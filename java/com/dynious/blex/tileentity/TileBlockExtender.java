@@ -121,7 +121,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
             if (!hasConnection())
             {
-                if (tile != null)
+                if (tile != null && !(tile instanceof TileBlockExtender))
                 {
                     if (tile instanceof IInventory)
                     {
