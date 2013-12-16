@@ -10,11 +10,13 @@ This is the official GitHub page for Block Extenders!
 2. Put the `java` and `resources` folders in `ForgeGradleDir/src/main` (delete the folders that are already in there)
 3. Create a folder called `libs` in your ForgeGradle folder and put BuildCraft IndustrialCraft and CoFHCore in it
 4. Add this to the `build.gradle` file:
+
 ```
 dependencies {
         compile fileTree(dir: 'libs', include: '*.jar')
 }
 ```
+
 5. Open a commandprompt in your ForgeGradle folder and execute this: `gradlew build`
 6. Find your fresh copy of Block Extenders in `ForgeGradleDir/build/libs`!
 
