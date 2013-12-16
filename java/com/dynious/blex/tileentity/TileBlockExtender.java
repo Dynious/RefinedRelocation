@@ -201,6 +201,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void objectTransported()
     {
         lightAmount = 0.15F;
+        System.out.println(lightAmount + " : " + worldObj.isRemote);
     }
 
     public float getLightAmount()
@@ -233,8 +234,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory) inventory).canInsertItem(i, itemStack, i2);
+                if (((ISidedInventory) inventory).canInsertItem(i, itemStack, i2))
+                {
+                    objectTransported();
+                    return true;
+                }
+                return false;
             }
+            objectTransported();
             return true;
         }
         return false;
@@ -247,8 +254,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory) inventory).canExtractItem(i, itemStack, i2);
+                if (((ISidedInventory) inventory).canExtractItem(i, itemStack, i2))
+                {
+                    objectTransported();
+                    return true;
+                }
+                return false;
             }
+            objectTransported();
             return true;
         }
         return false;
@@ -496,9 +509,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energySink != null)
         {
-            return energySink.injectEnergyUnits(forgeDirection, v);
             double amount =  energySink.injectEnergyUnits(forgeDirection, v);
-            if (amount > 0 && doFill)
+            if (amount > 0)
             {
                 objectTransported();
             }
@@ -535,7 +547,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            return energyHandler.receiveEnergy(forgeDirection, i, b);
+            int amount =  energyHandler.receiveEnergy(forgeDirection, i, b);
+            if (amount > 0 && b)
+            {
+                objectTransported();
+            }
+            return amount;
         }
         return 0;
     }
@@ -546,7 +563,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            return energyHandler.extractEnergy(forgeDirection, i, b);
+            int amount =  energyHandler.extractEnergy(forgeDirection, i, b);
+            if (amount > 0 && b)
+            {
+                objectTransported();
+            }
+            return amount;
         }
         return 0;
     }
