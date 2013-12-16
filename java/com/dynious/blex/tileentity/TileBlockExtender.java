@@ -1,5 +1,6 @@
 package com.dynious.blex.tileentity;
 
+import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
@@ -201,7 +202,6 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void objectTransported()
     {
         lightAmount = 0.15F;
-        System.out.println(lightAmount + " : " + worldObj.isRemote);
     }
 
     public float getLightAmount()
