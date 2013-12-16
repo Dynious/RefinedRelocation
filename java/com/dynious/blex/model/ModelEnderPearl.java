@@ -10,7 +10,7 @@ public class ModelEnderPearl
 
     public ModelEnderPearl()
     {
-        this.modelCustom = AdvancedModelLoader.loadModel(Resources.MODEL_BLOCK_EXTENDER);
+        this.modelCustom = AdvancedModelLoader.loadModel(Resources.MODEL_ENDERPEARL);
     }
 
     public void render()

@@ -2,6 +2,7 @@ package com.dynious.blex.renderer;
 
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
+import com.dynious.blex.model.ModelEnderPearl;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -11,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 public class RendererBlockExtender extends TileEntitySpecialRenderer
 {
     private ModelBlockExtender modelBlockExtender = new ModelBlockExtender();
+    private ModelEnderPearl modelEnderPearl = new ModelEnderPearl();
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float timer)
@@ -27,6 +29,17 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             rotate(tile, x, y, z);
 
             GL11.glScalef(1F, 1F, 1F);
+
+            GL11.glPushMatrix();
+
+            GL11.glTranslated(0, 1F, 0);
+            GL11.glScalef(0.25F, 0.25F, 0.25F);
+
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ENDERPEARL);
+
+            modelEnderPearl.render();
+
+            GL11.glPopMatrix();
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
 
