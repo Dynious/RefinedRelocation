@@ -1,6 +1,5 @@
 package com.dynious.blex.tileentity;
 
-import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
@@ -128,7 +127,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
             if (!hasConnection())
             {
-                if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender)tile).connectedDirection == this.connectedDirection.getOpposite()))
+                if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender) tile).connectedDirection == this.connectedDirection.getOpposite()))
                 {
                     if (tile instanceof IInventory)
                     {
@@ -389,7 +388,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            int amount =  fluidHandler.fill(from, resource, doFill);
+            int amount = fluidHandler.fill(from, resource, doFill);
             if (amount > 0 && doFill)
             {
                 objectTransported();
@@ -404,7 +403,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            FluidStack amount =  fluidHandler.drain(from, resource, doDrain);
+            FluidStack amount = fluidHandler.drain(from, resource, doDrain);
             if (amount.amount > 0 && doDrain)
             {
                 objectTransported();
@@ -419,7 +418,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            FluidStack amount =  fluidHandler.drain(from, maxDrain, doDrain);
+            FluidStack amount = fluidHandler.drain(from, maxDrain, doDrain);
             if (amount.amount > 0 && doDrain)
             {
                 objectTransported();
@@ -509,7 +508,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energySink != null)
         {
-            double amount =  energySink.injectEnergyUnits(forgeDirection, v);
+            double amount = energySink.injectEnergyUnits(forgeDirection, v);
             if (amount > 0)
             {
                 objectTransported();
@@ -547,7 +546,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            int amount =  energyHandler.receiveEnergy(forgeDirection, i, b);
+            int amount = energyHandler.receiveEnergy(forgeDirection, i, b);
             if (amount > 0 && b)
             {
                 objectTransported();
@@ -563,7 +562,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            int amount =  energyHandler.extractEnergy(forgeDirection, i, b);
+            int amount = energyHandler.extractEnergy(forgeDirection, i, b);
             if (amount > 0 && b)
             {
                 objectTransported();

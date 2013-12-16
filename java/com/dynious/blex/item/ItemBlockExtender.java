@@ -39,7 +39,6 @@ public class ItemBlockExtender extends ItemBlock
     }
 
 
-
     @Override
     public String getUnlocalizedName(ItemStack i)
     {

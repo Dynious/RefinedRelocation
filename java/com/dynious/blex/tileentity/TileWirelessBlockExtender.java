@@ -24,7 +24,9 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Override
-    public void setConnectedSide(int connectedSide){}
+    public void setConnectedSide(int connectedSide)
+    {
+    }
 
     @Override
     public ForgeDirection getConnectedDirection()
@@ -41,7 +43,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
             TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
             if (!hasConnection())
             {
-                if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender)tile).connectedDirection == this.connectedDirection.getOpposite()))
+                if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender) tile).connectedDirection == this.connectedDirection.getOpposite()))
                 {
                     if (tile instanceof IInventory)
                     {

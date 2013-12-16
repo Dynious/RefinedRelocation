@@ -6,7 +6,6 @@ import com.dynious.blex.gui.GuiAdvancedFilteredBlockExtender;
 import com.dynious.blex.gui.GuiFilteredBlockExtender;
 import com.dynious.blex.gui.GuiWirelessBlockExtender;
 import com.dynious.blex.helper.DistanceHelper;
-import com.dynious.blex.item.ItemLinker;
 import com.dynious.blex.item.ModItems;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
@@ -65,7 +64,7 @@ public class BlockExtender extends BlockContainer
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
-        for (int j = 0; j < (Settings.DISABLE_WIRELESS_BLOCK_EXTENDER? 4 : 5); ++j)
+        for (int j = 0; j < (Settings.DISABLE_WIRELESS_BLOCK_EXTENDER ? 4 : 5); ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }
@@ -77,37 +76,6 @@ public class BlockExtender extends BlockContainer
     {
         if (player.isSneaking())
         {
-            TileEntity tile = world.getBlockTileEntity(x, y, z);
-            if (tile != null && tile instanceof TileWirelessBlockExtender)
-            {
-                if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
-                {
-                    NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
-                    int tileX = tag.getInteger("tileX");
-                    int tileY = tag.getInteger("tileY");
-                    int tileZ = tag.getInteger("tileZ");
-                    if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER*Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)
-                    {
-                        ((TileWirelessBlockExtender) tile).setConnection(tileX, tileY, tileZ);
-                        if (world.isRemote)
-                        {
-                            player.sendChatToPlayer(new ChatMessageComponent()
-                                    .addText("This Wireless Block Extender is now link with the TileEntity at: " + tileX + ":" + tileY + ":" + tileZ));
-                        }
-                    }
-                    else
-                    {
-                        if (world.isRemote)
-                        {
-                            player.sendChatToPlayer(new ChatMessageComponent()
-                                    .addText("This Wireless Block Extender too far from the TileEntity at: " + tileX + ":" + tileY + ":" + tileZ));
-                            player.sendChatToPlayer(new ChatMessageComponent()
-                                    .addText("This Wireless Block Extender max range is: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER));
-                        }
-                    }
-                    return true;
-                }
-            }
             return false;
         }
         else
@@ -132,10 +100,28 @@ public class BlockExtender extends BlockContainer
                     if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
                     {
                         NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
-                        ((TileWirelessBlockExtender) tile).setConnection(tag.getInteger("tileX"), tag.getInteger("tileY"), tag.getInteger("tileZ"));
-                        if (world.isRemote)
-                            player.sendChatToPlayer(new ChatMessageComponent()
-                                    .addText("This Wireless Block Extender is now link with the TileEntity at: " + tag.getInteger("tileX") + ":"  + tag.getInteger("tileY") + ":" + tag.getInteger("tileZ")));
+                        int tileX = tag.getInteger("tileX");
+                        int tileY = tag.getInteger("tileY");
+                        int tileZ = tag.getInteger("tileZ");
+                        if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER * Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)
+                        {
+                            ((TileWirelessBlockExtender) tile).setConnection(tileX, tileY, tileZ);
+                            if (world.isRemote)
+                            {
+                                player.sendChatToPlayer(new ChatMessageComponent()
+                                        .addText("This Wireless Block Extender is now link with the TileEntity at: " + tileX + ":" + tileY + ":" + tileZ));
+                            }
+                        }
+                        else
+                        {
+                            if (world.isRemote)
+                            {
+                                player.sendChatToPlayer(new ChatMessageComponent()
+                                        .addText("This Wireless Block Extender too far from the TileEntity at: " + tileX + ":" + tileY + ":" + tileZ));
+                                player.sendChatToPlayer(new ChatMessageComponent()
+                                        .addText("This Wireless Block Extender max range is: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER));
+                            }
+                        }
                         return true;
                     }
                     else

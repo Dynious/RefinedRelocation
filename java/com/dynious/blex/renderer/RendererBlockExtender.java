@@ -32,10 +32,10 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             GL11.glPushMatrix();
 
-            float yOffset = (float)Math.sin((float)(System.currentTimeMillis()/2 % (Math.PI*1000F))/100F)/10F;
+            float yOffset = (float) Math.sin((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 10F;
 
             GL11.glTranslated(0, 1F + yOffset, 0);
-            GL11.glRotatef((float)(System.currentTimeMillis() %36000)/10F, 0F, 1F, 0F);
+            GL11.glRotatef((float) (System.currentTimeMillis() % 36000) / 10F, 0F, 1F, 0F);
             GL11.glScalef(0.125F, 0.125F, 0.125F);
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ENDERPEARL);

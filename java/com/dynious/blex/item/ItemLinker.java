@@ -28,7 +28,7 @@ public class ItemLinker extends Item
         this.setMaxStackSize(1);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer,
                                List list, boolean par4)
