@@ -32,7 +32,9 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             GL11.glPushMatrix();
 
-            GL11.glTranslated(0, 1F, 0);
+            float yOffset = (float)Math.sin((System.currentTimeMillis() % 3600)/10)/10;
+
+            GL11.glTranslated(0, 1F + yOffset, 0);
             GL11.glRotatef((float)(System.currentTimeMillis() %36000)/10F, 0F, 1F, 0F);
             GL11.glScalef(0.125F, 0.125F, 0.125F);
 
