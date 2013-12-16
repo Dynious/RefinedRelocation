@@ -37,7 +37,6 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             GL11.glTranslated(0, 1F + yOffset, 0);
             GL11.glRotatef((float)(System.currentTimeMillis() %36000)/10F, 0F, 1F, 0F);
             GL11.glScalef(0.125F, 0.125F, 0.125F);
-            GL11.
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ENDERPEARL);
 
@@ -71,7 +70,7 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            GL11.glColor4f(1F, 1F, 1F, 0.2F);
+            GL11.glColor4f(1F, 1F, 1F, 0.15F + tile.getLightAmount());
 
             modelBlockExtender.renderSides();
 

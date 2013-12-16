@@ -43,6 +43,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected IEnergyHandler energyHandler;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
     public boolean blocksChanged = true;
+    private float lightAmount = 0F;
 
     public TileBlockExtender()
     {
@@ -170,6 +171,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             }
             blocksChanged = false;
         }
+        if (lightAmount > 0F)
+        {
+            lightAmount = lightAmount - 0.01F;
+        }
     }
 
     protected boolean hasConnection()
@@ -191,6 +196,16 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             return true;
         }
         return false;
+    }
+
+    public void objectTransported()
+    {
+        lightAmount = 0.15F;
+    }
+
+    public float getLightAmount()
+    {
+        return lightAmount;
     }
 
     /*
@@ -361,7 +376,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.fill(from, resource, doFill);
+            int amount =  fluidHandler.fill(from, resource, doFill);
+            if (amount > 0 && doFill)
+            {
+                objectTransported();
+            }
+            return amount;
         }
         return 0;
     }
@@ -371,7 +391,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.drain(from, resource, doDrain);
+            FluidStack amount =  fluidHandler.drain(from, resource, doDrain);
+            if (amount.amount > 0 && doDrain)
+            {
+                objectTransported();
+            }
+            return amount;
         }
         return null;
     }
@@ -381,7 +406,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.drain(from, maxDrain, doDrain);
+            FluidStack amount =  fluidHandler.drain(from, maxDrain, doDrain);
+            if (amount.amount > 0 && doDrain)
+            {
+                objectTransported();
+            }
+            return amount;
         }
         return null;
     }
@@ -434,6 +464,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (powerReceptor != null)
         {
             powerReceptor.doWork(powerHandler);
+            objectTransported();
         }
     }
 
@@ -466,6 +497,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (energySink != null)
         {
             return energySink.injectEnergyUnits(forgeDirection, v);
+            double amount =  energySink.injectEnergyUnits(forgeDirection, v);
+            if (amount > 0 && doFill)
+            {
+                objectTransported();
+            }
+            return amount;
         }
         return 0;
     }
