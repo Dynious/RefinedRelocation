@@ -15,7 +15,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
     private ItemStack lastStack;
-    public boolean blacklist = false;
+    public boolean blacklist = true;
     public Filter filter = new Filter();
     private byte maxStackSize = 64;
 

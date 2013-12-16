@@ -27,33 +27,39 @@ public class Filter
 
     public boolean passesFilter(ItemStack itemStack)
     {
-        String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
-
-        if (ingots && oreName.toLowerCase().contains("ingot"))
-            return true;
-        if (ores && oreName.toLowerCase().contains("ore"))
-            return true;
-        if (wood && oreName.toLowerCase().contains("wood"))
-            return true;
-        if (planks && oreName.toLowerCase().contains("plank"))
-            return true;
-        if (dusts && oreName.toLowerCase().contains("dust"))
-            return true;
-        if (crushedOres && oreName.toLowerCase().contains("crushed") && !oreName.toLowerCase().contains("purified"))
-            return true;
-        if (purifiedCrushedOres && !oreName.toLowerCase().contains("purified"))
-            return true;
-        if (plates && !oreName.toLowerCase().contains("plate"))
-            return true;
-        if (gems && !oreName.toLowerCase().contains("gem"))
-            return true;
-
-        int index = itemStack.getItem().getCreativeTab().getTabIndex();
-        for (int i = 0; i < creativeTabs.length; i++)
+        if (itemStack != null)
         {
-            if (creativeTabs[i] && index == i)
-            {
+            String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
+
+            if (ingots && oreName.toLowerCase().contains("ingot"))
                 return true;
+            if (ores && oreName.toLowerCase().contains("ore"))
+                return true;
+            if (wood && oreName.toLowerCase().contains("wood"))
+                return true;
+            if (planks && oreName.toLowerCase().contains("plank"))
+                return true;
+            if (dusts && oreName.toLowerCase().contains("dust"))
+                return true;
+            if (crushedOres && oreName.toLowerCase().contains("crushed") && !oreName.toLowerCase().contains("purified"))
+                return true;
+            if (purifiedCrushedOres && !oreName.toLowerCase().contains("purified"))
+                return true;
+            if (plates && !oreName.toLowerCase().contains("plate"))
+                return true;
+            if (gems && !oreName.toLowerCase().contains("gem"))
+                return true;
+
+            if (itemStack.getItem() != null && itemStack.getItem().getCreativeTab() != null)
+            {
+                int index = itemStack.getItem().getCreativeTab().getTabIndex();
+                for (int i = 0; i < creativeTabs.length; i++)
+                {
+                    if (creativeTabs[i] && index == i)
+                    {
+                        return true;
+                    }
+                }
             }
         }
         return false;

@@ -6,13 +6,13 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileFilteredBlockExtender extends TileBlockExtender
 {
-    public boolean blacklist = false;
+    public boolean blacklist = true;
     public Filter filter = new Filter();
 
     @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemStack)
+    public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {
-        if (!super.isItemValidForSlot(i, itemStack))
+        if (!super.canInsertItem(i, itemStack, i2))
         {
             return false;
         }
