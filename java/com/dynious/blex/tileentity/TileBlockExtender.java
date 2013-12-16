@@ -43,7 +43,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected IEnergyHandler energyHandler;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
     public boolean blocksChanged = true;
-    private float lightAmount = 0F;
+    protected float lightAmount = 0F;
+    protected int recheckTiles = 0;
 
     public TileBlockExtender()
     {
@@ -127,29 +128,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
             if (!hasConnection())
             {
-                if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender) tile).connectedDirection == this.connectedDirection.getOpposite()))
-                {
-                    if (tile instanceof IInventory)
-                    {
-                        setInventory((IInventory) tile);
-                    }
-                    if (tile instanceof IFluidHandler)
-                    {
-                        setFluidHandler((IFluidHandler) tile);
-                    }
-                    if (Loader.isModLoaded("BuildCraft|Energy") && tile instanceof IPowerReceptor)
-                    {
-                        setPowerReceptor((IPowerReceptor) tile);
-                    }
-                    if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
-                    {
-                        setEnergySink((IEnergySink) tile);
-                    }
-                    if (Loader.isModLoaded("CoFHCore") && tile instanceof IEnergyHandler)
-                    {
-                        setEnergyHandler((IEnergyHandler) tile);
-                    }
-                }
+                checkConnectedDirection(tile);
             }
             else if (tile == null)
             {
@@ -158,6 +137,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 setPowerReceptor(null);
                 setEnergySink(null);
                 setEnergyHandler(null);
+            }
+            recheckTiles++;
+            if (recheckTiles >= 20)
+            {
+                checkConnectedDirection(tile);
+                recheckTiles = 0;
             }
         }
         if (blocksChanged)
@@ -174,6 +159,33 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (lightAmount > 0F)
         {
             lightAmount = lightAmount - 0.01F;
+        }
+    }
+
+    protected void checkConnectedDirection(TileEntity tile)
+    {
+        if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender) tile).connectedDirection == this.connectedDirection.getOpposite()))
+        {
+            if (tile instanceof IInventory)
+            {
+                setInventory((IInventory) tile);
+            }
+            if (tile instanceof IFluidHandler)
+            {
+                setFluidHandler((IFluidHandler) tile);
+            }
+            if (Loader.isModLoaded("BuildCraft|Energy") && tile instanceof IPowerReceptor)
+            {
+                setPowerReceptor((IPowerReceptor) tile);
+            }
+            if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
+            {
+                setEnergySink((IEnergySink) tile);
+            }
+            if (Loader.isModLoaded("CoFHCore") && tile instanceof IEnergyHandler)
+            {
+                setEnergyHandler((IEnergyHandler) tile);
+            }
         }
     }
 

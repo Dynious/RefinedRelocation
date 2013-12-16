@@ -43,29 +43,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
             TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
             if (!hasConnection())
             {
-                if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender) tile).connectedDirection == this.connectedDirection.getOpposite()))
-                {
-                    if (tile instanceof IInventory)
-                    {
-                        setInventory((IInventory) tile);
-                    }
-                    if (tile instanceof IFluidHandler)
-                    {
-                        setFluidHandler((IFluidHandler) tile);
-                    }
-                    if (Loader.isModLoaded("BuildCraft|Energy") && tile instanceof IPowerReceptor)
-                    {
-                        setPowerReceptor((IPowerReceptor) tile);
-                    }
-                    if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
-                    {
-                        setEnergySink((IEnergySink) tile);
-                    }
-                    if (Loader.isModLoaded("CoFHCore") && tile instanceof IEnergyHandler)
-                    {
-                        setEnergyHandler((IEnergyHandler) tile);
-                    }
-                }
+                checkConnectedDirection(tile);
             }
             else if (tile == null)
             {
@@ -74,6 +52,12 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
                 setPowerReceptor(null);
                 setEnergySink(null);
                 setEnergyHandler(null);
+            }
+            recheckTiles++;
+            if (recheckTiles >= 20)
+            {
+                checkConnectedDirection(tile);
+                recheckTiles = 0;
             }
         }
         if (blocksChanged)
@@ -86,6 +70,10 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
                 }
             }
             blocksChanged = false;
+        }
+        if (lightAmount > 0F)
+        {
+            lightAmount = lightAmount - 0.01F;
         }
     }
 
