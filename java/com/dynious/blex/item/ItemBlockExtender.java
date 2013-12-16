@@ -14,6 +14,7 @@ public class ItemBlockExtender extends ItemBlock
     public ItemBlockExtender(int id)
     {
         super(id);
+        this.setHasSubtypes(true);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class ItemBlockExtender extends ItemBlock
         return par1;
     }
 
-    
+
 
     @Override
     public String getUnlocalizedName(ItemStack i)
