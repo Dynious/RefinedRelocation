@@ -3,7 +3,7 @@ BlockExtenders
 
 This is the official GitHub page for Block Extenders!
 
-[Minecraft Forums page](http://www.minecraftforum.net)
+[Minecraft Forums page](http://www.minecraftforum.net/topic/2210752-block-extenders/)
 
 ###Compiling (with ForgeGradle)
 1. Get a fresh install of ForgeGradle
