@@ -10,6 +10,7 @@ import cpw.mods.fml.common.Optional.Method;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -94,11 +95,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (this.energySink == null && energySink != null)
         {
             this.energySink = energySink;
-            MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+            if (!worldObj.isRemote)
+                MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
         }
         else
         {
-            if (energySink == null)
+            if (energySink == null && !worldObj.isRemote)
             {
                 MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             }
@@ -114,15 +116,34 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public void invalidate()
     {
-        if (this.energySink != null)
+        if (this.energySink != null && !worldObj.isRemote)
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
         super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        if (this.energySink != null && !worldObj.isRemote)
+            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        super.onChunkUnload();
     }
 
     @Override
     public void updateEntity()
     {
         super.updateEntity();
+        if (blocksChanged)
+        {
+            for (ForgeDirection direction : ForgeDirection.values())
+            {
+                if (direction != connectedDirection)
+                {
+                    tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
+                }
+            }
+            blocksChanged = false;
+        }
         if (connectedDirection != ForgeDirection.UNKNOWN)
         {
             TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
@@ -145,17 +166,6 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 recheckTiles = 0;
             }
         }
-        if (blocksChanged)
-        {
-            for (ForgeDirection direction : ForgeDirection.values())
-            {
-                if (direction != connectedDirection)
-                {
-                    tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
-                }
-            }
-            blocksChanged = false;
-        }
         if (lightAmount > 0F)
         {
             lightAmount = lightAmount - 0.01F;
@@ -166,25 +176,50 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender) tile).connectedDirection == this.connectedDirection.getOpposite()))
         {
+            boolean updated = false;
             if (tile instanceof IInventory)
             {
+                if (inventory == null)
+                {
+                    updated = true;
+                }
                 setInventory((IInventory) tile);
             }
             if (tile instanceof IFluidHandler)
             {
+                if (fluidHandler == null)
+                {
+                    updated = true;
+                }
                 setFluidHandler((IFluidHandler) tile);
             }
             if (Loader.isModLoaded("BuildCraft|Energy") && tile instanceof IPowerReceptor)
             {
+                if (powerReceptor == null)
+                {
+                    updated = true;
+                }
                 setPowerReceptor((IPowerReceptor) tile);
             }
             if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
             {
+                if (energySink == null)
+                {
+                    updated = true;
+                }
                 setEnergySink((IEnergySink) tile);
             }
             if (Loader.isModLoaded("CoFHCore") && tile instanceof IEnergyHandler)
             {
+                if (energyHandler == null)
+                {
+                    updated = true;
+                }
                 setEnergyHandler((IEnergyHandler) tile);
+            }
+            if (updated)
+            {
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
             }
         }
     }
@@ -231,7 +266,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(i);
+                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(connectedDirection.getOpposite().ordinal());
             }
             return accessibleSlots;
         }
@@ -245,7 +280,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                if (((ISidedInventory) inventory).canInsertItem(i, itemStack, i2))
+                if (((ISidedInventory) inventory).canInsertItem(i, itemStack, connectedDirection.getOpposite().ordinal()))
                 {
                     objectTransported();
                     return true;
@@ -265,7 +300,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                if (((ISidedInventory) inventory).canExtractItem(i, itemStack, i2))
+                if (((ISidedInventory) inventory).canExtractItem(i, itemStack, connectedDirection.getOpposite().ordinal()))
                 {
                     objectTransported();
                     return true;
@@ -400,7 +435,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            int amount = fluidHandler.fill(from, resource, doFill);
+            int amount = fluidHandler.fill(connectedDirection.getOpposite(), resource, doFill);
             if (amount > 0 && doFill)
             {
                 objectTransported();
@@ -415,7 +450,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            FluidStack amount = fluidHandler.drain(from, resource, doDrain);
+            FluidStack amount = fluidHandler.drain(connectedDirection.getOpposite(), resource, doDrain);
             if (amount.amount > 0 && doDrain)
             {
                 objectTransported();
@@ -430,7 +465,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            FluidStack amount = fluidHandler.drain(from, maxDrain, doDrain);
+            FluidStack amount = fluidHandler.drain(connectedDirection.getOpposite(), maxDrain, doDrain);
             if (amount.amount > 0 && doDrain)
             {
                 objectTransported();
@@ -445,7 +480,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.canFill(from, fluid);
+            return fluidHandler.canFill(connectedDirection.getOpposite(), fluid);
         }
         return false;
     }
@@ -455,7 +490,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.canDrain(from, fluid);
+            return fluidHandler.canDrain(connectedDirection.getOpposite(), fluid);
         }
         return false;
     }
@@ -465,7 +500,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.getTankInfo(from);
+            return fluidHandler.getTankInfo(connectedDirection.getOpposite());
         }
         return new FluidTankInfo[0];
     }
@@ -476,7 +511,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (powerReceptor != null)
         {
-            return powerReceptor.getPowerReceiver(forgeDirection);
+            return powerReceptor.getPowerReceiver(connectedDirection.getOpposite());
         }
         return null;
     }
@@ -520,7 +555,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energySink != null)
         {
-            double amount = energySink.injectEnergyUnits(forgeDirection, v);
+            double amount = energySink.injectEnergyUnits(connectedDirection.getOpposite(), v);
             if (amount > 0)
             {
                 objectTransported();
@@ -547,7 +582,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energySink != null)
         {
-            return energySink.acceptsEnergyFrom(tileEntity, forgeDirection);
+            return energySink.acceptsEnergyFrom(tileEntity, connectedDirection.getOpposite());
         }
         return false;
     }
@@ -558,7 +593,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            int amount = energyHandler.receiveEnergy(forgeDirection, i, b);
+            int amount = energyHandler.receiveEnergy(connectedDirection.getOpposite(), i, b);
             if (amount > 0 && b)
             {
                 objectTransported();
@@ -574,7 +609,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            int amount = energyHandler.extractEnergy(forgeDirection, i, b);
+            int amount = energyHandler.extractEnergy(connectedDirection.getOpposite(), i, b);
             if (amount > 0 && b)
             {
                 objectTransported();
@@ -590,7 +625,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            return energyHandler.canInterface(forgeDirection);
+            return energyHandler.canInterface(connectedDirection.getOpposite());
         }
         return false;
     }
@@ -601,7 +636,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            return energyHandler.getEnergyStored(forgeDirection);
+            return energyHandler.getEnergyStored(connectedDirection.getOpposite());
         }
         return 0;
     }
@@ -612,7 +647,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            return energyHandler.getMaxEnergyStored(forgeDirection);
+            return energyHandler.getMaxEnergyStored(connectedDirection.getOpposite());
         }
         return 0;
     }

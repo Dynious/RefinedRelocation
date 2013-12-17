@@ -12,7 +12,7 @@ public class TileFilteredBlockExtender extends TileBlockExtender
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {
-        if (!super.canInsertItem(i, itemStack, i2))
+        if (!super.canInsertItem(i, itemStack, connectedDirection.getOpposite().ordinal()))
         {
             return false;
         }
