@@ -16,21 +16,12 @@ import net.minecraftforge.fluids.FluidTankInfo;
 public class TileAdvancedBlockExtender extends TileBlockExtender
 {
     public boolean spreadItems = false;
-    private byte[] insertDirection;
+    private byte[] insertDirection = { 1, 1, 1, 1, 1, 1, 1};
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
     private int lastSide;
     private ItemStack lastStack;
     private byte maxStackSize = 64;
-
-    public TileAdvancedBlockExtender()
-    {
-        insertDirection = new byte[ForgeDirection.values().length];
-        for (byte i = 0; i < insertDirection.length; i++)
-        {
-            insertDirection[i] = i;
-        }
-    }
 
     public byte[] getInsertDirection()
     {
@@ -44,17 +35,29 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         insertDirection[from] = (byte) value;
     }
 
+    public void setConnectedSide(int connectedSide)
+    {
+        super.setConnectedSide(connectedSide);
+        if (connectedDirection != ForgeDirection.UNKNOWN)
+        {
+            for (int i = 0; i < ForgeDirection.values().length; i++)
+            {
+                insertDirection[i] = (byte)connectedDirection.getOpposite().ordinal();
+            }
+        }
+    }
+
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {
         if (spreadItems)
         {
-            if (lastSide != insertDirection[i2] || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack) || shouldUpdateBestSlot)
+            if (lastSide != getInputSide(ForgeDirection.getOrientation(i2)).ordinal() || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack) || shouldUpdateBestSlot)
             {
-                updateBestSlot(insertDirection[i2], itemStack);
+                updateBestSlot(getInputSide(ForgeDirection.getOrientation(i2)).ordinal(), itemStack);
                 shouldUpdateBestSlot = false;
             }
-            if (i != bestSlot || !super.canInsertItem(bestSlot, itemStack, insertDirection[i2]))
+            if (i != bestSlot || !super.canInsertItem(bestSlot, itemStack, getInputSide(ForgeDirection.getOrientation(i2)).ordinal()))
             {
                 return false;
             }
@@ -99,31 +102,11 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(insertDirection[i]);
+                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(getInputSide(ForgeDirection.getOrientation(i)).ordinal());
             }
             return accessibleSlots;
         }
         return new int[0];
-    }
-
-    @Override
-    public boolean canExtractItem(int i, ItemStack itemStack, int i2)
-    {
-        if (inventory != null)
-        {
-            if (inventory instanceof ISidedInventory)
-            {
-                if (((ISidedInventory) inventory).canExtractItem(i, itemStack, insertDirection[i2]))
-                {
-                    objectTransported();
-                    return true;
-                }
-                return false;
-            }
-            objectTransported();
-            return true;
-        }
-        return false;
     }
 
     public void setMaxStackSize(byte maxStackSize)
@@ -142,181 +125,9 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     }
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+    public ForgeDirection getInputSide(ForgeDirection side)
     {
-        if (fluidHandler != null)
-        {
-            int amount = fluidHandler.fill(ForgeDirection.getOrientation(insertDirection[from.ordinal()]), resource, doFill);
-            if (amount > 0 && doFill)
-            {
-                objectTransported();
-            }
-            return amount;
-        }
-        return 0;
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
-    {
-        if (fluidHandler != null)
-        {
-            FluidStack amount = fluidHandler.drain(ForgeDirection.getOrientation(insertDirection[from.ordinal()]), resource, doDrain);
-            if (amount.amount > 0 && doDrain)
-            {
-                objectTransported();
-            }
-            return amount;
-        }
-        return null;
-    }
-
-    @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
-    {
-        if (fluidHandler != null)
-        {
-            FluidStack amount = fluidHandler.drain(ForgeDirection.getOrientation(insertDirection[from.ordinal()]), maxDrain, doDrain);
-            if (amount.amount > 0 && doDrain)
-            {
-                objectTransported();
-            }
-            return amount;
-        }
-        return null;
-    }
-
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid)
-    {
-        if (fluidHandler != null)
-        {
-            return fluidHandler.canFill(ForgeDirection.getOrientation(insertDirection[from.ordinal()]), fluid);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid)
-    {
-        if (fluidHandler != null)
-        {
-            return fluidHandler.canDrain(ForgeDirection.getOrientation(insertDirection[from.ordinal()]), fluid);
-        }
-        return false;
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from)
-    {
-        if (fluidHandler != null)
-        {
-            return fluidHandler.getTankInfo(ForgeDirection.getOrientation(insertDirection[from.ordinal()]));
-        }
-        return new FluidTankInfo[0];
-    }
-
-    @Optional.Method(modid = "BuildCraft|Energy")
-    @Override
-    public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
-    {
-        if (powerReceptor != null)
-        {
-            return powerReceptor.getPowerReceiver(ForgeDirection.getOrientation(insertDirection[forgeDirection.ordinal()]));
-        }
-        return null;
-    }
-
-    @Optional.Method(modid = "IC2")
-    @Override
-    public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
-    {
-        if (energySink != null)
-        {
-            double amount = energySink.injectEnergyUnits(ForgeDirection.getOrientation(insertDirection[forgeDirection.ordinal()]), v);
-            if (amount > 0)
-            {
-                objectTransported();
-            }
-            return amount;
-        }
-        return 0;
-    }
-
-    @Optional.Method(modid = "IC2")
-    @Override
-    public boolean acceptsEnergyFrom(TileEntity tileEntity, ForgeDirection forgeDirection)
-    {
-        if (energySink != null)
-        {
-            return energySink.acceptsEnergyFrom(tileEntity, ForgeDirection.getOrientation(insertDirection[forgeDirection.ordinal()]));
-        }
-        return false;
-    }
-
-    @Optional.Method(modid = "CoFHCore")
-    @Override
-    public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
-    {
-        if (energyHandler != null)
-        {
-            int amount = energyHandler.receiveEnergy(ForgeDirection.getOrientation(insertDirection[forgeDirection.ordinal()]), i, b);
-            if (amount > 0 && b)
-            {
-                objectTransported();
-            }
-            return amount;
-        }
-        return 0;
-    }
-
-    @Optional.Method(modid = "CoFHCore")
-    @Override
-    public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
-    {
-        if (energyHandler != null)
-        {
-            int amount = energyHandler.extractEnergy(ForgeDirection.getOrientation(insertDirection[forgeDirection.ordinal()]), i, b);
-            if (amount > 0 && b)
-            {
-                objectTransported();
-            }
-            return amount;
-        }
-        return 0;
-    }
-
-    @Optional.Method(modid = "CoFHCore")
-    @Override
-    public boolean canInterface(ForgeDirection forgeDirection)
-    {
-        if (energyHandler != null)
-        {
-            return energyHandler.canInterface(ForgeDirection.getOrientation(insertDirection[forgeDirection.ordinal()]));
-        }
-        return false;
-    }
-
-    @Optional.Method(modid = "CoFHCore")
-    @Override
-    public int getEnergyStored(ForgeDirection forgeDirection)
-    {
-        if (energyHandler != null)
-        {
-            return energyHandler.getEnergyStored(ForgeDirection.getOrientation(insertDirection[forgeDirection.ordinal()]));
-        }
-        return 0;
-    }
-
-    @Optional.Method(modid = "CoFHCore")
-    @Override
-    public int getMaxEnergyStored(ForgeDirection forgeDirection)
-    {
-        if (energyHandler != null)
-        {
-            return energyHandler.getMaxEnergyStored(ForgeDirection.getOrientation(insertDirection[forgeDirection.ordinal()]));
-        }
-        return 0;
+        return ForgeDirection.getOrientation(insertDirection[side.ordinal()]);
     }
 
     @Override

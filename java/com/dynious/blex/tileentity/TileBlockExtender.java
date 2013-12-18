@@ -144,9 +144,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             }
             blocksChanged = false;
         }
-        if (connectedDirection != ForgeDirection.UNKNOWN)
+        if (canConnect())
         {
-            TileEntity tile = worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
+            TileEntity tile = getConnectedTile();
             if (!hasConnection())
             {
                 checkConnectedDirection(tile);
@@ -255,6 +255,21 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return lightAmount;
     }
 
+    public ForgeDirection getInputSide(ForgeDirection side)
+    {
+        return connectedDirection.getOpposite();
+    }
+
+    public boolean canConnect()
+    {
+        return connectedDirection != ForgeDirection.UNKNOWN;
+    }
+
+    public TileEntity getConnectedTile()
+    {
+        return worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
+    }
+
     /*
     Item/Fluid/Power interaction
      */
@@ -266,7 +281,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(connectedDirection.getOpposite().ordinal());
+                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(getInputSide(ForgeDirection.getOrientation(i)).ordinal());
             }
             return accessibleSlots;
         }
@@ -280,7 +295,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                if (((ISidedInventory) inventory).canInsertItem(i, itemStack, connectedDirection.getOpposite().ordinal()))
+                if (((ISidedInventory) inventory).canInsertItem(i, itemStack, getInputSide(ForgeDirection.getOrientation(i2)).ordinal()))
                 {
                     objectTransported();
                     return true;
@@ -300,7 +315,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             if (inventory instanceof ISidedInventory)
             {
-                if (((ISidedInventory) inventory).canExtractItem(i, itemStack, connectedDirection.getOpposite().ordinal()))
+                if (((ISidedInventory) inventory).canExtractItem(i, itemStack, getInputSide(ForgeDirection.getOrientation(i2)).ordinal()))
                 {
                     objectTransported();
                     return true;
@@ -435,7 +450,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            int amount = fluidHandler.fill(connectedDirection.getOpposite(), resource, doFill);
+            int amount = fluidHandler.fill(getInputSide(from), resource, doFill);
             if (amount > 0 && doFill)
             {
                 objectTransported();
@@ -450,7 +465,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            FluidStack amount = fluidHandler.drain(connectedDirection.getOpposite(), resource, doDrain);
+            FluidStack amount = fluidHandler.drain(getInputSide(from), resource, doDrain);
             if (amount.amount > 0 && doDrain)
             {
                 objectTransported();
@@ -465,7 +480,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            FluidStack amount = fluidHandler.drain(connectedDirection.getOpposite(), maxDrain, doDrain);
+            FluidStack amount = fluidHandler.drain(getInputSide(from), maxDrain, doDrain);
             if (amount.amount > 0 && doDrain)
             {
                 objectTransported();
@@ -480,7 +495,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.canFill(connectedDirection.getOpposite(), fluid);
+            return fluidHandler.canFill(getInputSide(from), fluid);
         }
         return false;
     }
@@ -490,7 +505,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.canDrain(connectedDirection.getOpposite(), fluid);
+            return fluidHandler.canDrain(getInputSide(from), fluid);
         }
         return false;
     }
@@ -500,7 +515,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (fluidHandler != null)
         {
-            return fluidHandler.getTankInfo(connectedDirection.getOpposite());
+            return fluidHandler.getTankInfo(getInputSide(from));
         }
         return new FluidTankInfo[0];
     }
@@ -511,7 +526,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (powerReceptor != null)
         {
-            return powerReceptor.getPowerReceiver(connectedDirection.getOpposite());
+            return powerReceptor.getPowerReceiver(getInputSide(forgeDirection));
         }
         return null;
     }
@@ -555,7 +570,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energySink != null)
         {
-            double amount = energySink.injectEnergyUnits(connectedDirection.getOpposite(), v);
+            double amount = energySink.injectEnergyUnits(getInputSide(forgeDirection), v);
             if (amount > 0)
             {
                 objectTransported();
@@ -582,7 +597,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energySink != null)
         {
-            return energySink.acceptsEnergyFrom(tileEntity, connectedDirection.getOpposite());
+            return energySink.acceptsEnergyFrom(tileEntity, getInputSide(forgeDirection));
         }
         return false;
     }
@@ -593,7 +608,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            int amount = energyHandler.receiveEnergy(connectedDirection.getOpposite(), i, b);
+            int amount = energyHandler.receiveEnergy(getInputSide(forgeDirection), i, b);
             if (amount > 0 && b)
             {
                 objectTransported();
@@ -609,7 +624,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            int amount = energyHandler.extractEnergy(connectedDirection.getOpposite(), i, b);
+            int amount = energyHandler.extractEnergy(getInputSide(forgeDirection), i, b);
             if (amount > 0 && b)
             {
                 objectTransported();
@@ -625,7 +640,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            return energyHandler.canInterface(connectedDirection.getOpposite());
+            return energyHandler.canInterface(getInputSide(forgeDirection));
         }
         return false;
     }
@@ -636,7 +651,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            return energyHandler.getEnergyStored(connectedDirection.getOpposite());
+            return energyHandler.getEnergyStored(getInputSide(forgeDirection));
         }
         return 0;
     }
@@ -647,7 +662,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (energyHandler != null)
         {
-            return energyHandler.getMaxEnergyStored(connectedDirection.getOpposite());
+            return energyHandler.getMaxEnergyStored(getInputSide(forgeDirection));
         }
         return 0;
     }

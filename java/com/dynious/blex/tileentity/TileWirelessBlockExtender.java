@@ -35,46 +35,15 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Override
-    public void updateEntity()
+    public boolean canConnect()
     {
-        super.updateEntity();
-        if (xConnected != Integer.MAX_VALUE)
-        {
-            TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
-            if (!hasConnection())
-            {
-                checkConnectedDirection(tile);
-            }
-            else if (tile == null)
-            {
-                setInventory(null);
-                setFluidHandler(null);
-                setPowerReceptor(null);
-                setEnergySink(null);
-                setEnergyHandler(null);
-            }
-            recheckTiles++;
-            if (recheckTiles >= 20)
-            {
-                checkConnectedDirection(tile);
-                recheckTiles = 0;
-            }
-        }
-        if (blocksChanged)
-        {
-            for (ForgeDirection direction : ForgeDirection.values())
-            {
-                if (direction != connectedDirection)
-                {
-                    tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
-                }
-            }
-            blocksChanged = false;
-        }
-        if (lightAmount > 0F)
-        {
-            lightAmount = lightAmount - 0.01F;
-        }
+        return xConnected != Integer.MAX_VALUE;
+    }
+
+    @Override
+    public TileEntity getConnectedTile()
+    {
+        return worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
     }
 
     @Override

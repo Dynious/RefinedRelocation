@@ -91,9 +91,9 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
 
         stackSize.drawTextBox();
 
-        for (int i = 0; i < blockExtender.getInsertDirection().length; i++)
+        for (int i = 0; i < blockExtender.getInsertDirections().length; i++)
         {
-            ForgeDirection direction = ForgeDirection.getOrientation(blockExtender.getInsertDirection()[i]);
+            ForgeDirection direction = ForgeDirection.getOrientation(blockExtender.getInsertDirections()[i]);
             if (i != blockExtender.getConnectedDirection().ordinal())
             {
                 String letter = Character.toString(direction.toString().charAt(0));
@@ -185,22 +185,22 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         {
             //Bottom
             if (x >= width / 2 - 105 + 34 && x <= width / 2 - 105 + 34 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
-                blockExtender.setInsertDirection(0, blockExtender.getInsertDirection()[0] + 1);
+                blockExtender.setInsertDirection(0, blockExtender.getInsertDirections()[0] + 1);
             //Top
             if (x >= width / 2 - 105 + 17 && x <= width / 2 - 105 + 17 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
-                blockExtender.setInsertDirection(1, blockExtender.getInsertDirection()[1] + 1);
+                blockExtender.setInsertDirection(1, blockExtender.getInsertDirections()[1] + 1);
             //North
             if (x >= width / 2 - 105 + 17 && x <= width / 2 - 105 + 17 + 14 && y >= height / 2 + 40 - 24 && y <= height / 2 + 40 - 24 + 14)
-                blockExtender.setInsertDirection(2, blockExtender.getInsertDirection()[2] + 1);
+                blockExtender.setInsertDirection(2, blockExtender.getInsertDirections()[2] + 1);
             //South
             if (x >= width / 2 - 105 + 17 && x <= width / 2 - 105 + 17 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
-                blockExtender.setInsertDirection(3, blockExtender.getInsertDirection()[3] + 1);
+                blockExtender.setInsertDirection(3, blockExtender.getInsertDirections()[3] + 1);
             //West
             if (x >= width / 2 - 105 && x <= width / 2 - 105 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
-                blockExtender.setInsertDirection(4, blockExtender.getInsertDirection()[4] + 1);
+                blockExtender.setInsertDirection(4, blockExtender.getInsertDirections()[4] + 1);
             //East
             if (x >= width / 2 - 105 + 34 && x <= width / 2 - 105 + 34 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
-                blockExtender.setInsertDirection(5, blockExtender.getInsertDirection()[5] + 1);
+                blockExtender.setInsertDirection(5, blockExtender.getInsertDirections()[5] + 1);
             if (x >= width / 2 - 30 && x <= width / 2 + 120)
             {
                 for (int i = 0; i < ITEMS_PER_SCREEN; i++)

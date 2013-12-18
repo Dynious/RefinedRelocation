@@ -13,16 +13,13 @@ public class GuiWirelessBlockExtender extends GuiAdvancedFilteredBlockExtender
     }
 
     @Override
-    public void initGui()
-    {
-        super.initGui();
-    }
-
-    @Override
     public void drawScreen(int h, int j, float f)
     {
         super.drawScreen(h, j, f);
-        String string = "Linked with TileEntity at: " + blockExtender.xConnected + ":" + blockExtender.yConnected + ":" + blockExtender.zConnected;
-        fontRenderer.drawString(string, width / 2 - (fontRenderer.getStringWidth(string) / 2), height / 2 - 90, 0xFFFFFF);
+        if (blockExtender.xConnected != Integer.MAX_VALUE)
+        {
+            String string = "Linked with TileEntity at: " + blockExtender.xConnected + ":" + blockExtender.yConnected + ":" + blockExtender.zConnected;
+            fontRenderer.drawString(string, width / 2 - (fontRenderer.getStringWidth(string) / 2), height / 2 - 90, 0xFFFFFF);
+        }
     }
 }
