@@ -4,6 +4,8 @@ import buildcraft.api.power.PowerHandler;
 import com.dynious.blex.config.Filter;
 import com.dynious.blex.helper.ItemStackHelper;
 import cpw.mods.fml.common.Optional;
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.ILuaContext;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +14,7 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
 {
@@ -120,6 +123,82 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     public ForgeDirection getInputSide(ForgeDirection side)
     {
         return ForgeDirection.getOrientation(insertDirection[side.ordinal()]);
+    }
+
+    /*
+    ComputerCraft interaction
+    */
+
+    @Optional.Method(modid = "ComputerCraft")
+    @Override
+    public String getType()
+    {
+        return "advanced_filtered_block_extender";
+    }
+
+    @Optional.Method(modid = "ComputerCraft")
+    @Override
+    public String[] getMethodNames()
+    {
+        return ArrayUtils.addAll(super.getMethodNames(), "getMaxStackSize", "setMaxStackSize", "getSpread", "setSpread", "isFilterEnabled", "setFilterEnabled");
+    }
+
+    @Optional.Method(modid = "ComputerCraft")
+    @Override
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
+    {
+        Object[] superArr = super.callMethod(computer, context, method, arguments);
+        if (superArr != null)
+        {
+            return superArr;
+        }
+        switch (method)
+        {
+            case 2:
+                return new Integer[]{(int)maxStackSize};
+            case 3:
+                if (arguments.length > 0 && arguments[0] instanceof Double)
+                {
+                    double arg = (Double)arguments[0];
+                    if (arg >= 0 && arg <= Byte.MAX_VALUE)
+                    {
+                        setMaxStackSize((byte)arg);
+                        return new Boolean[]{true};
+                    }
+                }
+                return new Boolean[]{false};
+            case 4:
+                return new Boolean[]{spreadItems};
+            case 5:
+                if (arguments.length > 0 && arguments[0] instanceof Boolean)
+                {
+                    spreadItems = (Boolean)arguments[0];
+                    return new Boolean[]{true};
+                }
+                return new Boolean[]{false};
+            case 6:
+                if (arguments.length > 0 && arguments[0] instanceof Double)
+                {
+                    double arg = (Double)arguments[0];
+                    if (arg >= 0 && arg < filter.getSize())
+                    {
+                        return new Boolean[]{filter.getValue((int)arg)};
+                    }
+                    return null;
+                }
+            case 7:
+                if (arguments.length > 1 && arguments[0] instanceof Double && arguments[1] instanceof Boolean)
+                {
+                    double arg = (Double)arguments[0];
+                    if (arg >= 0 && arg < filter.getSize())
+                    {
+                        filter.setValue((int)arg, (Boolean)arguments[1]);
+                        return new Boolean[]{true};
+                    }
+                }
+                return new Boolean[]{false};
+        }
+        return null;
     }
 
     @Override

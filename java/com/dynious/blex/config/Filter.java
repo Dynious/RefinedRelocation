@@ -8,21 +8,13 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class Filter
 {
-    public static final int STATIC_SIZE = 9;
-    public boolean ingots = false;
-    public boolean ores = false;
-    public boolean wood = false;
-    public boolean planks = false;
-    public boolean dusts = false;
-    public boolean crushedOres = false;
-    public boolean purifiedCrushedOres = false;
-    public boolean plates = false;
-    public boolean gems = false;
+    public static final int FILTER_SIZE = 9;
+    public boolean[] customFilters = new boolean[FILTER_SIZE];
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
 
     public int getSize()
     {
-        return creativeTabs.length - 2 + STATIC_SIZE;
+        return creativeTabs.length - 2 + FILTER_SIZE;
     }
 
     public boolean passesFilter(ItemStack itemStack)
@@ -31,23 +23,23 @@ public class Filter
         {
             String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
 
-            if (ingots && oreName.toLowerCase().contains("ingot"))
+            if (customFilters[0] && oreName.toLowerCase().contains("ingot"))
                 return true;
-            if (ores && oreName.toLowerCase().contains("ore"))
+            if (customFilters[1] && oreName.toLowerCase().contains("ore"))
                 return true;
-            if (wood && oreName.toLowerCase().contains("wood"))
+            if (customFilters[2] && oreName.toLowerCase().contains("wood"))
                 return true;
-            if (planks && oreName.toLowerCase().contains("plank"))
+            if (customFilters[3] && oreName.toLowerCase().contains("plank"))
                 return true;
-            if (dusts && oreName.toLowerCase().contains("dust"))
+            if (customFilters[4] && oreName.toLowerCase().contains("dust"))
                 return true;
-            if (crushedOres && oreName.toLowerCase().contains("crushed") && !oreName.toLowerCase().contains("purified"))
+            if (customFilters[5] && oreName.toLowerCase().contains("crushed") && !oreName.toLowerCase().contains("purified"))
                 return true;
-            if (purifiedCrushedOres && !oreName.toLowerCase().contains("purified"))
+            if (customFilters[6] && !oreName.toLowerCase().contains("purified"))
                 return true;
-            if (plates && !oreName.toLowerCase().contains("plate"))
+            if (customFilters[7] && !oreName.toLowerCase().contains("plate"))
                 return true;
-            if (gems && !oreName.toLowerCase().contains("gem"))
+            if (customFilters[8] && !oreName.toLowerCase().contains("gem"))
                 return true;
 
             if (itemStack.getItem() != null && itemStack.getItem().getCreativeTab() != null)
@@ -67,65 +59,25 @@ public class Filter
 
     public void setValue(int place, boolean value)
     {
-        switch (place)
+        if (place < customFilters.length)
         {
-            case 0:
-                ingots = value;
-                break;
-            case 1:
-                ores = value;
-                break;
-            case 2:
-                wood = value;
-                break;
-            case 3:
-                planks = value;
-                break;
-            case 4:
-                dusts = value;
-                break;
-            case 5:
-                crushedOres = value;
-                break;
-            case 6:
-                purifiedCrushedOres = value;
-                break;
-            case 7:
-                plates = value;
-                break;
-            case 8:
-                gems = value;
-                break;
-            default:
-                creativeTabs[getCreativeTab(place)] = value;
-                break;
+            customFilters[place] = value;
+        }
+        else
+        {
+            creativeTabs[getCreativeTab(place)] = value;
         }
     }
 
     public boolean getValue(int place)
     {
-        switch (place)
+        if (place < customFilters.length)
         {
-            case 0:
-                return ingots;
-            case 1:
-                return ores;
-            case 2:
-                return wood;
-            case 3:
-                return planks;
-            case 4:
-                return dusts;
-            case 5:
-                return crushedOres;
-            case 6:
-                return purifiedCrushedOres;
-            case 7:
-                return plates;
-            case 8:
-                return gems;
-            default:
-                return creativeTabs[getCreativeTab(place)];
+            return customFilters[place];
+        }
+        else
+        {
+            return creativeTabs[getCreativeTab(place)];
         }
     }
 
@@ -158,7 +110,7 @@ public class Filter
 
     public int getCreativeTab(int place)
     {
-        int index = place - STATIC_SIZE;
+        int index = place - FILTER_SIZE;
         if (index >= 5)
             index++;
         if (index >= 11)
@@ -168,15 +120,10 @@ public class Filter
 
     public void writeToNBT(NBTTagCompound compound)
     {
-        compound.setBoolean("ingots", ingots);
-        compound.setBoolean("ores", ores);
-        compound.setBoolean("wood", wood);
-        compound.setBoolean("planks", planks);
-        compound.setBoolean("dusts", dusts);
-        compound.setBoolean("crushedOres", crushedOres);
-        compound.setBoolean("purifiedCrushedOres", purifiedCrushedOres);
-        compound.setBoolean("plates", plates);
-        compound.setBoolean("gems", gems);
+        for (int i = 0; i < customFilters.length; i++)
+        {
+            compound.setBoolean("cumstomFilters" + i, customFilters[i]);
+        }
         for (int i = 0; i < creativeTabs.length; i++)
         {
             compound.setBoolean("creativeTabs" + i, creativeTabs[i]);
@@ -185,15 +132,10 @@ public class Filter
 
     public void readFromNBT(NBTTagCompound compound)
     {
-        ingots = compound.getBoolean("ingots");
-        ores = compound.getBoolean("ores");
-        wood = compound.getBoolean("wood");
-        planks = compound.getBoolean("planks");
-        dusts = compound.getBoolean("dusts");
-        crushedOres = compound.getBoolean("crushedOres");
-        purifiedCrushedOres = compound.getBoolean("purifiedCrushedOres");
-        plates = compound.getBoolean("plates");
-        gems = compound.getBoolean("gems");
+        for (int i = 0; i < customFilters.length; i++)
+        {
+            customFilters[i] = compound.getBoolean("cumstomFilters" + i);
+        }
         for (int i = 0; i < creativeTabs.length; i++)
         {
             creativeTabs[i] = compound.getBoolean("creativeTabs" + i);

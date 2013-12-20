@@ -7,10 +7,12 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional.Interface;
 import cpw.mods.fml.common.Optional.InterfaceList;
 import cpw.mods.fml.common.Optional.Method;
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.ILuaContext;
+import dan200.computer.api.IPeripheral;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -28,14 +30,19 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 @InterfaceList(value = {
         @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
         @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")})
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler
+        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
+        @Interface(iface = "dan200.computer.api.IPeripheral;", modid = "ComputerCraft")})
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral
 
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
+    protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
     protected IInventory inventory;
     protected int[] accessibleSlots;
     protected IFluidHandler fluidHandler;
@@ -96,7 +103,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             this.energySink = energySink;
             if (!worldObj.isRemote)
+            {
                 MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+            }
         }
         else
         {
@@ -117,7 +126,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void invalidate()
     {
         if (this.energySink != null && !worldObj.isRemote)
+        {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        }
         super.invalidate();
     }
 
@@ -125,7 +136,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void onChunkUnload()
     {
         if (this.energySink != null && !worldObj.isRemote)
+        {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        }
         super.onChunkUnload();
     }
 
@@ -147,17 +160,20 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (canConnect())
         {
             TileEntity tile = getConnectedTile();
+            if (connectedDirection != previousConnectedDirection)
+            {
+                resetConnections();
+                checkConnectedDirection(tile);
+                previousConnectedDirection = connectedDirection;
+                worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+            }
             if (!hasConnection())
             {
                 checkConnectedDirection(tile);
             }
             else if (tile == null)
             {
-                setInventory(null);
-                setFluidHandler(null);
-                setPowerReceptor(null);
-                setEnergySink(null);
-                setEnergyHandler(null);
+                resetConnections();
             }
             recheckTiles++;
             if (recheckTiles >= 20)
@@ -224,6 +240,15 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
     }
 
+    protected void resetConnections()
+    {
+        setInventory(null);
+        setFluidHandler(null);
+        setPowerReceptor(null);
+        setEnergySink(null);
+        setEnergyHandler(null);
+    }
+
     protected boolean hasConnection()
     {
         if (inventory != null || fluidHandler != null)
@@ -268,6 +293,69 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public TileEntity getConnectedTile()
     {
         return worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
+    }
+
+    /*
+    ComputerCraft interaction
+     */
+    HashSet<IComputerAccess> computers = new HashSet<IComputerAccess>();
+
+    @Method(modid = "ComputerCraft")
+    @Override
+    public String getType()
+    {
+        return "block_extender";
+    }
+
+    @Method(modid = "ComputerCraft")
+    @Override
+    public String[] getMethodNames()
+    {
+        return new String[]{"getConnectedDirection", "setConnectedDirection"};
+    }
+
+    @Method(modid = "ComputerCraft")
+    @Override
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
+    {
+        switch(method)
+        {
+            case 0:
+                return new String[]{ connectedDirection.toString()};
+            case 1:
+                if (arguments.length > 0 && arguments[0] instanceof String)
+                {
+                    ForgeDirection direction = ForgeDirection.valueOf(((String)arguments[0]).toUpperCase());
+                    if (direction != null && direction != ForgeDirection.UNKNOWN)
+                    {
+                        setConnectedSide(direction.ordinal());
+                        return new Boolean[]{true};
+                    }
+                }
+                return new Boolean[]{false};
+        }
+        return null;
+    }
+
+    @Method(modid = "ComputerCraft")
+    @Override
+    public boolean canAttachToSide(int side)
+    {
+        return true;
+    }
+
+    @Method(modid = "ComputerCraft")
+    @Override
+    public void attach(IComputerAccess computer)
+    {
+        computers.add(computer);
+    }
+
+    @Method(modid = "ComputerCraft")
+    @Override
+    public void detach(IComputerAccess computer)
+    {
+        computers.remove(computer);
     }
 
     /*

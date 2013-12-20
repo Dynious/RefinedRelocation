@@ -3,12 +3,16 @@ package com.dynious.blex.tileentity;
 import buildcraft.api.power.IPowerReceptor;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
+import dan200.computer.api.IComputerAccess;
+import dan200.computer.api.ILuaContext;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.IFluidHandler;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 {
@@ -44,6 +48,57 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     public TileEntity getConnectedTile()
     {
         return worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+    }
+
+    /*
+    ComputerCraft interaction
+    */
+
+    @Optional.Method(modid = "ComputerCraft")
+    @Override
+    public String getType()
+    {
+        return "wireless_block_extender";
+    }
+
+    @Optional.Method(modid = "ComputerCraft")
+    @Override
+    public String[] getMethodNames()
+    {
+        return ArrayUtils.addAll(super.getMethodNames(), "getConnectedPosition", "setConnectedPosition");
+    }
+
+    @Optional.Method(modid = "ComputerCraft")
+    @Override
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
+    {
+        switch (method)
+        {
+            case 0:
+                return null;
+            case 1:
+                return new Boolean[]{false};
+            case 8:
+                if (xConnected == Integer.MAX_VALUE)
+                {
+                    return null;
+                }
+                return new Integer[]{xConnected, yConnected, zConnected};
+            case 9:
+                if (arguments.length > 0 && arguments[0] instanceof Double && arguments[1] instanceof Double && arguments[2] instanceof Double)
+                {
+                    double x = (Double)arguments[0];
+                    double y = (Double)arguments[1];
+                    double z = (Double)arguments[2];
+                    setConnection((int)x, (int)y, (int)z);
+                }
+        }
+        Object[] superArr = super.callMethod(computer, context, method, arguments);
+        if (superArr != null)
+        {
+            return superArr;
+        }
+        return null;
     }
 
     @Override
