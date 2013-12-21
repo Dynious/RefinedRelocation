@@ -11,6 +11,7 @@ public class Filter
     public static final int FILTER_SIZE = 9;
     public boolean[] customFilters = new boolean[FILTER_SIZE];
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
+    public String userFilter = "";
 
     public int getSize()
     {
@@ -21,25 +22,59 @@ public class Filter
     {
         if (itemStack != null)
         {
-            String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
+            String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
+            String filter = userFilter.toLowerCase().replaceAll("\\s+","");
+            for (String s : filter.split(","))
+            {
+                String filterName = "";
+                if (s.contains("!"))
+                {
+                    filterName = oreName;
+                    s = s.replace("!", "");
+                }
+                else
+                {
+                    filterName = itemStack.getDisplayName().toLowerCase();
+                }
+                if (s.startsWith("*") && s.length() > 1)
+                {
+                    if (s.endsWith("*") && s.length() > 2)
+                    {
+                        if (filterName.contains(s.substring(1, s.length()-1)))
+                            return true;
+                    }
+                    else if (filterName.endsWith(s.substring(1)))
+                        return true;
+                }
+                else if (s.endsWith("*") && s.length() > 1)
+                {
+                    if (filterName.startsWith(s.substring(0, s.length()-1)))
+                        return true;
+                }
+                else
+                {
+                    if (filterName.equalsIgnoreCase(s))
+                        return true;
+                }
+            }
 
-            if (customFilters[0] && oreName.toLowerCase().contains("ingot"))
+            if (customFilters[0] && oreName.contains("ingot"))
                 return true;
-            if (customFilters[1] && oreName.toLowerCase().contains("ore"))
+            if (customFilters[1] && oreName.contains("ore"))
                 return true;
-            if (customFilters[2] && oreName.toLowerCase().contains("wood"))
+            if (customFilters[2] && oreName.contains("wood"))
                 return true;
-            if (customFilters[3] && oreName.toLowerCase().contains("plank"))
+            if (customFilters[3] && oreName.contains("plank"))
                 return true;
-            if (customFilters[4] && oreName.toLowerCase().contains("dust"))
+            if (customFilters[4] && oreName.contains("dust"))
                 return true;
-            if (customFilters[5] && oreName.toLowerCase().contains("crushed") && !oreName.toLowerCase().contains("purified"))
+            if (customFilters[5] && oreName.contains("crushed") && !oreName.toLowerCase().contains("purified"))
                 return true;
-            if (customFilters[6] && !oreName.toLowerCase().contains("purified"))
+            if (customFilters[6] && !oreName.contains("purified"))
                 return true;
-            if (customFilters[7] && !oreName.toLowerCase().contains("plate"))
+            if (customFilters[7] && !oreName.contains("plate"))
                 return true;
-            if (customFilters[8] && !oreName.toLowerCase().contains("gem"))
+            if (customFilters[8] && !oreName.contains("gem"))
                 return true;
 
             if (itemStack.getItem() != null && itemStack.getItem().getCreativeTab() != null)
@@ -120,6 +155,7 @@ public class Filter
 
     public void writeToNBT(NBTTagCompound compound)
     {
+        compound.setString("userFilter", userFilter);
         for (int i = 0; i < customFilters.length; i++)
         {
             compound.setBoolean("cumstomFilters" + i, customFilters[i]);
@@ -132,6 +168,7 @@ public class Filter
 
     public void readFromNBT(NBTTagCompound compound)
     {
+        userFilter = compound.getString("userFilter");
         for (int i = 0; i < customFilters.length; i++)
         {
             customFilters[i] = compound.getBoolean("cumstomFilters" + i);

@@ -150,7 +150,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     @Override
     public String[] getMethodNames()
     {
-        return ArrayUtils.addAll(super.getMethodNames(), "getMaxStackSize", "setMaxStackSize", "getSpread", "setSpread");
+        return ArrayUtils.addAll(super.getMethodNames(), "getMaxStackSize", "setMaxStackSize", "getSpread", "setSpread", "getInputSide", "setInputSide");
     }
 
     @Optional.Method(modid = "ComputerCraft")
@@ -184,6 +184,26 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
                 {
                     spreadItems = (Boolean)arguments[0];
                     return new Boolean[]{true};
+                }
+                return new Boolean[]{false};
+            case 6:
+                if (arguments.length > 0 && arguments[0] instanceof Double)
+                {
+                    double arg = (Double)arguments[0];
+                    if (arg >= 0 && arg < ForgeDirection.values().length)
+                        return new Integer[]{(int)insertDirection[(byte)arg]};
+                }
+                return new Boolean[]{false};
+            case 7:
+                if (arguments.length > 1 && arguments[0] instanceof Double && arguments[1] instanceof Double)
+                {
+                    double side = (Double)arguments[0];
+                    double value = (Double)arguments[1];
+                    if (side >= 0 && side < ForgeDirection.values().length && value >= 0 && value < ForgeDirection.values().length)
+                    {
+                        insertDirection[(byte)side] = (byte)value;
+                        return new Boolean[]{true};
+                    }
                 }
                 return new Boolean[]{false};
         }

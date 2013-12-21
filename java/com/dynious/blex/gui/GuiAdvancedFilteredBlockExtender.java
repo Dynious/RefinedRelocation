@@ -19,6 +19,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     private static final int ITEMS_PER_SCREEN = 10;
     private static final int ITEM_SIZE = 14;
     private GuiTextField stackSize;
+    private GuiTextField userFilter;
 
     public GuiAdvancedFilteredBlockExtender(TileAdvancedFilteredBlockExtender blockExtender)
     {
@@ -37,8 +38,9 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         this.buttonList.add(spreadItems = new GuiButton(0, width / 2 - 120, height / 2 - 35, 80, 20, blockExtender.spreadItems ? "Spread on" : "Spread off"));
         stackSize = new GuiTextField(fontRenderer, width / 2 - 90, height / 2 - 5, 20, 15);
         stackSize.setMaxStringLength(2);
-        stackSize.setFocused(true);
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
+        userFilter = new GuiTextField(fontRenderer, width/2 - 88, height / 2 + 80, 176, 15);
+        userFilter.setText(blockExtender.filter.userFilter);
     }
 
     /**
@@ -90,6 +92,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         super.drawScreen(h, j, f);
 
         stackSize.drawTextBox();
+        userFilter.drawTextBox();
 
         for (int i = 0; i < blockExtender.getInsertDirections().length; i++)
         {
@@ -145,6 +148,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             return;
         }
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
+        userFilter.setText(blockExtender.filter.userFilter);
     }
 
     @Override
@@ -161,6 +165,8 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             }
             blockExtender.setMaxStackSize(Byte.parseByte(stackSize.getText()));
         }
+        userFilter.textboxKeyTyped(c, i);
+        blockExtender.filter.userFilter = userFilter.getText();
     }
 
     @Override
@@ -212,6 +218,8 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
                 }
             }
         }
+        userFilter.mouseClicked(x, y, type);
+        stackSize.mouseClicked(x, y, type);
     }
 
     private void drawContainerBackground()

@@ -4,6 +4,7 @@ import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileFilteredBlockExtender;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -11,6 +12,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
 {
     private TileFilteredBlockExtender blockExtender;
     private GuiButton blacklist;
+    private GuiTextField userFilter;
     private int index = 0;
     private int size;
     private static final int ITEMS_PER_SCREEN = 10;
@@ -30,6 +32,8 @@ public class GuiFilteredBlockExtender extends GuiScreen
         super.initGui();
         this.buttonList.clear();
         this.buttonList.add(blacklist = new GuiButton(0, width / 2 - 40, height / 2 - 100, 80, 20, blockExtender.blacklist ? "Blacklist" : "Whitelist"));
+        userFilter = new GuiTextField(fontRenderer, width/2 - 88, height / 2 + 80, 176, 15);
+        userFilter.setText(blockExtender.filter.userFilter);
     }
 
     /**
@@ -41,6 +45,8 @@ public class GuiFilteredBlockExtender extends GuiScreen
         drawDefaultBackground();
         drawContainerBackground();
         super.drawScreen(h, j, f);
+
+        userFilter.drawTextBox();
 
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
@@ -92,7 +98,17 @@ public class GuiFilteredBlockExtender extends GuiScreen
     {
         super.updateScreen();
         blacklist.displayString = blockExtender.blacklist ? "Blacklist" : "Whitelist";
+        userFilter.setText(blockExtender.filter.userFilter);
     }
+
+    @Override
+    public void keyTyped(char c, int i)
+    {
+        super.keyTyped(c, i);
+        userFilter.textboxKeyTyped(c, i);
+        blockExtender.filter.userFilter = userFilter.getText();
+    }
+
 
     @Override
     protected void actionPerformed(GuiButton guibutton)
@@ -122,6 +138,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
                 }
             }
         }
+        userFilter.mouseClicked(x, y, type);
     }
 
     private void drawContainerBackground()
