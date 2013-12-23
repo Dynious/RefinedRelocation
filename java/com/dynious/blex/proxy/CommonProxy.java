@@ -11,7 +11,8 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileBlockExtender.class, Names.blockExtender);
         GameRegistry.registerTileEntity(TileAdvancedBlockExtender.class, Names.advancedBlockExtender);
         GameRegistry.registerTileEntity(TileFilteredBlockExtender.class, Names.filteredBlockExtender);
-        GameRegistry.registerTileEntity(TileAdvancedFilteredBlockExtender.class, Names.filteredAdvancedBlockExtender);
+        GameRegistry.registerTileEntity(TileAdvancedFilteredBlockExtender.class, Names.advancedfilteredBlockExtender);
         GameRegistry.registerTileEntity(TileWirelessBlockExtender.class, Names.wirelessBlockExtender);
+        GameRegistry.registerTileEntity(TileBuffer.class, Names.buffer);
     }
 }

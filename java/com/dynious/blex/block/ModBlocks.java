@@ -12,12 +12,15 @@ import net.minecraft.item.ItemStack;
 public class ModBlocks
 {
     public static BlockExtender blockExtender;
+    public static BlockBuffer filter;
 
     public static void init()
     {
         blockExtender = new BlockExtender(BlockIds.BLOCK_EXTENDER);
+        filter = new BlockBuffer(BlockIds.BUFFER);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
+        GameRegistry.registerBlock(filter, Names.buffer);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));

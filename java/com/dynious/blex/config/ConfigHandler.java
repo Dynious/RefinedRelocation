@@ -19,6 +19,8 @@ public class ConfigHandler
         try
         {
             BlockIds.BLOCK_EXTENDER = configuration.getBlock(Names.blockExtender, BlockIds.BLOCK_EXTENDER_DEFAULT).getInt(BlockIds.BLOCK_EXTENDER_DEFAULT);
+            BlockIds.BUFFER = configuration.getBlock(Names.buffer, BlockIds.BUFFER_DEFAULT).getInt(BlockIds.BUFFER_DEFAULT);
+
 
             ItemIds.LINKER = configuration.getItem(Names.linker, ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);
 

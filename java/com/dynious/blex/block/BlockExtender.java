@@ -91,10 +91,6 @@ public class BlockExtender extends BlockContainer
                 {
                     FMLCommonHandler.instance().showGuiScreen(new GuiFilteredBlockExtender((TileFilteredBlockExtender) tile));
                 }
-                else if (tile instanceof TileAdvancedBlockExtender)
-                {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender) tile));
-                }
                 else if (tile instanceof TileWirelessBlockExtender)
                 {
                     if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
