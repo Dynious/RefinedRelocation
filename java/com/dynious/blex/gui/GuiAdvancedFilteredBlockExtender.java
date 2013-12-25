@@ -14,6 +14,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     private TileAdvancedFilteredBlockExtender blockExtender;
     private GuiButton spreadItems;
     private GuiButton blacklist;
+    private GuiButton restrictExtraction;
     private int index = 0;
     private int size;
     private static final int ITEMS_PER_SCREEN = 10;
@@ -30,13 +31,15 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void initGui()
     {
         super.initGui();
         this.buttonList.clear();
         this.buttonList.add(blacklist = new GuiButton(1, width / 2 - 120, height / 2 - 65, 80, 20, blockExtender.blacklist ? "Blacklist" : "Whitelist"));
-        this.buttonList.add(spreadItems = new GuiButton(0, width / 2 - 120, height / 2 - 35, 80, 20, blockExtender.spreadItems ? "Spread on" : "Spread off"));
-        stackSize = new GuiTextField(fontRenderer, width / 2 - 90, height / 2 - 5, 20, 15);
+        this.buttonList.add(spreadItems = new GuiButton(0, width / 2 - 120, height / 2 - 40, 80, 20, blockExtender.spreadItems ? "Spread on" : "Spread off"));
+        this.buttonList.add(restrictExtraction = new GuiButton(2, width / 2 - 120, height / 2 - 15, 80, 20, blockExtender.restrictExtraction ? "Filter Extract" : "Free Extract"));
+        stackSize = new GuiTextField(fontRenderer, width / 2 - 120, height / 2 + 33, 20, 15);
         stackSize.setMaxStringLength(2);
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
         userFilter = new GuiTextField(fontRenderer, width/2 - 88, height / 2 + 80, 176, 15);
@@ -104,27 +107,27 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
                 {
                     //Bottom
                     case 0:
-                        fontRenderer.drawString(letter, width / 2 - 105 + 34 + 4, height / 2 + 40 + 10 + 4, 0);
+                        fontRenderer.drawString(letter, width / 2 - 85 + 34 + 4, height / 2 + 40 + 10 + 4, 0);
                         break;
                     //Top
                     case 1:
-                        fontRenderer.drawString(letter, width / 2 - 105 + 17 + 4, height / 2 + 40 - 7 + 4, 0);
+                        fontRenderer.drawString(letter, width / 2 - 85 + 17 + 4, height / 2 + 40 - 7 + 4, 0);
                         break;
                     //North
                     case 2:
-                        fontRenderer.drawString(letter, width / 2 - 105 + 17 + 4, height / 2 + 40 - 24 + 4, 0);
+                        fontRenderer.drawString(letter, width / 2 - 85 + 17 + 4, height / 2 + 40 - 24 + 4, 0);
                         break;
                     //South
                     case 3:
-                        fontRenderer.drawString(letter, width / 2 - 105 + 17 + 4, height / 2 + 40 + 10 + 4, 0);
+                        fontRenderer.drawString(letter, width / 2 - 85 + 17 + 4, height / 2 + 40 + 10 + 4, 0);
                         break;
                     //West
                     case 4:
-                        fontRenderer.drawString(letter, width / 2 - 105 + 4, height / 2 + 40 - 7 + 4, 0);
+                        fontRenderer.drawString(letter, width / 2 - 85 + 4, height / 2 + 40 - 7 + 4, 0);
                         break;
                     //East
                     case 5:
-                        fontRenderer.drawString(letter, width / 2 - 105 + 34 + 4, height / 2 + 40 - 7 + 4, 0);
+                        fontRenderer.drawString(letter, width / 2 - 85 + 34 + 4, height / 2 + 40 - 7 + 4, 0);
                         break;
                 }
             }
@@ -142,6 +145,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         super.updateScreen();
         spreadItems.displayString = blockExtender.spreadItems ? "Spread on" : "Spread off";
         blacklist.displayString = blockExtender.blacklist ? "Blacklist" : "Whitelist";
+        restrictExtraction.displayString = blockExtender.restrictExtraction ? "Filter Extract" : "Free Extract";
         if (blockExtender.getInventoryStackLimit() == 0)
         {
             stackSize.setText("");
@@ -180,6 +184,9 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             case 1:
                 blockExtender.blacklist = !blockExtender.blacklist;
                 break;
+            case 2:
+                blockExtender.restrictExtraction = !blockExtender.restrictExtraction;
+                break;
         }
     }
 
@@ -190,22 +197,22 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         if (type == 0)
         {
             //Bottom
-            if (x >= width / 2 - 105 + 34 && x <= width / 2 - 105 + 34 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
+            if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
                 blockExtender.setInsertDirection(0, blockExtender.getInsertDirections()[0] + 1);
             //Top
-            if (x >= width / 2 - 105 + 17 && x <= width / 2 - 105 + 17 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
                 blockExtender.setInsertDirection(1, blockExtender.getInsertDirections()[1] + 1);
             //North
-            if (x >= width / 2 - 105 + 17 && x <= width / 2 - 105 + 17 + 14 && y >= height / 2 + 40 - 24 && y <= height / 2 + 40 - 24 + 14)
+            if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 24 && y <= height / 2 + 40 - 24 + 14)
                 blockExtender.setInsertDirection(2, blockExtender.getInsertDirections()[2] + 1);
             //South
-            if (x >= width / 2 - 105 + 17 && x <= width / 2 - 105 + 17 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
+            if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
                 blockExtender.setInsertDirection(3, blockExtender.getInsertDirections()[3] + 1);
             //West
-            if (x >= width / 2 - 105 && x <= width / 2 - 105 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            if (x >= width / 2 - 85 && x <= width / 2 - 85 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
                 blockExtender.setInsertDirection(4, blockExtender.getInsertDirections()[4] + 1);
             //East
-            if (x >= width / 2 - 105 + 34 && x <= width / 2 - 105 + 34 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
                 blockExtender.setInsertDirection(5, blockExtender.getInsertDirections()[5] + 1);
             if (x >= width / 2 - 30 && x <= width / 2 + 120)
             {
@@ -245,44 +252,44 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
                 //Bottom
                 case 0:
                     if (connection)
-                        this.drawTexturedModalRect(width / 2 - 105 + 34, height / 2 + 40 + 10, 207, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 34, height / 2 + 40 + 10, 207, 154, 14, 14);
                     else
-                        this.drawTexturedModalRect(width / 2 - 105 + 34, height / 2 + 40 + 10, hasTile ? 179 : 193, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 34, height / 2 + 40 + 10, hasTile ? 179 : 193, 154, 14, 14);
                     break;
                 //Top
                 case 1:
                     if (connection)
-                        this.drawTexturedModalRect(width / 2 - 105 + 17, height / 2 + 40 - 7, 207, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 17, height / 2 + 40 - 7, 207, 154, 14, 14);
                     else
-                        this.drawTexturedModalRect(width / 2 - 105 + 17, height / 2 + 40 - 7, hasTile ? 179 : 193, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 17, height / 2 + 40 - 7, hasTile ? 179 : 193, 154, 14, 14);
                     break;
                 //North
                 case 2:
                     if (connection)
-                        this.drawTexturedModalRect(width / 2 - 105 + 17, height / 2 + 40 - 24, 207, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 17, height / 2 + 40 - 24, 207, 154, 14, 14);
                     else
-                        this.drawTexturedModalRect(width / 2 - 105 + 17, height / 2 + 40 - 24, hasTile ? 179 : 193, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 17, height / 2 + 40 - 24, hasTile ? 179 : 193, 154, 14, 14);
                     break;
                 //South
                 case 3:
                     if (connection)
-                        this.drawTexturedModalRect(width / 2 - 105 + 17, height / 2 + 40 + 10, 207, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 17, height / 2 + 40 + 10, 207, 154, 14, 14);
                     else
-                        this.drawTexturedModalRect(width / 2 - 105 + 17, height / 2 + 40 + 10, hasTile ? 179 : 193, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 17, height / 2 + 40 + 10, hasTile ? 179 : 193, 154, 14, 14);
                     break;
                 //West
                 case 4:
                     if (connection)
-                        this.drawTexturedModalRect(width / 2 - 105, height / 2 + 40 - 7, 207, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85, height / 2 + 40 - 7, 207, 154, 14, 14);
                     else
-                        this.drawTexturedModalRect(width / 2 - 105, height / 2 + 40 - 7, hasTile ? 179 : 193, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85, height / 2 + 40 - 7, hasTile ? 179 : 193, 154, 14, 14);
                     break;
                 //East
                 case 5:
                     if (connection)
-                        this.drawTexturedModalRect(width / 2 - 105 + 34, height / 2 + 40 - 7, 207, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 34, height / 2 + 40 - 7, 207, 154, 14, 14);
                     else
-                        this.drawTexturedModalRect(width / 2 - 105 + 34, height / 2 + 40 - 7, hasTile ? 179 : 193, 154, 14, 14);
+                        this.drawTexturedModalRect(width / 2 - 85 + 34, height / 2 + 40 - 7, hasTile ? 179 : 193, 154, 14, 14);
                     break;
             }
         }

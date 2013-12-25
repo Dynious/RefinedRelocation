@@ -22,6 +22,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void initGui()
     {
         super.initGui();

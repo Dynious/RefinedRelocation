@@ -1,16 +1,16 @@
 package com.dynious.blex.gui;
 
 import com.dynious.blex.lib.Resources;
-import com.dynious.blex.tileentity.TileFilteredBlockExtender;
+import com.dynious.blex.tileentity.IFilterTile;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-public class GuiFilteredBlockExtender extends GuiScreen
+public class GuiFiltered extends GuiScreen
 {
-    private TileFilteredBlockExtender blockExtender;
+    private IFilterTile filterTile;
     private GuiButton blacklist;
     private GuiTextField userFilter;
     private int index = 0;
@@ -18,22 +18,23 @@ public class GuiFilteredBlockExtender extends GuiScreen
     private static final int ITEMS_PER_SCREEN = 10;
     private static final int ITEM_SIZE = 14;
 
-    public GuiFilteredBlockExtender(TileFilteredBlockExtender blockExtender)
+    public GuiFiltered(IFilterTile filterTile)
     {
-        this.blockExtender = blockExtender;
-        size = blockExtender.filter.getSize();
+        this.filterTile = filterTile;
+        size = filterTile.getFilter().getSize();
     }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void initGui()
     {
         super.initGui();
         this.buttonList.clear();
-        this.buttonList.add(blacklist = new GuiButton(0, width / 2 - 40, height / 2 - 100, 80, 20, blockExtender.blacklist ? "Blacklist" : "Whitelist"));
+        this.buttonList.add(blacklist = new GuiButton(0, width / 2 - 40, height / 2 - 100, 80, 20, filterTile.getBlackList() ? "Blacklist" : "Whitelist"));
         userFilter = new GuiTextField(fontRenderer, width/2 - 88, height / 2 + 80, 176, 15);
-        userFilter.setText(blockExtender.filter.userFilter);
+        userFilter.setText(filterTile.getFilter().userFilter);
     }
 
     /**
@@ -51,7 +52,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
-            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width / 2 - 35, height / 2 - 66 + i * ITEM_SIZE, 0);
+            fontRenderer.drawString(filterTile.getFilter().getName(itemPlace), width / 2 - 35, height / 2 - 66 + i * ITEM_SIZE, 0);
         }
     }
 
@@ -97,8 +98,8 @@ public class GuiFilteredBlockExtender extends GuiScreen
     public void updateScreen()
     {
         super.updateScreen();
-        blacklist.displayString = blockExtender.blacklist ? "Blacklist" : "Whitelist";
-        userFilter.setText(blockExtender.filter.userFilter);
+        blacklist.displayString = filterTile.getBlackList() ? "Blacklist" : "Whitelist";
+        userFilter.setText(filterTile.getFilter().userFilter);
     }
 
     @Override
@@ -106,7 +107,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
     {
         super.keyTyped(c, i);
         userFilter.textboxKeyTyped(c, i);
-        blockExtender.filter.userFilter = userFilter.getText();
+        filterTile.getFilter().userFilter = userFilter.getText();
     }
 
 
@@ -116,7 +117,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
         switch (guibutton.id)
         {
             case 0:
-                blockExtender.blacklist = !blockExtender.blacklist;
+                filterTile.setBlackList(!filterTile.getBlackList());
                 break;
         }
     }
@@ -133,7 +134,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
                 {
                     if (y >= height / 2 - 70 + i * ITEM_SIZE && y <= height / 2 - 70 + (1 + i) * ITEM_SIZE)
                     {
-                        blockExtender.filter.setValue(index + i, !blockExtender.filter.getValue(index + i));
+                        filterTile.getFilter().setValue(index + i, !filterTile.getFilter().getValue(index + i));
                     }
                 }
             }
@@ -155,7 +156,7 @@ public class GuiFilteredBlockExtender extends GuiScreen
         {
             this.drawTexturedModalRect(width / 2 - 75, height / 2 - 70 + i * ITEM_SIZE, 0, 154, 150, 14);
             int itemPlace = i + index;
-            if (blockExtender.filter.getValue(itemPlace))
+            if (filterTile.getFilter().getValue(itemPlace))
                 this.drawTexturedModalRect(width / 2 - 75, height / 2 - 70 + i * ITEM_SIZE, 165, 154, 14, 14);
             else
                 this.drawTexturedModalRect(width / 2 - 75, height / 2 - 70 + i * ITEM_SIZE, 151, 154, 14, 14);

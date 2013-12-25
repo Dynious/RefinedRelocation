@@ -4,9 +4,7 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Optional.Interface;
-import cpw.mods.fml.common.Optional.InterfaceList;
-import cpw.mods.fml.common.Optional.Method;
+import cpw.mods.fml.common.Optional.*;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
@@ -32,6 +30,8 @@ import net.minecraftforge.fluids.IFluidHandler;
 
 import java.util.HashMap;
 import java.util.HashSet;
+
+import static cpw.mods.fml.common.Optional.*;
 
 @InterfaceList(value = {
         @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
@@ -107,7 +107,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
             }
         }
-        else
+        else if (this.energySink != null)
         {
             if (energySink == null && !worldObj.isRemote)
             {

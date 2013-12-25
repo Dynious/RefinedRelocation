@@ -13,10 +13,16 @@ import net.minecraftforge.common.ForgeDirection;
 public class TileBuffer extends TileEntity implements ISidedInventory
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
+    protected boolean firstRun = true;
 
     @Override
     public void updateEntity()
     {
+        if (firstRun)
+        {
+            onBlocksChanged();
+            firstRun = false;
+        }
     }
 
     public void onBlocksChanged()
@@ -30,36 +36,13 @@ public class TileBuffer extends TileEntity implements ISidedInventory
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return new int[]{0, 1, 2, 3, 4, 5};
+        return new int[]{var1};
     }
 
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side)
     {
-        for (int i = 0; i < tiles.length; i++)
-        {
-            TileEntity tile = tiles[i];
-            if (tile != null)
-            {
-                if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
-                {
-                    ItemStack returnedStack = ((IItemConduit)tile).insertItem(ForgeDirection.getOrientation(i).getOpposite(), itemstack, true);
-                    if (returnedStack != itemstack)
-                        return true;
-                }
-                else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
-                {
-                    IPipeTile pipe = (IPipeTile)tile;
-                    if (pipe.isPipeConnected(ForgeDirection.getOrientation(i).getOpposite()))
-                    {
-                        int size = pipe.injectItem(itemstack, false, ForgeDirection.getOrientation(i).getOpposite());
-                        if (size == itemstack.stackSize)
-                            return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return true;
     }
 
     @Override
@@ -105,8 +88,10 @@ public class TileBuffer extends TileEntity implements ISidedInventory
                 if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
                 {
                     ItemStack returnedStack = ((IItemConduit)tile).insertItem(ForgeDirection.getOrientation(i).getOpposite(), itemstack, false);
-                    if (returnedStack != itemstack)
+                    if (returnedStack == null || returnedStack.stackSize == 0)
                         return;
+                    else
+                        itemstack = returnedStack;
                 }
                 else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
                 {
@@ -114,8 +99,10 @@ public class TileBuffer extends TileEntity implements ISidedInventory
                     if (pipe.isPipeConnected(ForgeDirection.getOrientation(i).getOpposite()))
                     {
                         int size = pipe.injectItem(itemstack, true, ForgeDirection.getOrientation(i).getOpposite());
-                        if (size == itemstack.stackSize)
+                        if (size >= itemstack.stackSize)
                             return;
+                        else
+                            itemstack.stackSize -= size;
                     }
                 }
             }

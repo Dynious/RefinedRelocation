@@ -1,19 +1,13 @@
 package com.dynious.blex.tileentity;
 
-import buildcraft.api.power.PowerHandler;
 import com.dynious.blex.config.Filter;
 import com.dynious.blex.helper.ItemStackHelper;
 import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
@@ -27,6 +21,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     public boolean blacklist = true;
     public Filter filter = new Filter();
     private byte maxStackSize = 64;
+    public boolean restrictExtraction = false;
 
     public byte[] getInsertDirections()
     {
@@ -71,11 +66,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
         }
         else
         {
-            if (!super.isItemValidForSlot(getInputSide(ForgeDirection.getOrientation(i2)).ordinal(), itemStack))
-            {
-                return false;
-            }
-            return blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack);
+            return super.canInsertItem(i, itemStack, getInputSide(ForgeDirection.getOrientation(i2)).ordinal()) && (blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack));
         }
     }
 
@@ -102,6 +93,12 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
         }
         lastSlotSide = side;
         lastStack = itemStack;
+    }
+
+    @Override
+    public boolean canExtractItem(int i, ItemStack itemStack, int i2)
+    {
+        return (super.canExtractItem(i, itemStack, i2) && !(restrictExtraction && blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack)));
     }
 
     public void setMaxStackSize(byte maxStackSize)

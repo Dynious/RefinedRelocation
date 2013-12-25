@@ -1,6 +1,7 @@
 package com.dynious.blex.block;
 
 import com.dynious.blex.item.ItemBlockExtender;
+import com.dynious.blex.item.ItemBuffer;
 import com.dynious.blex.lib.BlockIds;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
@@ -12,21 +13,24 @@ import net.minecraft.item.ItemStack;
 public class ModBlocks
 {
     public static BlockExtender blockExtender;
-    public static BlockBuffer filter;
+    public static BlockBuffer buffer;
 
     public static void init()
     {
         blockExtender = new BlockExtender(BlockIds.BLOCK_EXTENDER);
-        filter = new BlockBuffer(BlockIds.BUFFER);
+        buffer = new BlockBuffer(BlockIds.BUFFER);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
-        GameRegistry.registerBlock(filter, Names.buffer);
+        GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 2), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(blockExtender, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(blockExtender, 1, 1));
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 2));
+
+        GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 0), "igi", "geg", "igi", 'i', Item.ingotIron, 'g', Block.thinGlass, 'e', Item.enderPearl);
+        GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 2), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(buffer, 1, 0));
 
         if (!Settings.DISABLE_WIRELESS_BLOCK_EXTENDER)
         {

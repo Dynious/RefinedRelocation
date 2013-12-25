@@ -1,6 +1,5 @@
 package com.dynious.blex.tileentity;
 
-import buildcraft.api.power.PowerHandler;
 import com.dynious.blex.helper.ItemStackHelper;
 import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;
@@ -8,12 +7,7 @@ import dan200.computer.api.ILuaContext;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashSet;

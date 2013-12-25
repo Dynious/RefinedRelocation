@@ -3,7 +3,7 @@ package com.dynious.blex.block;
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.gui.GuiAdvancedBlockExtender;
 import com.dynious.blex.gui.GuiAdvancedFilteredBlockExtender;
-import com.dynious.blex.gui.GuiFilteredBlockExtender;
+import com.dynious.blex.gui.GuiFiltered;
 import com.dynious.blex.gui.GuiWirelessBlockExtender;
 import com.dynious.blex.helper.DistanceHelper;
 import com.dynious.blex.item.ModItems;
@@ -89,7 +89,7 @@ public class BlockExtender extends BlockContainer
                 }
                 else if (tile instanceof TileFilteredBlockExtender)
                 {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiFilteredBlockExtender((TileFilteredBlockExtender) tile));
+                    FMLCommonHandler.instance().showGuiScreen(new GuiFiltered((TileFilteredBlockExtender) tile));
                 }
                 else if (tile instanceof TileWirelessBlockExtender)
                 {

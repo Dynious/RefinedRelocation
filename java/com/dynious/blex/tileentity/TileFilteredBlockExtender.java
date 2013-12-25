@@ -8,10 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 
-public class TileFilteredBlockExtender extends TileBlockExtender
+public class TileFilteredBlockExtender extends TileBlockExtender implements IFilterTile
 {
-    public boolean blacklist = true;
-    public Filter filter = new Filter();
+    private boolean blacklist = true;
+    private Filter filter = new Filter();
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
@@ -77,6 +77,23 @@ public class TileFilteredBlockExtender extends TileBlockExtender
         return null;
     }
 
+    @Override
+    public Filter getFilter()
+    {
+        return filter;
+    }
+
+    @Override
+    public boolean getBlackList()
+    {
+        return blacklist;
+    }
+
+    @Override
+    public void setBlackList(boolean value)
+    {
+        blacklist = value;
+    }
 
     @Override
     public void writeToNBT(NBTTagCompound compound)
