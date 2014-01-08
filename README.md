@@ -30,7 +30,7 @@ dependencies {
 6. Click `Send pull request`, and you're done!
 
 ####Creating an issue
-1. Go to [the issues page](http://github.com/pahimar/Equivalent-Exchange-3/issues).
+1. Go to [the issues page](https://github.com/Dynious/BlockExtenders/issues).
 2. Click `New Issue` right below `Star` and `Fork`.
 3. Enter your Issue's title (something that summarizes your issue), and then create a detailed description.
 4. Click `Submit new issue`, and you're done!
