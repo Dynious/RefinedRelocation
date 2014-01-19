@@ -1,10 +1,16 @@
 package com.dynious.blex.gui;
 
 import com.dynious.blex.lib.Resources;
+import com.dynious.blex.network.PacketTypeHandler;
+import com.dynious.blex.network.packet.PacketBlacklist;
+import com.dynious.blex.network.packet.PacketFilterOption;
+import com.dynious.blex.network.packet.PacketUserFilter;
 import com.dynious.blex.tileentity.IFilterTile;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -108,6 +114,7 @@ public class GuiFiltered extends GuiScreen
         super.keyTyped(c, i);
         userFilter.textboxKeyTyped(c, i);
         filterTile.getFilter().userFilter = userFilter.getText();
+        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter((TileEntity)filterTile, userFilter.getText())));
     }
 
 
@@ -118,6 +125,7 @@ public class GuiFiltered extends GuiScreen
         {
             case 0:
                 filterTile.setBlackList(!filterTile.getBlackList());
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist((TileEntity)filterTile)));
                 break;
         }
     }
@@ -135,6 +143,7 @@ public class GuiFiltered extends GuiScreen
                     if (y >= height / 2 - 70 + i * ITEM_SIZE && y <= height / 2 - 70 + (1 + i) * ITEM_SIZE)
                     {
                         filterTile.getFilter().setValue(index + i, !filterTile.getFilter().getValue(index + i));
+                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((TileEntity)filterTile, (byte)(index + i))));
                     }
                 }
             }

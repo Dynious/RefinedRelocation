@@ -6,10 +6,12 @@ import com.dynious.blex.gui.GuiAdvancedFilteredBlockExtender;
 import com.dynious.blex.gui.GuiFiltered;
 import com.dynious.blex.gui.GuiWirelessBlockExtender;
 import com.dynious.blex.helper.DistanceHelper;
+import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.item.ModItems;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
 import com.dynious.blex.tileentity.*;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -83,15 +85,7 @@ public class BlockExtender extends BlockContainer
             TileEntity tile = world.getBlockTileEntity(x, y, z);
             if (tile != null)
             {
-                if (tile instanceof TileAdvancedBlockExtender)
-                {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender) tile));
-                }
-                else if (tile instanceof TileFilteredBlockExtender)
-                {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiFiltered((TileFilteredBlockExtender) tile));
-                }
-                else if (tile instanceof TileWirelessBlockExtender)
+                if (tile instanceof TileWirelessBlockExtender)
                 {
                     if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
                     {
@@ -99,6 +93,7 @@ public class BlockExtender extends BlockContainer
                         int tileX = tag.getInteger("tileX");
                         int tileY = tag.getInteger("tileY");
                         int tileZ = tag.getInteger("tileZ");
+
                         if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER * Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)
                         {
                             ((TileWirelessBlockExtender) tile).setConnection(tileX, tileY, tileZ);
@@ -120,15 +115,8 @@ public class BlockExtender extends BlockContainer
                         }
                         return true;
                     }
-                    else
-                    {
-                        FMLCommonHandler.instance().showGuiScreen(new GuiWirelessBlockExtender((TileWirelessBlockExtender) tile));
-                    }
                 }
-                else if (tile instanceof TileAdvancedFilteredBlockExtender)
-                {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender) tile));
-                }
+                GuiHelper.openGui(tile);
             }
         }
         return true;
@@ -175,4 +163,6 @@ public class BlockExtender extends BlockContainer
     {
         return "obsidian";
     }
+
+
 }

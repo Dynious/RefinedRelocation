@@ -1,10 +1,14 @@
 package com.dynious.blex.gui;
 
 import com.dynious.blex.lib.Resources;
+import com.dynious.blex.network.PacketTypeHandler;
+import com.dynious.blex.network.packet.*;
 import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -25,7 +29,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     public GuiAdvancedFilteredBlockExtender(TileAdvancedFilteredBlockExtender blockExtender)
     {
         this.blockExtender = blockExtender;
-        size = blockExtender.filter.getSize();
+        size = blockExtender.getFilter().getSize();
     }
 
     /**
@@ -36,14 +40,14 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     {
         super.initGui();
         this.buttonList.clear();
-        this.buttonList.add(blacklist = new GuiButton(1, width / 2 - 120, height / 2 - 65, 80, 20, blockExtender.blacklist ? "Blacklist" : "Whitelist"));
-        this.buttonList.add(spreadItems = new GuiButton(0, width / 2 - 120, height / 2 - 40, 80, 20, blockExtender.spreadItems ? "Spread on" : "Spread off"));
+        this.buttonList.add(blacklist = new GuiButton(1, width / 2 - 120, height / 2 - 65, 80, 20, blockExtender.getBlackList() ? "Blacklist" : "Whitelist"));
+        this.buttonList.add(spreadItems = new GuiButton(0, width / 2 - 120, height / 2 - 40, 80, 20, blockExtender.getSpreadItems() ? "Spread on" : "Spread off"));
         this.buttonList.add(restrictExtraction = new GuiButton(2, width / 2 - 120, height / 2 - 15, 80, 20, blockExtender.restrictExtraction ? "Filter Extract" : "Free Extract"));
         stackSize = new GuiTextField(fontRenderer, width / 2 - 120, height / 2 + 33, 20, 15);
         stackSize.setMaxStringLength(2);
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
         userFilter = new GuiTextField(fontRenderer, width/2 - 88, height / 2 + 80, 176, 15);
-        userFilter.setText(blockExtender.filter.userFilter);
+        userFilter.setText(blockExtender.getFilter().userFilter);
     }
 
     /**
@@ -135,7 +139,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
-            fontRenderer.drawString(blockExtender.filter.getName(itemPlace), width / 2 + 10, height / 2 - 66 + i * ITEM_SIZE, 0);
+            fontRenderer.drawString(blockExtender.getFilter().getName(itemPlace), width / 2 + 10, height / 2 - 66 + i * ITEM_SIZE, 0);
         }
     }
 
@@ -143,8 +147,8 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     public void updateScreen()
     {
         super.updateScreen();
-        spreadItems.displayString = blockExtender.spreadItems ? "Spread on" : "Spread off";
-        blacklist.displayString = blockExtender.blacklist ? "Blacklist" : "Whitelist";
+        spreadItems.displayString = blockExtender.getSpreadItems() ? "Spread on" : "Spread off";
+        blacklist.displayString = blockExtender.getBlackList() ? "Blacklist" : "Whitelist";
         restrictExtraction.displayString = blockExtender.restrictExtraction ? "Filter Extract" : "Free Extract";
         if (blockExtender.getInventoryStackLimit() == 0)
         {
@@ -152,7 +156,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             return;
         }
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
-        userFilter.setText(blockExtender.filter.userFilter);
+        userFilter.setText(blockExtender.getFilter().userFilter);
     }
 
     @Override
@@ -165,12 +169,15 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             if (stackSize.getText().isEmpty())
             {
                 blockExtender.setMaxStackSize((byte) 0);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(blockExtender, (byte)0)));
                 return;
             }
             blockExtender.setMaxStackSize(Byte.parseByte(stackSize.getText()));
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(blockExtender, Byte.parseByte(stackSize.getText()))));
         }
         userFilter.textboxKeyTyped(c, i);
-        blockExtender.filter.userFilter = userFilter.getText();
+        blockExtender.getFilter().userFilter = userFilter.getText();
+        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter(blockExtender, userFilter.getText())));
     }
 
     @Override
@@ -179,13 +186,16 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         switch (guibutton.id)
         {
             case 0:
-                blockExtender.spreadItems = !blockExtender.spreadItems;
+                blockExtender.setSpreadItems(!blockExtender.getSpreadItems());
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(blockExtender)));
                 break;
             case 1:
-                blockExtender.blacklist = !blockExtender.blacklist;
+                blockExtender.setBlackList(!blockExtender.getBlackList());
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist(blockExtender)));
                 break;
             case 2:
                 blockExtender.restrictExtraction = !blockExtender.restrictExtraction;
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRestrictExtraction(blockExtender)));
                 break;
         }
     }
@@ -198,29 +208,48 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         {
             //Bottom
             if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
+            {
                 blockExtender.setInsertDirection(0, blockExtender.getInsertDirections()[0] + 1);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)0)));
+            }
             //Top
-            if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            {
                 blockExtender.setInsertDirection(1, blockExtender.getInsertDirections()[1] + 1);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)1)));
+            }
             //North
-            if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 24 && y <= height / 2 + 40 - 24 + 14)
+            else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 24 && y <= height / 2 + 40 - 24 + 14)
+            {
                 blockExtender.setInsertDirection(2, blockExtender.getInsertDirections()[2] + 1);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)2)));
+            }
             //South
-            if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
+            else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
+            {
                 blockExtender.setInsertDirection(3, blockExtender.getInsertDirections()[3] + 1);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)3)));
+            }
             //West
-            if (x >= width / 2 - 85 && x <= width / 2 - 85 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            else if (x >= width / 2 - 85 && x <= width / 2 - 85 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            {
                 blockExtender.setInsertDirection(4, blockExtender.getInsertDirections()[4] + 1);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)4)));
+            }
             //East
-            if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            else if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
+            {
                 blockExtender.setInsertDirection(5, blockExtender.getInsertDirections()[5] + 1);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)5)));
+            }
             if (x >= width / 2 - 30 && x <= width / 2 + 120)
             {
                 for (int i = 0; i < ITEMS_PER_SCREEN; i++)
                 {
                     if (y >= height / 2 - 70 + i * ITEM_SIZE && y <= height / 2 - 70 + (1 + i) * ITEM_SIZE)
                     {
-                        blockExtender.filter.setValue(index + i, !blockExtender.filter.getValue(index + i));
+                        blockExtender.getFilter().setValue(index + i, !blockExtender.getFilter().getValue(index + i));
+                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption(blockExtender, (byte)(index + i))));
                     }
                 }
             }
@@ -297,7 +326,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         {
             this.drawTexturedModalRect(width / 2 - 30, height / 2 - 70 + i * ITEM_SIZE, 0, 154, 150, 14);
             int itemPlace = i + index;
-            if (blockExtender.filter.getValue(itemPlace))
+            if (blockExtender.getFilter().getValue(itemPlace))
                 this.drawTexturedModalRect(width / 2 - 30, height / 2 - 70 + i * ITEM_SIZE, 165, 154, 14, 14);
             else
                 this.drawTexturedModalRect(width / 2 - 30, height / 2 - 70 + i * ITEM_SIZE, 151, 154, 14, 14);

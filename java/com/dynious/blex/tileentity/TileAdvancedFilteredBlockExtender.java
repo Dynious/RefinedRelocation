@@ -10,20 +10,26 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import org.apache.commons.lang3.ArrayUtils;
 
-public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
+public class TileAdvancedFilteredBlockExtender extends TileBlockExtender implements IFilterTile, IAdvancedTile
 {
-    public boolean spreadItems = false;
+    private boolean spreadItems = false;
     private byte[] insertDirection = { 1, 1, 1, 1, 1, 1, 1};
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
     private ItemStack lastStack;
-    public boolean blacklist = true;
-    public Filter filter = new Filter();
+    private boolean blacklist = true;
+    private Filter filter = new Filter();
     private byte maxStackSize = 64;
     public boolean restrictExtraction = false;
 
     public byte[] getInsertDirections()
+    {
+        return insertDirection;
+    }
+
+    @Override
+    public byte[] getInsertDirection()
     {
         return insertDirection;
     }
@@ -107,6 +113,18 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     }
 
     @Override
+    public boolean getSpreadItems()
+    {
+        return spreadItems;
+    }
+
+    @Override
+    public void setSpreadItems(boolean spreadItems)
+    {
+        this.spreadItems = spreadItems;
+    }
+
+    @Override
     public int getInventoryStackLimit()
     {
         if (inventory != null)
@@ -120,6 +138,24 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender
     public ForgeDirection getInputSide(ForgeDirection side)
     {
         return ForgeDirection.getOrientation(insertDirection[side.ordinal()]);
+    }
+
+    @Override
+    public Filter getFilter()
+    {
+        return filter;
+    }
+
+    @Override
+    public boolean getBlackList()
+    {
+        return blacklist;
+    }
+
+    @Override
+    public void setBlackList(boolean value)
+    {
+        this.blacklist = value;
     }
 
     /*

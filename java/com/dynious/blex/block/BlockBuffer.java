@@ -3,10 +3,12 @@ package com.dynious.blex.block;
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.gui.GuiAdvancedBuffer;
 import com.dynious.blex.gui.GuiFiltered;
+import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.tileentity.TileAdvancedBuffer;
 import com.dynious.blex.tileentity.TileBuffer;
 import com.dynious.blex.tileentity.TileFilteredBuffer;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -60,14 +62,7 @@ public class BlockBuffer extends BlockContainer
             TileEntity tile = world.getBlockTileEntity(x, y, z);
             if (tile != null)
             {
-                if (tile instanceof TileAdvancedBuffer)
-                {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBuffer((TileAdvancedBuffer) tile));
-                }
-                if (tile instanceof TileFilteredBuffer)
-                {
-                    FMLCommonHandler.instance().showGuiScreen(new GuiFiltered((TileFilteredBuffer) tile));
-                }
+                GuiHelper.openGui(tile);
             }
         }
         return true;

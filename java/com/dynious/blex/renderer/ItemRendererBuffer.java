@@ -87,6 +87,10 @@ public class ItemRendererBuffer implements IItemRenderer
         }
         else if (itemStack.getItemDamage() == 1)
         {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER);
+        }
+        else if (itemStack.getItemDamage() == 2)
+        {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
         }
 

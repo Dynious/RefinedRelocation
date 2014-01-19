@@ -12,9 +12,9 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.HashSet;
 
-public class TileAdvancedBlockExtender extends TileBlockExtender
+public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdvancedTile
 {
-    public boolean spreadItems = false;
+    private boolean spreadItems = false;
     private byte[] insertDirection = { 1, 1, 1, 1, 1, 1, 1};
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
@@ -22,11 +22,13 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
     private ItemStack lastStack;
     private byte maxStackSize = 64;
 
+    @Override
     public byte[] getInsertDirection()
     {
         return insertDirection;
     }
 
+    @Override
     public void setInsertDirection(int from, int value)
     {
         if (value > 5)
@@ -34,6 +36,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         insertDirection[from] = (byte) value;
     }
 
+    @Override
     public void setConnectedSide(int connectedSide)
     {
         super.setConnectedSide(connectedSide);
@@ -44,6 +47,16 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
                 insertDirection[i] = (byte)connectedDirection.getOpposite().ordinal();
             }
         }
+    }
+
+    public boolean getSpreadItems()
+    {
+        return  spreadItems;
+    }
+
+    public void setSpreadItems(boolean spreadItems)
+    {
+        this.spreadItems = spreadItems;
     }
 
     @Override
@@ -65,7 +78,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         }
         else
         {
-            return super.canInsertItem(i, itemStack, insertDirection[i]);
+            return super.canInsertItem(i, itemStack, insertDirection[i2]);
         }
     }
 
@@ -108,6 +121,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender
         return new int[0];
     }
 
+    @Override
     public void setMaxStackSize(byte maxStackSize)
     {
         this.maxStackSize = maxStackSize;

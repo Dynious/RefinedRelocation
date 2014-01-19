@@ -2,9 +2,12 @@ package com.dynious.blex.config;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.lang.reflect.Field;
 
 public class Filter
 {
@@ -77,14 +80,27 @@ public class Filter
             if (customFilters[8] && !oreName.contains("gem"))
                 return true;
 
-            if (itemStack.getItem() != null && itemStack.getItem().getCreativeTab() != null)
+            if (itemStack.getItem() != null)
             {
-                int index = itemStack.getItem().getCreativeTab().getTabIndex();
-                for (int i = 0; i < creativeTabs.length; i++)
+                CreativeTabs tab = null;
+                try
                 {
-                    if (creativeTabs[i] && index == i)
+                    Field field = Item.class.getDeclaredField("tabToDisplayOn");
+                    field.setAccessible(true);
+                    tab = (CreativeTabs)field.get(itemStack.getItem());
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                if (tab != null)
+                {
+                    int index = tab.getTabIndex();
+                    for (int i = 0; i < creativeTabs.length; i++)
                     {
-                        return true;
+                        if (creativeTabs[i] && index == i)
+                        {
+                            return true;
+                        }
                     }
                 }
             }

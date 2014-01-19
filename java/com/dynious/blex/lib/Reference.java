@@ -7,4 +7,5 @@ public class Reference
     public static final String version = "0.1";
     public static final String clientProxy = "com.dynious.blex.proxy.ClientProxy";
     public static final String commonProxy = "com.dynious.blex.proxy.CommonProxy";
+    public static final String cannelName = "BlEx";
 }

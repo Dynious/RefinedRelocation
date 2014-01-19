@@ -45,6 +45,10 @@ public class RendererBuffer extends TileEntitySpecialRenderer
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
 
+            if (tileEntity instanceof TileAdvancedBuffer)
+            {
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER);
+            }
             if (tileEntity instanceof TileFilteredBuffer)
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
