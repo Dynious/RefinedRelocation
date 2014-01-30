@@ -319,7 +319,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     	if (isRedstonePowered != wasRedstonePowered)
     	{
     		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            worldObj.notifyBlockOfNeighborChange(xCoord + connectedDirection.offsetX, yCoord + connectedDirection.offsetY, zCoord + connectedDirection.offsetZ, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
     	}
     }
     
