@@ -53,6 +53,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public boolean blocksChanged = true;
     protected float lightAmount = 0F;
     protected int recheckTiles = 0;
+    public boolean isRedstonePowered = false;
 
     public TileBlockExtender()
     {
@@ -155,6 +156,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                     tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
                 }
             }
+            this.checkRedstonePower();
             blocksChanged = false;
         }
         if (canConnect())
@@ -293,6 +295,69 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public TileEntity getConnectedTile()
     {
         return worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
+    }
+    
+    public void checkRedstonePower() 
+    {
+    	boolean wasRedstonePowered = isRedstonePowered;
+		
+    	isRedstonePowered = false;
+		for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) 
+		{
+			// facing direction is output only
+			if ( direction == connectedDirection )
+				continue;
+
+			int indirectPowerLevelFromDirection = worldObj.getIndirectPowerLevelTo(this.xCoord+direction.offsetX, this.yCoord+direction.offsetY, this.zCoord+direction.offsetZ, direction.ordinal() );
+			if( indirectPowerLevelFromDirection > 0 )
+			{
+				isRedstonePowered = true;
+				break;
+			}
+		}
+    	
+    	if (isRedstonePowered != wasRedstonePowered)
+    	{
+    		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+    	}
+    }
+    
+    public int isPoweringTo( int side ) 
+    {
+    	ForgeDirection realDir = ForgeDirection.getOrientation(side).getOpposite();
+		
+    	if ( isRedstonePowered && connectedDirection == realDir )
+    		return 15;
+    	
+    	return 0;
+    }
+
+    /*
+    * Side:
+    *  -1: UP
+    *   0: NORTH
+    *   1: EAST
+    *   2: SOUTH
+    *   3: WEST
+    *   */
+    public boolean canConnectRedstone( int side )
+    {
+    	ForgeDirection realDirection = ForgeDirection.UNKNOWN;
+    	
+    	switch( side ) 
+    	{
+	    	case -1: realDirection = ForgeDirection.UP; break;
+	    	case 0: realDirection = ForgeDirection.NORTH; break;
+	    	case 1: realDirection = ForgeDirection.EAST; break;
+	    	case 2: realDirection = ForgeDirection.SOUTH; break;
+	    	case 3: realDirection = ForgeDirection.WEST; break;
+    	}
+    	
+    	if (realDirection != ForgeDirection.UNKNOWN)
+    		return realDirection == connectedDirection;
+    	else
+    		return false;
     }
 
     /*
@@ -764,6 +829,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         super.readFromNBT(compound);
         setConnectedSide(compound.getByte("side"));
+        isRedstonePowered = (compound.getBoolean("redstone"));
     }
 
     @Override
@@ -771,12 +837,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         super.writeToNBT(compound);
         compound.setByte("side", (byte) connectedDirection.ordinal());
+        compound.setBoolean("redstone", this.isRedstonePowered);
     }
 
     @Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
     {
         setConnectedSide(pkt.data.getByte("side"));
+        isRedstonePowered = (pkt.data.getBoolean("redstone"));
     }
 
     @Override
@@ -784,6 +852,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         NBTTagCompound compound = new NBTTagCompound();
         compound.setByte("side", (byte) connectedDirection.ordinal());
+        compound.setBoolean("redstone", this.isRedstonePowered);
         return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
     }
 }
