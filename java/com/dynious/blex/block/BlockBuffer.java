@@ -26,6 +26,7 @@ public class BlockBuffer extends BlockContainer
     {
         super(id, Material.rock);
         this.setUnlocalizedName(Names.buffer);
+		this.setHardness(3.0F);
         this.setCreativeTab(BlockExtenders.tabBlEx);
     }
 
@@ -115,4 +116,15 @@ public class BlockBuffer extends BlockContainer
             par3List.add(new ItemStack(par1, 1, j));
         }
     }
+
+    @Override
+    protected String getTextureName()
+    {
+        return "obsidian";
+    }
+    
+    @Override
+	public int damageDropped (int metadata) {
+		return metadata;
+	}
 }

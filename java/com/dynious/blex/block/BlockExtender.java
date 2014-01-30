@@ -35,6 +35,7 @@ public class BlockExtender extends BlockContainer
     {
         super(id, Material.rock);
         this.setUnlocalizedName(Names.blockExtender);
+		this.setHardness(3.0F);
         this.setCreativeTab(BlockExtenders.tabBlEx);
     }
 
@@ -218,6 +219,11 @@ public class BlockExtender extends BlockContainer
     {
         return "obsidian";
     }
+    
+    @Override
+	public int damageDropped (int metadata) {
+		return metadata;
+	}
 
 
 }
