@@ -62,7 +62,7 @@ public class BlockBuffer extends BlockContainer
             TileEntity tile = world.getBlockTileEntity(x, y, z);
             if (tile != null)
             {
-                GuiHelper.openGui(tile, (Player) player);
+                GuiHelper.openGui(player, tile);
             }
         }
         return true;

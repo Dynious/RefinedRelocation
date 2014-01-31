@@ -1,5 +1,6 @@
 package com.dynious.blex.gui;
 
+import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketInsertDirection;
@@ -10,17 +11,20 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-public class GuiAdvancedBlockExtender extends GuiScreen
+public class GuiAdvancedBlockExtender extends GuiContainer
 {
     private TileAdvancedBlockExtender blockExtender;
     private GuiButton spreadItems;
     private GuiTextField stackSize;
 
-    public GuiAdvancedBlockExtender(TileAdvancedBlockExtender blockExtender)
+    public GuiAdvancedBlockExtender(InventoryPlayer invPlayer, TileAdvancedBlockExtender blockExtender)
     {
+        super(new ContainerAdvanced(invPlayer, blockExtender));
         this.blockExtender = blockExtender;
     }
 
@@ -46,7 +50,6 @@ public class GuiAdvancedBlockExtender extends GuiScreen
     public void drawScreen(int h, int j, float f)
     {
         drawDefaultBackground();
-        drawContainerBackground();
         super.drawScreen(h, j, f);
 
         stackSize.drawTextBox();
@@ -114,7 +117,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
                 return;
             }
             blockExtender.setMaxStackSize(Byte.parseByte(stackSize.getText()));
-            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(blockExtender, Byte.parseByte(stackSize.getText()))));
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(Byte.parseByte(stackSize.getText()))));
         }
     }
 
@@ -126,7 +129,7 @@ public class GuiAdvancedBlockExtender extends GuiScreen
         {
             case 0:
                 blockExtender.setSpreadItems(!blockExtender.getSpreadItems());
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(blockExtender)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(blockExtender.getSpreadItems())));
         }
     }
 
@@ -140,42 +143,43 @@ public class GuiAdvancedBlockExtender extends GuiScreen
             if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
             {
                 blockExtender.setInsertDirection(0, blockExtender.getInsertDirection()[0] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 0)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 0, blockExtender.getInsertDirection()[0])));
             }
             //Top
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(1, blockExtender.getInsertDirection()[1] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 1)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 1, blockExtender.getInsertDirection()[1])));
             }
             //North
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 24 && y <= height / 2 - 24 + 14)
             {
                 blockExtender.setInsertDirection(2, blockExtender.getInsertDirection()[2] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 2)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 2, blockExtender.getInsertDirection()[2])));
             }
             //South
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
             {
                 blockExtender.setInsertDirection(3, blockExtender.getInsertDirection()[3] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 3)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 3, blockExtender.getInsertDirection()[3])));
             }
             //West
             else if (x >= width / 2 + 28 && x <= width / 2 + 28 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(4, blockExtender.getInsertDirection()[4] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 4)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 4, blockExtender.getInsertDirection()[4])));
             }
             //East
             else if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(5, blockExtender.getInsertDirection()[5] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 5)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 5, blockExtender.getInsertDirection()[5])));
             }
         }
     }
 
-    private void drawContainerBackground()
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) 
     {
         int xSize = 176;
         int ySize = 80;

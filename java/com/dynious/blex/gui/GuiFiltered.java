@@ -1,5 +1,6 @@
 package com.dynious.blex.gui;
 
+import com.dynious.blex.gui.container.ContainerFiltered;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketBlacklist;
@@ -10,11 +11,13 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-public class GuiFiltered extends GuiScreen
+public class GuiFiltered extends GuiContainer
 {
     private IFilterTile filterTile;
     private GuiButton blacklist;
@@ -24,8 +27,9 @@ public class GuiFiltered extends GuiScreen
     private static final int ITEMS_PER_SCREEN = 10;
     private static final int ITEM_SIZE = 14;
 
-    public GuiFiltered(IFilterTile filterTile)
+    public GuiFiltered(InventoryPlayer invPlayer, IFilterTile filterTile)
     {
+        super(new ContainerFiltered(invPlayer, filterTile));
         this.filterTile = filterTile;
         size = filterTile.getFilter().getSize();
     }
@@ -50,7 +54,6 @@ public class GuiFiltered extends GuiScreen
     public void drawScreen(int h, int j, float f)
     {
         drawDefaultBackground();
-        drawContainerBackground();
         super.drawScreen(h, j, f);
 
         userFilter.drawTextBox();
@@ -109,12 +112,22 @@ public class GuiFiltered extends GuiScreen
     }
 
     @Override
-    public void keyTyped(char c, int i)
+    protected void keyTyped(char c, int i)
     {
-        super.keyTyped(c, i);
+        // allow esc but not inventory keybind
+        if (i == 1 || (!userFilter.isFocused() && i != mc.gameSettings.keyBindInventory.keyCode))
+        {
+            super.keyTyped(c, i);
+            return;
+        }
+        
+        String oldUserFilter = userFilter.getText();
         userFilter.textboxKeyTyped(c, i);
-        filterTile.getFilter().userFilter = userFilter.getText();
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter((TileEntity) filterTile, userFilter.getText())));
+        if (!oldUserFilter.equals(userFilter.getText()))
+        {
+            filterTile.getFilter().userFilter = userFilter.getText();
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter(userFilter.getText())));
+        }
     }
 
 
@@ -125,7 +138,7 @@ public class GuiFiltered extends GuiScreen
         {
             case 0:
                 filterTile.setBlackList(!filterTile.getBlackList());
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist((TileEntity) filterTile)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist(filterTile.getBlackList())));
                 break;
         }
     }
@@ -143,7 +156,7 @@ public class GuiFiltered extends GuiScreen
                     if (y >= height / 2 - 70 + i * ITEM_SIZE && y <= height / 2 - 70 + (1 + i) * ITEM_SIZE)
                     {
                         filterTile.getFilter().setValue(index + i, !filterTile.getFilter().getValue(index + i));
-                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((TileEntity) filterTile, (byte) (index + i))));
+                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((byte) (index + i))));
                     }
                 }
             }
@@ -151,7 +164,8 @@ public class GuiFiltered extends GuiScreen
         userFilter.mouseClicked(x, y, type);
     }
 
-    private void drawContainerBackground()
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         int xSize = 176;
         int ySize = 153;

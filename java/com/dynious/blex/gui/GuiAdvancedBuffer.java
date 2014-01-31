@@ -1,5 +1,6 @@
 package com.dynious.blex.gui;
 
+import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketInsertDirection;
@@ -8,16 +9,19 @@ import com.dynious.blex.tileentity.TileAdvancedBuffer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 
-public class GuiAdvancedBuffer extends GuiScreen
+public class GuiAdvancedBuffer extends GuiContainer
 {
     TileAdvancedBuffer buffer;
     GuiButton[] buttons = new GuiButton[6];
     GuiButton spread;
 
-    public GuiAdvancedBuffer(TileAdvancedBuffer buffer)
+    public GuiAdvancedBuffer(InventoryPlayer invPlayer, TileAdvancedBuffer buffer)
     {
+        super(new ContainerAdvanced(invPlayer, buffer));
         this.buffer = buffer;
     }
 
@@ -45,7 +49,6 @@ public class GuiAdvancedBuffer extends GuiScreen
     public void drawScreen(int h, int j, float f)
     {
         drawDefaultBackground();
-        drawContainerBackground();
         super.drawScreen(h, j, f);
         for (int i = 0; i < 3; i++)
         {
@@ -74,16 +77,17 @@ public class GuiAdvancedBuffer extends GuiScreen
         if (guibutton.id < 6)
         {
             buffer.setInsertDirection(guibutton.id, buffer.getInsertDirection()[guibutton.id] + 1);
-            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(buffer, (byte) guibutton.id)));
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) guibutton.id, buffer.getInsertDirection()[guibutton.id])));
         }
         else
         {
             buffer.setSpreadItems(!buffer.getSpreadItems());
-            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(buffer)));
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(buffer.getSpreadItems())));
         }
     }
 
-    private void drawContainerBackground()
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         int xSize = 204;
         int ySize = 109;

@@ -1,5 +1,6 @@
 package com.dynious.blex.gui;
 
+import com.dynious.blex.gui.container.ContainerAdvancedFiltered;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.*;
@@ -8,11 +9,13 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-public class GuiAdvancedFilteredBlockExtender extends GuiScreen
+public class GuiAdvancedFilteredBlockExtender extends GuiContainer
 {
     private TileAdvancedFilteredBlockExtender blockExtender;
     private GuiButton spreadItems;
@@ -25,8 +28,9 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     private GuiTextField stackSize;
     private GuiTextField userFilter;
 
-    public GuiAdvancedFilteredBlockExtender(TileAdvancedFilteredBlockExtender blockExtender)
+    public GuiAdvancedFilteredBlockExtender(InventoryPlayer invPlayer, TileAdvancedFilteredBlockExtender blockExtender)
     {
+        super(new ContainerAdvancedFiltered(invPlayer, blockExtender));
         this.blockExtender = blockExtender;
         size = blockExtender.getFilter().getSize();
     }
@@ -94,7 +98,6 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     public void drawScreen(int h, int j, float f)
     {
         drawDefaultBackground();
-        drawContainerBackground();
         super.drawScreen(h, j, f);
 
         stackSize.drawTextBox();
@@ -161,22 +164,32 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
     @Override
     public void keyTyped(char c, int i)
     {
-        super.keyTyped(c, i);
+        // allow esc but not inventory keybind
+        if (i == 1 || (!userFilter.isFocused() && !stackSize.isFocused() && i != mc.gameSettings.keyBindInventory.keyCode))
+        {
+            super.keyTyped(c, i);
+            return;
+        }
+        
+        String oldUserFilter = userFilter.getText();
+        userFilter.textboxKeyTyped(c, i);
+        if (!oldUserFilter.equals(userFilter.getText()))
+        {
+            blockExtender.getFilter().userFilter = userFilter.getText();
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter(userFilter.getText())));
+        }
+        
         if (Character.isDigit(c) || Character.getType(c) == 15)
         {
+            String oldStackSize = stackSize.getText();
             stackSize.textboxKeyTyped(c, i);
-            if (stackSize.getText().isEmpty())
+            if (!oldStackSize.equals(stackSize.getText()))
             {
-                blockExtender.setMaxStackSize((byte) 0);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(blockExtender, (byte) 0)));
-                return;
+                byte newMaxStackSize = stackSize.getText().isEmpty() ? (byte) 0 : Byte.parseByte(stackSize.getText());
+                blockExtender.setMaxStackSize(newMaxStackSize);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(newMaxStackSize)));
             }
-            blockExtender.setMaxStackSize(Byte.parseByte(stackSize.getText()));
-            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(blockExtender, Byte.parseByte(stackSize.getText()))));
         }
-        userFilter.textboxKeyTyped(c, i);
-        blockExtender.getFilter().userFilter = userFilter.getText();
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter(blockExtender, userFilter.getText())));
     }
 
     @Override
@@ -186,15 +199,15 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         {
             case 0:
                 blockExtender.setSpreadItems(!blockExtender.getSpreadItems());
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(blockExtender)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(blockExtender.getSpreadItems())));
                 break;
             case 1:
                 blockExtender.setBlackList(!blockExtender.getBlackList());
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist(blockExtender)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist(blockExtender.getBlackList())));
                 break;
             case 2:
                 blockExtender.restrictExtraction = !blockExtender.restrictExtraction;
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRestrictExtraction(blockExtender)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRestrictExtraction(blockExtender.restrictExtraction)));
                 break;
         }
     }
@@ -209,37 +222,37 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
             {
                 blockExtender.setInsertDirection(0, blockExtender.getInsertDirections()[0] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 0)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 0, blockExtender.getInsertDirections()[0])));
             }
             //Top
             else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
             {
                 blockExtender.setInsertDirection(1, blockExtender.getInsertDirections()[1] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 1)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 1, blockExtender.getInsertDirections()[1])));
             }
             //North
             else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 24 && y <= height / 2 + 40 - 24 + 14)
             {
                 blockExtender.setInsertDirection(2, blockExtender.getInsertDirections()[2] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 2)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 2, blockExtender.getInsertDirections()[2])));
             }
             //South
             else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
             {
                 blockExtender.setInsertDirection(3, blockExtender.getInsertDirections()[3] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 3)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 3, blockExtender.getInsertDirections()[3])));
             }
             //West
             else if (x >= width / 2 - 85 && x <= width / 2 - 85 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
             {
                 blockExtender.setInsertDirection(4, blockExtender.getInsertDirections()[4] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 4)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 4, blockExtender.getInsertDirections()[4])));
             }
             //East
             else if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
             {
                 blockExtender.setInsertDirection(5, blockExtender.getInsertDirections()[5] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 5)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 5, blockExtender.getInsertDirections()[5])));
             }
             if (x >= width / 2 - 30 && x <= width / 2 + 120)
             {
@@ -248,7 +261,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
                     if (y >= height / 2 - 70 + i * ITEM_SIZE && y <= height / 2 - 70 + (1 + i) * ITEM_SIZE)
                     {
                         blockExtender.getFilter().setValue(index + i, !blockExtender.getFilter().getValue(index + i));
-                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption(blockExtender, (byte) (index + i))));
+                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((byte) (index + i))));
                     }
                 }
             }
@@ -257,7 +270,8 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         stackSize.mouseClicked(x, y, type);
     }
 
-    private void drawContainerBackground()
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         int xSize = 256;
         int ySize = 153;

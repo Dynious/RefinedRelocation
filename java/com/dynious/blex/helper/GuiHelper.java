@@ -1,48 +1,52 @@
 package com.dynious.blex.helper;
 
+import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.gui.*;
+import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketTileUpdate;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.common.network.FMLNetworkHandler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
 public class GuiHelper
 {
-    public static void openGui(TileEntity tile, Player player)
+    public static void openGui(EntityPlayer player, TileEntity tile)
     {
         if (!tile.getWorldObj().isRemote)
         {
-            PacketDispatcher.sendPacketToPlayer(PacketTypeHandler.populatePacket(new PacketTileUpdate(tile)), player);
-        }
-        else
-        {
+            int GuiId = -1;
+
             if (tile instanceof TileAdvancedBlockExtender)
             {
-                FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBlockExtender((TileAdvancedBlockExtender) tile));
+                GuiId = GuiIds.ADVANCED_BLOCK_EXTENDER;
             }
             else if (tile instanceof TileFilteredBlockExtender)
             {
-                FMLCommonHandler.instance().showGuiScreen(new GuiFiltered((TileFilteredBlockExtender) tile));
+                GuiId = GuiIds.FILTERED_BLOCK_EXTENDER;
             }
             else if (tile instanceof TileWirelessBlockExtender)
             {
-                FMLCommonHandler.instance().showGuiScreen(new GuiWirelessBlockExtender((TileWirelessBlockExtender) tile));
+                GuiId = GuiIds.WIRELESS_BLOCK_EXTENDER;
             }
             else if (tile instanceof TileAdvancedFilteredBlockExtender)
             {
-                FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedFilteredBlockExtender((TileAdvancedFilteredBlockExtender) tile));
+                GuiId = GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER;
             }
             else if (tile instanceof TileAdvancedBuffer)
             {
-                FMLCommonHandler.instance().showGuiScreen(new GuiAdvancedBuffer((TileAdvancedBuffer) tile));
+                GuiId = GuiIds.ADVANCED_BUFFER;
             }
             else if (tile instanceof TileFilteredBuffer)
             {
-                FMLCommonHandler.instance().showGuiScreen(new GuiFiltered((TileFilteredBuffer) tile));
+                GuiId = GuiIds.FILTERED_BUFFER;
             }
+
+            if (GuiId != -1)
+                FMLNetworkHandler.openGui(player, BlockExtenders.instance, GuiId, tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
         }
     }
 }
