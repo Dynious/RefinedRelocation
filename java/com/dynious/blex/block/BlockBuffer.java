@@ -10,6 +10,7 @@ import com.dynious.blex.tileentity.TileBuffer;
 import com.dynious.blex.tileentity.TileFilteredBuffer;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.Player;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -64,7 +65,7 @@ public class BlockBuffer extends BlockContainer
             TileEntity tile = world.getBlockTileEntity(x, y, z);
             if (tile != null)
             {
-                GuiHelper.openGui(tile);
+                GuiHelper.openGui(tile, (Player)player);
             }
         }
         return true;

@@ -15,7 +15,19 @@ public class Filter
     public boolean[] customFilters = new boolean[FILTER_SIZE];
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     public String userFilter = "";
+    private Field tabField;
 
+    public Filter()
+    {
+        try
+        {
+            tabField = Item.class.getDeclaredField("tabToDisplayOn");
+            tabField.setAccessible(true);
+        } catch (NoSuchFieldException e)
+        {
+            e.printStackTrace();
+        }
+    }
     public int getSize()
     {
         return creativeTabs.length - 2 + FILTER_SIZE;
@@ -85,9 +97,7 @@ public class Filter
                 CreativeTabs tab = null;
                 try
                 {
-                    Field field = Item.class.getDeclaredField("tabToDisplayOn");
-                    field.setAccessible(true);
-                    tab = (CreativeTabs)field.get(itemStack.getItem());
+                    tab = (CreativeTabs)tabField.get(itemStack.getItem());
                 } catch (Exception e)
                 {
                     e.printStackTrace();

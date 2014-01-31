@@ -39,10 +39,8 @@ public class PacketSpread extends PacketTile
     public void execute(INetworkManager manager, Player player)
     {
         super.execute(manager, player);
-        System.out.println(tile);
         if (tile instanceof IAdvancedTile)
         {
-            System.out.println("!SPREAD");
             ((IAdvancedTile)tile).setSpreadItems(!((IAdvancedTile)tile).getSpreadItems());
         }
     }

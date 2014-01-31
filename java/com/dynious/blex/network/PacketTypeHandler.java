@@ -16,7 +16,8 @@ public enum PacketTypeHandler
     USER_FILTER(PacketUserFilter.class),
     BLACKLIST(PacketBlacklist.class),
     FILTER_OPTION(PacketFilterOption.class),
-    RESTRICT_EXTRACTION(PacketRestrictExtraction.class);
+    RESTRICT_EXTRACTION(PacketRestrictExtraction.class),
+    TILE_UPDATE(PacketTileUpdate.class);
 
     private Class<? extends CustomPacket> clazz;
 
