@@ -1,7 +1,6 @@
 package com.dynious.blex.renderer;
 
 import com.dynious.blex.lib.Resources;
-import com.dynious.blex.model.ModelBlockExtender;
 import com.dynious.blex.model.ModelBuffer;
 import com.dynious.blex.model.ModelEnderPearl;
 import cpw.mods.fml.client.FMLClientHandler;

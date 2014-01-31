@@ -4,7 +4,6 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Optional.*;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
@@ -28,7 +27,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import static cpw.mods.fml.common.Optional.*;
@@ -297,56 +295,56 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         return worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
     }
-    
-    public void setRedstoneEnabled( boolean state )
+
+    public void setRedstoneEnabled(boolean state)
     {
         boolean wasRedstoneEnabled = isRedstoneEnabled;
-    	isRedstoneEnabled = state;
+        isRedstoneEnabled = state;
 
         if (isRedstoneEnabled != wasRedstoneEnabled)
         {
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    		this.checkRedstonePower();
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            this.checkRedstonePower();
         }
     }
-    
-    public void checkRedstonePower() 
+
+    public void checkRedstonePower()
     {
-    	boolean wasRedstonePowered = isRedstonePowered;
-		
-    	isRedstonePowered = false;
-    	if (isRedstoneEnabled)
-    	{
-			for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) 
-			{
-				// facing direction is output only
-				if ( direction == connectedDirection )
-					continue;
-	
-				int indirectPowerLevelFromDirection = worldObj.getIndirectPowerLevelTo(this.xCoord+direction.offsetX, this.yCoord+direction.offsetY, this.zCoord+direction.offsetZ, direction.ordinal() );
-				if( indirectPowerLevelFromDirection > 0 )
-				{
-					isRedstonePowered = true;
-					break;
-				}
-			}
-    	}
-    	
-    	if (isRedstonePowered != wasRedstonePowered)
-    	{
-    		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        boolean wasRedstonePowered = isRedstonePowered;
+
+        isRedstonePowered = false;
+        if (isRedstoneEnabled)
+        {
+            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+            {
+                // facing direction is output only
+                if (direction == connectedDirection)
+                    continue;
+
+                int indirectPowerLevelFromDirection = worldObj.getIndirectPowerLevelTo(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ, direction.ordinal());
+                if (indirectPowerLevelFromDirection > 0)
+                {
+                    isRedstonePowered = true;
+                    break;
+                }
+            }
+        }
+
+        if (isRedstonePowered != wasRedstonePowered)
+        {
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             worldObj.notifyBlockOfNeighborChange(xCoord + connectedDirection.offsetX, yCoord + connectedDirection.offsetY, zCoord + connectedDirection.offsetZ, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
-    	}
+        }
     }
-    
-    public int isPoweringTo( int side ) 
+
+    public int isPoweringTo(int side)
     {
-    	ForgeDirection realDir = ForgeDirection.getOrientation(side).getOpposite();
-		
-    	if ( isRedstonePowered && connectedDirection == realDir )
-    		return 15;
-    	
-    	return 0;
+        ForgeDirection realDir = ForgeDirection.getOrientation(side).getOpposite();
+
+        if (isRedstonePowered && connectedDirection == realDir)
+            return 15;
+
+        return 0;
     }
 
     /*
@@ -357,26 +355,33 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     *   2: SOUTH
     *   3: WEST
     *   */
-    public boolean canConnectRedstone( int side )
+    public boolean canConnectRedstone(int side)
     {
         if (!this.isRedstoneEnabled)
             return false;
 
-    	ForgeDirection realDirection = ForgeDirection.UNKNOWN;
-    	
-    	switch( side ) 
-    	{
-	    	case -1: realDirection = ForgeDirection.UP; break;
-	    	case 0: realDirection = ForgeDirection.NORTH; break;
-	    	case 1: realDirection = ForgeDirection.EAST; break;
-	    	case 2: realDirection = ForgeDirection.SOUTH; break;
-	    	case 3: realDirection = ForgeDirection.WEST; break;
-    	}
-    	
-    	if (realDirection != ForgeDirection.UNKNOWN)
-    		return realDirection == connectedDirection;
-    	else
-    		return false;
+        ForgeDirection realDirection = ForgeDirection.UNKNOWN;
+
+        switch (side)
+        {
+            case -1:
+                realDirection = ForgeDirection.UP;
+                break;
+            case 0:
+                realDirection = ForgeDirection.NORTH;
+                break;
+            case 1:
+                realDirection = ForgeDirection.EAST;
+                break;
+            case 2:
+                realDirection = ForgeDirection.SOUTH;
+                break;
+            case 3:
+                realDirection = ForgeDirection.WEST;
+                break;
+        }
+
+        return realDirection != ForgeDirection.UNKNOWN && realDirection == connectedDirection;
     }
 
     /*
@@ -402,14 +407,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
     {
-        switch(method)
+        switch (method)
         {
             case 0:
-                return new String[]{ connectedDirection.toString()};
+                return new String[]{connectedDirection.toString()};
             case 1:
                 if (arguments.length > 0 && arguments[0] instanceof String)
                 {
-                    ForgeDirection direction = ForgeDirection.valueOf(((String)arguments[0]).toUpperCase());
+                    ForgeDirection direction = ForgeDirection.valueOf(((String) arguments[0]).toUpperCase());
                     if (direction != null && direction != ForgeDirection.UNKNOWN)
                     {
                         setConnectedSide(direction.ordinal());
@@ -562,11 +567,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public boolean isInvNameLocalized()
     {
-        if (inventory != null)
-        {
-            return inventory.isInvNameLocalized();
-        }
-        return false;
+        return inventory != null && inventory.isInvNameLocalized();
     }
 
     @Override
@@ -582,11 +583,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityPlayer)
     {
-        if (inventory != null)
-        {
-            return inventory.isUseableByPlayer(entityPlayer);
-        }
-        return false;
+        return inventory != null && inventory.isUseableByPlayer(entityPlayer);
     }
 
     @Override
@@ -610,11 +607,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemStack)
     {
-        if (inventory != null)
-        {
-            return inventory.isItemValidForSlot(i, itemStack);
-        }
-        return false;
+        return inventory != null && inventory.isItemValidForSlot(i, itemStack);
     }
 
     @Override
@@ -665,21 +658,13 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid)
     {
-        if (fluidHandler != null)
-        {
-            return fluidHandler.canFill(getInputSide(from), fluid);
-        }
-        return false;
+        return fluidHandler != null && fluidHandler.canFill(getInputSide(from), fluid);
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid)
     {
-        if (fluidHandler != null)
-        {
-            return fluidHandler.canDrain(getInputSide(from), fluid);
-        }
-        return false;
+        return fluidHandler != null && fluidHandler.canDrain(getInputSide(from), fluid);
     }
 
     @Override
@@ -767,11 +752,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public boolean acceptsEnergyFrom(TileEntity tileEntity, ForgeDirection forgeDirection)
     {
-        if (energySink != null)
-        {
-            return energySink.acceptsEnergyFrom(tileEntity, getInputSide(forgeDirection));
-        }
-        return false;
+        return energySink != null && energySink.acceptsEnergyFrom(tileEntity, getInputSide(forgeDirection));
     }
 
     @Method(modid = "CoFHCore")
@@ -810,11 +791,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     @Override
     public boolean canInterface(ForgeDirection forgeDirection)
     {
-        if (energyHandler != null)
-        {
-            return energyHandler.canInterface(getInputSide(forgeDirection));
-        }
-        return false;
+        return energyHandler != null && energyHandler.canInterface(getInputSide(forgeDirection));
     }
 
     @Method(modid = "CoFHCore")

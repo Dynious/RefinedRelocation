@@ -1,17 +1,11 @@
 package com.dynious.blex.tileentity;
 
-import buildcraft.api.power.IPowerReceptor;
-import cofh.api.energy.IEnergyHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
-import ic2.api.energy.tile.IEnergySink;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.fluids.IFluidHandler;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
@@ -87,10 +81,10 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
             case 9:
                 if (arguments.length > 0 && arguments[0] instanceof Double && arguments[1] instanceof Double && arguments[2] instanceof Double)
                 {
-                    double x = (Double)arguments[0];
-                    double y = (Double)arguments[1];
-                    double z = (Double)arguments[2];
-                    setConnection((int)x, (int)y, (int)z);
+                    double x = (Double) arguments[0];
+                    double y = (Double) arguments[1];
+                    double z = (Double) arguments[2];
+                    setConnection((int) x, (int) y, (int) z);
                 }
         }
         Object[] superArr = super.callMethod(computer, context, method, arguments);

@@ -1,9 +1,7 @@
 package com.dynious.blex.network.packet;
 
 import com.dynious.blex.network.PacketTypeHandler;
-import com.dynious.blex.tileentity.IAdvancedTile;
 import com.dynious.blex.tileentity.IFilterTile;
-import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
@@ -47,7 +45,7 @@ public class PacketUserFilter extends PacketTile
         super.execute(manager, player);
         if (tile instanceof IFilterTile)
         {
-            ((IFilterTile)tile).getFilter().userFilter = userFilter;
+            ((IFilterTile) tile).getFilter().userFilter = userFilter;
         }
     }
 }

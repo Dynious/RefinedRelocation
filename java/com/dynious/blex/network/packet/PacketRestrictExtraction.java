@@ -1,7 +1,6 @@
 package com.dynious.blex.network.packet;
 
 import com.dynious.blex.network.PacketTypeHandler;
-import com.dynious.blex.tileentity.IAdvancedTile;
 import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
@@ -41,7 +40,7 @@ public class PacketRestrictExtraction extends PacketTile
         super.execute(manager, player);
         if (tile instanceof TileAdvancedFilteredBlockExtender)
         {
-            ((TileAdvancedFilteredBlockExtender)tile).restrictExtraction = !((TileAdvancedFilteredBlockExtender)tile).restrictExtraction;
+            ((TileAdvancedFilteredBlockExtender) tile).restrictExtraction = !((TileAdvancedFilteredBlockExtender) tile).restrictExtraction;
         }
     }
 }

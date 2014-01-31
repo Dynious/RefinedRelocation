@@ -55,20 +55,20 @@ public class TileFilteredBlockExtender extends TileBlockExtender implements IFil
             case 2:
                 if (arguments.length > 0 && arguments[0] instanceof Double)
                 {
-                    double arg = (Double)arguments[0];
+                    double arg = (Double) arguments[0];
                     if (arg >= 0 && arg < filter.getSize())
                     {
-                        return new Boolean[]{filter.getValue((int)arg)};
+                        return new Boolean[]{filter.getValue((int) arg)};
                     }
                     return null;
                 }
             case 3:
                 if (arguments.length > 1 && arguments[0] instanceof Double && arguments[1] instanceof Boolean)
                 {
-                    double arg = (Double)arguments[0];
+                    double arg = (Double) arguments[0];
                     if (arg >= 0 && arg < filter.getSize())
                     {
-                        filter.setValue((int)arg, (Boolean)arguments[1]);
+                        filter.setValue((int) arg, (Boolean) arguments[1]);
                         return new Boolean[]{true};
                     }
                 }

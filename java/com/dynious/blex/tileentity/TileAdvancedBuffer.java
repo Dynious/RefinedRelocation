@@ -1,7 +1,6 @@
 package com.dynious.blex.tileentity;
 
 import buildcraft.api.transport.IPipeTile;
-import buildcraft.factory.TileHopper;
 import cofh.api.transport.IItemConduit;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.item.EntityItem;
@@ -62,8 +61,8 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         {
             ItemStack tempStack = itemstack.copy();
             tempStack.stackSize = 1;
-            int  tries = 0;
-            while(tries < 6)
+            int tries = 0;
+            while (tries < 6)
             {
                 tries++;
                 int side = insertDirection[nextInsertDirection];
@@ -105,21 +104,21 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         {
             if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
             {
-                return ((IItemConduit)tile).insertItem(ForgeDirection.getOrientation(side).getOpposite(), itemstack);
+                return ((IItemConduit) tile).insertItem(ForgeDirection.getOrientation(side).getOpposite(), itemstack);
             }
             else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
             {
-                IPipeTile pipe = (IPipeTile)tile;
+                IPipeTile pipe = (IPipeTile) tile;
                 if (pipe.isPipeConnected(ForgeDirection.getOrientation(side).getOpposite()))
                 {
                     int size = pipe.injectItem(itemstack, true, ForgeDirection.getOrientation(side).getOpposite());
-                        itemstack.stackSize -= size;
+                    itemstack.stackSize -= size;
                     return itemstack;
                 }
             }
-            else if ( tile instanceof IInventory)
+            else if (tile instanceof IInventory)
             {
-                return TileEntityHopper.insertStack((IInventory)tile, itemstack, ForgeDirection.OPPOSITES[side]);
+                return TileEntityHopper.insertStack((IInventory) tile, itemstack, ForgeDirection.OPPOSITES[side]);
             }
         }
         return itemstack;

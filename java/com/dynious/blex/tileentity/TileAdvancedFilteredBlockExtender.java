@@ -13,7 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 public class TileAdvancedFilteredBlockExtender extends TileBlockExtender implements IFilterTile, IAdvancedTile
 {
     private boolean spreadItems = false;
-    private byte[] insertDirection = { 1, 1, 1, 1, 1, 1, 1};
+    private byte[] insertDirection = {1, 1, 1, 1, 1, 1, 1};
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
@@ -48,7 +48,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         {
             for (int i = 0; i < ForgeDirection.values().length; i++)
             {
-                insertDirection[i] = (byte)connectedDirection.getOpposite().ordinal();
+                insertDirection[i] = (byte) connectedDirection.getOpposite().ordinal();
             }
         }
     }
@@ -188,14 +188,14 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         switch (method)
         {
             case 2:
-                return new Integer[]{(int)maxStackSize};
+                return new Integer[]{(int) maxStackSize};
             case 3:
                 if (arguments.length > 0 && arguments[0] instanceof Double)
                 {
-                    double arg = (Double)arguments[0];
+                    double arg = (Double) arguments[0];
                     if (arg >= 0 && arg <= Byte.MAX_VALUE)
                     {
-                        setMaxStackSize((byte)arg);
+                        setMaxStackSize((byte) arg);
                         return new Boolean[]{true};
                     }
                 }
@@ -205,26 +205,26 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
             case 5:
                 if (arguments.length > 0 && arguments[0] instanceof Boolean)
                 {
-                    spreadItems = (Boolean)arguments[0];
+                    spreadItems = (Boolean) arguments[0];
                     return new Boolean[]{true};
                 }
                 return new Boolean[]{false};
             case 6:
                 if (arguments.length > 0 && arguments[0] instanceof Double)
                 {
-                    double arg = (Double)arguments[0];
+                    double arg = (Double) arguments[0];
                     if (arg >= 0 && arg < ForgeDirection.values().length)
-                        return new Integer[]{(int)insertDirection[(byte)arg]};
+                        return new Integer[]{(int) insertDirection[(byte) arg]};
                 }
                 return new Boolean[]{false};
             case 7:
                 if (arguments.length > 1 && arguments[0] instanceof Double && arguments[1] instanceof Double)
                 {
-                    double side = (Double)arguments[0];
-                    double value = (Double)arguments[1];
+                    double side = (Double) arguments[0];
+                    double value = (Double) arguments[1];
                     if (side >= 0 && side < ForgeDirection.values().length && value >= 0 && value < ForgeDirection.values().length)
                     {
-                        insertDirection[(byte)side] = (byte)value;
+                        insertDirection[(byte) side] = (byte) value;
                         return new Boolean[]{true};
                     }
                 }
@@ -232,20 +232,20 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
             case 8:
                 if (arguments.length > 0 && arguments[0] instanceof Double)
                 {
-                    double arg = (Double)arguments[0];
+                    double arg = (Double) arguments[0];
                     if (arg >= 0 && arg < filter.getSize())
                     {
-                        return new Boolean[]{filter.getValue((int)arg)};
+                        return new Boolean[]{filter.getValue((int) arg)};
                     }
                     return null;
                 }
             case 9:
                 if (arguments.length > 1 && arguments[0] instanceof Double && arguments[1] instanceof Boolean)
                 {
-                    double arg = (Double)arguments[0];
+                    double arg = (Double) arguments[0];
                     if (arg >= 0 && arg < filter.getSize())
                     {
-                        filter.setValue((int)arg, (Boolean)arguments[1]);
+                        filter.setValue((int) arg, (Boolean) arguments[1]);
                         return new Boolean[]{true};
                     }
                 }

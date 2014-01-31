@@ -39,7 +39,7 @@ public class ItemLinker extends Item
             int x = stack.getTagCompound().getInteger("tileX");
             int y = stack.getTagCompound().getInteger("tileY");
             int z = stack.getTagCompound().getInteger("tileZ");
-            list.add("Linked position: " + x + ":" + y + ":" + z + " ("+BlockHelper.getBlockDisplayName(par2EntityPlayer.getEntityWorld(), x, y, z)+")");
+            list.add("Linked position: " + x + ":" + y + ":" + z + " (" + BlockHelper.getBlockDisplayName(par2EntityPlayer.getEntityWorld(), x, y, z) + ")");
         }
     }
 
@@ -52,7 +52,7 @@ public class ItemLinker extends Item
             linkTileAtPosition(itemStack, x, y, z);
             if (world.isRemote)
                 entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                        .addText("Linker set to position " + x + ":" + y + ":" + z + " ("+BlockHelper.getBlockDisplayName(world, x, y, z)+")"));
+                        .addText("Linker set to position " + x + ":" + y + ":" + z + " (" + BlockHelper.getBlockDisplayName(world, x, y, z) + ")"));
             return true;
         }
         return false;

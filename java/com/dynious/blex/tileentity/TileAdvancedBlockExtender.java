@@ -10,12 +10,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.HashSet;
-
 public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdvancedTile
 {
     private boolean spreadItems = false;
-    private byte[] insertDirection = { 1, 1, 1, 1, 1, 1, 1};
+    private byte[] insertDirection = {1, 1, 1, 1, 1, 1, 1};
     private int bestSlot;
     private boolean shouldUpdateBestSlot = true;
     private int lastSide;
@@ -44,14 +42,14 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
         {
             for (int i = 0; i < ForgeDirection.values().length; i++)
             {
-                insertDirection[i] = (byte)connectedDirection.getOpposite().ordinal();
+                insertDirection[i] = (byte) connectedDirection.getOpposite().ordinal();
             }
         }
     }
 
     public boolean getSpreadItems()
     {
-        return  spreadItems;
+        return spreadItems;
     }
 
     public void setSpreadItems(boolean spreadItems)
@@ -173,14 +171,14 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
         switch (method)
         {
             case 2:
-                return new Integer[]{(int)maxStackSize};
+                return new Integer[]{(int) maxStackSize};
             case 3:
                 if (arguments.length > 0 && arguments[0] instanceof Double)
                 {
-                    double arg = (Double)arguments[0];
+                    double arg = (Double) arguments[0];
                     if (arg >= 0 && arg <= Byte.MAX_VALUE)
                     {
-                        setMaxStackSize((byte)arg);
+                        setMaxStackSize((byte) arg);
                         return new Boolean[]{true};
                     }
                 }
@@ -190,26 +188,26 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
             case 5:
                 if (arguments.length > 0 && arguments[0] instanceof Boolean)
                 {
-                    spreadItems = (Boolean)arguments[0];
+                    spreadItems = (Boolean) arguments[0];
                     return new Boolean[]{true};
                 }
                 return new Boolean[]{false};
             case 6:
                 if (arguments.length > 0 && arguments[0] instanceof Double)
                 {
-                    double arg = (Double)arguments[0];
+                    double arg = (Double) arguments[0];
                     if (arg >= 0 && arg < ForgeDirection.values().length)
-                        return new Integer[]{(int)insertDirection[(byte)arg]};
+                        return new Integer[]{(int) insertDirection[(byte) arg]};
                 }
                 return new Boolean[]{false};
             case 7:
                 if (arguments.length > 1 && arguments[0] instanceof Double && arguments[1] instanceof Double)
                 {
-                    double side = (Double)arguments[0];
-                    double value = (Double)arguments[1];
+                    double side = (Double) arguments[0];
+                    double value = (Double) arguments[1];
                     if (side >= 0 && side < ForgeDirection.values().length && value >= 0 && value < ForgeDirection.values().length)
                     {
-                        insertDirection[(byte)side] = (byte)value;
+                        insertDirection[(byte) side] = (byte) value;
                         return new Boolean[]{true};
                     }
                 }

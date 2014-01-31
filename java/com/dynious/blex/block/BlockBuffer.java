@@ -1,15 +1,11 @@
 package com.dynious.blex.block;
 
 import com.dynious.blex.BlockExtenders;
-import com.dynious.blex.gui.GuiAdvancedBuffer;
-import com.dynious.blex.gui.GuiFiltered;
 import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.tileentity.TileAdvancedBuffer;
 import com.dynious.blex.tileentity.TileBuffer;
 import com.dynious.blex.tileentity.TileFilteredBuffer;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -28,7 +24,7 @@ public class BlockBuffer extends BlockContainer
     {
         super(id, Material.rock);
         this.setUnlocalizedName(Names.buffer);
-		this.setHardness(3.0F);
+        this.setHardness(3.0F);
         this.setCreativeTab(BlockExtenders.tabBlEx);
     }
 
@@ -41,7 +37,7 @@ public class BlockBuffer extends BlockContainer
     @Override
     public TileEntity createTileEntity(World world, int metadata)
     {
-        switch(metadata)
+        switch (metadata)
         {
             case 0:
                 return new TileBuffer();
@@ -52,6 +48,7 @@ public class BlockBuffer extends BlockContainer
         }
         return null;
     }
+
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z,
                                     EntityPlayer player, int par6, float par7, float par8, float par9)
@@ -65,7 +62,7 @@ public class BlockBuffer extends BlockContainer
             TileEntity tile = world.getBlockTileEntity(x, y, z);
             if (tile != null)
             {
-                GuiHelper.openGui(tile, (Player)player);
+                GuiHelper.openGui(tile, (Player) player);
             }
         }
         return true;
@@ -108,7 +105,7 @@ public class BlockBuffer extends BlockContainer
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileBuffer)
         {
-            ((TileBuffer)tile).onBlocksChanged();
+            ((TileBuffer) tile).onBlocksChanged();
         }
     }
 
@@ -128,9 +125,10 @@ public class BlockBuffer extends BlockContainer
     {
         return "obsidian";
     }
-    
+
     @Override
-	public int damageDropped (int metadata) {
-		return metadata;
-	}
+    public int damageDropped(int metadata)
+    {
+        return metadata;
+    }
 }

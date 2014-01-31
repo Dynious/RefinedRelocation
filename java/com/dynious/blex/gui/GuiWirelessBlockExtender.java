@@ -19,7 +19,7 @@ public class GuiWirelessBlockExtender extends GuiAdvancedFilteredBlockExtender
         super.drawScreen(h, j, f);
         if (blockExtender.xConnected != Integer.MAX_VALUE)
         {
-            String string = "Linked with "+BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile())+" at " + blockExtender.xConnected + ":" + blockExtender.yConnected + ":" + blockExtender.zConnected;
+            String string = "Linked with " + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()) + " at " + blockExtender.xConnected + ":" + blockExtender.yConnected + ":" + blockExtender.zConnected;
             fontRenderer.drawString(string, width / 2 - (fontRenderer.getStringWidth(string) / 2), height / 2 - 90, 0xFFFFFF);
         }
     }

@@ -37,8 +37,7 @@ public enum PacketTypeHandler
         try
         {
             packet = values()[selector].clazz.newInstance();
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace(System.err);
         }
@@ -55,8 +54,7 @@ public enum PacketTypeHandler
         try
         {
             packet = values()[type.ordinal()].clazz.newInstance();
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace(System.err);
         }

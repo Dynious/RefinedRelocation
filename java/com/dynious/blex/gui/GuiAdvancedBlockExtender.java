@@ -1,7 +1,6 @@
 package com.dynious.blex.gui;
 
 import com.dynious.blex.lib.Resources;
-import com.dynious.blex.network.PacketHandler;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketInsertDirection;
 import com.dynious.blex.network.packet.PacketMaxStackSize;
@@ -141,37 +140,37 @@ public class GuiAdvancedBlockExtender extends GuiScreen
             if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
             {
                 blockExtender.setInsertDirection(0, blockExtender.getInsertDirection()[0] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)0)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 0)));
             }
             //Top
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(1, blockExtender.getInsertDirection()[1] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)1)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 1)));
             }
             //North
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 24 && y <= height / 2 - 24 + 14)
             {
                 blockExtender.setInsertDirection(2, blockExtender.getInsertDirection()[2] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)2)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 2)));
             }
             //South
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
             {
                 blockExtender.setInsertDirection(3, blockExtender.getInsertDirection()[3] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)3)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 3)));
             }
             //West
             else if (x >= width / 2 + 28 && x <= width / 2 + 28 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(4, blockExtender.getInsertDirection()[4] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)4)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 4)));
             }
             //East
             else if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(5, blockExtender.getInsertDirection()[5] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)5)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 5)));
             }
         }
     }

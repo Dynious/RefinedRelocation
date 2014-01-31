@@ -8,7 +8,6 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -46,7 +45,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
         stackSize = new GuiTextField(fontRenderer, width / 2 - 120, height / 2 + 33, 20, 15);
         stackSize.setMaxStringLength(2);
         stackSize.setText(Integer.toString(blockExtender.getInventoryStackLimit()));
-        userFilter = new GuiTextField(fontRenderer, width/2 - 88, height / 2 + 80, 176, 15);
+        userFilter = new GuiTextField(fontRenderer, width / 2 - 88, height / 2 + 80, 176, 15);
         userFilter.setText(blockExtender.getFilter().userFilter);
     }
 
@@ -169,7 +168,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             if (stackSize.getText().isEmpty())
             {
                 blockExtender.setMaxStackSize((byte) 0);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(blockExtender, (byte)0)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize(blockExtender, (byte) 0)));
                 return;
             }
             blockExtender.setMaxStackSize(Byte.parseByte(stackSize.getText()));
@@ -210,37 +209,37 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
             if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
             {
                 blockExtender.setInsertDirection(0, blockExtender.getInsertDirections()[0] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)0)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 0)));
             }
             //Top
             else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
             {
                 blockExtender.setInsertDirection(1, blockExtender.getInsertDirections()[1] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)1)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 1)));
             }
             //North
             else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 - 24 && y <= height / 2 + 40 - 24 + 14)
             {
                 blockExtender.setInsertDirection(2, blockExtender.getInsertDirections()[2] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)2)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 2)));
             }
             //South
             else if (x >= width / 2 - 85 + 17 && x <= width / 2 - 85 + 17 + 14 && y >= height / 2 + 40 + 10 && y <= height / 2 + 40 + 10 + 14)
             {
                 blockExtender.setInsertDirection(3, blockExtender.getInsertDirections()[3] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)3)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 3)));
             }
             //West
             else if (x >= width / 2 - 85 && x <= width / 2 - 85 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
             {
                 blockExtender.setInsertDirection(4, blockExtender.getInsertDirections()[4] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)4)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 4)));
             }
             //East
             else if (x >= width / 2 - 85 + 34 && x <= width / 2 - 85 + 34 + 14 && y >= height / 2 + 40 - 7 && y <= height / 2 + 40 - 7 + 14)
             {
                 blockExtender.setInsertDirection(5, blockExtender.getInsertDirections()[5] + 1);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte)5)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(blockExtender, (byte) 5)));
             }
             if (x >= width / 2 - 30 && x <= width / 2 + 120)
             {
@@ -249,7 +248,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiScreen
                     if (y >= height / 2 - 70 + i * ITEM_SIZE && y <= height / 2 - 70 + (1 + i) * ITEM_SIZE)
                     {
                         blockExtender.getFilter().setValue(index + i, !blockExtender.getFilter().getValue(index + i));
-                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption(blockExtender, (byte)(index + i))));
+                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption(blockExtender, (byte) (index + i))));
                     }
                 }
             }

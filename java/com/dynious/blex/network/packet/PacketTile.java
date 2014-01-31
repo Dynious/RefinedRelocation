@@ -5,7 +5,6 @@ import cpw.mods.fml.common.network.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

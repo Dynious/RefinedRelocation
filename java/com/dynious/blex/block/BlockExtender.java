@@ -1,10 +1,6 @@
 package com.dynious.blex.block;
 
 import com.dynious.blex.BlockExtenders;
-import com.dynious.blex.gui.GuiAdvancedBlockExtender;
-import com.dynious.blex.gui.GuiAdvancedFilteredBlockExtender;
-import com.dynious.blex.gui.GuiFiltered;
-import com.dynious.blex.gui.GuiWirelessBlockExtender;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.helper.DistanceHelper;
 import com.dynious.blex.helper.GuiHelper;
@@ -12,8 +8,7 @@ import com.dynious.blex.item.ModItems;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
 import com.dynious.blex.tileentity.*;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -37,7 +32,7 @@ public class BlockExtender extends BlockContainer
     {
         super(id, Material.rock);
         this.setUnlocalizedName(Names.blockExtender);
-		this.setHardness(3.0F);
+        this.setHardness(3.0F);
         this.setCreativeTab(BlockExtenders.tabBlEx);
     }
 
@@ -90,7 +85,14 @@ public class BlockExtender extends BlockContainer
                 TileEntity tile = world.getBlockTileEntity(x, y, z);
                 if (tile != null && tile instanceof TileBlockExtender)
                 {
-                    ((TileBlockExtender)tile).setRedstoneEnabled( !((TileBlockExtender)tile).isRedstoneEnabled );
+                    TileBlockExtender blockExtender = (TileBlockExtender) tile;
+                    blockExtender.setRedstoneEnabled(!blockExtender.isRedstoneEnabled);
+                    if (world.isRemote)
+                    {
+                        player.sendChatToPlayer(new ChatMessageComponent()
+                                .addText(BlockHelper.getTileEntityDisplayName(tile) + " is now "
+                                        + (blockExtender.isRedstoneEnabled ? "" : "not ") + "transmitting redstone power"));
+                    }
                     return true;
                 }
             }
@@ -116,7 +118,7 @@ public class BlockExtender extends BlockContainer
                             if (world.isRemote)
                             {
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText(BlockHelper.getTileEntityDisplayName(tile)+" linked with "+BlockHelper.getTileEntityDisplayName(((TileWirelessBlockExtender) tile).getConnectedTile())+" at " + tileX + ":" + tileY + ":" + tileZ));
+                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " linked with " + BlockHelper.getTileEntityDisplayName(((TileWirelessBlockExtender) tile).getConnectedTile()) + " at " + tileX + ":" + tileY + ":" + tileZ));
                             }
                         }
                         else
@@ -124,15 +126,15 @@ public class BlockExtender extends BlockContainer
                             if (world.isRemote)
                             {
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText(BlockHelper.getTileEntityDisplayName(tile)+" is too far from the linked position"));
+                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position"));
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText(BlockHelper.getTileEntityDisplayName(tile)+" max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER));
+                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER));
                             }
                         }
                         return true;
                     }
                 }
-                GuiHelper.openGui(tile);
+                GuiHelper.openGui(tile, (Player) player);
             }
         }
         return true;
@@ -153,52 +155,52 @@ public class BlockExtender extends BlockContainer
     public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
     {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileBlockExtender)
-        {
-            return ((TileBlockExtender) tile).canConnectRedstone( side );
-        }
-        return false;
+        return tile != null && tile instanceof TileBlockExtender && ((TileBlockExtender) tile).canConnectRedstone(side);
     }
 
-	@Override
-	public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side) {
+    @Override
+    public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side)
+    {
         return isProvidingWeakPower(world, x, y, z, side);
-	}
+    }
 
-	@Override
-	public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
+    @Override
+    public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side)
+    {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileBlockExtender)
         {
             return ((TileBlockExtender) tile).isPoweringTo(side);
         }
         return 0;
-	}
+    }
 
     @SideOnly(Side.CLIENT)
-	@Override
-	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		TileBlockExtender tile = (TileBlockExtender) world.getBlockTileEntity(x, y, z);
+    @Override
+    public void randomDisplayTick(World world, int x, int y, int z, Random random)
+    {
+        TileBlockExtender tile = (TileBlockExtender) world.getBlockTileEntity(x, y, z);
 
-		if (!tile.isRedstonePowered)
-			return;
+        if (!tile.isRedstonePowered)
+            return;
 
-		float f = (float) x + 0.5F;
-		float f1 = (float) y + 0.5F + (random.nextFloat() * 6F) / 16F;
-		float f2 = (float) z + 0.5F;
-		float f3 = 0.6F;
-		float f4 = random.nextFloat() * 0.6F - 0.3F;
+        float f = (float) x + 0.5F;
+        float f1 = (float) y + 0.5F + (random.nextFloat() * 6F) / 16F;
+        float f2 = (float) z + 0.5F;
+        float f3 = 0.6F;
+        float f4 = random.nextFloat() * 0.6F - 0.3F;
 
-		world.spawnParticle("reddust", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-		world.spawnParticle("reddust", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-		world.spawnParticle("reddust", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
-		world.spawnParticle("reddust", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
-	}
+        world.spawnParticle("reddust", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+        world.spawnParticle("reddust", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+        world.spawnParticle("reddust", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
+        world.spawnParticle("reddust", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
+    }
 
-	@Override
-	public boolean canProvidePower() {
-		return true;
-	}
+    @Override
+    public boolean canProvidePower()
+    {
+        return true;
+    }
 
     @Override
     public boolean isOpaqueCube()
@@ -234,11 +236,10 @@ public class BlockExtender extends BlockContainer
     {
         return "obsidian";
     }
-    
+
     @Override
-	public int damageDropped (int metadata) {
-		return metadata;
-	}
-
-
+    public int damageDropped(int metadata)
+    {
+        return metadata;
+    }
 }

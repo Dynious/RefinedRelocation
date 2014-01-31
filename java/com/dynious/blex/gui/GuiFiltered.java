@@ -39,7 +39,7 @@ public class GuiFiltered extends GuiScreen
         super.initGui();
         this.buttonList.clear();
         this.buttonList.add(blacklist = new GuiButton(0, width / 2 - 40, height / 2 - 100, 80, 20, filterTile.getBlackList() ? "Blacklist" : "Whitelist"));
-        userFilter = new GuiTextField(fontRenderer, width/2 - 88, height / 2 + 80, 176, 15);
+        userFilter = new GuiTextField(fontRenderer, width / 2 - 88, height / 2 + 80, 176, 15);
         userFilter.setText(filterTile.getFilter().userFilter);
     }
 
@@ -114,7 +114,7 @@ public class GuiFiltered extends GuiScreen
         super.keyTyped(c, i);
         userFilter.textboxKeyTyped(c, i);
         filterTile.getFilter().userFilter = userFilter.getText();
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter((TileEntity)filterTile, userFilter.getText())));
+        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter((TileEntity) filterTile, userFilter.getText())));
     }
 
 
@@ -125,7 +125,7 @@ public class GuiFiltered extends GuiScreen
         {
             case 0:
                 filterTile.setBlackList(!filterTile.getBlackList());
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist((TileEntity)filterTile)));
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist((TileEntity) filterTile)));
                 break;
         }
     }
@@ -143,7 +143,7 @@ public class GuiFiltered extends GuiScreen
                     if (y >= height / 2 - 70 + i * ITEM_SIZE && y <= height / 2 - 70 + (1 + i) * ITEM_SIZE)
                     {
                         filterTile.getFilter().setValue(index + i, !filterTile.getFilter().getValue(index + i));
-                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((TileEntity)filterTile, (byte)(index + i))));
+                        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((TileEntity) filterTile, (byte) (index + i))));
                     }
                 }
             }

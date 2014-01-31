@@ -1,7 +1,6 @@
 package com.dynious.blex.network.packet;
 
 import com.dynious.blex.network.PacketTypeHandler;
-import com.dynious.blex.tileentity.IAdvancedTile;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagByteArray;
@@ -41,7 +40,7 @@ public class PacketTileUpdate extends CustomPacket
     @Override
     public void readData(DataInputStream data) throws IOException
     {
-        compound = (NBTTagCompound)NBTTagByteArray.readNamedTag(data);
+        compound = (NBTTagCompound) NBTTagByteArray.readNamedTag(data);
     }
 
     @Override

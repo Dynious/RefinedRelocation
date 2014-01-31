@@ -8,7 +8,6 @@ import com.dynious.blex.tileentity.TileAdvancedBuffer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 public class GuiAdvancedBuffer extends GuiScreen
@@ -21,6 +20,7 @@ public class GuiAdvancedBuffer extends GuiScreen
     {
         this.buffer = buffer;
     }
+
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
@@ -31,14 +31,14 @@ public class GuiAdvancedBuffer extends GuiScreen
         this.buttonList.clear();
         for (int i = 0; i < 3; i++)
         {
-            this.buttonList.add(buttons[i] = new GuiButton(i, width/2 - 70 + (i*50), height/2 - 40, 40, 20, buffer.getInsertionName(i)));
+            this.buttonList.add(buttons[i] = new GuiButton(i, width / 2 - 70 + (i * 50), height / 2 - 40, 40, 20, buffer.getInsertionName(i)));
         }
         for (int i = 0; i < 3; i++)
         {
-            this.buttonList.add(buttons[i + 3] = new GuiButton(i + 3, width/2 - 70 + (i*50), height/2, 40, 20, buffer.getInsertionName(i + 3)));
+            this.buttonList.add(buttons[i + 3] = new GuiButton(i + 3, width / 2 - 70 + (i * 50), height / 2, 40, 20, buffer.getInsertionName(i + 3)));
         }
 
-        this.buttonList.add(spread = new GuiButton(6, width/2 - 40, height/2 + 30, 80, 20, buffer.getSpreadItems() ? "Spread on" : "Spread off"));
+        this.buttonList.add(spread = new GuiButton(6, width / 2 - 40, height / 2 + 30, 80, 20, buffer.getSpreadItems() ? "Spread on" : "Spread off"));
     }
 
     @Override
@@ -49,11 +49,11 @@ public class GuiAdvancedBuffer extends GuiScreen
         super.drawScreen(h, j, f);
         for (int i = 0; i < 3; i++)
         {
-            this.fontRenderer.drawString(Integer.toString(i), width/2 - 52 + (i*50), height/2 - 50, 4210752);
+            this.fontRenderer.drawString(Integer.toString(i), width / 2 - 52 + (i * 50), height / 2 - 50, 4210752);
         }
         for (int i = 0; i < 3; i++)
         {
-            this.fontRenderer.drawString(Integer.toString(i + 3), width/2 - 52 + (i*50), height/2 - 10, 4210752);
+            this.fontRenderer.drawString(Integer.toString(i + 3), width / 2 - 52 + (i * 50), height / 2 - 10, 4210752);
         }
     }
 
@@ -74,7 +74,7 @@ public class GuiAdvancedBuffer extends GuiScreen
         if (guibutton.id < 6)
         {
             buffer.setInsertDirection(guibutton.id, buffer.getInsertDirection()[guibutton.id] + 1);
-            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(buffer, (byte)guibutton.id)));
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection(buffer, (byte) guibutton.id)));
         }
         else
         {

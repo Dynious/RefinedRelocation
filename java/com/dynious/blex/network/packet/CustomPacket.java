@@ -32,8 +32,7 @@ public class CustomPacket
         {
             dos.writeByte(packetType.ordinal());
             this.writeData(dos);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace(System.err);
         }
@@ -47,8 +46,7 @@ public class CustomPacket
         try
         {
             this.readData(data);
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             e.printStackTrace(System.err);
         }

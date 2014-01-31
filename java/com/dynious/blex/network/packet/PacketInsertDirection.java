@@ -2,7 +2,6 @@ package com.dynious.blex.network.packet;
 
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.tileentity.IAdvancedTile;
-import com.dynious.blex.tileentity.TileAdvancedBlockExtender;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
@@ -46,7 +45,7 @@ public class PacketInsertDirection extends PacketTile
         super.execute(manager, player);
         if (tile instanceof IAdvancedTile)
         {
-            ((IAdvancedTile)tile).setInsertDirection(from, ((IAdvancedTile)tile).getInsertDirection()[from] + 1);
+            ((IAdvancedTile) tile).setInsertDirection(from, ((IAdvancedTile) tile).getInsertDirection()[from] + 1);
         }
     }
 }

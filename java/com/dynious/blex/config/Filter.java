@@ -28,6 +28,7 @@ public class Filter
             e.printStackTrace();
         }
     }
+
     public int getSize()
     {
         return creativeTabs.length - 2 + FILTER_SIZE;
@@ -38,7 +39,7 @@ public class Filter
         if (itemStack != null)
         {
             String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
-            String filter = userFilter.toLowerCase().replaceAll("\\s+","");
+            String filter = userFilter.toLowerCase().replaceAll("\\s+", "");
             for (String s : filter.split(","))
             {
                 String filterName = "";
@@ -55,7 +56,7 @@ public class Filter
                 {
                     if (s.endsWith("*") && s.length() > 2)
                     {
-                        if (filterName.contains(s.substring(1, s.length()-1)))
+                        if (filterName.contains(s.substring(1, s.length() - 1)))
                             return true;
                     }
                     else if (filterName.endsWith(s.substring(1)))
@@ -63,7 +64,7 @@ public class Filter
                 }
                 else if (s.endsWith("*") && s.length() > 1)
                 {
-                    if (filterName.startsWith(s.substring(0, s.length()-1)))
+                    if (filterName.startsWith(s.substring(0, s.length() - 1)))
                         return true;
                 }
                 else
@@ -97,7 +98,7 @@ public class Filter
                 CreativeTabs tab = null;
                 try
                 {
-                    tab = (CreativeTabs)tabField.get(itemStack.getItem());
+                    tab = (CreativeTabs) tabField.get(itemStack.getItem());
                 } catch (Exception e)
                 {
                     e.printStackTrace();
