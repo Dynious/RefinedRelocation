@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class BlockBuffer extends BlockContainer
     {
         super(id, Material.rock);
         this.setUnlocalizedName(Names.buffer);
+		this.setHardness(3.0F);
         this.setCreativeTab(BlockExtenders.tabBlEx);
     }
 
@@ -83,8 +85,12 @@ public class BlockBuffer extends BlockContainer
     @Override
     public boolean renderAsNormalBlock()
     {
-
         return false;
+    }
+
+    public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side)
+    {
+        return true;
     }
 
     @Override
@@ -115,4 +121,15 @@ public class BlockBuffer extends BlockContainer
             par3List.add(new ItemStack(par1, 1, j));
         }
     }
+
+    @Override
+    protected String getTextureName()
+    {
+        return "obsidian";
+    }
+    
+    @Override
+	public int damageDropped (int metadata) {
+		return metadata;
+	}
 }

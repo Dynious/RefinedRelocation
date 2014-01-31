@@ -14,6 +14,8 @@ import com.dynious.blex.lib.Settings;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -22,9 +24,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.List;
+import java.util.Random;
 
 public class BlockExtender extends BlockContainer
 {
@@ -32,6 +37,7 @@ public class BlockExtender extends BlockContainer
     {
         super(id, Material.rock);
         this.setUnlocalizedName(Names.blockExtender);
+		this.setHardness(3.0F);
         this.setCreativeTab(BlockExtenders.tabBlEx);
     }
 
@@ -79,6 +85,15 @@ public class BlockExtender extends BlockContainer
     {
         if (player.isSneaking())
         {
+            if (player.getCurrentEquippedItem() == null)
+            {
+                TileEntity tile = world.getBlockTileEntity(x, y, z);
+                if (tile != null && tile instanceof TileBlockExtender)
+                {
+                    ((TileBlockExtender)tile).setRedstoneEnabled( !((TileBlockExtender)tile).isRedstoneEnabled );
+                    return true;
+                }
+            }
             return false;
         }
         else
@@ -135,6 +150,57 @@ public class BlockExtender extends BlockContainer
     }
 
     @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileBlockExtender)
+        {
+            return ((TileBlockExtender) tile).canConnectRedstone( side );
+        }
+        return false;
+    }
+
+	@Override
+	public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side) {
+        return isProvidingWeakPower(world, x, y, z, side);
+	}
+
+	@Override
+	public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileBlockExtender)
+        {
+            return ((TileBlockExtender) tile).isPoweringTo(side);
+        }
+        return 0;
+	}
+
+    @SideOnly(Side.CLIENT)
+	@Override
+	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+		TileBlockExtender tile = (TileBlockExtender) world.getBlockTileEntity(x, y, z);
+
+		if (!tile.isRedstonePowered)
+			return;
+
+		float f = (float) x + 0.5F;
+		float f1 = (float) y + 0.5F + (random.nextFloat() * 6F) / 16F;
+		float f2 = (float) z + 0.5F;
+		float f3 = 0.6F;
+		float f4 = random.nextFloat() * 0.6F - 0.3F;
+
+		world.spawnParticle("reddust", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle("reddust", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle("reddust", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle("reddust", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
+	}
+
+	@Override
+	public boolean canProvidePower() {
+		return true;
+	}
+
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
@@ -149,8 +215,12 @@ public class BlockExtender extends BlockContainer
     @Override
     public boolean renderAsNormalBlock()
     {
-
         return false;
+    }
+
+    public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side)
+    {
+        return true;
     }
 
     @Override
@@ -164,6 +234,11 @@ public class BlockExtender extends BlockContainer
     {
         return "obsidian";
     }
+    
+    @Override
+	public int damageDropped (int metadata) {
+		return metadata;
+	}
 
 
 }

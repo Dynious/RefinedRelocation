@@ -5,7 +5,8 @@ tile.blockExtender2.name=Filtered Block Extender
 tile.blockExtender3.name=Advanced Filtered Block Extender
 tile.blockExtender4.name=Wireless Block Extender
 tile.buffer0.name=Buffer
-tile.buffer1.name=Filtered Buffer
+tile.buffer1.name=Advanced Buffer
+tile.buffer2.name=Filtered Buffer
 
 # Item localizations
 item.linker.name=Linker

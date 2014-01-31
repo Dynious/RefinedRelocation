@@ -37,12 +37,17 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             GL11.glTranslated(0, 1F + yOffset, 0);
             GL11.glRotatef((float) (System.currentTimeMillis() % 36000) / 10F, 0F, 1F, 0F);
             GL11.glScalef(0.125F, 0.125F, 0.125F);
+            
+            if (!tile.isRedstoneEnabled)
+                GL11.glColor3f(0.5F, 0.5F, 0.5F);
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ENDERPEARL);
 
             modelEnderPearl.render();
 
             GL11.glPopMatrix();
+
+            GL11.glColor3f(1, 1, 1);
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
 
