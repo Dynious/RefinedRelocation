@@ -5,6 +5,7 @@ import com.dynious.blex.gui.GuiAdvancedBlockExtender;
 import com.dynious.blex.gui.GuiAdvancedFilteredBlockExtender;
 import com.dynious.blex.gui.GuiFiltered;
 import com.dynious.blex.gui.GuiWirelessBlockExtender;
+import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.helper.DistanceHelper;
 import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.item.ModItems;
@@ -100,7 +101,7 @@ public class BlockExtender extends BlockContainer
                             if (world.isRemote)
                             {
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText("This Wireless Block Extender is now link with the TileEntity at: " + tileX + ":" + tileY + ":" + tileZ));
+                                        .addText(BlockHelper.getTileEntityDisplayName(tile)+" linked with "+BlockHelper.getTileEntityDisplayName(((TileWirelessBlockExtender) tile).getConnectedTile())+" at " + tileX + ":" + tileY + ":" + tileZ));
                             }
                         }
                         else
@@ -108,9 +109,9 @@ public class BlockExtender extends BlockContainer
                             if (world.isRemote)
                             {
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText("This Wireless Block Extender too far from the TileEntity at: " + tileX + ":" + tileY + ":" + tileZ));
+                                        .addText(BlockHelper.getTileEntityDisplayName(tile)+" is too far from the linked position"));
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText("This Wireless Block Extender max range is: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER));
+                                        .addText(BlockHelper.getTileEntityDisplayName(tile)+" max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER));
                             }
                         }
                         return true;
