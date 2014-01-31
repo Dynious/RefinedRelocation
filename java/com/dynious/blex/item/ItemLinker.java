@@ -2,6 +2,7 @@ package com.dynious.blex.item;
 
 
 import com.dynious.blex.BlockExtenders;
+import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
@@ -38,7 +39,7 @@ public class ItemLinker extends Item
             int x = stack.getTagCompound().getInteger("tileX");
             int y = stack.getTagCompound().getInteger("tileY");
             int z = stack.getTagCompound().getInteger("tileZ");
-            list.add("Linked TileEntity position: " + x + ", " + y + ", " + z);
+            list.add("Linked position: " + x + ":" + y + ":" + z + " ("+BlockHelper.getBlockDisplayName(par2EntityPlayer.getEntityWorld(), x, y, z)+")");
         }
     }
 
@@ -51,7 +52,7 @@ public class ItemLinker extends Item
             linkTileAtPosition(itemStack, x, y, z);
             if (world.isRemote)
                 entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                        .addText("This Linker is now link with the TileEntity at: " + x + ":" + y + ":" + z));
+                        .addText("Linker set to position " + x + ":" + y + ":" + z + " ("+BlockHelper.getBlockDisplayName(world, x, y, z)+")"));
             return true;
         }
         return false;
