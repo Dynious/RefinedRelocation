@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.List;
 
@@ -84,8 +85,12 @@ public class BlockBuffer extends BlockContainer
     @Override
     public boolean renderAsNormalBlock()
     {
-
         return false;
+    }
+
+    public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side)
+    {
+        return true;
     }
 
     @Override

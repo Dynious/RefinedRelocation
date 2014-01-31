@@ -25,6 +25,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.List;
 import java.util.Random;
@@ -83,6 +84,15 @@ public class BlockExtender extends BlockContainer
     {
         if (player.isSneaking())
         {
+            if (player.getCurrentEquippedItem() == null)
+            {
+                TileEntity tile = world.getBlockTileEntity(x, y, z);
+                if (tile != null && tile instanceof TileBlockExtender)
+                {
+                    ((TileBlockExtender)tile).setRedstoneEnabled( !((TileBlockExtender)tile).isRedstoneEnabled );
+                    return true;
+                }
+            }
             return false;
         }
         else
@@ -204,8 +214,12 @@ public class BlockExtender extends BlockContainer
     @Override
     public boolean renderAsNormalBlock()
     {
-
         return false;
+    }
+
+    public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side)
+    {
+        return true;
     }
 
     @Override

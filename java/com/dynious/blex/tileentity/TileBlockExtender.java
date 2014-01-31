@@ -54,6 +54,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected float lightAmount = 0F;
     protected int recheckTiles = 0;
     public boolean isRedstonePowered = false;
+    public boolean isRedstoneEnabled = true;
 
     public TileBlockExtender()
     {
@@ -297,24 +298,39 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
     }
     
+    public void setRedstoneEnabled( boolean state )
+    {
+        boolean wasRedstoneEnabled = isRedstoneEnabled;
+    	isRedstoneEnabled = state;
+
+        if (isRedstoneEnabled != wasRedstoneEnabled)
+        {
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    		this.checkRedstonePower();
+        }
+    }
+    
     public void checkRedstonePower() 
     {
     	boolean wasRedstonePowered = isRedstonePowered;
 		
     	isRedstonePowered = false;
-		for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) 
-		{
-			// facing direction is output only
-			if ( direction == connectedDirection )
-				continue;
-
-			int indirectPowerLevelFromDirection = worldObj.getIndirectPowerLevelTo(this.xCoord+direction.offsetX, this.yCoord+direction.offsetY, this.zCoord+direction.offsetZ, direction.ordinal() );
-			if( indirectPowerLevelFromDirection > 0 )
+    	if (isRedstoneEnabled)
+    	{
+			for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) 
 			{
-				isRedstonePowered = true;
-				break;
+				// facing direction is output only
+				if ( direction == connectedDirection )
+					continue;
+	
+				int indirectPowerLevelFromDirection = worldObj.getIndirectPowerLevelTo(this.xCoord+direction.offsetX, this.yCoord+direction.offsetY, this.zCoord+direction.offsetZ, direction.ordinal() );
+				if( indirectPowerLevelFromDirection > 0 )
+				{
+					isRedstonePowered = true;
+					break;
+				}
 			}
-		}
+    	}
     	
     	if (isRedstonePowered != wasRedstonePowered)
     	{
@@ -343,6 +359,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     *   */
     public boolean canConnectRedstone( int side )
     {
+        if (!this.isRedstoneEnabled)
+            return false;
+
     	ForgeDirection realDirection = ForgeDirection.UNKNOWN;
     	
     	switch( side ) 
@@ -829,7 +848,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         super.readFromNBT(compound);
         setConnectedSide(compound.getByte("side"));
-        isRedstonePowered = (compound.getBoolean("redstone"));
+        isRedstoneEnabled = compound.getBoolean("redstoneEnabled");
     }
 
     @Override
@@ -837,7 +856,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         super.writeToNBT(compound);
         compound.setByte("side", (byte) connectedDirection.ordinal());
-        compound.setBoolean("redstone", this.isRedstonePowered);
+        compound.setBoolean("redstoneEnabled", this.isRedstoneEnabled);
     }
 
     @Override
@@ -845,6 +864,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         setConnectedSide(pkt.data.getByte("side"));
         isRedstonePowered = (pkt.data.getBoolean("redstone"));
+        setRedstoneEnabled(pkt.data.getBoolean("redstoneEnabled"));
     }
 
     @Override
@@ -853,6 +873,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         NBTTagCompound compound = new NBTTagCompound();
         compound.setByte("side", (byte) connectedDirection.ordinal());
         compound.setBoolean("redstone", this.isRedstonePowered);
+        compound.setBoolean("redstoneEnabled", this.isRedstoneEnabled);
         return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
     }
 }
