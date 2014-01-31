@@ -126,9 +126,7 @@ public class BlockExtender extends BlockContainer
                             if (world.isRemote)
                             {
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position"));
-                                player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER));
+                                        .addText("The " + BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position (max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER + ")"));
                             }
                         }
                         return true;
