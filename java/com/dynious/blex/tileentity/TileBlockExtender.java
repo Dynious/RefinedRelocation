@@ -194,7 +194,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
 
     protected void checkConnectedDirection(TileEntity tile)
     {
-        if (tile != null && !(tile instanceof TileBlockExtender && ((TileBlockExtender) tile).connectedDirection == this.connectedDirection.getOpposite()))
+        if (tile != null && !isLooping(tile))
         {
             boolean updated = false;
             if (tile instanceof IInventory)
@@ -385,6 +385,30 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
 
         return realDirection != ForgeDirection.UNKNOWN && realDirection == connectedDirection;
+    }
+
+    private boolean isLooping(TileEntity tile)
+    {
+        return tile != null && tile instanceof TileBlockExtender && isTileConnectedToThis((TileBlockExtender) tile);
+    }
+
+    private boolean isTileConnectedToThis(TileBlockExtender blockExtender)
+    {
+        boolean isLooping;
+        TileEntity tile = blockExtender.getConnectedTile();
+        if (tile == this)
+        {
+            return true;
+        }
+        if (tile != null && tile instanceof TileBlockExtender)
+        {
+            isLooping = isTileConnectedToThis((TileBlockExtender) tile);
+        }
+        else
+        {
+            return false;
+        }
+        return isLooping;
     }
 
     /*
@@ -858,7 +882,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     }
 
     public boolean rotateBlock() {
-        setConnectedSide( (getConnectedDirection().ordinal()+1) % ForgeDirection.VALID_DIRECTIONS.length );
+        setConnectedSide((getConnectedDirection().ordinal() + 1) % ForgeDirection.VALID_DIRECTIONS.length);
         return true;
     }
 }
