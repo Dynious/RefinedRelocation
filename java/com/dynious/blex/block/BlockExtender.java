@@ -8,7 +8,6 @@ import com.dynious.blex.item.ModItems;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
 import com.dynious.blex.tileentity.*;
-import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
