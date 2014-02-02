@@ -132,7 +132,7 @@ public class BlockExtender extends BlockContainer
                         return true;
                     }
                 }
-                GuiHelper.openGui(tile, (Player) player);
+                GuiHelper.openGui(player, tile);
             }
         }
         return true;

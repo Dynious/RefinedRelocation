@@ -2,6 +2,7 @@ package com.dynious.blex.proxy;
 
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.tileentity.*;
+import com.dynious.blex.network.GuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy
@@ -16,5 +17,7 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileBuffer.class, Names.buffer);
         GameRegistry.registerTileEntity(TileAdvancedBuffer.class, Names.advancedBuffer);
         GameRegistry.registerTileEntity(TileFilteredBuffer.class, Names.filteredBuffer);
+
+        new GuiHandler();
     }
 }

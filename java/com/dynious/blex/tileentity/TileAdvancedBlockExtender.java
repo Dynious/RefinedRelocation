@@ -120,6 +120,12 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
     }
 
     @Override
+    public byte getMaxStackSize()
+    {
+        return maxStackSize;
+    }
+    
+    @Override
     public void setMaxStackSize(byte maxStackSize)
     {
         this.maxStackSize = maxStackSize;

@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 import org.apache.commons.lang3.ArrayUtils;
 
-public class TileAdvancedFilteredBlockExtender extends TileBlockExtender implements IFilterTile, IAdvancedTile
+public class TileAdvancedFilteredBlockExtender extends TileBlockExtender implements IAdvancedFilteredTile
 {
     private boolean spreadItems = false;
     private byte[] insertDirection = {1, 1, 1, 1, 1, 1, 1};
@@ -22,6 +22,18 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     private Filter filter = new Filter();
     private byte maxStackSize = 64;
     public boolean restrictExtraction = false;
+    
+    @Override
+    public boolean getRestrictExtraction()
+    {
+        return restrictExtraction;
+    }
+    
+    @Override
+    public void setRestrictionExtraction( boolean restrict )
+    {
+        restrictExtraction = restrict;
+    }
 
     public byte[] getInsertDirections()
     {
@@ -107,6 +119,13 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         return (super.canExtractItem(i, itemStack, i2) && !(restrictExtraction && blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack)));
     }
 
+    @Override
+    public byte getMaxStackSize()
+    {
+        return maxStackSize;
+    }
+    
+    @Override
     public void setMaxStackSize(byte maxStackSize)
     {
         this.maxStackSize = maxStackSize;
