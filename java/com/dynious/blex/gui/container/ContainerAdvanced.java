@@ -21,7 +21,7 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
         this.tile = tile;
     }
     
-    public ContainerAdvanced(InventoryPlayer invPlayer, IAdvancedTile tile, Container parentContainer) {
+    public ContainerAdvanced(InventoryPlayer invPlayer, IAdvancedTile tile, ContainerHierarchical parentContainer) {
         super(parentContainer);
         this.tile = tile;
     }
@@ -39,7 +39,7 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
         {
             if (tile.getInsertDirection()[i] != lastInsertDirection[i] || initialUpdate)
             {
-                for (Object crafter : getTopMostContainer().crafters)
+                for (Object crafter : crafters)
                 {
                     ((ICrafting)crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.ADVANCED_BASE + i, tile.getInsertDirection()[i]);
                 }
@@ -51,7 +51,7 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
         
         if (tile.getMaxStackSize() != lastMaxStackSize || initialUpdate)
         {
-            for (Object crafter : getTopMostContainer().crafters)
+            for (Object crafter : crafters)
             {
                 ((ICrafting)crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.ADVANCED_BASE + progressBarId, tile.getMaxStackSize());
             }
@@ -62,7 +62,7 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
 
         if (tile.getSpreadItems() != lastSpreadItems || initialUpdate)
         {
-            for (Object crafter : getTopMostContainer().crafters)
+            for (Object crafter : crafters)
             {
                 ((ICrafting)crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.ADVANCED_BASE + progressBarId, tile.getSpreadItems() ? 1 : 0);
             }

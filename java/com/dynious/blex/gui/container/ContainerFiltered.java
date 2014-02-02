@@ -28,7 +28,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         lastFilterOptions = new boolean[tile.getFilter().getSize()];
     }
 
-    public ContainerFiltered(InventoryPlayer invPlayer, IFilterTile tile, Container parentContainer) {
+    public ContainerFiltered(InventoryPlayer invPlayer, IFilterTile tile, ContainerHierarchical parentContainer) {
         super(parentContainer);
         
         this.tile = tile;
@@ -42,7 +42,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         
         if (!tile.getFilter().userFilter.equals(lastUserFilter) || initialUpdate)
         {
-            for (Object crafter : getTopMostContainer().crafters)
+            for (Object crafter : crafters)
             {
                 if (crafter instanceof EntityPlayer)
                 {
@@ -56,7 +56,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         {
             if (tile.getFilter().getValue(i) != lastFilterOptions[i] || initialUpdate)
             {
-                for (Object crafter : getTopMostContainer().crafters)
+                for (Object crafter : crafters)
                 {
                     ((ICrafting)crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + (tile.getFilter().getValue(i) ? 0 : 1), i);
                 }
@@ -66,7 +66,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         
         if (tile.getBlackList() != lastBlacklist || initialUpdate)
         {
-            for (Object crafter : getTopMostContainer().crafters)
+            for (Object crafter : crafters)
             {
                 ((ICrafting)crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + 2, tile.getBlackList() ? 1 : 0);
             }
