@@ -62,6 +62,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void setConnectedSide(int connectedSide)
     {
         this.connectedDirection = ForgeDirection.getOrientation(connectedSide);
+        this.blocksChanged = true;
+        if (worldObj != null)
+            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
     }
 
     public ForgeDirection getConnectedDirection()
@@ -852,5 +855,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         compound.setBoolean("redstone", this.isRedstonePowered);
         compound.setBoolean("redstoneEnabled", this.isRedstoneEnabled);
         return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
+    }
+
+    public boolean rotateBlock() {
+        setConnectedSide( (getConnectedDirection().ordinal()+1) % ForgeDirection.VALID_DIRECTIONS.length );
+        return true;
     }
 }
