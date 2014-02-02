@@ -16,6 +16,7 @@ public class Filter
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     public String userFilter = "";
     private Field tabField;
+    private Field tabIndexField;
 
     public Filter()
     {
@@ -23,6 +24,9 @@ public class Filter
         {
             tabField = Item.class.getDeclaredField("tabToDisplayOn");
             tabField.setAccessible(true);
+
+            tabIndexField = CreativeTabs.class.getDeclaredField("tabIndex");
+            tabIndexField.setAccessible(true);
         } catch (NoSuchFieldException e)
         {
             e.printStackTrace();
@@ -105,12 +109,22 @@ public class Filter
                 }
                 if (tab != null)
                 {
-                    int index = tab.getTabIndex();
-                    for (int i = 0; i < creativeTabs.length; i++)
+                    int index = -1;
+                    try
                     {
-                        if (creativeTabs[i] && index == i)
+                        index = (Integer) tabIndexField.get(tab);
+                    } catch (IllegalAccessException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    if (index != -1)
+                    {
+                        for (int i = 0; i < creativeTabs.length; i++)
                         {
-                            return true;
+                            if (creativeTabs[i] && index == i)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }

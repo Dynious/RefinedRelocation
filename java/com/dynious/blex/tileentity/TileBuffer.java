@@ -87,7 +87,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory
             {
                 if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
                 {
-                    ItemStack returnedStack = ((IItemConduit) tile).insertItem(ForgeDirection.getOrientation(i).getOpposite(), itemstack, false);
+                    ItemStack returnedStack = ((IItemConduit) tile).insertItem(ForgeDirection.getOrientation(i).getOpposite(), itemstack);
                     if (returnedStack == null || returnedStack.stackSize == 0)
                         return;
                     else
