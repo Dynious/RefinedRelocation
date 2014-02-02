@@ -21,12 +21,12 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     
     public ContainerAdvancedFiltered(InventoryPlayer invPlayer, IAdvancedFilteredTile tile) {
         this.tile = tile;
-        
+
         this.containerFiltered = new ContainerFiltered( invPlayer, tile, this );
         this.containerAdvanced = new ContainerAdvanced( invPlayer, tile, this );
     }
 
-    public ContainerAdvancedFiltered(InventoryPlayer invPlayer, IAdvancedFilteredTile tile, Container parentContainer) {
+    public ContainerAdvancedFiltered(InventoryPlayer invPlayer, IAdvancedFilteredTile tile, ContainerHierarchical parentContainer) {
         super(parentContainer);
         
         this.tile = tile;
@@ -47,7 +47,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
         
         if (tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate)
         {
-            for (Object crafter : getTopMostContainer().crafters)
+            for (Object crafter : crafters)
             {
                 ((ICrafting)crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_ADVANCED_BASE + 0, tile.getRestrictExtraction() ? 1 : 0);
             }
