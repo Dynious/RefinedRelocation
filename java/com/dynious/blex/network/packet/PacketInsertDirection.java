@@ -52,6 +52,6 @@ public class PacketInsertDirection extends CustomPacket
         if (container == null || !(container instanceof IContainerAdvanced))
             return;
 
-        ((IContainerAdvanced) container).setInsertDirection( sideAndDirection >> 4, sideAndDirection & 0b1111 );
+        ((IContainerAdvanced) container).setInsertDirection( sideAndDirection >> 4, sideAndDirection & 15 ); // 15 = 0b1111
     }
 }
