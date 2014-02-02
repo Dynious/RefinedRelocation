@@ -151,4 +151,8 @@ public class TileBuffer extends TileEntity implements ISidedInventory
     {
         return true;
     }
+
+    public boolean rotateBlock() {
+        return false;
+    }
 }
