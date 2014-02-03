@@ -3,7 +3,6 @@ package com.dynious.blex.network.packet;
 import com.dynious.blex.network.PacketTypeHandler;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -32,7 +31,8 @@ public class CustomPacket
         {
             dos.writeByte(packetType.ordinal());
             this.writeData(dos);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace(System.err);
         }
@@ -46,7 +46,8 @@ public class CustomPacket
         try
         {
             this.readData(data);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace(System.err);
         }

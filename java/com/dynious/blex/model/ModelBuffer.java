@@ -4,14 +4,13 @@ package com.dynious.blex.model;// Date: 25-12-2013 16:32:19
 // Keep in mind that you still need to fill in some blanks
 // - ZeuX
 
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class ModelBuffer extends ModelBase
 {
-    //fields
+    // fields
     ModelRenderer SideDown;
     ModelRenderer Pilar1;
     ModelRenderer Pilar2;

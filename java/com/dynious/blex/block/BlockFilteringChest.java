@@ -10,7 +10,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Iterator;
 import java.util.Random;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -27,7 +26,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
 import static net.minecraftforge.common.ForgeDirection.*;
 
 public class BlockFilteringChest extends BlockContainer
@@ -131,7 +129,7 @@ public class BlockFilteringChest extends BlockContainer
      */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        TileFilteringChest tileentitychest = (TileFilteringChest)par1World.getBlockTileEntity(par2, par3, par4);
+        TileFilteringChest tileentitychest = (TileFilteringChest) par1World.getBlockTileEntity(par2, par3, par4);
 
         if (tileentitychest != null)
         {
@@ -155,15 +153,15 @@ public class BlockFilteringChest extends BlockContainer
                         }
 
                         itemstack.stackSize -= k1;
-                        entityitem = new EntityItem(par1World, (double)((float)par2 + f), (double)((float)par3 + f1), (double)((float)par4 + f2), new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(par1World, (double) ((float) par2 + f), (double) ((float) par3 + f1), (double) ((float) par4 + f2), new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
-                        entityitem.motionX = (double)((float)this.random.nextGaussian() * f3);
-                        entityitem.motionY = (double)((float)this.random.nextGaussian() * f3 + 0.2F);
-                        entityitem.motionZ = (double)((float)this.random.nextGaussian() * f3);
+                        entityitem.motionX = (double) ((float) this.random.nextGaussian() * f3);
+                        entityitem.motionY = (double) ((float) this.random.nextGaussian() * f3 + 0.2F);
+                        entityitem.motionZ = (double) ((float) this.random.nextGaussian() * f3);
 
                         if (itemstack.hasTagCompound())
                         {
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
                         }
                     }
                 }
@@ -226,7 +224,7 @@ public class BlockFilteringChest extends BlockContainer
         }
         else
         {
-            return (IInventory)object;
+            return (IInventory) object;
         }
     }
 
@@ -244,7 +242,7 @@ public class BlockFilteringChest extends BlockContainer
      */
     public static boolean isOcelotBlockingChest(World par0World, int par1, int par2, int par3)
     {
-        Iterator iterator = par0World.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB((double)par1, (double)(par2 + 1), (double)par3, (double)(par1 + 1), (double)(par2 + 2), (double)(par3 + 1))).iterator();
+        Iterator iterator = par0World.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB((double) par1, (double) (par2 + 1), (double) par3, (double) (par1 + 1), (double) (par2 + 2), (double) (par3 + 1))).iterator();
         EntityOcelot entityocelot;
 
         do
@@ -254,7 +252,7 @@ public class BlockFilteringChest extends BlockContainer
                 return false;
             }
 
-            entityocelot = (EntityOcelot)iterator.next();
+            entityocelot = (EntityOcelot) iterator.next();
         }
         while (!entityocelot.isSitting());
 

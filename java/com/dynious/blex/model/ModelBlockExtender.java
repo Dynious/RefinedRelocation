@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity;
 
 public class ModelBlockExtender extends ModelBase
 {
-    //fields
+    // fields
     ModelRenderer SideUp;
     ModelRenderer Base;
     ModelRenderer Pilar1;

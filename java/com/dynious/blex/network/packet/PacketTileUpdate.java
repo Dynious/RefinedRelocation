@@ -7,7 +7,6 @@ import net.minecraft.nbt.NBTTagByteArray;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
