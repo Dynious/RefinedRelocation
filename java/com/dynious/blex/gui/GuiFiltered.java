@@ -61,7 +61,7 @@ public class GuiFiltered extends GuiContainer
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
-            fontRenderer.drawString(filterTile.getFilter().getName(itemPlace), width / 2 - 35, height / 2 - 66 + i * ITEM_SIZE, 0);
+            fontRenderer.drawString(filterTile.getFilter().getName(itemPlace), width / 2 - 60, height / 2 - 66 + i * ITEM_SIZE, 0);
         }
     }
 
@@ -184,6 +184,13 @@ public class GuiFiltered extends GuiContainer
             else
                 this.drawTexturedModalRect(width / 2 - 75, height / 2 - 70 + i * ITEM_SIZE, 151, 154, 14, 14);
         }
+        
+        int scrollBarTotalHeight = ySize-10;
+        int scrollBarWidth = 4;
+        int scrollBarScaledHeight = (int)(scrollBarTotalHeight * ITEMS_PER_SCREEN / size);
+        int scrollBarYPos = yStart + 5 + ((scrollBarTotalHeight-scrollBarScaledHeight) * index / (size - ITEMS_PER_SCREEN));
+        int scrollBarXPos = xStart + xSize - 6;
+        GuiContainer.drawRect(scrollBarXPos-scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos+scrollBarScaledHeight, 0xFF555555);
     }
 
     @Override
