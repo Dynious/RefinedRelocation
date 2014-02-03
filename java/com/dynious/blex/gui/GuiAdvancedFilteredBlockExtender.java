@@ -110,7 +110,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
                 String letter = Character.toString(direction.toString().charAt(0));
                 switch (i)
                 {
-                	// Bottom
+                    // Bottom
                     case 0:
                         fontRenderer.drawString(letter, width / 2 - 85 + 34 + 4, height / 2 + 40 + 10 + 4, 0);
                         break;
@@ -290,7 +290,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
             boolean hasTile = blockExtender.getTiles()[i] != null;
             switch (i)
             {
-            	// Bottom
+                // Bottom
                 case 0:
                     if (connection)
                         this.drawTexturedModalRect(width / 2 - 85 + 34, height / 2 + 40 + 10, 207, 154, 14, 14);
