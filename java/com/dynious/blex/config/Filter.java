@@ -1,5 +1,6 @@
 package com.dynious.blex.config;
 
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -15,23 +16,6 @@ public class Filter
     public boolean[] customFilters = new boolean[FILTER_SIZE];
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     public String userFilter = "";
-    private Field tabField;
-    private Field tabIndexField;
-
-    public Filter()
-    {
-        try
-        {
-            tabField = Item.class.getDeclaredField("tabToDisplayOn");
-            tabField.setAccessible(true);
-
-            tabIndexField = CreativeTabs.class.getDeclaredField("tabIndex");
-            tabIndexField.setAccessible(true);
-        } catch (NoSuchFieldException e)
-        {
-            e.printStackTrace();
-        }
-    }
 
     public int getSize()
     {
@@ -99,32 +83,15 @@ public class Filter
 
             if (itemStack.getItem() != null)
             {
-                CreativeTabs tab = null;
-                try
-                {
-                    tab = (CreativeTabs) tabField.get(itemStack.getItem());
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                CreativeTabs tab = ObfuscationReflectionHelper.getPrivateValue(Item.class, itemStack.getItem(), "tabToDisplayOn", "field_77701_a", "a");
                 if (tab != null)
                 {
-                    int index = -1;
-                    try
+                    int index = ObfuscationReflectionHelper.getPrivateValue(CreativeTabs.class, tab, "tabIndex", "field_78033_n", "n");
+                    for (int i = 0; i < creativeTabs.length; i++)
                     {
-                        index = (Integer) tabIndexField.get(tab);
-                    } catch (IllegalAccessException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    if (index != -1)
-                    {
-                        for (int i = 0; i < creativeTabs.length; i++)
+                        if (creativeTabs[i] && index == i)
                         {
-                            if (creativeTabs[i] && index == i)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
                 }
