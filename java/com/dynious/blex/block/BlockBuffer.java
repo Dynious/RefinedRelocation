@@ -10,7 +10,6 @@ import com.dynious.blex.tileentity.TileBuffer;
 import com.dynious.blex.tileentity.TileFilteredBuffer;
 
 import cpw.mods.fml.common.Optional.Method;
-import cpw.mods.fml.common.network.Player;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;

@@ -9,11 +9,9 @@ import com.dynious.blex.network.packet.PacketUserFilter;
 import com.dynious.blex.tileentity.IFilterTile;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -37,7 +35,7 @@ public class GuiFiltered extends GuiContainer
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     public void initGui()
     {
         super.initGui();

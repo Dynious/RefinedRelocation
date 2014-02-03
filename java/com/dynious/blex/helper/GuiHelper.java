@@ -1,13 +1,8 @@
 package com.dynious.blex.helper;
 
 import com.dynious.blex.BlockExtenders;
-import com.dynious.blex.gui.*;
 import com.dynious.blex.lib.GuiIds;
-import com.dynious.blex.network.PacketTypeHandler;
-import com.dynious.blex.network.packet.PacketTileUpdate;
 import com.dynious.blex.tileentity.*;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

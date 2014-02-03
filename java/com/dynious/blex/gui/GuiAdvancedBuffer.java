@@ -8,7 +8,6 @@ import com.dynious.blex.network.packet.PacketSpread;
 import com.dynious.blex.tileentity.TileAdvancedBuffer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
@@ -28,7 +27,7 @@ public class GuiAdvancedBuffer extends GuiContainer
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     public void initGui()
     {
         super.initGui();

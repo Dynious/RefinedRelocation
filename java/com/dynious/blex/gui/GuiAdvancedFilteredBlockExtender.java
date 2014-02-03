@@ -7,7 +7,6 @@ import com.dynious.blex.network.packet.*;
 import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -38,7 +37,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     public void initGui()
     {
         super.initGui();
