@@ -128,7 +128,6 @@ public class GuiFiltered extends GuiContainer
         }
     }
 
-
     @Override
     protected void actionPerformed(GuiButton guibutton)
     {

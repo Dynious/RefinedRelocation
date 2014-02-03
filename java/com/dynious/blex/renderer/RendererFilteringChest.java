@@ -46,7 +46,7 @@ public class RendererFilteringChest extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glTranslatef((float)par2, (float)par4 + 1.0F, (float)par6 + 1.0F);
+        GL11.glTranslatef((float) par2, (float) par4 + 1.0F, (float) par6 + 1.0F);
         GL11.glScalef(1.0F, -1.0F, -1.0F);
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
         short short1 = 0;
@@ -71,14 +71,14 @@ public class RendererFilteringChest extends TileEntitySpecialRenderer
             short1 = -90;
         }
 
-        GL11.glRotatef((float)short1, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((float) short1, 0.0F, 1.0F, 0.0F);
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         float f1 = par1TileEntityChest.prevLidAngle + (par1TileEntityChest.lidAngle - par1TileEntityChest.prevLidAngle) * par8;
         float f2;
 
         f1 = 1.0F - f1;
         f1 = 1.0F - f1 * f1 * f1;
-        modelchest.chestLid.rotateAngleX = -(f1 * (float)Math.PI / 2.0F);
+        modelchest.chestLid.rotateAngleX = -(f1 * (float) Math.PI / 2.0F);
         modelchest.renderAll();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
@@ -87,6 +87,6 @@ public class RendererFilteringChest extends TileEntitySpecialRenderer
 
     public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
     {
-        this.renderTileEntityChestAt((TileFilteringChest)par1TileEntity, par2, par4, par6, par8);
+        this.renderTileEntityChestAt((TileFilteringChest) par1TileEntity, par2, par4, par6, par8);
     }
 }

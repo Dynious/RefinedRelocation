@@ -61,27 +61,27 @@ public class GuiAdvancedBlockExtender extends GuiContainer
                 String letter = Character.toString(direction.toString().charAt(0));
                 switch (i)
                 {
-                    //Bottom
+                	// Bottom
                     case 0:
                         fontRenderer.drawString(letter, width / 2 + 28 + 34 + 4, height / 2 + 10 + 4, 0);
                         break;
-                    //Top
+                    // Top
                     case 1:
                         fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 - 7 + 4, 0);
                         break;
-                    //North
+                    // North
                     case 2:
                         fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 - 24 + 4, 0);
                         break;
-                    //South
+                    // South
                     case 3:
                         fontRenderer.drawString(letter, width / 2 + 28 + 17 + 4, height / 2 + 10 + 4, 0);
                         break;
-                    //West
+                    // West
                     case 4:
                         fontRenderer.drawString(letter, width / 2 + 28 + 4, height / 2 - 7 + 4, 0);
                         break;
-                    //East
+                    // East
                     case 5:
                         fontRenderer.drawString(letter, width / 2 + 28 + 34 + 4, height / 2 - 7 + 4, 0);
                         break;
@@ -120,7 +120,6 @@ public class GuiAdvancedBlockExtender extends GuiContainer
         }
     }
 
-
     @Override
     protected void actionPerformed(GuiButton guibutton)
     {
@@ -138,37 +137,37 @@ public class GuiAdvancedBlockExtender extends GuiContainer
         super.mouseClicked(x, y, type);
         if (type == 0)
         {
-            //Bottom
+            // Bottom
             if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
             {
                 blockExtender.setInsertDirection(0, blockExtender.getInsertDirection()[0] + 1);
                 PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 0, blockExtender.getInsertDirection()[0])));
             }
-            //Top
+            // Top
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(1, blockExtender.getInsertDirection()[1] + 1);
                 PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 1, blockExtender.getInsertDirection()[1])));
             }
-            //North
+            // North
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 - 24 && y <= height / 2 - 24 + 14)
             {
                 blockExtender.setInsertDirection(2, blockExtender.getInsertDirection()[2] + 1);
                 PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 2, blockExtender.getInsertDirection()[2])));
             }
-            //South
+            // South
             else if (x >= width / 2 + 28 + 17 && x <= width / 2 + 28 + 17 + 14 && y >= height / 2 + 10 && y <= height / 2 + 10 + 14)
             {
                 blockExtender.setInsertDirection(3, blockExtender.getInsertDirection()[3] + 1);
                 PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 3, blockExtender.getInsertDirection()[3])));
             }
-            //West
+            // West
             else if (x >= width / 2 + 28 && x <= width / 2 + 28 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(4, blockExtender.getInsertDirection()[4] + 1);
                 PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) 4, blockExtender.getInsertDirection()[4])));
             }
-            //East
+            // East
             else if (x >= width / 2 + 28 + 34 && x <= width / 2 + 28 + 34 + 14 && y >= height / 2 - 7 && y <= height / 2 - 7 + 14)
             {
                 blockExtender.setInsertDirection(5, blockExtender.getInsertDirection()[5] + 1);
@@ -198,42 +197,42 @@ public class GuiAdvancedBlockExtender extends GuiContainer
             boolean hasTile = blockExtender.getTiles()[i] != null;
             switch (i)
             {
-                //Bottom
+            	// Bottom
                 case 0:
                     if (connection)
                         this.drawTexturedModalRect(width / 2 + 28 + 34, height / 2 + 10, 176, 28, 14, 14);
                     else
                         this.drawTexturedModalRect(width / 2 + 28 + 34, height / 2 + 10, 176, hasTile ? 0 : 14, 14, 14);
                     break;
-                //Top
+                // Top
                 case 1:
                     if (connection)
                         this.drawTexturedModalRect(width / 2 + 28 + 17, height / 2 - 7, 176, 28, 14, 14);
                     else
                         this.drawTexturedModalRect(width / 2 + 28 + 17, height / 2 - 7, 176, hasTile ? 0 : 14, 14, 14);
                     break;
-                //North
+                // North
                 case 2:
                     if (connection)
                         this.drawTexturedModalRect(width / 2 + 28 + 17, height / 2 - 24, 176, 28, 14, 14);
                     else
                         this.drawTexturedModalRect(width / 2 + 28 + 17, height / 2 - 24, 176, hasTile ? 0 : 14, 14, 14);
                     break;
-                //South
+                // South
                 case 3:
                     if (connection)
                         this.drawTexturedModalRect(width / 2 + 28 + 17, height / 2 + 10, 176, 28, 14, 14);
                     else
                         this.drawTexturedModalRect(width / 2 + 28 + 17, height / 2 + 10, 176, hasTile ? 0 : 14, 14, 14);
                     break;
-                //West
+                // West
                 case 4:
                     if (connection)
                         this.drawTexturedModalRect(width / 2 + 28, height / 2 - 7, 176, 28, 14, 14);
                     else
                         this.drawTexturedModalRect(width / 2 + 28, height / 2 - 7, 176, hasTile ? 0 : 14, 14, 14);
                     break;
-                //East
+                // East
                 case 5:
                     if (connection)
                         this.drawTexturedModalRect(width / 2 + 28 + 34, height / 2 - 7, 176, 28, 14, 14);

@@ -26,18 +26,16 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
 import static cpw.mods.fml.common.Optional.*;
 
 @InterfaceList(value = {
-        @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
-        @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
-        @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")})
+    @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
+    @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
+    @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
+    @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")})
 public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral
 
 {

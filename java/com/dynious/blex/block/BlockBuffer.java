@@ -17,10 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static cpw.mods.fml.common.Optional.Interface;
 import static cpw.mods.fml.common.Optional.InterfaceList;
 
@@ -103,7 +101,6 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
     {
         return 1;
     }
-
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, int side)
