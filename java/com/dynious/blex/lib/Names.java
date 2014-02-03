@@ -10,6 +10,7 @@ public class Names
     public static final String buffer = "buffer";
     public static final String advancedBuffer = "advancedBuffer";
     public static final String filteredBuffer = "filteredBuffer";
+    public static final String filteringChest = "filteringChest";
 
     public static final String linker = "linker";
 }

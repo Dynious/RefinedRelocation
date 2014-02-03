@@ -20,7 +20,7 @@ public class GuiAdvancedBuffer extends GuiContainer
 
     public GuiAdvancedBuffer(InventoryPlayer invPlayer, TileAdvancedBuffer buffer)
     {
-        super(new ContainerAdvanced(invPlayer, buffer));
+        super(new ContainerAdvanced(buffer));
         this.buffer = buffer;
     }
 

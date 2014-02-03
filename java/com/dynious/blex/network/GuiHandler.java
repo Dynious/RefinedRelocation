@@ -5,6 +5,7 @@ import com.dynious.blex.gui.*;
 import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.gui.container.ContainerAdvancedFiltered;
 import com.dynious.blex.gui.container.ContainerFiltered;
+import com.dynious.blex.gui.container.ContainerFilteredChest;
 import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -28,15 +29,16 @@ public class GuiHandler implements IGuiHandler
         {
             //case GuiIds.BLOCK_EXTENDER:
             //case GuiIds.BUFFER:
-            case GuiIds.FILTERED_BLOCK_EXTENDER:
-            case GuiIds.FILTERED_BUFFER:
-                return new ContainerFiltered(player.inventory, (IFilterTile) world.getBlockTileEntity(x, y, z));
+            case GuiIds.FILTERED:
+                return new ContainerFiltered((IFilterTile) world.getBlockTileEntity(x, y, z));
             case GuiIds.ADVANCED_BLOCK_EXTENDER:
             case GuiIds.ADVANCED_BUFFER:
-                return new ContainerAdvanced(player.inventory, (IAdvancedTile) world.getBlockTileEntity(x, y, z));
+                return new ContainerAdvanced((IAdvancedTile) world.getBlockTileEntity(x, y, z));
             case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
             case GuiIds.WIRELESS_BLOCK_EXTENDER:
-                return new ContainerAdvancedFiltered(player.inventory, (IAdvancedFilteredTile) world.getBlockTileEntity(x, y, z));
+                return new ContainerAdvancedFiltered((IAdvancedFilteredTile) world.getBlockTileEntity(x, y, z));
+            case GuiIds.FILTERED_CHEST:
+                return new ContainerFilteredChest(player.inventory, (TileFilteringChest)world.getBlockTileEntity(x, y, z));
             default:
                 return null;
         }
@@ -54,10 +56,10 @@ public class GuiHandler implements IGuiHandler
                     return new GuiAdvancedBlockExtender(player.inventory, (TileAdvancedBlockExtender) tile);
                 }
                 break;
-            case GuiIds.FILTERED_BLOCK_EXTENDER:
-                if (tile != null && tile instanceof TileFilteredBlockExtender)
+            case GuiIds.FILTERED:
+                if (tile != null && tile instanceof IFilterTile)
                 {
-                    return new GuiFiltered(player.inventory, (TileFilteredBlockExtender) tile);
+                    return new GuiFiltered(player.inventory, (IFilterTile) tile);
                 }
                 break;
             case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
@@ -72,16 +74,16 @@ public class GuiHandler implements IGuiHandler
                     return new GuiWirelessBlockExtender(player.inventory, (TileWirelessBlockExtender) tile);
                 }
                 break;
-            case GuiIds.FILTERED_BUFFER:
-                if (tile != null && tile instanceof TileFilteredBuffer)
-                {
-                    return new GuiFiltered(player.inventory, (TileFilteredBuffer) tile);
-                }
-                break;
             case GuiIds.ADVANCED_BUFFER:
                 if (tile != null && tile instanceof TileAdvancedBuffer)
                 {
                     return new GuiAdvancedBuffer(player.inventory, (TileAdvancedBuffer) tile);
+                }
+                break;
+            case GuiIds.FILTERED_CHEST:
+                if (tile != null && tile instanceof TileFilteringChest)
+                {
+                    return new GuiFilteredChest(player.inventory, (TileFilteringChest)tile);
                 }
                 break;
         }

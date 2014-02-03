@@ -27,7 +27,7 @@ public class GuiFiltered extends GuiContainer
 
     public GuiFiltered(InventoryPlayer invPlayer, IFilterTile filterTile)
     {
-        super(new ContainerFiltered(invPlayer, filterTile));
+        super(new ContainerFiltered(filterTile));
         this.filterTile = filterTile;
         size = filterTile.getFilter().getSize();
     }

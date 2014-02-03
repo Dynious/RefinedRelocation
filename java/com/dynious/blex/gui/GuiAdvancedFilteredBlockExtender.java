@@ -29,7 +29,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
 
     public GuiAdvancedFilteredBlockExtender(InventoryPlayer invPlayer, TileAdvancedFilteredBlockExtender blockExtender)
     {
-        super(new ContainerAdvancedFiltered(invPlayer, blockExtender));
+        super(new ContainerAdvancedFiltered(blockExtender));
         this.blockExtender = blockExtender;
         size = blockExtender.getFilter().getSize();
     }

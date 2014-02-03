@@ -7,7 +7,6 @@ import com.dynious.blex.tileentity.IFilterTile;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered
@@ -20,14 +19,14 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     private boolean lastFilterOptions[];
     private boolean initialUpdate = true;
 
-    public ContainerFiltered(InventoryPlayer invPlayer, IFilterTile tile)
+    public ContainerFiltered(IFilterTile tile)
     {
         this.tile = tile;
 
         lastFilterOptions = new boolean[tile.getFilter().getSize()];
     }
 
-    public ContainerFiltered(InventoryPlayer invPlayer, IFilterTile tile, ContainerHierarchical parentContainer)
+    public ContainerFiltered(IFilterTile tile, ContainerHierarchical parentContainer)
     {
         super(parentContainer);
 

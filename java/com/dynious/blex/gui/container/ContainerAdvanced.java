@@ -3,7 +3,6 @@ package com.dynious.blex.gui.container;
 import com.dynious.blex.lib.GuiNetworkIds;
 import com.dynious.blex.tileentity.IAdvancedTile;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerAdvanced extends ContainerHierarchical implements IContainerAdvanced
@@ -16,12 +15,12 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
     private byte lastMaxStackSize = 64;
     private boolean initialUpdate = true;
 
-    public ContainerAdvanced(InventoryPlayer invPlayer, IAdvancedTile tile)
+    public ContainerAdvanced(IAdvancedTile tile)
     {
         this.tile = tile;
     }
 
-    public ContainerAdvanced(InventoryPlayer invPlayer, IAdvancedTile tile, ContainerHierarchical parentContainer)
+    public ContainerAdvanced(IAdvancedTile tile, ContainerHierarchical parentContainer)
     {
         super(parentContainer);
         this.tile = tile;

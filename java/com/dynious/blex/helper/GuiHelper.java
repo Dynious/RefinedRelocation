@@ -21,7 +21,7 @@ public class GuiHelper
             }
             else if (tile instanceof TileFilteredBlockExtender)
             {
-                GuiId = GuiIds.FILTERED_BLOCK_EXTENDER;
+                GuiId = GuiIds.FILTERED;
             }
             else if (tile instanceof TileWirelessBlockExtender)
             {
@@ -37,7 +37,11 @@ public class GuiHelper
             }
             else if (tile instanceof TileFilteredBuffer)
             {
-                GuiId = GuiIds.FILTERED_BUFFER;
+                GuiId = GuiIds.FILTERED;
+            }
+            else if (tile instanceof TileFilteringChest)
+            {
+                GuiId = GuiIds.FILTERED_CHEST;
             }
 
             if (GuiId != -1)

@@ -23,7 +23,7 @@ public class GuiAdvancedBlockExtender extends GuiContainer
 
     public GuiAdvancedBlockExtender(InventoryPlayer invPlayer, TileAdvancedBlockExtender blockExtender)
     {
-        super(new ContainerAdvanced(invPlayer, blockExtender));
+        super(new ContainerAdvanced(blockExtender));
         this.blockExtender = blockExtender;
     }
 

@@ -14,14 +14,17 @@ public class ModBlocks
 {
     public static BlockExtender blockExtender;
     public static BlockBuffer buffer;
+    public static BlockFilteringChest filteringChest;
 
     public static void init()
     {
         blockExtender = new BlockExtender(BlockIds.BLOCK_EXTENDER);
         buffer = new BlockBuffer(BlockIds.BUFFER);
+        filteringChest = new BlockFilteringChest(BlockIds.FILTERING_CHEST);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
+        GameRegistry.registerBlock(filteringChest, Names.filteringChest);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));

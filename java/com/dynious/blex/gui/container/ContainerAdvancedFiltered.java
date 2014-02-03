@@ -3,7 +3,6 @@ package com.dynious.blex.gui.container;
 import com.dynious.blex.lib.GuiNetworkIds;
 import com.dynious.blex.tileentity.IAdvancedFilteredTile;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerAdvancedFiltered extends ContainerHierarchical implements IContainerAdvancedFiltered
@@ -18,22 +17,22 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     private boolean lastRestrictExtraction = false;
     private boolean initialUpdate = true;
 
-    public ContainerAdvancedFiltered(InventoryPlayer invPlayer, IAdvancedFilteredTile tile)
+    public ContainerAdvancedFiltered(IAdvancedFilteredTile tile)
     {
         this.tile = tile;
 
-        this.containerFiltered = new ContainerFiltered(invPlayer, tile, this);
-        this.containerAdvanced = new ContainerAdvanced(invPlayer, tile, this);
+        this.containerFiltered = new ContainerFiltered(tile, this);
+        this.containerAdvanced = new ContainerAdvanced(tile, this);
     }
 
-    public ContainerAdvancedFiltered(InventoryPlayer invPlayer, IAdvancedFilteredTile tile, ContainerHierarchical parentContainer)
+    public ContainerAdvancedFiltered(IAdvancedFilteredTile tile, ContainerHierarchical parentContainer)
     {
         super(parentContainer);
 
         this.tile = tile;
 
-        this.containerFiltered = new ContainerFiltered(invPlayer, tile, this);
-        this.containerAdvanced = new ContainerAdvanced(invPlayer, tile, this);
+        this.containerFiltered = new ContainerFiltered(tile, this);
+        this.containerAdvanced = new ContainerAdvanced(tile, this);
     }
 
     @Override
