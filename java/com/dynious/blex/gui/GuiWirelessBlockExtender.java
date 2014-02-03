@@ -1,9 +1,9 @@
 package com.dynious.blex.gui;
 
 import com.dynious.blex.helper.BlockHelper;
-import net.minecraft.entity.player.InventoryPlayer;
 import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
+import net.minecraft.entity.player.InventoryPlayer;
 
 public class GuiWirelessBlockExtender extends GuiAdvancedFilteredBlockExtender
 {
@@ -11,7 +11,7 @@ public class GuiWirelessBlockExtender extends GuiAdvancedFilteredBlockExtender
 
     public GuiWirelessBlockExtender(InventoryPlayer invPlayer, TileWirelessBlockExtender blockExtender)
     {
-        super(invPlayer, (TileAdvancedFilteredBlockExtender)blockExtender);
+        super(invPlayer, (TileAdvancedFilteredBlockExtender) blockExtender);
         this.blockExtender = blockExtender;
     }
 

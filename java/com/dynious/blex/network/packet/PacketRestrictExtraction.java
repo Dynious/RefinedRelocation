@@ -14,7 +14,7 @@ import java.io.IOException;
 public class PacketRestrictExtraction extends PacketTile
 {
     boolean restrictExtraction;
-    
+
     public PacketRestrictExtraction()
     {
         super(PacketTypeHandler.RESTRICT_EXTRACTION, false);
@@ -30,7 +30,7 @@ public class PacketRestrictExtraction extends PacketTile
     public void writeData(DataOutputStream data) throws IOException
     {
         super.writeData(data);
-        data.writeBoolean( restrictExtraction );
+        data.writeBoolean(restrictExtraction);
     }
 
     @Override
@@ -45,11 +45,11 @@ public class PacketRestrictExtraction extends PacketTile
     {
         super.execute(manager, player);
 
-        Container container = ((EntityPlayer)player).openContainer;
+        Container container = ((EntityPlayer) player).openContainer;
 
         if (container == null || !(container instanceof IContainerAdvancedFiltered))
             return;
 
-        ((IContainerAdvancedFiltered) container).setRestrictExtraction( restrictExtraction );
+        ((IContainerAdvancedFiltered) container).setRestrictExtraction(restrictExtraction);
     }
 }

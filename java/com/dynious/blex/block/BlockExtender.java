@@ -1,7 +1,6 @@
 package com.dynious.blex.block;
 
 import cofh.api.block.IDismantleable;
-
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.helper.DistanceHelper;
@@ -30,7 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static cpw.mods.fml.common.Optional.*;
+import static cpw.mods.fml.common.Optional.Interface;
+import static cpw.mods.fml.common.Optional.InterfaceList;
 
 @InterfaceList(value = {@Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")})
 public class BlockExtender extends BlockContainer implements IDismantleable
@@ -251,30 +251,33 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     @Method(modid = "CoFHCore")
     @Override
     public ItemStack dismantleBlock(EntityPlayer player, World world, int x,
-            int y, int z, boolean returnBlock) {
+                                    int y, int z, boolean returnBlock)
+    {
         int meta = world.getBlockMetadata(x, y, z);
 
         ArrayList<ItemStack> items = this.getBlockDropped(world, x, y, z, meta, 0);
-        
-        for (ItemStack item : items) {
-            
-            EntityItem entityitem = new EntityItem(world, x+0.5F, y+0.5F, z+0.5F, item);
+
+        for (ItemStack item : items)
+        {
+
+            EntityItem entityitem = new EntityItem(world, x + 0.5F, y + 0.5F, z + 0.5F, item);
 
             entityitem.delayBeforeCanPickup = 10;
 
             world.spawnEntityInWorld(entityitem);
-            
+
             entityitem.motionX *= 0.25F;
             entityitem.motionZ *= 0.25F;
         }
-        
+
         world.setBlockToAir(x, y, z);
         return null;
     }
 
     @Method(modid = "CoFHCore")
     @Override
-    public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z) {
+    public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z)
+    {
         return true;
     }
 

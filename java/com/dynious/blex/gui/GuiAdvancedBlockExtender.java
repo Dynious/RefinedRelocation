@@ -178,7 +178,7 @@ public class GuiAdvancedBlockExtender extends GuiContainer
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) 
+    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         int xSize = 176;
         int ySize = 80;

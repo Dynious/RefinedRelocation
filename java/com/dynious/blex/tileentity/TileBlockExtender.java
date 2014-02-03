@@ -404,7 +404,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
         if (tile != null && tile instanceof TileBlockExtender)
         {
-            visited.add((TileBlockExtender)tile);
+            visited.add((TileBlockExtender) tile);
             isLooping = isTileConnectedToThis((TileBlockExtender) tile, visited);
         }
         else
@@ -884,7 +884,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
     }
 
-    public boolean rotateBlock() {
+    public boolean rotateBlock()
+    {
         setConnectedSide((getConnectedDirection().ordinal() + 1) % ForgeDirection.VALID_DIRECTIONS.length);
         return true;
     }

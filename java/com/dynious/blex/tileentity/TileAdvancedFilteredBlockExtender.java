@@ -22,15 +22,15 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     private Filter filter = new Filter();
     private byte maxStackSize = 64;
     public boolean restrictExtraction = false;
-    
+
     @Override
     public boolean getRestrictExtraction()
     {
         return restrictExtraction;
     }
-    
+
     @Override
-    public void setRestrictionExtraction( boolean restrict )
+    public void setRestrictionExtraction(boolean restrict)
     {
         restrictExtraction = restrict;
     }
@@ -124,7 +124,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     {
         return maxStackSize;
     }
-    
+
     @Override
     public void setMaxStackSize(byte maxStackSize)
     {

@@ -41,7 +41,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     {
         return 0;
     }
-    
+
     @Override
     public void setMaxStackSize(byte maxStackSize)
     {

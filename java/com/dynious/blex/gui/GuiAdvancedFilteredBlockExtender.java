@@ -169,7 +169,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
             super.keyTyped(c, i);
             return;
         }
-        
+
         String oldUserFilter = userFilter.getText();
         userFilter.textboxKeyTyped(c, i);
         if (!oldUserFilter.equals(userFilter.getText()))
@@ -177,7 +177,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
             blockExtender.getFilter().userFilter = userFilter.getText();
             PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter(userFilter.getText())));
         }
-        
+
         if (Character.isDigit(c) || Character.getType(c) == 15)
         {
             String oldStackSize = stackSize.getText();
@@ -344,12 +344,12 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
                 this.drawTexturedModalRect(width / 2 - 30, height / 2 - 70 + i * ITEM_SIZE, 151, 154, 14, 14);
         }
 
-        int scrollBarTotalHeight = ySize-10;
+        int scrollBarTotalHeight = ySize - 10;
         int scrollBarWidth = 3;
-        int scrollBarScaledHeight = (int)(scrollBarTotalHeight * ITEMS_PER_SCREEN / size);
-        int scrollBarYPos = yStart + 5 + ((scrollBarTotalHeight-scrollBarScaledHeight) * index / (size - ITEMS_PER_SCREEN));
+        int scrollBarScaledHeight = (int) (scrollBarTotalHeight * ITEMS_PER_SCREEN / size);
+        int scrollBarYPos = yStart + 5 + ((scrollBarTotalHeight - scrollBarScaledHeight) * index / (size - ITEMS_PER_SCREEN));
         int scrollBarXPos = xStart + xSize - 4;
-        GuiContainer.drawRect(scrollBarXPos-scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos+scrollBarScaledHeight, 0xFF555555);
+        GuiContainer.drawRect(scrollBarXPos - scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, 0xFF555555);
     }
 
     @Override

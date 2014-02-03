@@ -1,8 +1,8 @@
 package com.dynious.blex.proxy;
 
 import com.dynious.blex.lib.Names;
-import com.dynious.blex.tileentity.*;
 import com.dynious.blex.network.GuiHandler;
+import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy

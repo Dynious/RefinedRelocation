@@ -45,11 +45,11 @@ public class PacketInsertDirection extends CustomPacket
     {
         super.execute(manager, player);
 
-        Container container = ((EntityPlayer)player).openContainer;
+        Container container = ((EntityPlayer) player).openContainer;
 
         if (container == null || !(container instanceof IContainerAdvanced))
             return;
 
-        ((IContainerAdvanced) container).setInsertDirection( sideAndDirection >> 4, sideAndDirection & 15 ); // 15 = 0b1111
+        ((IContainerAdvanced) container).setInsertDirection(sideAndDirection >> 4, sideAndDirection & 15); // 15 = 0b1111
     }
 }

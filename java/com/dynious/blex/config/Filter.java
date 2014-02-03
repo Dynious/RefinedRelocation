@@ -8,8 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.lang.reflect.Field;
-
 public class Filter
 {
     public static final int FILTER_SIZE = 9;

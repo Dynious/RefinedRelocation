@@ -45,7 +45,7 @@ public class PacketUserFilter extends CustomPacket
     {
         super.execute(manager, player);
 
-        Container container = ((EntityPlayer)player).openContainer;
+        Container container = ((EntityPlayer) player).openContainer;
 
         if (!(container instanceof IContainerFiltered))
             return;

@@ -14,13 +14,13 @@ import java.io.IOException;
 public class PacketBlacklist extends CustomPacket
 {
     boolean isBlackList = true;
-    
+
     public PacketBlacklist()
     {
         super(PacketTypeHandler.BLACKLIST, false);
     }
 
-    public PacketBlacklist( boolean isBlackList )
+    public PacketBlacklist(boolean isBlackList)
     {
         super(PacketTypeHandler.BLACKLIST, false);
         this.isBlackList = isBlackList;
@@ -45,7 +45,7 @@ public class PacketBlacklist extends CustomPacket
     {
         super.execute(manager, player);
 
-        Container container = ((EntityPlayer)player).openContainer;
+        Container container = ((EntityPlayer) player).openContainer;
 
         if (container == null || !(container instanceof IContainerFiltered))
             return;

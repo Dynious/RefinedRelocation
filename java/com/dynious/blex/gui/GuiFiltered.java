@@ -118,7 +118,7 @@ public class GuiFiltered extends GuiContainer
             super.keyTyped(c, i);
             return;
         }
-        
+
         String oldUserFilter = userFilter.getText();
         userFilter.textboxKeyTyped(c, i);
         if (!oldUserFilter.equals(userFilter.getText()))
@@ -182,13 +182,13 @@ public class GuiFiltered extends GuiContainer
             else
                 this.drawTexturedModalRect(width / 2 - 75, height / 2 - 70 + i * ITEM_SIZE, 151, 154, 14, 14);
         }
-        
-        int scrollBarTotalHeight = ySize-10;
+
+        int scrollBarTotalHeight = ySize - 10;
         int scrollBarWidth = 4;
-        int scrollBarScaledHeight = (int)(scrollBarTotalHeight * ITEMS_PER_SCREEN / size);
-        int scrollBarYPos = yStart + 5 + ((scrollBarTotalHeight-scrollBarScaledHeight) * index / (size - ITEMS_PER_SCREEN));
+        int scrollBarScaledHeight = (int) (scrollBarTotalHeight * ITEMS_PER_SCREEN / size);
+        int scrollBarYPos = yStart + 5 + ((scrollBarTotalHeight - scrollBarScaledHeight) * index / (size - ITEMS_PER_SCREEN));
         int scrollBarXPos = xStart + xSize - 6;
-        GuiContainer.drawRect(scrollBarXPos-scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos+scrollBarScaledHeight, 0xFF555555);
+        GuiContainer.drawRect(scrollBarXPos - scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, 0xFF555555);
     }
 
     @Override

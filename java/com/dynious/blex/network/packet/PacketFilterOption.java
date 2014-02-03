@@ -45,11 +45,11 @@ public class PacketFilterOption extends CustomPacket
     {
         super.execute(manager, player);
 
-        Container container = ((EntityPlayer)player).openContainer;
+        Container container = ((EntityPlayer) player).openContainer;
 
         if (container == null || !(container instanceof IContainerFiltered))
             return;
 
-        ((IContainerFiltered) container).toggleFilterOption( filterIndex );
+        ((IContainerFiltered) container).toggleFilterOption(filterIndex);
     }
 }

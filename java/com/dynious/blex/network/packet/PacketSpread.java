@@ -14,7 +14,7 @@ import java.io.IOException;
 public class PacketSpread extends CustomPacket
 {
     boolean spreadItems = false;
-    
+
     public PacketSpread()
     {
         super(PacketTypeHandler.SPREAD_ITEMS, false);
@@ -45,11 +45,11 @@ public class PacketSpread extends CustomPacket
     {
         super.execute(manager, player);
 
-        Container container = ((EntityPlayer)player).openContainer;
+        Container container = ((EntityPlayer) player).openContainer;
 
         if (container == null || !(container instanceof IContainerAdvanced))
             return;
 
-        ((IContainerAdvanced) container).setSpreadItems( spreadItems );
+        ((IContainerAdvanced) container).setSpreadItems(spreadItems);
     }
 }

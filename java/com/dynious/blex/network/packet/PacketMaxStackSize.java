@@ -45,11 +45,11 @@ public class PacketMaxStackSize extends CustomPacket
     {
         super.execute(manager, player);
 
-        Container container = ((EntityPlayer)player).openContainer;
+        Container container = ((EntityPlayer) player).openContainer;
 
         if (container == null || !(container instanceof IContainerAdvanced))
             return;
 
-        ((IContainerAdvanced) container).setMaxStackSize( amount );
+        ((IContainerAdvanced) container).setMaxStackSize(amount);
     }
 }
