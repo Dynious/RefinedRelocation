@@ -2,7 +2,6 @@ package com.dynious.blex.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 
 import com.dynious.blex.lib.GuiNetworkIds;

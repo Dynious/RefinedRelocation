@@ -9,7 +9,7 @@ import net.minecraft.inventory.ICrafting;
 public abstract class ContainerHierarchical extends Container {
 
     private ContainerHierarchical parentContainer;
-    private List<ContainerHierarchical> childContainers = new ArrayList();
+    private List<ContainerHierarchical> childContainers = new ArrayList<ContainerHierarchical>();
 
     public ContainerHierarchical() 
     {

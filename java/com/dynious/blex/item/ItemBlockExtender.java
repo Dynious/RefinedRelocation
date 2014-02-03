@@ -2,7 +2,6 @@ package com.dynious.blex.item;
 
 import com.dynious.blex.block.ModBlocks;
 import com.dynious.blex.tileentity.TileBlockExtender;
-import com.dynious.blex.util.Vector3;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;

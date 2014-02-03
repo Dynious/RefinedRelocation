@@ -7,7 +7,6 @@ import com.dynious.blex.network.packet.*;
 import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -38,7 +37,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     public void initGui()
     {
         super.initGui();
@@ -141,7 +140,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
         for (int i = 0; i < ITEMS_PER_SCREEN; i++)
         {
             int itemPlace = i + index;
-            fontRenderer.drawString(blockExtender.getFilter().getName(itemPlace), width / 2 + 10, height / 2 - 66 + i * ITEM_SIZE, 0);
+            fontRenderer.drawString(blockExtender.getFilter().getName(itemPlace), width / 2 - 15, height / 2 - 66 + i * ITEM_SIZE, 0);
         }
     }
 
@@ -344,6 +343,13 @@ public class GuiAdvancedFilteredBlockExtender extends GuiContainer
             else
                 this.drawTexturedModalRect(width / 2 - 30, height / 2 - 70 + i * ITEM_SIZE, 151, 154, 14, 14);
         }
+
+        int scrollBarTotalHeight = ySize-10;
+        int scrollBarWidth = 3;
+        int scrollBarScaledHeight = (int)(scrollBarTotalHeight * ITEMS_PER_SCREEN / size);
+        int scrollBarYPos = yStart + 5 + ((scrollBarTotalHeight-scrollBarScaledHeight) * index / (size - ITEMS_PER_SCREEN));
+        int scrollBarXPos = xStart + xSize - 4;
+        GuiContainer.drawRect(scrollBarXPos-scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos+scrollBarScaledHeight, 0xFF555555);
     }
 
     @Override
