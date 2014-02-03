@@ -120,6 +120,8 @@ public class BlockFilteringChest extends BlockContainer
             b0 = 4;
         }
         par1World.setBlockMetadataWithNotify(par2, par3, par4, b0, 3);
+
+        ((TileFilteringChest)par1World.getBlockTileEntity(par2, par3, par4)).onTileAdded();
     }
 
     /**
@@ -133,6 +135,8 @@ public class BlockFilteringChest extends BlockContainer
 
         if (tileentitychest != null)
         {
+            tileentitychest.onTileDestroyed();
+
             for (int j1 = 0; j1 < tileentitychest.getSizeInventory(); ++j1)
             {
                 ItemStack itemstack = tileentitychest.getStackInSlot(j1);
@@ -188,6 +192,9 @@ public class BlockFilteringChest extends BlockContainer
 
             if (iinventory != null)
             {
+                TileFilteringChest test = ((TileFilteringChest)world.getBlockTileEntity(x, y, z)).getLeader();
+                System.out.println(test.xCoord + ":" + test.yCoord + ":" + test.zCoord);
+
                 if (!player.isSneaking())
                 {
                     GuiHelper.openGui(player, world.getBlockTileEntity(x, y, z));

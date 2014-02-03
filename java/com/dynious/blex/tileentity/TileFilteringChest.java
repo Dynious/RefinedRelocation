@@ -11,6 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class TileFilteringChest extends TileEntity implements IInventory, IFilterTile
@@ -40,6 +42,108 @@ public class TileFilteringChest extends TileEntity implements IInventory, IFilte
 
     private Filter filter = new Filter();
     private boolean blacklist = true;
+
+    private TileFilteringChest leader;
+    private ArrayList<TileFilteringChest> childs;
+
+
+    public void onTileAdded()
+    {
+        searchForLeader();
+    }
+
+    public void onTileDestroyed()
+    {
+        if (leader == null)
+        {
+            if (childs != null && !childs.isEmpty())
+            {
+                TileFilteringChest newLeader = childs.remove(0);
+                if (newLeader != null)
+                {
+                    newLeader.promoteToLeader(childs);
+                }
+            }
+        }
+        else
+        {
+            leader.removeChild(this);
+        }
+    }
+
+    public void searchForLeader()
+    {
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+                for (int z = -1; z < 2; z++)
+                {
+                    if (x != 0 || y != 0 || z != 0)
+                    {
+                        TileEntity tile = worldObj.getBlockTileEntity(xCoord + x, yCoord + y, zCoord + z);
+                        if (tile != null && tile instanceof TileFilteringChest)
+                        {
+                            if (leader == null)
+                            {
+                                leader = ((TileFilteringChest)tile).getLeader();
+                                leader.addChild(this);
+                            }
+                            else
+                            {
+                                //TODO: merge chestlines
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public TileFilteringChest getLeader()
+    {
+        if (leader == null)
+        {
+            return this;
+        }
+        else
+        {
+            return leader;
+        }
+    }
+
+    public void setLeader(TileFilteringChest newLeader)
+    {
+        leader = newLeader;
+    }
+
+    public void addChild(TileFilteringChest child)
+    {
+        if (childs == null)
+        {
+            childs = new ArrayList<TileFilteringChest>();
+        }
+        childs.add(child);
+    }
+
+    public void removeChild(TileFilteringChest child)
+    {
+        if (childs != null)
+        {
+            childs.remove(child);
+        }
+    }
+
+    public void promoteToLeader(ArrayList<TileFilteringChest> childs)
+    {
+        leader = null;
+        this.childs = childs;
+        //TODO: what if chain is broken?
+        for (TileFilteringChest child : childs)
+        {
+            child.setLeader(this);
+        }
+    }
 
     /**
      * Returns the number of slots in the inventory.
