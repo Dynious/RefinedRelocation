@@ -28,7 +28,7 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             rotate(tile, x, y, z);
 
-            GL11.glScalef(1F, 1F, 1F);
+            GL11.glScalef(0.99F, 0.99F, 0.99F);
 
             GL11.glPushMatrix();
 
