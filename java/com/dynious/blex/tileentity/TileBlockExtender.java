@@ -27,7 +27,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static cpw.mods.fml.common.Optional.*;
 
@@ -389,20 +391,21 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
 
     private boolean isLooping(TileEntity tile)
     {
-        return tile != null && tile instanceof TileBlockExtender && isTileConnectedToThis((TileBlockExtender) tile);
+        return tile != null && tile instanceof TileBlockExtender && isTileConnectedToThis((TileBlockExtender) tile, new ArrayList<TileBlockExtender>());
     }
 
-    private boolean isTileConnectedToThis(TileBlockExtender blockExtender)
+    private boolean isTileConnectedToThis(TileBlockExtender blockExtender, List<TileBlockExtender> visited)
     {
         boolean isLooping;
         TileEntity tile = blockExtender.getConnectedTile();
-        if (tile == this)
+        if (tile == this || visited.contains(tile))
         {
             return true;
         }
         if (tile != null && tile instanceof TileBlockExtender)
         {
-            isLooping = isTileConnectedToThis((TileBlockExtender) tile);
+            visited.add((TileBlockExtender)tile);
+            isLooping = isTileConnectedToThis((TileBlockExtender) tile, visited);
         }
         else
         {
