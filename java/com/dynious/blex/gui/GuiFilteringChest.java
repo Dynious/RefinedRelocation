@@ -1,17 +1,16 @@
 package com.dynious.blex.gui;
 
-import com.dynious.blex.gui.container.ContainerFilteredChest;
+import com.dynious.blex.gui.container.ContainerFilteringChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class GuiFilteredChest extends GuiContainer
+public class GuiFilteringChest extends GuiContainer
 {
     private static final ResourceLocation field_110421_t = new ResourceLocation("textures/gui/container/generic_54.png");
     private IInventory upperChestInventory;
@@ -22,9 +21,9 @@ public class GuiFilteredChest extends GuiContainer
      */
     private int inventoryRows;
 
-    public GuiFilteredChest(IInventory par1IInventory, IInventory par2IInventory)
+    public GuiFilteringChest(IInventory par1IInventory, IInventory par2IInventory)
     {
-        super(new ContainerFilteredChest(par1IInventory, par2IInventory));
+        super(new ContainerFilteringChest(par1IInventory, par2IInventory));
         this.upperChestInventory = par1IInventory;
         this.lowerChestInventory = par2IInventory;
         this.allowUserInput = false;

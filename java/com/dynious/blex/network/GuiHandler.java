@@ -5,7 +5,7 @@ import com.dynious.blex.gui.*;
 import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.gui.container.ContainerAdvancedFiltered;
 import com.dynious.blex.gui.container.ContainerFiltered;
-import com.dynious.blex.gui.container.ContainerFilteredChest;
+import com.dynious.blex.gui.container.ContainerFilteringChest;
 import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -38,7 +38,7 @@ public class GuiHandler implements IGuiHandler
             case GuiIds.WIRELESS_BLOCK_EXTENDER:
                 return new ContainerAdvancedFiltered((IAdvancedFilteredTile) world.getBlockTileEntity(x, y, z));
             case GuiIds.FILTERED_CHEST:
-                return new ContainerFilteredChest(player.inventory, (TileFilteringChest) world.getBlockTileEntity(x, y, z));
+                return new ContainerFilteringChest(player.inventory, (TileFilteringChest) world.getBlockTileEntity(x, y, z));
             default:
                 return null;
         }
@@ -83,7 +83,7 @@ public class GuiHandler implements IGuiHandler
             case GuiIds.FILTERED_CHEST:
                 if (tile != null && tile instanceof TileFilteringChest)
                 {
-                    return new GuiFilteredChest(player.inventory, (TileFilteringChest) tile);
+                    return new GuiFilteringChest(player.inventory, (TileFilteringChest) tile);
                 }
                 break;
         }

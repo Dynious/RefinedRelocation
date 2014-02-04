@@ -6,12 +6,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerFilteredChest extends Container
+public class ContainerFilteringChest extends Container
 {
     private IInventory lowerChestInventory;
     private int numRows;
 
-    public ContainerFilteredChest(IInventory par1IInventory, IInventory par2IInventory)
+    public ContainerFilteringChest(IInventory par1IInventory, IInventory par2IInventory)
     {
         this.lowerChestInventory = par2IInventory;
         this.numRows = par2IInventory.getSizeInventory() / 9;

@@ -4,6 +4,8 @@ import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.lib.Names;
+import com.dynious.blex.tileentity.IFilteringInventory;
+import com.dynious.blex.tileentity.IFilteringMember;
 import com.dynious.blex.tileentity.TileFilteringChest;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -192,9 +194,6 @@ public class BlockFilteringChest extends BlockContainer
 
             if (iinventory != null)
             {
-                TileFilteringChest test = ((TileFilteringChest)world.getBlockTileEntity(x, y, z)).getLeader();
-                System.out.println(test.xCoord + ":" + test.yCoord + ":" + test.zCoord);
-
                 if (!player.isSneaking())
                 {
                     GuiHelper.openGui(player, world.getBlockTileEntity(x, y, z));

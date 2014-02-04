@@ -1,7 +1,9 @@
 package com.dynious.blex.tileentity;
 
+import buildcraft.factory.TileHopper;
 import com.dynious.blex.block.BlockFilteringChest;
 import com.dynious.blex.config.Filter;
+import com.dynious.blex.helper.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
@@ -10,12 +12,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileFilteringChest extends TileEntity implements IInventory, IFilterTile
+public class TileFilteringChest extends TileEntity implements IFilteringInventory
 {
     private ItemStack[] chestContents = new ItemStack[36];
 
@@ -43,9 +47,9 @@ public class TileFilteringChest extends TileEntity implements IInventory, IFilte
     private Filter filter = new Filter();
     private boolean blacklist = true;
 
-    private TileFilteringChest leader;
-    private ArrayList<TileFilteringChest> childs;
-
+    private IFilteringMember leader;
+    private ArrayList<IFilteringMember> childs;
+    private boolean canJoinGroup = true;
 
     public void onTileAdded()
     {
@@ -54,53 +58,37 @@ public class TileFilteringChest extends TileEntity implements IInventory, IFilte
 
     public void onTileDestroyed()
     {
-        if (leader == null)
-        {
-            if (childs != null && !childs.isEmpty())
-            {
-                TileFilteringChest newLeader = childs.remove(0);
-                if (newLeader != null)
-                {
-                    newLeader.promoteToLeader(childs);
-                }
-            }
-        }
-        else
-        {
-            leader.removeChild(this);
-        }
+        canJoinGroup = false;
+        getLeader().removeChild(this);
+        getLeader().resetChilds();
     }
 
     public void searchForLeader()
     {
-        for (int x = -1; x < 2; x++)
+        leader = null;
+
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            for (int y = -1; y < 2; y++)
+            TileEntity tile = worldObj.getBlockTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
+            if (tile != null && tile instanceof IFilteringMember)
             {
-                for (int z = -1; z < 2; z++)
+                IFilteringMember filteringMember = (IFilteringMember)tile;
+                if (filteringMember.canJoinGroup())
                 {
-                    if (x != 0 || y != 0 || z != 0)
+                    if (leader == null)
                     {
-                        TileEntity tile = worldObj.getBlockTileEntity(xCoord + x, yCoord + y, zCoord + z);
-                        if (tile != null && tile instanceof TileFilteringChest)
-                        {
-                            if (leader == null)
-                            {
-                                leader = ((TileFilteringChest)tile).getLeader();
-                                leader.addChild(this);
-                            }
-                            else
-                            {
-                                //TODO: merge chestlines
-                            }
-                        }
+                        setLeader(filteringMember.getLeader());
+                    }
+                    else
+                    {
+                        filteringMember.getLeader().demoteToChild(leader);
                     }
                 }
             }
         }
     }
 
-    public TileFilteringChest getLeader()
+    public IFilteringMember getLeader()
     {
         if (leader == null)
         {
@@ -112,21 +100,28 @@ public class TileFilteringChest extends TileEntity implements IInventory, IFilte
         }
     }
 
-    public void setLeader(TileFilteringChest newLeader)
+    public void setLeader(IFilteringMember newLeader)
     {
-        leader = newLeader;
+        this.leader = newLeader;
+        if (leader != null)
+        {
+            leader.addChild(this);
+        }
     }
 
-    public void addChild(TileFilteringChest child)
+    public void addChild(IFilteringMember child)
     {
         if (childs == null)
         {
-            childs = new ArrayList<TileFilteringChest>();
+            childs = new ArrayList<IFilteringMember>();
         }
-        childs.add(child);
+        if (!childs.contains(child))
+        {
+            childs.add(child);
+        }
     }
 
-    public void removeChild(TileFilteringChest child)
+    public void removeChild(IFilteringMember child)
     {
         if (childs != null)
         {
@@ -134,15 +129,101 @@ public class TileFilteringChest extends TileEntity implements IInventory, IFilte
         }
     }
 
-    public void promoteToLeader(ArrayList<TileFilteringChest> childs)
+    public void resetChilds()
     {
-        leader = null;
-        this.childs = childs;
-        //TODO: what if chain is broken?
-        for (TileFilteringChest child : childs)
+        if (childs != null && !childs.isEmpty())
         {
-            child.setLeader(this);
+            ArrayList<IFilteringMember> tempChilds = new ArrayList<IFilteringMember>(childs);
+            childs = null;
+            for (IFilteringMember child : tempChilds)
+            {
+                child.setLeader(null);
+            }
+            for (IFilteringMember child : tempChilds)
+            {
+                child.searchForLeader();
+            }
         }
+    }
+
+    public void demoteToChild(IFilteringMember newLeader)
+    {
+        setLeader(newLeader);
+        if (childs != null && !childs.isEmpty())
+        {
+            for (IFilteringMember child : childs)
+            {
+                child.setLeader(leader);
+            }
+        }
+        childs = null;
+    }
+
+    public boolean canJoinGroup()
+    {
+        return canJoinGroup;
+    }
+
+    public ItemStack filterStackToGroup(ItemStack itemStack)
+    {
+        if (childs != null && !childs.isEmpty())
+        {
+            for (IFilteringMember filteringMember : childs)
+            {
+                if (filteringMember instanceof IFilteringInventory)
+                {
+                    IFilteringInventory filteringInventory = (IFilteringInventory)filteringMember;
+                    if (filteringInventory.getFilter().passesFilter(itemStack))
+                    {
+                        System.out.println(filteringInventory);
+                        itemStack = filteringInventory.putInInventory(itemStack);
+                        if (itemStack == null || itemStack.stackSize == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return itemStack;
+    }
+
+    public ItemStack putInInventory(ItemStack itemStack)
+    {
+        for (int slot = 0; slot < getSizeInventory() && itemStack != null && itemStack.stackSize > 0; ++slot)
+        {
+            if (isItemValidForSlot(slot, itemStack))
+            {
+                ItemStack itemstack1 = getStackInSlot(slot);
+
+                if (itemstack1 == null)
+                {
+                    int max = Math.min(itemStack.getMaxStackSize(), getInventoryStackLimit());
+                    if (max >= itemStack.stackSize)
+                    {
+                        this.chestContents[slot] = itemStack;
+
+                        this.onInventoryChanged();
+                        itemStack = null;
+                    }
+                    else
+                    {
+                        this.chestContents[slot] =  itemStack.splitStack(max);
+                    }
+                }
+                else if (ItemStackHelper.areItemStacksEqual(itemstack1, itemStack))
+                {
+                    int max = Math.min(itemStack.getMaxStackSize(), getInventoryStackLimit());
+                    if (max > itemstack1.stackSize)
+                    {
+                        int l = Math.min(itemStack.stackSize, max - itemstack1.stackSize);
+                        itemStack.stackSize -= l;
+                        itemstack1.stackSize += l;
+                    }
+                }
+            }
+        }
+        return itemStack;
     }
 
     /**
@@ -220,14 +301,34 @@ public class TileFilteringChest extends TileEntity implements IInventory, IFilte
      */
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
-        this.chestContents[par1] = par2ItemStack;
-
-        if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
+        System.out.println(par2ItemStack);
+        if (par2ItemStack == null)
         {
-            par2ItemStack.stackSize = this.getInventoryStackLimit();
+            this.chestContents[par1] = null;
         }
+        ItemStack filteredStack = getLeader().filterStackToGroup(par2ItemStack);
+        if (filteredStack != null)
+        {
+            putInInventory(filteredStack);
+        }
+        /*
+        if (filter.passesFilter(par2ItemStack))
+        {
+            this.chestContents[par1] = par2ItemStack;
 
-        this.onInventoryChanged();
+            if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
+            {
+                par2ItemStack.stackSize = this.getInventoryStackLimit();
+            }
+
+            this.onInventoryChanged();
+        }
+        else
+        {
+            ItemStack filteredStack = getLeader().filterStackToGroup(par2ItemStack);
+            putInInventory(filteredStack);
+        }
+        */
     }
 
     /**
@@ -279,6 +380,7 @@ public class TileFilteringChest extends TileEntity implements IInventory, IFilte
                 this.chestContents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
+        filter.readFromNBT(par1NBTTagCompound);
     }
 
     /**
@@ -306,6 +408,7 @@ public class TileFilteringChest extends TileEntity implements IInventory, IFilte
         {
             par1NBTTagCompound.setString("CustomName", this.customName);
         }
+        filter.writeToNBT(par1NBTTagCompound);
     }
 
     /**
