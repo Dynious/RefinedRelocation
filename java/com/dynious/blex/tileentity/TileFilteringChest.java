@@ -1,6 +1,5 @@
 package com.dynious.blex.tileentity;
 
-import buildcraft.factory.TileHopper;
 import com.dynious.blex.block.BlockFilteringChest;
 import com.dynious.blex.config.Filter;
 import com.dynious.blex.helper.ItemStackHelper;
@@ -12,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -46,6 +44,8 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
 
     private Filter filter = new Filter();
     private boolean blacklist = true;
+
+    private boolean isFirstRun = true;
 
     private IFilteringMember leader;
     private ArrayList<IFilteringMember> childs;
@@ -166,6 +166,15 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
 
     public ItemStack filterStackToGroup(ItemStack itemStack)
     {
+        if (getBlackList() ? !getFilter().passesFilter(itemStack) : getFilter().passesFilter(itemStack))
+        {
+            itemStack = putInInventory(itemStack);
+            if (itemStack == null || itemStack.stackSize == 0)
+            {
+                return null;
+            }
+        }
+
         if (childs != null && !childs.isEmpty())
         {
             for (IFilteringMember filteringMember : childs)
@@ -173,13 +182,12 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
                 if (filteringMember instanceof IFilteringInventory)
                 {
                     IFilteringInventory filteringInventory = (IFilteringInventory)filteringMember;
-                    if (filteringInventory.getFilter().passesFilter(itemStack))
+                    if (filteringInventory.getBlackList()? !filteringInventory.getFilter().passesFilter(itemStack) : filteringInventory.getFilter().passesFilter(itemStack))
                     {
-                        System.out.println(filteringInventory);
                         itemStack = filteringInventory.putInInventory(itemStack);
                         if (itemStack == null || itemStack.stackSize == 0)
                         {
-                            break;
+                            return null;
                         }
                     }
                 }
@@ -224,6 +232,12 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
             }
         }
         return itemStack;
+    }
+
+    public void putStackInSlot(ItemStack itemStack, int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < chestContents.length)
+        this.chestContents[slotIndex] = itemStack;
     }
 
     /**
@@ -301,34 +315,19 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
      */
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
-        System.out.println(par2ItemStack);
-        if (par2ItemStack == null)
-        {
-            this.chestContents[par1] = null;
-        }
-        ItemStack filteredStack = getLeader().filterStackToGroup(par2ItemStack);
-        if (filteredStack != null)
-        {
-            putInInventory(filteredStack);
-        }
-        /*
-        if (filter.passesFilter(par2ItemStack))
+        if (par2ItemStack == null || getBlackList() ? !getFilter().passesFilter(par2ItemStack) : getFilter().passesFilter(par2ItemStack))
         {
             this.chestContents[par1] = par2ItemStack;
-
-            if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit())
-            {
-                par2ItemStack.stackSize = this.getInventoryStackLimit();
-            }
-
             this.onInventoryChanged();
         }
         else
         {
             ItemStack filteredStack = getLeader().filterStackToGroup(par2ItemStack);
-            putInInventory(filteredStack);
+            if (filteredStack != null)
+            {
+                putInInventory(filteredStack);
+            }
         }
-        */
     }
 
     /**
@@ -381,6 +380,7 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
             }
         }
         filter.readFromNBT(par1NBTTagCompound);
+        blacklist = par1NBTTagCompound.getBoolean("blacklist");
     }
 
     /**
@@ -409,6 +409,7 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
             par1NBTTagCompound.setString("CustomName", this.customName);
         }
         filter.writeToNBT(par1NBTTagCompound);
+        par1NBTTagCompound.setBoolean("blacklist", blacklist);
     }
 
     /**
@@ -435,6 +436,13 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
     public void updateEntity()
     {
         super.updateEntity();
+
+        if (isFirstRun)
+        {
+            searchForLeader();
+            isFirstRun = false;
+        }
+
         ++this.ticksSinceSync;
         float f;
 

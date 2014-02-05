@@ -60,17 +60,17 @@ public class Filter
                 }
             }
 
-            if (customFilters[0] && oreName.contains("ingot"))
+            if (customFilters[0] && oreName.contains("ingot") || itemStack.getItem() == Item.ingotIron || itemStack.getItem() == Item.ingotGold)
                 return true;
             if (customFilters[1] && oreName.contains("ore"))
                 return true;
-            if (customFilters[2] && oreName.contains("wood"))
+            if (customFilters[2] && oreName.contains("log"))
                 return true;
             if (customFilters[3] && oreName.contains("plank"))
                 return true;
             if (customFilters[4] && oreName.contains("dust"))
                 return true;
-            if (customFilters[5] && oreName.contains("crushed") && !oreName.toLowerCase().contains("purified"))
+            if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
                 return true;
             if (customFilters[6] && !oreName.contains("purified"))
                 return true;
@@ -131,7 +131,7 @@ public class Filter
             case 1:
                 return "All Ores";
             case 2:
-                return "All Woods";
+                return "All Logs";
             case 3:
                 return "All Planks";
             case 4:
