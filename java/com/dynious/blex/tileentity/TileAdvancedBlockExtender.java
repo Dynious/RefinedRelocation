@@ -62,12 +62,12 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
     {
         if (spreadItems)
         {
-            if (lastSide != getInputSide(ForgeDirection.getOrientation(i2)).ordinal() || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack) || shouldUpdateBestSlot)
+            if (shouldUpdateBestSlot || lastSide != i2 || !ItemStackHelper.areItemStacksEqual(itemStack, lastStack))
             {
-                updateBestSlot(getInputSide(ForgeDirection.getOrientation(i2)).ordinal(), itemStack);
+                updateBestSlot(i2, itemStack);
                 shouldUpdateBestSlot = false;
             }
-            if (i != bestSlot || !super.canInsertItem(bestSlot, itemStack, getInputSide(ForgeDirection.getOrientation(i2)).ordinal()))
+            if (i != bestSlot || !super.canInsertItem(bestSlot, itemStack, i2))
             {
                 return false;
             }
@@ -76,15 +76,18 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
         }
         else
         {
-            return super.canInsertItem(i, itemStack, insertDirection[i2]);
+            return super.canInsertItem(i, itemStack, i2);
         }
     }
 
     private void updateBestSlot(int side, ItemStack itemStack)
     {
         int bestSize = Integer.MAX_VALUE;
-        for (int slot = 0; slot < getSizeInventory(); slot++)
+        int[] invAccessibleSlots = getAccessibleSlotsFromSide(side);
+
+        for (int j = 0; j < invAccessibleSlots.length; ++j)
         {
+            int slot = invAccessibleSlots[j];
             ItemStack stack = getStackInSlot(slot);
             if (!super.canInsertItem(slot, itemStack, side))
             {
