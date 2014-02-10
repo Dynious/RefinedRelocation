@@ -13,6 +13,7 @@ public class Resources
     public static final ResourceLocation GUI_FILTERED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "filteredBlockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_FILTERED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedFilteredBlockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BUFFER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBuffer.png");
+    public static final ResourceLocation GUI_SHARED = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "shared.png");
 
     public static final String MODEL_ENDERPEARL = MODEL_LOCATION + "enderPearl.obj";
 

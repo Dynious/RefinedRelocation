@@ -29,8 +29,8 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
     @Override
     public void setInsertDirection(int from, int value)
     {
-        if (value > 5)
-            value = 0;
+        int numDirs = ForgeDirection.VALID_DIRECTIONS.length;
+        value = (value % numDirs + numDirs) % numDirs;
         insertDirection[from] = (byte) value;
     }
 

@@ -1,18 +1,19 @@
 package com.dynious.blex.gui;
 
-import com.dynious.blex.gui.container.ContainerAdvanced;
-import com.dynious.blex.lib.Resources;
-import com.dynious.blex.network.PacketTypeHandler;
-import com.dynious.blex.network.packet.PacketInsertDirection;
-import com.dynious.blex.network.packet.PacketSpread;
-import com.dynious.blex.tileentity.TileAdvancedBuffer;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
+import com.dynious.blex.gui.container.ContainerAdvanced;
+import com.dynious.blex.gui.widget.GuiButtonMaxStackSize;
+import com.dynious.blex.gui.widget.GuiButtonSpread;
+import com.dynious.blex.gui.widget.GuiInsertDirections;
+import com.dynious.blex.gui.widget.GuiLabel;
+import com.dynious.blex.helper.BlockHelper;
+import com.dynious.blex.lib.Resources;
+import com.dynious.blex.tileentity.TileAdvancedBuffer;
 
-public class GuiAdvancedBuffer extends GuiContainer
+public class GuiAdvancedBuffer extends GuiBlExContainer
 {
     TileAdvancedBuffer buffer;
     GuiButton[] buttons = new GuiButton[6];
@@ -27,75 +28,30 @@ public class GuiAdvancedBuffer extends GuiContainer
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    @SuppressWarnings({"unchecked"})
     public void initGui()
     {
         super.initGui();
-        this.buttonList.clear();
-        for (int i = 0; i < 3; i++)
-        {
-            this.buttonList.add(buttons[i] = new GuiButton(i, width / 2 - 70 + (i * 50), height / 2 - 40, 40, 20, buffer.getInsertionName(i)));
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            this.buttonList.add(buttons[i + 3] = new GuiButton(i + 3, width / 2 - 70 + (i * 50), height / 2, 40, 20, buffer.getInsertionName(i + 3)));
-        }
-
-        this.buttonList.add(spread = new GuiButton(6, width / 2 - 40, height / 2 + 30, 80, 20, buffer.getSpreadItems() ? "Spread on" : "Spread off"));
-    }
-
-    @Override
-    public void drawScreen(int h, int j, float f)
-    {
-        drawDefaultBackground();
-        super.drawScreen(h, j, f);
-        for (int i = 0; i < 3; i++)
-        {
-            this.fontRenderer.drawString(Integer.toString(i), width / 2 - 52 + (i * 50), height / 2 - 50, 4210752);
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            this.fontRenderer.drawString(Integer.toString(i + 3), width / 2 - 52 + (i * 50), height / 2 - 10, 4210752);
-        }
-    }
-
-    @Override
-    public void updateScreen()
-    {
-        super.updateScreen();
-        for (int i = 0; i < buttons.length; i++)
-        {
-            buttons[i].displayString = buffer.getInsertionName(i);
-        }
-        spread.displayString = buffer.getSpreadItems() ? "Spread on" : "Spread off";
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton guibutton)
-    {
-        if (guibutton.id < 6)
-        {
-            buffer.setInsertDirection(guibutton.id, buffer.getInsertDirection()[guibutton.id] + 1);
-            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) guibutton.id, buffer.getInsertDirection()[guibutton.id])));
-        }
-        else
-        {
-            buffer.setSpreadItems(!buffer.getSpreadItems());
-            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(buffer.getSpreadItems())));
-        }
+        
+        new GuiLabel(this, width / 2, height / 2 - 30, BlockHelper.getTileEntityDisplayName((TileEntity) buffer).replaceAll("Advanced", "Adv."));
+        
+        new GuiButtonSpread(this, width / 2 + 17, height / 2 - 4, buffer);
+        
+        new GuiInsertDirections(this, width / 2 - 39, height / 2 - 19, 50, 50, buffer);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
-        int xSize = 204;
-        int ySize = 109;
+        int xSize = 97;
+        int ySize = 81;
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(Resources.GUI_ADVANCED_BUFFER);
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
+        
+        super.drawGuiContainerBackgroundLayer(par1, par2, par3);
     }
 
     @Override

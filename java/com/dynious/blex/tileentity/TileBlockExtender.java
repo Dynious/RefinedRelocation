@@ -273,6 +273,24 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
         return false;
     }
+    
+    public List<String> getConnectionTypes()
+    {
+        List<String> connections = new ArrayList<String>();
+        
+        if (inventory != null)
+            connections.add("Inventory");
+        if (fluidHandler != null)
+            connections.add("Fluid Transmission");
+        if (Loader.isModLoaded("BuildCraft|Energy") && powerReceptor != null)
+            connections.add("Buildcraft Energy");
+        if (Loader.isModLoaded("IC2") && energySink != null)
+            connections.add("IC2 Energy");
+        if (Loader.isModLoaded("CoFHCore") && energyHandler != null)
+            connections.add("Thermal Expansion Energy");
+        
+        return connections;
+    }
 
     public void objectTransported()
     {

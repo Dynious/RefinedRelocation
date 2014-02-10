@@ -24,8 +24,8 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 
     public void setInsertDirection(int from, int value)
     {
-        if (value > ForgeDirection.VALID_DIRECTIONS.length)
-            value = 0;
+        int numDirs = ForgeDirection.VALID_DIRECTIONS.length;
+        value = (value % numDirs + numDirs) % numDirs;
         insertDirection[from] = (byte) value;
     }
 

@@ -35,7 +35,6 @@ public class GuiHandler implements IGuiHandler
             case GuiIds.ADVANCED_BUFFER:
                 return new ContainerAdvanced((IAdvancedTile) world.getBlockTileEntity(x, y, z));
             case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
-            case GuiIds.WIRELESS_BLOCK_EXTENDER:
                 return new ContainerAdvancedFiltered((IAdvancedFilteredTile) world.getBlockTileEntity(x, y, z));
             case GuiIds.FILTERED_CHEST:
                 return new ContainerFilteringChest(player.inventory, (TileFilteringChest) world.getBlockTileEntity(x, y, z));
@@ -66,12 +65,6 @@ public class GuiHandler implements IGuiHandler
                 if (tile != null && tile instanceof TileAdvancedFilteredBlockExtender)
                 {
                     return new GuiAdvancedFilteredBlockExtender(player.inventory, (TileAdvancedFilteredBlockExtender) tile);
-                }
-                break;
-            case GuiIds.WIRELESS_BLOCK_EXTENDER:
-                if (tile != null && tile instanceof TileWirelessBlockExtender)
-                {
-                    return new GuiWirelessBlockExtender(player.inventory, (TileWirelessBlockExtender) tile);
                 }
                 break;
             case GuiIds.ADVANCED_BUFFER:

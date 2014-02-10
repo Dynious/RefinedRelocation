@@ -25,7 +25,7 @@ public class GuiHelper
             }
             else if (tile instanceof TileWirelessBlockExtender)
             {
-                GuiId = GuiIds.WIRELESS_BLOCK_EXTENDER;
+                GuiId = GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER;
             }
             else if (tile instanceof TileAdvancedFilteredBlockExtender)
             {
