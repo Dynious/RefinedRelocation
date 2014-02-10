@@ -137,7 +137,7 @@ public abstract class GuiBlExWidgetBase extends Gui implements IGuiBlExWidgetBas
         for (IGuiBlExWidgetBase child : this.children)
             tooltip.addAll(child.getTooltip(mouseX, mouseY));
         return tooltip;
-    };
+    }
 
     @Override
     public void drawBackground(int mouseX, int mouseY)

@@ -37,7 +37,7 @@ public class GuiHandler implements IGuiHandler
             case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
                 return new ContainerAdvancedFiltered((IAdvancedFilteredTile) world.getBlockTileEntity(x, y, z));
             case GuiIds.FILTERED_CHEST:
-                return new ContainerFilteringChest(player.inventory, (TileFilteringChest) world.getBlockTileEntity(x, y, z));
+                return new ContainerFilteringChest(player, (TileFilteringChest) world.getBlockTileEntity(x, y, z));
             default:
                 return null;
         }
@@ -76,7 +76,7 @@ public class GuiHandler implements IGuiHandler
             case GuiIds.FILTERED_CHEST:
                 if (tile != null && tile instanceof TileFilteringChest)
                 {
-                    return new GuiFilteringChest(player.inventory, (TileFilteringChest) tile);
+                    return new GuiFilteringChest(player, (TileFilteringChest) tile);
                 }
                 break;
         }

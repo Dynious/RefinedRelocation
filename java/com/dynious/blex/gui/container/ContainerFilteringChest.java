@@ -1,5 +1,6 @@
 package com.dynious.blex.gui.container;
 
+import com.dynious.blex.tileentity.IFilterTile;
 import com.dynious.blex.tileentity.TileFilteringChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -7,16 +8,17 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerFilteringChest extends Container
+public class ContainerFilteringChest extends ContainerHierarchical
 {
     private IInventory lowerChestInventory;
     private int numRows;
 
-    public ContainerFilteringChest(IInventory par1IInventory, IInventory par2IInventory)
+    public ContainerFilteringChest(EntityPlayer player, IInventory par2IInventory)
     {
         this.lowerChestInventory = par2IInventory;
         this.numRows = par2IInventory.getSizeInventory() / 9;
         par2IInventory.openChest();
+        ((TileFilteringChest)this.lowerChestInventory).addCrafter(player);
         int i = (this.numRows - 4) * 18;
         int j;
         int k;
@@ -33,13 +35,13 @@ public class ContainerFilteringChest extends Container
         {
             for (k = 0; k < 9; ++k)
             {
-                this.addSlotToContainer(new Slot(par1IInventory, k + j * 9 + 9, 8 + k * 18, 103 + j * 18 + i));
+                this.addSlotToContainer(new Slot(player.inventory, k + j * 9 + 9, 8 + k * 18, 103 + j * 18 + i));
             }
         }
 
         for (j = 0; j < 9; ++j)
         {
-            this.addSlotToContainer(new Slot(par1IInventory, j, 8 + j * 18, 161 + i));
+            this.addSlotToContainer(new Slot(player.inventory, j, 8 + j * 18, 161 + i));
         }
     }
 
@@ -99,6 +101,7 @@ public class ContainerFilteringChest extends Container
     {
         super.onContainerClosed(par1EntityPlayer);
         this.lowerChestInventory.closeChest();
+        ((TileFilteringChest)this.lowerChestInventory).removeCrafter(par1EntityPlayer);
     }
 
     /**

@@ -1,9 +1,11 @@
 package com.dynious.blex.config;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
@@ -60,7 +62,7 @@ public class Filter
                 }
             }
 
-            if (customFilters[0] && oreName.contains("ingot") || itemStack.getItem() == Item.ingotIron || itemStack.getItem() == Item.ingotGold)
+            if (customFilters[0] && (oreName.contains("ingot") || itemStack.itemID == Item.ingotIron.itemID || itemStack.itemID == Item.ingotGold.itemID))
                 return true;
             if (customFilters[1] && oreName.contains("ore"))
                 return true;
@@ -79,18 +81,25 @@ public class Filter
             if (customFilters[8] && !oreName.contains("gem"))
                 return true;
 
-            if (itemStack.getItem() != null)
+            CreativeTabs tab;
+
+            if (itemStack.getItem() instanceof ItemBlock)
             {
-                CreativeTabs tab = ObfuscationReflectionHelper.getPrivateValue(Item.class, itemStack.getItem(), "tabToDisplayOn", "field_77701_a", "a");
-                if (tab != null)
+                tab = ObfuscationReflectionHelper.getPrivateValue(Block.class, Block.blocksList[itemStack.itemID], "displayOnCreativeTab", "field_149772_a", "a");
+            }
+            else
+            {
+                tab = ObfuscationReflectionHelper.getPrivateValue(Item.class, Item.itemsList[itemStack.itemID], "tabToDisplayOn", "field_77701_a", "a");
+            }
+            if (tab != null)
+            {
+                int index = ObfuscationReflectionHelper.getPrivateValue(CreativeTabs.class, tab, "tabIndex", "field_78033_n", "n");
+
+                for (int i = 0; i < creativeTabs.length; i++)
                 {
-                    int index = ObfuscationReflectionHelper.getPrivateValue(CreativeTabs.class, tab, "tabIndex", "field_78033_n", "n");
-                    for (int i = 0; i < creativeTabs.length; i++)
+                    if (creativeTabs[i] && index == i)
                     {
-                        if (creativeTabs[i] && index == i)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }

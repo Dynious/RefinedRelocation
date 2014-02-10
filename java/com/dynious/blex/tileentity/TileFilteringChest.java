@@ -51,6 +51,8 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
     private ArrayList<IFilteringMember> childs;
     private boolean canJoinGroup = true;
 
+    protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
+
     public void onTileAdded()
     {
         searchForLeader();
@@ -166,15 +168,6 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
 
     public ItemStack filterStackToGroup(ItemStack itemStack)
     {
-        if (getBlackList() ? !getFilter().passesFilter(itemStack) : getFilter().passesFilter(itemStack))
-        {
-            itemStack = putInInventory(itemStack);
-            if (itemStack == null || itemStack.stackSize == 0)
-            {
-                return null;
-            }
-        }
-
         if (childs != null && !childs.isEmpty())
         {
             for (IFilteringMember filteringMember : childs)
@@ -191,6 +184,15 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
                         }
                     }
                 }
+            }
+        }
+
+        if (getBlackList() ? !getFilter().passesFilter(itemStack) : getFilter().passesFilter(itemStack))
+        {
+            itemStack = putInInventory(itemStack);
+            if (itemStack == null || itemStack.stackSize == 0)
+            {
+                return null;
             }
         }
         return itemStack;
@@ -315,6 +317,10 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
      */
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
+        if (worldObj.isRemote)
+        {
+            return;
+        }
         if (par2ItemStack == null || getBlackList() ? !getFilter().passesFilter(par2ItemStack) : getFilter().passesFilter(par2ItemStack))
         {
             this.chestContents[par1] = par2ItemStack;
@@ -327,6 +333,15 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
             {
                 putInInventory(filteredStack);
             }
+        }
+        syncInventory();
+    }
+
+    public void syncInventory()
+    {
+        for (EntityPlayer player : crafters)
+        {
+            player.openContainer.detectAndSendChanges();
         }
     }
 
@@ -553,6 +568,16 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
             this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
             this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType().blockID);
         }
+    }
+
+    public void addCrafter(EntityPlayer player)
+    {
+        crafters.add(player);
+    }
+
+    public void removeCrafter(EntityPlayer player)
+    {
+        crafters.remove(player);
     }
 
     /**

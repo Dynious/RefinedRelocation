@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -21,10 +22,10 @@ public class GuiFilteringChest extends GuiContainer
      */
     private int inventoryRows;
 
-    public GuiFilteringChest(IInventory par1IInventory, IInventory par2IInventory)
+    public GuiFilteringChest(EntityPlayer player, IInventory par2IInventory)
     {
-        super(new ContainerFilteringChest(par1IInventory, par2IInventory));
-        this.upperChestInventory = par1IInventory;
+        super(new ContainerFilteringChest(player, par2IInventory));
+        this.upperChestInventory = player.inventory;
         this.lowerChestInventory = par2IInventory;
         this.allowUserInput = false;
         short short1 = 222;
