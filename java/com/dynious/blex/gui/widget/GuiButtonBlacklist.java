@@ -1,0 +1,48 @@
+package com.dynious.blex.gui.widget;
+
+import java.util.List;
+import com.dynious.blex.gui.IGuiParent;
+import com.dynious.blex.network.PacketTypeHandler;
+import com.dynious.blex.network.packet.PacketBlacklist;
+import com.dynious.blex.tileentity.IFilterTile;
+import cpw.mods.fml.common.network.PacketDispatcher;
+
+public class GuiButtonBlacklist extends GuiButtonToggle
+{
+    protected IFilterTile tile;
+    
+    public GuiButtonBlacklist(IGuiParent parent, int x, int y, IFilterTile tile)
+    {
+        super(parent, x, y, 24, 20, 24, 0, null, null);
+        this.tile = tile;
+        update();
+    }
+    
+    @Override
+    protected void onStateChangedByUser(boolean newState)
+    {
+        if (tile == null)
+            return;
+        
+        tile.setBlackList(newState);
+        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist(newState)));
+    }
+    
+    @Override
+    public List<String> getTooltip(int mouseX, int mouseY)
+    {
+        List<String> tooltip = super.getTooltip(mouseX, mouseY);
+        if (isMouseInsideBounds(mouseX, mouseY))
+            tooltip.add(getState() ? "Blacklist" : "Whitelist");
+        return tooltip;
+    }
+
+    @Override
+    public void update()
+    {
+        if (tile != null)
+            setState(tile.getBlackList());
+        
+        super.update();
+    }
+}
