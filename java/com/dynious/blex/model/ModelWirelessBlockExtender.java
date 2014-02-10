@@ -8,7 +8,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelBuffer extends ModelBase
+public class ModelWirelessBlockExtender extends ModelBase
 {
     // fields
     ModelRenderer OutsideGlass;
@@ -26,7 +26,7 @@ public class ModelBuffer extends ModelBase
     ModelRenderer Pilar11;
     private float size = 0.0625F;
 
-    public ModelBuffer()
+    public ModelWirelessBlockExtender()
     {
         textureWidth = 128;
         textureHeight = 128;

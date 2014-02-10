@@ -3,6 +3,7 @@ package com.dynious.blex.renderer;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
 import com.dynious.blex.model.ModelEnderPearl;
+import com.dynious.blex.model.ModelWirelessBlockExtender;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
@@ -11,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 public class ItemRendererBlockExtender implements IItemRenderer
 {
     private ModelBlockExtender modelBlockExtender = new ModelBlockExtender();
+    private ModelWirelessBlockExtender modelWirelessBlockExtender = new ModelWirelessBlockExtender();
     private ModelEnderPearl modelEnderPearl = new ModelEnderPearl();
 
     @Override
@@ -57,14 +59,12 @@ public class ItemRendererBlockExtender implements IItemRenderer
 
     public void render(float x, float y, float z, ItemStack itemStack)
     {
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-
+        boolean isWireless = itemStack.getItemDamage() == 4;
+        
         GL11.glPushMatrix();
 
         GL11.glTranslated(x + 0.5F, y + 1.5F, z + 0.5F);
         GL11.glRotatef(180F, 1F, 0F, 0F);
-        GL11.glScalef(1F, 1F, 1F);
 
         GL11.glPushMatrix();
 
@@ -80,45 +80,59 @@ public class ItemRendererBlockExtender implements IItemRenderer
 
         GL11.glPopMatrix();
 
-        if (itemStack.getItemDamage() == 0)
+        if (isWireless)
         {
+            // render the inner block extender
+            GL11.glPushMatrix();
+            GL11.glScalef(0.6F, 0.6F, 0.6F);
+            GL11.glTranslated(0, .7F, 0);
+            GL11.glRotatef((float) (System.currentTimeMillis() % 36000) / 10F, 0F, 1F, 0F);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
-        }
-        else if (itemStack.getItemDamage() == 1)
-        {
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER);
-        }
-        else if (itemStack.getItemDamage() == 2)
-        {
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
-        }
-        else if (itemStack.getItemDamage() == 3)
-        {
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
-        }
-        else if (itemStack.getItemDamage() == 4)
-        {
+            modelBlockExtender.renderBase();
+            modelBlockExtender.renderPilars();
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            modelBlockExtender.renderOutsideGlass();
+            GL11.glDisable(GL11.GL_BLEND);
+            GL11.glPopMatrix();
+
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_WIRELESS_BLOCK_EXTENDER);
+
+            modelWirelessBlockExtender.renderPilars();
+
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            modelWirelessBlockExtender.renderSides();
+            GL11.glDisable(GL11.GL_BLEND);
+        }
+        else
+        {
+            if (itemStack.getItemDamage() == 0)
+            {
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
+            }
+            else if (itemStack.getItemDamage() == 1)
+            {
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER);
+            }
+            else if (itemStack.getItemDamage() == 2)
+            {
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
+            }
+            else if (itemStack.getItemDamage() == 3)
+            {
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
+            }
+            
+            modelBlockExtender.renderBase();
+            modelBlockExtender.renderPilars();
+            
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            modelBlockExtender.renderOutsideGlass();
+            GL11.glDisable(GL11.GL_BLEND);
         }
 
-        modelBlockExtender.renderBase();
-        modelBlockExtender.renderPilars();
-
-        GL11.glPushMatrix();
-
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glColor4f(1F, 1F, 1F, 0.2F);
-
-        modelBlockExtender.renderSides();
-
-        GL11.glDisable(GL11.GL_BLEND);
-
         GL11.glPopMatrix();
-
-        GL11.glPopMatrix();
-
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_CULL_FACE);
     }
 }
