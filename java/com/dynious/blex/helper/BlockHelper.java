@@ -18,9 +18,16 @@ public class BlockHelper
         Block block = Block.blocksList[blockID];
         if (block != null)
         {
-            ItemStack pickedItemStack = block.getPickBlock(null, world, x, y, z);
-            if (pickedItemStack != null)
-                return getItemStackDisplayName(pickedItemStack);
+            try 
+            {
+                ItemStack pickedItemStack = block.getPickBlock(null, world, x, y, z);
+                if (pickedItemStack != null)
+                    return getItemStackDisplayName(pickedItemStack);
+            }
+            catch(Exception e)
+            {
+                // TODO: Add proper support for using getPickBlock on multiparts
+            }
 
             List<ItemStack> dropped = block.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
             if (!dropped.isEmpty())
