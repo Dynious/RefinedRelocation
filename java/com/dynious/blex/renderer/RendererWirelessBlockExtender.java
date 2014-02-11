@@ -48,7 +48,7 @@ public class RendererWirelessBlockExtender extends RendererBlockExtender
             GL11.glScalef(0.6F, 0.6F, 0.6F);
             GL11.glTranslated(0, .7F, 0);
             GL11.glRotatef((float) (System.currentTimeMillis() % 36000) / 10F, 0F, 1F, 0F);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
             modelBlockExtender.renderBase();
             modelBlockExtender.renderPilars();
             GL11.glEnable(GL11.GL_BLEND);
