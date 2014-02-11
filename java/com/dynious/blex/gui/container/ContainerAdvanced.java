@@ -8,7 +8,7 @@ import net.minecraft.inventory.ICrafting;
 public class ContainerAdvanced extends ContainerHierarchical implements IContainerAdvanced
 {
 
-    IAdvancedTile tile;
+    public IAdvancedTile tile;
 
     private boolean lastSpreadItems = false;
     private byte[] lastInsertDirection = {1, 1, 1, 1, 1, 1, 1};

@@ -36,7 +36,7 @@ import static cpw.mods.fml.common.Optional.*;
     @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
     @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
     @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")})
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral
+public class TileBlockExtender extends TileEntity implements IRedstoneTransmitter, ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral
 
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
@@ -51,8 +51,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public boolean blocksChanged = true;
     protected float lightAmount = 0F;
     protected int recheckTiles = 0;
-    public boolean isRedstonePowered = false;
-    public boolean isRedstoneEnabled = true;
+    protected boolean isRedstonePowered = false;
+    protected boolean isRedstoneEnabled = true;
 
     public TileBlockExtender()
     {
@@ -317,24 +317,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
     }
 
-    public void setRedstoneEnabled(boolean state)
-    {
-        boolean wasRedstoneEnabled = isRedstoneEnabled;
-        isRedstoneEnabled = state;
-
-        if (isRedstoneEnabled != wasRedstoneEnabled)
-        {
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            this.checkRedstonePower();
-        }
-    }
-
     public void checkRedstonePower()
     {
-        boolean wasRedstonePowered = isRedstonePowered;
+        boolean wasRedstonePowered = isRedstoneTransmissionActive();
 
-        isRedstonePowered = false;
-        if (isRedstoneEnabled)
+        setRedstoneTransmissionActive(false);
+        if (isRedstoneTransmissionEnabled())
         {
             for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
             {
@@ -345,13 +333,13 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 int indirectPowerLevelFromDirection = worldObj.getIndirectPowerLevelTo(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ, direction.ordinal());
                 if (indirectPowerLevelFromDirection > 0)
                 {
-                    isRedstonePowered = true;
+                    setRedstoneTransmissionActive(true);
                     break;
                 }
             }
         }
 
-        if (isRedstonePowered != wasRedstonePowered)
+        if (isRedstoneTransmissionActive() != wasRedstonePowered)
         {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             worldObj.notifyBlockOfNeighborChange(xCoord + connectedDirection.offsetX, yCoord + connectedDirection.offsetY, zCoord + connectedDirection.offsetZ, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
@@ -362,7 +350,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         ForgeDirection realDir = ForgeDirection.getOrientation(side).getOpposite();
 
-        if (isRedstonePowered && connectedDirection == realDir)
+        if (isRedstoneTransmissionActive() && connectedDirection == realDir)
             return 15;
 
         return 0;
@@ -378,7 +366,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     *   */
     public boolean canConnectRedstone(int side)
     {
-        if (!this.isRedstoneEnabled)
+        if (!this.isRedstoneTransmissionEnabled())
             return false;
 
         ForgeDirection realDirection = ForgeDirection.UNKNOWN;
@@ -871,7 +859,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         super.readFromNBT(compound);
         setConnectedSide(compound.getByte("side"));
-        isRedstoneEnabled = compound.getBoolean("redstoneEnabled");
+        setRedstoneTransmissionEnabled(compound.getBoolean("redstoneEnabled"));
     }
 
     @Override
@@ -879,15 +867,15 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         super.writeToNBT(compound);
         compound.setByte("side", (byte) connectedDirection.ordinal());
-        compound.setBoolean("redstoneEnabled", this.isRedstoneEnabled);
+        compound.setBoolean("redstoneEnabled", this.isRedstoneTransmissionEnabled());
     }
 
     @Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
     {
         setConnectedSide(pkt.data.getByte("side"));
-        isRedstonePowered = (pkt.data.getBoolean("redstone"));
-        setRedstoneEnabled(pkt.data.getBoolean("redstoneEnabled"));
+        setRedstoneTransmissionActive(pkt.data.getBoolean("redstone"));
+        setRedstoneTransmissionEnabled(pkt.data.getBoolean("redstoneEnabled"));
     }
 
     @Override
@@ -895,8 +883,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         NBTTagCompound compound = new NBTTagCompound();
         compound.setByte("side", (byte) connectedDirection.ordinal());
-        compound.setBoolean("redstone", this.isRedstonePowered);
-        compound.setBoolean("redstoneEnabled", this.isRedstoneEnabled);
+        compound.setBoolean("redstone", this.isRedstoneTransmissionActive());
+        compound.setBoolean("redstoneEnabled", this.isRedstoneTransmissionEnabled());
         return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
     }
 
@@ -904,5 +892,36 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         setConnectedSide((getConnectedDirection().ordinal() + 1) % ForgeDirection.VALID_DIRECTIONS.length);
         return true;
+    }
+
+    @Override
+    public boolean isRedstoneTransmissionEnabled()
+    {
+        return isRedstoneEnabled;
+    }
+
+    @Override
+    public void setRedstoneTransmissionEnabled(boolean state)
+    {
+        boolean wasRedstoneEnabled = isRedstoneTransmissionEnabled();
+        isRedstoneEnabled = state;
+
+        if (worldObj != null && isRedstoneTransmissionEnabled() != wasRedstoneEnabled)
+        {
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            this.checkRedstonePower();
+        }
+    }
+
+    @Override
+    public boolean isRedstoneTransmissionActive()
+    {
+        return isRedstonePowered;
+    }
+
+    @Override
+    public void setRedstoneTransmissionActive(boolean state)
+    {
+        isRedstonePowered = state;
     }
 }

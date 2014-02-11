@@ -2,19 +2,22 @@ package com.dynious.blex.gui.widget;
 
 import java.util.List;
 import com.dynious.blex.gui.IGuiParent;
-import com.dynious.blex.tileentity.TileBlockExtender;
+import com.dynious.blex.network.PacketTypeHandler;
+import com.dynious.blex.network.packet.PacketRedstoneEnabled;
+import com.dynious.blex.tileentity.IRedstoneTransmitter;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GuiRedstoneSignalStatus extends GuiBlExButton
+public class GuiRedstoneSignalStatus extends GuiButtonToggle
 {
-    protected TileBlockExtender tile;
+    protected IRedstoneTransmitter tile;
     protected boolean lastEnabled = false;
     protected boolean lastPowered = true;
     protected String tooltipText;
     protected static final int textureXBase = 128;
 
-    public GuiRedstoneSignalStatus(IGuiParent parent, int x, int y, TileBlockExtender tile)
+    public GuiRedstoneSignalStatus(IGuiParent parent, int x, int y, IRedstoneTransmitter tile)
     {
-        super(parent, x, y, 16, 16, textureXBase, 80, null);
+        super(parent, x, y, 16, 16, textureXBase, 80, null, null);
         this.tile = tile;
         update();
     }
@@ -31,11 +34,11 @@ public class GuiRedstoneSignalStatus extends GuiBlExButton
             String redColor = colorCode+"4";
 
             tooltip.add("Redstone signal transmission");
-            if (tile.isRedstoneEnabled)
+            if (tile.isRedstoneTransmissionEnabled())
             {
                 tooltip.add(grayColor+"Enabled");
                 
-                if (tile.isRedstonePowered)
+                if (tile.isRedstoneTransmissionActive())
                     tooltip.add(redColor+"Active");
                 else
                     tooltip.add(redColor+"Inactive");
@@ -48,12 +51,26 @@ public class GuiRedstoneSignalStatus extends GuiBlExButton
 
         return tooltip;
     }
+
+    @Override
+    protected void onStateChangedByUser(boolean newState)
+    {
+        if (tile == null)
+            return;
+        
+        tile.setRedstoneTransmissionEnabled(newState);
+        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRedstoneEnabled(newState)));
+    }
     
     @Override
     public void update()
     {
         super.update();
-        
-        this.textureX = tile.isRedstoneEnabled ? (tile.isRedstonePowered ? textureXBase : textureXBase + w) : textureXBase + w * 2;
+
+        if (tile != null)
+        {
+            setState(tile.isRedstoneTransmissionEnabled());
+            this.textureX = tile.isRedstoneTransmissionActive() ? textureXBase + w : textureXBase;
+        }
     }
 }

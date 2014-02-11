@@ -1,17 +1,8 @@
 package com.dynious.blex.block;
 
-import cofh.api.block.IDismantleable;
-import com.dynious.blex.BlockExtenders;
-import com.dynious.blex.helper.BlockHelper;
-import com.dynious.blex.helper.DistanceHelper;
-import com.dynious.blex.helper.GuiHelper;
-import com.dynious.blex.item.ModItems;
-import com.dynious.blex.lib.Names;
-import com.dynious.blex.lib.Settings;
-import com.dynious.blex.tileentity.*;
-import cpw.mods.fml.common.Optional.Method;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,13 +15,20 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import static cpw.mods.fml.common.Optional.Interface;
-import static cpw.mods.fml.common.Optional.InterfaceList;
+import cofh.api.block.IDismantleable;
+import com.dynious.blex.BlockExtenders;
+import com.dynious.blex.helper.BlockHelper;
+import com.dynious.blex.helper.DistanceHelper;
+import com.dynious.blex.helper.GuiHelper;
+import com.dynious.blex.item.ModItems;
+import com.dynious.blex.lib.Names;
+import com.dynious.blex.lib.Settings;
+import com.dynious.blex.tileentity.*;
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.InterfaceList;
+import cpw.mods.fml.common.Optional.Method;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @InterfaceList(value = {@Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")})
 public class BlockExtender extends BlockContainer implements IDismantleable
@@ -90,15 +88,14 @@ public class BlockExtender extends BlockContainer implements IDismantleable
             if (player.getCurrentEquippedItem() == null)
             {
                 TileEntity tile = world.getBlockTileEntity(x, y, z);
-                if (tile != null && tile instanceof TileBlockExtender)
+                if (tile != null && tile instanceof IRedstoneTransmitter)
                 {
-                    TileBlockExtender blockExtender = (TileBlockExtender) tile;
-                    blockExtender.setRedstoneEnabled(!blockExtender.isRedstoneEnabled);
+                    IRedstoneTransmitter redstoneTransmitter = (IRedstoneTransmitter) tile;
+                    redstoneTransmitter.setRedstoneTransmissionEnabled(!redstoneTransmitter.isRedstoneTransmissionEnabled());
                     if (world.isRemote)
                     {
                         player.sendChatToPlayer(new ChatMessageComponent()
-                                .addText(BlockHelper.getTileEntityDisplayName(tile) + " is now "
-                                        + (blockExtender.isRedstoneEnabled ? "" : "not ") + "transmitting redstone power"));
+                                .addText("Redstone signal transmission " + (redstoneTransmitter.isRedstoneTransmissionEnabled() ? "enabled" : "disabled")));
                     }
                     return true;
                 }
@@ -186,7 +183,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     {
         TileBlockExtender tile = (TileBlockExtender) world.getBlockTileEntity(x, y, z);
 
-        if (!tile.isRedstonePowered)
+        if (!tile.isRedstoneTransmissionActive())
             return;
 
         float f = (float) x + 0.5F;

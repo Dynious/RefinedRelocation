@@ -16,6 +16,7 @@ public enum PacketTypeHandler
     BLACKLIST(PacketBlacklist.class),
     FILTER_OPTION(PacketFilterOption.class),
     RESTRICT_EXTRACTION(PacketRestrictExtraction.class),
+    REDSTONE_ENABLED(PacketRedstoneEnabled.class),
     TILE_UPDATE(PacketTileUpdate.class);
 
     private Class<? extends CustomPacket> clazz;
