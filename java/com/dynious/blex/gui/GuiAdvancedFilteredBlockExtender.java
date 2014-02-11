@@ -2,7 +2,6 @@ package com.dynious.blex.gui;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import com.dynious.blex.gui.container.ContainerAdvancedFiltered;
 import com.dynious.blex.gui.widget.*;
@@ -28,7 +27,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiBlExContainer
         super.initGui();
 
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName((TileEntity) blockExtender).replaceAll("Advanced", "Adv."));
-        
+
         new GuiButtonMaxStackSize(this, width / 2 - 81, height / 2 - 67, blockExtender);
 
         new GuiButtonBlacklist(this, width / 2 - 54, height / 2 - 67, blockExtender);

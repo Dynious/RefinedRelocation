@@ -1,5 +1,6 @@
 package com.dynious.blex.gui.widget;
 
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.tileentity.IAdvancedTile;
@@ -48,7 +49,11 @@ public class GuiInsertDirections extends GuiBlExWidgetBase
         
         if (tile instanceof TileWirelessBlockExtender)
         {
-            GuiBlExButton wirelessLinkStatus = new GuiWirelessLinkStatus(this, x, y, (TileWirelessBlockExtender) tile);
+            new GuiWirelessLinkStatus(this, x, y, (TileWirelessBlockExtender) tile);
+        }
+        if (((TileEntity) tile).getBlockType().canProvidePower())
+        {
+            new GuiRedstoneSignalStatus(this, colX[0], colY[2], (TileBlockExtender) tile);
         }
     }
 
