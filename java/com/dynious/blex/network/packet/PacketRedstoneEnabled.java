@@ -11,7 +11,7 @@ import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.gui.container.ContainerAdvancedFiltered;
 import com.dynious.blex.gui.container.ContainerFiltered;
 import com.dynious.blex.network.PacketTypeHandler;
-import com.dynious.blex.tileentity.IRedstoneTransmitter;
+import com.dynious.blex.tileentity.TileBlockExtender;
 import cpw.mods.fml.common.network.Player;
 
 public class PacketRedstoneEnabled extends CustomPacket
@@ -63,9 +63,9 @@ public class PacketRedstoneEnabled extends CustomPacket
         if (container instanceof ContainerFiltered)
             tile = (TileEntity) ((ContainerFiltered) container).tile;
 
-        if (tile == null || !(tile instanceof IRedstoneTransmitter))
+        if (tile == null || !(tile instanceof TileBlockExtender))
             return;
 
-        ((IRedstoneTransmitter) tile).setRedstoneTransmissionEnabled(redstoneEnabled);
+        ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(redstoneEnabled);
     }
 }

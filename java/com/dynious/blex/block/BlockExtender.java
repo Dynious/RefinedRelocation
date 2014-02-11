@@ -88,14 +88,14 @@ public class BlockExtender extends BlockContainer implements IDismantleable
             if (player.getCurrentEquippedItem() == null)
             {
                 TileEntity tile = world.getBlockTileEntity(x, y, z);
-                if (tile != null && tile instanceof IRedstoneTransmitter)
+                if (tile != null && tile instanceof TileBlockExtender)
                 {
-                    IRedstoneTransmitter redstoneTransmitter = (IRedstoneTransmitter) tile;
-                    redstoneTransmitter.setRedstoneTransmissionEnabled(!redstoneTransmitter.isRedstoneTransmissionEnabled());
+                    TileBlockExtender blockExtender = (TileBlockExtender) tile;
+                    blockExtender.setRedstoneTransmissionEnabled(!blockExtender.isRedstoneTransmissionEnabled());
                     if (world.isRemote)
                     {
                         player.sendChatToPlayer(new ChatMessageComponent()
-                                .addText("Redstone signal transmission " + (redstoneTransmitter.isRedstoneTransmissionEnabled() ? "enabled" : "disabled")));
+                                .addText("Redstone signal transmission " + (blockExtender.isRedstoneTransmissionEnabled() ? "enabled" : "disabled")));
                     }
                     return true;
                 }

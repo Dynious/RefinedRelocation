@@ -12,7 +12,7 @@ import com.dynious.blex.gui.widget.GuiUserFilter;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.IFilterTile;
-import com.dynious.blex.tileentity.IRedstoneTransmitter;
+import com.dynious.blex.tileentity.TileBlockExtender;
 
 public class GuiFiltered extends GuiBlExContainer
 {
@@ -39,9 +39,9 @@ public class GuiFiltered extends GuiBlExContainer
 
         new GuiFilterList(this, width / 2 - 80, height / 2 - 18, 160, 97, filterTile);
 
-        if (filterTile instanceof IRedstoneTransmitter)
+        if (filterTile instanceof TileBlockExtender)
         {
-            new GuiRedstoneSignalStatus(this, width / 2 + 35, height / 2 - 63, (IRedstoneTransmitter) filterTile);
+            new GuiRedstoneSignalStatus(this, width / 2 + 35, height / 2 - 63, (TileBlockExtender) filterTile);
         }
     }
 

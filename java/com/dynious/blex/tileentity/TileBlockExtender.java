@@ -36,7 +36,7 @@ import static cpw.mods.fml.common.Optional.*;
     @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
     @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
     @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")})
-public class TileBlockExtender extends TileEntity implements IRedstoneTransmitter, ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral
 
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
@@ -894,13 +894,11 @@ public class TileBlockExtender extends TileEntity implements IRedstoneTransmitte
         return true;
     }
 
-    @Override
     public boolean isRedstoneTransmissionEnabled()
     {
         return isRedstoneEnabled;
     }
 
-    @Override
     public void setRedstoneTransmissionEnabled(boolean state)
     {
         boolean wasRedstoneEnabled = isRedstoneTransmissionEnabled();
@@ -913,13 +911,11 @@ public class TileBlockExtender extends TileEntity implements IRedstoneTransmitte
         }
     }
 
-    @Override
     public boolean isRedstoneTransmissionActive()
     {
         return isRedstonePowered;
     }
 
-    @Override
     public void setRedstoneTransmissionActive(boolean state)
     {
         isRedstonePowered = state;

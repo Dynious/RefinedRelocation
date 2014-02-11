@@ -4,18 +4,18 @@ import java.util.List;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketRedstoneEnabled;
-import com.dynious.blex.tileentity.IRedstoneTransmitter;
+import com.dynious.blex.tileentity.TileBlockExtender;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiRedstoneSignalStatus extends GuiButtonToggle
 {
-    protected IRedstoneTransmitter tile;
+    protected TileBlockExtender tile;
     protected boolean lastEnabled = false;
     protected boolean lastPowered = true;
     protected String tooltipText;
     protected static final int textureXBase = 128;
 
-    public GuiRedstoneSignalStatus(IGuiParent parent, int x, int y, IRedstoneTransmitter tile)
+    public GuiRedstoneSignalStatus(IGuiParent parent, int x, int y, TileBlockExtender tile)
     {
         super(parent, x, y, 16, 16, textureXBase, 80, null, null);
         this.tile = tile;
