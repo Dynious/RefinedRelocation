@@ -7,10 +7,12 @@ import com.dynious.blex.gui.container.ContainerFiltered;
 import com.dynious.blex.gui.widget.GuiButtonBlacklist;
 import com.dynious.blex.gui.widget.GuiFilterList;
 import com.dynious.blex.gui.widget.GuiLabel;
+import com.dynious.blex.gui.widget.GuiRedstoneSignalStatus;
 import com.dynious.blex.gui.widget.GuiUserFilter;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.IFilterTile;
+import com.dynious.blex.tileentity.TileBlockExtender;
 
 public class GuiFiltered extends GuiBlExContainer
 {
@@ -30,12 +32,17 @@ public class GuiFiltered extends GuiBlExContainer
         super.initGui();
 
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName((TileEntity) filterTile));
-        
+
         new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile);
 
         new GuiUserFilter(this, width / 2 - 80, height / 2 - 56, 160, 30, true, filterTile);
 
         new GuiFilterList(this, width / 2 - 80, height / 2 - 18, 160, 97, filterTile);
+
+        if (filterTile instanceof TileBlockExtender)
+        {
+            new GuiRedstoneSignalStatus(this, width / 2 + 35, height / 2 - 63, (TileBlockExtender) filterTile);
+        }
     }
 
     @Override
@@ -49,7 +56,7 @@ public class GuiFiltered extends GuiBlExContainer
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
-        
+
         super.drawGuiContainerBackgroundLayer(par1, par2, par3);
     }
 

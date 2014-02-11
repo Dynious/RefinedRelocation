@@ -5,7 +5,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 import com.dynious.blex.gui.container.ContainerAdvanced;
-import com.dynious.blex.gui.widget.GuiButtonMaxStackSize;
 import com.dynious.blex.gui.widget.GuiButtonSpread;
 import com.dynious.blex.gui.widget.GuiInsertDirections;
 import com.dynious.blex.gui.widget.GuiLabel;
@@ -31,11 +30,11 @@ public class GuiAdvancedBuffer extends GuiBlExContainer
     public void initGui()
     {
         super.initGui();
-        
+
         new GuiLabel(this, width / 2, height / 2 - 30, BlockHelper.getTileEntityDisplayName((TileEntity) buffer).replaceAll("Advanced", "Adv."));
-        
+
         new GuiButtonSpread(this, width / 2 + 17, height / 2 - 4, buffer);
-        
+
         new GuiInsertDirections(this, width / 2 - 39, height / 2 - 19, 50, 50, buffer);
     }
 
@@ -50,7 +49,7 @@ public class GuiAdvancedBuffer extends GuiBlExContainer
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
-        
+
         super.drawGuiContainerBackgroundLayer(par1, par2, par3);
     }
 
