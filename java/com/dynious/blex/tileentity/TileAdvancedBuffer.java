@@ -13,27 +13,84 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 {
-    private byte[] insertDirection = {0, 1, 2, 3, 4, 5};
+    private byte[] insertPriority = {0, 1, 2, 3, 4, 5};
     private boolean spreadItems = false;
     private byte nextInsertDirection;
 
+    public static final byte NULL = 6;
+
     public byte[] getInsertDirection()
     {
-        return insertDirection;
+        return insertPriority;
     }
 
     public void setInsertDirection(int from, int value)
     {
-        int numDirs = ForgeDirection.VALID_DIRECTIONS.length;
-        value = (value % numDirs + numDirs) % numDirs;
-        insertDirection[from] = (byte) value;
+        byte priority = getPriority(from);
+        System.out.println(from + ":" + priority + ":" +  value);
+        if (priority != NULL)
+        {
+            insertPriority[priority] = NULL;
+        }
+        if (value != NULL)
+        {
+            insertPriority[value] = (byte) from;
+        }
     }
 
-    public String getInsertionName(int place)
+    public byte getPriority(int side)
     {
-        if (getInsertDirection()[place] >= ForgeDirection.VALID_DIRECTIONS.length)
-            return "NONE";
-        return ForgeDirection.getOrientation(getInsertDirection()[place]).toString();
+        for (byte b : insertPriority)
+        {
+            if (b == side)
+            {
+                return b;
+            }
+        }
+        return NULL;
+    }
+
+    public byte getNextInsertPriority(byte currentPriority, boolean reverse)
+    {
+        if (!reverse)
+        {
+            for (int i = currentPriority; i < insertPriority.length; i++)
+            {
+                byte b = insertPriority[i];
+                if (b == NULL)
+                {
+                    return (byte) i;
+                }
+            }
+            for (int i = 0; i < currentPriority; i++)
+            {
+                byte b = insertPriority[i];
+                if (b == NULL)
+                {
+                    return (byte) i;
+                }
+            }
+        }
+        else
+        {
+            for (int i = Math.min(5, currentPriority); i > -1; i--)
+            {
+                byte b = insertPriority[i];
+                if (b == NULL)
+                {
+                    return (byte) i;
+                }
+            }
+            for (int i = insertPriority.length - 1; i > currentPriority; i--)
+            {
+                byte b = insertPriority[i];
+                if (b == NULL)
+                {
+                    return (byte) i;
+                }
+            }
+        }
+        return NULL;
     }
 
     @Override
@@ -71,13 +128,13 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
             while (tries < 6)
             {
                 tries++;
-                int side = insertDirection[nextInsertDirection];
-                if (nextInsertDirection < insertDirection.length - 1)
+                int side = insertPriority[nextInsertDirection];
+                if (nextInsertDirection < insertPriority.length - 1)
                     nextInsertDirection++;
                 else
                     nextInsertDirection = 0;
 
-                if (side >= ForgeDirection.VALID_DIRECTIONS.length || side >= tiles.length || side == slot)
+                if (side == NULL || side >= tiles.length || side == slot)
                     continue;
                 ItemStack returnedStack = insertItemStack(tempStack.copy(), side);
                 if (returnedStack == null || returnedStack.stackSize == 0)
@@ -91,9 +148,9 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
         else
         {
-            for (int i : insertDirection)
+            for (int i : insertPriority)
             {
-                if (i == 6 || i >= tiles.length || i == slot)
+                if (i == NULL || i >= tiles.length || i == slot)
                     continue;
                 itemstack = insertItemStack(itemstack, i);
                 if (itemstack == null || itemstack.stackSize == 0)
@@ -134,13 +191,13 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        insertDirection = compound.getByteArray("insertDirection");
+        insertPriority = compound.getByteArray("insertPriority");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setByteArray("insertDirection", insertDirection);
+        compound.setByteArray("insertPriority", insertPriority);
     }
 }

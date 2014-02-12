@@ -1,6 +1,9 @@
 package com.dynious.blex.gui.widget;
 
 import java.util.List;
+
+import com.dynious.blex.tileentity.TileAdvancedBuffer;
+import com.dynious.blex.tileentity.TileBuffer;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -83,19 +86,30 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
         boolean hasTile = true;
         boolean isHovered = isMouseInsideBounds(mouseX, mouseY);
         int textureOffset = (relativeSide != null ? relativeSide.ordinal() : side.ordinal()) + 1;
+
         if (tile instanceof TileBlockExtender)
         {
             TileBlockExtender blockExtender = ((TileBlockExtender) tile);
             isConnected = blockExtender.getConnectedDirection() == side;
             hasTile = blockExtender.getTiles()[side.ordinal()] != null;
-        }
-        this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h*2 : (isHovered ? h : (hasTile ? 0 : h*2))), w, h);
 
-        if (!isConnected)
+            this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h*2 : (isHovered ? h : (hasTile ? 0 : h*2))), w, h);
+
+            if (!isConnected)
+            {
+                this.insertDirection = ForgeDirection.getOrientation(tile.getInsertDirection()[side.ordinal()]);
+                char letter = insertDirection.toString().charAt(0);
+                fontRenderer.drawString(Character.toString(letter), x + w / 2 - fontRenderer.getCharWidth(letter) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, hasTile || isHovered ? 0xFFFFFF : 0xAAAAAA, true);
+            }
+        }
+        else if (tile instanceof TileAdvancedBuffer)
         {
-            this.insertDirection = ForgeDirection.getOrientation(tile.getInsertDirection()[side.ordinal()]);
-            char letter = insertDirection.toString().charAt(0);
-            fontRenderer.drawString(Character.toString(letter), x + w / 2 - fontRenderer.getCharWidth(letter) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, hasTile || isHovered ? 0xFFFFFF : 0xAAAAAA, true);
+            this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h*2 : (isHovered ? h : 0)), w, h);
+
+            TileAdvancedBuffer buffer = (TileAdvancedBuffer)tile;
+            byte p = buffer.getPriority(side.ordinal());
+            String priority = p == TileAdvancedBuffer.NULL ? "--" : Byte.toString(p);
+            fontRenderer.drawString(priority, x + w / 2 - fontRenderer.getStringWidth(priority) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, isHovered ? 0xFFFFFF : 0xAAAAAA, true);
         }
     }
 
@@ -103,9 +117,20 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
     {
         if ((type == 0 || type == 1) && !isConnected && isMouseInsideBounds(mouseX, mouseY))
         {
-            byte step = (byte) (type == 0 ? 1 : -1);
-            tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), (byte) tile.getInsertDirection()[side.ordinal()])));
+            if (tile instanceof TileBlockExtender)
+            {
+                byte step = (byte) (type == 0 ? 1 : -1);
+                tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()])));
+            }
+            if (tile instanceof TileAdvancedBuffer)
+            {
+                TileAdvancedBuffer buffer = (TileAdvancedBuffer)tile;
+                byte nextPriority = buffer.getNextInsertPriority(buffer.getPriority(side.ordinal()), type != 0);
+
+                tile.setInsertDirection(side.ordinal(), nextPriority);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), nextPriority)));
+            }
         }
     }
 }
