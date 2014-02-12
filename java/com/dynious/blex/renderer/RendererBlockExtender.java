@@ -54,10 +54,6 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
             }
-            else if (tileEntity instanceof TileWirelessBlockExtender)
-            {
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_WIRELESS_BLOCK_EXTENDER);
-            }
             else if (tileEntity instanceof TileAdvancedFilteredBlockExtender)
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
@@ -76,8 +72,6 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             GL11.glDisable(GL11.GL_BLEND);
 
             GL11.glPopMatrix();
-
-            GL11.glEnable(GL11.GL_LIGHTING);
         }
     }
 

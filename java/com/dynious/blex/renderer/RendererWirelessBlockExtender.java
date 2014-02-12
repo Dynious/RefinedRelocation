@@ -3,13 +3,13 @@ package com.dynious.blex.renderer;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 import com.dynious.blex.lib.Resources;
-import com.dynious.blex.model.ModelWirelessBlockExtender;
+import com.dynious.blex.model.ModelBuffer;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class RendererWirelessBlockExtender extends RendererBlockExtender
 {
-    protected ModelWirelessBlockExtender modelWirelessBlockExtender = new ModelWirelessBlockExtender();
+    protected ModelBuffer modelWirelessBlockExtender = new ModelBuffer();
     
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float timer)

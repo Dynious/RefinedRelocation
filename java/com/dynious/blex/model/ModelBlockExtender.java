@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 public class ModelBlockExtender extends ModelBase
 {
     // fields
-    ModelRenderer InsideGlass;
     ModelRenderer OutsideGlass;
     ModelRenderer Base;
     ModelRenderer Pilar1;
@@ -28,14 +27,6 @@ public class ModelBlockExtender extends ModelBase
     {
         textureWidth = 128;
         textureHeight = 128;
-
-        /*
-        InsideGlass = new ModelRenderer(this, 0, 64);
-        InsideGlass.addBox(0F, 0F, 0F, 12, 12, 12);
-        InsideGlass.setRotationPoint(-6F, 10F, -6F);
-        InsideGlass.setTextureSize(128, 128);
-        setRotation(InsideGlass, 0F, 0F, 0F);
-        */
         
         OutsideGlass = new ModelRenderer(this, 0, 32);
         OutsideGlass.addBox(0F, 0F, 0F, 16, 16, 16);
@@ -113,7 +104,6 @@ public class ModelBlockExtender extends ModelBase
         Pilar6.render(f5);
         Pilar7.render(f5);
         Pilar8.render(f5);
-        InsideGlass.render(f5);
     }
 
     public void renderBase()
@@ -136,12 +126,6 @@ public class ModelBlockExtender extends ModelBase
     public void renderOutsideGlass()
     {
         OutsideGlass.render(size);
-    }
-    
-    public void renderInsideGlass()
-    {
-        if (InsideGlass != null)
-            InsideGlass.render(size);
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z)

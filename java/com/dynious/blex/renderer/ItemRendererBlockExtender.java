@@ -3,7 +3,7 @@ package com.dynious.blex.renderer;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
 import com.dynious.blex.model.ModelEnderPearl;
-import com.dynious.blex.model.ModelWirelessBlockExtender;
+import com.dynious.blex.model.ModelBuffer;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 public class ItemRendererBlockExtender implements IItemRenderer
 {
     private ModelBlockExtender modelBlockExtender = new ModelBlockExtender();
-    private ModelWirelessBlockExtender modelWirelessBlockExtender = new ModelWirelessBlockExtender();
+    private ModelBuffer modelWirelessBlockExtender = new ModelBuffer();
     private ModelEnderPearl modelEnderPearl = new ModelEnderPearl();
 
     @Override
