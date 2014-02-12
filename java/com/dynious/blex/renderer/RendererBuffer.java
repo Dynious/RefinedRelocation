@@ -21,21 +21,19 @@ public class RendererBuffer extends TileEntitySpecialRenderer
     {
         if (tileEntity != null && tileEntity instanceof TileBuffer)
         {
-
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-
             GL11.glPushMatrix();
 
-            GL11.glTranslated(x + 0.5F, y - 0.5F, z + 0.5F);
+            GL11.glTranslated(x + 0.5F, y + 1.5F, z + 0.5F);
+            GL11.glRotatef(180F, 1F, 0F, 0F);
 
             GL11.glScalef(1F, 1F, 1F);
 
             GL11.glPushMatrix();
 
-            float yOffset = (float) Math.sin((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 10F;
+            float xOffset = (float) Math.sin((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 7F;
+            float zOffset = (float) Math.cos((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 7F;
 
-            GL11.glTranslated(0, 1F + yOffset, 0);
+            GL11.glTranslated(xOffset, 1, zOffset);
             GL11.glRotatef((float) (System.currentTimeMillis() % 36000) / 10F, 0F, 1F, 0F);
             GL11.glScalef(0.125F, 0.125F, 0.125F);
 
@@ -58,22 +56,13 @@ public class RendererBuffer extends TileEntitySpecialRenderer
 
             modelBlockExtender.renderPilars();
 
-            GL11.glPushMatrix();
-
             GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            GL11.glColor4f(1F, 1F, 1F, 0.15F);
-
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             modelBlockExtender.renderSides();
-
             GL11.glDisable(GL11.GL_BLEND);
 
-            GL11.glPopMatrix();
 
             GL11.glPopMatrix();
-
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_CULL_FACE);
         }
     }
 }

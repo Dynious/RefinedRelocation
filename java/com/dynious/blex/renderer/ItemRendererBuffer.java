@@ -57,20 +57,17 @@ public class ItemRendererBuffer implements IItemRenderer
 
     public void render(float x, float y, float z, ItemStack itemStack)
     {
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-
         GL11.glPushMatrix();
 
         GL11.glTranslated(x + 0.5F, y + 1.5F, z + 0.5F);
         GL11.glRotatef(180F, 1F, 0F, 0F);
-        GL11.glScalef(1F, 1F, 1F);
 
         GL11.glPushMatrix();
+        
+        float xOffset = (float) Math.sin((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 5F;
+        float zOffset = (float) Math.cos((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 5F;
 
-        float yOffset = (float) Math.sin((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 10F;
-
-        GL11.glTranslated(0, 1F + yOffset, 0);
+        GL11.glTranslated(xOffset, 1, zOffset);
         GL11.glRotatef((float) (System.currentTimeMillis() % 36000) / 10F, 0F, 1F, 0F);
         GL11.glScalef(0.125F, 0.125F, 0.125F);
 
@@ -95,21 +92,11 @@ public class ItemRendererBuffer implements IItemRenderer
 
         modelBlockExtender.renderPilars();
 
-        GL11.glPushMatrix();
-
         GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glColor4f(1F, 1F, 1F, 0.2F);
-
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         modelBlockExtender.renderSides();
-
         GL11.glDisable(GL11.GL_BLEND);
 
         GL11.glPopMatrix();
-
-        GL11.glPopMatrix();
-
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_CULL_FACE);
     }
 }

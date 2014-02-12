@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 public class RendererBlockExtender extends TileEntitySpecialRenderer
 {
-    private ModelBlockExtender modelBlockExtender = new ModelBlockExtender();
-    private ModelEnderPearl modelEnderPearl = new ModelEnderPearl();
+    protected ModelBlockExtender modelBlockExtender = new ModelBlockExtender();
+    protected ModelEnderPearl modelEnderPearl = new ModelEnderPearl();
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float timer)
@@ -21,14 +21,9 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
         {
             TileBlockExtender tile = (TileBlockExtender) tileEntity;
 
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-
             GL11.glPushMatrix();
 
             rotate(tile, x, y, z);
-
-            GL11.glScalef(0.99F, 0.99F, 0.99F);
 
             GL11.glPushMatrix();
 
@@ -41,7 +36,7 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             GL11.glScalef(0.125F, 0.125F, 0.125F);
 
             if (!tile.isRedstoneTransmissionEnabled())
-                GL11.glColor3f(0.5F, 0.5F, 0.5F);
+                GL11.glColor3f(.5F, .1F, .1F);
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ENDERPEARL);
 
@@ -51,8 +46,6 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
 
             GL11.glColor3f(1, 1, 1);
 
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
-
             if (tileEntity instanceof TileAdvancedBlockExtender)
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_BLOCK_EXTENDER);
@@ -61,34 +54,24 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_FILTERED_BLOCK_EXTENDER);
             }
-            else if (tileEntity instanceof TileWirelessBlockExtender)
-            {
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_WIRELESS_BLOCK_EXTENDER);
-            }
             else if (tileEntity instanceof TileAdvancedFilteredBlockExtender)
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER);
+            }
+            else
+            {
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_BLOCK_EXTENDER);
             }
 
             modelBlockExtender.renderBase();
             modelBlockExtender.renderPilars();
 
-            GL11.glPushMatrix();
-
             GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            GL11.glColor4f(1F, 1F, 1F, 0.15F + tile.getLightAmount());
-
-            modelBlockExtender.renderSides();
-
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, tile.getLightAmount() > 0 ? GL11.GL_ONE : GL11.GL_ONE_MINUS_SRC_ALPHA);
+            modelBlockExtender.renderOutsideGlass();
             GL11.glDisable(GL11.GL_BLEND);
 
             GL11.glPopMatrix();
-
-            GL11.glPopMatrix();
-
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_CULL_FACE);
         }
     }
 

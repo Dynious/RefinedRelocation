@@ -11,7 +11,7 @@ import net.minecraft.entity.Entity;
 public class ModelBuffer extends ModelBase
 {
     // fields
-    ModelRenderer SideDown;
+    ModelRenderer OutsideGlass;
     ModelRenderer Pilar1;
     ModelRenderer Pilar2;
     ModelRenderer Pilar3;
@@ -20,11 +20,6 @@ public class ModelBuffer extends ModelBase
     ModelRenderer Pilar10;
     ModelRenderer Pilar7;
     ModelRenderer Pilar8;
-    ModelRenderer SideWest;
-    ModelRenderer SideEast;
-    ModelRenderer SideNorth;
-    ModelRenderer SideSouth;
-    ModelRenderer SideUp;
     ModelRenderer Pilar6;
     ModelRenderer Pilar9;
     ModelRenderer Pilar12;
@@ -36,12 +31,12 @@ public class ModelBuffer extends ModelBase
         textureWidth = 128;
         textureHeight = 128;
 
-        SideDown = new ModelRenderer(this, 60, 60);
-        SideDown.addBox(0F, 0F, 0F, 12, 2, 12);
-        SideDown.setRotationPoint(-6F, 22F, -6F);
-        SideDown.setTextureSize(64, 32);
-        SideDown.mirror = true;
-        setRotation(SideDown, 0F, 0F, 0F);
+        OutsideGlass = new ModelRenderer(this, 64, 32);
+        OutsideGlass.addBox(0F, 0F, 0F, 16, 16, 16);
+        OutsideGlass.setRotationPoint(-8F, 8F, -8F);
+        OutsideGlass.setTextureSize(128, 128);
+        setRotation(OutsideGlass, 0F, 0F, 0F);
+        
         Pilar1 = new ModelRenderer(this, 0, 0);
         Pilar1.addBox(0F, 0F, 0F, 2, 16, 2);
         Pilar1.setRotationPoint(-8F, 8F, -8F);
@@ -90,36 +85,6 @@ public class ModelBuffer extends ModelBase
         Pilar8.setTextureSize(64, 32);
         Pilar8.mirror = true;
         setRotation(Pilar8, 0F, 0F, 0F);
-        SideWest = new ModelRenderer(this, 0, 30);
-        SideWest.addBox(0F, 0F, 0F, 2, 12, 12);
-        SideWest.setRotationPoint(6F, 10F, -6F);
-        SideWest.setTextureSize(64, 32);
-        SideWest.mirror = true;
-        setRotation(SideWest, 0F, 0F, 0F);
-        SideEast = new ModelRenderer(this, 0, 60);
-        SideEast.addBox(0F, 0F, 0F, 2, 12, 12);
-        SideEast.setRotationPoint(-8F, 10F, -6F);
-        SideEast.setTextureSize(64, 32);
-        SideEast.mirror = true;
-        setRotation(SideEast, 0F, 0F, 0F);
-        SideNorth = new ModelRenderer(this, 0, 90);
-        SideNorth.addBox(0F, 0F, 0F, 12, 12, 2);
-        SideNorth.setRotationPoint(-6F, 10F, -8F);
-        SideNorth.setTextureSize(64, 32);
-        SideNorth.mirror = true;
-        setRotation(SideNorth, 0F, 0F, 0F);
-        SideSouth = new ModelRenderer(this, 60, 30);
-        SideSouth.addBox(0F, 0F, 0F, 12, 12, 2);
-        SideSouth.setRotationPoint(-6F, 10F, 6F);
-        SideSouth.setTextureSize(64, 32);
-        SideSouth.mirror = true;
-        setRotation(SideSouth, 0F, 0F, 0F);
-        SideUp = new ModelRenderer(this, 60, 60);
-        SideUp.addBox(0F, 0F, 0F, 12, 2, 12);
-        SideUp.setRotationPoint(-6F, 8F, -6F);
-        SideUp.setTextureSize(64, 32);
-        SideUp.mirror = true;
-        setRotation(SideUp, 0F, 0F, 0F);
         Pilar6 = new ModelRenderer(this, 0, 0);
         Pilar6.addBox(0F, 0F, 0F, 12, 2, 2);
         Pilar6.setRotationPoint(-6F, 8F, 6F);
@@ -162,10 +127,7 @@ public class ModelBuffer extends ModelBase
         Pilar10.render(f5);
         Pilar11.render(f5);
         Pilar12.render(f5);
-        SideWest.render(f5);
-        SideEast.render(f5);
-        SideNorth.render(f5);
-        SideSouth.render(f5);
+        OutsideGlass.render(f5);
     }
 
     public void renderPilars()
@@ -186,11 +148,7 @@ public class ModelBuffer extends ModelBase
 
     public void renderSides()
     {
-        SideWest.render(size);
-        SideEast.render(size);
-        SideNorth.render(size);
-        SideSouth.render(size);
-        SideUp.render(size);
+        OutsideGlass.render(size);
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z)
