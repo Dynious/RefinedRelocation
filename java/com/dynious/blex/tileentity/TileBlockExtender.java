@@ -10,6 +10,7 @@ import dan200.computer.api.IPeripheral;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -55,10 +56,30 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected int recheckTiles = 0;
     protected boolean isRedstonePowered = false;
     protected boolean isRedstoneEnabled = true;
+    public Block blockDisguisedAs = null;
+    public int blockDisguisedMetadata = 0;
 
     public TileBlockExtender()
     {
         super();
+    }
+    
+    public Block getDisguise()
+    {
+        return blockDisguisedAs;
+    }
+
+    public void clearDisguise()
+    {
+        setDisguise(null, 0);
+    }
+    
+    public void setDisguise(Block block, int metadata)
+    {
+        blockDisguisedAs = block;
+        blockDisguisedMetadata = metadata;
+        if (worldObj != null)
+            worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
     }
 
     public void setConnectedSide(int connectedSide)
@@ -862,6 +883,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         super.readFromNBT(compound);
         setConnectedSide(compound.getByte("side"));
         setRedstoneTransmissionEnabled(compound.getBoolean("redstoneEnabled"));
+        int disguiseBlockId = compound.getInteger("disguisedId");
+        if (disguiseBlockId != 0)
+        {
+            int disguisedMeta = compound.getInteger("disguisedMeta");
+            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+        }
     }
 
     @Override
@@ -870,6 +897,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         super.writeToNBT(compound);
         compound.setByte("side", (byte) connectedDirection.ordinal());
         compound.setBoolean("redstoneEnabled", this.isRedstoneTransmissionEnabled());
+        if (blockDisguisedAs != null)
+        {
+            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedMeta", blockDisguisedMetadata);
+        }
     }
 
     @Override
@@ -878,6 +910,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         setConnectedSide(pkt.data.getByte("side"));
         setRedstoneTransmissionActive(pkt.data.getBoolean("redstone"));
         setRedstoneTransmissionEnabled(pkt.data.getBoolean("redstoneEnabled"));
+        int disguiseBlockId = pkt.data.getInteger("disguisedId");
+        if (disguiseBlockId != 0)
+        {
+            int disguisedMeta = pkt.data.getInteger("disguisedMeta");
+            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+        }
     }
 
     @Override
@@ -887,6 +925,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         compound.setByte("side", (byte) connectedDirection.ordinal());
         compound.setBoolean("redstone", this.isRedstoneTransmissionActive());
         compound.setBoolean("redstoneEnabled", this.isRedstoneTransmissionEnabled());
+        if (blockDisguisedAs != null)
+        {
+            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedMeta", blockDisguisedMetadata);
+        }
         return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
     }
 

@@ -14,6 +14,7 @@ import cpw.mods.fml.common.Optional.InterfaceList;
 import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -23,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -212,12 +214,6 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public int getRenderType()
-    {
-        return -1;
-    }
-
-    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
@@ -285,4 +281,67 @@ public class BlockExtender extends BlockContainer implements IDismantleable
         TileBlockExtender tile = (TileBlockExtender) worldObj.getBlockTileEntity(x, y, z);
         return tile.rotateBlock();
     }
+
+    // Start block disguise delegation functions
+
+    @Override
+    public int getRenderType()
+    {
+        // this ideally would get the disguise's render type
+        // but this func doesn't have the world, x, y, z params needed to get the TileBlockExtender
+        // so just return the 'standard' type
+        return 0;
+    }
+
+    @Override
+    public int colorMultiplier(IBlockAccess world, int x, int y, int z) 
+    {
+
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileBlockExtender)
+        {
+            TileBlockExtender tile = (TileBlockExtender) tileEntity;
+            Block blockDisguisedAs = tile.getDisguise();
+            if (blockDisguisedAs != null)
+                return blockDisguisedAs.colorMultiplier(world, x, y, z);
+        }
+
+        return super.colorMultiplier(world, x, y, z);
+    }
+
+    @Override
+    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
+    {
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileBlockExtender)
+        {
+            TileBlockExtender tile = (TileBlockExtender) tileEntity;
+            Block blockDisguisedAs = tile.getDisguise();
+            int disguisedMeta = tile.blockDisguisedMetadata;
+            if (blockDisguisedAs != null)
+                return blockDisguisedAs.getIcon(side, disguisedMeta);
+        }
+        return super.getBlockTexture(world, x, y, z, side);
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+    {
+        // translate the coordinates back to the BlockExtender, since they get sent offset for some reason
+        ForgeDirection dir = ForgeDirection.getOrientation(side);
+        x += dir.getOpposite().offsetX;
+        y += dir.getOpposite().offsetY;
+        z += dir.getOpposite().offsetZ;
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        if (tileEntity != null && tileEntity instanceof TileBlockExtender)
+        {
+            TileBlockExtender tile = (TileBlockExtender) tileEntity;
+
+            if (tile.getDisguise() != null)
+                return dir == tile.getConnectedDirection();
+        }
+        return false;
+    }
+
+    // End block disguise delegation functions
 }

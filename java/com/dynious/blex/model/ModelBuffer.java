@@ -31,7 +31,7 @@ public class ModelBuffer extends ModelBase
         textureWidth = 128;
         textureHeight = 128;
 
-        OutsideGlass = new ModelRenderer(this, 64, 32);
+        OutsideGlass = new ModelRenderer(this, 64, 36);
         OutsideGlass.addBox(0F, 0F, 0F, 16, 16, 16);
         OutsideGlass.setRotationPoint(-8F, 8F, -8F);
         OutsideGlass.setTextureSize(128, 128);

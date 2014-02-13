@@ -4,9 +4,11 @@ import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Resources;
+import com.dynious.blex.tileentity.TileBlockExtender;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -43,15 +45,51 @@ public class ItemLinker extends Item
     }
 
     @Override
+    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
+    {
+        if (entityPlayer.isSneaking())
+            return false;
+        
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile == null || !(tile instanceof TileWirelessBlockExtender))
+        {
+            if (tile != null && itemStack.hasTagCompound() && tile instanceof TileBlockExtender)
+            {
+                int linkedX = itemStack.getTagCompound().getInteger("tileX");
+                int linkedY = itemStack.getTagCompound().getInteger("tileY");
+                int linkedZ = itemStack.getTagCompound().getInteger("tileZ");
+                int linkedBlockId = world.getBlockId(linkedX, linkedY, linkedZ);
+                int linkedBlockMetadata = world.getBlockMetadata(linkedX, linkedY, linkedZ);
+                Block linkedBlock = Block.blocksList[linkedBlockId];
+                if (linkedBlock != null && linkedBlock.isOpaqueCube())
+                {
+                    ((TileBlockExtender) tile).setDisguise(linkedBlock, linkedBlockMetadata);
+                }
+                else
+                {
+                    if (world.isRemote)
+                        entityPlayer.sendChatToPlayer(new ChatMessageComponent()
+                                .addText("Can not disguise as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ) + " because it is not a solid cube"));
+                }
+                // if the client returns true here, the server doesn't call onItemUseFirst
+                if (!world.isRemote)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (tile != null && !(tile instanceof TileWirelessBlockExtender))
+        if (tile == null || !(tile instanceof TileWirelessBlockExtender))
         {
             linkTileAtPosition(itemStack, x, y, z);
             if (world.isRemote)
                 entityPlayer.sendChatToPlayer(new ChatMessageComponent()
                         .addText("Linker set to position " + x + ":" + y + ":" + z + " (" + BlockHelper.getBlockDisplayName(world, x, y, z) + ")"));
+
             return true;
         }
         return false;
