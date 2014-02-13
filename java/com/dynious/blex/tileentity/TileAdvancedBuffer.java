@@ -1,5 +1,7 @@
 package com.dynious.blex.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
 import buildcraft.api.transport.IPipeTile;
 import cofh.api.transport.IItemConduit;
 import cpw.mods.fml.common.Loader;
@@ -13,84 +15,45 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 {
-    private byte[] insertPriority = {0, 1, 2, 3, 4, 5};
+    private byte[] insertPrioritiesArrayProxy = {NULL_PRIORITY, NULL_PRIORITY, NULL_PRIORITY, NULL_PRIORITY, NULL_PRIORITY, NULL_PRIORITY};
+    private List<Byte> insertPriorities = new ArrayList<Byte>();
     private boolean spreadItems = false;
     private byte nextInsertDirection;
 
-    public static final byte NULL = 6;
+    public static final byte NULL_PRIORITY = (byte) (ForgeDirection.VALID_DIRECTIONS.length);
 
     public byte[] getInsertDirection()
     {
-        return insertPriority;
+        return insertPrioritiesArrayProxy;
     }
 
     public void setInsertDirection(int from, int value)
     {
-        byte priority = getPriority(from);
-        System.out.println(from + ":" + priority + ":" +  value);
-        if (priority != NULL)
+        setPriorityOfSideTo(from, value);
+    }
+    
+    public void setPriorityOfSideTo(int side, int priority)
+    {
+        priority = Math.min(NULL_PRIORITY, Math.max(0, priority));
+        if (getPriority(side) < priority && priority == insertPriorities.size())
+            priority = NULL_PRIORITY;
+        
+        insertPriorities.remove(new Byte((byte) side));
+        if (priority != NULL_PRIORITY)
+            insertPriorities.add(Math.min(insertPriorities.size(), priority), (byte) side);
+
+        for (int i=0; i<insertPrioritiesArrayProxy.length; i++)
         {
-            insertPriority[priority] = NULL;
-        }
-        if (value != NULL)
-        {
-            insertPriority[value] = (byte) from;
+            insertPrioritiesArrayProxy[i] = getPriority(i);
         }
     }
 
     public byte getPriority(int side)
     {
-        for (byte b : insertPriority)
-        {
-            if (b == side)
-            {
-                return b;
-            }
-        }
-        return NULL;
-    }
-
-    public byte getNextInsertPriority(byte currentPriority, boolean reverse)
-    {
-        if (!reverse)
-        {
-            for (int i = currentPriority; i < insertPriority.length; i++)
-            {
-                byte b = insertPriority[i];
-                if (b == NULL)
-                {
-                    return (byte) i;
-                }
-            }
-            for (int i = 0; i < currentPriority; i++)
-            {
-                byte b = insertPriority[i];
-                if (b == NULL)
-                {
-                    return (byte) i;
-                }
-            }
-        }
-        else
-        {
-            for (int i = Math.min(5, currentPriority); i > -1; i--)
-            {
-                byte b = insertPriority[i];
-                if (b == NULL)
-                {
-                    return (byte) i;
-                }
-            }
-            for (int i = insertPriority.length - 1; i > currentPriority; i--)
-            {
-                byte b = insertPriority[i];
-                if (b == NULL)
-                {
-                    return (byte) i;
-                }
-            }
-        }
-        return NULL;
+        int priority = insertPriorities.indexOf(new Byte((byte) side));
+        if (priority == -1)
+            priority = NULL_PRIORITY;
+        return (byte) priority;
     }
 
     @Override
@@ -125,16 +88,17 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
             ItemStack tempStack = itemstack.copy();
             tempStack.stackSize = 1;
             int tries = 0;
+            nextInsertDirection = (byte) Math.max(0, Math.min(nextInsertDirection, insertPriorities.size()-1));
             while (tries < 6)
             {
                 tries++;
-                int side = insertPriority[nextInsertDirection];
-                if (nextInsertDirection < insertPriority.length - 1)
+                int side = insertPriorities.get(nextInsertDirection);
+                if (nextInsertDirection < insertPriorities.size() - 1)
                     nextInsertDirection++;
                 else
                     nextInsertDirection = 0;
 
-                if (side == NULL || side >= tiles.length || side == slot)
+                if (side >= tiles.length || side == slot)
                     continue;
                 ItemStack returnedStack = insertItemStack(tempStack.copy(), side);
                 if (returnedStack == null || returnedStack.stackSize == 0)
@@ -148,11 +112,11 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
         else
         {
-            for (int i : insertPriority)
+            for (int side : insertPriorities)
             {
-                if (i == NULL || i >= tiles.length || i == slot)
+                if (side >= tiles.length || side == slot)
                     continue;
-                itemstack = insertItemStack(itemstack, i);
+                itemstack = insertItemStack(itemstack, side);
                 if (itemstack == null || itemstack.stackSize == 0)
                     return;
             }
@@ -191,13 +155,22 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        insertPriority = compound.getByteArray("insertPriority");
+        byte byteArrayPriorities[] = compound.getByteArray("insertPriority");
+        for (int priority=0; priority<byteArrayPriorities.length; priority++)
+        {
+            setPriorityOfSideTo(byteArrayPriorities[priority], priority);
+        }
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setByteArray("insertPriority", insertPriority);
+        byte byteArrayPriorities[] = new byte[insertPriorities.size()];
+        for (int priority=0; priority<insertPriorities.size(); priority++)
+        {
+            byteArrayPriorities[priority] = insertPriorities.get(priority); 
+        }
+        compound.setByteArray("insertPriority", byteArrayPriorities);
     }
 }

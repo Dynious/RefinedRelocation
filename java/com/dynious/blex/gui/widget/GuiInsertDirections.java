@@ -1,10 +1,10 @@
 package com.dynious.blex.gui.widget;
 
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.tileentity.IAdvancedTile;
 import com.dynious.blex.tileentity.TileBlockExtender;
+import com.dynious.blex.tileentity.TileBuffer;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 
 public class GuiInsertDirections extends GuiBlExWidgetBase
@@ -45,7 +45,14 @@ public class GuiInsertDirections extends GuiBlExWidgetBase
         insertDirections[ForgeDirection.EAST.ordinal()] = new GuiInsertDirection(this, colX[2], colY[1], tile, ForgeDirection.EAST, ForgeDirection.getOrientation(facingRelativeSides[facingDir.ordinal()][ForgeDirection.EAST.ordinal()]));
 
         GuiBlExButton insertDirectionHelp = new GuiBlExButton(this, x+w-10, y, 10, 10, 0, 128, null);
-        insertDirectionHelp.setTooltipString("Insert directions\n\u00A77Items will get inserted\n\u00A77into the chosen side\n\u00A77of the connected inventory\n\u00A77whenever they are inserted\n\u00A77into the relevant side of\n\u00A77this block extender");
+        if (tile instanceof TileBuffer)
+        {
+            insertDirectionHelp.setTooltipString("Output side priorities\n\u00A77Items that get inserted\n\u00A77into the buffer will attempt\n\u00A77to be outputted to a valid\n\u00A77side in order of priority\n\u00A77(lower number = higher priority)");
+        }
+        else
+        {
+            insertDirectionHelp.setTooltipString("Insert directions\n\u00A77Items will get inserted\n\u00A77into the chosen side\n\u00A77of the connected inventory\n\u00A77whenever they are inserted\n\u00A77into the relevant side of\n\u00A77this block extender");
+        }
         
         if (tile instanceof TileWirelessBlockExtender)
         {
