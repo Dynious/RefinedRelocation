@@ -29,14 +29,15 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 
     public void setInsertDirection(int from, int value)
     {
-        value = Math.min(NULL_PRIORITY, Math.max(0, value));
-        if (getPriority(from) < value && value == insertPriorities.size())
-            value = NULL_PRIORITY;
         setPriorityOfSideTo(from, value);
     }
     
     public void setPriorityOfSideTo(int side, int priority)
     {
+        priority = Math.min(NULL_PRIORITY, Math.max(0, priority));
+        if (getPriority(side) < priority && priority == insertPriorities.size())
+            priority = NULL_PRIORITY;
+        
         insertPriorities.remove(new Byte((byte) side));
         if (priority != NULL_PRIORITY)
             insertPriorities.add(Math.min(insertPriorities.size(), priority), (byte) side);
