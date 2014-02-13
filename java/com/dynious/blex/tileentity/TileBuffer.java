@@ -5,15 +5,23 @@ import cofh.api.transport.IItemConduit;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraftforge.common.ForgeDirection;
 
 public class TileBuffer extends TileEntity implements ISidedInventory
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
     protected boolean firstRun = true;
+
+    protected int bufferedSide = -1;
+    protected ItemStack bufferedItemStack = null;
+
+    public boolean containsItemStack = false;
 
     @Override
     public void updateEntity()
@@ -22,6 +30,18 @@ public class TileBuffer extends TileEntity implements ISidedInventory
         {
             onBlocksChanged();
             firstRun = false;
+            worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null? 0 : 1);
+        }
+        if (!worldObj.isRemote)
+        {
+            if (bufferedItemStack != null)
+            {
+                bufferedItemStack = outputItemStack(bufferedItemStack, bufferedSide);
+                if (bufferedItemStack == null)
+                {
+                    worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, 0);
+                }
+            }
         }
     }
 
@@ -33,6 +53,23 @@ public class TileBuffer extends TileEntity implements ISidedInventory
         }
     }
 
+    public ItemStack setBufferedItemStack(ItemStack itemStack, int side)
+    {
+        if (bufferedItemStack == null)
+        {
+            bufferedItemStack = itemStack;
+            bufferedSide = side;
+            worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, 1);
+            return null;
+        }
+        else
+        {
+            return itemStack;
+        }
+    }
+
+
+
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
     {
@@ -42,7 +79,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side)
     {
-        return true;
+        return bufferedItemStack == null;
     }
 
     @Override
@@ -78,36 +115,54 @@ public class TileBuffer extends TileEntity implements ISidedInventory
     @Override
     public void setInventorySlotContents(int slot, ItemStack itemstack)
     {
+        itemstack = outputItemStack(itemstack, slot);
+
+        if (itemstack != null && setBufferedItemStack(itemstack, slot) != null)
+        {
+            worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, itemstack));
+        }
+    }
+
+    public ItemStack outputItemStack(ItemStack itemstack, int inputSide)
+    {
         for (int i = 0; i < tiles.length; i++)
         {
-            if (i == slot)
+            if (i == inputSide)
                 continue;
-            TileEntity tile = tiles[i];
-            if (tile != null)
+            itemstack = insertItemStack(itemstack, i);
+            if (itemstack == null || itemstack.stackSize == 0)
             {
-                if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
-                {
-                    ItemStack returnedStack = ((IItemConduit) tile).insertItem(ForgeDirection.getOrientation(i).getOpposite(), itemstack);
-                    if (returnedStack == null || returnedStack.stackSize == 0)
-                        return;
-                    else
-                        itemstack = returnedStack;
-                }
-                else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
-                {
-                    IPipeTile pipe = (IPipeTile) tile;
-                    if (pipe.isPipeConnected(ForgeDirection.getOrientation(i).getOpposite()))
-                    {
-                        int size = pipe.injectItem(itemstack, true, ForgeDirection.getOrientation(i).getOpposite());
-                        if (size >= itemstack.stackSize)
-                            return;
-                        else
-                            itemstack.stackSize -= size;
-                    }
-                }
+                return null;
             }
         }
-        worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, itemstack));
+        return itemstack;
+    }
+
+    public ItemStack insertItemStack(ItemStack itemstack, int side)
+    {
+        TileEntity tile = tiles[side];
+        if (tile != null)
+        {
+            if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
+            {
+                return ((IItemConduit) tile).insertItem(ForgeDirection.getOrientation(side).getOpposite(), itemstack);
+            }
+            else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
+            {
+                IPipeTile pipe = (IPipeTile) tile;
+                if (pipe.isPipeConnected(ForgeDirection.getOrientation(side).getOpposite()))
+                {
+                    int size = pipe.injectItem(itemstack, true, ForgeDirection.getOrientation(side).getOpposite());
+                    itemstack.stackSize -= size;
+                    return itemstack;
+                }
+            }
+            else if (tile instanceof IInventory)
+            {
+                return TileEntityHopper.insertStack((IInventory) tile, itemstack, ForgeDirection.OPPOSITES[side]);
+            }
+        }
+        return itemstack;
     }
 
     @Override
@@ -155,5 +210,41 @@ public class TileBuffer extends TileEntity implements ISidedInventory
     public boolean rotateBlock()
     {
         return false;
+    }
+
+    @Override
+    public boolean receiveClientEvent(int eventId, int eventData)
+    {
+        switch(eventId)
+        {
+            case 1:
+                containsItemStack = eventData == 1;
+                return true;
+        }
+        return super.receiveClientEvent(eventId, eventData);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+    {
+        super.readFromNBT(par1NBTTagCompound);
+
+        if (par1NBTTagCompound.hasKey("bufferedSide"))
+        {
+            bufferedSide = par1NBTTagCompound.getByte("bufferedSide");
+            this.bufferedItemStack = ItemStack.loadItemStackFromNBT(par1NBTTagCompound);
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+    {
+        super.writeToNBT(par1NBTTagCompound);
+
+        if (bufferedItemStack != null)
+        {
+            par1NBTTagCompound.setByte("bufferedSide", (byte) bufferedSide);
+            this.bufferedItemStack.writeToNBT(par1NBTTagCompound);
+        }
     }
 }

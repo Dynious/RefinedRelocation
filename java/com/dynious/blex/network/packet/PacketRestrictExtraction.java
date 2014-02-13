@@ -10,7 +10,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PacketRestrictExtraction extends PacketTile
+public class PacketRestrictExtraction extends CustomPacket
 {
     boolean restrictExtraction;
 

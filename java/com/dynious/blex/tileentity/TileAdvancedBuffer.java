@@ -81,7 +81,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     }
 
     @Override
-    public void setInventorySlotContents(int slot, ItemStack itemstack)
+    public ItemStack outputItemStack(ItemStack itemstack, int inputSide)
     {
         if (spreadItems)
         {
@@ -98,7 +98,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
                 else
                     nextInsertDirection = 0;
 
-                if (side >= tiles.length || side == slot)
+                if (side >= tiles.length || side == inputSide)
                     continue;
                 ItemStack returnedStack = insertItemStack(tempStack.copy(), side);
                 if (returnedStack == null || returnedStack.stackSize == 0)
@@ -107,45 +107,18 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
                     tries = 0;
                 }
                 if (itemstack == null || itemstack.stackSize == 0)
-                    return;
+                    return null;
             }
         }
         else
         {
             for (int side : insertPriorities)
             {
-                if (side >= tiles.length || side == slot)
+                if (side >= tiles.length || side == inputSide)
                     continue;
                 itemstack = insertItemStack(itemstack, side);
                 if (itemstack == null || itemstack.stackSize == 0)
-                    return;
-            }
-        }
-        worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, itemstack));
-    }
-
-    public ItemStack insertItemStack(ItemStack itemstack, int side)
-    {
-        TileEntity tile = tiles[side];
-        if (tile != null)
-        {
-            if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
-            {
-                return ((IItemConduit) tile).insertItem(ForgeDirection.getOrientation(side).getOpposite(), itemstack);
-            }
-            else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
-            {
-                IPipeTile pipe = (IPipeTile) tile;
-                if (pipe.isPipeConnected(ForgeDirection.getOrientation(side).getOpposite()))
-                {
-                    int size = pipe.injectItem(itemstack, true, ForgeDirection.getOrientation(side).getOpposite());
-                    itemstack.stackSize -= size;
-                    return itemstack;
-                }
-            }
-            else if (tile instanceof IInventory)
-            {
-                return TileEntityHopper.insertStack((IInventory) tile, itemstack, ForgeDirection.OPPOSITES[side]);
+                    return null;
             }
         }
         return itemstack;

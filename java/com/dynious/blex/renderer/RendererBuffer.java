@@ -56,11 +56,18 @@ public class RendererBuffer extends TileEntitySpecialRenderer
 
             modelBlockExtender.renderPilars();
 
+            GL11.glPushMatrix();
+
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            if (((TileBuffer)tileEntity).containsItemStack)
+            {
+                GL11.glColor3f(1F, 0F, 0F);
+            }
             modelBlockExtender.renderSides();
             GL11.glDisable(GL11.GL_BLEND);
 
+            GL11.glPopMatrix();
 
             GL11.glPopMatrix();
         }
