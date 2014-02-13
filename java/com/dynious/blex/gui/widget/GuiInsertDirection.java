@@ -3,7 +3,6 @@ package com.dynious.blex.gui.widget;
 import java.util.List;
 
 import com.dynious.blex.tileentity.TileAdvancedBuffer;
-import com.dynious.blex.tileentity.TileBuffer;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -108,7 +107,7 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
 
             TileAdvancedBuffer buffer = (TileAdvancedBuffer)tile;
             byte p = buffer.getPriority(side.ordinal());
-            String priority = p == TileAdvancedBuffer.NULL ? "--" : Byte.toString(p);
+            String priority = p == TileAdvancedBuffer.NULL_PRIORITY ? "--" : Byte.toString((byte) (p+1));
             fontRenderer.drawString(priority, x + w / 2 - fontRenderer.getStringWidth(priority) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, isHovered ? 0xFFFFFF : 0xAAAAAA, true);
         }
     }
@@ -125,11 +124,11 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
             }
             if (tile instanceof TileAdvancedBuffer)
             {
-                TileAdvancedBuffer buffer = (TileAdvancedBuffer)tile;
-                byte nextPriority = buffer.getNextInsertPriority(buffer.getPriority(side.ordinal()), type != 0);
+                byte step = (byte) (type == 0 ? -1 : 1);
+                if (isShiftKeyDown) step = (byte) (step*6);
 
-                tile.setInsertDirection(side.ordinal(), nextPriority);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), nextPriority)));
+                tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
+                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()])));
             }
         }
     }

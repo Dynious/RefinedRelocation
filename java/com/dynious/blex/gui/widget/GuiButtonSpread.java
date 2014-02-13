@@ -5,6 +5,7 @@ import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketSpread;
 import com.dynious.blex.tileentity.IAdvancedTile;
+import com.dynious.blex.tileentity.TileBuffer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiButtonSpread extends GuiButtonToggle
@@ -33,7 +34,25 @@ public class GuiButtonSpread extends GuiButtonToggle
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
         if (isMouseInsideBounds(mouseX, mouseY))
-            tooltip.add(getState() ? "Spread items" : "Stack items");
+        {
+            if (tile instanceof TileBuffer)
+            {
+                if (getState())
+                {
+                    tooltip.add("Mode: Round-robin");
+                    tooltip.add("\u00A77Spread output across");
+                    tooltip.add("\u00A77all valid sides");
+                }
+                else
+                {
+                    tooltip.add("Mode: Greedy");
+                    tooltip.add("\u00A77Only output to the valid side");
+                    tooltip.add("\u00A77with the highest priority");
+                }
+            }
+            else
+                tooltip.add(getState() ? "Spread items" : "Stack items");
+        }
         return tooltip;
     }
     
