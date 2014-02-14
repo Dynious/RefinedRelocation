@@ -665,7 +665,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (fluidHandler != null)
         {
             FluidStack amount = fluidHandler.drain(getInputSide(from), resource, doDrain);
-            if (amount.amount > 0 && doDrain)
+            if (amount != null && amount.amount > 0 && doDrain)
             {
                 objectTransported();
             }
@@ -680,7 +680,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (fluidHandler != null)
         {
             FluidStack amount = fluidHandler.drain(getInputSide(from), maxDrain, doDrain);
-            if (amount.amount > 0 && doDrain)
+            if (amount != null && amount.amount > 0 && doDrain)
             {
                 objectTransported();
             }
