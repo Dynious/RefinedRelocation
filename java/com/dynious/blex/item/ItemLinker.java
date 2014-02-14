@@ -64,6 +64,9 @@ public class ItemLinker extends Item
                 if (linkedBlock != null && linkedBlock.isOpaqueCube())
                 {
                     ((TileBlockExtender) tile).setDisguise(linkedBlock, linkedBlockMetadata);
+                    if (world.isRemote)
+                        entityPlayer.sendChatToPlayer(new ChatMessageComponent()
+                                .addText("Disguised " + BlockHelper.getBlockDisplayName(world, x, y, z) + " as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)));
                 }
                 else
                 {

@@ -58,6 +58,10 @@ public class GuiInsertDirections extends GuiBlExWidgetBase
         {
             new GuiWirelessLinkStatus(this, x, y, (TileWirelessBlockExtender) tile);
         }
+        else if (tile instanceof TileBlockExtender)
+        {
+            new GuiDisguise(this, x, y, 16, 16, (TileBlockExtender) tile);
+        }
         if (tile instanceof TileBlockExtender)
         {
             new GuiRedstoneSignalStatus(this, colX[0], colY[2], (TileBlockExtender) tile);
