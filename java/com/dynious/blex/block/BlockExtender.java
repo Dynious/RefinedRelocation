@@ -136,7 +136,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                         return true;
                     }
                 }
-                GuiHelper.openGui(player, tile);
+                return GuiHelper.openGui(player, tile);
             }
         }
         return true;

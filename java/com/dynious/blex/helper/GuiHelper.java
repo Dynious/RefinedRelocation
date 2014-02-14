@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class GuiHelper
 {
-    public static void openGui(EntityPlayer player, TileEntity tile)
+    public static boolean openGui(EntityPlayer player, TileEntity tile)
     {
         if (!tile.getWorldObj().isRemote)
         {
@@ -45,7 +45,13 @@ public class GuiHelper
             }
 
             if (GuiId != -1)
+            {
                 FMLNetworkHandler.openGui(player, BlockExtenders.instance, GuiId, tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
+                return true;
+            }
+            else
+                return false;
         }
+        return true;
     }
 }

@@ -67,7 +67,7 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
             TileEntity tile = world.getBlockTileEntity(x, y, z);
             if (tile != null)
             {
-                GuiHelper.openGui(player, tile);
+                return GuiHelper.openGui(player, tile);
             }
         }
         return true;
