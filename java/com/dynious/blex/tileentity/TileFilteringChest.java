@@ -67,23 +67,21 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
 
     public void searchForLeader()
     {
-        leader = null;
-
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
             TileEntity tile = worldObj.getBlockTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
             if (tile != null && tile instanceof IFilteringMember)
             {
                 IFilteringMember filteringMember = (IFilteringMember)tile;
-                if (filteringMember.canJoinGroup())
+                if (filteringMember.canJoinGroup() && filteringMember.getLeader() != this)
                 {
-                    if (leader == null)
+                    if (leader == null && childs == null)
                     {
                         setLeader(filteringMember.getLeader());
                     }
-                    else
+                    else if (filteringMember.getLeader() != getLeader())
                     {
-                        filteringMember.getLeader().demoteToChild(leader);
+                        filteringMember.getLeader().demoteToChild(getLeader());
                     }
                 }
             }
@@ -104,7 +102,12 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
 
     public void setLeader(IFilteringMember newLeader)
     {
+        if (newLeader == this)
+        {
+            System.out.println("I set myself :(" + this.xCoord);
+        }
         this.leader = newLeader;
+
         if (leader != null)
         {
             leader.addChild(this);
@@ -155,7 +158,7 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
         {
             for (IFilteringMember child : childs)
             {
-                child.setLeader(leader);
+                child.setLeader(getLeader());
             }
         }
         childs = null;
