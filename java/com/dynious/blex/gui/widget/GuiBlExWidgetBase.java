@@ -1,11 +1,12 @@
 package com.dynious.blex.gui.widget;
 
+import com.dynious.blex.gui.IGuiParent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import com.dynious.blex.gui.IGuiParent;
 
 public abstract class GuiBlExWidgetBase extends Gui implements IGuiBlExWidgetBase
 {
@@ -120,7 +121,7 @@ public abstract class GuiBlExWidgetBase extends Gui implements IGuiBlExWidgetBas
         this.w = w;
         this.h = h;
     }
-    
+
     public void setTooltipString(String tooltipString)
     {
         this.tooltipString = tooltipString;
@@ -144,7 +145,7 @@ public abstract class GuiBlExWidgetBase extends Gui implements IGuiBlExWidgetBas
     {
         if (!isVisible())
             return;
-        
+
         for (IGuiBlExWidgetBase child : this.children)
             child.drawBackground(mouseX, mouseY);
     }
@@ -154,7 +155,7 @@ public abstract class GuiBlExWidgetBase extends Gui implements IGuiBlExWidgetBas
     {
         if (!isVisible())
             return;
-        
+
         for (IGuiBlExWidgetBase child : this.children)
             child.drawForeground(mouseX, mouseY);
     }
@@ -164,7 +165,7 @@ public abstract class GuiBlExWidgetBase extends Gui implements IGuiBlExWidgetBas
     {
         if (!isVisible())
             return;
-        
+
         drawBackground(mouseX, mouseY);
         drawForeground(mouseX, mouseY);
     }
@@ -175,7 +176,7 @@ public abstract class GuiBlExWidgetBase extends Gui implements IGuiBlExWidgetBas
         for (IGuiBlExWidgetBase child : this.children)
             child.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }
-    
+
     @Override
     public boolean keyTyped(char c, int i)
     {
@@ -186,14 +187,14 @@ public abstract class GuiBlExWidgetBase extends Gui implements IGuiBlExWidgetBas
         }
         return false;
     }
-    
+
     @Override
     public void handleMouseInput()
     {
         for (IGuiBlExWidgetBase child : this.children)
             child.handleMouseInput();
     }
-    
+
     @Override
     public void update()
     {

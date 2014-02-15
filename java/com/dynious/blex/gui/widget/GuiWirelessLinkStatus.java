@@ -1,9 +1,10 @@
 package com.dynious.blex.gui.widget;
 
-import java.util.List;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
+
+import java.util.List;
 
 public class GuiWirelessLinkStatus extends GuiBlExButton
 {
@@ -21,11 +22,11 @@ public class GuiWirelessLinkStatus extends GuiBlExButton
         this.tile = tile;
         update();
     }
-    
+
     public void setLinked(boolean state)
     {
         this.linked = state;
-        
+
         this.textureY = linked ? linkedOffsetY : unlinkedOffsetY;
     }
 
@@ -37,39 +38,39 @@ public class GuiWirelessLinkStatus extends GuiBlExButton
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             String colorCode = "\u00A7";
-            String grayColor = colorCode+"7";
-            String yellowColor = colorCode+"e";
+            String grayColor = colorCode + "7";
+            String yellowColor = colorCode + "e";
             tooltip.add("Wireless Link");
             if (linked)
             {
-                tooltip.add(grayColor+"Linked");
-                tooltip.add(grayColor+"to: "+yellowColor+BlockHelper.getTileEntityDisplayName(tile.getConnectedTile()));
-                tooltip.add(grayColor+"at: "+yellowColor+tile.xConnected + ":" + tile.yConnected + ":" + tile.zConnected);
-                
+                tooltip.add(grayColor + "Linked");
+                tooltip.add(grayColor + "to: " + yellowColor + BlockHelper.getTileEntityDisplayName(tile.getConnectedTile()));
+                tooltip.add(grayColor + "at: " + yellowColor + tile.xConnected + ":" + tile.yConnected + ":" + tile.zConnected);
+
                 if (tile.hasConnection())
                 {
-                    tooltip.add(grayColor+"Connections:");
+                    tooltip.add(grayColor + "Connections:");
                     List<String> connections = tile.getConnectionTypes();
-                    for (int i=0; i<connections.size(); i++)
-                        connections.set(i, yellowColor+connections.get(i));
-                    
+                    for (int i = 0; i < connections.size(); i++)
+                        connections.set(i, yellowColor + connections.get(i));
+
                     tooltip.addAll(connections);
                 }
             }
             else
             {
-                tooltip.add(grayColor+"Unlinked");
+                tooltip.add(grayColor + "Unlinked");
             }
         }
 
         return tooltip;
     }
-    
+
     @Override
     public void update()
     {
         super.update();
-        
+
         boolean isLinked = tile.xConnected != Integer.MAX_VALUE;
         if (lastLinked != isLinked)
             setLinked(isLinked);

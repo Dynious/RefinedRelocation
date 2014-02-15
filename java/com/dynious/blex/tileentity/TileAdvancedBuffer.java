@@ -1,17 +1,11 @@
 package com.dynious.blex.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
-import buildcraft.api.transport.IPipeTile;
-import cofh.api.transport.IItemConduit;
-import cpw.mods.fml.common.Loader;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraftforge.common.ForgeDirection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 {
@@ -31,18 +25,18 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     {
         setPriorityOfSideTo(from, value);
     }
-    
+
     public void setPriorityOfSideTo(int side, int priority)
     {
         priority = Math.min(NULL_PRIORITY, Math.max(0, priority));
         if (getPriority(side) < priority && priority == insertPriorities.size())
             priority = NULL_PRIORITY;
-        
+
         insertPriorities.remove(new Byte((byte) side));
         if (priority != NULL_PRIORITY)
             insertPriorities.add(Math.min(insertPriorities.size(), priority), (byte) side);
 
-        for (int i=0; i<insertPrioritiesArrayProxy.length; i++)
+        for (int i = 0; i < insertPrioritiesArrayProxy.length; i++)
         {
             insertPrioritiesArrayProxy[i] = getPriority(i);
         }
@@ -88,7 +82,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
             ItemStack tempStack = itemstack.copy();
             tempStack.stackSize = 1;
             int tries = 0;
-            nextInsertDirection = (byte) Math.max(0, Math.min(nextInsertDirection, insertPriorities.size()-1));
+            nextInsertDirection = (byte) Math.max(0, Math.min(nextInsertDirection, insertPriorities.size() - 1));
             while (tries < 6)
             {
                 tries++;
@@ -129,7 +123,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     {
         super.readFromNBT(compound);
         byte byteArrayPriorities[] = compound.getByteArray("insertPriority");
-        for (int priority=0; priority<byteArrayPriorities.length; priority++)
+        for (int priority = 0; priority < byteArrayPriorities.length; priority++)
         {
             setPriorityOfSideTo(byteArrayPriorities[priority], priority);
         }
@@ -140,9 +134,9 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     {
         super.writeToNBT(compound);
         byte byteArrayPriorities[] = new byte[insertPriorities.size()];
-        for (int priority=0; priority<insertPriorities.size(); priority++)
+        for (int priority = 0; priority < insertPriorities.size(); priority++)
         {
-            byteArrayPriorities[priority] = insertPriorities.get(priority); 
+            byteArrayPriorities[priority] = insertPriorities.get(priority);
         }
         compound.setByteArray("insertPriority", byteArrayPriorities);
     }

@@ -18,7 +18,7 @@ public class GuiCheckboxFilter extends GuiCheckbox
         setIndex(index);
         update();
     }
-    
+
     public void setIndex(int index)
     {
         this.index = index;
@@ -31,17 +31,17 @@ public class GuiCheckboxFilter extends GuiCheckbox
     {
         if (tile == null)
             return;
-        
+
         tile.getFilter().setValue(index, newState);
         PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((byte) index)));
     }
-    
+
     @Override
     public void update()
     {
         if (tile != null)
             setChecked(tile.getFilter().getValue(index));
-        
+
         super.update();
     }
 }

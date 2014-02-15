@@ -1,7 +1,7 @@
 package com.dynious.blex.gui.widget;
 
-import net.minecraft.client.gui.GuiTextField;
 import com.dynious.blex.gui.IGuiParent;
+import net.minecraft.client.gui.GuiTextField;
 
 public class GuiTextInput extends GuiBlExWidgetBase
 {

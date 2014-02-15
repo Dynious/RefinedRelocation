@@ -14,6 +14,10 @@ public class TileFilteringMember extends TileEntity
     private ArrayList<TileFilteringMember> childs;
     private boolean canJoinGroup = true;
 
+    /**
+     * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner uses this to count
+     * ticks and creates a new spawn inside its implementation.
+     */
     public void updateEntity()
     {
         super.updateEntity();
@@ -25,11 +29,17 @@ public class TileFilteringMember extends TileEntity
         }
     }
 
+    /**
+     * Sould be called by OnBlockPlacedBy(...) from its block
+     */
     public void onTileAdded()
     {
         searchForLeader();
     }
 
+    /**
+     * Sould be called by breakBlock(...) from its block
+     */
     public void onTileDestroyed()
     {
         canJoinGroup = false;
@@ -47,7 +57,7 @@ public class TileFilteringMember extends TileEntity
             TileEntity tile = worldObj.getBlockTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
             if (tile != null && tile instanceof TileFilteringMember)
             {
-                TileFilteringMember filteringMember = (TileFilteringMember)tile;
+                TileFilteringMember filteringMember = (TileFilteringMember) tile;
                 if (filteringMember.canJoinGroup() && filteringMember.getLeader() != this)
                 {
                     if (leader == null && childs == null)
@@ -189,8 +199,8 @@ public class TileFilteringMember extends TileEntity
             {
                 if (filteringMember instanceof TileFilteringInventory)
                 {
-                    TileFilteringInventory filteringInventory = (TileFilteringInventory)filteringMember;
-                    if (filteringInventory.getBlackList()? !filteringInventory.getFilter().passesFilter(itemStack) : filteringInventory.getFilter().passesFilter(itemStack))
+                    TileFilteringInventory filteringInventory = (TileFilteringInventory) filteringMember;
+                    if (filteringInventory.getBlackList() ? !filteringInventory.getFilter().passesFilter(itemStack) : filteringInventory.getFilter().passesFilter(itemStack))
                     {
                         itemStack = filteringInventory.putInInventory(itemStack);
                         if (itemStack == null || itemStack.stackSize == 0)

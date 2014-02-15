@@ -30,8 +30,7 @@ public class ConfigHandler
         } catch (Exception ignored)
         {
 
-        }
-        finally
+        } finally
         {
             configuration.save();
         }

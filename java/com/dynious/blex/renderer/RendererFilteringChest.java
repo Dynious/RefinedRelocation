@@ -1,17 +1,11 @@
 package com.dynious.blex.renderer;
 
 import com.dynious.blex.tileentity.TileFilteringChest;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.util.Calendar;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.client.model.ModelChest;
-import net.minecraft.client.model.ModelLargeChest;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -21,7 +15,9 @@ public class RendererFilteringChest extends TileEntitySpecialRenderer
 {
     private static final ResourceLocation RES_NORMAL_SINGLE = new ResourceLocation("textures/entity/chest/normal.png");
 
-    /** The normal small chest model. */
+    /**
+     * The normal small chest model.
+     */
     private ModelChest chestModel = new ModelChest();
 
     /**

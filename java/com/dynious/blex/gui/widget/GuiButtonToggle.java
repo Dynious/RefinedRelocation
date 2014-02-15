@@ -17,7 +17,7 @@ public class GuiButtonToggle extends GuiBlExButton
         super(parent, null);
         labelTrue = new GuiLabel(this, x + w / 2, y + h / 2, labelTrueText, 0xffffff, true);
         labelFalse = new GuiLabel(this, x + w / 2, y + h / 2, labelFalseText, 0xffffff, true);
-        
+
         this.setState(false);
     }
 
@@ -30,8 +30,8 @@ public class GuiButtonToggle extends GuiBlExButton
         this.offsetXTrue = textureX;
         this.offsetYTrue = textureY;
         this.offsetXFalse = textureX;
-        this.offsetYFalse = textureY + h*2;
-        
+        this.offsetYFalse = textureY + h * 2;
+
         this.setState(false);
     }
 
@@ -59,7 +59,7 @@ public class GuiButtonToggle extends GuiBlExButton
             this.textureY = offsetYFalse;
         }
     }
-    
+
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
@@ -70,10 +70,10 @@ public class GuiButtonToggle extends GuiBlExButton
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }
-    
+
     protected void onStateChangedByUser(boolean newState)
     {
-        
+
     }
 
 }

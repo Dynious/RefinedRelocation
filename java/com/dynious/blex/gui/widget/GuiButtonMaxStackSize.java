@@ -1,12 +1,13 @@
 package com.dynious.blex.gui.widget;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketMaxStackSize;
 import com.dynious.blex.tileentity.IAdvancedTile;
 import cpw.mods.fml.common.network.PacketDispatcher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiButtonMaxStackSize extends GuiButtonCounter
 {
@@ -24,7 +25,7 @@ public class GuiButtonMaxStackSize extends GuiButtonCounter
     {
         if (tile == null)
             return;
-        
+
         tile.setMaxStackSize((byte) newValue);
         PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize((byte) newValue)));
     }
@@ -42,13 +43,13 @@ public class GuiButtonMaxStackSize extends GuiButtonCounter
         }
         return subTooltip;
     }
-    
+
     @Override
     public void update()
     {
         if (tile != null)
             setValue(tile.getMaxStackSize());
-        
+
         super.update();
     }
 }

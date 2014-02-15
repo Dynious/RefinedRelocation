@@ -96,7 +96,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         for (int j = 0; j < invAccessibleSlots.length; ++j)
         {
             int slot = invAccessibleSlots[j];
-            
+
             ItemStack stack = getStackInSlot(slot);
             if (!super.canInsertItem(slot, itemStack, side))
             {

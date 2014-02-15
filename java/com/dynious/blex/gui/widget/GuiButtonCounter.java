@@ -1,8 +1,9 @@
 package com.dynious.blex.gui.widget;
 
+import com.dynious.blex.gui.IGuiParent;
+
 import java.text.DecimalFormat;
 import java.util.List;
-import com.dynious.blex.gui.IGuiParent;
 
 public class GuiButtonCounter extends GuiBlExButton
 {
@@ -22,7 +23,7 @@ public class GuiButtonCounter extends GuiBlExButton
         this.shiftStep = shiftStep;
         setValue(min);
     }
-    
+
     public GuiButtonCounter(IGuiParent parent, int x, int y, int w, int h, int textureX, int textureY, int min, int max, int step, int shiftStep)
     {
         super(parent, x, y, w, h, textureX, textureY, "");
@@ -41,24 +42,24 @@ public class GuiButtonCounter extends GuiBlExButton
     public void setValue(double value)
     {
         this.value = Math.max(min, Math.min(max, value));
-        
+
         this.label.setText(numberFormat.format(getValue()));
     }
-    
+
     @Override
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        
+
         if (isMouseInsideBounds(mouseX, mouseY))
         {
-            tooltip.add("\u00A77Click: \u00B1"+numberFormat.format(step));
-            tooltip.add("\u00A77Shift+click: \u00B1"+numberFormat.format(shiftStep));
+            tooltip.add("\u00A77Click: \u00B1" + numberFormat.format(step));
+            tooltip.add("\u00A77Shift+click: \u00B1" + numberFormat.format(shiftStep));
         }
-        
+
         return tooltip;
     }
-    
+
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
@@ -66,16 +67,16 @@ public class GuiButtonCounter extends GuiBlExButton
         {
             double oldVal = getValue();
             double curStep = (isShiftKeyDown ? shiftStep : step) * (type == 1 ? -1 : 1);
-            setValue(getValue()+curStep);
+            setValue(getValue() + curStep);
             if (oldVal != getValue())
                 onValueChangedByUser(getValue());
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }
-    
+
     protected void onValueChangedByUser(double newValue)
     {
-        
+
     }
-    
+
 }

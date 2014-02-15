@@ -1,13 +1,13 @@
 package com.dynious.blex.gui;
 
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.tileentity.TileEntity;
-import org.lwjgl.opengl.GL11;
 import com.dynious.blex.gui.container.ContainerAdvancedFiltered;
 import com.dynious.blex.gui.widget.*;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.tileentity.TileEntity;
+import org.lwjgl.opengl.GL11;
 
 public class GuiAdvancedFilteredBlockExtender extends GuiBlExContainer
 {

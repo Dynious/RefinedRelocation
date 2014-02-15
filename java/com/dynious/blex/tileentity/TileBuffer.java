@@ -30,7 +30,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory
         {
             onBlocksChanged();
             firstRun = false;
-            worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null? 0 : 1);
+            worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null ? 0 : 1);
         }
         if (!worldObj.isRemote)
         {
@@ -67,7 +67,6 @@ public class TileBuffer extends TileEntity implements ISidedInventory
             return itemStack;
         }
     }
-
 
 
     @Override
@@ -215,7 +214,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory
     @Override
     public boolean receiveClientEvent(int eventId, int eventData)
     {
-        switch(eventId)
+        switch (eventId)
         {
             case 1:
                 containsItemStack = eventData == 1;

@@ -1,18 +1,14 @@
 package com.dynious.blex.gui;
 
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.tileentity.TileEntity;
-import org.lwjgl.opengl.GL11;
 import com.dynious.blex.gui.container.ContainerFiltered;
-import com.dynious.blex.gui.widget.GuiButtonBlacklist;
-import com.dynious.blex.gui.widget.GuiFilterList;
-import com.dynious.blex.gui.widget.GuiLabel;
-import com.dynious.blex.gui.widget.GuiRedstoneSignalStatus;
-import com.dynious.blex.gui.widget.GuiUserFilter;
+import com.dynious.blex.gui.widget.*;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.IFilterTile;
 import com.dynious.blex.tileentity.TileBlockExtender;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.tileentity.TileEntity;
+import org.lwjgl.opengl.GL11;
 
 public class GuiFiltered extends GuiBlExContainer
 {

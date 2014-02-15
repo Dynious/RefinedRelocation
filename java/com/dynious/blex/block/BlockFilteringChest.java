@@ -8,8 +8,6 @@ import com.dynious.blex.tileentity.TileFilteringChest;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.util.Iterator;
-import java.util.Random;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -25,7 +23,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import static net.minecraftforge.common.ForgeDirection.*;
+
+import java.util.Iterator;
+import java.util.Random;
+
+import static net.minecraftforge.common.ForgeDirection.DOWN;
 
 public class BlockFilteringChest extends BlockContainer
 {
@@ -101,7 +103,7 @@ public class BlockFilteringChest extends BlockContainer
         }
         par1World.setBlockMetadataWithNotify(par2, par3, par4, b0, 3);
 
-        ((TileFilteringChest)par1World.getBlockTileEntity(par2, par3, par4)).onTileAdded();
+        ((TileFilteringChest) par1World.getBlockTileEntity(par2, par3, par4)).onTileAdded();
     }
 
     /**

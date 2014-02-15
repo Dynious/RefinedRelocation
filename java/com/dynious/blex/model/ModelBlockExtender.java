@@ -27,13 +27,13 @@ public class ModelBlockExtender extends ModelBase
     {
         textureWidth = 128;
         textureHeight = 128;
-        
+
         OutsideGlass = new ModelRenderer(this, 0, 32);
         OutsideGlass.addBox(0F, 0F, 0F, 16, 16, 16);
         OutsideGlass.setRotationPoint(-8F, 8F, -8F);
         OutsideGlass.setTextureSize(128, 128);
         setRotation(OutsideGlass, 0F, 0F, 0F);
-        
+
         Base = new ModelRenderer(this, 64, 0);
         Base.addBox(0F, 0F, 0F, 16, 2, 16);
         Base.setRotationPoint(-8F, 22F, -8F);

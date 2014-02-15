@@ -4,6 +4,7 @@ import com.dynious.blex.lib.Reference;
 import com.dynious.blex.network.packet.*;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
@@ -37,8 +38,7 @@ public enum PacketTypeHandler
         try
         {
             packet = values()[selector].clazz.newInstance();
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace(System.err);
         }
@@ -55,8 +55,7 @@ public enum PacketTypeHandler
         try
         {
             packet = values()[type.ordinal()].clazz.newInstance();
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace(System.err);
         }

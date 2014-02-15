@@ -1,12 +1,13 @@
 package com.dynious.blex.gui.widget;
 
-import java.util.List;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketSpread;
 import com.dynious.blex.tileentity.IAdvancedTile;
 import com.dynious.blex.tileentity.TileBuffer;
 import cpw.mods.fml.common.network.PacketDispatcher;
+
+import java.util.List;
 
 public class GuiButtonSpread extends GuiButtonToggle
 {
@@ -24,7 +25,7 @@ public class GuiButtonSpread extends GuiButtonToggle
     {
         if (tile == null)
             return;
-        
+
         tile.setSpreadItems(newState);
         PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(newState)));
     }
@@ -55,13 +56,13 @@ public class GuiButtonSpread extends GuiButtonToggle
         }
         return tooltip;
     }
-    
+
     @Override
     public void update()
     {
         if (tile != null)
             setState(tile.getSpreadItems());
-        
+
         super.update();
     }
 }

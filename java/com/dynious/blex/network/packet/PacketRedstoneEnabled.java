@@ -1,18 +1,19 @@
 package com.dynious.blex.network.packet;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.tileentity.TileEntity;
 import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.gui.container.ContainerAdvancedFiltered;
 import com.dynious.blex.gui.container.ContainerFiltered;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import cpw.mods.fml.common.network.Player;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.tileentity.TileEntity;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class PacketRedstoneEnabled extends CustomPacket
 {

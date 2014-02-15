@@ -1,12 +1,13 @@
 package com.dynious.blex.helper;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class BlockHelper
 {
@@ -18,13 +19,12 @@ public class BlockHelper
         Block block = Block.blocksList[blockID];
         if (block != null)
         {
-            try 
+            try
             {
                 ItemStack pickedItemStack = block.getPickBlock(null, world, x, y, z);
                 if (pickedItemStack != null)
                     return getItemStackDisplayName(pickedItemStack);
-            }
-            catch(Exception e)
+            } catch (Exception e)
             {
                 // TODO: Add proper support for using getPickBlock on multiparts
             }

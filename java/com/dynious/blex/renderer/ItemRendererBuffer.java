@@ -63,7 +63,7 @@ public class ItemRendererBuffer implements IItemRenderer
         GL11.glRotatef(180F, 1F, 0F, 0F);
 
         GL11.glPushMatrix();
-        
+
         float xOffset = (float) Math.sin((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 5F;
         float zOffset = (float) Math.cos((float) (System.currentTimeMillis() / 2 % (Math.PI * 1000F)) / 100F) / 5F;
 

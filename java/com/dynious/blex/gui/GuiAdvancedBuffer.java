@@ -1,9 +1,5 @@
 package com.dynious.blex.gui;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.tileentity.TileEntity;
-import org.lwjgl.opengl.GL11;
 import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.gui.widget.GuiButtonSpread;
 import com.dynious.blex.gui.widget.GuiInsertDirections;
@@ -11,6 +7,10 @@ import com.dynious.blex.gui.widget.GuiLabel;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileAdvancedBuffer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.tileentity.TileEntity;
+import org.lwjgl.opengl.GL11;
 
 public class GuiAdvancedBuffer extends GuiBlExContainer
 {

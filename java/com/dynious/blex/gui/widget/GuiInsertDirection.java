@@ -1,20 +1,20 @@
 package com.dynious.blex.gui.widget;
 
-import java.util.List;
-
-import com.dynious.blex.tileentity.TileAdvancedBuffer;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
-import org.lwjgl.opengl.GL11;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketInsertDirection;
 import com.dynious.blex.tileentity.IAdvancedTile;
+import com.dynious.blex.tileentity.TileAdvancedBuffer;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
+import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 public class GuiInsertDirection extends GuiBlExWidgetBase
 {
@@ -54,20 +54,20 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
                 if (isConnected)
                 {
                     String colorCode = "\u00A7";
-                    String grayColor = colorCode+"7";
-                    String yellowColor = colorCode+"e";
+                    String grayColor = colorCode + "7";
+                    String yellowColor = colorCode + "e";
                     if (blockExtender.hasConnection())
                     {
-                        tooltip.add(grayColor+"Connected");
+                        tooltip.add(grayColor + "Connected");
                         List<String> connections = blockExtender.getConnectionTypes();
-                        for (int i=0; i<connections.size(); i++)
-                            connections.set(i, yellowColor+connections.get(i));
-                        
+                        for (int i = 0; i < connections.size(); i++)
+                            connections.set(i, yellowColor + connections.get(i));
+
                         tooltip.addAll(connections);
                     }
                     else
                     {
-                        tooltip.add(grayColor+"Not connected");
+                        tooltip.add(grayColor + "Not connected");
                     }
                 }
             }
@@ -92,7 +92,7 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
             isConnected = blockExtender.getConnectedDirection() == side;
             hasTile = blockExtender.getTiles()[side.ordinal()] != null;
 
-            this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h*2 : (isHovered ? h : (hasTile ? 0 : h*2))), w, h);
+            this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h * 2 : (isHovered ? h : (hasTile ? 0 : h * 2))), w, h);
 
             if (!isConnected)
             {
@@ -103,11 +103,11 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
         }
         else if (tile instanceof TileAdvancedBuffer)
         {
-            this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h*2 : (isHovered ? h : 0)), w, h);
+            this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h * 2 : (isHovered ? h : 0)), w, h);
 
-            TileAdvancedBuffer buffer = (TileAdvancedBuffer)tile;
+            TileAdvancedBuffer buffer = (TileAdvancedBuffer) tile;
             byte p = buffer.getPriority(side.ordinal());
-            String priority = p == TileAdvancedBuffer.NULL_PRIORITY ? "--" : Byte.toString((byte) (p+1));
+            String priority = p == TileAdvancedBuffer.NULL_PRIORITY ? "--" : Byte.toString((byte) (p + 1));
             fontRenderer.drawString(priority, x + w / 2 - fontRenderer.getStringWidth(priority) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, isHovered ? 0xFFFFFF : 0xAAAAAA, true);
         }
     }
@@ -125,7 +125,7 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
             if (tile instanceof TileAdvancedBuffer)
             {
                 byte step = (byte) (type == 0 ? -1 : 1);
-                if (isShiftKeyDown) step = (byte) (step*6);
+                if (isShiftKeyDown) step = (byte) (step * 6);
 
                 tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
                 PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()])));

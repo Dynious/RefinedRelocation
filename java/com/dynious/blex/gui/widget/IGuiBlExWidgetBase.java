@@ -1,7 +1,8 @@
 package com.dynious.blex.gui.widget;
 
-import java.util.List;
 import com.dynious.blex.gui.IGuiParent;
+
+import java.util.List;
 
 public interface IGuiBlExWidgetBase extends IGuiParent
 {

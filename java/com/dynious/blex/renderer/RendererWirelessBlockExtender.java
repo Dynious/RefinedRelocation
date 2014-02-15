@@ -1,16 +1,16 @@
 package com.dynious.blex.renderer;
 
-import net.minecraft.tileentity.TileEntity;
-import org.lwjgl.opengl.GL11;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBuffer;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.tileentity.TileEntity;
+import org.lwjgl.opengl.GL11;
 
 public class RendererWirelessBlockExtender extends RendererBlockExtender
 {
     protected ModelBuffer modelWirelessBlockExtender = new ModelBuffer();
-    
+
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float timer)
     {
@@ -42,7 +42,7 @@ public class RendererWirelessBlockExtender extends RendererBlockExtender
             GL11.glPopMatrix();
 
             GL11.glColor3f(1, 1, 1);
-            
+
             // render the inner block extender
             GL11.glPushMatrix();
             GL11.glScalef(0.6F, 0.6F, 0.6F);

@@ -1,11 +1,12 @@
 package com.dynious.blex.gui.widget;
 
-import java.util.List;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketRedstoneEnabled;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import cpw.mods.fml.common.network.PacketDispatcher;
+
+import java.util.List;
 
 public class GuiRedstoneSignalStatus extends GuiButtonToggle
 {
@@ -30,22 +31,22 @@ public class GuiRedstoneSignalStatus extends GuiButtonToggle
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             String colorCode = "\u00A7";
-            String grayColor = colorCode+"7";
-            String redColor = colorCode+"4";
+            String grayColor = colorCode + "7";
+            String redColor = colorCode + "4";
 
             tooltip.add("Redstone signal transmission");
             if (tile.isRedstoneTransmissionEnabled())
             {
-                tooltip.add(grayColor+"Enabled");
-                
+                tooltip.add(grayColor + "Enabled");
+
                 if (tile.isRedstoneTransmissionActive())
-                    tooltip.add(redColor+"Active");
+                    tooltip.add(redColor + "Active");
                 else
-                    tooltip.add(redColor+"Inactive");
+                    tooltip.add(redColor + "Inactive");
             }
             else
             {
-                tooltip.add(grayColor+"Disabled");
+                tooltip.add(grayColor + "Disabled");
             }
         }
 
@@ -57,11 +58,11 @@ public class GuiRedstoneSignalStatus extends GuiButtonToggle
     {
         if (tile == null)
             return;
-        
+
         tile.setRedstoneTransmissionEnabled(newState);
         PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRedstoneEnabled(newState)));
     }
-    
+
     @Override
     public void update()
     {

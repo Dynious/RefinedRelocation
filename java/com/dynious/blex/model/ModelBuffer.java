@@ -36,7 +36,7 @@ public class ModelBuffer extends ModelBase
         OutsideGlass.setRotationPoint(-8F, 8F, -8F);
         OutsideGlass.setTextureSize(128, 128);
         setRotation(OutsideGlass, 0F, 0F, 0F);
-        
+
         Pilar1 = new ModelRenderer(this, 0, 0);
         Pilar1.addBox(0F, 0F, 0F, 2, 16, 2);
         Pilar1.setRotationPoint(-8F, 8F, -8F);

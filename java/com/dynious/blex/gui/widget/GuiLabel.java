@@ -1,7 +1,7 @@
 package com.dynious.blex.gui.widget;
 
-import org.lwjgl.opengl.GL11;
 import com.dynious.blex.gui.IGuiParent;
+import org.lwjgl.opengl.GL11;
 
 public class GuiLabel extends GuiBlExWidgetBase
 {
@@ -17,7 +17,7 @@ public class GuiLabel extends GuiBlExWidgetBase
         this.text = text;
         this.setSize(mc.fontRenderer.getStringWidth(this.text), mc.fontRenderer.FONT_HEIGHT);
     }
-    
+
     public GuiLabel(IGuiParent parent, int x, int y, String text, int color, boolean drawShadow)
     {
         super(parent);
@@ -27,7 +27,7 @@ public class GuiLabel extends GuiBlExWidgetBase
         this.color = color;
         this.drawShadow = drawShadow;
     }
-    
+
     @Override
     public void drawForeground(int mouseX, int mouseY)
     {
@@ -45,32 +45,32 @@ public class GuiLabel extends GuiBlExWidgetBase
         }
         super.drawForeground(mouseX, mouseY);
     }
-    
+
     public void setText(String text)
     {
         this.text = text;
     }
-    
+
     public void setColor(int color)
     {
         this.color = color;
     }
-    
+
     public void setDrawShadow(boolean drawShadow)
     {
         this.drawShadow = drawShadow;
     }
-    
+
     public String getText()
     {
         return text;
     }
-    
+
     public int getColor()
     {
         return color;
     }
-    
+
     public boolean getDrawShadow()
     {
         return drawShadow;

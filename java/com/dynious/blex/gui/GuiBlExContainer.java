@@ -1,24 +1,25 @@
 package com.dynious.blex.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-import org.lwjgl.opengl.GL11;
 import com.dynious.blex.gui.widget.IGuiBlExWidgetBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.Container;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiBlExContainer extends GuiContainer implements IGuiParent
 {
     protected List<IGuiBlExWidgetBase> children = new ArrayList<IGuiBlExWidgetBase>();
-    
+
     public GuiBlExContainer(Container container)
     {
         super(container);
     }
-    
+
     @Override
     public void initGui()
     {
@@ -65,40 +66,40 @@ public abstract class GuiBlExContainer extends GuiContainer implements IGuiParen
     {
         this.children.removeAll(children);
     }
-    
+
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
     {
         GL11.glPushMatrix();
-        
+
         for (IGuiBlExWidgetBase child : this.children)
         {
-            GL11.glColor4f(1,1,1,1);
+            GL11.glColor4f(1, 1, 1, 1);
             child.drawBackground(mouseX, mouseY);
         }
-        
+
         GL11.glPopMatrix();
     }
-    
+
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)-guiLeft, (float)-guiTop, 0.0F);
-        
+        GL11.glTranslatef((float) -guiLeft, (float) -guiTop, 0.0F);
+
         for (IGuiBlExWidgetBase child : this.children)
         {
-            GL11.glColor4f(1,1,1,1);
+            GL11.glColor4f(1, 1, 1, 1);
             child.drawForeground(mouseX, mouseY);
         }
-        
+
         GL11.glPopMatrix();
     }
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float f)
     {
         super.drawScreen(mouseX, mouseY, f);
-        
+
         List<String> tooltip = new ArrayList<String>();
         for (IGuiBlExWidgetBase child : this.children)
         {
@@ -107,7 +108,7 @@ public abstract class GuiBlExContainer extends GuiContainer implements IGuiParen
         if (!tooltip.isEmpty())
             this.drawHoveringText(tooltip, mouseX, mouseY, fontRenderer);
     }
-    
+
     @Override
     public void updateScreen()
     {
@@ -117,7 +118,9 @@ public abstract class GuiBlExContainer extends GuiContainer implements IGuiParen
         {
             child.update();
         }
-    };
+    }
+
+    ;
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int type)

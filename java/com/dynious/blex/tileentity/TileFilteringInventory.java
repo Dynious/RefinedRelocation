@@ -50,7 +50,7 @@ public abstract class TileFilteringInventory extends TileFilteringMember impleme
                     }
                     else
                     {
-                        this.inventory[slot] =  itemStack.splitStack(max);
+                        this.inventory[slot] = itemStack.splitStack(max);
                     }
                 }
                 else if (ItemStackHelper.areItemStacksEqual(itemstack1, itemStack))
@@ -68,6 +68,7 @@ public abstract class TileFilteringInventory extends TileFilteringMember impleme
         return itemStack;
     }
 
+    @Override
     public ItemStack filterStackToGroup(ItemStack itemStack)
     {
         itemStack = super.filterStackToGroup(itemStack);

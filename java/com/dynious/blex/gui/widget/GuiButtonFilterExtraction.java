@@ -1,11 +1,12 @@
 package com.dynious.blex.gui.widget;
 
-import java.util.List;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketRestrictExtraction;
 import com.dynious.blex.tileentity.IAdvancedFilteredTile;
 import cpw.mods.fml.common.network.PacketDispatcher;
+
+import java.util.List;
 
 public class GuiButtonFilterExtraction extends GuiButtonToggle
 {
@@ -23,7 +24,7 @@ public class GuiButtonFilterExtraction extends GuiButtonToggle
     {
         if (tile == null)
             return;
-        
+
         tile.setRestrictionExtraction(newState);
         PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRestrictExtraction(newState)));
     }
@@ -42,7 +43,7 @@ public class GuiButtonFilterExtraction extends GuiButtonToggle
     {
         if (tile != null)
             setState(tile.getRestrictExtraction());
-        
+
         super.update();
     }
 }
