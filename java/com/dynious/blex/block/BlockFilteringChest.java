@@ -79,31 +79,33 @@ public class BlockFilteringChest extends BlockContainer
      */
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        byte b0 = 0;
-        int l1 = MathHelper.floor_double((double) (par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-
-        if (l1 == 0)
+        byte chestFacing = 0;
+        int facing = MathHelper.floor_double((double) ((par5EntityLivingBase.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+        if (facing == 0)
         {
-            b0 = 2;
+            chestFacing = 2;
+        }
+        if (facing == 1)
+        {
+            chestFacing = 5;
+        }
+        if (facing == 2)
+        {
+            chestFacing = 3;
+        }
+        if (facing == 3)
+        {
+            chestFacing = 4;
         }
 
-        if (l1 == 1)
+        TileEntity te = par1World.getBlockTileEntity(par2, par3, par4);
+        if (te != null && te instanceof TileFilteringChest)
         {
-            b0 = 5;
+            TileFilteringChest tile = (TileFilteringChest) te;
+            tile.setFacing(chestFacing);
+            tile.onTileAdded();
+            par1World.markBlockForUpdate(par2, par3, par4);
         }
-
-        if (l1 == 2)
-        {
-            b0 = 3;
-        }
-
-        if (l1 == 3)
-        {
-            b0 = 4;
-        }
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, b0, 3);
-
-        ((TileFilteringChest) par1World.getBlockTileEntity(par2, par3, par4)).onTileAdded();
     }
 
     /**

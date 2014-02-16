@@ -33,7 +33,7 @@ public class RendererFilteringChest extends TileEntitySpecialRenderer
         }
         else
         {
-            i = par1TileEntityChest.getBlockMetadata();
+            i = par1TileEntityChest.getFacing();
         }
 
         ModelChest modelchest = this.chestModel;

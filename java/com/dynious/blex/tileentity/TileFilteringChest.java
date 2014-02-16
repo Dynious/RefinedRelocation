@@ -1,12 +1,14 @@
 package com.dynious.blex.tileentity;
 
 import com.dynious.blex.block.BlockFilteringChest;
+import com.dynious.blex.gui.container.ContainerFilteringChest;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.util.AxisAlignedBB;
 
 import java.util.List;
@@ -32,7 +34,8 @@ public class TileFilteringChest extends TileFilteringInventory
      * Server sync counter (once per 20 ticks)
      */
     private int ticksSinceSync;
-    private String customName;
+
+    private int facing;
 
     /**
      * Returns the number of slots in the inventory.
@@ -47,7 +50,7 @@ public class TileFilteringChest extends TileFilteringInventory
      */
     public String getInvName()
     {
-        return this.isInvNameLocalized() ? this.customName : "container.chest";
+        return "container.chest";
     }
 
     /**
@@ -56,15 +59,7 @@ public class TileFilteringChest extends TileFilteringInventory
      */
     public boolean isInvNameLocalized()
     {
-        return this.customName != null && this.customName.length() > 0;
-    }
-
-    /**
-     * Sets the custom display name to use when opening a GUI for this specific TileEntityChest.
-     */
-    public void setChestGuiName(String par1Str)
-    {
-        this.customName = par1Str;
+        return false;
     }
 
     /**
@@ -74,10 +69,7 @@ public class TileFilteringChest extends TileFilteringInventory
     {
         super.readFromNBT(par1NBTTagCompound);
 
-        if (par1NBTTagCompound.hasKey("CustomName"))
-        {
-            this.customName = par1NBTTagCompound.getString("CustomName");
-        }
+        facing = par1NBTTagCompound.getByte("facing");
     }
 
     /**
@@ -87,10 +79,7 @@ public class TileFilteringChest extends TileFilteringInventory
     {
         super.writeToNBT(par1NBTTagCompound);
 
-        if (this.isInvNameLocalized())
-        {
-            par1NBTTagCompound.setString("CustomName", this.customName);
-        }
+        par1NBTTagCompound.setByte("facing", (byte)facing);
     }
 
     /**
@@ -131,11 +120,11 @@ public class TileFilteringChest extends TileFilteringInventory
             {
                 EntityPlayer entityplayer = (EntityPlayer) aList;
 
-                if (entityplayer.openContainer instanceof ContainerChest)
+                if (entityplayer.openContainer instanceof ContainerFilteringChest)
                 {
-                    IInventory iinventory = ((ContainerChest) entityplayer.openContainer).getLowerChestInventory();
+                    IInventory iinventory = ((ContainerFilteringChest) entityplayer.openContainer).getLowerChestInventory();
 
-                    if (iinventory == this || iinventory instanceof InventoryLargeChest && ((InventoryLargeChest) iinventory).isPartOfLargeChest(this))
+                    if (iinventory == this)
                     {
                         ++this.numUsingPlayers;
                     }
@@ -190,6 +179,16 @@ public class TileFilteringChest extends TileFilteringInventory
         }
     }
 
+    public int getFacing()
+    {
+        return this.facing;
+    }
+
+    public void setFacing(int facing)
+    {
+        this.facing = facing;
+    }
+
     /**
      * Called when a client event is received with the event number and argument, see World.sendClientEvent
      */
@@ -200,10 +199,29 @@ public class TileFilteringChest extends TileFilteringInventory
             this.numUsingPlayers = par2;
             return true;
         }
+        else if (par1 == 2)
+        {
+            facing = par2;
+            return true;
+        }
         else
         {
             return super.receiveClientEvent(par1, par2);
         }
+    }
+
+    @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    {
+        facing = pkt.data.getByte("facing");
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setByte("facing", (byte) facing);
+        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, nbt);
     }
 
     public void openChest()

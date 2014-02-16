@@ -272,11 +272,21 @@ public abstract class TileFilteringInventory extends TileFilteringMember impleme
 
     public abstract void closeChest();
 
+    /**
+     * Should be called by the constructor of the Container of this tile, used to sync Inventory contents
+     *
+     * @param player The player opening the container
+     */
     public void addCrafter(EntityPlayer player)
     {
         crafters.add(player);
     }
 
+    /**
+     * Should be called by onContainerClosed(...) of the Container of this this tile, used to stop syncing Inventory contents
+     *
+     * @param player The player closing the container
+     */
     public void removeCrafter(EntityPlayer player)
     {
         crafters.remove(player);
