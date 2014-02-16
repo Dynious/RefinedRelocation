@@ -14,7 +14,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import net.minecraft.creativetab.CreativeTabs;
 
-@Mod(modid = Reference.modid, name = Reference.name, version = Reference.version)
+@Mod(modid = Reference.modid, name = Reference.name, version = Reference.version, dependencies = Reference.dependencies)
 @NetworkMod(channels = {Reference.cannelName}, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class BlockExtenders
 {

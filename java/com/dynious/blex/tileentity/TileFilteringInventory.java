@@ -183,7 +183,8 @@ public abstract class TileFilteringInventory extends TileFilteringMember impleme
             ItemStack filteredStack = getLeader().filterStackToGroup(par2ItemStack);
             if (filteredStack != null)
             {
-                putInInventory(filteredStack);
+                this.inventory[par1] = par2ItemStack;
+                this.onInventoryChanged();
             }
         }
         syncInventory();

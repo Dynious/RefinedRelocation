@@ -33,7 +33,7 @@ public class TileFilteringChest extends TileFilteringInventory
     /**
      * Server sync counter (once per 20 ticks)
      */
-    private int ticksSinceSync;
+    public int ticksSinceSync;
 
     private int facing;
 

@@ -18,6 +18,7 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileAdvancedBuffer.class, Names.advancedBuffer);
         GameRegistry.registerTileEntity(TileFilteredBuffer.class, Names.filteredBuffer);
         GameRegistry.registerTileEntity(TileFilteringChest.class, Names.filteringChest);
+        GameRegistry.registerTileEntity(TileIronFilteringChest.class, Names.ironFilteringChest);
 
         new GuiHandler();
     }

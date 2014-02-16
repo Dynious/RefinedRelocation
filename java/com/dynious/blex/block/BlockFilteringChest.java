@@ -5,12 +5,17 @@ import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.tileentity.TileFilteringChest;
+import com.dynious.blex.tileentity.TileIronFilteringChest;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.ironchest.IronChestType;
+import cpw.mods.ironchest.ItemChestChanger;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -20,11 +25,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import static net.minecraftforge.common.ForgeDirection.DOWN;
@@ -39,6 +46,23 @@ public class BlockFilteringChest extends BlockContainer
         this.setCreativeTab(BlockExtenders.tabBlEx);
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
         this.setUnlocalizedName(Names.filteringChest);
+    }
+
+    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    {
+        par3List.add(new ItemStack(this, 1, 0));
+        if (Loader.isModLoaded("IronChest"))
+        {
+            for (IronChestType type : IronChestType.values())
+            {
+                if (type.isValidForCreativeMode())
+                {
+                    par3List.add(new ItemStack(this, 1, type.ordinal() + 1));
+                }
+            }
+        }
     }
 
     /**
@@ -166,6 +190,21 @@ public class BlockFilteringChest extends BlockContainer
      */
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
     {
+        if (Loader.isModLoaded("IronChest") && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemChestChanger)
+        {
+            ItemChestChanger chestChanger = (ItemChestChanger) player.getHeldItem().getItem();
+            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            if (tile instanceof TileIronFilteringChest)
+            {
+                boolean succeeded = ((TileIronFilteringChest)tile).applyUpgradeItem(chestChanger);
+                if (succeeded)
+                {
+                    player.getHeldItem().stackSize--;
+                    return true;
+                }
+            }
+        }
+
         if (world.isRemote)
         {
             return true;
@@ -216,12 +255,47 @@ public class BlockFilteringChest extends BlockContainer
         }
     }
 
+    @SideOnly(Side.CLIENT)
+    @Override
+    public Icon getIcon(int i, int j)
+    {
+        if (Loader.isModLoaded("IronChest") && j != 0)
+        {
+            if (j < IronChestType.values().length + 1)
+            {
+                IronChestType type = IronChestType.values()[j - 1];
+                return type.getIcon(i);
+            }
+        }
+        return super.getIcon(i, j);
+    }
+
+
     /**
      * Returns a new instance of a block's tile entity class. Called on placing the block.
      */
     public TileEntity createNewTileEntity(World par1World)
     {
-        return new TileFilteringChest();
+        return null;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, int metadata)
+    {
+        if (metadata == 0 || !Loader.isModLoaded("IronChest"))
+        {
+            return new TileFilteringChest();
+        }
+        else
+        {
+            return new TileIronFilteringChest();
+        }
+    }
+
+    @Override
+    public int damageDropped(int i)
+    {
+        return i;
     }
 
     /**
