@@ -14,4 +14,5 @@ public class Names
     public static final String ironFilteringChest = "ironFilteringChest";
 
     public static final String linker = "linker";
+    public static final String filteringUpgrade = "filteringUpgrade";
 }

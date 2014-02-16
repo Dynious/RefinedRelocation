@@ -16,6 +16,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -43,6 +44,7 @@ public class BlockFilteringChest extends BlockContainer
     protected BlockFilteringChest(int id)
     {
         super(id, Material.wood);
+        setHardness(3.0F);
         this.setCreativeTab(BlockExtenders.tabBlEx);
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
         this.setUnlocalizedName(Names.filteringChest);
@@ -228,6 +230,21 @@ public class BlockFilteringChest extends BlockContainer
             return true;
         }
     }
+    @Override
+    public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
+    {
+        TileEntity te = world.getBlockTileEntity(x, y, z);
+        if (te instanceof TileIronFilteringChest)
+        {
+            TileIronFilteringChest teic = (TileIronFilteringChest) te;
+            if (teic.getType().isExplosionResistant())
+            {
+                return 10000f;
+            }
+        }
+        return super.getExplosionResistance(par1Entity, world, x, y, z, explosionX, explosionY, explosionZ);
+    }
+
 
     /**
      * Gets the inventory of the chest at the specified coords, accounting for blocks or ocelots on top of the chest,

@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class TileFilteringInventory extends TileFilteringMember implements IInventory, IFilterTile
 {
     protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
-    protected ItemStack[] inventory;
+    public ItemStack[] inventory;
 
     private Filter filter = new Filter();
     private boolean blacklist = true;

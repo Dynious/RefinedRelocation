@@ -6,7 +6,11 @@ import com.dynious.blex.item.ItemFilteringChest;
 import com.dynious.blex.lib.BlockIds;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.ironchest.BlockIronChest;
+import cpw.mods.ironchest.IronChest;
+import cpw.mods.ironchest.IronChestType;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,6 +43,16 @@ public class ModBlocks
         if (!Settings.DISABLE_WIRELESS_BLOCK_EXTENDER)
         {
             GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 4), "d d", " b ", "d d", 'd', Item.diamond, 'b', new ItemStack(blockExtender, 1, 3));
+        }
+
+        GameRegistry.addShapedRecipe(new ItemStack(filteringChest, 1, 0), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(Block.chest));
+
+        if (Loader.isModLoaded("IronChest"))
+        {
+            for (int i = 0; i < IronChestType.values().length; i++)
+            {
+                GameRegistry.addShapedRecipe(new ItemStack(filteringChest, 1, i + 1), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
+            }
         }
     }
 }

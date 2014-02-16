@@ -19,6 +19,7 @@ tile.filteringChest8.name=Filtering Dirt Chest
 
 # Item localizations
 item.linker.name=Linker
+item.filteringUpgrade.name=Filtering Upgrade
 
 # Inventory localizations
 itemGroup.BlEx=Block Extenders

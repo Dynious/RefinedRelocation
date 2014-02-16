@@ -1,5 +1,6 @@
 package com.dynious.blex.proxy;
 
+import com.dynious.blex.helper.RenderHelper;
 import com.dynious.blex.lib.BlockIds;
 import com.dynious.blex.renderer.*;
 import com.dynious.blex.tileentity.*;
@@ -19,13 +20,14 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileWirelessBlockExtender.class, new RendererWirelessBlockExtender());
         ClientRegistry.bindTileEntitySpecialRenderer(TileBuffer.class, new RendererBuffer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileFilteringChest.class, new RendererFilteringChest());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileIronFilteringChest.class, new RendererIronFilteringChest());
 
         MinecraftForgeClient.registerItemRenderer(BlockIds.BLOCK_EXTENDER, new ItemRendererBlockExtender());
         MinecraftForgeClient.registerItemRenderer(BlockIds.BUFFER, new ItemRendererBuffer());
+
         if (Loader.isModLoaded("IronChest"))
         {
-            ChestItemRenderHelper.instance = new ItemRendererIronFilteringChest();
+            ClientRegistry.bindTileEntitySpecialRenderer(TileIronFilteringChest.class, new RendererIronFilteringChest());
+            RenderHelper.insertChestRenderReplacement();
         }
     }
 }
