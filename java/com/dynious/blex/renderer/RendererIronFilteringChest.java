@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileIronFilteringChest;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -38,6 +39,7 @@ import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.primitives.SignedBytes;
 
 import cpw.mods.ironchest.IronChestType;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 public class RendererIronFilteringChest extends TileEntitySpecialRenderer {
 
@@ -89,7 +91,14 @@ public class RendererIronFilteringChest extends TileEntitySpecialRenderer {
         IronChestType type = tile.getType();
         facing = tile.getFacing();
 
-        bindTexture(locations.get(type));
+        if (MinecraftForgeClient.getRenderPass() == 0)
+        {
+            bindTexture(locations.get(type));
+        }
+        else
+        {
+            bindTexture(Resources.MODEL_TEXTURE_OVERLAY_CHEST);
+        }
         glPushMatrix();
         glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -120,7 +129,8 @@ public class RendererIronFilteringChest extends TileEntitySpecialRenderer {
         glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
         glPopMatrix();
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        if (type.isTransparent() && tile.getDistanceFrom(this.tileEntityRenderer.playerX, this.tileEntityRenderer.playerY, this.tileEntityRenderer.playerZ) < 128d) {
+        if (MinecraftForgeClient.getRenderPass() == 0 && type.isTransparent() && tile.getDistanceFrom(this.tileEntityRenderer.playerX, this.tileEntityRenderer.playerY, this.tileEntityRenderer.playerZ) < 128d)
+        {
             random.setSeed(254L);
             float shiftX;
             float shiftY;

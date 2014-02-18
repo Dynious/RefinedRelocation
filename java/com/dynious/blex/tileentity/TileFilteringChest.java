@@ -2,6 +2,8 @@ package com.dynious.blex.tileentity;
 
 import com.dynious.blex.block.BlockFilteringChest;
 import com.dynious.blex.gui.container.ContainerFilteringChest;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -254,5 +256,12 @@ public class TileFilteringChest extends TileFilteringInventory
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
     {
         return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean shouldRenderInPass(int pass)
+    {
+        return pass == 0 || pass == 1;
     }
 }

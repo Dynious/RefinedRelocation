@@ -1,13 +1,10 @@
 package com.dynious.blex.proxy;
 
-import com.dynious.blex.helper.RenderHelper;
 import com.dynious.blex.lib.BlockIds;
 import com.dynious.blex.renderer.*;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.ironchest.client.IronChestRenderHelper;
-import net.minecraft.client.renderer.ChestItemRenderHelper;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy
@@ -27,7 +24,11 @@ public class ClientProxy extends CommonProxy
         if (Loader.isModLoaded("IronChest"))
         {
             ClientRegistry.bindTileEntitySpecialRenderer(TileIronFilteringChest.class, new RendererIronFilteringChest());
-            RenderHelper.insertChestRenderReplacement();
+            MinecraftForgeClient.registerItemRenderer(BlockIds.FILTERING_CHEST, new ItemRendererIronFilteringChest());
+        }
+        else
+        {
+            MinecraftForgeClient.registerItemRenderer(BlockIds.FILTERING_CHEST, new ItemRendererFilteringChest());
         }
     }
 }

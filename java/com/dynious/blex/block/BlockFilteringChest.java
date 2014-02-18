@@ -92,6 +92,20 @@ public class BlockFilteringChest extends BlockContainer
         return 22;
     }
 
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getRenderBlockPass()
+    {
+        return 1;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean canRenderInPass(int pass)
+    {
+        return pass == 0 || pass == 1;
+    }
+
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */

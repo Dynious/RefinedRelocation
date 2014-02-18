@@ -14,23 +14,13 @@ import net.minecraftforge.client.IItemRenderer;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glColor4f;
 
 @SideOnly(Side.CLIENT)
-public class ItemRendererIronFilteringChest implements IItemRenderer
+public class ItemRendererFilteringChest implements IItemRenderer
 {
     private static final ResourceLocation RES_NORMAL_SINGLE = new ResourceLocation("textures/entity/chest/normal.png");
 
-    private static Map<IronChestType, ResourceLocation> locations;
-    static {
-        ImmutableMap.Builder<IronChestType, ResourceLocation> builder = ImmutableMap.builder();
-        for (IronChestType typ : IronChestType.values()) {
-            builder.put(typ, new ResourceLocation("ironchest","textures/model/" + typ.getModelTexture()));
-        }
-        locations = builder.build();
-    }
-
-    public ItemRendererIronFilteringChest()
+    public ItemRendererFilteringChest()
     {
         model = new ModelChest();
     }
@@ -62,20 +52,13 @@ public class ItemRendererIronFilteringChest implements IItemRenderer
 
         if (renderPass == 0)
         {
-            if (itemStack.getItemDamage() > 0)
-            {
-                IronChestType type = IronChestType.values()[itemStack.getItemDamage() - 1];
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(locations.get(type));
-            }
-            else
-            {
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RES_NORMAL_SINGLE);
-            }
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(RES_NORMAL_SINGLE);
         }
         else
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_OVERLAY_CHEST);
         }
+
         glPushMatrix();
         glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

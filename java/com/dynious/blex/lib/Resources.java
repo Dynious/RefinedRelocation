@@ -23,4 +23,5 @@ public class Resources
     public static final ResourceLocation MODEL_TEXTURE_ADVANCED_FILTERED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "blockExtender3.png");
     public static final ResourceLocation MODEL_TEXTURE_WIRELESS_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "blockExtender4.png");
     public static final ResourceLocation MODEL_TEXTURE_ENDERPEARL = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "enderPearl.png");
+    public static final ResourceLocation MODEL_TEXTURE_OVERLAY_CHEST =  new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "chestFilterOverlay.png");
 }

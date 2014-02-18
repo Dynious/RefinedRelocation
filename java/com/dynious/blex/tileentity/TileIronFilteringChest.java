@@ -2,8 +2,13 @@ package com.dynious.blex.tileentity;
 
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.ItemChestChanger;
+import cpw.mods.ironchest.TileEntityIronChest;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -31,6 +36,11 @@ public class TileIronFilteringChest extends TileFilteringChest
     public IronChestType getType()
     {
         return type;
+    }
+
+    public void setType(IronChestType type)
+    {
+        this.type = type;
     }
 
     public boolean applyUpgradeItem(ItemChestChanger itemChestChanger)
@@ -173,6 +183,80 @@ public class TileIronFilteringChest extends TileFilteringChest
         super.onInventoryChanged();
 
         sortTopStacks();
+    }
+
+    @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    {
+        super.onDataPacket(net, pkt);
+
+        if (type.isTransparent())
+        {
+             handlePacketData(pkt.data.getIntArray("TopStacks"));
+        }
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        Packet packet = super.getDescriptionPacket();
+        if (type.isTransparent() && packet instanceof Packet132TileEntityData)
+        {
+            ((Packet132TileEntityData)packet).data.setIntArray("TopStacks", buildIntDataList());
+        }
+        return packet;
+    }
+
+    public void handlePacketData(int[] intData)
+    {
+        if (intData != null)
+        {
+            int pos = 0;
+            if (intData.length < this.topStacks.length * 3)
+            {
+                return;
+            }
+            for (int i = 0; i < this.topStacks.length; i++)
+            {
+                if (intData[pos + 2] != 0)
+                {
+                    Item it = Item.itemsList[intData[pos]];
+                    ItemStack is = new ItemStack(it, intData[pos + 2], intData[pos + 1]);
+                    this.topStacks[i] = is;
+                }
+                else
+                {
+                    this.topStacks[i] = null;
+                }
+                pos += 3;
+            }
+        }
+    }
+
+    public int[] buildIntDataList()
+    {
+        if (type.isTransparent())
+        {
+            int[] sortList = new int[topStacks.length * 3];
+            int pos = 0;
+            for (ItemStack is : topStacks)
+            {
+                if (is != null)
+                {
+                    sortList[pos++] = is.itemID;
+                    sortList[pos++] = is.getItemDamage();
+                    sortList[pos++] = is.stackSize;
+                }
+                else
+                {
+                    sortList[pos++] = 0;
+                    sortList[pos++] = 0;
+                    sortList[pos++] = 0;
+                }
+            }
+            return sortList;
+        }
+        return null;
     }
 
     @Override

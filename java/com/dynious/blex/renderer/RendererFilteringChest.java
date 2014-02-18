@@ -1,5 +1,6 @@
 package com.dynious.blex.renderer;
 
+import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileFilteringChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -7,6 +8,7 @@ import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -37,7 +39,15 @@ public class RendererFilteringChest extends TileEntitySpecialRenderer
         }
 
         ModelChest modelchest = this.chestModel;
-        this.bindTexture(RES_NORMAL_SINGLE);
+
+        if (MinecraftForgeClient.getRenderPass() == 0)
+        {
+            bindTexture(RES_NORMAL_SINGLE);
+        }
+        else
+        {
+            bindTexture(Resources.MODEL_TEXTURE_OVERLAY_CHEST);
+        }
 
         GL11.glPushMatrix();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
