@@ -1,6 +1,7 @@
 package com.dynious.blex.config;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,8 +11,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
+import java.lang.reflect.Field;
+
 public class Filter
 {
+    public static Field displayOnCreativeTab = ReflectionHelper.findField(Block.class, ObfuscationReflectionHelper.remapFieldNames(Block.class.getName(), "displayOnCreativeTab", "field_149772_a", "a"));
+    public static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
+    public static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
+
     public static final int FILTER_SIZE = 9;
     public boolean[] customFilters = new boolean[FILTER_SIZE];
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
@@ -74,34 +81,40 @@ public class Filter
                 return true;
             if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
                 return true;
-            if (customFilters[6] && !oreName.contains("purified"))
+            if (customFilters[6] && oreName.contains("purified"))
                 return true;
-            if (customFilters[7] && !oreName.contains("plate"))
+            if (customFilters[7] && oreName.contains("plate"))
                 return true;
-            if (customFilters[8] && !oreName.contains("gem"))
+            if (customFilters[8] && oreName.contains("gem"))
                 return true;
 
             CreativeTabs tab;
 
-            if (itemStack.getItem() instanceof ItemBlock)
+            try
             {
-                tab = ObfuscationReflectionHelper.getPrivateValue(Block.class, Block.blocksList[itemStack.itemID], "displayOnCreativeTab", "field_149772_a", "a");
-            }
-            else
-            {
-                tab = ObfuscationReflectionHelper.getPrivateValue(Item.class, Item.itemsList[itemStack.itemID], "tabToDisplayOn", "field_77701_a", "a");
-            }
-            if (tab != null)
-            {
-                int index = ObfuscationReflectionHelper.getPrivateValue(CreativeTabs.class, tab, "tabIndex", "field_78033_n", "n");
-
-                for (int i = 0; i < creativeTabs.length; i++)
+                if (itemStack.getItem() instanceof ItemBlock)
                 {
-                    if (creativeTabs[i] && index == i)
+                    tab = (CreativeTabs) displayOnCreativeTab.get(Block.blocksList[itemStack.itemID]);
+                }
+                else
+                {
+                    tab = (CreativeTabs) tabToDisplayOn.get(Item.itemsList[itemStack.itemID]);
+                }
+                if (tab != null)
+                {
+                    int index = tabIndex.getInt(tab);
+
+                    for (int i = 0; i < creativeTabs.length; i++)
                     {
-                        return true;
+                        if (creativeTabs[i] && index == i)
+                        {
+                            return true;
+                        }
                     }
                 }
+            } catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
             }
         }
         return false;

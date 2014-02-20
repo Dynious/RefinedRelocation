@@ -174,10 +174,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         super.updateEntity();
         if (canConnect())
         {
-            TileEntity tile = getConnectedTile();
+            TileEntity tile = null;
 
             if (connectedDirection != previousConnectedDirection)
             {
+                tile = getConnectedTile();
+
                 resetConnections();
                 checkConnectedDirection(tile);
                 previousConnectedDirection = connectedDirection;
@@ -186,6 +188,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
 
             if (blocksChanged)
             {
+                if (tile == null)
+                {
+                    tile = getConnectedTile();
+                }
                 for (ForgeDirection direction : ForgeDirection.values())
                 {
                     if (direction != connectedDirection)
@@ -211,6 +217,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             recheckTiles++;
             if (recheckTiles >= 20)
             {
+                if (tile == null)
+                {
+                    tile = getConnectedTile();
+                }
+
                 checkConnectedDirection(tile);
                 recheckTiles = 0;
             }

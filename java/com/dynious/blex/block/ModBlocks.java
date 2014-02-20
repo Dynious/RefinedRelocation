@@ -6,6 +6,7 @@ import com.dynious.blex.item.ItemFilteringChest;
 import com.dynious.blex.lib.BlockIds;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
+import com.dynious.blex.mods.IronChestHelper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.ironchest.BlockIronChest;
@@ -50,10 +51,7 @@ public class ModBlocks
 
         if (Loader.isModLoaded("IronChest"))
         {
-            for (int i = 0; i < IronChestType.values().length; i++)
-            {
-                GameRegistry.addShapedRecipe(new ItemStack(filteringChest, 1, i + 1), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
-            }
+            IronChestHelper.addIronChestRecipes();
         }
     }
 }
