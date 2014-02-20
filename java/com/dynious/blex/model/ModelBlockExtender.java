@@ -13,6 +13,7 @@ public class ModelBlockExtender extends ModelBase
     // fields
     ModelRenderer OutsideGlass;
     ModelRenderer Base;
+    ModelRenderer BaseDisguised;
     ModelRenderer Pilar1;
     ModelRenderer Pilar2;
     ModelRenderer Pilar3;
@@ -28,7 +29,7 @@ public class ModelBlockExtender extends ModelBase
         textureWidth = 128;
         textureHeight = 128;
 
-        OutsideGlass = new ModelRenderer(this, 0, 32);
+        OutsideGlass = new ModelRenderer(this, 0, 36);
         OutsideGlass.addBox(0F, 0F, 0F, 16, 16, 16);
         OutsideGlass.setRotationPoint(-8F, 8F, -8F);
         OutsideGlass.setTextureSize(128, 128);
@@ -39,6 +40,12 @@ public class ModelBlockExtender extends ModelBase
         Base.setRotationPoint(-8F, 22F, -8F);
         Base.setTextureSize(128, 128);
         Base.mirror = true;
+        BaseDisguised = new ModelRenderer(this, 64, 18);
+        BaseDisguised.addBox(0F, 0F, 0F, 16, 2, 16);
+        BaseDisguised.setRotationPoint(-8F, 22F, -8F);
+        BaseDisguised.setTextureSize(128, 128);
+        BaseDisguised.mirror = true;
+        
         setRotation(Base, 0F, 0F, 0F);
         Pilar1 = new ModelRenderer(this, 0, 0);
         Pilar1.addBox(0F, 0F, 0F, 2, 14, 2);
@@ -109,6 +116,11 @@ public class ModelBlockExtender extends ModelBase
     public void renderBase()
     {
         Base.render(size);
+    }
+    
+    public void renderBaseDisguised()
+    {
+        BaseDisguised.render(size);
     }
 
     public void renderPilars()

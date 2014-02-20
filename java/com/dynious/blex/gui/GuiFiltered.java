@@ -38,6 +38,7 @@ public class GuiFiltered extends GuiBlExContainer
         if (filterTile instanceof TileBlockExtender)
         {
             new GuiRedstoneSignalStatus(this, width / 2 + 35, height / 2 - 63, (TileBlockExtender) filterTile);
+            new GuiDisguise(this, width / 2 + 15, height / 2 - 63, 16, 16, (TileBlockExtender) filterTile);
         }
     }
 
