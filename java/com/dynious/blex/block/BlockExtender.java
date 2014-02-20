@@ -294,9 +294,8 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public int colorMultiplier(IBlockAccess world, int x, int y, int z) 
+    public int colorMultiplier(IBlockAccess world, int x, int y, int z)
     {
-
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
         if (tileEntity != null && tileEntity instanceof TileBlockExtender)
         {
@@ -305,7 +304,6 @@ public class BlockExtender extends BlockContainer implements IDismantleable
             if (blockDisguisedAs != null)
                 return blockDisguisedAs.colorMultiplier(world, x, y, z);
         }
-
         return super.colorMultiplier(world, x, y, z);
     }
 

@@ -49,11 +49,12 @@ public class ItemLinker extends Item
     {
         if (entityPlayer.isSneaking())
             return false;
-        
+
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (tile == null || !(tile instanceof TileWirelessBlockExtender))
+        if (tile != null && tile instanceof TileBlockExtender && !(tile instanceof TileWirelessBlockExtender))
         {
-            if (tile != null && itemStack.hasTagCompound() && tile instanceof TileBlockExtender)
+            TileBlockExtender blockExtender = (TileBlockExtender) tile;
+            if (itemStack.hasTagCompound())
             {
                 int linkedX = itemStack.getTagCompound().getInteger("tileX");
                 int linkedY = itemStack.getTagCompound().getInteger("tileY");
@@ -63,7 +64,7 @@ public class ItemLinker extends Item
                 Block linkedBlock = Block.blocksList[linkedBlockId];
                 if (linkedBlock != null && linkedBlock.isOpaqueCube())
                 {
-                    ((TileBlockExtender) tile).setDisguise(linkedBlock, linkedBlockMetadata);
+                    blockExtender.setDisguise(linkedBlock, linkedBlockMetadata);
                     if (world.isRemote)
                         entityPlayer.sendChatToPlayer(new ChatMessageComponent()
                                 .addText("Disguised " + BlockHelper.getBlockDisplayName(world, x, y, z) + " as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)));
@@ -74,10 +75,22 @@ public class ItemLinker extends Item
                         entityPlayer.sendChatToPlayer(new ChatMessageComponent()
                                 .addText("Can not disguise as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ) + " because it is not a solid cube"));
                 }
-                // if the client returns true here, the server doesn't call onItemUseFirst
-                if (!world.isRemote)
-                    return true;
             }
+            else if (blockExtender.getDisguise() != null)
+            {
+                blockExtender.clearDisguise();
+                if (world.isRemote)
+                    entityPlayer.sendChatToPlayer(new ChatMessageComponent()
+                            .addText("Undisguised " + BlockHelper.getBlockDisplayName(world, x, y, z)));
+            }
+            else
+            {
+                return false;
+            }
+
+            // if the client returns true here, the server doesn't call onItemUseFirst
+            if (!world.isRemote)
+                return true;
         }
         return false;
     }
@@ -107,6 +120,21 @@ public class ItemLinker extends Item
         stack.getTagCompound().setInteger("tileX", x);
         stack.getTagCompound().setInteger("tileY", y);
         stack.getTagCompound().setInteger("tileZ", z);
+    }
+
+    @Override
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer entityPlayer)
+    {
+        if (stack.hasTagCompound())
+        {
+            entityPlayer.swingItem();
+            stack.setTagCompound(null);
+            if (world.isRemote)
+                entityPlayer.sendChatToPlayer(new ChatMessageComponent()
+                        .addText("Linker is no longer linked"));
+            return stack;
+        }
+        return super.onItemRightClick(stack, world, entityPlayer);
     }
 
     @Override
