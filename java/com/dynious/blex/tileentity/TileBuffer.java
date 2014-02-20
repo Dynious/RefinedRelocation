@@ -12,8 +12,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.*;
 
-public class TileBuffer extends TileEntity implements ISidedInventory
+public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHandler
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
     protected boolean firstRun = true;
@@ -68,6 +69,17 @@ public class TileBuffer extends TileEntity implements ISidedInventory
         }
     }
 
+    public int getNextInsertSide(int currentInsertSide)
+    {
+        if (currentInsertSide + 1 < tiles.length)
+        {
+            return currentInsertSide + 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
 
     @Override
     public int[] getAccessibleSlotsFromSide(int var1)
@@ -124,11 +136,12 @@ public class TileBuffer extends TileEntity implements ISidedInventory
 
     public ItemStack outputItemStack(ItemStack itemstack, int inputSide)
     {
-        for (int i = 0; i < tiles.length; i++)
+        int currentInsetSide = -1;
+        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
         {
-            if (i == inputSide)
+            if (currentInsetSide == inputSide)
                 continue;
-            itemstack = insertItemStack(itemstack, i);
+            itemstack = insertItemStack(itemstack, currentInsetSide);
             if (itemstack == null || itemstack.stackSize == 0)
             {
                 return null;
@@ -245,5 +258,71 @@ public class TileBuffer extends TileEntity implements ISidedInventory
             par1NBTTagCompound.setByte("bufferedSide", (byte) bufferedSide);
             this.bufferedItemStack.writeToNBT(par1NBTTagCompound);
         }
+    }
+
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+    {
+        int inputAmount = resource.amount;
+        int currentInsetSide = -1;
+        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        {
+            if (currentInsetSide == from.ordinal())
+                continue;
+            resource = insertFluidStack(resource, currentInsetSide);
+            if (resource == null || resource.amount == 0)
+            {
+                return inputAmount;
+            }
+        }
+
+        return inputAmount - resource.amount;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
+    {
+        return null;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid)
+    {
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from)
+    {
+        return new FluidTankInfo[]{new FluidTankInfo(null, Integer.MAX_VALUE)};
+    }
+
+    public FluidStack insertFluidStack(FluidStack fluidStack, int side)
+    {
+        TileEntity tile = tiles[side];
+        if (tile != null)
+        {
+            if (tile instanceof IFluidHandler)
+            {
+                fluidStack.amount -= ((IFluidHandler)tile).fill(ForgeDirection.getOrientation(side).getOpposite(), fluidStack, true);
+            }
+        }
+        if (fluidStack.amount == 0)
+        {
+            return null;
+        }
+        return fluidStack;
     }
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class TileFilteringMember extends TileEntity
 {
-    private boolean isFirstRun = true;
+    protected boolean isFirstRun = true;
 
     private TileFilteringMember leader;
     private ArrayList<TileFilteringMember> childs;

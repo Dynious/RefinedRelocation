@@ -188,6 +188,9 @@ public class TileIronFilteringChest extends TileFilteringChest
     @Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
     {
+        type = IronChestType.values()[pkt.data.getByte("type")];
+        inventory = new ItemStack[getSizeInventory()];
+
         super.onDataPacket(net, pkt);
 
         if (type.isTransparent())
@@ -200,9 +203,14 @@ public class TileIronFilteringChest extends TileFilteringChest
     public Packet getDescriptionPacket()
     {
         Packet packet = super.getDescriptionPacket();
-        if (type.isTransparent() && packet instanceof Packet132TileEntityData)
+        if (packet instanceof Packet132TileEntityData)
         {
-            ((Packet132TileEntityData)packet).data.setIntArray("TopStacks", buildIntDataList());
+            NBTTagCompound tag = ((Packet132TileEntityData)packet).data;
+            tag.setByte("type", (byte) type.ordinal());
+            if (type.isTransparent())
+            {
+                tag.setIntArray("TopStacks", buildIntDataList());
+            }
         }
         return packet;
     }
@@ -262,8 +270,17 @@ public class TileIronFilteringChest extends TileFilteringChest
     @Override
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        super.readFromNBT(par1NBTTagCompound);
+        type = IronChestType.values()[par1NBTTagCompound.getByte("type")];
+        inventory = new ItemStack[getSizeInventory()];
 
+        super.readFromNBT(par1NBTTagCompound);
         sortTopStacks();
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+    {
+        super.writeToNBT(par1NBTTagCompound);
+        par1NBTTagCompound.setByte("type", (byte) type.ordinal());
     }
 }

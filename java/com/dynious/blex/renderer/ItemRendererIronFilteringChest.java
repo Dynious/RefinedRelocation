@@ -89,7 +89,6 @@ public class ItemRendererIronFilteringChest implements IItemRenderer
 
         // Render the chest itself
         model.renderAll();
-        glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
         glPopMatrix();
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }

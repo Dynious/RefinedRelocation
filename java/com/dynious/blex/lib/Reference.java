@@ -8,5 +8,5 @@ public class Reference
     public static final String clientProxy = "com.dynious.blex.proxy.ClientProxy";
     public static final String commonProxy = "com.dynious.blex.proxy.CommonProxy";
     public static final String cannelName = "BlEx";
-    public static final String dependencies = "after:IronChest";
+    public static final String dependencies = "after:IronChest;after:BuildCraft|Energy;after:IC2;after:CoFHCore;after:ComputerCraft";
 }

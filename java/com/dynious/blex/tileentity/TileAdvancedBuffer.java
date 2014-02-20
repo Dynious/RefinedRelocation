@@ -13,6 +13,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     private List<Byte> insertPriorities = new ArrayList<Byte>();
     private boolean spreadItems = false;
     private byte nextInsertDirection;
+    private int insertionTries = 0;
 
     public static final byte NULL_PRIORITY = (byte) (ForgeDirection.VALID_DIRECTIONS.length);
 
@@ -75,30 +76,57 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     }
 
     @Override
+    public int getNextInsertSide(int currentInsertSide)
+    {
+        if (spreadItems)
+        {
+            nextInsertDirection = (byte) Math.max(0, Math.min(nextInsertDirection, insertPriorities.size() - 1));
+            if (insertionTries < insertPriorities.size())
+            {
+                insertionTries++;
+                int side = insertPriorities.get(nextInsertDirection);
+                if (nextInsertDirection < insertPriorities.size() - 1)
+                    nextInsertDirection++;
+                else
+                    nextInsertDirection = 0;
+                return side;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+        else
+        {
+            if (currentInsertSide + 1 < insertPriorities.size())
+            {
+                return currentInsertSide + 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+    }
+
+    @Override
     public ItemStack outputItemStack(ItemStack itemstack, int inputSide)
     {
         if (spreadItems)
         {
             ItemStack tempStack = itemstack.copy();
             tempStack.stackSize = 1;
-            int tries = 0;
-            nextInsertDirection = (byte) Math.max(0, Math.min(nextInsertDirection, insertPriorities.size() - 1));
-            while (tries < 6)
-            {
-                tries++;
-                int side = insertPriorities.get(nextInsertDirection);
-                if (nextInsertDirection < insertPriorities.size() - 1)
-                    nextInsertDirection++;
-                else
-                    nextInsertDirection = 0;
 
-                if (side >= tiles.length || side == inputSide)
+            int currentInsetSide = -1;
+            while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+            {
+                if (currentInsetSide == inputSide)
                     continue;
-                ItemStack returnedStack = insertItemStack(tempStack.copy(), side);
+                ItemStack returnedStack = insertItemStack(tempStack.copy(), currentInsetSide);
                 if (returnedStack == null || returnedStack.stackSize == 0)
                 {
                     itemstack.stackSize--;
-                    tries = 0;
+                    insertionTries = 0;
                 }
                 if (itemstack == null || itemstack.stackSize == 0)
                     return null;
@@ -106,11 +134,12 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
         else
         {
-            for (int side : insertPriorities)
+            int currentInsetSide = -1;
+            while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
             {
-                if (side >= tiles.length || side == inputSide)
+                if (currentInsetSide == inputSide)
                     continue;
-                itemstack = insertItemStack(itemstack, side);
+                itemstack = insertItemStack(itemstack, currentInsetSide);
                 if (itemstack == null || itemstack.stackSize == 0)
                     return null;
             }
