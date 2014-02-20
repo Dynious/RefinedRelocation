@@ -172,21 +172,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public void updateEntity()
     {
         super.updateEntity();
-        if (blocksChanged)
-        {
-            for (ForgeDirection direction : ForgeDirection.values())
-            {
-                if (direction != connectedDirection)
-                {
-                    tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
-                }
-            }
-            this.checkRedstonePower();
-            blocksChanged = false;
-        }
         if (canConnect())
         {
             TileEntity tile = getConnectedTile();
+
             if (connectedDirection != previousConnectedDirection)
             {
                 resetConnections();
@@ -194,14 +183,31 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 previousConnectedDirection = connectedDirection;
                 worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
             }
-            if (!hasConnection())
+
+            if (blocksChanged)
             {
-                checkConnectedDirection(tile);
+                for (ForgeDirection direction : ForgeDirection.values())
+                {
+                    if (direction != connectedDirection)
+                    {
+                        tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
+                    }
+                }
+                this.checkRedstonePower();
+
+                if (!hasConnection())
+                {
+                    checkConnectedDirection(tile);
+                }
+                else if (tile == null)
+                {
+                    resetConnections();
+                    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                }
+
+                blocksChanged = false;
             }
-            else if (tile == null)
-            {
-                resetConnections();
-            }
+
             recheckTiles++;
             if (recheckTiles >= 20)
             {
