@@ -39,7 +39,7 @@ public class RendererBlockExtender extends TileEntitySpecialRenderer
             GL11.glScalef(0.125F, 0.125F, 0.125F);
 
             if (!tile.isRedstoneTransmissionEnabled())
-                GL11.glColor3f(.5F, .1F, .1F);
+                GL11.glColor3f(.5F, .5F, .5F);
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_ENDERPEARL);
 
