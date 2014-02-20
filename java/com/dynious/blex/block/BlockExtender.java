@@ -91,7 +91,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
             if (player.getCurrentEquippedItem() == null)
             {
                 TileEntity tile = world.getBlockTileEntity(x, y, z);
-                if (tile != null && tile instanceof TileBlockExtender)
+                if (tile != null && tile instanceof TileBlockExtender && !(tile instanceof TileWirelessBlockExtender))
                 {
                     TileBlockExtender blockExtender = (TileBlockExtender) tile;
                     blockExtender.setRedstoneTransmissionEnabled(!blockExtender.isRedstoneTransmissionEnabled());

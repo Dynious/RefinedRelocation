@@ -44,6 +44,20 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
         return worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
     }
 
+    @Override
+    public boolean isRedstoneTransmissionActive()
+    {
+        // never render as if redstone is active
+        return false;
+    }
+
+    @Override
+    public boolean isRedstoneTransmissionEnabled()
+    {
+        // always render as if redstone is enabled
+        return true;
+    }
+
     /*
     ComputerCraft interaction
     */
