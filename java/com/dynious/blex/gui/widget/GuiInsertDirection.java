@@ -45,7 +45,7 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             TileEntity tile = (TileEntity) this.tile;
-            tooltip.add(BlockHelper.getBlockDisplayName(tile.worldObj, tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ));
+            tooltip.add(BlockHelper.getBlockDisplayName(tile.worldObj, tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
 
             if (tile instanceof TileBlockExtender)
             {
