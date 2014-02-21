@@ -1,5 +1,6 @@
 package com.dynious.blex.config;
 
+import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
@@ -33,88 +34,103 @@ public class Filter
     {
         if (itemStack != null)
         {
-            String oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
-            String filter = userFilter.toLowerCase().replaceAll("\\s+", "");
-            for (String s : filter.split(","))
+            String oreName = null;
+
+            if (userFilter != null && !userFilter.isEmpty())
             {
-                String filterName = "";
-                if (s.contains("!"))
+                String filter = userFilter.toLowerCase().replaceAll("\\s+", "");
+                for (String s : filter.split(","))
                 {
-                    filterName = oreName;
-                    s = s.replace("!", "");
-                }
-                else
-                {
-                    filterName = itemStack.getDisplayName().toLowerCase();
-                }
-                if (s.startsWith("*") && s.length() > 1)
-                {
-                    if (s.endsWith("*") && s.length() > 2)
+                    String filterName = "";
+                    if (s.contains("!"))
                     {
-                        if (filterName.contains(s.substring(1, s.length() - 1)))
+                        filterName = oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
+                        s = s.replace("!", "");
+                    }
+                    else
+                    {
+                        filterName = itemStack.getDisplayName().toLowerCase();
+                    }
+                    if (s.startsWith("*") && s.length() > 1)
+                    {
+                        if (s.endsWith("*") && s.length() > 2)
+                        {
+                            if (filterName.contains(s.substring(1, s.length() - 1)))
+                                return true;
+                        }
+                        else if (filterName.endsWith(s.substring(1)))
                             return true;
                     }
-                    else if (filterName.endsWith(s.substring(1)))
-                        return true;
-                }
-                else if (s.endsWith("*") && s.length() > 1)
-                {
-                    if (filterName.startsWith(s.substring(0, s.length() - 1)))
-                        return true;
-                }
-                else
-                {
-                    if (filterName.equalsIgnoreCase(s))
-                        return true;
+                    else if (s.endsWith("*") && s.length() > 1)
+                    {
+                        if (filterName.startsWith(s.substring(0, s.length() - 1)))
+                            return true;
+                    }
+                    else
+                    {
+                        if (filterName.equalsIgnoreCase(s))
+                            return true;
+                    }
                 }
             }
 
-            if (customFilters[0] && (oreName.contains("ingot") || itemStack.itemID == Item.ingotIron.itemID || itemStack.itemID == Item.ingotGold.itemID))
-                return true;
-            if (customFilters[1] && oreName.contains("ore"))
-                return true;
-            if (customFilters[2] && oreName.contains("log"))
-                return true;
-            if (customFilters[3] && oreName.contains("plank"))
-                return true;
-            if (customFilters[4] && oreName.contains("dust"))
-                return true;
-            if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
-                return true;
-            if (customFilters[6] && oreName.contains("purified"))
-                return true;
-            if (customFilters[7] && oreName.contains("plate"))
-                return true;
-            if (customFilters[8] && oreName.contains("gem"))
-                return true;
-
-            CreativeTabs tab;
-
-            try
+            if (Booleans.contains(customFilters, true))
             {
-                if (itemStack.getItem() instanceof ItemBlock)
+                if (oreName == null)
                 {
-                    tab = (CreativeTabs) displayOnCreativeTab.get(Block.blocksList[itemStack.itemID]);
+                    oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
                 }
-                else
-                {
-                    tab = (CreativeTabs) tabToDisplayOn.get(Item.itemsList[itemStack.itemID]);
-                }
-                if (tab != null)
-                {
-                    int index = tabIndex.getInt(tab);
 
-                    for (int i = 0; i < creativeTabs.length; i++)
+                if (customFilters[0] && (oreName.contains("ingot") || itemStack.itemID == Item.ingotIron.itemID || itemStack.itemID == Item.ingotGold.itemID))
+                    return true;
+                if (customFilters[1] && oreName.contains("ore"))
+                    return true;
+                if (customFilters[2] && oreName.contains("log"))
+                    return true;
+                if (customFilters[3] && oreName.contains("plank"))
+                    return true;
+                if (customFilters[4] && oreName.contains("dust"))
+                    return true;
+                if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
+                    return true;
+                if (customFilters[6] && oreName.contains("purified"))
+                    return true;
+                if (customFilters[7] && oreName.contains("plate"))
+                    return true;
+                if (customFilters[8] && oreName.contains("gem"))
+                    return true;
+            }
+
+            if (Booleans.contains(creativeTabs, true))
+            {
+                try
+                {
+                    CreativeTabs tab;
+
+                    if (itemStack.getItem() instanceof ItemBlock)
                     {
-                        if (creativeTabs[i] && index == i)
+                        tab = (CreativeTabs) displayOnCreativeTab.get(Block.blocksList[itemStack.itemID]);
+                    }
+                    else
+                    {
+                        tab = (CreativeTabs) tabToDisplayOn.get(Item.itemsList[itemStack.itemID]);
+                    }
+                    if (tab != null)
+                    {
+                        int index = tabIndex.getInt(tab);
+
+                        for (int i = 0; i < creativeTabs.length; i++)
                         {
-                            return true;
+                            if (creativeTabs[i] && index == i)
+                            {
+                                return true;
+                            }
                         }
                     }
+                } catch (IllegalAccessException e)
+                {
+                    e.printStackTrace();
                 }
-            } catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
             }
         }
         return false;
