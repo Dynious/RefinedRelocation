@@ -23,3 +23,7 @@ item.filteringUpgrade.name=Filtering Upgrade
 
 # Inventory localizations
 itemGroup.BlEx=Block Extenders
+
+# GUI localizations
+gui.blex.blacklist=Blacklist
+gui.blex.whitelist=Whitelist
