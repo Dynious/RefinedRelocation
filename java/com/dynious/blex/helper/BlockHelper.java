@@ -3,7 +3,10 @@ package com.dynious.blex.helper;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,20 +16,43 @@ public class BlockHelper
 {
     public static final String nullBlockString = "<NONE>";
 
+    public static String getBlockDisplayName(World world, int x, int y, int z, ForgeDirection side)
+    {
+        int blockID = world.getBlockId(x, y, z);
+        Block block = Block.blocksList[blockID];
+        if (block != null)
+        {
+            // trace from the middle of the given side to the opposite side
+            Vec3 midpos = world.getWorldVec3Pool().getVecFromPool(x+0.5D, y+0.5D, z+0.5D);
+            ForgeDirection opposite = side.getOpposite();
+            Vec3 startpos = midpos.addVector(opposite.offsetX*.5, opposite.offsetY*.5, opposite.offsetZ*.5);
+            Vec3 endpos = midpos.addVector(side.offsetX*.5, side.offsetY*.5, side.offsetZ*.5);
+            MovingObjectPosition hit = world.clip(startpos, endpos);
+            if (hit != null)
+            {
+                ItemStack pickedItemStack = block.getPickBlock(hit, world, x, y, z);
+                if (pickedItemStack != null)
+                    return getItemStackDisplayName(pickedItemStack);
+            }
+        }
+
+        return getBlockDisplayName(world, x, y, z);
+    }
+
     public static String getBlockDisplayName(World world, int x, int y, int z)
     {
         int blockID = world.getBlockId(x, y, z);
         Block block = Block.blocksList[blockID];
         if (block != null)
         {
-            try
+            // trace from one corner to the other so that we can be fairly certain we at least hit something
+            // note that this may ignore tiny multiparts (nooks/corners)
+            MovingObjectPosition hit = world.clip(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(x+1, y+1, z+1));
+            if (hit != null)
             {
-                ItemStack pickedItemStack = block.getPickBlock(null, world, x, y, z);
+                ItemStack pickedItemStack = block.getPickBlock(hit, world, x, y, z);
                 if (pickedItemStack != null)
                     return getItemStackDisplayName(pickedItemStack);
-            } catch (Exception e)
-            {
-                // TODO: Add proper support for using getPickBlock on multiparts
             }
 
             List<ItemStack> dropped = block.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
