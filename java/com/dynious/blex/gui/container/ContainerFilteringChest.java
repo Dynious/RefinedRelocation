@@ -16,7 +16,7 @@ public class ContainerFilteringChest extends ContainerHierarchical
         this.lowerChestInventory = par2IInventory;
         this.numRows = par2IInventory.getSizeInventory() / 9;
         par2IInventory.openChest();
-        ((TileFilteringChest) this.lowerChestInventory).addCrafter(player);
+        ((TileFilteringChest) this.lowerChestInventory).getFilteringInventoryHandler().addCrafter(player);
         int i = (this.numRows - 4) * 18;
         int j;
         int k;
@@ -89,7 +89,7 @@ public class ContainerFilteringChest extends ContainerHierarchical
     @Override
     public void putStackInSlot(int par1, ItemStack par2ItemStack)
     {
-        ((TileFilteringChest) lowerChestInventory).putStackInSlot(par2ItemStack, par1);
+        ((TileFilteringChest) lowerChestInventory).getFilteringInventoryHandler().putStackInSlot(par2ItemStack, par1);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ContainerFilteringChest extends ContainerHierarchical
     {
         super.onContainerClosed(par1EntityPlayer);
         this.lowerChestInventory.closeChest();
-        ((TileFilteringChest) this.lowerChestInventory).removeCrafter(par1EntityPlayer);
+        ((TileFilteringChest) this.lowerChestInventory).getFilteringInventoryHandler().removeCrafter(par1EntityPlayer);
     }
 
     /**

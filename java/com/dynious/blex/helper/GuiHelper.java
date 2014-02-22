@@ -2,6 +2,7 @@ package com.dynious.blex.helper;
 
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.lib.GuiIds;
+import com.dynious.blex.temp.OldTileIronFilteringChest;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
@@ -40,16 +41,9 @@ public class GuiHelper
             {
                 guiId = GuiIds.FILTERED;
             }
-            else if (tile instanceof TileFilteringChest)
+            else if (tile instanceof TileFilteringChest || tile instanceof TileFilteringIronChest)
             {
-                if (Loader.isModLoaded("IronChest") && tile instanceof TileIronFilteringChest)
-                {
-                    guiId = GuiIds.FILTERING_CHEST + ((TileIronFilteringChest)tile).getType().ordinal() + 1;
-                }
-                else
-                {
-                    guiId = GuiIds.FILTERING_CHEST;
-                }
+                guiId = GuiIds.FILTERING_CHEST;
             }
 
             if (guiId != -1)

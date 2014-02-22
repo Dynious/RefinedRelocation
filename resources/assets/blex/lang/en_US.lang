@@ -7,15 +7,15 @@ tile.blockExtender4.name=Wireless Block Extender
 tile.buffer0.name=Buffer
 tile.buffer1.name=Advanced Buffer
 tile.buffer2.name=Filtered Buffer
-tile.filteringChest0.name=Filtering Chest
-tile.filteringChest1.name=Filtering Iron Chest
-tile.filteringChest2.name=Filtering Gold Chest
-tile.filteringChest3.name=Filtering Diamond Chest
-tile.filteringChest4.name=Filtering Copper Chest
-tile.filteringChest5.name=Filtering Silver Chest
-tile.filteringChest6.name=Filtering Crystal Chest
-tile.filteringChest7.name=Filtering Obsidian Chest
-tile.filteringChest8.name=Filtering Dirt Chest
+tile.filteringChest.name=Filtering Chest
+tile.filteringIronChest0.name=Filtering Iron Chest
+tile.filteringIronChest1.name=Filtering Gold Chest
+tile.filteringIronChest2.name=Filtering Diamond Chest
+tile.filteringIronChest3.name=Filtering Copper Chest
+tile.filteringIronChest4.name=Filtering Silver Chest
+tile.filteringIronChest5.name=Filtering Crystal Chest
+tile.filteringIronChest6.name=Filtering Obsidian Chest
+tile.filteringIronChest7.name=Filtering Dirt Chest
 
 # Item localizations
 item.linker.name=Linker

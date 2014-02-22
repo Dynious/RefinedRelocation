@@ -2,6 +2,7 @@ package com.dynious.blex.proxy;
 
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.network.GuiHandler;
+import com.dynious.blex.temp.OldTileIronFilteringChest;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -22,7 +23,7 @@ public class CommonProxy
 
         if (Loader.isModLoaded("IronChest"))
         {
-            GameRegistry.registerTileEntity(TileIronFilteringChest.class, Names.ironFilteringChest);
+            GameRegistry.registerTileEntity(TileFilteringIronChest.class, Names.filteringIronChest);
         }
 
         new GuiHandler();

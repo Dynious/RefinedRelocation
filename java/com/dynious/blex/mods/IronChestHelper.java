@@ -13,7 +13,7 @@ public class IronChestHelper
     {
         for (int i = 0; i < IronChestType.values().length; i++)
         {
-            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.filteringChest, 1, i + 1), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
+            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.filteringIronChest, 1, i), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.dynious.blex.tileentity;
+package com.dynious.blex.api;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -6,41 +6,31 @@ import net.minecraftforge.common.ForgeDirection;
 
 import java.util.ArrayList;
 
-public class TileFilteringMember extends TileEntity
+public class FilteringMemberHandler
 {
-    protected boolean isFirstRun = true;
+    protected TileEntity owner;
 
-    private TileFilteringMember leader;
-    private ArrayList<TileFilteringMember> childs;
+    private FilteringMemberHandler leader;
+    private ArrayList<FilteringMemberHandler> childs;
     private boolean canJoinGroup = true;
 
-    /**
-     * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner uses this to count
-     * ticks and creates a new spawn inside its implementation.
-     */
-    public void updateEntity()
+    public FilteringMemberHandler(TileEntity owner)
     {
-        super.updateEntity();
-
-        if (isFirstRun)
-        {
-            searchForLeader();
-            isFirstRun = false;
-        }
+        this.owner = owner;
     }
 
     /**
-     * Sould be called by OnBlockPlacedBy(...) from its block
+     * Should be called on first tick from its block
      */
-    public void onTileAdded()
+    public final void onTileAdded()
     {
         searchForLeader();
     }
 
     /**
-     * Sould be called by breakBlock(...) from its block
+     * Should be called by breakBlock(...) from its block
      */
-    public void onTileDestroyed()
+    public final void onTileDestroyed()
     {
         canJoinGroup = false;
         getLeader().removeChild(this);
@@ -50,14 +40,14 @@ public class TileFilteringMember extends TileEntity
     /**
      * Searches for leaders around the TileEntity and demotes leaders if it already has a leader
      */
-    public void searchForLeader()
+    public final void searchForLeader()
     {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity tile = worldObj.getBlockTileEntity(xCoord + direction.offsetX, yCoord + direction.offsetY, zCoord + direction.offsetZ);
-            if (tile != null && tile instanceof TileFilteringMember)
+            TileEntity tile = owner.worldObj.getBlockTileEntity(owner.xCoord + direction.offsetX, owner.yCoord + direction.offsetY, owner.zCoord + direction.offsetZ);
+            if (tile != null && tile instanceof IFilteringMember)
             {
-                TileFilteringMember filteringMember = (TileFilteringMember) tile;
+                FilteringMemberHandler filteringMember = ((IFilteringMember) tile).getFilteringMemberHandler();
                 if (filteringMember.canJoinGroup() && filteringMember.getLeader() != this)
                 {
                     if (leader == null && childs == null)
@@ -78,7 +68,7 @@ public class TileFilteringMember extends TileEntity
      *
      * @return The leader of this FilteringMember (can be itself)
      */
-    public TileFilteringMember getLeader()
+    public final FilteringMemberHandler getLeader()
     {
         if (leader == null)
         {
@@ -95,11 +85,11 @@ public class TileFilteringMember extends TileEntity
      *
      * @param newLeader The new Leader for this FilteringMember
      */
-    public void setLeader(TileFilteringMember newLeader)
+    public final void setLeader(FilteringMemberHandler newLeader)
     {
         if (newLeader == this)
         {
-            System.out.println("I set myself :(" + this.xCoord);
+            return;
         }
         this.leader = newLeader;
 
@@ -114,11 +104,11 @@ public class TileFilteringMember extends TileEntity
      *
      * @param child Child to be added
      */
-    public void addChild(TileFilteringMember child)
+    public final void addChild(FilteringMemberHandler child)
     {
         if (childs == null)
         {
-            childs = new ArrayList<TileFilteringMember>();
+            childs = new ArrayList<FilteringMemberHandler>();
         }
         if (!childs.contains(child))
         {
@@ -131,7 +121,7 @@ public class TileFilteringMember extends TileEntity
      *
      * @param child Child to be removed
      */
-    public void removeChild(TileFilteringMember child)
+    public final void removeChild(FilteringMemberHandler child)
     {
         if (childs != null)
         {
@@ -142,17 +132,17 @@ public class TileFilteringMember extends TileEntity
     /**
      * Sets leader of all childs to null and deletes the child list
      */
-    public void resetChilds()
+    public final void resetChilds()
     {
         if (childs != null && !childs.isEmpty())
         {
-            ArrayList<TileFilteringMember> tempChilds = new ArrayList<TileFilteringMember>(childs);
+            ArrayList<FilteringMemberHandler> tempChilds = new ArrayList<FilteringMemberHandler>(childs);
             childs = null;
-            for (TileFilteringMember child : tempChilds)
+            for (FilteringMemberHandler child : tempChilds)
             {
                 child.setLeader(null);
             }
-            for (TileFilteringMember child : tempChilds)
+            for (FilteringMemberHandler child : tempChilds)
             {
                 child.searchForLeader();
             }
@@ -164,12 +154,12 @@ public class TileFilteringMember extends TileEntity
      *
      * @param newLeader The new Leader for this FilteringMember and it's childs
      */
-    public void demoteToChild(TileFilteringMember newLeader)
+    public final void demoteToChild(FilteringMemberHandler newLeader)
     {
         setLeader(newLeader);
         if (childs != null && !childs.isEmpty())
         {
-            for (TileFilteringMember child : childs)
+            for (FilteringMemberHandler child : childs)
             {
                 child.setLeader(getLeader());
             }
@@ -180,7 +170,7 @@ public class TileFilteringMember extends TileEntity
     /**
      * @return Boolean if the FilteringMember can join a group
      */
-    public boolean canJoinGroup()
+    public final boolean canJoinGroup()
     {
         return canJoinGroup;
     }
@@ -195,14 +185,14 @@ public class TileFilteringMember extends TileEntity
     {
         if (childs != null && !childs.isEmpty())
         {
-            for (TileFilteringMember filteringMember : childs)
+            for (FilteringMemberHandler filteringMember : childs)
             {
-                if (filteringMember instanceof TileFilteringInventory)
+                if (filteringMember.owner instanceof IFilteringInventory)
                 {
-                    TileFilteringInventory filteringInventory = (TileFilteringInventory) filteringMember;
+                    IFilteringInventory filteringInventory = (IFilteringInventory) filteringMember.owner;
                     if (filteringInventory.getBlackList() ? !filteringInventory.getFilter().passesFilter(itemStack) : filteringInventory.getFilter().passesFilter(itemStack))
                     {
-                        itemStack = filteringInventory.putInInventory(itemStack);
+                        itemStack = filteringInventory.getFilteringInventoryHandler().putInInventory(itemStack);
                         if (itemStack == null || itemStack.stackSize == 0)
                         {
                             return null;

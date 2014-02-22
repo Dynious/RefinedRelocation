@@ -2,16 +2,13 @@ package com.dynious.blex.block;
 
 import com.dynious.blex.item.ItemBlockExtender;
 import com.dynious.blex.item.ItemBuffer;
-import com.dynious.blex.item.ItemFilteringChest;
+import com.dynious.blex.item.ItemFilteringIronChest;
 import com.dynious.blex.lib.BlockIds;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
 import com.dynious.blex.mods.IronChestHelper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.ironchest.BlockIronChest;
-import cpw.mods.ironchest.IronChest;
-import cpw.mods.ironchest.IronChestType;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,6 +18,7 @@ public class ModBlocks
     public static BlockExtender blockExtender;
     public static BlockBuffer buffer;
     public static BlockFilteringChest filteringChest;
+    public static BlockFilteringIronChest filteringIronChest;
 
     public static void init()
     {
@@ -30,7 +28,7 @@ public class ModBlocks
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
-        GameRegistry.registerBlock(filteringChest, ItemFilteringChest.class, Names.filteringChest);
+        GameRegistry.registerBlock(filteringChest, Names.filteringChest);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));
@@ -51,6 +49,8 @@ public class ModBlocks
 
         if (Loader.isModLoaded("IronChest"))
         {
+            filteringIronChest = new BlockFilteringIronChest(BlockIds.FILTERING_IRON_CHEST);
+            GameRegistry.registerBlock(filteringIronChest, ItemFilteringIronChest.class, Names.filteringIronChest);
             IronChestHelper.addIronChestRecipes();
         }
     }

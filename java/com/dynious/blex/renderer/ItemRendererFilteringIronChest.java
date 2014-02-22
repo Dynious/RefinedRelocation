@@ -3,36 +3,31 @@ package com.dynious.blex.renderer;
 import com.dynious.blex.lib.Resources;
 import com.google.common.collect.ImmutableMap;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.ironchest.IronChestType;
+import cpw.mods.ironchest.client.TileEntityIronChestRenderer;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glColor4f;
 
 @SideOnly(Side.CLIENT)
-public class ItemRendererIronFilteringChest implements IItemRenderer
+public class ItemRendererFilteringIronChest implements IItemRenderer
 {
-    private static final ResourceLocation RES_NORMAL_SINGLE = new ResourceLocation("textures/entity/chest/normal.png");
-
     private static Map<IronChestType, ResourceLocation> locations;
-    static {
-        ImmutableMap.Builder<IronChestType, ResourceLocation> builder = ImmutableMap.builder();
-        for (IronChestType typ : IronChestType.values()) {
-            builder.put(typ, new ResourceLocation("ironchest","textures/model/" + typ.getModelTexture()));
-        }
-        locations = builder.build();
-    }
 
-    public ItemRendererIronFilteringChest()
+    public ItemRendererFilteringIronChest()
     {
         model = new ModelChest();
+        locations = ReflectionHelper.getPrivateValue(TileEntityIronChestRenderer.class, null, "locations");
     }
 
     @Override
@@ -62,15 +57,8 @@ public class ItemRendererIronFilteringChest implements IItemRenderer
 
         if (renderPass == 0)
         {
-            if (itemStack.getItemDamage() > 0)
-            {
-                IronChestType type = IronChestType.values()[itemStack.getItemDamage() - 1];
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(locations.get(type));
-            }
-            else
-            {
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RES_NORMAL_SINGLE);
-            }
+            IronChestType type = IronChestType.values()[itemStack.getItemDamage()];
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(locations.get(type));
         }
         else
         {

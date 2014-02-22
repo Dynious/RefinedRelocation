@@ -4,9 +4,9 @@ import com.dynious.blex.block.ModBlocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemFilteringChest extends ItemBlock
+public class ItemFilteringIronChest extends ItemBlock
 {
-    public ItemFilteringChest(int par1)
+    public ItemFilteringIronChest(int par1)
     {
         super(par1);
         setHasSubtypes(true);
@@ -21,6 +21,6 @@ public class ItemFilteringChest extends ItemBlock
     @Override
     public String getUnlocalizedName(ItemStack i)
     {
-        return ModBlocks.filteringChest.getUnlocalizedName() + i.getItemDamage();
+        return ModBlocks.filteringIronChest.getUnlocalizedName() + i.getItemDamage();
     }
 }

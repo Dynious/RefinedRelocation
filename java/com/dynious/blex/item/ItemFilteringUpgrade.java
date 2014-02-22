@@ -5,8 +5,10 @@ import com.dynious.blex.block.ModBlocks;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.TileFilteringChest;
-import com.dynious.blex.tileentity.TileIronFilteringChest;
+import com.dynious.blex.tileentity.TileFilteringIronChest;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.ironchest.IronChest;
 import cpw.mods.ironchest.TileEntityIronChest;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class ItemFilteringUpgrade extends Item
@@ -32,7 +33,6 @@ public class ItemFilteringUpgrade extends Item
     {
         if (world.isRemote) return false;
         TileEntity te = world.getBlockTileEntity(X, Y, Z);
-        TileFilteringChest newchest = null;
         ItemStack[] chestContents = null;
         if (te != null)
         {
@@ -44,7 +44,7 @@ public class ItemFilteringUpgrade extends Item
                     return false;
                 }
                 // Force old TE out of the world so that adjacent chests can update
-                newchest = new TileFilteringChest();
+                TileFilteringChest newchest = new TileFilteringChest();
                 ItemStack[] chestInventory = ObfuscationReflectionHelper.getPrivateValue(TileEntityChest.class, tec, 0);
                 chestContents = chestInventory.clone();
                 newchest.setFacing((byte) tec.getBlockMetadata());
@@ -61,8 +61,12 @@ public class ItemFilteringUpgrade extends Item
                 tec.checkForAdjacentChests();
                 // And put in our block instead
                 world.setBlock(X, Y, Z, ModBlocks.filteringChest.blockID, 0, 3);
+
+                world.setBlockTileEntity(X, Y, Z, newchest);
+                world.setBlockMetadataWithNotify(X, Y, Z, 0, 3);
+                System.arraycopy(chestContents, 0, newchest.inventory, 0, newchest.getSizeInventory());
             }
-            else if (te instanceof TileEntityIronChest)
+            else if (Loader.isModLoaded("IronChest") && te instanceof TileEntityIronChest)
             {
                 TileEntityIronChest teic = (TileEntityIronChest) te;
                 int numUsers = ObfuscationReflectionHelper.getPrivateValue(TileEntityIronChest.class, teic, "numUsingPlayers");
@@ -70,9 +74,9 @@ public class ItemFilteringUpgrade extends Item
                 {
                     return false;
                 }
-                newchest = new TileIronFilteringChest();
+                TileFilteringIronChest chest = new TileFilteringIronChest(teic.getType());
                 chestContents = teic.chestContents.clone();
-                newchest.setFacing(teic.getFacing());
+                chest.setFacing(teic.getFacing());
                 for (int i = 0; i < teic.chestContents.length; i++)
                 {
                     teic.chestContents[i] = null;
@@ -80,7 +84,11 @@ public class ItemFilteringUpgrade extends Item
                 // Clear the old block out
                 world.setBlock(X, Y, Z, 0, 0, 3);
                 // And put in our block instead
-                world.setBlock(X, Y, Z, ModBlocks.filteringChest.blockID, teic.getType().ordinal() + 1, 3);
+                world.setBlock(X, Y, Z, ModBlocks.filteringIronChest.blockID, teic.getType().ordinal(), 3);
+
+                world.setBlockTileEntity(X, Y, Z, chest);
+                world.setBlockMetadataWithNotify(X, Y, Z, chest.getType().ordinal(), 3);
+                System.arraycopy(chestContents, 0, chest.chestContents, 0, chest.getSizeInventory());
             }
             else
             {
@@ -91,9 +99,6 @@ public class ItemFilteringUpgrade extends Item
         {
             return false;
         }
-        world.setBlockTileEntity(X, Y, Z, newchest);
-        world.setBlockMetadataWithNotify(X, Y, Z, newchest instanceof TileIronFilteringChest ? ((TileIronFilteringChest) newchest).getType().ordinal() + 1 : 0, 3);
-        System.arraycopy(chestContents, 0, newchest.inventory, 0, newchest.getSizeInventory());
         stack.stackSize--;
         return true;
     }

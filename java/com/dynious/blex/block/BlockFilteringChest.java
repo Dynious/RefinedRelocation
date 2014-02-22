@@ -5,8 +5,9 @@ import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.tileentity.TileFilteringChest;
-import com.dynious.blex.tileentity.TileIronFilteringChest;
+import com.dynious.blex.tileentity.TileFilteringIronChest;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,8 +16,6 @@ import cpw.mods.ironchest.ItemChestChanger;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -25,6 +24,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
@@ -48,23 +48,6 @@ public class BlockFilteringChest extends BlockContainer
         this.setCreativeTab(BlockExtenders.tabBlEx);
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
         this.setUnlocalizedName(Names.filteringChest);
-    }
-
-    @Override
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
-    {
-        par3List.add(new ItemStack(this, 1, 0));
-        if (Loader.isModLoaded("IronChest"))
-        {
-            for (IronChestType type : IronChestType.values())
-            {
-                if (type.isValidForCreativeMode())
-                {
-                    par3List.add(new ItemStack(this, 1, type.ordinal() + 1));
-                }
-            }
-        }
     }
 
     /**
@@ -143,7 +126,6 @@ public class BlockFilteringChest extends BlockContainer
         {
             TileFilteringChest tile = (TileFilteringChest) te;
             tile.setFacing(chestFacing);
-            tile.onTileAdded();
             par1World.markBlockForUpdate(par2, par3, par4);
         }
     }
@@ -209,12 +191,34 @@ public class BlockFilteringChest extends BlockContainer
         if (Loader.isModLoaded("IronChest") && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemChestChanger)
         {
             ItemChestChanger chestChanger = (ItemChestChanger) player.getHeldItem().getItem();
-            TileEntity tile = world.getBlockTileEntity(x, y, z);
-            if (tile instanceof TileIronFilteringChest)
+            if (chestChanger.getType().canUpgrade(IronChestType.WOOD))
             {
-                boolean succeeded = ((TileIronFilteringChest)tile).applyUpgradeItem(chestChanger);
-                if (succeeded)
+                TileEntity tile = world.getBlockTileEntity(x, y, z);
+                if (tile instanceof TileFilteringChest)
                 {
+                    TileFilteringChest tec = (TileFilteringChest) tile;
+                    if (tec.numUsingPlayers > 0)
+                    {
+                        return false;
+                    }
+                    // Force old TE out of the world so that adjacent chests can update
+                    TileFilteringIronChest newchest = new TileFilteringIronChest(IronChestType.values()[chestChanger.getType().getTarget()]);
+                    ItemStack[] chestInventory = tec.inventory;
+                    ItemStack[] chestContents = chestInventory.clone();
+                    newchest.setFacing((byte) tec.getBlockMetadata());
+                    for (int i = 0; i < chestInventory.length; i++)
+                    {
+                        chestInventory[i] = null;
+                    }
+                    // Clear the old block out
+                    world.setBlock(x, y, z, 0, 0, 3);
+                    // Force the Chest TE to reset it's knowledge of neighbouring blocks
+                    // And put in our block instead
+                    world.setBlock(x, y, z, ModBlocks.filteringIronChest.blockID, chestChanger.getType().getTarget(), 3);
+
+                    world.setBlockTileEntity(x, y, z, newchest);
+                    world.setBlockMetadataWithNotify(x, y, z, chestChanger.getType().getTarget(), 3);
+                    System.arraycopy(chestContents, 0, newchest.chestContents, 0, Math.min(chestContents.length, newchest.getSizeInventory()));
                     player.getHeldItem().stackSize--;
                     return true;
                 }
@@ -244,20 +248,6 @@ public class BlockFilteringChest extends BlockContainer
             return true;
         }
     }
-    @Override
-    public float getExplosionResistance(Entity par1Entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ)
-    {
-        TileEntity te = world.getBlockTileEntity(x, y, z);
-        if (te instanceof TileIronFilteringChest)
-        {
-            TileIronFilteringChest teic = (TileIronFilteringChest) te;
-            if (teic.getType().isExplosionResistant())
-            {
-                return 10000f;
-            }
-        }
-        return super.getExplosionResistance(par1Entity, world, x, y, z, explosionX, explosionY, explosionZ);
-    }
 
 
     /**
@@ -286,47 +276,12 @@ public class BlockFilteringChest extends BlockContainer
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public Icon getIcon(int i, int j)
-    {
-        if (Loader.isModLoaded("IronChest") && j != 0)
-        {
-            if (j < IronChestType.values().length + 1)
-            {
-                IronChestType type = IronChestType.values()[j - 1];
-                return type.getIcon(i);
-            }
-        }
-        return super.getIcon(i, j);
-    }
-
-
     /**
      * Returns a new instance of a block's tile entity class. Called on placing the block.
      */
     public TileEntity createNewTileEntity(World par1World)
     {
-        return null;
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, int metadata)
-    {
-        if (metadata == 0 || !Loader.isModLoaded("IronChest"))
-        {
-            return new TileFilteringChest();
-        }
-        else
-        {
-            return new TileIronFilteringChest();
-        }
-    }
-
-    @Override
-    public int damageDropped(int i)
-    {
-        return i;
+        return new TileFilteringChest();
     }
 
     /**
