@@ -1,7 +1,6 @@
 package com.dynious.blex.renderer;
 
 import com.dynious.blex.lib.Resources;
-import com.google.common.collect.ImmutableMap;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -13,11 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glColor4f;
 
 @SideOnly(Side.CLIENT)
 public class ItemRendererFilteringIronChest implements IItemRenderer

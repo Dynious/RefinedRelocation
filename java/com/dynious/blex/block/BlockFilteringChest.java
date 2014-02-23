@@ -4,15 +4,12 @@ import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.lib.Names;
+import com.dynious.blex.mods.IronChestHelper;
 import com.dynious.blex.tileentity.TileFilteringChest;
-import com.dynious.blex.tileentity.TileFilteringIronChest;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.ironchest.IronChestType;
-import cpw.mods.ironchest.ItemChestChanger;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -24,15 +21,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import static net.minecraftforge.common.ForgeDirection.DOWN;
@@ -188,40 +182,11 @@ public class BlockFilteringChest extends BlockContainer
      */
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
     {
-        if (Loader.isModLoaded("IronChest") && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemChestChanger)
+        if (Loader.isModLoaded("IronChest"))
         {
-            ItemChestChanger chestChanger = (ItemChestChanger) player.getHeldItem().getItem();
-            if (chestChanger.getType().canUpgrade(IronChestType.WOOD))
+            if (IronChestHelper.upgradeToIronChest(world, player, x, y, z))
             {
-                TileEntity tile = world.getBlockTileEntity(x, y, z);
-                if (tile instanceof TileFilteringChest)
-                {
-                    TileFilteringChest tec = (TileFilteringChest) tile;
-                    if (tec.numUsingPlayers > 0)
-                    {
-                        return false;
-                    }
-                    // Force old TE out of the world so that adjacent chests can update
-                    TileFilteringIronChest newchest = new TileFilteringIronChest(IronChestType.values()[chestChanger.getType().getTarget()]);
-                    ItemStack[] chestInventory = tec.inventory;
-                    ItemStack[] chestContents = chestInventory.clone();
-                    newchest.setFacing((byte) tec.getBlockMetadata());
-                    for (int i = 0; i < chestInventory.length; i++)
-                    {
-                        chestInventory[i] = null;
-                    }
-                    // Clear the old block out
-                    world.setBlock(x, y, z, 0, 0, 3);
-                    // Force the Chest TE to reset it's knowledge of neighbouring blocks
-                    // And put in our block instead
-                    world.setBlock(x, y, z, ModBlocks.filteringIronChest.blockID, chestChanger.getType().getTarget(), 3);
-
-                    world.setBlockTileEntity(x, y, z, newchest);
-                    world.setBlockMetadataWithNotify(x, y, z, chestChanger.getType().getTarget(), 3);
-                    System.arraycopy(chestContents, 0, newchest.chestContents, 0, Math.min(chestContents.length, newchest.getSizeInventory()));
-                    player.getHeldItem().stackSize--;
-                    return true;
-                }
+                return true;
             }
         }
 

@@ -1,13 +1,14 @@
 package com.dynious.blex.gui.widget;
 
-import java.util.List;
-import org.lwjgl.opengl.GL11;
+import com.dynious.blex.gui.IGuiParent;
+import com.dynious.blex.tileentity.TileBlockExtender;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import com.dynious.blex.gui.IGuiParent;
-import com.dynious.blex.tileentity.TileBlockExtender;
+import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 public class GuiDisguise extends GuiBlExWidgetBase
 {

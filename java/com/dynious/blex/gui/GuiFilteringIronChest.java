@@ -1,7 +1,6 @@
 package com.dynious.blex.gui;
 
 import com.dynious.blex.gui.container.ContainerFilteringIronChest;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.client.GUIChest;
@@ -9,7 +8,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 

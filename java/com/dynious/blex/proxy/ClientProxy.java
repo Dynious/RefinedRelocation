@@ -1,9 +1,12 @@
 package com.dynious.blex.proxy;
 
 import com.dynious.blex.lib.BlockIds;
+import com.dynious.blex.mods.IronChestHelper;
 import com.dynious.blex.renderer.*;
-import com.dynious.blex.renderer.ItemRendererFilteringIronChest;
-import com.dynious.blex.tileentity.*;
+import com.dynious.blex.tileentity.TileBlockExtender;
+import com.dynious.blex.tileentity.TileBuffer;
+import com.dynious.blex.tileentity.TileFilteringChest;
+import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Loader;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -25,8 +28,7 @@ public class ClientProxy extends CommonProxy
 
         if (Loader.isModLoaded("IronChest"))
         {
-            ClientRegistry.bindTileEntitySpecialRenderer(TileFilteringIronChest.class, new RendererFilteringIronChest());
-            MinecraftForgeClient.registerItemRenderer(BlockIds.FILTERING_IRON_CHEST, new ItemRendererFilteringIronChest());
+            IronChestHelper.addIronChestRenders();
         }
     }
 }

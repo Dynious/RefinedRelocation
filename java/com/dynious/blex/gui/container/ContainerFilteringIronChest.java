@@ -1,7 +1,5 @@
 package com.dynious.blex.gui.container;
 
-import com.dynious.blex.temp.OldTileFilteringChest;
-import com.dynious.blex.tileentity.TileFilteringChest;
 import com.dynious.blex.tileentity.TileFilteringIronChest;
 import cpw.mods.ironchest.ContainerIronChestBase;
 import cpw.mods.ironchest.IronChestType;

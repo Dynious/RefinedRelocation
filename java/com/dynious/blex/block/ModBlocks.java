@@ -2,7 +2,6 @@ package com.dynious.blex.block;
 
 import com.dynious.blex.item.ItemBlockExtender;
 import com.dynious.blex.item.ItemBuffer;
-import com.dynious.blex.item.ItemFilteringIronChest;
 import com.dynious.blex.lib.BlockIds;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Settings;
@@ -49,8 +48,7 @@ public class ModBlocks
 
         if (Loader.isModLoaded("IronChest"))
         {
-            filteringIronChest = new BlockFilteringIronChest(BlockIds.FILTERING_IRON_CHEST);
-            GameRegistry.registerBlock(filteringIronChest, ItemFilteringIronChest.class, Names.filteringIronChest);
+            IronChestHelper.addIronChestBlocks();
             IronChestHelper.addIronChestRecipes();
         }
     }

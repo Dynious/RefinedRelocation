@@ -1,7 +1,6 @@
 package com.dynious.blex.api;
 
 import com.dynious.blex.helper.ItemStackHelper;
-import cpw.mods.ironchest.ContainerIronChestBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

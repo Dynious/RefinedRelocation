@@ -2,9 +2,7 @@ package com.dynious.blex.helper;
 
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.lib.GuiIds;
-import com.dynious.blex.temp.OldTileIronFilteringChest;
 import com.dynious.blex.tileentity.*;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

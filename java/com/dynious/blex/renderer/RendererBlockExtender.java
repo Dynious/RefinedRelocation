@@ -1,8 +1,5 @@
 package com.dynious.blex.renderer;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import org.lwjgl.opengl.GL11;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.model.ModelBlockExtender;
 import com.dynious.blex.model.ModelEnderPearl;
@@ -11,6 +8,9 @@ import com.dynious.blex.tileentity.TileAdvancedFilteredBlockExtender;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import com.dynious.blex.tileentity.TileFilteredBlockExtender;
 import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import org.lwjgl.opengl.GL11;
 
 public class RendererBlockExtender extends TileEntitySpecialRenderer
 {
