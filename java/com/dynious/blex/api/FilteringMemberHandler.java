@@ -5,6 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FilteringMemberHandler
 {
@@ -179,18 +180,34 @@ public class FilteringMemberHandler
      * Filters an ItemStack to all members of the FilteringMember group
      *
      * @param itemStack The ItemStack to be filtered to all childs and this FilteringMember
-     * @return The ItemStack that was not able to fit in any FilteringMember
+     * @param requester The FilteringInventoryHandler that requested the filtering
+     * @return The ItemStack that was not able to fit in any IFilteringInventory
      */
-    public ItemStack filterStackToGroup(ItemStack itemStack)
+    public final ItemStack filterStackToGroup(ItemStack itemStack, FilteringInventoryHandler requester)
     {
         if (childs != null && !childs.isEmpty())
         {
-            for (FilteringMemberHandler filteringMember : childs)
+            List<Integer> blackListers = new ArrayList<Integer>();
+
+            //Try to put the ItemStack in a child that passes (whitelisted) the filter
+            for (int i = 0; i < childs.size(); i++)
             {
+                FilteringMemberHandler filteringMember = childs.get(i);
+                if (filteringMember == requester)
+                {
+                    continue;
+                }
                 if (filteringMember.owner instanceof IFilteringInventory)
                 {
                     IFilteringInventory filteringInventory = (IFilteringInventory) filteringMember.owner;
-                    if (filteringInventory.getBlackList() ? !filteringInventory.getFilter().passesFilter(itemStack) : filteringInventory.getFilter().passesFilter(itemStack))
+
+                    if (filteringInventory.getBlackList())
+                    {
+                        blackListers.add(i);
+                        continue;
+                    }
+
+                    if (filteringInventory.getFilter().passesFilter(itemStack))
                     {
                         itemStack = filteringInventory.getFilteringInventoryHandler().putInInventory(itemStack);
                         if (itemStack == null || itemStack.stackSize == 0)
@@ -198,6 +215,46 @@ public class FilteringMemberHandler
                             return null;
                         }
                     }
+                }
+            }
+
+            //If this (leader) is an inventory try to put the ItemStack in the inventory if whitelisted
+            if (this instanceof FilteringInventoryHandler)
+            {
+                FilteringInventoryHandler myInv = (FilteringInventoryHandler) this;
+                if (!((IFilteringInventory)myInv.owner).getBlackList() && ((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
+                {
+                    itemStack = myInv.putInInventory(itemStack);
+                }
+            }
+
+            //If the ItemStack can also be put in the requester inventory (it's a blackList Tile), prefer this blacklisted inventory
+            if (((IFilteringInventory) requester.owner).getBlackList() && !((IFilteringInventory) requester.owner).getFilter().passesFilter(itemStack))
+            {
+                return itemStack;
+            }
+
+            //Lastly, try to insert the item in a blacklisting child
+            for (int i : blackListers)
+            {
+                IFilteringInventory filteringInventory = (IFilteringInventory) childs.get(i).owner;
+                if (!filteringInventory.getFilter().passesFilter(itemStack))
+                {
+                    itemStack = filteringInventory.getFilteringInventoryHandler().putInInventory(itemStack);
+                    if (itemStack == null || itemStack.stackSize == 0)
+                    {
+                        return null;
+                    }
+                }
+            }
+
+            //Lastly, if this (leader) is an inventory try to put the ItemStack in the inventory not blacklisted
+            if (this instanceof FilteringInventoryHandler)
+            {
+                FilteringInventoryHandler myInv = (FilteringInventoryHandler) this;
+                if (((IFilteringInventory)myInv.owner).getBlackList() && !((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
+                {
+                    itemStack = myInv.putInInventory(itemStack);
                 }
             }
         }

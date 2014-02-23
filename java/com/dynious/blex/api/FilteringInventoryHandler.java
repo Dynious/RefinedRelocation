@@ -64,23 +64,6 @@ public class FilteringInventoryHandler extends FilteringMemberHandler
         return itemStack;
     }
 
-    @Override
-    public ItemStack filterStackToGroup(ItemStack itemStack)
-    {
-        itemStack = super.filterStackToGroup(itemStack);
-
-        if (inventory.getBlackList() ? !inventory.getFilter().passesFilter(itemStack) : inventory.getFilter().passesFilter(itemStack))
-        {
-            itemStack = putInInventory(itemStack);
-            if (itemStack == null || itemStack.stackSize == 0)
-            {
-                return null;
-            }
-        }
-        return itemStack;
-    }
-
-
     /**
      * Forcibly sets an ItemStack to the slotIndex (Only used client side)
      *
@@ -103,14 +86,14 @@ public class FilteringInventoryHandler extends FilteringMemberHandler
             return;
         }
 
-        if (par2ItemStack == null || inventory.getBlackList() ? !inventory.getFilter().passesFilter(par2ItemStack) : inventory.getFilter().passesFilter(par2ItemStack))
+        if (par2ItemStack == null || (!inventory.getBlackList() && inventory.getFilter().passesFilter(par2ItemStack)))
         {
             inventory.getInventory()[par1] = par2ItemStack;
             inventory.onInventoryChanged();
         }
         else
         {
-            ItemStack filteredStack = getLeader().filterStackToGroup(par2ItemStack);
+            ItemStack filteredStack = getLeader().filterStackToGroup(par2ItemStack, this);
             if (filteredStack != null)
             {
                 inventory.getInventory()[par1] = par2ItemStack;
