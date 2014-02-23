@@ -22,6 +22,7 @@ item.linker.name=Linker
 item.filteringUpgrade.name=Filtering Upgrade
 
 # Inventory localizations
+container.filteringChest.name=Filtering Chest
 itemGroup.BlEx=Block Extenders
 
 # GUI localizations

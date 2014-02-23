@@ -76,7 +76,7 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
      */
     public String getInvName()
     {
-        return "container.chest";
+        return "container.filteringChest.name";
     }
 
     /**
