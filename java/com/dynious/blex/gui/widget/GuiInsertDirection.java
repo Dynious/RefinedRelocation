@@ -3,6 +3,7 @@ package com.dynious.blex.gui.widget;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Resources;
+import com.dynious.blex.lib.Strings;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketInsertDirection;
 import com.dynious.blex.tileentity.IAdvancedTile;
@@ -11,6 +12,7 @@ import com.dynious.blex.tileentity.TileBlockExtender;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
@@ -58,7 +60,7 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
                     String yellowColor = colorCode + "e";
                     if (blockExtender.hasConnection())
                     {
-                        tooltip.add(grayColor + "Connected");
+                        tooltip.add(grayColor + StatCollector.translateToLocal(Strings.CONNECTED));
                         List<String> connections = blockExtender.getConnectionTypes();
                         for (int i = 0; i < connections.size(); i++)
                             connections.set(i, yellowColor + connections.get(i));
@@ -67,7 +69,7 @@ public class GuiInsertDirection extends GuiBlExWidgetBase
                     }
                     else
                     {
-                        tooltip.add(grayColor + "Not connected");
+                        tooltip.add(grayColor + StatCollector.translateToLocal(Strings.NOT_CONNECTED));
                     }
                 }
             }

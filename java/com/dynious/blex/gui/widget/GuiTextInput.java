@@ -28,7 +28,7 @@ public class GuiTextInput extends GuiBlExWidgetBase
 
         String lastText = this.textField.getText();
         this.textField.textboxKeyTyped(c, i);
-        if (lastText != this.textField.getText())
+        if (!lastText.equals(this.textField.getText()))
         {
             onTextChangedByUser(this.textField.getText());
             return true;

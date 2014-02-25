@@ -1,11 +1,13 @@
 package com.dynious.blex.gui.widget;
 
 import com.dynious.blex.gui.IGuiParent;
+import com.dynious.blex.lib.Strings;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -33,14 +35,19 @@ public class GuiDisguise extends GuiBlExWidgetBase
                 Block disguisedAs = tile.getDisguise();
                 int meta = tile.blockDisguisedMetadata;
                 ItemStack item = new ItemStack(disguisedAs, 0, meta);
-                tooltip.add("Disguised as " + item.getDisplayName());
-                tooltip.add("\u00A77Use an unlinked linker");
-                tooltip.add("\u00A77to undisguise this block");
+                tooltip.add(StatCollector.translateToLocal(Strings.DISGUISED) + " " + item.getDisplayName());
+                for (String s : StatCollector.translateToLocal(Strings.DISGUISED_INFO).split("\\\\n"))
+                {
+                    tooltip.add("\u00A77" + s);
+                }
             }
             else
             {
-                tooltip.add("Undisguised");
-                tooltip.add("\u00A77Use a linker to disguise this block");
+                tooltip.add(StatCollector.translateToLocal(Strings.UNDISGUISED));
+                for (String s : StatCollector.translateToLocal(Strings.UNDISGUISED_INFO).split("\\\\n"))
+                {
+                    tooltip.add("\u00A77" + s);
+                }
             }
         }
         return tooltip;

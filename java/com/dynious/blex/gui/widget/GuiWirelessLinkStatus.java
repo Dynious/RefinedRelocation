@@ -2,7 +2,9 @@ package com.dynious.blex.gui.widget;
 
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.helper.BlockHelper;
+import com.dynious.blex.lib.Strings;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
+import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
@@ -40,16 +42,16 @@ public class GuiWirelessLinkStatus extends GuiBlExButton
             String colorCode = "\u00A7";
             String grayColor = colorCode + "7";
             String yellowColor = colorCode + "e";
-            tooltip.add("Wireless Link");
+            tooltip.add(StatCollector.translateToLocal(Strings.WIRELESS_LINK));
             if (linked)
             {
-                tooltip.add(grayColor + "Linked");
-                tooltip.add(grayColor + "to: " + yellowColor + BlockHelper.getTileEntityDisplayName(tile.getConnectedTile()));
-                tooltip.add(grayColor + "at: " + yellowColor + tile.xConnected + ":" + tile.yConnected + ":" + tile.zConnected);
+                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.LINKED));
+                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.TO) + ": " + yellowColor + BlockHelper.getTileEntityDisplayName(tile.getConnectedTile()));
+                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.AT) + ": " + yellowColor + tile.xConnected + ":" + tile.yConnected + ":" + tile.zConnected);
 
                 if (tile.hasConnection())
                 {
-                    tooltip.add(grayColor + "Connections:");
+                    tooltip.add(grayColor + StatCollector.translateToLocal(Strings.CONNECTIONS) + ":");
                     List<String> connections = tile.getConnectionTypes();
                     for (int i = 0; i < connections.size(); i++)
                         connections.set(i, yellowColor + connections.get(i));

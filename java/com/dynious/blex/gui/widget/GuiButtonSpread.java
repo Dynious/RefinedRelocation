@@ -1,11 +1,13 @@
 package com.dynious.blex.gui.widget;
 
 import com.dynious.blex.gui.IGuiParent;
+import com.dynious.blex.lib.Strings;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketSpread;
 import com.dynious.blex.tileentity.IAdvancedTile;
 import com.dynious.blex.tileentity.TileBuffer;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
@@ -40,19 +42,23 @@ public class GuiButtonSpread extends GuiButtonToggle
             {
                 if (getState())
                 {
-                    tooltip.add("Mode: Round-robin");
-                    tooltip.add("\u00A77Spread output across");
-                    tooltip.add("\u00A77all valid sides");
+                    tooltip.add(StatCollector.translateToLocal(Strings.MODE) + ": " + StatCollector.translateToLocal(Strings.ROUND_ROBIN));
+                    for (String s : StatCollector.translateToLocal(Strings.ROUND_ROBIN_INFO).split("\\\\n"))
+                    {
+                        tooltip.add("\u00A77" + s);
+                    }
                 }
                 else
                 {
-                    tooltip.add("Mode: Greedy");
-                    tooltip.add("\u00A77Only output to the valid side");
-                    tooltip.add("\u00A77with the highest priority");
+                    tooltip.add(StatCollector.translateToLocal(Strings.MODE) + ": " + StatCollector.translateToLocal(Strings.GREEDY));
+                    for (String s : StatCollector.translateToLocal(Strings.GREEDY_INFO).split("\\\\n"))
+                    {
+                        tooltip.add("\u00A77" + s);
+                    }
                 }
             }
             else
-                tooltip.add(getState() ? "Spread items" : "Stack items");
+                tooltip.add(StatCollector.translateToLocal(getState() ? Strings.SPREAD : Strings.STACK));
         }
         return tooltip;
     }

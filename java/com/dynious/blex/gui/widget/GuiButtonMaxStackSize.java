@@ -1,10 +1,12 @@
 package com.dynious.blex.gui.widget;
 
 import com.dynious.blex.gui.IGuiParent;
+import com.dynious.blex.lib.Strings;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketMaxStackSize;
 import com.dynious.blex.tileentity.IAdvancedTile;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class GuiButtonMaxStackSize extends GuiButtonCounter
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             List<String> tooltip = new ArrayList<String>();
-            tooltip.add("Max stack size");
+            tooltip.add(StatCollector.translateToLocal(Strings.MAX_STACK_SIZE));
             tooltip.addAll(subTooltip);
             return tooltip;
         }

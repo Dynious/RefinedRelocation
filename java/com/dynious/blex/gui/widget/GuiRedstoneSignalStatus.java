@@ -1,10 +1,12 @@
 package com.dynious.blex.gui.widget;
 
 import com.dynious.blex.gui.IGuiParent;
+import com.dynious.blex.lib.Strings;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketRedstoneEnabled;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
@@ -34,19 +36,19 @@ public class GuiRedstoneSignalStatus extends GuiButtonToggle
             String grayColor = colorCode + "7";
             String redColor = colorCode + "4";
 
-            tooltip.add("Redstone signal transmission");
+            tooltip.add(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION));
             if (tile.isRedstoneTransmissionEnabled())
             {
-                tooltip.add(grayColor + "Enabled");
+                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.ENABLED));
 
                 if (tile.isRedstoneTransmissionActive())
-                    tooltip.add(redColor + "Active");
+                    tooltip.add(redColor + StatCollector.translateToLocal(Strings.ACTIVE));
                 else
-                    tooltip.add(redColor + "Inactive");
+                    tooltip.add(redColor + StatCollector.translateToLocal(Strings.INACTIVE));
             }
             else
             {
-                tooltip.add(grayColor + "Disabled");
+                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.DISABLED));
             }
         }
 

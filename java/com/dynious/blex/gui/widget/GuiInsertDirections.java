@@ -1,10 +1,12 @@
 package com.dynious.blex.gui.widget;
 
 import com.dynious.blex.gui.IGuiParent;
+import com.dynious.blex.lib.Strings;
 import com.dynious.blex.tileentity.IAdvancedTile;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import com.dynious.blex.tileentity.TileBuffer;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
 
 public class GuiInsertDirections extends GuiBlExWidgetBase
@@ -47,11 +49,11 @@ public class GuiInsertDirections extends GuiBlExWidgetBase
         GuiBlExButton insertDirectionHelp = new GuiBlExButton(this, x + w - 10, y, 10, 10, 0, 128, null);
         if (tile instanceof TileBuffer)
         {
-            insertDirectionHelp.setTooltipString("Output side priorities\n\u00A77Items that get inserted\n\u00A77into the buffer will attempt\n\u00A77to be outputted to a valid\n\u00A77side in order of priority\n\u00A77(lower number = higher priority)");
+            insertDirectionHelp.setTooltipString(StatCollector.translateToLocal(Strings.BUFFER_INSERTION_INFO).replaceAll("\\\\n", "\n\u00A77"));
         }
         else
         {
-            insertDirectionHelp.setTooltipString("Insert directions\n\u00A77Items will get inserted\n\u00A77into the chosen side\n\u00A77of the connected inventory\n\u00A77whenever they are inserted\n\u00A77into the relevant side of\n\u00A77this block extender");
+            insertDirectionHelp.setTooltipString(StatCollector.translateToLocal(Strings.BLOCK_EXTENDER_INSERTION_INFO).replaceAll("\\\\n", "\n\u00A77"));
         }
 
         if (tile instanceof TileWirelessBlockExtender)

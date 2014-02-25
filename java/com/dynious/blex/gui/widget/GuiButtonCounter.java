@@ -1,6 +1,8 @@
 package com.dynious.blex.gui.widget;
 
 import com.dynious.blex.gui.IGuiParent;
+import com.dynious.blex.lib.Strings;
+import net.minecraft.util.StatCollector;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -53,8 +55,8 @@ public class GuiButtonCounter extends GuiBlExButton
 
         if (isMouseInsideBounds(mouseX, mouseY))
         {
-            tooltip.add("\u00A77Click: \u00B1" + numberFormat.format(step));
-            tooltip.add("\u00A77Shift+click: \u00B1" + numberFormat.format(shiftStep));
+            tooltip.add("\u00A77" + StatCollector.translateToLocal(Strings.CLICK) + ": \u00B1" + numberFormat.format(step));
+            tooltip.add("\u00A77" + StatCollector.translateToLocal(Strings.SHIFT_CLICK) + ": \u00B1" + numberFormat.format(shiftStep));
         }
 
         return tooltip;
