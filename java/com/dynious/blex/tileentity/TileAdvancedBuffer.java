@@ -45,7 +45,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 
     public byte getPriority(int side)
     {
-        int priority = insertPriorities.indexOf(new Byte((byte) side));
+        int priority = insertPriorities.indexOf((byte) side);
         if (priority == -1)
             priority = NULL_PRIORITY;
         return (byte) priority;
@@ -100,7 +100,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         {
             if (currentInsertSide + 1 < insertPriorities.size())
             {
-                return currentInsertSide + 1;
+                return insertPriorities.get(currentInsertSide + 1);
             }
             else
             {

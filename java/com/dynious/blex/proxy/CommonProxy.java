@@ -19,6 +19,7 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileAdvancedBuffer.class, Names.advancedBuffer);
         GameRegistry.registerTileEntity(TileFilteredBuffer.class, Names.filteredBuffer);
         GameRegistry.registerTileEntity(TileFilteringChest.class, Names.filteringChest);
+        GameRegistry.registerTileEntity(TileFilteringConnector.class, Names.filteringConnector);
 
         if (Loader.isModLoaded("IronChest"))
         {

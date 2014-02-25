@@ -4,6 +4,7 @@ import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Resources;
+import com.dynious.blex.tileentity.IDisguisable;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.relauncher.Side;
@@ -51,10 +52,16 @@ public class ItemLinker extends Item
             return false;
 
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileBlockExtender && !(tile instanceof TileWirelessBlockExtender))
+        if (tile != null && tile instanceof IDisguisable)
         {
-            TileBlockExtender blockExtender = (TileBlockExtender) tile;
-            if (itemStack.hasTagCompound())
+            IDisguisable disguisable = (IDisguisable) tile;
+
+            if (!disguisable.canDisguise())
+            {
+                return false;
+            }
+
+            if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("tileX"))
             {
                 int linkedX = itemStack.getTagCompound().getInteger("tileX");
                 int linkedY = itemStack.getTagCompound().getInteger("tileY");
@@ -64,7 +71,7 @@ public class ItemLinker extends Item
                 Block linkedBlock = Block.blocksList[linkedBlockId];
                 if (linkedBlock != null && linkedBlock.isOpaqueCube())
                 {
-                    blockExtender.setDisguise(linkedBlock, linkedBlockMetadata);
+                    disguisable.setDisguise(linkedBlock, linkedBlockMetadata);
                     if (world.isRemote)
                         entityPlayer.sendChatToPlayer(new ChatMessageComponent()
                                 .addText("Disguised " + BlockHelper.getBlockDisplayName(world, x, y, z) + " as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)));
@@ -76,9 +83,9 @@ public class ItemLinker extends Item
                                 .addText("Can not disguise as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ) + " because it is not a solid cube"));
                 }
             }
-            else if (blockExtender.getDisguise() != null)
+            else if (disguisable.getDisguise() != null)
             {
-                blockExtender.clearDisguise();
+                disguisable.clearDisguise();
                 if (world.isRemote)
                     entityPlayer.sendChatToPlayer(new ChatMessageComponent()
                             .addText("Undisguised " + BlockHelper.getBlockDisplayName(world, x, y, z)));

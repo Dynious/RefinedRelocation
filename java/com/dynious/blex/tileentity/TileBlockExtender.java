@@ -39,7 +39,7 @@ import static cpw.mods.fml.common.Optional.*;
         @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
         @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
         @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")})
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral, IDisguisable
 
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
@@ -63,23 +63,32 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         super();
     }
-    
+
+    @Override
+    public boolean canDisguise()
+    {
+        return true;
+    }
+
+    @Override
     public Block getDisguise()
     {
         return blockDisguisedAs;
     }
 
-    public void clearDisguise()
-    {
-        setDisguise(null, 0);
-    }
-    
+    @Override
     public void setDisguise(Block block, int metadata)
     {
         blockDisguisedAs = block;
         blockDisguisedMetadata = metadata;
         if (worldObj != null)
             worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+    }
+
+    @Override
+    public void clearDisguise()
+    {
+        setDisguise(null, 0);
     }
 
     public void setConnectedSide(int connectedSide)

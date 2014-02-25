@@ -37,6 +37,12 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     {
         return xConnected != Integer.MAX_VALUE;
     }
+    @Override
+    public boolean canDisguise()
+    {
+        return false;
+    }
+
 
     @Override
     public TileEntity getConnectedTile()
