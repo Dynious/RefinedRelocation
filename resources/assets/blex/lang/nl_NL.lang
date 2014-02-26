@@ -1,0 +1,66 @@
+# Block localizations
+tile.blockExtender0.name=Blok Verlenger
+tile.blockExtender1.name=Geavanceerde Blok Verlenger
+tile.blockExtender2.name=Gefiltreerde Blok Verlenger
+tile.blockExtender3.name=Geavanceerde Gefiltreerde Blok Verlenger
+tile.blockExtender4.name=Draadloze Blok Verlenger
+tile.buffer0.name=Buffer
+tile.buffer1.name=Geavanceerde Buffer
+tile.buffer2.name=Gefiltreerde Buffer
+tile.filteringChest.name=Filtrerende Chest
+tile.filteringIronChest0.name=Filtrerende Ijzeren Kist
+tile.filteringIronChest1.name=Filtrerende Gouden Kist
+tile.filteringIronChest2.name=Filtrerende Diamanten Kist
+tile.filteringIronChest3.name=Filtrerende Koperen Kist
+tile.filteringIronChest4.name=Filtrerende Zilveren Kist
+tile.filteringIronChest5.name=Filtrerende Crystal Kist
+tile.filteringIronChest6.name=Filtrerende Obsidianen Kist
+tile.filteringIronChest7.name=Filtrerende Aarden Kist
+tile.filteringConnector.name=Filtrerende Connector
+
+# Item localizations
+item.linker.name=Linker
+item.filteringUpgrade.name=Filtrerende Upgrade
+
+# Inventory localizations
+container.filteringChest.name=Filtrerende Kist
+itemGroup.BlEx=Blok Verlengers
+
+# GUI localizations
+gui.blex.blacklist=Zwarte Lijst
+gui.blex.whitelist=Witte Lijst
+gui.blex.click=Klik
+gui.blex.shiftClick=Shift+Klik
+gui.blex.filteredExtr=Gefiltreerde Extractie
+gui.blex.unfilteredExtr=Ongefiltreerde Extractie
+gui.blex.maxStackSize=Maximale Hoop Grootte
+gui.blex.mode=Mode
+gui.blex.roundRobin=Rond om
+gui.blex.roundRobinInfo=Versprijd over alle\nvalide zijden
+gui.blex.greedy=Hebberig
+gui.blex.greedyInfo=Alleen naar zijde met\nde hoogste prioriteit
+gui.blex.spread=Verspreid voorwerpen
+gui.blex.stack=Hoop voorwerpen op
+gui.blex.disguised=Vermomd als
+gui.blex.undisguised=Niet vermomd
+gui.blex.disguisedInfo=Gebruik een ongelinkte linker\nom dit blok niet meer te vermommen
+gui.blex.undisguisedInfo=Gebruik een linker om dit blok te vermommen
+gui.blex.connected=Aangesloten
+gui.blex.notConnected=Niet Aangesloten
+gui.blex.bufferInsInfo=Uitvoer zijde prioriteit\nVoorwerpen die ingevoerd worden\nin de buffer zullen geprobeerd\nte worden uitgevoerd naar een valide \nzijde in volgorde van prioriteit\n(lager nummer = hogere prioriteit)
+gui.blex.blockExtenderInsInfo=Invoer zijde\nVoorwerpen zullen worden ingevoerd\nin de gekozen zijde\nvan de verbonden inventaris\nals ze ingevoerde worden\nin de relevante zijde van\ndeze block verlenger
+gui.blex.redstoneTrans=Redstone signaal transmissie
+gui.blex.enabled=Aan
+gui.blex.disabled=Uit
+gui.blex.active=Actief
+gui.blex.inactive=Inactief
+gui.blex.customFilter=Eigen filter
+gui.blex.nameMatching=Item name matching
+gui.blex.wildcardChar=Jokerteken
+gui.blex.oredictChar=Oredict teken
+gui.blex.commaSeparation=Scheid filters met een komma
+gui.blex.wirelessLink=Draadloze Link
+gui.blex.linked=Gelinked
+gui.blex.to=Met
+gui.blex.at=Op
+gui.blex.connections=Connecties
