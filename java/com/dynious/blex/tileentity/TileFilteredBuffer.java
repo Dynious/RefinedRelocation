@@ -1,5 +1,6 @@
 package com.dynious.blex.tileentity;
 
+import com.dynious.blex.api.IFilterTile;
 import com.dynious.blex.config.Filter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

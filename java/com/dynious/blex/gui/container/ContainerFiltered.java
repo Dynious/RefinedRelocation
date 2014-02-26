@@ -3,7 +3,7 @@ package com.dynious.blex.gui.container;
 import com.dynious.blex.lib.GuiNetworkIds;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketUserFilter;
-import com.dynious.blex.tileentity.IFilterTile;
+import com.dynious.blex.api.IFilterTile;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.entity.player.EntityPlayer;

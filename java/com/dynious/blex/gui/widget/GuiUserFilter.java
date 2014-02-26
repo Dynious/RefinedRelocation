@@ -2,7 +2,7 @@ package com.dynious.blex.gui.widget;
 
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.lib.Strings;
-import com.dynious.blex.tileentity.IFilterTile;
+import com.dynious.blex.api.IFilterTile;
 import net.minecraft.util.StatCollector;
 
 public class GuiUserFilter extends GuiBlExWidgetBase

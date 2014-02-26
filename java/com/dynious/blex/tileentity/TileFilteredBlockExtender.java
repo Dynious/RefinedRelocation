@@ -1,5 +1,6 @@
 package com.dynious.blex.tileentity;
 
+import com.dynious.blex.api.IFilterTile;
 import com.dynious.blex.config.Filter;
 import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;

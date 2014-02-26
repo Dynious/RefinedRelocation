@@ -3,7 +3,7 @@ package com.dynious.blex.gui.widget;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketFilterOption;
-import com.dynious.blex.tileentity.IFilterTile;
+import com.dynious.blex.api.IFilterTile;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiCheckboxFilter extends GuiCheckbox

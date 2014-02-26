@@ -16,7 +16,7 @@ tile.filteringIronChest4.name=Filtrerende Zilveren Kist
 tile.filteringIronChest5.name=Filtrerende Crystal Kist
 tile.filteringIronChest6.name=Filtrerende Obsidianen Kist
 tile.filteringIronChest7.name=Filtrerende Aarden Kist
-tile.filteringConnector.name=Filtrerende Connector
+tile.filteringConnector.name=Filtrerende Verbinder
 
 # Item localizations
 item.linker.name=Linker

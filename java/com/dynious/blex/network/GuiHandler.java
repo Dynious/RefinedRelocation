@@ -1,6 +1,7 @@
 package com.dynious.blex.network;
 
 import com.dynious.blex.BlockExtenders;
+import com.dynious.blex.api.IFilterTile;
 import com.dynious.blex.gui.*;
 import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.gui.container.ContainerAdvancedFiltered;

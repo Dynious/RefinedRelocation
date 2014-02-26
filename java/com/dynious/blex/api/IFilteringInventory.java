@@ -1,6 +1,5 @@
 package com.dynious.blex.api;
 
-import com.dynious.blex.tileentity.IFilterTile;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 

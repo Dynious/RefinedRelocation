@@ -1,4 +1,4 @@
-package com.dynious.blex.tileentity;
+package com.dynious.blex.api;
 
 import com.dynious.blex.config.Filter;
 
