@@ -1,5 +1,6 @@
 package com.dynious.blex.tileentity;
 
+import com.google.common.primitives.Bytes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
@@ -9,8 +10,8 @@ import java.util.List;
 
 public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 {
-    private byte[] insertPrioritiesArrayProxy = {NULL_PRIORITY, NULL_PRIORITY, NULL_PRIORITY, NULL_PRIORITY, NULL_PRIORITY, NULL_PRIORITY};
-    private List<Byte> insertPriorities = new ArrayList<Byte>();
+    private byte[] insertPrioritiesArrayProxy = {0, 1, 2, 3, 4, 5};
+    private List<Byte> insertPriorities = new ArrayList<Byte>(Bytes.asList(insertPrioritiesArrayProxy));
     private boolean spreadItems = false;
     private byte nextInsertDirection;
     private int insertionTries = 0;

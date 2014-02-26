@@ -3,6 +3,7 @@ package com.dynious.blex.block;
 import cofh.api.block.IDismantleable;
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.helper.BlockHelper;
+import com.dynious.blex.helper.DirectionHelper;
 import com.dynious.blex.helper.DistanceHelper;
 import com.dynious.blex.helper.GuiHelper;
 import com.dynious.blex.item.ModItems;
@@ -327,10 +328,8 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     {
         // translate the coordinates back to the BlockExtender, since they get sent offset for some reason
         ForgeDirection dir = ForgeDirection.getOrientation(side);
-        x += dir.getOpposite().offsetX;
-        y += dir.getOpposite().offsetY;
-        z += dir.getOpposite().offsetZ;
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+
+        TileEntity tileEntity = DirectionHelper.getTileAtSide(world, x, y, z, dir);
         if (tileEntity != null && tileEntity instanceof TileBlockExtender)
         {
             TileBlockExtender tile = (TileBlockExtender) tileEntity;

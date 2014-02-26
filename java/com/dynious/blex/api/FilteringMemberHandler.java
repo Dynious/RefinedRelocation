@@ -1,5 +1,6 @@
 package com.dynious.blex.api;
 
+import com.dynious.blex.helper.DirectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -45,7 +46,7 @@ public class FilteringMemberHandler
     {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity tile = owner.worldObj.getBlockTileEntity(owner.xCoord + direction.offsetX, owner.yCoord + direction.offsetY, owner.zCoord + direction.offsetZ);
+            TileEntity tile = DirectionHelper.getTileAtSide(owner, direction);
             if (tile != null && tile instanceof IFilteringMember)
             {
                 FilteringMemberHandler filteringMember = ((IFilteringMember) tile).getFilteringMemberHandler();

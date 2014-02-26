@@ -58,7 +58,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         super.setConnectedSide(connectedSide);
         if (connectedDirection != ForgeDirection.UNKNOWN)
         {
-            for (int i = 0; i < ForgeDirection.values().length; i++)
+            for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
             {
                 insertDirection[i] = (byte) connectedDirection.getOpposite().ordinal();
             }
@@ -236,7 +236,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
                 if (arguments.length > 0 && arguments[0] instanceof Double)
                 {
                     double arg = (Double) arguments[0];
-                    if (arg >= 0 && arg < ForgeDirection.values().length)
+                    if (arg >= 0 && arg < ForgeDirection.VALID_DIRECTIONS.length)
                         return new Integer[]{(int) insertDirection[(byte) arg]};
                 }
                 return new Boolean[]{false};
@@ -245,7 +245,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
                 {
                     double side = (Double) arguments[0];
                     double value = (Double) arguments[1];
-                    if (side >= 0 && side < ForgeDirection.values().length && value >= 0 && value < ForgeDirection.values().length)
+                    if (side >= 0 && side < ForgeDirection.VALID_DIRECTIONS.length && value >= 0 && value < ForgeDirection.VALID_DIRECTIONS.length)
                     {
                         insertDirection[(byte) side] = (byte) value;
                         return new Boolean[]{true};

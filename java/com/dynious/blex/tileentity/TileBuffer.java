@@ -1,8 +1,16 @@
 package com.dynious.blex.tileentity;
 
+import buildcraft.api.power.IPowerReceptor;
+import buildcraft.api.power.PowerHandler;
 import buildcraft.api.transport.IPipeTile;
+import cofh.api.energy.IEnergyHandler;
 import cofh.api.transport.IItemConduit;
+import com.dynious.blex.helper.DirectionHelper;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
+import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -11,21 +19,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHandler
+@Optional.InterfaceList(value = {
+        @Optional.Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
+        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
+        @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")})
+public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler
 {
-    protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
+    protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean firstRun = true;
 
     protected int bufferedSide = -1;
     protected ItemStack bufferedItemStack = null;
 
     public boolean containsItemStack = false;
+
+    PowerHandler powerHandler;
 
     @Override
     public void updateEntity()
@@ -35,6 +51,10 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
             onBlocksChanged();
             firstRun = false;
             worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null ? 0 : 1);
+            if (Loader.isModLoaded("IC2"))
+            {
+                MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+            }
         }
         if (!worldObj.isRemote)
         {
@@ -51,9 +71,9 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
 
     public void onBlocksChanged()
     {
-        for (ForgeDirection direction : ForgeDirection.values())
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
+            tiles[direction.ordinal()] = DirectionHelper.getTileAtSide(this, direction);
         }
     }
 
@@ -270,7 +290,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         int currentInsetSide = -1;
         while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
         {
-            if (currentInsetSide == from.ordinal())
+            if (currentInsetSide == from.ordinal() || DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
                 continue;
             resource = insertFluidStack(resource, currentInsetSide);
             if (resource == null || resource.amount == 0)
@@ -280,6 +300,23 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         }
 
         return inputAmount - resource.amount;
+    }
+
+    public FluidStack insertFluidStack(FluidStack fluidStack, int side)
+    {
+        TileEntity tile = tiles[side];
+        if (tile != null)
+        {
+            if (tile instanceof IFluidHandler)
+            {
+                fluidStack.amount -= ((IFluidHandler)tile).fill(ForgeDirection.getOrientation(side).getOpposite(), fluidStack, true);
+            }
+        }
+        if (fluidStack.amount == 0)
+        {
+            return null;
+        }
+        return fluidStack;
     }
 
     @Override
@@ -312,20 +349,188 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return new FluidTankInfo[]{new FluidTankInfo(null, Integer.MAX_VALUE)};
     }
 
-    public FluidStack insertFluidStack(FluidStack fluidStack, int side)
+    @Override
+    public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        int inputAmount = i;
+        int currentInsetSide = -1;
+        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        {
+            if (currentInsetSide == forgeDirection.ordinal() || DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
+                continue;
+            i = insertRedstoneFlux(i, currentInsetSide, b);
+            if (i == 0)
+            {
+                return inputAmount;
+            }
+        }
+
+        return inputAmount - i;
+    }
+
+    public int insertRedstoneFlux(int amount, int side, boolean simulate)
     {
         TileEntity tile = tiles[side];
         if (tile != null)
         {
-            if (tile instanceof IFluidHandler)
+            if (tile instanceof IEnergyHandler)
             {
-                fluidStack.amount -= ((IFluidHandler)tile).fill(ForgeDirection.getOrientation(side).getOpposite(), fluidStack, true);
+                amount -= ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
             }
         }
-        if (fluidStack.amount == 0)
+        return amount;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean canInterface(ForgeDirection forgeDirection)
+    {
+        return true;
+    }
+
+    @Override
+    public int getEnergyStored(ForgeDirection forgeDirection)
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMaxEnergyStored(ForgeDirection forgeDirection)
+    {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public double demandedEnergyUnits()
+    {
+        return Double.MAX_VALUE;
+    }
+
+    @Override
+    public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
+    {
+        double inputAmount = amount;
+        int currentInsetSide = -1;
+        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
         {
-            return null;
+            if (currentInsetSide == directionFrom.ordinal() || DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
+                continue;
+            amount = insertEnergyUnits(amount, currentInsetSide);
+            if (amount == 0)
+            {
+                return inputAmount;
+            }
         }
-        return fluidStack;
+
+        return inputAmount - amount;
+    }
+
+    public double insertEnergyUnits(double amount, int side)
+    {
+        TileEntity tile = tiles[side];
+        if (tile != null)
+        {
+            if (tile instanceof IEnergySink)
+            {
+                amount -= ((IEnergySink)tile).injectEnergyUnits(ForgeDirection.getOrientation(side).getOpposite(), Math.min(amount, ((IEnergySink)tile).getMaxSafeInput()));
+            }
+        }
+        return amount;
+    }
+
+    @Override
+    public int getMaxSafeInput()
+    {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public void invalidate()
+    {
+        if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
+        {
+            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        }
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
+        {
+            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        }
+        super.onChunkUnload();
+    }
+
+
+    @Override
+    public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction)
+    {
+        return true;
+    }
+
+    @Override
+    public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
+    {
+        return getPowerReceiver();
+    }
+
+    public PowerHandler.PowerReceiver getPowerReceiver()
+    {
+        if (powerHandler == null)
+        {
+            powerHandler = new PowerHandler(this, PowerHandler.Type.MACHINE);
+            powerHandler.configure(0.1F, 500F, 0.01F, 500F);
+            powerHandler.configurePowerPerdition(0, 0);
+        }
+        return powerHandler.getPowerReceiver();
+    }
+
+    @Override
+    public void doWork(PowerHandler powerHandler)
+    {
+        int currentInsetSide = -1;
+        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        {
+            if (DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
+                continue;
+            float usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(powerHandler.getEnergyStored(), currentInsetSide);
+            powerHandler.useEnergy(usedEnergy, usedEnergy, true);
+            if (powerHandler.getEnergyStored() == 0)
+            {
+                return;
+            }
+        }
+    }
+
+    public float insertMinecraftJoules(float amount, int side)
+    {
+        TileEntity tile = tiles[side];
+        if (tile != null)
+        {
+            if (tile instanceof IPowerReceptor)
+            {
+                PowerHandler.PowerReceiver powerReceiver = ((IPowerReceptor)tile).getPowerReceiver(ForgeDirection.getOrientation(side).getOpposite());
+                System.out.println(side + " : " + ForgeDirection.getOrientation(side).getOpposite());
+                if (powerReceiver != null)
+                {
+                    amount -= powerReceiver.receiveEnergy(PowerHandler.Type.PIPE, amount, ForgeDirection.getOrientation(side).getOpposite());
+                }
+            }
+        }
+        return amount;
+    }
+
+    @Override
+    public World getWorld()
+    {
+        return this.getWorldObj();
     }
 }

@@ -3,6 +3,7 @@ package com.dynious.blex.tileentity;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
+import com.dynious.blex.helper.DirectionHelper;
 import cpw.mods.fml.common.Loader;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
@@ -50,7 +51,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
     protected IEnergyHandler energyHandler;
-    protected TileEntity[] tiles = new TileEntity[ForgeDirection.values().length];
+    protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
     protected float lightAmount = 0F;
     protected int recheckTiles = 0;
@@ -201,11 +202,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 {
                     tile = getConnectedTile();
                 }
-                for (ForgeDirection direction : ForgeDirection.values())
+                for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
                 {
                     if (direction != connectedDirection)
                     {
-                        tiles[direction.ordinal()] = worldObj.getBlockTileEntity(this.xCoord + direction.offsetX, this.yCoord + direction.offsetY, this.zCoord + direction.offsetZ);
+                        tiles[direction.ordinal()] = DirectionHelper.getTileAtSide(this, direction);
                     }
                 }
                 this.checkRedstonePower();
@@ -363,7 +364,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
 
     public TileEntity getConnectedTile()
     {
-        return worldObj.getBlockTileEntity(this.xCoord + connectedDirection.offsetX, this.yCoord + connectedDirection.offsetY, this.zCoord + connectedDirection.offsetZ);
+        return DirectionHelper.getTileAtSide(this, connectedDirection);
     }
 
     public void checkRedstonePower()
