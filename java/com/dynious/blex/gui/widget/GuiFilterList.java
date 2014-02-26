@@ -1,7 +1,7 @@
 package com.dynious.blex.gui.widget;
 
-import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.api.IFilterTile;
+import com.dynious.blex.gui.IGuiParent;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;

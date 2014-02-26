@@ -1,4 +1,4 @@
-package com.dynious.blex.config;
+package com.dynious.blex.api;
 
 import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;

@@ -1,10 +1,10 @@
 package com.dynious.blex.gui.widget;
 
+import com.dynious.blex.api.IFilterTile;
 import com.dynious.blex.gui.IGuiParent;
 import com.dynious.blex.lib.Strings;
 import com.dynious.blex.network.PacketTypeHandler;
 import com.dynious.blex.network.packet.PacketBlacklist;
-import com.dynious.blex.api.IFilterTile;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.util.StatCollector;
 

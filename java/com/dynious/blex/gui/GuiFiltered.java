@@ -1,10 +1,10 @@
 package com.dynious.blex.gui;
 
+import com.dynious.blex.api.IFilterTile;
 import com.dynious.blex.gui.container.ContainerFiltered;
 import com.dynious.blex.gui.widget.*;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Resources;
-import com.dynious.blex.api.IFilterTile;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;

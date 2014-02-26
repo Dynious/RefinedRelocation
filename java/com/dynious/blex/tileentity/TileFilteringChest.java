@@ -1,10 +1,10 @@
 package com.dynious.blex.tileentity;
 
+import com.dynious.blex.api.Filter;
 import com.dynious.blex.api.FilteringInventoryHandler;
 import com.dynious.blex.api.FilteringMemberHandler;
 import com.dynious.blex.api.IFilteringInventory;
 import com.dynious.blex.block.BlockFilteringChest;
-import com.dynious.blex.config.Filter;
 import com.dynious.blex.gui.container.ContainerFilteringChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

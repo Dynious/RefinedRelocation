@@ -5,7 +5,6 @@ import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.tileentity.IDisguisable;
-import com.dynious.blex.tileentity.TileBlockExtender;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

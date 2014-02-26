@@ -2,7 +2,6 @@ package com.dynious.blex.helper;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
 public class DirectionHelper
