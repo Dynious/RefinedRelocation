@@ -3,6 +3,7 @@ package com.dynious.blex.helper;
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.tileentity.*;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -39,7 +40,7 @@ public class GuiHelper
             {
                 guiId = GuiIds.FILTERED;
             }
-            else if (tile instanceof TileFilteringChest || tile instanceof TileFilteringIronChest)
+            else if (tile instanceof TileFilteringChest || (Loader.isModLoaded("IronChest") && tile instanceof TileFilteringIronChest))
             {
                 guiId = GuiIds.FILTERING_CHEST;
             }
