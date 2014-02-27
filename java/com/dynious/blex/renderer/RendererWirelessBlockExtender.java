@@ -52,7 +52,7 @@ public class RendererWirelessBlockExtender extends RendererBlockExtender
             modelBlockExtender.renderBase();
             modelBlockExtender.renderPilars();
             GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, tile.getLightAmount() > 0 ? GL11.GL_ONE : GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             modelBlockExtender.renderOutsideGlass();
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
@@ -62,7 +62,7 @@ public class RendererWirelessBlockExtender extends RendererBlockExtender
             modelWirelessBlockExtender.renderPilars();
 
             GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, tile.getLightAmount() > 0 ? GL11.GL_ONE : GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             modelWirelessBlockExtender.renderSides();
             GL11.glDisable(GL11.GL_BLEND);
 

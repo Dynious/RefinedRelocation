@@ -1,5 +1,6 @@
 package com.dynious.blex.tileentity;
 
+import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import buildcraft.api.transport.IPipeTile;
@@ -31,7 +32,7 @@ import net.minecraftforge.fluids.IFluidHandler;
         @Optional.Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
         @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
         @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")})
-public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler
+public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPowerEmitter
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean firstRun = true;
@@ -41,7 +42,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
 
     public boolean containsItemStack = false;
 
-    PowerHandler powerHandler;
+    private PowerHandler powerHandler;
 
     @Override
     public void updateEntity()
@@ -518,7 +519,6 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
             if (tile instanceof IPowerReceptor)
             {
                 PowerHandler.PowerReceiver powerReceiver = ((IPowerReceptor)tile).getPowerReceiver(ForgeDirection.getOrientation(side).getOpposite());
-                System.out.println(side + " : " + ForgeDirection.getOrientation(side).getOpposite());
                 if (powerReceiver != null)
                 {
                     amount -= powerReceiver.receiveEnergy(PowerHandler.Type.PIPE, amount, ForgeDirection.getOrientation(side).getOpposite());
@@ -532,5 +532,11 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     public World getWorld()
     {
         return this.getWorldObj();
+    }
+
+    @Override
+    public boolean canEmitPowerFrom(ForgeDirection direction)
+    {
+        return true;
     }
 }

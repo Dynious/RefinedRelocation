@@ -8,6 +8,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
@@ -20,7 +21,7 @@ public class Filter
     public static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
     public static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
 
-    public static final int FILTER_SIZE = 9;
+    public static final int FILTER_SIZE = 10;
     public boolean[] customFilters = new boolean[FILTER_SIZE];
     public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     public String userFilter = "";
@@ -41,7 +42,7 @@ public class Filter
                 String filter = userFilter.toLowerCase().replaceAll("\\s+", "");
                 for (String s : filter.split(","))
                 {
-                    String filterName = "";
+                    String filterName;
                     if (s.contains("!"))
                     {
                         filterName = oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
@@ -98,6 +99,8 @@ public class Filter
                 if (customFilters[7] && oreName.contains("plate"))
                     return true;
                 if (customFilters[8] && oreName.contains("gem"))
+                    return true;
+                if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
                     return true;
             }
 
@@ -182,6 +185,8 @@ public class Filter
                 return "All Plates";
             case 8:
                 return "All Gems";
+            case 9:
+                return "All Food";
             default:
                 return I18n.getString(CreativeTabs.creativeTabArray[getCreativeTab(place)].getTranslatedTabLabel());
         }
