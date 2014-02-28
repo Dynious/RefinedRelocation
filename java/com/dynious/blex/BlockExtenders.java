@@ -10,6 +10,7 @@ import com.dynious.blex.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import net.minecraft.creativetab.CreativeTabs;
@@ -40,5 +41,7 @@ public class BlockExtenders
     public void init(FMLInitializationEvent event)
     {
         proxy.initTileEntities();
+
+        FMLInterModComms.sendMessage("Waila", "register", "com.dynious.blex.mods.WailaProvider.callbackRegister");
     }
 }
