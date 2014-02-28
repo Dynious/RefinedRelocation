@@ -36,6 +36,12 @@ public class TileFilteringConnector extends TileEntity implements IFilteringMemb
     }
 
     @Override
+    public int getDisguiseMeta()
+    {
+        return blockDisguisedMetadata;
+    }
+
+    @Override
     public void setDisguise(Block block, int metadata)
     {
         blockDisguisedAs = block;

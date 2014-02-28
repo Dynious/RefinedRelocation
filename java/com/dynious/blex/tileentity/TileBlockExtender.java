@@ -82,6 +82,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     }
 
     @Override
+    public int getDisguiseMeta()
+    {
+        return blockDisguisedMetadata;
+    }
+
+    @Override
     public void setDisguise(Block block, int metadata)
     {
         blockDisguisedAs = block;

@@ -10,6 +10,8 @@ public interface IDisguisable
 
     public Block getDisguise();
 
+    public int getDisguiseMeta();
+
     public void setDisguise(Block block, int metadata);
 
     public void clearDisguise();
