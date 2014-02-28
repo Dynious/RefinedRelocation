@@ -329,7 +329,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
         // translate the coordinates back to the BlockExtender, since they get sent offset for some reason
         ForgeDirection dir = ForgeDirection.getOrientation(side);
 
-        TileEntity tileEntity = DirectionHelper.getTileAtSide(world, x, y, z, dir);
+        TileEntity tileEntity = DirectionHelper.getTileAtSide(world, x, y, z, dir.getOpposite());
         if (tileEntity != null && tileEntity instanceof TileBlockExtender)
         {
             TileBlockExtender tile = (TileBlockExtender) tileEntity;

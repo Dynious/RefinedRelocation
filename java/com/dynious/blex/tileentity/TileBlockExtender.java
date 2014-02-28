@@ -68,6 +68,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         return true;
     }
+    
+    @Override
+    public boolean canDisguiseAs(Block block, int metadata)
+    {
+        return block.isOpaqueCube();
+    }
 
     @Override
     public Block getDisguise()

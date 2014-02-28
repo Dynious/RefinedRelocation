@@ -68,7 +68,8 @@ public class ItemLinker extends Item
                 int linkedBlockId = world.getBlockId(linkedX, linkedY, linkedZ);
                 int linkedBlockMetadata = world.getBlockMetadata(linkedX, linkedY, linkedZ);
                 Block linkedBlock = Block.blocksList[linkedBlockId];
-                if (linkedBlock != null && linkedBlock.isOpaqueCube())
+                TileEntity linkedTile = world.getBlockTileEntity(linkedX, linkedY, linkedZ);
+                if (linkedBlock != null && disguisable.canDisguiseAs(linkedBlock, linkedBlockMetadata) && !(linkedTile != null && linkedTile instanceof IDisguisable))
                 {
                     disguisable.setDisguise(linkedBlock, linkedBlockMetadata);
                     if (world.isRemote)
@@ -79,7 +80,7 @@ public class ItemLinker extends Item
                 {
                     if (world.isRemote)
                         entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                                .addText("Can not disguise as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ) + " because it is not a solid cube"));
+                                .addText("Can not disguise as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)));
                 }
             }
             else if (disguisable.getDisguise() != null)
@@ -105,16 +106,14 @@ public class ItemLinker extends Item
     public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (tile == null || !(tile instanceof TileWirelessBlockExtender))
+        if (tile == null || (!(tile instanceof TileWirelessBlockExtender) && (!(tile instanceof IDisguisable) || entityPlayer.isSneaking())))
         {
             linkTileAtPosition(itemStack, x, y, z);
             if (world.isRemote)
                 entityPlayer.sendChatToPlayer(new ChatMessageComponent()
                         .addText("Linker set to position " + x + ":" + y + ":" + z + " (" + BlockHelper.getBlockDisplayName(world, x, y, z) + ")"));
-
-            return true;
         }
-        return false;
+        return true;
     }
 
     private static void linkTileAtPosition(ItemStack stack, int x, int y, int z)
