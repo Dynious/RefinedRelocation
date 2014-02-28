@@ -152,10 +152,17 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
+        insertPriorities.clear();
         byte byteArrayPriorities[] = compound.getByteArray("insertPriority");
         for (int priority = 0; priority < byteArrayPriorities.length; priority++)
         {
             setPriorityOfSideTo(byteArrayPriorities[priority], priority);
+        }
+        // any side not included in the saved data has a null priority
+        for (byte i = 0; i < insertPrioritiesArrayProxy.length; i++)
+        {
+            if (!insertPriorities.contains(i))
+                insertPrioritiesArrayProxy[i] = NULL_PRIORITY;
         }
     }
 
