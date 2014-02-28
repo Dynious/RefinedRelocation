@@ -3,7 +3,6 @@ package com.dynious.blex.block;
 import com.dynious.blex.BlockExtenders;
 import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Resources;
-import com.dynious.blex.tileentity.TileBlockExtender;
 import com.dynious.blex.tileentity.TileFilteringConnector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -69,9 +68,9 @@ public class BlockFilteringConnector extends BlockContainer
     public int colorMultiplier(IBlockAccess world, int x, int y, int z)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TileBlockExtender)
+        if (tileEntity != null && tileEntity instanceof TileFilteringConnector)
         {
-            TileBlockExtender tile = (TileBlockExtender) tileEntity;
+            TileFilteringConnector tile = (TileFilteringConnector) tileEntity;
             Block blockDisguisedAs = tile.getDisguise();
             if (blockDisguisedAs != null)
                 return blockDisguisedAs.colorMultiplier(world, x, y, z);
