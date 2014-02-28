@@ -71,8 +71,9 @@ This allows ForgeGradle to know what it's compiling.
 	mcdev
 	\-gradle
 	\-src
-		\-java
-		\-resources
+		\-main
+			\-java
+			\-resources
 	\-libs
 		\-Mods that you just downloaded
 	|-Other misc ForgeGradle files (should include `build.gradle`)
