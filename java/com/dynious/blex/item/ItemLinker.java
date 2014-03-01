@@ -77,24 +77,17 @@ public class ItemLinker extends Item
                 int linkedBlockMetadata = world.getBlockMetadata(linkedX, linkedY, linkedZ);
                 Block linkedBlock = Block.blocksList[linkedBlockId];
                 TileEntity linkedTile = world.getBlockTileEntity(linkedX, linkedY, linkedZ);
+                if (linkedTile != null && linkedTile instanceof IDisguisable)
+                {
+                    linkedBlock = ((IDisguisable)linkedTile).getDisguise();
+                    linkedBlockMetadata = ((IDisguisable)linkedTile).getDisguiseMeta();
+                }
                 if (linkedBlock != null && disguisable.canDisguiseAs(linkedBlock, linkedBlockMetadata))
                 {
-                    if (linkedTile != null && linkedTile instanceof IDisguisable)
-                    {
-                        linkedBlock = ((IDisguisable)linkedTile).getDisguise();
-                        if (linkedBlock == null)
-                        {
-                            if (world.isRemote)
-                                entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText("Can not disguise as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)));
-                            return false;
-                        }
-                        linkedBlockMetadata = ((IDisguisable)linkedTile).getDisguiseMeta();
-                    }
                     disguisable.setDisguise(linkedBlock, linkedBlockMetadata);
                     if (world.isRemote)
                         entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                                .addText("Disguised " + BlockHelper.getBlockDisplayName(world, x, y, z) + " as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)));
+                                .addText("Disguised " + BlockHelper.getBlockDisplayName(world, x, y, z) + " as " + BlockHelper.getBlockDisplayName(linkedBlock, linkedBlockMetadata)));
                 }
                 else
                 {
