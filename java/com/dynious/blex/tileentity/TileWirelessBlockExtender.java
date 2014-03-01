@@ -4,6 +4,9 @@ import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import org.apache.commons.lang3.ArrayUtils;
@@ -14,11 +17,24 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     public int yConnected = Integer.MAX_VALUE;
     public int zConnected = Integer.MAX_VALUE;
 
-    public void setConnection(int x, int y, int z)
+    public void setLink(int x, int y, int z)
     {
         this.xConnected = x;
         this.yConnected = y;
         this.zConnected = z;
+        this.blocksChanged = true;
+        if (worldObj != null)
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public void clearLink()
+    {
+        setLink(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+    }
+
+    public boolean isLinked()
+    {
+        return this.xConnected != Integer.MAX_VALUE;
     }
 
     @Override
@@ -35,8 +51,9 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public boolean canConnect()
     {
-        return xConnected != Integer.MAX_VALUE;
+        return true;
     }
+
     @Override
     public boolean canDisguise()
     {
@@ -104,7 +121,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
                     double x = (Double) arguments[0];
                     double y = (Double) arguments[1];
                     double z = (Double) arguments[2];
-                    setConnection((int) x, (int) y, (int) z);
+                    setLink((int) x, (int) y, (int) z);
                 }
         }
         Object[] superArr = super.callMethod(computer, context, method, arguments);
@@ -116,12 +133,26 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    {
+        setLink(pkt.data.getInteger("xConnected"), pkt.data.getInteger("yConnected"), pkt.data.getInteger("zConnected"));
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        NBTTagCompound compound = new NBTTagCompound();
+        compound.setInteger("xConnected", xConnected);
+        compound.setInteger("yConnected", yConnected);
+        compound.setInteger("zConnected", zConnected);
+        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        xConnected = compound.getInteger("xConnected");
-        yConnected = compound.getInteger("yConnected");
-        zConnected = compound.getInteger("zConnected");
+        setLink(compound.getInteger("xConnected"), compound.getInteger("yConnected"), compound.getInteger("zConnected"));
     }
 
     @Override

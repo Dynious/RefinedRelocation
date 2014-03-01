@@ -113,28 +113,40 @@ public class BlockExtender extends BlockContainer implements IDismantleable
             {
                 if (tile instanceof TileWirelessBlockExtender)
                 {
-                    if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker && player.getCurrentEquippedItem().hasTagCompound())
+                    if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker)
                     {
-                        NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
-                        int tileX = tag.getInteger("tileX");
-                        int tileY = tag.getInteger("tileY");
-                        int tileZ = tag.getInteger("tileZ");
-
-                        if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER * Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)
+                        if (player.getCurrentEquippedItem().hasTagCompound())
                         {
-                            ((TileWirelessBlockExtender) tile).setConnection(tileX, tileY, tileZ);
-                            if (world.isRemote)
+                            NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
+                            int tileX = tag.getInteger("tileX");
+                            int tileY = tag.getInteger("tileY");
+                            int tileZ = tag.getInteger("tileZ");
+
+                            if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER * Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)
                             {
-                                player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " linked with " + BlockHelper.getTileEntityDisplayName(((TileWirelessBlockExtender) tile).getConnectedTile()) + " at " + tileX + ":" + tileY + ":" + tileZ));
+                                ((TileWirelessBlockExtender) tile).setLink(tileX, tileY, tileZ);
+                                if (world.isRemote)
+                                {
+                                    player.sendChatToPlayer(new ChatMessageComponent()
+                                            .addText(BlockHelper.getTileEntityDisplayName(tile) + " linked with " + BlockHelper.getBlockDisplayName(tile.worldObj, tileX, tileY, tileZ) + " at " + tileX + ":" + tileY + ":" + tileZ));
+                                }
+                            }
+                            else
+                            {
+                                if (world.isRemote)
+                                {
+                                    player.sendChatToPlayer(new ChatMessageComponent()
+                                            .addText("The " + BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position (max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER + ")"));
+                                }
                             }
                         }
-                        else
+                        else if (((TileWirelessBlockExtender) tile).isLinked())
                         {
+                            ((TileWirelessBlockExtender) tile).clearLink();
                             if (world.isRemote)
                             {
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText("The " + BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position (max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER + ")"));
+                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " is no longer linked"));
                             }
                         }
                         return true;
