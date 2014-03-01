@@ -30,9 +30,16 @@ public class BlockHelper
             MovingObjectPosition hit = world.clip(startpos, endpos);
             if (hit != null)
             {
-                ItemStack pickedItemStack = block.getPickBlock(hit, world, x, y, z);
-                if (pickedItemStack != null)
-                    return getItemStackDisplayName(pickedItemStack);
+                try
+                {
+                    ItemStack pickedItemStack = block.getPickBlock(hit, world, x, y, z);
+                    if (pickedItemStack != null)
+                        return getItemStackDisplayName(pickedItemStack);
+                }
+                catch(Exception e)
+                {
+                    // safety for multipart reduceMOP exceptions
+                }
             }
         }
 
@@ -47,12 +54,21 @@ public class BlockHelper
         {
             // trace from one corner to the other so that we can be fairly certain we at least hit something
             // note that this may ignore tiny multiparts (nooks/corners)
-            MovingObjectPosition hit = world.clip(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(x+1, y+1, z+1));
+            Vec3 startpos = world.getWorldVec3Pool().getVecFromPool(x, y, z);
+            Vec3 endpos = world.getWorldVec3Pool().getVecFromPool(x+1, y+1, z+1);
+            MovingObjectPosition hit = world.clip(startpos, endpos);
             if (hit != null)
             {
-                ItemStack pickedItemStack = block.getPickBlock(hit, world, x, y, z);
-                if (pickedItemStack != null)
-                    return getItemStackDisplayName(pickedItemStack);
+                try
+                {
+                    ItemStack pickedItemStack = block.getPickBlock(hit, world, x, y, z);
+                    if (pickedItemStack != null)
+                        return getItemStackDisplayName(pickedItemStack);
+                }
+                catch(Exception e)
+                {
+                    // safety for multipart reduceMOP exceptions
+                }
             }
 
             List<ItemStack> dropped = block.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
