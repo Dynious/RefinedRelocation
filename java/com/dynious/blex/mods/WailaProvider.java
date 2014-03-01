@@ -2,10 +2,12 @@ package com.dynious.blex.mods;
 
 import com.dynious.blex.block.BlockExtender;
 import com.dynious.blex.helper.BlockHelper;
+import com.dynious.blex.lib.Strings;
 import com.dynious.blex.tileentity.TileBlockExtender;
 import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 import mcp.mobius.waila.api.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
 
 import java.util.List;
@@ -60,7 +62,7 @@ public class WailaProvider implements IWailaDataProvider
                 strings.add("Facing : " + SpecialChars.TAB + blockExtender.getConnectedDirection().toString());
 
             if (!(blockExtender instanceof TileWirelessBlockExtender))
-                strings.add("Redstone : " + SpecialChars.TAB + (!blockExtender.isRedstoneTransmissionEnabled() ? "Disabled" : blockExtender.isRedstoneTransmissionActive() ? "Powered" : "Unpowered"));
+                strings.add("Redstone : " + SpecialChars.TAB + (!blockExtender.isRedstoneTransmissionEnabled() ? StatCollector.translateToLocal(Strings.DISABLED) : blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE)));
         }
         return strings;
     }
