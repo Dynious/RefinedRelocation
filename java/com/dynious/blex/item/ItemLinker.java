@@ -16,12 +16,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 import java.util.List;
 
 public class ItemLinker extends Item
 {
+    private Icon unlinkedIcon;
+    private Icon linkedIcon;
+
     public ItemLinker(int id)
     {
         super(id);
@@ -35,12 +39,16 @@ public class ItemLinker extends Item
     public void addInformation(ItemStack stack, EntityPlayer par2EntityPlayer,
                                List list, boolean par4)
     {
-        if (stack.hasTagCompound())
+        if (isLinked(stack))
         {
             int x = stack.getTagCompound().getInteger("tileX");
             int y = stack.getTagCompound().getInteger("tileY");
             int z = stack.getTagCompound().getInteger("tileZ");
             list.add("Linked position: " + x + ":" + y + ":" + z + " (" + BlockHelper.getBlockDisplayName(par2EntityPlayer.getEntityWorld(), x, y, z) + ")");
+        }
+        else
+        {
+            list.add("Unlinked");
         }
     }
 
@@ -60,7 +68,7 @@ public class ItemLinker extends Item
                 return false;
             }
 
-            if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("tileX"))
+            if (isLinked(itemStack))
             {
                 int linkedX = itemStack.getTagCompound().getInteger("tileX");
                 int linkedY = itemStack.getTagCompound().getInteger("tileY");
@@ -128,7 +136,7 @@ public class ItemLinker extends Item
         return true;
     }
 
-    private static void linkTileAtPosition(ItemStack stack, int x, int y, int z)
+    private void linkTileAtPosition(ItemStack stack, int x, int y, int z)
     {
         if (!stack.hasTagCompound())
         {
@@ -139,13 +147,26 @@ public class ItemLinker extends Item
         stack.getTagCompound().setInteger("tileZ", z);
     }
 
-    @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer entityPlayer)
+    private void unlink(ItemStack stack)
     {
         if (stack.hasTagCompound())
         {
-            entityPlayer.swingItem();
             stack.setTagCompound(null);
+        }
+    }
+
+    public boolean isLinked(ItemStack stack)
+    {
+        return stack.hasTagCompound();
+    }
+
+    @Override
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer entityPlayer)
+    {
+        if (isLinked(stack))
+        {
+            entityPlayer.swingItem();
+            unlink(stack);
             if (world.isRemote)
                 entityPlayer.sendChatToPlayer(new ChatMessageComponent()
                         .addText("Linker is no longer linked"));
@@ -158,7 +179,21 @@ public class ItemLinker extends Item
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
-        itemIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
+        itemIcon = linkedIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
                 + Names.linker);
+        unlinkedIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
+                + Names.linker + "Unlinked");
+    }
+
+    @Override
+    public Icon getIcon(ItemStack stack, int pass)
+    {
+        return getIconIndex(stack);
+    }
+
+    @Override
+    public Icon getIconIndex(ItemStack stack)
+    {
+        return isLinked(stack) ? linkedIcon : unlinkedIcon;
     }
 }
