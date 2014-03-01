@@ -35,10 +35,9 @@ public class WailaProvider implements IWailaDataProvider
             {
                 TileWirelessBlockExtender wirelessBlockExtender = (TileWirelessBlockExtender) blockExtender;
 
-                // canConnect actually returns an isConnected equivalent
-                if (wirelessBlockExtender.canConnect())
+                if (wirelessBlockExtender.isLinked())
                 {
-                    strings.add("Linked To : " + SpecialChars.TAB + BlockHelper.getTileEntityDisplayName(wirelessBlockExtender.getConnectedTile()) + " (" + wirelessBlockExtender.xConnected + ":" + wirelessBlockExtender.yConnected + ":" + wirelessBlockExtender.zConnected + ")");
+                    strings.add("Linked To : " + SpecialChars.TAB + BlockHelper.getBlockDisplayName(wirelessBlockExtender.worldObj, wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected) + " (" + wirelessBlockExtender.xConnected + ":" + wirelessBlockExtender.yConnected + ":" + wirelessBlockExtender.zConnected + ")");
                 }
                 else
                 {

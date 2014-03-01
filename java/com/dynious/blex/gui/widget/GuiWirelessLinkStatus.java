@@ -46,7 +46,7 @@ public class GuiWirelessLinkStatus extends GuiBlExButton
             if (linked)
             {
                 tooltip.add(grayColor + StatCollector.translateToLocal(Strings.LINKED));
-                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.TO) + ": " + yellowColor + BlockHelper.getTileEntityDisplayName(tile.getConnectedTile()));
+                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.TO) + ": " + yellowColor + BlockHelper.getBlockDisplayName(tile.worldObj, tile.xConnected, tile.yConnected, tile.zConnected));
                 tooltip.add(grayColor + StatCollector.translateToLocal(Strings.AT) + ": " + yellowColor + tile.xConnected + ":" + tile.yConnected + ":" + tile.zConnected);
 
                 if (tile.hasConnection())
