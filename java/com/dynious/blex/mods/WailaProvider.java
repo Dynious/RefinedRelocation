@@ -1,11 +1,12 @@
 package com.dynious.blex.mods;
 
-import com.dynious.blex.api.IFilteringInventory;
 import com.dynious.blex.block.BlockExtender;
 import com.dynious.blex.helper.BlockHelper;
 import com.dynious.blex.tileentity.TileBlockExtender;
+import com.dynious.blex.tileentity.TileWirelessBlockExtender;
 import mcp.mobius.waila.api.*;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.List;
 
@@ -29,29 +30,38 @@ public class WailaProvider implements IWailaDataProvider
         if (iWailaDataAccessor.getTileEntity() instanceof TileBlockExtender)
         {
             TileBlockExtender blockExtender = (TileBlockExtender) iWailaDataAccessor.getTileEntity();
-            strings.add("Connection Direction: " + SpecialChars.TAB + SpecialChars.ALIGNRIGHT + blockExtender.getConnectedDirection().toString());
-            if (blockExtender.getConnectedTile() != null)
+
+            if (blockExtender instanceof TileWirelessBlockExtender)
             {
-                strings.add("Connected TileEntity: " + SpecialChars.TAB + SpecialChars.ALIGNRIGHT + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()));
+                TileWirelessBlockExtender wirelessBlockExtender = (TileWirelessBlockExtender) blockExtender;
+
+                // canConnect actually returns an isConnected equivalent
+                if (wirelessBlockExtender.canConnect())
+                {
+                    strings.add("Linked To : " + SpecialChars.TAB + BlockHelper.getTileEntityDisplayName(wirelessBlockExtender.getConnectedTile()) + " (" + wirelessBlockExtender.xConnected + ":" + wirelessBlockExtender.yConnected + ":" + wirelessBlockExtender.zConnected + ")");
+                }
+                else
+                {
+                    strings.add("Unlinked");
+                }
             }
             else
             {
-                strings.add("Not Connected");
-            }
-            strings.add("Redstone Transmission: " + SpecialChars.TAB + SpecialChars.ALIGNRIGHT + (blockExtender.isRedstoneTransmissionEnabled() ? "Enabled" : "Disabled"));
-            List<String> connectionTypes = blockExtender.getConnectionTypes();
-            if (!connectionTypes.isEmpty())
-            {
-                strings.add("Connection Types: " + SpecialChars.TAB + SpecialChars.ALIGNRIGHT + connectionTypes.get(0));
-                for (int i = 1; i < connectionTypes.size(); i++)
+                if (blockExtender.getConnectedTile() != null)
                 {
-                    strings.add(SpecialChars.TAB + SpecialChars.ALIGNRIGHT + connectionTypes.get(i));
+                    strings.add("Connected To : " + SpecialChars.TAB + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()));
+                }
+                else
+                {
+                    strings.add("Not Connected");
                 }
             }
-        }
-        if (iWailaDataAccessor.getTileEntity() instanceof IFilteringInventory)
-        {
-            strings.add((((IFilteringInventory) iWailaDataAccessor.getTileEntity()).getBlackList() ? "Blacklists" : "Whitelists"));
+
+            if (blockExtender.getConnectedDirection() != ForgeDirection.UNKNOWN)
+                strings.add("Facing : " + SpecialChars.TAB + blockExtender.getConnectedDirection().toString());
+
+            if (!(blockExtender instanceof TileWirelessBlockExtender))
+                strings.add("Redstone : " + SpecialChars.TAB + (!blockExtender.isRedstoneTransmissionEnabled() ? "Disabled" : blockExtender.isRedstoneTransmissionActive() ? "Powered" : "Unpowered"));
         }
         return strings;
     }
@@ -62,9 +72,9 @@ public class WailaProvider implements IWailaDataProvider
         return strings;
     }
 
-    public static void callbackRegister(IWailaRegistrar registrar){
+    public static void callbackRegister(IWailaRegistrar registrar)
+    {
         WailaProvider instance = new WailaProvider();
         registrar.registerBodyProvider(instance, BlockExtender.class);
-        registrar.registerBodyProvider(instance, IFilteringInventory.class);
     }
 }
