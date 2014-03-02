@@ -9,7 +9,6 @@ import com.dynious.blex.block.ModBlocks;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.ironchest.IronChest;
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.ItemChestChanger;
 import cpw.mods.ironchest.TileEntityIronChest;
@@ -116,6 +115,7 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
         return pass == 0 || pass == 1;
     }
 
+    @Override
     public TileEntityIronChest updateFromMetadata(int l)
     {
         if (worldObj != null && worldObj.isRemote)
