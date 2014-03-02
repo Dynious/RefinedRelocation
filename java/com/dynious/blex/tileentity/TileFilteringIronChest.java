@@ -9,6 +9,7 @@ import com.dynious.blex.block.ModBlocks;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.ironchest.IronChest;
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.ItemChestChanger;
 import cpw.mods.ironchest.TileEntityIronChest;
@@ -115,9 +116,32 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
         return pass == 0 || pass == 1;
     }
 
+    public TileEntityIronChest updateFromMetadata(int l)
+    {
+        if (worldObj != null && worldObj.isRemote)
+        {
+            if (l != getType().ordinal())
+            {
+                worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, new TileFilteringIronChest(IronChestType.values()[l]));
+                return (TileEntityIronChest) worldObj.getBlockTileEntity(xCoord, yCoord, zCoord);
+            }
+        }
+        return this;
+    }
+
+    public void fixType(IronChestType type)
+    {
+        if (type != getType())
+        {
+            ReflectionHelper.setPrivateValue(TileEntityIronChest.class, this, type, "type");
+        }
+        this.chestContents = new ItemStack[getSizeInventory()];
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound)
     {
+        fixType(IronChestType.values()[nbttagcompound.getByte("type")]);
         super.readFromNBT(nbttagcompound);
         filter.readFromNBT(nbttagcompound);
         blacklist = nbttagcompound.getBoolean("blacklist");
@@ -126,6 +150,7 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
     @Override
     public void writeToNBT(NBTTagCompound nbttagcompound)
     {
+        nbttagcompound.setByte("type", (byte) getType().ordinal());
         super.writeToNBT(nbttagcompound);
         filter.writeToNBT(nbttagcompound);
         nbttagcompound.setBoolean("blacklist", blacklist);
