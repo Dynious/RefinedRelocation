@@ -1,14 +1,19 @@
 package com.dynious.blex.tileentity;
 
+import buildcraft.api.power.IPowerReceptor;
+import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
+import ic2.api.energy.tile.IEnergySink;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.IFluidHandler;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
@@ -16,6 +21,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     public int xConnected = Integer.MAX_VALUE;
     public int yConnected = Integer.MAX_VALUE;
     public int zConnected = Integer.MAX_VALUE;
+    private int recheckTime = 0;
 
     public void setLink(int x, int y, int z)
     {
@@ -35,6 +41,18 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     public boolean isLinked()
     {
         return this.xConnected != Integer.MAX_VALUE;
+    }
+
+    @Override
+    public void updateEntity()
+    {
+        super.updateEntity();
+        recheckTime++;
+        if (recheckTime >= 20)
+        {
+            checkConnectedDirection(worldObj.getBlockTileEntity(xConnected, yConnected, zConnected));
+            recheckTime = 0;
+        }
     }
 
     @Override
@@ -79,6 +97,126 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     {
         // always render as if redstone is enabled
         return true;
+    }
+
+    @Override
+    public IInventory getInventory()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        if (tile != null && tile instanceof IInventory)
+        {
+            if (!tile.equals(inventory))
+            {
+                setInventory((IInventory) tile);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return (IInventory) tile;
+        }
+        else
+        {
+            if (inventory != null)
+            {
+                setInventory(null);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public IFluidHandler getFluidHandler()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        if (tile != null && tile instanceof IFluidHandler)
+        {
+            if (!tile.equals(fluidHandler))
+            {
+                setFluidHandler((IFluidHandler) tile);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return (IFluidHandler) tile;
+        }
+        else
+        {
+            if (fluidHandler != null)
+            {
+                setFluidHandler(null);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public IPowerReceptor getPowerReceptor()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        if (tile != null && tile instanceof IPowerReceptor)
+        {
+            if (!tile.equals(powerReceptor))
+            {
+                setPowerReceptor((IPowerReceptor) tile);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return (IPowerReceptor) tile;
+        }
+        else
+        {
+            if (powerReceptor != null)
+            {
+                setPowerReceptor(null);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public IEnergySink getEnergySink()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        if (tile != null && tile instanceof IEnergySink)
+        {
+            if (!tile.equals(energySink))
+            {
+                setEnergySink((IEnergySink) tile);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return (IEnergySink) tile;
+        }
+        else
+        {
+            if (energySink != null)
+            {
+                setEnergySink(null);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public IEnergyHandler getEnergyHandler()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        if (tile != null && tile instanceof IEnergyHandler)
+        {
+            if (!tile.equals(energyHandler))
+            {
+                setEnergyHandler((IEnergyHandler) tile);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return (IEnergyHandler) tile;
+        }
+        else
+        {
+            if (energyHandler != null)
+            {
+                setEnergyHandler(null);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return null;
+        }
     }
 
     /*

@@ -150,7 +150,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     @Override
     public int getInventoryStackLimit()
     {
-        if (inventory != null)
+        if (getInventory() != null)
         {
             return Math.min(super.getInventoryStackLimit(), maxStackSize);
         }

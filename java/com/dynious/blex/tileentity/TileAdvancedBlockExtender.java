@@ -111,11 +111,11 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
     @Override
     public int[] getAccessibleSlotsFromSide(int i)
     {
-        if (inventory != null)
+        if (getInventory() != null)
         {
-            if (inventory instanceof ISidedInventory)
+            if (getInventory() instanceof ISidedInventory)
             {
-                return ((ISidedInventory) inventory).getAccessibleSlotsFromSide(getInputSide(ForgeDirection.getOrientation(i)).ordinal());
+                return ((ISidedInventory) getInventory()).getAccessibleSlotsFromSide(getInputSide(ForgeDirection.getOrientation(i)).ordinal());
             }
             return accessibleSlots;
         }
@@ -137,7 +137,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
     @Override
     public int getInventoryStackLimit()
     {
-        if (inventory != null)
+        if (getInventory() != null)
         {
             return Math.min(super.getInventoryStackLimit(), maxStackSize);
         }
