@@ -226,6 +226,10 @@ public class FilteringMemberHandler
                 if (!((IFilteringInventory)myInv.owner).getBlackList() && ((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
                 {
                     itemStack = myInv.putInInventory(itemStack);
+                    if (itemStack == null || itemStack.stackSize == 0)
+                    {
+                        return null;
+                    }
                 }
             }
 
@@ -256,6 +260,10 @@ public class FilteringMemberHandler
                 if (((IFilteringInventory)myInv.owner).getBlackList() && !((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
                 {
                     itemStack = myInv.putInInventory(itemStack);
+                    if (itemStack == null || itemStack.stackSize == 0)
+                    {
+                        return null;
+                    }
                 }
             }
         }
