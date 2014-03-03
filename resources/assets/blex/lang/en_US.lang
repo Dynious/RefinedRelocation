@@ -17,6 +17,7 @@ tile.filteringIronChest5.name=Filtering Crystal Chest
 tile.filteringIronChest6.name=Filtering Obsidian Chest
 tile.filteringIronChest7.name=Filtering Dirt Chest
 tile.filteringConnector.name=Filtering Connector
+tile.filteringHopper.name=Filtering Hopper
 
 # Item localizations
 item.linker.name=Linker

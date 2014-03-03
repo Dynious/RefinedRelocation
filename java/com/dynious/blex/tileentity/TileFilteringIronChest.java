@@ -20,7 +20,6 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
     public boolean isFirstRun = true;
 
     private Filter filter = new Filter();
-    private boolean blacklist = true;
 
     private FilteringInventoryHandler filteringInventoryHandler = new FilteringInventoryHandler(this);
 
@@ -91,18 +90,6 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
     }
 
     @Override
-    public boolean getBlackList()
-    {
-        return blacklist;
-    }
-
-    @Override
-    public void setBlackList(boolean value)
-    {
-        blacklist = value;
-    }
-
-    @Override
     public FilteringMemberHandler getFilteringMemberHandler()
     {
         return filteringInventoryHandler;
@@ -144,7 +131,6 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
         fixType(IronChestType.values()[nbttagcompound.getByte("type")]);
         super.readFromNBT(nbttagcompound);
         filter.readFromNBT(nbttagcompound);
-        blacklist = nbttagcompound.getBoolean("blacklist");
     }
 
     @Override
@@ -153,6 +139,5 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
         nbttagcompound.setByte("type", (byte) getType().ordinal());
         super.writeToNBT(nbttagcompound);
         filter.writeToNBT(nbttagcompound);
-        nbttagcompound.setBoolean("blacklist", blacklist);
     }
 }

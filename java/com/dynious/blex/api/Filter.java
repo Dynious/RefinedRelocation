@@ -17,14 +17,16 @@ import java.lang.reflect.Field;
 
 public class Filter
 {
-    public static Field displayOnCreativeTab = ReflectionHelper.findField(Block.class, ObfuscationReflectionHelper.remapFieldNames(Block.class.getName(), "displayOnCreativeTab", "field_149772_a", "a"));
-    public static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
-    public static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
+    private static Field displayOnCreativeTab = ReflectionHelper.findField(Block.class, ObfuscationReflectionHelper.remapFieldNames(Block.class.getName(), "displayOnCreativeTab", "field_149772_a", "a"));
+    private static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
+    private static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
 
-    public static final int FILTER_SIZE = 10;
-    public boolean[] customFilters = new boolean[FILTER_SIZE];
-    public boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
+    private static final int FILTER_SIZE = 10;
+    private boolean[] customFilters = new boolean[FILTER_SIZE];
+    private boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     public String userFilter = "";
+
+    public boolean blacklists = true;
 
     public int getSize()
     {
@@ -32,6 +34,11 @@ public class Filter
     }
 
     public boolean passesFilter(ItemStack itemStack)
+    {
+        return blacklists ? !isInFilter(itemStack) : isInFilter(itemStack);
+    }
+
+    private boolean isInFilter(ItemStack itemStack)
     {
         if (itemStack != null)
         {
@@ -205,6 +212,7 @@ public class Filter
     public void writeToNBT(NBTTagCompound compound)
     {
         compound.setString("userFilter", userFilter);
+        compound.setBoolean("blacklists", blacklists);
         for (int i = 0; i < customFilters.length; i++)
         {
             compound.setBoolean("cumstomFilters" + i, customFilters[i]);
@@ -218,6 +226,7 @@ public class Filter
     public void readFromNBT(NBTTagCompound compound)
     {
         userFilter = compound.getString("userFilter");
+        blacklists = compound.getBoolean("blacklists");
         for (int i = 0; i < customFilters.length; i++)
         {
             customFilters[i] = compound.getBoolean("cumstomFilters" + i);

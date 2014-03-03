@@ -86,7 +86,7 @@ public class FilteringInventoryHandler extends FilteringMemberHandler
             return;
         }
 
-        if (par2ItemStack == null || (!inventory.getBlackList() && inventory.getFilter().passesFilter(par2ItemStack)))
+        if (par2ItemStack == null || (!inventory.getFilter().blacklists && inventory.getFilter().passesFilter(par2ItemStack)))
         {
             inventory.getInventory()[par1] = par2ItemStack;
             inventory.onInventoryChanged();

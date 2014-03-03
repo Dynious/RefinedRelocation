@@ -202,7 +202,7 @@ public class FilteringMemberHandler
                 {
                     IFilteringInventory filteringInventory = (IFilteringInventory) filteringMember.owner;
 
-                    if (filteringInventory.getBlackList())
+                    if (filteringInventory.getFilter().blacklists)
                     {
                         blackListers.add(i);
                         continue;
@@ -223,7 +223,7 @@ public class FilteringMemberHandler
             if (this instanceof FilteringInventoryHandler)
             {
                 FilteringInventoryHandler myInv = (FilteringInventoryHandler) this;
-                if (!((IFilteringInventory)myInv.owner).getBlackList() && ((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
+                if (!((IFilteringInventory)myInv.owner).getFilter().blacklists && ((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
                 {
                     itemStack = myInv.putInInventory(itemStack);
                     if (itemStack == null || itemStack.stackSize == 0)
@@ -234,7 +234,7 @@ public class FilteringMemberHandler
             }
 
             //If the ItemStack can also be put in the requester inventory (it's a blackList Tile), prefer this blacklisted inventory
-            if (((IFilteringInventory) requester.owner).getBlackList() && !((IFilteringInventory) requester.owner).getFilter().passesFilter(itemStack))
+            if (((IFilteringInventory) requester.owner).getFilter().blacklists && !((IFilteringInventory) requester.owner).getFilter().passesFilter(itemStack))
             {
                 return itemStack;
             }
@@ -257,7 +257,7 @@ public class FilteringMemberHandler
             if (this instanceof FilteringInventoryHandler)
             {
                 FilteringInventoryHandler myInv = (FilteringInventoryHandler) this;
-                if (((IFilteringInventory)myInv.owner).getBlackList() && !((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
+                if (((IFilteringInventory)myInv.owner).getFilter().blacklists && !((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
                 {
                     itemStack = myInv.putInInventory(itemStack);
                     if (itemStack == null || itemStack.stackSize == 0)

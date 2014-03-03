@@ -11,17 +11,12 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class TileFilteredBlockExtender extends TileBlockExtender implements IFilterTile
 {
-    private boolean blacklist = true;
     private Filter filter = new Filter();
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {
-        if (!super.canInsertItem(i, itemStack, connectedDirection.getOpposite().ordinal()))
-        {
-            return false;
-        }
-        return blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack);
+        return super.canInsertItem(i, itemStack, connectedDirection.getOpposite().ordinal()) && filter.passesFilter(itemStack);
     }
 
     /*
@@ -85,22 +80,9 @@ public class TileFilteredBlockExtender extends TileBlockExtender implements IFil
     }
 
     @Override
-    public boolean getBlackList()
-    {
-        return blacklist;
-    }
-
-    @Override
-    public void setBlackList(boolean value)
-    {
-        blacklist = value;
-    }
-
-    @Override
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setBoolean("blacklist", blacklist);
         filter.writeToNBT(compound);
     }
 
@@ -108,7 +90,6 @@ public class TileFilteredBlockExtender extends TileBlockExtender implements IFil
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        blacklist = compound.getBoolean("blacklist");
         filter.readFromNBT(compound);
     }
 }

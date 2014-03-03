@@ -27,7 +27,7 @@ public class GuiButtonBlacklist extends GuiButtonToggle
         if (tile == null)
             return;
 
-        tile.setBlackList(newState);
+        tile.getFilter().blacklists = newState;
         PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketBlacklist(newState)));
     }
 
@@ -44,7 +44,7 @@ public class GuiButtonBlacklist extends GuiButtonToggle
     public void update()
     {
         if (tile != null)
-            setState(tile.getBlackList());
+            setState(tile.getFilter().blacklists);
 
         super.update();
     }

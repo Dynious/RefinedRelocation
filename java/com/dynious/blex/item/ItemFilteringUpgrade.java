@@ -6,6 +6,7 @@ import com.dynious.blex.lib.Names;
 import com.dynious.blex.lib.Resources;
 import com.dynious.blex.mods.IronChestHelper;
 import com.dynious.blex.tileentity.TileFilteringChest;
+import com.dynious.blex.tileentity.TileFilteringHopper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -14,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.world.World;
 
 public class ItemFilteringUpgrade extends Item
@@ -41,10 +43,10 @@ public class ItemFilteringUpgrade extends Item
                     return false;
                 }
                 // Force old TE out of the world so that adjacent chests can update
-                TileFilteringChest newchest = new TileFilteringChest();
+                TileFilteringChest newChest = new TileFilteringChest();
                 ItemStack[] chestInventory = ObfuscationReflectionHelper.getPrivateValue(TileEntityChest.class, tec, 0);
                 ItemStack[] chestContents = chestInventory.clone();
-                newchest.setFacing((byte) tec.getBlockMetadata());
+                newChest.setFacing((byte) tec.getBlockMetadata());
                 for (int i = 0; i < chestInventory.length; i++)
                 {
                     chestInventory[i] = null;
@@ -59,9 +61,32 @@ public class ItemFilteringUpgrade extends Item
                 // And put in our block instead
                 world.setBlock(X, Y, Z, ModBlocks.filteringChest.blockID, 0, 3);
 
-                world.setBlockTileEntity(X, Y, Z, newchest);
+                world.setBlockTileEntity(X, Y, Z, newChest);
                 world.setBlockMetadataWithNotify(X, Y, Z, 0, 3);
-                System.arraycopy(chestContents, 0, newchest.inventory, 0, newchest.getSizeInventory());
+                System.arraycopy(chestContents, 0, newChest.inventory, 0, newChest.getSizeInventory());
+            }
+            else if (te instanceof TileEntityHopper)
+            {
+                TileEntityHopper hopper = (TileEntityHopper) te;
+
+                // Force old TE out of the world so that adjacent chests can update
+                TileFilteringHopper newHopper = new TileFilteringHopper();
+                ItemStack[] chestInventory = ObfuscationReflectionHelper.getPrivateValue(TileEntityHopper.class, hopper, 0);
+                ItemStack[] chestContents = chestInventory.clone();
+                int meta =  hopper.getBlockMetadata();
+                for (int i = 0; i < chestInventory.length; i++)
+                {
+                    chestInventory[i] = null;
+                }
+                // Clear the old block out
+                world.setBlock(X, Y, Z, 0, 0, 3);
+
+                // And put in our block instead
+                world.setBlock(X, Y, Z, ModBlocks.filteringHopper.blockID, meta, 3);
+
+                world.setBlockTileEntity(X, Y, Z, newHopper);
+                world.setBlockMetadataWithNotify(X, Y, Z, meta, 3);
+                System.arraycopy(chestContents, 0, (ItemStack[]) ObfuscationReflectionHelper.getPrivateValue(TileEntityHopper.class, newHopper, 0), 0, newHopper.getSizeInventory());
             }
             else if (Loader.isModLoaded("IronChest"))
             {

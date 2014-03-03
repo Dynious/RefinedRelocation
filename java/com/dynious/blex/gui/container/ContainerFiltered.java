@@ -64,13 +64,13 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             }
         }
 
-        if (tile.getBlackList() != lastBlacklist || initialUpdate)
+        if (tile.getFilter().blacklists != lastBlacklist || initialUpdate)
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + 2, tile.getBlackList() ? 1 : 0);
+                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + 2, tile.getFilter().blacklists ? 1 : 0);
             }
-            lastBlacklist = tile.getBlackList();
+            lastBlacklist = tile.getFilter().blacklists;
         }
 
         if (initialUpdate)
@@ -116,7 +116,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     public void setBlackList(boolean value)
     {
         lastBlacklist = value;
-        tile.setBlackList(value);
+        tile.getFilter().blacklists = value;
     }
 
     @Override

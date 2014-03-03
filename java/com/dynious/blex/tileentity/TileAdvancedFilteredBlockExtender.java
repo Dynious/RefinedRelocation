@@ -18,7 +18,6 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
     private ItemStack lastStack;
-    private boolean blacklist = true;
     private Filter filter = new Filter();
     private byte maxStackSize = 64;
     public boolean restrictExtraction = false;
@@ -80,11 +79,11 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
                 return false;
             }
             shouldUpdateBestSlot = true;
-            return blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack);
+            return filter.passesFilter(itemStack);
         }
         else
         {
-            return super.canInsertItem(i, itemStack, i2) && (blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack));
+            return super.canInsertItem(i, itemStack, i2) && filter.passesFilter(itemStack);
         }
     }
 
@@ -120,7 +119,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     @Override
     public boolean canExtractItem(int i, ItemStack itemStack, int i2)
     {
-        return (super.canExtractItem(i, itemStack, i2) && !(restrictExtraction && blacklist ? !filter.passesFilter(itemStack) : filter.passesFilter(itemStack)));
+        return (super.canExtractItem(i, itemStack, i2) && !(restrictExtraction && filter.passesFilter(itemStack)));
     }
 
     @Override
@@ -167,18 +166,6 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     public Filter getFilter()
     {
         return filter;
-    }
-
-    @Override
-    public boolean getBlackList()
-    {
-        return blacklist;
-    }
-
-    @Override
-    public void setBlackList(boolean value)
-    {
-        this.blacklist = value;
     }
 
     /*
@@ -283,7 +270,6 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         super.readFromNBT(compound);
         spreadItems = compound.getBoolean("spreadItems");
         insertDirection = compound.getByteArray("insertDirection");
-        blacklist = compound.getBoolean("blacklist");
         filter.readFromNBT(compound);
     }
 
@@ -293,7 +279,6 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         super.writeToNBT(compound);
         compound.setBoolean("spreadItems", spreadItems);
         compound.setByteArray("insertDirection", insertDirection);
-        compound.setBoolean("blacklist", blacklist);
         filter.writeToNBT(compound);
     }
 }

@@ -23,7 +23,7 @@ public class ConfigHandler
             BlockIds.FILTERING_CHEST = configuration.getBlock(Names.filteringChest, BlockIds.FILTERING_CHEST_DEFAULT).getInt(BlockIds.FILTERING_CHEST_DEFAULT);
             BlockIds.FILTERING_IRON_CHEST = configuration.getBlock(Names.filteringIronChest, BlockIds.FILTERING_IRON_CHEST_DEFAULT).getInt(BlockIds.FILTERING_IRON_CHEST_DEFAULT);
             BlockIds.FILTERING_CONNECTOR = configuration.getBlock(Names.filteringConnector, BlockIds.FILTERING_CONNECTOR_DEFAULT).getInt(BlockIds.FILTERING_CONNECTOR_DEFAULT);
-
+            BlockIds.FILTERING_HOPPER = configuration.getBlock(Names.filteringHopper, BlockIds.FILTERING_HOPPER_DEFAULT).getInt(BlockIds.FILTERING_HOPPER_DEFAULT);
 
             ItemIds.LINKER = configuration.getItem(Names.linker, ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);
             ItemIds.FILTERING_UPGRADE = configuration.getItem(Names.filteringUpgrade, ItemIds.FILTERING_UPGRADE_DEFAULT).getInt(ItemIds.FILTERING_UPGRADE_DEFAULT);
