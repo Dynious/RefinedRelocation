@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.IFluidHandler;
 import org.apache.commons.lang3.ArrayUtils;
+import universalelectricity.api.energy.IEnergyInterface;
 
 public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 {
@@ -213,6 +214,30 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
             if (energyHandler != null)
             {
                 setEnergyHandler(null);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public IEnergyInterface getEnergyInterface()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        if (tile != null && tile instanceof IEnergyInterface)
+        {
+            if (!tile.equals(energyInterface))
+            {
+                setEnergyInterface((IEnergyInterface) tile);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return (IEnergyInterface) tile;
+        }
+        else
+        {
+            if (energyInterface != null)
+            {
+                setEnergyInterface(null);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
             }
             return null;

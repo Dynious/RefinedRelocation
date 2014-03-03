@@ -27,12 +27,14 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+import universalelectricity.api.energy.IEnergyInterface;
 
 @Optional.InterfaceList(value = {
         @Optional.Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
         @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")})
-public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPowerEmitter
+        @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
+        @Optional.Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity")})
+public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHandler, IPowerEmitter, IPowerReceptor, IEnergySink, IEnergyHandler, IEnergyInterface
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean firstRun = true;
@@ -538,5 +540,49 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     public boolean canEmitPowerFrom(ForgeDirection direction)
     {
         return true;
+    }
+
+    @Override
+    public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
+    {
+        long inputAmount = l;
+        int currentInsetSide = -1;
+        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        {
+            if (currentInsetSide == direction.ordinal() || DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
+                continue;
+            l = insertUEEnergy(l, currentInsetSide, b);
+            if (l == 0)
+            {
+                return inputAmount;
+            }
+        }
+
+        return inputAmount - l;
+    }
+
+    public long insertUEEnergy(long amount, int side, boolean simulate)
+    {
+        TileEntity tile = tiles[side];
+        if (tile != null)
+        {
+            if (tile instanceof IEnergyInterface)
+            {
+                amount -= ((IEnergyInterface)tile).onReceiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
+            }
+        }
+        return amount;
+    }
+
+    @Override
+    public long onExtractEnergy(ForgeDirection direction, long l, boolean b)
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean canConnect(ForgeDirection direction, Object o)
+    {
+        return false;
     }
 }

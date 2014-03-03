@@ -28,6 +28,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,9 +40,9 @@ import static cpw.mods.fml.common.Optional.*;
         @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
         @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
         @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
+        @Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity"),
         @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")})
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IPeripheral, IDisguisable
-
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IEnergyInterface, IPeripheral, IDisguisable
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
@@ -51,6 +52,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
     protected IEnergyHandler energyHandler;
+    protected IEnergyInterface energyInterface;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
     protected boolean isRedstonePowered = false;
@@ -163,6 +165,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
     }
 
+    public void setEnergyInterface(IEnergyInterface energyInterface)
+    {
+        this.energyInterface = energyInterface;
+    }
+
     public IInventory getInventory()
     {
         return inventory;
@@ -186,6 +193,11 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
+    }
+
+    public IEnergyInterface getEnergyInterface()
+    {
+        return energyInterface;
     }
 
     public TileEntity[] getTiles()
@@ -309,6 +321,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 }
                 setEnergyHandler((IEnergyHandler) tile);
             }
+            if (Loader.isModLoaded("UniversalElectricity") && tile instanceof IEnergyInterface)
+            {
+                if (getEnergyInterface() == null)
+                {
+                    updated = true;
+                }
+                setEnergyInterface((IEnergyInterface) tile);
+            }
             if (updated || tile instanceof TileBlockExtender)
             {
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
@@ -323,6 +343,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         setPowerReceptor(null);
         setEnergySink(null);
         setEnergyHandler(null);
+        setEnergyInterface(null);
     }
 
     public boolean hasConnection()
@@ -343,6 +364,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             return true;
         }
+        if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
+        {
+            return true;
+        }
         return false;
     }
 
@@ -360,6 +385,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             connections.add("IC2 Energy");
         if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
             connections.add("Thermal Expansion Energy");
+        if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
+            connections.add("Universal Electricity Energy");
 
         return connections;
     }
@@ -867,6 +894,39 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             return getEnergyHandler().getMaxEnergyStored(getInputSide(forgeDirection));
         }
         return 0;
+    }
+
+    @Method(modid = "UniversalElectricity")
+    @Override
+    public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
+    {
+        if (getEnergyInterface() != null)
+        {
+            return getEnergyInterface().onReceiveEnergy(getInputSide(direction), l, b);
+        }
+        return 0;
+    }
+
+    @Method(modid = "UniversalElectricity")
+    @Override
+    public long onExtractEnergy(ForgeDirection direction, long l, boolean b)
+    {
+        if (getEnergyInterface() != null)
+        {
+            return getEnergyInterface().onExtractEnergy(getInputSide(direction), l, b);
+        }
+        return 0;
+    }
+
+    @Method(modid = "UniversalElectricity")
+    @Override
+    public boolean canConnect(ForgeDirection direction, Object o)
+    {
+        if (getEnergyInterface() != null)
+        {
+            return getEnergyInterface().canConnect(getInputSide(direction), o);
+        }
+        return false;
     }
 
     /*
