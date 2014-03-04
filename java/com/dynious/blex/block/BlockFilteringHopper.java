@@ -27,6 +27,7 @@ public class BlockFilteringHopper extends BlockHopper
         super(id);
         this.setUnlocalizedName(Names.filteringHopper);
         this.setCreativeTab(BlockExtenders.tabBlEx);
+        this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundWoodFootstep);
     }
 
     @Override
