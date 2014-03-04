@@ -39,9 +39,12 @@ public class BlockFilteringHopper extends BlockHopper
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
     {
-        if (!world.isRemote && player.isSneaking())
+        if (!world.isRemote)
         {
-            FMLNetworkHandler.openGui(player, BlockExtenders.instance, GuiIds.FILTERED, world, x, y, z);
+            if (player.isSneaking())
+                FMLNetworkHandler.openGui(player, BlockExtenders.instance, GuiIds.FILTERED, world, x, y, z);
+            else
+                FMLNetworkHandler.openGui(player, BlockExtenders.instance, GuiIds.FILTERING_HOPPER, world, x, y, z);
             return true;
         }
         return super.onBlockActivated(world, x, y, z, player, par6, par7, par8, par9);
