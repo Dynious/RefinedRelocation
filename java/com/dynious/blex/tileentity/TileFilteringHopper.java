@@ -2,6 +2,7 @@ package com.dynious.blex.tileentity;
 
 import com.dynious.blex.api.Filter;
 import com.dynious.blex.api.IFilterTile;
+import com.dynious.blex.lib.Names;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityHopper;
@@ -35,5 +36,11 @@ public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
     public Filter getFilter()
     {
         return filter;
+    }
+    
+    @Override
+    public String getInvName()
+    {
+        return this.isInvNameLocalized() ? super.getInvName() : "tile." + Names.filteringHopper + ".name";
     }
 }
