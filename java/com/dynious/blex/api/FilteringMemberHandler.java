@@ -234,7 +234,7 @@ public class FilteringMemberHandler
             }
 
             //If the ItemStack can also be put in the requester inventory (it's a blackList Tile), prefer this blacklisted inventory
-            if (((IFilteringInventory) requester.owner).getFilter().blacklists && !((IFilteringInventory) requester.owner).getFilter().passesFilter(itemStack))
+            if (((IFilteringInventory) requester.owner).getFilter().blacklists && ((IFilteringInventory) requester.owner).getFilter().passesFilter(itemStack))
             {
                 return itemStack;
             }
@@ -243,7 +243,7 @@ public class FilteringMemberHandler
             for (int i : blackListers)
             {
                 IFilteringInventory filteringInventory = (IFilteringInventory) childs.get(i).owner;
-                if (!filteringInventory.getFilter().passesFilter(itemStack))
+                if (filteringInventory.getFilter().passesFilter(itemStack))
                 {
                     itemStack = filteringInventory.getFilteringInventoryHandler().putInInventory(itemStack);
                     if (itemStack == null || itemStack.stackSize == 0)
@@ -257,7 +257,7 @@ public class FilteringMemberHandler
             if (this instanceof FilteringInventoryHandler)
             {
                 FilteringInventoryHandler myInv = (FilteringInventoryHandler) this;
-                if (((IFilteringInventory)myInv.owner).getFilter().blacklists && !((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
+                if (((IFilteringInventory)myInv.owner).getFilter().blacklists && ((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
                 {
                     itemStack = myInv.putInInventory(itemStack);
                     if (itemStack == null || itemStack.stackSize == 0)
