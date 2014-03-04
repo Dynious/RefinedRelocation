@@ -7,6 +7,7 @@ import com.dynious.blex.gui.container.ContainerAdvanced;
 import com.dynious.blex.gui.container.ContainerAdvancedFiltered;
 import com.dynious.blex.gui.container.ContainerFiltered;
 import com.dynious.blex.gui.container.ContainerFilteringChest;
+import com.dynious.blex.gui.container.ContainerFilteringHopper;
 import com.dynious.blex.lib.GuiIds;
 import com.dynious.blex.tileentity.*;
 import cpw.mods.fml.common.Loader;
@@ -46,6 +47,8 @@ public class GuiHandler implements IGuiHandler
                     return GuiFilteringIronChest.makeContainer(GUIChest.GUI.values()[((TileFilteringIronChest)tile).getType().ordinal()], player, (TileFilteringIronChest) tile);
                 }
                 return new ContainerFilteringChest(player, (TileFilteringChest) tile);
+            case GuiIds.FILTERING_HOPPER:
+                return new ContainerFilteringHopper(player.inventory, (IFilterTile) tile);
         }
 
         return null;
@@ -91,6 +94,12 @@ public class GuiHandler implements IGuiHandler
                 if (tile != null && tile instanceof TileFilteringChest)
                 {
                     return new GuiFilteringChest(player, (TileFilteringChest) tile);
+                }
+                break;
+            case GuiIds.FILTERING_HOPPER:
+                if (tile != null && tile instanceof TileFilteringHopper)
+                {
+                    return new GuiFilteringHopper(player.inventory, (TileFilteringHopper) tile);
                 }
                 break;
         }
