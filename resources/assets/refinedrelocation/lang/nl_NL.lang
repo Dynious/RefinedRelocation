@@ -1,0 +1,66 @@
+# Block localizations
+tile.blockExtender0.name=Blok Verlenger
+tile.blockExtender1.name=Geavanceerde Blok Verlenger
+tile.blockExtender2.name=Gefiltreerde Blok Verlenger
+tile.blockExtender3.name=Geavanceerde Gefiltreerde Blok Verlenger
+tile.blockExtender4.name=Draadloze Blok Verlenger
+tile.buffer0.name=Buffer
+tile.buffer1.name=Geavanceerde Buffer
+tile.buffer2.name=Gefiltreerde Buffer
+tile.filteringChest.name=Filtrerende Chest
+tile.filteringIronChest0.name=Filtrerende Ijzeren Kist
+tile.filteringIronChest1.name=Filtrerende Gouden Kist
+tile.filteringIronChest2.name=Filtrerende Diamanten Kist
+tile.filteringIronChest3.name=Filtrerende Koperen Kist
+tile.filteringIronChest4.name=Filtrerende Zilveren Kist
+tile.filteringIronChest5.name=Filtrerende Crystal Kist
+tile.filteringIronChest6.name=Filtrerende Obsidianen Kist
+tile.filteringIronChest7.name=Filtrerende Aarden Kist
+tile.filteringConnector.name=Filtrerende Verbinder
+
+# Item localizations
+item.linker.name=Linker
+item.filteringUpgrade.name=Filtrerende Upgrade
+
+# Inventory localizations
+container.filteringChest.name=Filtrerende Kist
+itemGroup.RefinedRelocation=Verfijnde Verplaatsing
+
+# GUI localizations
+gui.refinedrelocation.blacklist=Zwarte Lijst
+gui.refinedrelocation.whitelist=Witte Lijst
+gui.refinedrelocation.click=Klik
+gui.refinedrelocation.shiftClick=Shift+Klik
+gui.refinedrelocation.filteredExtr=Gefiltreerde Extractie
+gui.refinedrelocation.unfilteredExtr=Ongefiltreerde Extractie
+gui.refinedrelocation.maxStackSize=Maximale Hoop Grootte
+gui.refinedrelocation.mode=Mode
+gui.refinedrelocation.roundRobin=Rond om
+gui.refinedrelocation.roundRobinInfo=Versprijd over alle\nvalide zijden
+gui.refinedrelocation.greedy=Hebberig
+gui.refinedrelocation.greedyInfo=Alleen naar zijde met\nde hoogste prioriteit
+gui.refinedrelocation.spread=Verspreid voorwerpen
+gui.refinedrelocation.stack=Hoop voorwerpen op
+gui.refinedrelocation.disguised=Vermomd als
+gui.refinedrelocation.undisguised=Niet vermomd
+gui.refinedrelocation.disguisedInfo=Gebruik een ongelinkte linker\nom dit blok niet meer te vermommen
+gui.refinedrelocation.undisguisedInfo=Gebruik een linker om dit blok te vermommen
+gui.refinedrelocation.connected=Aangesloten
+gui.refinedrelocation.notConnected=Niet Aangesloten
+gui.refinedrelocation.bufferInsInfo=Uitvoer zijde prioriteit\nVoorwerpen die ingevoerd worden\nin de buffer zullen geprobeerd\nte worden uitgevoerd naar een valide \nzijde in volgorde van prioriteit\n(lager nummer = hogere prioriteit)
+gui.refinedrelocation.blockExtenderInsInfo=Invoer zijde\nVoorwerpen zullen worden ingevoerd\nin de gekozen zijde\nvan de verbonden inventaris\nals ze ingevoerde worden\nin de relevante zijde van\ndeze block verlenger
+gui.refinedrelocation.redstoneTrans=Redstone signaal transmissie
+gui.refinedrelocation.enabled=Aan
+gui.refinedrelocation.disabled=Uit
+gui.refinedrelocation.active=Actief
+gui.refinedrelocation.inactive=Inactief
+gui.refinedrelocation.customFilter=Eigen filter
+gui.refinedrelocation.nameMatching=Item name matching
+gui.refinedrelocation.wildcardChar=Jokerteken
+gui.refinedrelocation.oredictChar=Oredict teken
+gui.refinedrelocation.commaSeparation=Scheid filters met een komma
+gui.refinedrelocation.wirelessLink=Draadloze Link
+gui.refinedrelocation.linked=Gelinked
+gui.refinedrelocation.to=Met
+gui.refinedrelocation.at=Op
+gui.refinedrelocation.connections=Connecties

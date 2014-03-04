@@ -1,8 +1,8 @@
 [
 {
-  "modid": "blex",
-  "name": "Block Extenders",
-  "description": "Extend you block!",
+  "modid": "RefinedRelocation",
+  "name": "Refined Relocation",
+  "description": "Filter, sort and relocate!",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
