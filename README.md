@@ -1,11 +1,11 @@
-Block Extenders
+Refined Relocation
 ==============
 
-This is the official GitHub page for Block Extenders!
+This is the official GitHub page for Refined Relocation!
 
-[Minecraft Forums page](http://www.minecraftforum.net/topic/2210752-block-extenders/)
+[Minecraft Forums page](http://www.minecraftforum.net/topic/2210752-/)
 
-###Compiling Block Extenders
+###Compiling Refined Relocation
 ***
 [Setup Java](#setup-java)
 
@@ -13,12 +13,12 @@ This is the official GitHub page for Block Extenders!
 
 [Setup ForgeGradle](#setup-forgegradle)
 
-[Setup Block Extenders](#setup-block-extenders)
+[Setup Refined Relocation](#setup-refined-relocation)
 
-[Compile Block Extenders](#compile-block-extenders)
+[Compile Refined Relocation](#compile-refined-relocation)
 
 ####Setup Java
-The Java JDK is used to compile Block Extenders.
+The Java JDK is used to compile Refined Relocation.
 
 1. Download and install the Java JDK.
 	* [Windows/Mac download link](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html).  Scroll down, accept the `Oracle Binary Code License Agreement for Java SE`, and download it (if you have a 64-bit OS, please download the 64-bit version).
@@ -38,7 +38,7 @@ The Java JDK is used to compile Block Extenders.
 3. Open up your command line and run `javac`.  If it spews out a bunch of possible options and the usage, then you're good to go.  If not, try the steps again and make sure your `Path` variable is correct.
 
 ####Setup Git
-Git is used to clone Block Extenders and update your local copy.
+Git is used to clone Refined Relocation and update your local copy.
 
 1. Download and install Git [here](http://git-scm.com/download/).
 	* *Optional*: Download and install a Git GUI client, such as Github for Windows/Mac, SmartGitHg, TortoiseGit, etc.  A nice list is available [here](http://git-scm.com/downloads/guis).
@@ -58,13 +58,13 @@ ForgeGradle allows Gradle to know what it needs to do.  This section assumes you
 	|-Other misc ForgeGradle files (should include `build.gradle`)
 ***
 
-####Setup BlockExtenders
+####Setup Refined Relocation
 This allows ForgeGradle to know what it's compiling.
 
-1. Clone Block Extenders just like you did with ForgeGradle.  All you have to change are the folder locations and `git clone` command.
-2. Copy the `java` and `resources` folders from the Block Extenders source to `mcdev\src\main` (delete the folders that are already there).
+1. Clone Refined Relocation just like you did with ForgeGradle.  All you have to change are the folder locations and `git clone` command.
+2. Copy the `java` and `resources` folders from the Refined Relocation source to `mcdev\src\main` (delete the folders that are already there).
 3. Create a folder called `libs` in `mcdev` and put [BuildCraft](http://www.mod-buildcraft.com/download/), [Iron Chests](http://files.minecraftforge.net/IronChests2/), [Industrial Craft 2](http://ic2api.player.to:8080/job/IC2_experimental/), [ComputerCraft](http://www.computercraft.info/download/), [CoFHCore](http://teamcofh.com/index.php?page=downloads), [Universal Electricity](http://universalelectricity.com/downloads/) and [Waila](http://profmobius.blogspot.fr/p/downloads.html) in it.
-	* Note: As Block Extenders is currently only for 1.6.4, please download 1.6.4 versions of the above mods.
+	* Note: As Refined Relocation is currently only for 1.6.4, please download 1.6.4 versions of the above mods.
 4. Your directory structure should now look like:
 
 ***
@@ -90,7 +90,7 @@ dependencies {
 `6.` Open a command line in your ForgeGradle folder and execute `gradlew build` or `gradlew.bat build` if using Windows.
 	* Note: If you have [Gradle](http://www.gradle.org/) installed, use `gradle` instead.
 
-`7.` Find your fresh copy of Block Extenders in `mcdev/build/libs`!
+`7.` Find your fresh copy of Refined Relocation in `mcdev/build/libs`!
 
 ###Contributing
 ####Submitting a Pull Request
@@ -102,7 +102,7 @@ dependencies {
 6. Click `Send pull request`, and you're done!
 
 ####Creating an issue
-1. Go to [the issues page](https://github.com/Dynious/BlockExtenders/issues).
+1. Go to [the issues page](https://github.com/Dynious/RefinedRelocation/issues).
 2. Click `New Issue` right below `Star` and `Fork`.
 3. Enter your Issue's title (something that summarizes your issue), and then create a detailed description.
 4. Click `Submit new issue`, and you're done!
