@@ -18,9 +18,9 @@ import java.lang.reflect.Field;
 
 public class BlockFilteringHopper extends BlockHopper
 {
-    static final Field iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon"));
-    static final Field iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon"));
-    static final Field iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon"));
+    static final Field iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon", "field_94455_b", "b"));
+    static final Field iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon", "field_94456_c", "c"));
+    static final Field iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon", "field_94454_cO", "d"));
 
     protected BlockFilteringHopper(int id)
     {
