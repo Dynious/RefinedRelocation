@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui;
 
-import com.dynious.refinedrelocation.gui.container.ContainerFilteringChest;
+import com.dynious.refinedrelocation.gui.container.ContainerSortingChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class GuiFilteringChest extends GuiContainer
+public class GuiSortingChest extends GuiContainer
 {
     private static final ResourceLocation field_110421_t = new ResourceLocation("textures/gui/container/generic_54.png");
     private IInventory upperChestInventory;
@@ -22,9 +22,9 @@ public class GuiFilteringChest extends GuiContainer
      */
     private int inventoryRows;
 
-    public GuiFilteringChest(EntityPlayer player, IInventory par2IInventory)
+    public GuiSortingChest(EntityPlayer player, IInventory par2IInventory)
     {
-        super(new ContainerFilteringChest(player, par2IInventory));
+        super(new ContainerSortingChest(player, par2IInventory));
         this.upperChestInventory = player.inventory;
         this.lowerChestInventory = par2IInventory;
         this.allowUserInput = false;

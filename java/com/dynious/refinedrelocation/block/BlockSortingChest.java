@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
-import com.dynious.refinedrelocation.tileentity.TileFilteringChest;
+import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -31,17 +31,17 @@ import java.util.Random;
 
 import static net.minecraftforge.common.ForgeDirection.DOWN;
 
-public class BlockFilteringChest extends BlockContainer
+public class BlockSortingChest extends BlockContainer
 {
     private final Random random = new Random();
 
-    protected BlockFilteringChest(int id)
+    protected BlockSortingChest(int id)
     {
         super(id, Material.wood);
         setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
-        this.setUnlocalizedName(Names.filteringChest);
+        this.setUnlocalizedName(Names.sortingChest);
     }
 
     /**
@@ -116,9 +116,9 @@ public class BlockFilteringChest extends BlockContainer
         }
 
         TileEntity te = par1World.getBlockTileEntity(par2, par3, par4);
-        if (te != null && te instanceof TileFilteringChest)
+        if (te != null && te instanceof TileSortingChest)
         {
-            TileFilteringChest tile = (TileFilteringChest) te;
+            TileSortingChest tile = (TileSortingChest) te;
             tile.setFacing(chestFacing);
             par1World.markBlockForUpdate(par2, par3, par4);
         }
@@ -131,7 +131,7 @@ public class BlockFilteringChest extends BlockContainer
      */
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-        TileFilteringChest tileentitychest = (TileFilteringChest) par1World.getBlockTileEntity(par2, par3, par4);
+        TileSortingChest tileentitychest = (TileSortingChest) par1World.getBlockTileEntity(par2, par3, par4);
 
         if (tileentitychest != null)
         {
@@ -246,7 +246,7 @@ public class BlockFilteringChest extends BlockContainer
      */
     public TileEntity createNewTileEntity(World par1World)
     {
-        return new TileFilteringChest();
+        return new TileSortingChest();
     }
 
     /**

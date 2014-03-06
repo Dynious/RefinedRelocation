@@ -4,9 +4,9 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemFilteringIronChest extends ItemBlock
+public class ItemSortingIronChest extends ItemBlock
 {
-    public ItemFilteringIronChest(int par1)
+    public ItemSortingIronChest(int par1)
     {
         super(par1);
         setHasSubtypes(true);
@@ -21,6 +21,6 @@ public class ItemFilteringIronChest extends ItemBlock
     @Override
     public String getUnlocalizedName(ItemStack i)
     {
-        return ModBlocks.filteringIronChest.getUnlocalizedName() + i.getItemDamage();
+        return ModBlocks.sortingIronChest.getUnlocalizedName() + i.getItemDamage();
     }
 }

@@ -3,7 +3,7 @@ package com.dynious.refinedrelocation.block;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.tileentity.TileFilteringConnector;
+import com.dynious.refinedrelocation.tileentity.TileSortingConnector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -15,12 +15,12 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFilteringConnector extends BlockContainer
+public class BlockSortingConnector extends BlockContainer
 {
-    protected BlockFilteringConnector(int par1)
+    protected BlockSortingConnector(int par1)
     {
         super(par1, Material.rock);
-        this.setUnlocalizedName(Names.filteringConnector);
+        this.setUnlocalizedName(Names.sortingConnector);
         this.setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
@@ -28,16 +28,16 @@ public class BlockFilteringConnector extends BlockContainer
     @Override
     public TileEntity createNewTileEntity(World world)
     {
-        return new TileFilteringConnector();
+        return new TileSortingConnector();
     }
 
     @Override
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
         TileEntity tile = par1World.getBlockTileEntity(par2, par3, par4);
-        if (tile != null && tile instanceof TileFilteringConnector)
+        if (tile != null && tile instanceof TileSortingConnector)
         {
-            ((TileFilteringConnector)tile).getFilteringMemberHandler().onTileDestroyed();
+            ((TileSortingConnector)tile).getSortingMemberHandler().onTileDestroyed();
         }
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
     }
@@ -46,9 +46,9 @@ public class BlockFilteringConnector extends BlockContainer
     public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TileFilteringConnector)
+        if (tileEntity != null && tileEntity instanceof TileSortingConnector)
         {
-            TileFilteringConnector tile = (TileFilteringConnector) tileEntity;
+            TileSortingConnector tile = (TileSortingConnector) tileEntity;
             Block blockDisguisedAs = tile.getDisguise();
             int disguisedMeta = tile.blockDisguisedMetadata;
             if (blockDisguisedAs != null)
@@ -61,16 +61,16 @@ public class BlockFilteringConnector extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister)
     {
-        blockIcon = iconRegister.registerIcon(Resources.MOD_ID + ":" + "filteringConnector");
+        blockIcon = iconRegister.registerIcon(Resources.MOD_ID + ":" + "sortingConnector");
     }
 
     @Override
     public int colorMultiplier(IBlockAccess world, int x, int y, int z)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TileFilteringConnector)
+        if (tileEntity != null && tileEntity instanceof TileSortingConnector)
         {
-            TileFilteringConnector tile = (TileFilteringConnector) tileEntity;
+            TileSortingConnector tile = (TileSortingConnector) tileEntity;
             Block blockDisguisedAs = tile.getDisguise();
             if (blockDisguisedAs != null)
                 return blockDisguisedAs.colorMultiplier(world, x, y, z);

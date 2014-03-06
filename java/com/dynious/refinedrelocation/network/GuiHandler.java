@@ -6,7 +6,7 @@ import com.dynious.refinedrelocation.gui.*;
 import com.dynious.refinedrelocation.gui.container.ContainerAdvanced;
 import com.dynious.refinedrelocation.gui.container.ContainerAdvancedFiltered;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
-import com.dynious.refinedrelocation.gui.container.ContainerFilteringChest;
+import com.dynious.refinedrelocation.gui.container.ContainerSortingChest;
 import com.dynious.refinedrelocation.gui.container.ContainerFilteringHopper;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.tileentity.*;
@@ -42,11 +42,11 @@ public class GuiHandler implements IGuiHandler
             case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
                 return new ContainerAdvancedFiltered((IAdvancedFilteredTile) tile);
             case GuiIds.FILTERING_CHEST:
-                if (Loader.isModLoaded("IronChest") && tile != null && tile instanceof TileFilteringIronChest)
+                if (Loader.isModLoaded("IronChest") && tile != null && tile instanceof TileSortingIronChest)
                 {
-                    return GuiFilteringIronChest.makeContainer(GUIChest.GUI.values()[((TileFilteringIronChest)tile).getType().ordinal()], player, (TileFilteringIronChest) tile);
+                    return GuiSortingIronChest.makeContainer(GUIChest.GUI.values()[((TileSortingIronChest)tile).getType().ordinal()], player, (TileSortingIronChest) tile);
                 }
-                return new ContainerFilteringChest(player, (TileFilteringChest) tile);
+                return new ContainerSortingChest(player, (TileSortingChest) tile);
             case GuiIds.FILTERING_HOPPER:
                 return new ContainerFilteringHopper(player.inventory, (IFilterTile) tile);
         }
@@ -86,14 +86,14 @@ public class GuiHandler implements IGuiHandler
                 }
                 break;
             case GuiIds.FILTERING_CHEST:
-                if (Loader.isModLoaded("IronChest") && tile != null && tile instanceof TileFilteringIronChest)
+                if (Loader.isModLoaded("IronChest") && tile != null && tile instanceof TileSortingIronChest)
                 {
-                    return new GuiFilteringIronChest(GUIChest.GUI.values()[((TileFilteringIronChest)tile).getType().ordinal()], player, (TileFilteringIronChest) tile);
+                    return new GuiSortingIronChest(GUIChest.GUI.values()[((TileSortingIronChest)tile).getType().ordinal()], player, (TileSortingIronChest) tile);
                 }
 
-                if (tile != null && tile instanceof TileFilteringChest)
+                if (tile != null && tile instanceof TileSortingChest)
                 {
-                    return new GuiFilteringChest(player, (TileFilteringChest) tile);
+                    return new GuiSortingChest(player, (TileSortingChest) tile);
                 }
                 break;
             case GuiIds.FILTERING_HOPPER:

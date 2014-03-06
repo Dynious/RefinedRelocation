@@ -1,11 +1,11 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.Filter;
-import com.dynious.refinedrelocation.api.FilteringInventoryHandler;
-import com.dynious.refinedrelocation.api.FilteringMemberHandler;
-import com.dynious.refinedrelocation.api.IFilteringInventory;
-import com.dynious.refinedrelocation.block.BlockFilteringChest;
-import com.dynious.refinedrelocation.gui.container.ContainerFilteringChest;
+import com.dynious.refinedrelocation.api.ISortingInventory;
+import com.dynious.refinedrelocation.api.SortingInventoryHandler;
+import com.dynious.refinedrelocation.api.SortingMemberHandler;
+import com.dynious.refinedrelocation.block.BlockSortingChest;
+import com.dynious.refinedrelocation.gui.container.ContainerSortingChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 
 import java.util.List;
 
-public class TileFilteringChest extends TileEntity implements IFilteringInventory
+public class TileSortingChest extends TileEntity implements ISortingInventory
 {
     /**
      * The current angle of the lid (between 0 and 1)
@@ -50,17 +50,17 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
     private Filter filter = new Filter();
     private boolean blacklist = true;
 
-    private FilteringInventoryHandler filteringInventoryHandler = new FilteringInventoryHandler(this);
+    private SortingInventoryHandler sortingInventoryHandler = new SortingInventoryHandler(this);
     private boolean isFirstTick = true;
 
-    public TileFilteringChest()
+    public TileSortingChest()
     {
         this.inventory = new ItemStack[getSizeInventory()];
     }
 
     public void onTileDestroyed()
     {
-        filteringInventoryHandler.onTileDestroyed();
+        sortingInventoryHandler.onTileDestroyed();
     }
 
     /**
@@ -76,7 +76,7 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
      */
     public String getInvName()
     {
-        return "container.filteringChest.name";
+        return "container.sortingChest.name";
     }
 
     /**
@@ -153,7 +153,7 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
     @Override
     public void setInventorySlotContents(int i, ItemStack itemstack)
     {
-        filteringInventoryHandler.setInventorySlotContents(i, itemstack);
+        sortingInventoryHandler.setInventorySlotContents(i, itemstack);
     }
 
     /**
@@ -181,7 +181,7 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
     {
         if (isFirstTick)
         {
-            filteringInventoryHandler.onTileAdded();
+            sortingInventoryHandler.onTileAdded();
             isFirstTick = false;
         }
 
@@ -198,9 +198,9 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
             {
                 EntityPlayer entityplayer = (EntityPlayer) aList;
 
-                if (entityplayer.openContainer instanceof ContainerFilteringChest)
+                if (entityplayer.openContainer instanceof ContainerSortingChest)
                 {
-                    IInventory iinventory = ((ContainerFilteringChest) entityplayer.openContainer).getLowerChestInventory();
+                    IInventory iinventory = ((ContainerSortingChest) entityplayer.openContainer).getLowerChestInventory();
 
                     if (iinventory == this)
                     {
@@ -317,7 +317,7 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
 
     public void closeChest()
     {
-        if (this.getBlockType() != null && this.getBlockType() instanceof BlockFilteringChest)
+        if (this.getBlockType() != null && this.getBlockType() instanceof BlockSortingChest)
         {
             --this.numUsingPlayers;
             this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, this.numUsingPlayers);
@@ -394,9 +394,9 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
     }
 
     @Override
-    public FilteringInventoryHandler getFilteringInventoryHandler()
+    public SortingInventoryHandler getSortingInventoryHandler()
     {
-        return filteringInventoryHandler;
+        return sortingInventoryHandler;
     }
 
     @Override
@@ -421,8 +421,8 @@ public class TileFilteringChest extends TileEntity implements IFilteringInventor
     }
 
     @Override
-    public FilteringMemberHandler getFilteringMemberHandler()
+    public SortingMemberHandler getSortingMemberHandler()
     {
-        return filteringInventoryHandler;
+        return sortingInventoryHandler;
     }
 }

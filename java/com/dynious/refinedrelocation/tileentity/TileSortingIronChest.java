@@ -1,10 +1,10 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.Filter;
-import com.dynious.refinedrelocation.api.FilteringInventoryHandler;
-import com.dynious.refinedrelocation.api.FilteringMemberHandler;
-import com.dynious.refinedrelocation.api.IFilteringInventory;
-import com.dynious.refinedrelocation.block.BlockFilteringIronChest;
+import com.dynious.refinedrelocation.api.SortingInventoryHandler;
+import com.dynious.refinedrelocation.api.SortingMemberHandler;
+import com.dynious.refinedrelocation.api.ISortingInventory;
+import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -15,19 +15,19 @@ import cpw.mods.ironchest.TileEntityIronChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileFilteringIronChest extends TileEntityIronChest implements IFilteringInventory
+public class TileSortingIronChest extends TileEntityIronChest implements ISortingInventory
 {
     public boolean isFirstRun = true;
 
     private Filter filter = new Filter();
 
-    private FilteringInventoryHandler filteringInventoryHandler = new FilteringInventoryHandler(this);
+    private SortingInventoryHandler sortingInventoryHandler = new SortingInventoryHandler(this);
 
-    public TileFilteringIronChest()
+    public TileSortingIronChest()
     {
     }
 
-    public TileFilteringIronChest(IronChestType type)
+    public TileSortingIronChest(IronChestType type)
     {
         super(type);
     }
@@ -37,7 +37,7 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
     {
         if (isFirstRun)
         {
-            filteringInventoryHandler.onTileAdded();
+            sortingInventoryHandler.onTileAdded();
             isFirstRun = false;
         }
         super.updateEntity();
@@ -46,7 +46,7 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
     @Override
     public void setInventorySlotContents(int i, ItemStack itemstack)
     {
-        filteringInventoryHandler.setInventorySlotContents(i, itemstack);
+        sortingInventoryHandler.setInventorySlotContents(i, itemstack);
     }
 
     @Override
@@ -60,10 +60,10 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
         {
             return null;
         }
-        TileFilteringIronChest newEntity = new TileFilteringIronChest(IronChestType.values()[itemChestChanger.getTargetChestOrdinal(getType().ordinal())]);
+        TileSortingIronChest newEntity = new TileSortingIronChest(IronChestType.values()[itemChestChanger.getTargetChestOrdinal(getType().ordinal())]);
         int newSize = newEntity.chestContents.length;
         System.arraycopy(chestContents, 0, newEntity.chestContents, 0, Math.min(newSize, chestContents.length));
-        BlockFilteringIronChest block = ModBlocks.filteringIronChest;
+        BlockSortingIronChest block = ModBlocks.sortingIronChest;
         block.dropContent(newSize, this, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         newEntity.setFacing((Byte) ReflectionHelper.getPrivateValue(TileEntityIronChest.class, this, "facing"));
         newEntity.sortTopStacks();
@@ -72,9 +72,9 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
     }
 
     @Override
-    public FilteringInventoryHandler getFilteringInventoryHandler()
+    public SortingInventoryHandler getSortingInventoryHandler()
     {
-        return filteringInventoryHandler;
+        return sortingInventoryHandler;
     }
 
     @Override
@@ -90,9 +90,9 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
     }
 
     @Override
-    public FilteringMemberHandler getFilteringMemberHandler()
+    public SortingMemberHandler getSortingMemberHandler()
     {
-        return filteringInventoryHandler;
+        return sortingInventoryHandler;
     }
 
     @SideOnly(Side.CLIENT)
@@ -109,7 +109,7 @@ public class TileFilteringIronChest extends TileEntityIronChest implements IFilt
         {
             if (l != getType().ordinal())
             {
-                worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, new TileFilteringIronChest(IronChestType.values()[l]));
+                worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, new TileSortingIronChest(IronChestType.values()[l]));
                 return (TileEntityIronChest) worldObj.getBlockTileEntity(xCoord, yCoord, zCoord);
             }
         }

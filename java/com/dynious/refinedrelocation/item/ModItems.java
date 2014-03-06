@@ -10,17 +10,17 @@ import net.minecraft.item.ItemStack;
 public class ModItems
 {
     public static ItemLinker linker;
-    public static ItemFilteringUpgrade filteringUpgrade;
+    public static ItemSortingUpgrade sortingUpgrade;
 
     public static void init()
     {
         linker = new ItemLinker(ItemIds.LINKER);
-        filteringUpgrade = new ItemFilteringUpgrade(ItemIds.FILTERING_UPGRADE);
+        sortingUpgrade = new ItemSortingUpgrade(ItemIds.SORTING_UPGRADE);
 
         GameRegistry.registerItem(linker, Names.linker);
-        GameRegistry.registerItem(filteringUpgrade, Names.filteringUpgrade);
+        GameRegistry.registerItem(sortingUpgrade, Names.sortingUpgrade);
 
         GameRegistry.addShapedRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'e', Item.enderPearl);
-        GameRegistry.addShapedRecipe(new ItemStack(filteringUpgrade), "g g", " p ", "g g", 'g', Item.ingotGold, 'p', Block.thinGlass);
+        GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade), "g g", " p ", "g g", 'g', Item.ingotGold, 'p', Block.thinGlass);
     }
 }

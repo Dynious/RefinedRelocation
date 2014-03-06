@@ -7,23 +7,23 @@ tile.blockExtender4.name=Draadloze Blok Verlenger
 tile.buffer0.name=Buffer
 tile.buffer1.name=Geavanceerde Buffer
 tile.buffer2.name=Gefiltreerde Buffer
-tile.filteringChest.name=Filtrerende Chest
-tile.filteringIronChest0.name=Filtrerende Ijzeren Kist
-tile.filteringIronChest1.name=Filtrerende Gouden Kist
-tile.filteringIronChest2.name=Filtrerende Diamanten Kist
-tile.filteringIronChest3.name=Filtrerende Koperen Kist
-tile.filteringIronChest4.name=Filtrerende Zilveren Kist
-tile.filteringIronChest5.name=Filtrerende Crystal Kist
-tile.filteringIronChest6.name=Filtrerende Obsidianen Kist
-tile.filteringIronChest7.name=Filtrerende Aarden Kist
+tile.sortingChest.name=Sorterende Chest
+tile.sortingIronChest0.name=Sorterende Ijzeren Kist
+tile.sortingIronChest1.name=Sorterende Gouden Kist
+tile.sortingIronChest2.name=Sorterende Diamanten Kist
+tile.sortingIronChest3.name=Sorterende Koperen Kist
+tile.sortingIronChest4.name=Sorterende Zilveren Kist
+tile.sortingIronChest5.name=Sorterende Crystal Kist
+tile.sortingIronChest6.name=Sorterende Obsidianen Kist
+tile.sortingIronChest7.name=Sorterende Aarden Kist
 tile.filteringConnector.name=Filtrerende Verbinder
 
 # Item localizations
 item.linker.name=Linker
-item.filteringUpgrade.name=Filtrerende Upgrade
+item.sortingUpgrade.name=Sorterende Upgrade
 
 # Inventory localizations
-container.filteringChest.name=Filtrerende Kist
+container.sortingChest.name=Sorterende Kist
 itemGroup.RefinedRelocation=Verfijnde Verplaatsing
 
 # GUI localizations

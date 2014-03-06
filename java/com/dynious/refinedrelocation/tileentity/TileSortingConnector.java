@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.FilteringMemberHandler;
-import com.dynious.refinedrelocation.api.IFilteringMember;
+import com.dynious.refinedrelocation.api.SortingMemberHandler;
+import com.dynious.refinedrelocation.api.ISortingMember;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -9,9 +9,9 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileFilteringConnector extends TileEntity implements IFilteringMember, IDisguisable
+public class TileSortingConnector extends TileEntity implements ISortingMember, IDisguisable
 {
-    private FilteringMemberHandler filteringMemberHandler = new FilteringMemberHandler(this);
+    private SortingMemberHandler sortingMemberHandler = new SortingMemberHandler(this);
     private boolean isFirstTick = true;
 
     public Block blockDisguisedAs = null;
@@ -61,16 +61,16 @@ public class TileFilteringConnector extends TileEntity implements IFilteringMemb
     {
         if (isFirstTick)
         {
-            filteringMemberHandler.onTileAdded();
+            sortingMemberHandler.onTileAdded();
             isFirstTick = false;
         }
         super.updateEntity();
     }
 
     @Override
-    public FilteringMemberHandler getFilteringMemberHandler()
+    public SortingMemberHandler getSortingMemberHandler()
     {
-        return filteringMemberHandler;
+        return sortingMemberHandler;
     }
 
     @Override

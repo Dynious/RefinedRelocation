@@ -1,22 +1,22 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.tileentity.TileFilteringChest;
+import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerFilteringChest extends ContainerHierarchical
+public class ContainerSortingChest extends ContainerHierarchical
 {
     private IInventory lowerChestInventory;
     private int numRows;
 
-    public ContainerFilteringChest(EntityPlayer player, IInventory par2IInventory)
+    public ContainerSortingChest(EntityPlayer player, IInventory par2IInventory)
     {
         this.lowerChestInventory = par2IInventory;
         this.numRows = par2IInventory.getSizeInventory() / 9;
         par2IInventory.openChest();
-        ((TileFilteringChest) this.lowerChestInventory).getFilteringInventoryHandler().addCrafter(player);
+        ((TileSortingChest) this.lowerChestInventory).getSortingInventoryHandler().addCrafter(player);
         int i = (this.numRows - 4) * 18;
         int j;
         int k;
@@ -89,7 +89,7 @@ public class ContainerFilteringChest extends ContainerHierarchical
     @Override
     public void putStackInSlot(int par1, ItemStack par2ItemStack)
     {
-        ((TileFilteringChest) lowerChestInventory).getFilteringInventoryHandler().putStackInSlot(par2ItemStack, par1);
+        ((TileSortingChest) lowerChestInventory).getSortingInventoryHandler().putStackInSlot(par2ItemStack, par1);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ContainerFilteringChest extends ContainerHierarchical
     {
         super.onContainerClosed(par1EntityPlayer);
         this.lowerChestInventory.closeChest();
-        ((TileFilteringChest) this.lowerChestInventory).getFilteringInventoryHandler().removeCrafter(par1EntityPlayer);
+        ((TileSortingChest) this.lowerChestInventory).getSortingInventoryHandler().removeCrafter(par1EntityPlayer);
     }
 
     /**

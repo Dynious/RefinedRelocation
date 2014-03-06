@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.renderer;
 
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.tileentity.TileFilteringChest;
+import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelChest;
@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
-public class RendererFilteringChest extends TileEntitySpecialRenderer
+public class RendererSortingChest extends TileEntitySpecialRenderer
 {
     private static final ResourceLocation RES_NORMAL_SINGLE = new ResourceLocation("textures/entity/chest/normal.png");
 
@@ -25,7 +25,7 @@ public class RendererFilteringChest extends TileEntitySpecialRenderer
     /**
      * Renders the TileEntity for the chest at a position.
      */
-    public void renderTileEntityChestAt(TileFilteringChest par1TileEntityChest, double par2, double par4, double par6, float par8)
+    public void renderTileEntityChestAt(TileSortingChest par1TileEntityChest, double par2, double par4, double par6, float par8)
     {
         int i;
 
@@ -93,6 +93,6 @@ public class RendererFilteringChest extends TileEntitySpecialRenderer
 
     public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
     {
-        this.renderTileEntityChestAt((TileFilteringChest) par1TileEntity, par2, par4, par6, par8);
+        this.renderTileEntityChestAt((TileSortingChest) par1TileEntity, par2, par4, par6, par8);
     }
 }

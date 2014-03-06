@@ -16,23 +16,23 @@ public class ModBlocks
 {
     public static BlockExtender blockExtender;
     public static BlockBuffer buffer;
-    public static BlockFilteringChest filteringChest;
-    public static BlockFilteringIronChest filteringIronChest;
-    public static BlockFilteringConnector filteringConnector;
+    public static BlockSortingChest sortingChest;
+    public static BlockSortingIronChest sortingIronChest;
+    public static BlockSortingConnector sortingConnector;
     public static BlockFilteringHopper filteringHopper;
 
     public static void init()
     {
         blockExtender = new BlockExtender(BlockIds.BLOCK_EXTENDER);
         buffer = new BlockBuffer(BlockIds.BUFFER);
-        filteringChest = new BlockFilteringChest(BlockIds.FILTERING_CHEST);
-        filteringConnector = new BlockFilteringConnector(BlockIds.FILTERING_CONNECTOR);
+        sortingChest = new BlockSortingChest(BlockIds.SORTING_CHEST);
+        sortingConnector = new BlockSortingConnector(BlockIds.SORTING_CONNECTOR);
         filteringHopper = new BlockFilteringHopper(BlockIds.FILTERING_HOPPER);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
-        GameRegistry.registerBlock(filteringChest, Names.filteringChest);
-        GameRegistry.registerBlock(filteringConnector, Names.filteringConnector);
+        GameRegistry.registerBlock(sortingChest, Names.sortingChest);
+        GameRegistry.registerBlock(sortingConnector, Names.sortingConnector);
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
@@ -50,8 +50,8 @@ public class ModBlocks
         GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(buffer, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 2), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(buffer, 1, 0));
 
-        GameRegistry.addShapedRecipe(new ItemStack(filteringChest, 1, 0), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(Block.chest));
-        GameRegistry.addShapedRecipe(new ItemStack(filteringConnector, 4, 0), "gsg", "sis", "gsg", 'g', Block.thinGlass, 's', Block.stone, 'i', Item.ingotIron);
+        GameRegistry.addShapedRecipe(new ItemStack(sortingChest, 1, 0), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(Block.chest));
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 0), "gsg", "sis", "gsg", 'g', Block.thinGlass, 's', Block.stone, 'i', Item.ingotIron);
 
         GameRegistry.addShapedRecipe(new ItemStack(filteringHopper), "g g", " h ", "g g", 'g', Item.ingotGold, 'h', new ItemStack(Block.hopperBlock));
 

@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui;
 
-import com.dynious.refinedrelocation.gui.container.ContainerFilteringIronChest;
+import com.dynious.refinedrelocation.gui.container.ContainerSortingIronChest;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.client.GUIChest;
@@ -11,11 +11,11 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class GuiFilteringIronChest extends GuiContainer {
-
+public class GuiSortingIronChest extends GuiContainer
+{
     private ResourceLocation resourceLocation;
 
-    public GuiFilteringIronChest(GUIChest.GUI type, EntityPlayer player, IInventory chest)
+    public GuiSortingIronChest(GUIChest.GUI type, EntityPlayer player, IInventory chest)
     {
         super(makeContainer(type, player, chest));
         resourceLocation = ((GUIChest.ResourceList) ReflectionHelper.getPrivateValue(GUIChest.GUI.class, type, "guiResourceList")).location;
@@ -28,7 +28,7 @@ public class GuiFilteringIronChest extends GuiContainer {
     {
         int xSize = ReflectionHelper.getPrivateValue(GUIChest.GUI.class, type, "xSize");
         int ySize = ReflectionHelper.getPrivateValue(GUIChest.GUI.class, type, "ySize");
-        return new ContainerFilteringIronChest(player, chest, IronChestType.values()[type.ordinal()], xSize, ySize);
+        return new ContainerSortingIronChest(player, chest, IronChestType.values()[type.ordinal()], xSize, ySize);
     }
 
     @Override

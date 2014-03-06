@@ -8,15 +8,15 @@ import net.minecraftforge.common.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilteringMemberHandler
+public class SortingMemberHandler
 {
     protected TileEntity owner;
 
-    private FilteringMemberHandler leader;
-    private ArrayList<FilteringMemberHandler> childs;
+    private SortingMemberHandler leader;
+    private ArrayList<SortingMemberHandler> childs;
     private boolean canJoinGroup = true;
 
-    public FilteringMemberHandler(TileEntity owner)
+    public SortingMemberHandler(TileEntity owner)
     {
         this.owner = owner;
     }
@@ -47,9 +47,9 @@ public class FilteringMemberHandler
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
             TileEntity tile = DirectionHelper.getTileAtSide(owner, direction);
-            if (tile != null && tile instanceof IFilteringMember)
+            if (tile != null && tile instanceof ISortingMember)
             {
-                FilteringMemberHandler filteringMember = ((IFilteringMember) tile).getFilteringMemberHandler();
+                SortingMemberHandler filteringMember = ((ISortingMember) tile).getSortingMemberHandler();
                 if (filteringMember.canJoinGroup() && filteringMember.getLeader() != this)
                 {
                     if (leader == null && childs == null)
@@ -66,11 +66,11 @@ public class FilteringMemberHandler
     }
 
     /**
-     * Get the leader of this FilteringMember
+     * Get the leader of this SortingMember
      *
-     * @return The leader of this FilteringMember (can be itself)
+     * @return The leader of this SortingMember (can be itself)
      */
-    public final FilteringMemberHandler getLeader()
+    public final SortingMemberHandler getLeader()
     {
         if (leader == null)
         {
@@ -83,11 +83,11 @@ public class FilteringMemberHandler
     }
 
     /**
-     * Sets the leader of a FilteringMember
+     * Sets the leader of a SortingMember
      *
-     * @param newLeader The new Leader for this FilteringMember
+     * @param newLeader The new Leader for this SortingMember
      */
-    public final void setLeader(FilteringMemberHandler newLeader)
+    public final void setLeader(SortingMemberHandler newLeader)
     {
         if (newLeader == this)
         {
@@ -106,11 +106,11 @@ public class FilteringMemberHandler
      *
      * @param child Child to be added
      */
-    public final void addChild(FilteringMemberHandler child)
+    public final void addChild(SortingMemberHandler child)
     {
         if (childs == null)
         {
-            childs = new ArrayList<FilteringMemberHandler>();
+            childs = new ArrayList<SortingMemberHandler>();
         }
         if (!childs.contains(child))
         {
@@ -123,7 +123,7 @@ public class FilteringMemberHandler
      *
      * @param child Child to be removed
      */
-    public final void removeChild(FilteringMemberHandler child)
+    public final void removeChild(SortingMemberHandler child)
     {
         if (childs != null)
         {
@@ -138,13 +138,13 @@ public class FilteringMemberHandler
     {
         if (childs != null && !childs.isEmpty())
         {
-            ArrayList<FilteringMemberHandler> tempChilds = new ArrayList<FilteringMemberHandler>(childs);
+            ArrayList<SortingMemberHandler> tempChilds = new ArrayList<SortingMemberHandler>(childs);
             childs = null;
-            for (FilteringMemberHandler child : tempChilds)
+            for (SortingMemberHandler child : tempChilds)
             {
                 child.setLeader(null);
             }
-            for (FilteringMemberHandler child : tempChilds)
+            for (SortingMemberHandler child : tempChilds)
             {
                 child.searchForLeader();
             }
@@ -152,16 +152,16 @@ public class FilteringMemberHandler
     }
 
     /**
-     * Demotes a FilteringMember leader to a child of the given leader and sets the leader of its childs
+     * Demotes a SortingMember leader to a child of the given leader and sets the leader of its childs
      *
-     * @param newLeader The new Leader for this FilteringMember and it's childs
+     * @param newLeader The new Leader for this SortingMember and it's childs
      */
-    public final void demoteToChild(FilteringMemberHandler newLeader)
+    public final void demoteToChild(SortingMemberHandler newLeader)
     {
         setLeader(newLeader);
         if (childs != null && !childs.isEmpty())
         {
-            for (FilteringMemberHandler child : childs)
+            for (SortingMemberHandler child : childs)
             {
                 child.setLeader(getLeader());
             }
@@ -170,7 +170,7 @@ public class FilteringMemberHandler
     }
 
     /**
-     * @return Boolean if the FilteringMember can join a group
+     * @return Boolean if the SortingMember can join a group
      */
     public final boolean canJoinGroup()
     {
@@ -178,13 +178,13 @@ public class FilteringMemberHandler
     }
 
     /**
-     * Filters an ItemStack to all members of the FilteringMember group
+     * Filters an ItemStack to all members of the SortingMember group
      *
-     * @param itemStack The ItemStack to be filtered to all childs and this FilteringMember
-     * @param requester The FilteringInventoryHandler that requested the filtering
-     * @return The ItemStack that was not able to fit in any IFilteringInventory
+     * @param itemStack The ItemStack to be filtered to all childs and this SortingMember
+     * @param requester The SortingInventoryHandler that requested the filtering
+     * @return The ItemStack that was not able to fit in any ISortingInventory
      */
-    public final ItemStack filterStackToGroup(ItemStack itemStack, FilteringInventoryHandler requester)
+    public final ItemStack filterStackToGroup(ItemStack itemStack, SortingInventoryHandler requester)
     {
         if (childs != null && !childs.isEmpty())
         {
@@ -193,14 +193,14 @@ public class FilteringMemberHandler
             //Try to put the ItemStack in a child that passes (whitelisted) the filter
             for (int i = 0; i < childs.size(); i++)
             {
-                FilteringMemberHandler filteringMember = childs.get(i);
+                SortingMemberHandler filteringMember = childs.get(i);
                 if (filteringMember == requester)
                 {
                     continue;
                 }
-                if (filteringMember.owner instanceof IFilteringInventory)
+                if (filteringMember.owner instanceof ISortingInventory)
                 {
-                    IFilteringInventory filteringInventory = (IFilteringInventory) filteringMember.owner;
+                    ISortingInventory filteringInventory = (ISortingInventory) filteringMember.owner;
 
                     if (filteringInventory.getFilter().blacklists)
                     {
@@ -210,7 +210,7 @@ public class FilteringMemberHandler
 
                     if (filteringInventory.getFilter().passesFilter(itemStack))
                     {
-                        itemStack = filteringInventory.getFilteringInventoryHandler().putInInventory(itemStack);
+                        itemStack = filteringInventory.getSortingInventoryHandler().putInInventory(itemStack);
                         if (itemStack == null || itemStack.stackSize == 0)
                         {
                             return null;
@@ -220,10 +220,10 @@ public class FilteringMemberHandler
             }
 
             //If this (leader) is an inventory try to put the ItemStack in the inventory if whitelisted
-            if (this instanceof FilteringInventoryHandler)
+            if (this instanceof SortingInventoryHandler)
             {
-                FilteringInventoryHandler myInv = (FilteringInventoryHandler) this;
-                if (!((IFilteringInventory)myInv.owner).getFilter().blacklists && ((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
+                SortingInventoryHandler myInv = (SortingInventoryHandler) this;
+                if (!((ISortingInventory)myInv.owner).getFilter().blacklists && ((ISortingInventory)myInv.owner).getFilter().passesFilter(itemStack))
                 {
                     itemStack = myInv.putInInventory(itemStack);
                     if (itemStack == null || itemStack.stackSize == 0)
@@ -234,7 +234,7 @@ public class FilteringMemberHandler
             }
 
             //If the ItemStack can also be put in the requester inventory (it's a blackList Tile), prefer this blacklisted inventory
-            if (((IFilteringInventory) requester.owner).getFilter().blacklists && ((IFilteringInventory) requester.owner).getFilter().passesFilter(itemStack))
+            if (((ISortingInventory) requester.owner).getFilter().blacklists && ((ISortingInventory) requester.owner).getFilter().passesFilter(itemStack))
             {
                 return itemStack;
             }
@@ -242,10 +242,10 @@ public class FilteringMemberHandler
             //Lastly, try to insert the item in a blacklisting child
             for (int i : blackListers)
             {
-                IFilteringInventory filteringInventory = (IFilteringInventory) childs.get(i).owner;
+                ISortingInventory filteringInventory = (ISortingInventory) childs.get(i).owner;
                 if (filteringInventory.getFilter().passesFilter(itemStack))
                 {
-                    itemStack = filteringInventory.getFilteringInventoryHandler().putInInventory(itemStack);
+                    itemStack = filteringInventory.getSortingInventoryHandler().putInInventory(itemStack);
                     if (itemStack == null || itemStack.stackSize == 0)
                     {
                         return null;
@@ -254,10 +254,10 @@ public class FilteringMemberHandler
             }
 
             //Lastly, if this (leader) is an inventory try to put the ItemStack in the inventory not blacklisted
-            if (this instanceof FilteringInventoryHandler)
+            if (this instanceof SortingInventoryHandler)
             {
-                FilteringInventoryHandler myInv = (FilteringInventoryHandler) this;
-                if (((IFilteringInventory)myInv.owner).getFilter().blacklists && ((IFilteringInventory)myInv.owner).getFilter().passesFilter(itemStack))
+                SortingInventoryHandler myInv = (SortingInventoryHandler) this;
+                if (((ISortingInventory)myInv.owner).getFilter().blacklists && ((ISortingInventory)myInv.owner).getFilter().passesFilter(itemStack))
                 {
                     itemStack = myInv.putInInventory(itemStack);
                     if (itemStack == null || itemStack.stackSize == 0)

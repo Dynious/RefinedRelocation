@@ -22,7 +22,6 @@ public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
     {
         super.writeToNBT(par1NBTTagCompound);
         filter.writeToNBT(par1NBTTagCompound);
-
     }
 
     @Override

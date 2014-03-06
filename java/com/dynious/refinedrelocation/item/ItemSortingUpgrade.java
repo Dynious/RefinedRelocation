@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
-import com.dynious.refinedrelocation.tileentity.TileFilteringChest;
+import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
@@ -18,13 +18,13 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.world.World;
 
-public class ItemFilteringUpgrade extends Item
+public class ItemSortingUpgrade extends Item
 {
-    public ItemFilteringUpgrade(int par1)
+    public ItemSortingUpgrade(int par1)
     {
         super(par1);
         setMaxStackSize(1);
-        setUnlocalizedName(Names.filteringUpgrade);
+        setUnlocalizedName(Names.sortingUpgrade);
         setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
@@ -43,7 +43,7 @@ public class ItemFilteringUpgrade extends Item
                     return false;
                 }
                 // Force old TE out of the world so that adjacent chests can update
-                TileFilteringChest newChest = new TileFilteringChest();
+                TileSortingChest newChest = new TileSortingChest();
                 ItemStack[] chestInventory = ObfuscationReflectionHelper.getPrivateValue(TileEntityChest.class, tec, 0);
                 ItemStack[] chestContents = chestInventory.clone();
                 newChest.setFacing((byte) tec.getBlockMetadata());
@@ -59,7 +59,7 @@ public class ItemFilteringUpgrade extends Item
                 // tick
                 tec.checkForAdjacentChests();
                 // And put in our block instead
-                world.setBlock(X, Y, Z, ModBlocks.filteringChest.blockID, 0, 3);
+                world.setBlock(X, Y, Z, ModBlocks.sortingChest.blockID, 0, 3);
 
                 world.setBlockTileEntity(X, Y, Z, newChest);
                 world.setBlockMetadataWithNotify(X, Y, Z, 0, 3);
@@ -113,6 +113,6 @@ public class ItemFilteringUpgrade extends Item
     public void registerIcons(IconRegister par1IconRegister)
     {
         itemIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
-                + Names.filteringUpgrade);
+                + Names.sortingUpgrade);
     }
 }

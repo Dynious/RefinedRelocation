@@ -2,23 +2,29 @@ package com.dynious.refinedrelocation.renderer;
 
 import com.dynious.refinedrelocation.lib.Resources;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.ironchest.IronChestType;
+import cpw.mods.ironchest.client.TileEntityIronChestRenderer;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
+import java.util.Map;
+
 import static org.lwjgl.opengl.GL11.*;
 
 @SideOnly(Side.CLIENT)
-public class ItemRendererFilteringChest implements IItemRenderer
+public class ItemRendererSortingIronChest implements IItemRenderer
 {
-    private static final ResourceLocation RES_NORMAL_SINGLE = new ResourceLocation("textures/entity/chest/normal.png");
+    private static Map<IronChestType, ResourceLocation> locations;
 
-    public ItemRendererFilteringChest()
+    public ItemRendererSortingIronChest()
     {
         model = new ModelChest();
+        locations = ReflectionHelper.getPrivateValue(TileEntityIronChestRenderer.class, null, "locations");
     }
 
     @Override
@@ -48,13 +54,13 @@ public class ItemRendererFilteringChest implements IItemRenderer
 
         if (renderPass == 0)
         {
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(RES_NORMAL_SINGLE);
+            IronChestType type = IronChestType.values()[itemStack.getItemDamage()];
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(locations.get(type));
         }
         else
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_OVERLAY_CHEST);
         }
-
         glPushMatrix();
         glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

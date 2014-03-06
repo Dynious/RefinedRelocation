@@ -1,14 +1,14 @@
 package com.dynious.refinedrelocation.mods;
 
-import com.dynious.refinedrelocation.block.BlockFilteringIronChest;
+import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
-import com.dynious.refinedrelocation.item.ItemFilteringIronChest;
+import com.dynious.refinedrelocation.item.ItemSortingIronChest;
 import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.renderer.ItemRendererFilteringIronChest;
-import com.dynious.refinedrelocation.renderer.RendererFilteringIronChest;
-import com.dynious.refinedrelocation.tileentity.TileFilteringChest;
-import com.dynious.refinedrelocation.tileentity.TileFilteringIronChest;
+import com.dynious.refinedrelocation.renderer.ItemRendererSortingIronChest;
+import com.dynious.refinedrelocation.renderer.RendererSortingIronChest;
+import com.dynious.refinedrelocation.tileentity.TileSortingChest;
+import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -27,22 +27,22 @@ public class IronChestHelper
 {
     public static void addIronChestBlocks()
     {
-        ModBlocks.filteringIronChest = new BlockFilteringIronChest(BlockIds.FILTERING_IRON_CHEST);
-        GameRegistry.registerBlock(ModBlocks.filteringIronChest, ItemFilteringIronChest.class, Names.filteringIronChest);
+        ModBlocks.sortingIronChest = new BlockSortingIronChest(BlockIds.SORTING_IRON_CHEST);
+        GameRegistry.registerBlock(ModBlocks.sortingIronChest, ItemSortingIronChest.class, Names.sortingIronChest);
     }
 
     public static void addIronChestRecipes()
     {
         for (int i = 0; i < IronChestType.values().length; i++)
         {
-            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.filteringIronChest, 1, i), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
+            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingIronChest, 1, i), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
         }
     }
 
     public static void addIronChestRenders()
     {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileFilteringIronChest.class, new RendererFilteringIronChest());
-        MinecraftForgeClient.registerItemRenderer(BlockIds.FILTERING_IRON_CHEST, new ItemRendererFilteringIronChest());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSortingIronChest.class, new RendererSortingIronChest());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_IRON_CHEST, new ItemRendererSortingIronChest());
     }
 
     public static boolean upgradeToIronChest(World world, EntityPlayer player, int x, int y, int z)
@@ -53,15 +53,15 @@ public class IronChestHelper
             if (chestChanger.getType().canUpgrade(IronChestType.WOOD))
             {
                 TileEntity tile = world.getBlockTileEntity(x, y, z);
-                if (tile instanceof TileFilteringChest)
+                if (tile instanceof TileSortingChest)
                 {
-                    TileFilteringChest tec = (TileFilteringChest) tile;
+                    TileSortingChest tec = (TileSortingChest) tile;
                     if (tec.numUsingPlayers > 0)
                     {
                         return false;
                     }
                     // Force old TE out of the world so that adjacent chests can update
-                    TileFilteringIronChest newchest = new TileFilteringIronChest(IronChestType.values()[chestChanger.getType().getTarget()]);
+                    TileSortingIronChest newchest = new TileSortingIronChest(IronChestType.values()[chestChanger.getType().getTarget()]);
                     ItemStack[] chestInventory = tec.inventory;
                     ItemStack[] chestContents = chestInventory.clone();
                     newchest.setFacing((byte) tec.getBlockMetadata());
@@ -73,7 +73,7 @@ public class IronChestHelper
                     world.setBlock(x, y, z, 0, 0, 3);
                     // Force the Chest TE to reset it's knowledge of neighbouring blocks
                     // And put in our block instead
-                    world.setBlock(x, y, z, ModBlocks.filteringIronChest.blockID, chestChanger.getType().getTarget(), 3);
+                    world.setBlock(x, y, z, ModBlocks.sortingIronChest.blockID, chestChanger.getType().getTarget(), 3);
 
                     world.setBlockTileEntity(x, y, z, newchest);
                     world.setBlockMetadataWithNotify(x, y, z, chestChanger.getType().getTarget(), 3);
@@ -88,7 +88,7 @@ public class IronChestHelper
 
     public static boolean upgradeIronToFilteringChest(TileEntity tile)
     {
-        if (tile instanceof TileEntityIronChest)
+        if (tile instanceof TileEntityIronChest && !(tile instanceof TileSortingIronChest))
         {
             World world = tile.getWorldObj();
 
@@ -98,7 +98,7 @@ public class IronChestHelper
             {
                 return false;
             }
-            TileFilteringIronChest chest = new TileFilteringIronChest(teic.getType());
+            TileSortingIronChest chest = new TileSortingIronChest(teic.getType());
             ItemStack[] chestContents = teic.chestContents.clone();
             chest.setFacing(teic.getFacing());
             for (int i = 0; i < teic.chestContents.length; i++)
@@ -108,7 +108,7 @@ public class IronChestHelper
             // Clear the old block out
             world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, 0, 0, 3);
             // And put in our block instead
-            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.filteringIronChest.blockID, teic.getType().ordinal(), 3);
+            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingIronChest.blockID, teic.getType().ordinal(), 3);
 
             world.setBlockTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, chest);
             world.setBlockMetadataWithNotify(tile.xCoord, tile.yCoord, tile.zCoord, chest.getType().ordinal(), 3);

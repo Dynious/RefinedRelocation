@@ -7,24 +7,24 @@ tile.blockExtender4.name=Wireless Block Extender
 tile.buffer0.name=Buffer
 tile.buffer1.name=Advanced Buffer
 tile.buffer2.name=Filtered Buffer
-tile.filteringChest.name=Filtering Chest
-tile.filteringIronChest0.name=Filtering Iron Chest
-tile.filteringIronChest1.name=Filtering Gold Chest
-tile.filteringIronChest2.name=Filtering Diamond Chest
-tile.filteringIronChest3.name=Filtering Copper Chest
-tile.filteringIronChest4.name=Filtering Silver Chest
-tile.filteringIronChest5.name=Filtering Crystal Chest
-tile.filteringIronChest6.name=Filtering Obsidian Chest
-tile.filteringIronChest7.name=Filtering Dirt Chest
-tile.filteringConnector.name=Filtering Connector
+tile.sortingChest.name=Sorting Chest
+tile.sortingIronChest0.name=Sorting Iron Chest
+tile.sortingIronChest1.name=Sorting Gold Chest
+tile.sortingIronChest2.name=Sorting Diamond Chest
+tile.sortingIronChest3.name=Sorting Copper Chest
+tile.sortingIronChest4.name=Sorting Silver Chest
+tile.sortingIronChest5.name=Sorting Crystal Chest
+tile.sortingIronChest6.name=Sorting Obsidian Chest
+tile.sortingIronChest7.name=Sorting Dirt Chest
+tile.sortingConnector.name=Sorting Connector
 tile.filteringHopper.name=Filtering Hopper
 
 # Item localizations
 item.linker.name=Linker
-item.filteringUpgrade.name=Filtering Upgrade
+item.sortingUpgrade.name=Sorting Upgrade
 
 # Inventory localizations
-container.filteringChest.name=Filtering Chest
+container.sortingChest.name=Sorting Chest
 itemGroup.RefinedRelocation=Refined Relocation
 
 # GUI localizations

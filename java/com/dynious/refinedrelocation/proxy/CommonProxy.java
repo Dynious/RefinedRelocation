@@ -18,13 +18,13 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileBuffer.class, Names.buffer);
         GameRegistry.registerTileEntity(TileAdvancedBuffer.class, Names.advancedBuffer);
         GameRegistry.registerTileEntity(TileFilteredBuffer.class, Names.filteredBuffer);
-        GameRegistry.registerTileEntity(TileFilteringChest.class, Names.filteringChest);
-        GameRegistry.registerTileEntity(TileFilteringConnector.class, Names.filteringConnector);
+        GameRegistry.registerTileEntity(TileSortingChest.class, Names.sortingChest);
+        GameRegistry.registerTileEntity(TileSortingConnector.class, Names.sortingConnector);
         GameRegistry.registerTileEntity(TileFilteringHopper.class, Names.filteringHopper);
 
         if (Loader.isModLoaded("IronChest"))
         {
-            GameRegistry.registerTileEntity(TileFilteringIronChest.class, Names.filteringIronChest);
+            GameRegistry.registerTileEntity(TileSortingIronChest.class, Names.sortingIronChest);
         }
 
         new GuiHandler();

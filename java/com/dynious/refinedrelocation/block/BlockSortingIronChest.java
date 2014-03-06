@@ -1,11 +1,11 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.api.IFilteringInventory;
+import com.dynious.refinedrelocation.api.ISortingInventory;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.tileentity.TileFilteringIronChest;
+import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,12 +16,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BlockFilteringIronChest extends BlockIronChest
+public class BlockSortingIronChest extends BlockIronChest
 {
-    public BlockFilteringIronChest(int id)
+    public BlockSortingIronChest(int id)
     {
         super(id);
-        this.setUnlocalizedName(Names.filteringIronChest);
+        this.setUnlocalizedName(Names.sortingIronChest);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
@@ -29,9 +29,9 @@ public class BlockFilteringIronChest extends BlockIronChest
     public void breakBlock(World world, int i, int j, int k, int i1, int i2)
     {
         TileEntity tile = world.getBlockTileEntity(i, j, k);
-        if (tile instanceof IFilteringInventory)
+        if (tile instanceof ISortingInventory)
         {
-            ((IFilteringInventory)tile).getFilteringInventoryHandler().onTileDestroyed();
+            ((ISortingInventory)tile).getSortingInventoryHandler().onTileDestroyed();
         }
         super.breakBlock(world, i, j, k, i1, i2);
     }
@@ -54,7 +54,7 @@ public class BlockFilteringIronChest extends BlockIronChest
     @Override
     public TileEntity createTileEntity(World world, int metadata)
     {
-        return new TileFilteringIronChest(IronChestType.values()[metadata]);
+        return new TileSortingIronChest(IronChestType.values()[metadata]);
     }
 
     @SideOnly(Side.CLIENT)

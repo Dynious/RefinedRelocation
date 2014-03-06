@@ -8,16 +8,16 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilteringInventoryHandler extends FilteringMemberHandler
+public class SortingInventoryHandler extends SortingMemberHandler
 {
-    protected IFilteringInventory inventory;
+    protected ISortingInventory inventory;
 
     protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
 
-    public FilteringInventoryHandler(TileEntity owner)
+    public SortingInventoryHandler(TileEntity owner)
     {
         super(owner);
-        this.inventory = (IFilteringInventory) owner;
+        this.inventory = (ISortingInventory) owner;
     }
 
     /**

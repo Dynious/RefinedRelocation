@@ -10,13 +10,14 @@ import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.Field;
 
-public class RendererFilteringIronChest extends TileEntityIronChestRenderer
+public class RendererSortingIronChest extends TileEntityIronChestRenderer
 {
     private Field model;
-    public RendererFilteringIronChest()
+    public RendererSortingIronChest()
     {
         model = ReflectionHelper.findField(TileEntityIronChestRenderer.class, "model");
     }
+
     @Override
     public void render(TileEntityIronChest tile, double x, double y, double z, float partialTick)
     {
