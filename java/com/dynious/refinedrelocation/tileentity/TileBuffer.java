@@ -353,6 +353,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return new FluidTankInfo[]{new FluidTankInfo(null, Integer.MAX_VALUE)};
     }
 
+    @Optional.Method(modid = "CoFHCore")
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -385,36 +386,42 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return amount;
     }
 
+    @Optional.Method(modid = "CoFHCore")
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
         return 0;
     }
 
+    @Optional.Method(modid = "CoFHCore")
     @Override
     public boolean canInterface(ForgeDirection forgeDirection)
     {
         return true;
     }
 
+    @Optional.Method(modid = "CoFHCore")
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
         return 0;
     }
 
+    @Optional.Method(modid = "IC2")
     @Override
     public int getMaxEnergyStored(ForgeDirection forgeDirection)
     {
         return Integer.MAX_VALUE;
     }
 
+    @Optional.Method(modid = "IC2")
     @Override
     public double demandedEnergyUnits()
     {
         return Double.MAX_VALUE;
     }
 
+    @Optional.Method(modid = "IC2")
     @Override
     public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
     {
@@ -447,6 +454,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return amount;
     }
 
+    @Optional.Method(modid = "IC2")
     @Override
     public int getMaxSafeInput()
     {
@@ -473,13 +481,14 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         super.onChunkUnload();
     }
 
-
+    @Optional.Method(modid = "IC2")
     @Override
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction)
     {
         return true;
     }
 
+    @Optional.Method(modid = "BuildCraft|Energy")
     @Override
     public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
     {
@@ -497,6 +506,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return powerHandler.getPowerReceiver();
     }
 
+    @Optional.Method(modid = "BuildCraft|Energy")
     @Override
     public void doWork(PowerHandler powerHandler)
     {
@@ -531,18 +541,21 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return amount;
     }
 
+    @Optional.Method(modid = "BuildCraft|Energy")
     @Override
     public World getWorld()
     {
         return this.getWorldObj();
     }
 
+    @Optional.Method(modid = "BuildCraft|Energy")
     @Override
     public boolean canEmitPowerFrom(ForgeDirection direction)
     {
         return true;
     }
 
+    @Optional.Method(modid = "UniversalElectricity")
     @Override
     public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
     {
@@ -575,12 +588,14 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return amount;
     }
 
+    @Optional.Method(modid = "UniversalElectricity")
     @Override
     public long onExtractEnergy(ForgeDirection direction, long l, boolean b)
     {
         return 0;
     }
 
+    @Optional.Method(modid = "UniversalElectricity")
     @Override
     public boolean canConnect(ForgeDirection direction, Object o)
     {
