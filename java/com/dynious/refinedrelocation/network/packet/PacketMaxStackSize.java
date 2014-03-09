@@ -1,55 +1,39 @@
 package com.dynious.refinedrelocation.network.packet;
 
 import com.dynious.refinedrelocation.gui.container.IContainerAdvanced;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import cpw.mods.fml.common.network.Player;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.network.INetworkManager;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
-public class PacketMaxStackSize extends CustomPacket
+public class PacketMaxStackSize implements IPacket
 {
     public byte amount;
 
     public PacketMaxStackSize()
     {
-        super(PacketTypeHandler.MAX_STACK_SIZE, false);
     }
 
     public PacketMaxStackSize(byte amount)
     {
-        super(PacketTypeHandler.MAX_STACK_SIZE, false);
         this.amount = amount;
     }
 
     @Override
-    public void writeData(DataOutputStream data) throws IOException
+    public void readBytes(ByteBuf bytes, EntityPlayer player)
     {
-        super.writeData(data);
-        data.write(amount);
-    }
+        amount = bytes.readByte();
 
-    @Override
-    public void readData(DataInputStream data) throws IOException
-    {
-        super.readData(data);
-        amount = data.readByte();
-    }
-
-    @Override
-    public void execute(INetworkManager manager, Player player)
-    {
-        super.execute(manager, player);
-
-        Container container = ((EntityPlayer) player).openContainer;
+        Container container = player.openContainer;
 
         if (container == null || !(container instanceof IContainerAdvanced))
             return;
 
         ((IContainerAdvanced) container).setMaxStackSize(amount);
+    }
+
+    @Override
+    public void writeBytes(ByteBuf bytes)
+    {
+        bytes.writeByte(amount);
     }
 }

@@ -1,55 +1,40 @@
 package com.dynious.refinedrelocation.network.packet;
 
 import com.dynious.refinedrelocation.gui.container.IContainerFiltered;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.network.INetworkManager;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
-public class PacketUserFilter extends CustomPacket
+public class PacketUserFilter implements IPacket
 {
     public String userFilter;
 
     public PacketUserFilter()
     {
-        super(PacketTypeHandler.USER_FILTER, false);
     }
 
     public PacketUserFilter(String userFilter)
     {
-        super(PacketTypeHandler.USER_FILTER, false);
         this.userFilter = userFilter;
     }
 
     @Override
-    public void writeData(DataOutputStream data) throws IOException
+    public void readBytes(ByteBuf bytes, EntityPlayer player)
     {
-        super.writeData(data);
-        data.writeUTF(userFilter);
-    }
+        userFilter = ByteBufUtils.readUTF8String(bytes);
 
-    @Override
-    public void readData(DataInputStream data) throws IOException
-    {
-        super.readData(data);
-        userFilter = data.readUTF();
-    }
-
-    @Override
-    public void execute(INetworkManager manager, Player player)
-    {
-        super.execute(manager, player);
-
-        Container container = ((EntityPlayer) player).openContainer;
+        Container container = player.openContainer;
 
         if (!(container instanceof IContainerFiltered))
             return;
 
         ((IContainerFiltered) container).setUserFilter(userFilter);
+    }
+
+    @Override
+    public void writeBytes(ByteBuf bytes)
+    {
+        ByteBufUtils.writeUTF8String(bytes, userFilter);
     }
 }

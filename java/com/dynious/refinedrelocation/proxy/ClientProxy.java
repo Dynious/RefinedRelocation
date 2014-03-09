@@ -11,7 +11,11 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.channel.embedded.EmbeddedChannel;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.network.INetHandler;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy
@@ -39,5 +43,18 @@ public class ClientProxy extends CommonProxy
     public EmbeddedChannel getChannel()
     {
         return channels.get(Side.CLIENT);
+    }
+
+    @Override
+    public EntityPlayer getPlayerFromNetHandler (INetHandler handler)
+    {
+        if (handler instanceof NetHandlerPlayServer)
+        {
+            return ((NetHandlerPlayServer) handler).playerEntity;
+        }
+        else
+        {
+            return Minecraft.getMinecraft().thePlayer;
+        }
     }
 }

@@ -38,7 +38,7 @@ public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
     }
     
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return this.hasCustomInventoryName() ? super.getInventoryName() : "tile." + Names.filteringHopper + ".name";
     }

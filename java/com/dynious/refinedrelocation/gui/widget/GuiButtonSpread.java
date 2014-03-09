@@ -2,11 +2,10 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
+import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketSpread;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBuffer;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class GuiButtonSpread extends GuiButtonToggle
             return;
 
         tile.setSpreadItems(newState);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSpread(newState)));
+        NetworkHelper.sendToServer(new PacketSpread(newState));
     }
 
     @Override

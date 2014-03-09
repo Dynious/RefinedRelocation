@@ -15,7 +15,7 @@ public class EnergyTileEvent extends WorldEvent
 
     public EnergyTileEvent(IEnergyTile energyTile)
     {
-        super(((TileEntity) energyTile).worldObj);
+        super(((TileEntity) energyTile).getWorldObj());
 
         this.energyTile = energyTile;
     }

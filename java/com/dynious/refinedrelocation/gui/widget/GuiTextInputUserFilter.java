@@ -2,9 +2,8 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.api.IFilterTile;
 import com.dynious.refinedrelocation.gui.IGuiParent;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
+import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiTextInputUserFilter extends GuiTextInput
 {
@@ -24,7 +23,7 @@ public class GuiTextInputUserFilter extends GuiTextInput
             return;
 
         tile.getFilter().userFilter = newFilter;
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketUserFilter(newFilter)));
+        NetworkHelper.sendToServer(new PacketUserFilter(newFilter));
     }
 
     @Override

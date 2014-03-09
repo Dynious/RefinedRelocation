@@ -45,14 +45,14 @@ public class BlockSortingIronChest extends BlockIronChest
         }
         if (player.isSneaking())
         {
-            FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERED, world, i, j, k);
+            player.openGui(RefinedRelocation.instance, GuiIds.FILTERED, world, i, j, k);
             return true;
         }
         return world.isSideSolid(i, j + 1, k, ForgeDirection.DOWN) || GuiHelper.openGui(player, world.getTileEntity(i, j, k));
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata)
+    public TileEntity createNewTileEntity(World world, int metadata)
     {
         return new TileSortingIronChest(IronChestType.values()[metadata]);
     }

@@ -6,11 +6,9 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -43,9 +41,9 @@ public class BlockFilteringHopper extends BlockHopper
         if (!world.isRemote)
         {
             if (player.isSneaking())
-                FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERED, world, x, y, z);
+                player.openGui(RefinedRelocation.instance, GuiIds.FILTERED, world, x, y, z);
             else
-                FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERING_HOPPER, world, x, y, z);
+                player.openGui(RefinedRelocation.instance, GuiIds.FILTERING_HOPPER, world, x, y, z);
             return true;
         }
         return super.onBlockActivated(world, x, y, z, player, par6, par7, par8, par9);

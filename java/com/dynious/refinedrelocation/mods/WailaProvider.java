@@ -39,7 +39,7 @@ public class WailaProvider implements IWailaDataProvider
 
                 if (wirelessBlockExtender.isLinked())
                 {
-                    strings.add("Linked To : " + SpecialChars.TAB + BlockHelper.getBlockDisplayName(wirelessBlockExtender.getWorldObj(), wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected) + " (" + wirelessBlockExtender.xConnected + ":" + wirelessBlockExtender.yConnected + ":" + wirelessBlockExtender.zConnected + ")");
+                    strings.add("Linked To : " /* + SpecialChars.TAB */ + BlockHelper.getBlockDisplayName(wirelessBlockExtender.getWorldObj(), wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected) + " (" + wirelessBlockExtender.xConnected + ":" + wirelessBlockExtender.yConnected + ":" + wirelessBlockExtender.zConnected + ")");
                 }
                 else
                 {
@@ -50,7 +50,7 @@ public class WailaProvider implements IWailaDataProvider
             {
                 if (blockExtender.getConnectedTile() != null)
                 {
-                    strings.add("Connected To : " + SpecialChars.TAB + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()));
+                    strings.add("Connected To : " /* + SpecialChars.TAB */ + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()));
                 }
                 else
                 {
@@ -59,10 +59,10 @@ public class WailaProvider implements IWailaDataProvider
             }
 
             if (blockExtender.getConnectedDirection() != ForgeDirection.UNKNOWN)
-                strings.add("Facing : " + SpecialChars.TAB + blockExtender.getConnectedDirection().toString());
+                strings.add("Facing : " /* + SpecialChars.TAB */ + blockExtender.getConnectedDirection().toString());
 
             if (!(blockExtender instanceof TileWirelessBlockExtender))
-                strings.add("Redstone : " + SpecialChars.TAB + (!blockExtender.isRedstoneTransmissionEnabled() ? StatCollector.translateToLocal(Strings.DISABLED) : blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE)));
+                strings.add("Redstone : " /* + SpecialChars.TAB */ + (!blockExtender.isRedstoneTransmissionEnabled() ? StatCollector.translateToLocal(Strings.DISABLED) : blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE)));
         }
         return strings;
     }

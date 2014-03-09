@@ -207,7 +207,7 @@ public class BlockSortingChest extends BlockContainer
                 }
                 else
                 {
-                    FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERED, world, x, y, z);
+                    player.openGui(RefinedRelocation.instance, GuiIds.FILTERED, world, x, y, z);
                 }
             }
 

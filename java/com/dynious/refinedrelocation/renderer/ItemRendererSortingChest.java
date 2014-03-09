@@ -42,7 +42,8 @@ public class ItemRendererSortingChest implements IItemRenderer
 
     public void render(ItemStack itemStack, int renderPass)
     {
-        if (itemStack == null) {
+        if (itemStack == null)
+        {
             return;
         }
 

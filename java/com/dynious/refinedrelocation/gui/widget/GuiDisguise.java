@@ -6,7 +6,7 @@ import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
@@ -62,7 +62,7 @@ public class GuiDisguise extends GuiRefinedRelocationWidgetBase
             Block disguisedAs = tile.getDisguise();
             int meta = tile.blockDisguisedMetadata;
 
-            Icon icon = disguisedAs.getIcon(tile.getConnectedDirection().ordinal(), meta);
+            IIcon icon = disguisedAs.getIcon(tile.getConnectedDirection().ordinal(), meta);
 
             this.mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
             this.drawTexturedModelRectFromIcon(x, y, icon, w, h);

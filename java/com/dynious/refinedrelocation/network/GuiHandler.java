@@ -3,11 +3,7 @@ package com.dynious.refinedrelocation.network;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.IFilterTile;
 import com.dynious.refinedrelocation.gui.*;
-import com.dynious.refinedrelocation.gui.container.ContainerAdvanced;
-import com.dynious.refinedrelocation.gui.container.ContainerAdvancedFiltered;
-import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
-import com.dynious.refinedrelocation.gui.container.ContainerSortingChest;
-import com.dynious.refinedrelocation.gui.container.ContainerFilteringHopper;
+import com.dynious.refinedrelocation.gui.container.*;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.common.Loader;
@@ -22,7 +18,7 @@ public class GuiHandler implements IGuiHandler
 {
     public GuiHandler()
     {
-        NetworkRegistry.instance().registerGuiHandler(RefinedRelocation.instance, this);
+        NetworkRegistry.INSTANCE.registerGuiHandler(RefinedRelocation.instance, this);
     }
 
     @Override

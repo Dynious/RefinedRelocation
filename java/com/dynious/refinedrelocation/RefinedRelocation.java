@@ -32,6 +32,8 @@ public class RefinedRelocation
         ModBlocks.init();
 
         ModItems.init();
+
+        proxy.initNetworking();
     }
 
     @Mod.EventHandler

@@ -2,10 +2,8 @@ package com.dynious.refinedrelocation.gui.container;
 
 import com.dynious.refinedrelocation.api.IFilterTile;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
+import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerHopper;
@@ -92,7 +90,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
             {
                 if (crafter instanceof EntityPlayer)
                 {
-                    PacketDispatcher.sendPacketToPlayer(PacketTypeHandler.populatePacket(new PacketUserFilter(tile.getFilter().userFilter)), ((Player) crafter));
+                    NetworkHelper.sendTo(new PacketUserFilter(tile.getFilter().userFilter), (EntityPlayer) crafter);
                 }
             }
             lastUserFilter = tile.getFilter().userFilter;

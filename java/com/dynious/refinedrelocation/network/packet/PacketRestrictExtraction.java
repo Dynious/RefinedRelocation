@@ -1,55 +1,39 @@
 package com.dynious.refinedrelocation.network.packet;
 
 import com.dynious.refinedrelocation.gui.container.IContainerAdvancedFiltered;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import cpw.mods.fml.common.network.Player;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.network.INetworkManager;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
-public class PacketRestrictExtraction extends CustomPacket
+public class PacketRestrictExtraction implements IPacket
 {
     boolean restrictExtraction;
 
     public PacketRestrictExtraction()
     {
-        super(PacketTypeHandler.RESTRICT_EXTRACTION, false);
     }
 
     public PacketRestrictExtraction(boolean restrictExtraction)
     {
-        super(PacketTypeHandler.RESTRICT_EXTRACTION, false);
         this.restrictExtraction = restrictExtraction;
     }
 
     @Override
-    public void writeData(DataOutputStream data) throws IOException
+    public void readBytes(ByteBuf bytes, EntityPlayer player)
     {
-        super.writeData(data);
-        data.writeBoolean(restrictExtraction);
-    }
+        restrictExtraction = bytes.readBoolean();
 
-    @Override
-    public void readData(DataInputStream data) throws IOException
-    {
-        super.readData(data);
-        restrictExtraction = data.readBoolean();
-    }
-
-    @Override
-    public void execute(INetworkManager manager, Player player)
-    {
-        super.execute(manager, player);
-
-        Container container = ((EntityPlayer) player).openContainer;
+        Container container = player.openContainer;
 
         if (container == null || !(container instanceof IContainerAdvancedFiltered))
             return;
 
         ((IContainerAdvancedFiltered) container).setRestrictExtraction(restrictExtraction);
+    }
+
+    @Override
+    public void writeBytes(ByteBuf bytes)
+    {
+        bytes.writeBoolean(restrictExtraction);
     }
 }

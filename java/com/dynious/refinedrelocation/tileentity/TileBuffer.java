@@ -29,7 +29,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 @Optional.InterfaceList(value = {
         @Optional.Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
         @Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy"),
-        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
+        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2")
         /*
         @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
         @Optional.Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity")

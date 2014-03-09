@@ -7,7 +7,7 @@ import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TileBuffer;
 import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class GuiInsertDirections extends GuiRefinedRelocationWidgetBase
 {

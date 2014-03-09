@@ -15,7 +15,7 @@ public class GuiLabel extends GuiRefinedRelocationWidgetBase
         super(parent);
         this.setPos(x, y);
         this.text = text;
-        this.setSize(mc.fontRendererObj.getStringWidth(this.text), mc.fontRendererObj.FONT_HEIGHT);
+        this.setSize(mc.fontRenderer.getStringWidth(this.text), mc.fontRenderer.FONT_HEIGHT);
     }
 
     public GuiLabel(IGuiParent parent, int x, int y, String text, int color, boolean drawShadow)
@@ -23,7 +23,7 @@ public class GuiLabel extends GuiRefinedRelocationWidgetBase
         super(parent);
         this.setPos(x, y);
         this.text = text;
-        this.setSize(mc.fontRendererObj.getStringWidth(this.text), mc.fontRendererObj.FONT_HEIGHT);
+        this.setSize(mc.fontRenderer.getStringWidth(this.text), mc.fontRenderer.FONT_HEIGHT);
         this.color = color;
         this.drawShadow = drawShadow;
     }
@@ -37,11 +37,11 @@ public class GuiLabel extends GuiRefinedRelocationWidgetBase
             int y = this.y;
             if (drawCentered)
             {
-                x -= mc.fontRendererObj.getStringWidth(this.text) / 2;
-                y -= mc.fontRendererObj.FONT_HEIGHT / 2;
+                x -= mc.fontRenderer.getStringWidth(this.text) / 2;
+                y -= mc.fontRenderer.FONT_HEIGHT / 2;
             }
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            mc.fontRendererObj.drawString(this.text, x, y, this.color, this.drawShadow);
+            mc.fontRenderer.drawString(this.text, x, y, this.color, this.drawShadow);
         }
         super.drawForeground(mouseX, mouseY);
     }

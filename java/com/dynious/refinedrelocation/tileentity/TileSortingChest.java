@@ -13,6 +13,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -71,7 +74,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory
     /**
      * Returns the name of the inventory.
      */
-    public String getInvName()
+    public String getInventoryName()
     {
         return "container.sortingChest.name";
     }
@@ -80,7 +83,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory
      * If this returns false, the inventory name will be used as an unlocalized name, and translated into the player's
      * language. Otherwise it will be used directly.
      */
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return false;
     }
@@ -286,9 +289,9 @@ public class TileSortingChest extends TileEntity implements ISortingInventory
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        facing = pkt.data.getByte("facing");
+        facing = pkt.func_148857_g().getByte("facing");
     }
 
     @Override
@@ -296,7 +299,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory
     {
         NBTTagCompound nbt = new NBTTagCompound();
         nbt.setByte("facing", (byte) facing);
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, nbt);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
     }
 
     public void openInventory()

@@ -12,6 +12,9 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.channel.embedded.EmbeddedChannel;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.INetHandler;
+import net.minecraft.network.NetHandlerPlayServer;
 
 import java.util.EnumMap;
 
@@ -49,5 +52,17 @@ public class CommonProxy
     public EmbeddedChannel getChannel()
     {
         return channels.get(Side.SERVER);
+    }
+
+    public EntityPlayer getPlayerFromNetHandler (INetHandler handler)
+    {
+        if (handler instanceof NetHandlerPlayServer)
+        {
+            return ((NetHandlerPlayServer) handler).playerEntity;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

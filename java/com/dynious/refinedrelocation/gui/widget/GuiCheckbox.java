@@ -19,7 +19,7 @@ public class GuiCheckbox extends GuiRefinedRelocationWidgetBase
     public GuiCheckbox(IGuiParent parent, int x, int y, int w, int h, String labelText)
     {
         super(parent, x, y, w, h);
-        label = new GuiLabel(this, x + textureW + 6, y + h / 2 - mc.fontRendererObj.FONT_HEIGHT / 2, labelText, 0xffffff, true);
+        label = new GuiLabel(this, x + textureW + 6, y + h / 2 - mc.fontRenderer.FONT_HEIGHT / 2, labelText, 0xffffff, true);
         label.drawCentered = false;
     }
 

@@ -15,7 +15,7 @@ public class ContainerSortingChest extends ContainerHierarchical
     {
         this.lowerChestInventory = par2IInventory;
         this.numRows = par2IInventory.getSizeInventory() / 9;
-        par2IInventory.openChest();
+        par2IInventory.openInventory();
         ((TileSortingChest) this.lowerChestInventory).getSortingInventoryHandler().addCrafter(player);
         int i = (this.numRows - 4) * 18;
         int j;
@@ -98,7 +98,7 @@ public class ContainerSortingChest extends ContainerHierarchical
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
         super.onContainerClosed(par1EntityPlayer);
-        this.lowerChestInventory.closeChest();
+        this.lowerChestInventory.closeInventory();
         ((TileSortingChest) this.lowerChestInventory).getSortingInventoryHandler().removeCrafter(par1EntityPlayer);
     }
 

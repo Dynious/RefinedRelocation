@@ -13,6 +13,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,7 +34,7 @@ import static cpw.mods.fml.common.Optional.*;
 @InterfaceList(value = {
         @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
         @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
+        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
         /*
         @Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity"),
         @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")
@@ -982,18 +985,20 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        setConnectedSide(pkt.data.getByte("side"));
-        setRedstoneTransmissionActive(pkt.data.getBoolean("redstone"));
-        setRedstoneTransmissionEnabled(pkt.data.getBoolean("redstoneEnabled"));
-        int disguiseBlockId = pkt.data.getInteger("disguisedId");
+        setConnectedSide(pkt.func_148857_g().getByte("side"));
+        setRedstoneTransmissionActive(pkt.func_148857_g().getBoolean("redstone"));
+        setRedstoneTransmissionEnabled(pkt.func_148857_g().getBoolean("redstoneEnabled"));
+        int disguiseBlockId = pkt.func_148857_g().getInteger("disguisedId");
         if (disguiseBlockId != 0)
         {
-            int disguisedMeta = pkt.data.getInteger("disguisedMeta");
-            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+            int disguisedMeta = pkt.func_148857_g().getInteger("disguisedMeta");
+            setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }
+
+
 
     @Override
     public Packet getDescriptionPacket()
@@ -1004,10 +1009,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         compound.setBoolean("redstoneEnabled", this.isRedstoneTransmissionEnabled());
         if (blockDisguisedAs != null)
         {
-            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedId", Block.getIdFromBlock(blockDisguisedAs));
             compound.setInteger("disguisedMeta", blockDisguisedMetadata);
         }
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
     }
 
     public boolean rotateBlock()

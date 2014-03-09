@@ -4,16 +4,15 @@ import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
+import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketInsertDirection;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBuffer;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             TileEntity tile = (TileEntity) this.tile;
-            tooltip.add(BlockHelper.getBlockDisplayName(tile.worldObj, tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
+            tooltip.add(BlockHelper.getBlockDisplayName(tile.getWorldObj(), tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
 
             if (tile instanceof TileBlockExtender)
             {
@@ -82,7 +81,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
     {
         mc.getTextureManager().bindTexture(Resources.GUI_SHARED);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        FontRenderer fontRendererObj = mc.fontRendererObj;
+        FontRenderer fontRendererObj = mc.fontRenderer;
 
         boolean hasTile = true;
         boolean isHovered = isMouseInsideBounds(mouseX, mouseY);
@@ -122,7 +121,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
             {
                 byte step = (byte) (type == 0 ? 1 : -1);
                 tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()])));
+                NetworkHelper.sendToServer(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
             }
             if (tile instanceof TileAdvancedBuffer)
             {
@@ -130,7 +129,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
                 if (isShiftKeyDown) step = (byte) (step * 6);
 
                 tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()])));
+                NetworkHelper.sendToServer(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
             }
         }
     }
