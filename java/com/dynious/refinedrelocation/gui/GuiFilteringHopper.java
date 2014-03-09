@@ -29,8 +29,8 @@ public class GuiFilteringHopper extends GuiContainer
      */
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
-        this.fontRenderer.drawString(this.hopperInventory.isInvNameLocalized() ? this.hopperInventory.getInvName() : I18n.getString(this.hopperInventory.getInvName()), 8, 6, 4210752);
-        this.fontRenderer.drawString(this.playerInventory.isInvNameLocalized() ? this.playerInventory.getInvName() : I18n.getString(this.playerInventory.getInvName()), 8, this.ySize - 96 + 2, 4210752);
+        this.fontRendererObj.drawString(this.hopperInventory.hasCustomInventoryName() ? this.hopperInventory.getInventoryName() : I18n.format(this.hopperInventory.getInventoryName()), 8, 6, 4210752);
+        this.fontRendererObj.drawString(this.playerInventory.hasCustomInventoryName() ? this.playerInventory.getInventoryName() : I18n.format(this.playerInventory.getInventoryName()), 8, this.ySize - 96 + 2, 4210752);
     }
 
     /**

@@ -89,7 +89,7 @@ public class Filter
                     oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
                 }
 
-                if (customFilters[0] && (oreName.contains("ingot") || itemStack.itemID == Item.ingotIron.itemID || itemStack.itemID == Item.ingotGold.itemID))
+                if (customFilters[0] && oreName.contains("ingot"))
                     return true;
                 if (customFilters[1] && oreName.contains("ore"))
                     return true;
@@ -119,11 +119,11 @@ public class Filter
 
                     if (itemStack.getItem() instanceof ItemBlock)
                     {
-                        tab = (CreativeTabs) displayOnCreativeTab.get(Block.blocksList[itemStack.itemID]);
+                        tab = (CreativeTabs) displayOnCreativeTab.get(Block.getBlockById(ItemBlock.getIdFromItem(itemStack.getItem())));
                     }
                     else
                     {
-                        tab = (CreativeTabs) tabToDisplayOn.get(Item.itemsList[itemStack.itemID]);
+                        tab = (CreativeTabs) tabToDisplayOn.get(itemStack.getItem());
                     }
                     if (tab != null)
                     {
@@ -195,7 +195,7 @@ public class Filter
             case 9:
                 return "All Food";
             default:
-                return I18n.getString(CreativeTabs.creativeTabArray[getCreativeTab(place)].getTranslatedTabLabel());
+                return I18n.format(CreativeTabs.creativeTabArray[getCreativeTab(place)].getTranslatedTabLabel());
         }
     }
 

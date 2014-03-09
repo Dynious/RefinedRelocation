@@ -48,6 +48,6 @@ public class PacketTile extends CustomPacket
     public void execute(INetworkManager manager, Player player)
     {
         EntityPlayer thePlayer = (EntityPlayer) player;
-        this.tile = thePlayer.getEntityWorld().getBlockTileEntity(x, y, z);
+        this.tile = thePlayer.getEntityWorld().getTileEntity(x, y, z);
     }
 }

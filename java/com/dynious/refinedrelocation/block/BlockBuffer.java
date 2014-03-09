@@ -1,50 +1,39 @@
 package com.dynious.refinedrelocation.block;
 
-import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBuffer;
 import com.dynious.refinedrelocation.tileentity.TileBuffer;
 import com.dynious.refinedrelocation.tileentity.TileFilteredBuffer;
-import cpw.mods.fml.common.Optional.Method;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static cpw.mods.fml.common.Optional.Interface;
-import static cpw.mods.fml.common.Optional.InterfaceList;
-
-@InterfaceList(value = {@Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")})
-public class BlockBuffer extends BlockContainer implements IDismantleable
+/* @InterfaceList(value = {@Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")}) */
+public class BlockBuffer extends BlockContainer /* implements IDismantleable */
 {
-    protected BlockBuffer(int id)
+    protected BlockBuffer()
     {
-        super(id, Material.rock);
-        this.setUnlocalizedName(Names.buffer);
+        super(Material.rock);
+        this.setBlockName(Names.buffer);
         this.setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
-        return null;
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, int metadata)
-    {
-        switch (metadata)
+        switch (meta)
         {
             case 0:
                 return new TileBuffer();
@@ -66,7 +55,7 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
         }
         else
         {
-            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            TileEntity tile = world.getTileEntity(x, y, z);
             if (tile != null)
             {
                 return GuiHelper.openGui(player, tile);
@@ -105,10 +94,10 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int side)
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
-        super.onNeighborBlockChange(world, x, y, z, side);
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        super.onNeighborBlockChange(world, x, y, z, block);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileBuffer)
         {
             ((TileBuffer) tile).onBlocksChanged();
@@ -117,12 +106,12 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
+    public void getSubBlocks(Item item, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
         for (int j = 0; j < 3; ++j)
         {
-            par3List.add(new ItemStack(par1, 1, j));
+            par3List.add(new ItemStack(item, 1, j));
         }
     }
 
@@ -137,6 +126,8 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
     {
         return metadata;
     }
+
+    /*
 
     @Method(modid = "CoFHCore")
     @Override
@@ -171,10 +162,12 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
         return true;
     }
 
+    */
+
     @Override
     public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)
     {
-        TileBuffer tile = (TileBuffer) worldObj.getBlockTileEntity(x, y, z);
+        TileBuffer tile = (TileBuffer) worldObj.getTileEntity(x, y, z);
         return tile.rotateBlock();
     }
 }

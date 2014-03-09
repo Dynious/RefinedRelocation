@@ -9,6 +9,7 @@ import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.BlockHopper;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -18,20 +19,20 @@ import java.lang.reflect.Field;
 
 public class BlockFilteringHopper extends BlockHopper
 {
-    static final Field iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon", "field_94455_b", "b"));
-    static final Field iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon", "field_94456_c", "c"));
-    static final Field iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon", "field_94454_cO", "d"));
+    static final Field iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon", "field_149921_b", "b"));
+    static final Field iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon", "field_149923_M", "M"));
+    static final Field iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon", "field_149924_N", "N"));
 
-    protected BlockFilteringHopper(int id)
+    protected BlockFilteringHopper()
     {
-        super(id);
-        this.setUnlocalizedName(Names.filteringHopper);
+        super();
+        this.setBlockName(Names.filteringHopper);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
-        this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundWoodFootstep);
+        this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundTypeWood);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
         return new TileFilteringHopper();
     }
@@ -51,7 +52,7 @@ public class BlockFilteringHopper extends BlockHopper
     }
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerBlockIcons(IIconRegister par1IconRegister)
     {
         try
         {

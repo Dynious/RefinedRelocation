@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.proxy;
 
-import com.dynious.refinedrelocation.lib.BlockIds;
+import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.renderer.*;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
@@ -9,6 +9,9 @@ import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.relauncher.Side;
+import io.netty.channel.embedded.EmbeddedChannel;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy
@@ -22,13 +25,19 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileBuffer.class, new RendererBuffer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileSortingChest.class, new RendererSortingChest());
 
-        MinecraftForgeClient.registerItemRenderer(BlockIds.BLOCK_EXTENDER, new ItemRendererBlockExtender());
-        MinecraftForgeClient.registerItemRenderer(BlockIds.BUFFER, new ItemRendererBuffer());
-        MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_CHEST, new ItemRendererSortingChest());
+        MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.blockExtender), new ItemRendererBlockExtender());
+        MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.buffer), new ItemRendererBuffer());
+        MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.sortingChest), new ItemRendererSortingChest());
 
         if (Loader.isModLoaded("IronChest"))
         {
             IronChestHelper.addIronChestRenders();
         }
+    }
+
+    @Override
+    public EmbeddedChannel getChannel()
+    {
+        return channels.get(Side.CLIENT);
     }
 }

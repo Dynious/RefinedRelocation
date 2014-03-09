@@ -40,6 +40,6 @@ public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
     @Override
     public String getInvName()
     {
-        return this.isInvNameLocalized() ? super.getInvName() : "tile." + Names.filteringHopper + ".name";
+        return this.hasCustomInventoryName() ? super.getInventoryName() : "tile." + Names.filteringHopper + ".name";
     }
 }

@@ -47,7 +47,7 @@ public class PacketTileUpdate extends CustomPacket
     public void execute(INetworkManager manager, Player player)
     {
         EntityPlayer thePlayer = (EntityPlayer) player;
-        this.tile = thePlayer.getEntityWorld().getBlockTileEntity(compound.getInteger("x"), compound.getInteger("y"), compound.getInteger("z"));
+        this.tile = thePlayer.getEntityWorld().getTileEntity(compound.getInteger("x"), compound.getInteger("y"), compound.getInteger("z"));
         if (tile != null)
         {
             tile.readFromNBT(compound);

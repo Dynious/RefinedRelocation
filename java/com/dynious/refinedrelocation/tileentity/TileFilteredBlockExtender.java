@@ -3,8 +3,6 @@ package com.dynious.refinedrelocation.tileentity;
 import com.dynious.refinedrelocation.api.Filter;
 import com.dynious.refinedrelocation.api.IFilterTile;
 import cpw.mods.fml.common.Optional;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
@@ -22,6 +20,8 @@ public class TileFilteredBlockExtender extends TileBlockExtender implements IFil
     /*
     ComputerCraft interaction
     */
+
+    /*
 
     @Optional.Method(modid = "ComputerCraft")
     @Override
@@ -72,6 +72,8 @@ public class TileFilteredBlockExtender extends TileBlockExtender implements IFil
         }
         return null;
     }
+
+    */
 
     @Override
     public Filter getFilter()

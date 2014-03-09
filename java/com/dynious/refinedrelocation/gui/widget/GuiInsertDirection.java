@@ -82,7 +82,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
     {
         mc.getTextureManager().bindTexture(Resources.GUI_SHARED);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        FontRenderer fontRenderer = mc.fontRenderer;
+        FontRenderer fontRendererObj = mc.fontRendererObj;
 
         boolean hasTile = true;
         boolean isHovered = isMouseInsideBounds(mouseX, mouseY);
@@ -100,7 +100,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
             {
                 this.insertDirection = ForgeDirection.getOrientation(tile.getInsertDirection()[side.ordinal()]);
                 char letter = insertDirection.toString().charAt(0);
-                fontRenderer.drawString(Character.toString(letter), x + w / 2 - fontRenderer.getCharWidth(letter) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, hasTile || isHovered ? 0xFFFFFF : 0xAAAAAA, true);
+                fontRendererObj.drawString(Character.toString(letter), x + w / 2 - fontRendererObj.getCharWidth(letter) / 2, y + h / 2 - fontRendererObj.FONT_HEIGHT / 2, hasTile || isHovered ? 0xFFFFFF : 0xAAAAAA, true);
             }
         }
         else if (tile instanceof TileAdvancedBuffer)
@@ -110,7 +110,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
             TileAdvancedBuffer buffer = (TileAdvancedBuffer) tile;
             byte p = buffer.getPriority(side.ordinal());
             String priority = p == TileAdvancedBuffer.NULL_PRIORITY ? "--" : Byte.toString((byte) (p + 1));
-            fontRenderer.drawString(priority, x + w / 2 - fontRenderer.getStringWidth(priority) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, isHovered ? 0xFFFFFF : 0xAAAAAA, true);
+            fontRendererObj.drawString(priority, x + w / 2 - fontRendererObj.getStringWidth(priority) / 2, y + h / 2 - fontRendererObj.FONT_HEIGHT / 2, isHovered ? 0xFFFFFF : 0xAAAAAA, true);
         }
     }
 

@@ -10,7 +10,7 @@ public class GuiTextInput extends GuiRefinedRelocationWidgetBase
     public GuiTextInput(IGuiParent parent, int x, int y, int w, int h)
     {
         super(parent, x, y, w, h);
-        this.textField = new GuiTextField(mc.fontRenderer, x, y, w, h);
+        this.textField = new GuiTextField(mc.fontRendererObj, x, y, w, h);
     }
 
     @Override

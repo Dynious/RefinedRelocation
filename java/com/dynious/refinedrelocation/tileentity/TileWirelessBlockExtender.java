@@ -51,7 +51,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
         recheckTime++;
         if (recheckTime >= 20)
         {
-            checkConnectedDirection(worldObj.getBlockTileEntity(xConnected, yConnected, zConnected));
+            checkConnectedDirection(worldObj.getTileEntity(xConnected, yConnected, zConnected));
             recheckTime = 0;
         }
     }
@@ -83,7 +83,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public TileEntity getConnectedTile()
     {
-        return worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        return worldObj.getTileEntity(xConnected, yConnected, zConnected);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public IInventory getInventory()
     {
-        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
         if (tile != null && tile instanceof IInventory)
         {
             if (!tile.equals(inventory))
@@ -127,7 +127,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public IFluidHandler getFluidHandler()
     {
-        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
         if (tile != null && tile instanceof IFluidHandler)
         {
             if (!tile.equals(fluidHandler))
@@ -151,7 +151,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public IPowerReceptor getPowerReceptor()
     {
-        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
         if (tile != null && tile instanceof IPowerReceptor)
         {
             if (!tile.equals(powerReceptor))
@@ -175,7 +175,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public IEnergySink getEnergySink()
     {
-        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
         if (tile != null && tile instanceof IEnergySink)
         {
             if (!tile.equals(energySink))
@@ -199,7 +199,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public IEnergyHandler getEnergyHandler()
     {
-        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
         if (tile != null && tile instanceof IEnergyHandler)
         {
             if (!tile.equals(energyHandler))
@@ -223,7 +223,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public IEnergyInterface getEnergyInterface()
     {
-        TileEntity tile = worldObj.getBlockTileEntity(xConnected, yConnected, zConnected);
+        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
         if (tile != null && tile instanceof IEnergyInterface)
         {
             if (!tile.equals(energyInterface))

@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.block;
 
-import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
@@ -10,52 +9,42 @@ import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.tileentity.*;
-import cpw.mods.fml.common.Optional.Interface;
-import cpw.mods.fml.common.Optional.InterfaceList;
-import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.util.Icon;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@InterfaceList(value = {@Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")})
-public class BlockExtender extends BlockContainer implements IDismantleable
+/* @InterfaceList(value = {@Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")}) */
+public class BlockExtender extends BlockContainer /*    implements IDismantleable */
 {
-    public BlockExtender(int id)
+    public BlockExtender()
     {
-        super(id, Material.rock);
-        this.setUnlocalizedName(Names.blockExtender);
+        super(Material.rock);
+        this.setBlockName(Names.blockExtender);
         this.setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
 
     @Override
-    public TileEntity createNewTileEntity(World world)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
-        return null;
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, int metadata)
-    {
-        switch (metadata)
+        switch (meta)
         {
             case 0:
                 return new TileBlockExtender();
@@ -74,12 +63,12 @@ public class BlockExtender extends BlockContainer implements IDismantleable
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
+    public void getSubBlocks(Item item, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
         for (int j = 0; j < (Settings.DISABLE_WIRELESS_BLOCK_EXTENDER ? 4 : 5); ++j)
         {
-            par3List.add(new ItemStack(par1, 1, j));
+            par3List.add(new ItemStack(item, 1, j));
         }
     }
 
@@ -91,15 +80,14 @@ public class BlockExtender extends BlockContainer implements IDismantleable
         {
             if (player.getCurrentEquippedItem() == null)
             {
-                TileEntity tile = world.getBlockTileEntity(x, y, z);
+                TileEntity tile = world.getTileEntity(x, y, z);
                 if (tile != null && tile instanceof TileBlockExtender && !(tile instanceof TileWirelessBlockExtender))
                 {
                     TileBlockExtender blockExtender = (TileBlockExtender) tile;
                     blockExtender.setRedstoneTransmissionEnabled(!blockExtender.isRedstoneTransmissionEnabled());
                     if (world.isRemote)
                     {
-                        player.sendChatToPlayer(new ChatMessageComponent()
-                                .addText("Redstone signal transmission " + (blockExtender.isRedstoneTransmissionEnabled() ? "enabled" : "disabled")));
+                        player.addChatComponentMessage(new ChatComponentText("Redstone signal transmission " + (blockExtender.isRedstoneTransmissionEnabled() ? "enabled" : "disabled")));
                     }
                     return true;
                 }
@@ -108,7 +96,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
         }
         else
         {
-            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            TileEntity tile = world.getTileEntity(x, y, z);
             if (tile != null)
             {
                 if (tile instanceof TileWirelessBlockExtender)
@@ -127,16 +115,14 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                                 ((TileWirelessBlockExtender) tile).setLink(tileX, tileY, tileZ);
                                 if (world.isRemote)
                                 {
-                                    player.sendChatToPlayer(new ChatMessageComponent()
-                                            .addText(BlockHelper.getTileEntityDisplayName(tile) + " linked with " + BlockHelper.getBlockDisplayName(tile.worldObj, tileX, tileY, tileZ) + " at " + tileX + ":" + tileY + ":" + tileZ));
+                                    player.addChatComponentMessage(new ChatComponentText(BlockHelper.getTileEntityDisplayName(tile) + " linked with " + BlockHelper.getBlockDisplayName(tile.getWorldObj(), tileX, tileY, tileZ) + " at " + tileX + ":" + tileY + ":" + tileZ));
                                 }
                             }
                             else
                             {
                                 if (world.isRemote)
                                 {
-                                    player.sendChatToPlayer(new ChatMessageComponent()
-                                            .addText("The " + BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position (max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER + ")"));
+                                    player.addChatComponentMessage(new ChatComponentText("The " + BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position (max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER + ")"));
                                 }
                             }
                         }
@@ -145,8 +131,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                             ((TileWirelessBlockExtender) tile).clearLink();
                             if (world.isRemote)
                             {
-                                player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " is no longer linked"));
+                                player.addChatComponentMessage(new ChatComponentText(BlockHelper.getTileEntityDisplayName(tile) + " is no longer linked"));
                             }
                         }
                         return true;
@@ -159,10 +144,10 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int par5)
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
-        super.onNeighborBlockChange(world, x, y, z, par5);
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        super.onNeighborBlockChange(world, x, y, z, block);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileBlockExtender)
         {
             ((TileBlockExtender) tile).blocksChanged = true;
@@ -172,7 +157,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     @Override
     public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         return tile != null && tile instanceof TileBlockExtender && ((TileBlockExtender) tile).canConnectRedstone(side);
     }
 
@@ -185,7 +170,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     @Override
     public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileBlockExtender)
         {
             return ((TileBlockExtender) tile).isPoweringTo(side);
@@ -197,7 +182,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     @Override
     public void randomDisplayTick(World world, int x, int y, int z, Random random)
     {
-        TileBlockExtender tile = (TileBlockExtender) world.getBlockTileEntity(x, y, z);
+        TileBlockExtender tile = (TileBlockExtender) world.getTileEntity(x, y, z);
 
         if (!tile.isRedstoneTransmissionActive())
             return;
@@ -232,7 +217,8 @@ public class BlockExtender extends BlockContainer implements IDismantleable
         return false;
     }
 
-    public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side)
+    @Override
+    public boolean isBlockSolid(IBlockAccess world, int x, int y, int z, int side)
     {
         return true;
     }
@@ -255,6 +241,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
         return metadata;
     }
 
+    /*
     @Method(modid = "CoFHCore")
     @Override
     public ItemStack dismantleBlock(EntityPlayer player, World world, int x,
@@ -287,11 +274,12 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     {
         return true;
     }
+    */
 
     @Override
     public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)
     {
-        TileBlockExtender tile = (TileBlockExtender) worldObj.getBlockTileEntity(x, y, z);
+        TileBlockExtender tile = (TileBlockExtender) worldObj.getTileEntity(x, y, z);
         return tile.rotateBlock();
     }
 
@@ -309,7 +297,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     @Override
     public int colorMultiplier(IBlockAccess world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity != null && tileEntity instanceof TileBlockExtender)
         {
             TileBlockExtender tile = (TileBlockExtender) tileEntity;
@@ -321,9 +309,9 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity != null && tileEntity instanceof TileBlockExtender)
         {
             TileBlockExtender tile = (TileBlockExtender) tileEntity;
@@ -332,7 +320,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
             if (blockDisguisedAs != null)
                 return blockDisguisedAs.getIcon(side, disguisedMeta);
         }
-        return super.getBlockTexture(world, x, y, z, side);
+        return super.getIcon(world, x, y, z, side);
     }
 
     @Override

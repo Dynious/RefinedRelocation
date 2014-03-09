@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.mods;
 import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.item.ItemSortingIronChest;
-import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.renderer.ItemRendererSortingIronChest;
 import com.dynious.refinedrelocation.renderer.RendererSortingIronChest;
@@ -17,7 +16,9 @@ import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.ItemChestChanger;
 import cpw.mods.ironchest.TileEntityIronChest;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -27,7 +28,7 @@ public class IronChestHelper
 {
     public static void addIronChestBlocks()
     {
-        ModBlocks.sortingIronChest = new BlockSortingIronChest(BlockIds.SORTING_IRON_CHEST);
+        ModBlocks.sortingIronChest = new BlockSortingIronChest();
         GameRegistry.registerBlock(ModBlocks.sortingIronChest, ItemSortingIronChest.class, Names.sortingIronChest);
     }
 
@@ -35,14 +36,14 @@ public class IronChestHelper
     {
         for (int i = 0; i < IronChestType.values().length; i++)
         {
-            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingIronChest, 1, i), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
+            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingIronChest, 1, i), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
         }
     }
 
     public static void addIronChestRenders()
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileSortingIronChest.class, new RendererSortingIronChest());
-        MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_IRON_CHEST, new ItemRendererSortingIronChest());
+        MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.sortingIronChest), new ItemRendererSortingIronChest());
     }
 
     public static boolean upgradeToIronChest(World world, EntityPlayer player, int x, int y, int z)
@@ -52,7 +53,7 @@ public class IronChestHelper
             ItemChestChanger chestChanger = (ItemChestChanger) player.getHeldItem().getItem();
             if (chestChanger.getType().canUpgrade(IronChestType.WOOD))
             {
-                TileEntity tile = world.getBlockTileEntity(x, y, z);
+                TileEntity tile = world.getTileEntity(x, y, z);
                 if (tile instanceof TileSortingChest)
                 {
                     TileSortingChest tec = (TileSortingChest) tile;
@@ -70,12 +71,12 @@ public class IronChestHelper
                         chestInventory[i] = null;
                     }
                     // Clear the old block out
-                    world.setBlock(x, y, z, 0, 0, 3);
+                    world.setBlock(x, y, z, null, 0, 3);
                     // Force the Chest TE to reset it's knowledge of neighbouring blocks
                     // And put in our block instead
-                    world.setBlock(x, y, z, ModBlocks.sortingIronChest.blockID, chestChanger.getType().getTarget(), 3);
+                    world.setBlock(x, y, z, ModBlocks.sortingIronChest, chestChanger.getType().getTarget(), 3);
 
-                    world.setBlockTileEntity(x, y, z, newchest);
+                    world.setTileEntity(x, y, z, newchest);
                     world.setBlockMetadataWithNotify(x, y, z, chestChanger.getType().getTarget(), 3);
                     System.arraycopy(chestContents, 0, newchest.chestContents, 0, Math.min(chestContents.length, newchest.getSizeInventory()));
                     player.getHeldItem().stackSize--;
@@ -106,11 +107,11 @@ public class IronChestHelper
                 teic.chestContents[i] = null;
             }
             // Clear the old block out
-            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, 0, 0, 3);
+            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, null, 0, 3);
             // And put in our block instead
-            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingIronChest.blockID, teic.getType().ordinal(), 3);
+            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingIronChest, teic.getType().ordinal(), 3);
 
-            world.setBlockTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, chest);
+            world.setTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, chest);
             world.setBlockMetadataWithNotify(tile.xCoord, tile.yCoord, tile.zCoord, chest.getType().ordinal(), 3);
             System.arraycopy(chestContents, 0, chest.chestContents, 0, chest.getSizeInventory());
             return true;

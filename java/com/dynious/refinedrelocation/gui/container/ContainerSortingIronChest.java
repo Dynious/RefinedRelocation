@@ -1,13 +1,13 @@
 package com.dynious.refinedrelocation.gui.container;
 
 import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
-import cpw.mods.ironchest.ContainerIronChestBase;
+import cpw.mods.ironchest.ContainerIronChest;
 import cpw.mods.ironchest.IronChestType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-public class ContainerSortingIronChest extends ContainerIronChestBase
+public class ContainerSortingIronChest extends ContainerIronChest
 {
     public IInventory chest;
 

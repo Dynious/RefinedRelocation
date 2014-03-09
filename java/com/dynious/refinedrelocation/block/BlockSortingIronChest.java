@@ -6,29 +6,29 @@ import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
-import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.ironchest.BlockIronChest;
 import cpw.mods.ironchest.IronChestType;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockSortingIronChest extends BlockIronChest
 {
-    public BlockSortingIronChest(int id)
+    public BlockSortingIronChest()
     {
-        super(id);
-        this.setUnlocalizedName(Names.sortingIronChest);
+        super();
+        this.setBlockName(Names.sortingIronChest);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
     @Override
-    public void breakBlock(World world, int i, int j, int k, int i1, int i2)
+    public void breakBlock(World world, int i, int j, int k, Block i1, int i2)
     {
-        TileEntity tile = world.getBlockTileEntity(i, j, k);
+        TileEntity tile = world.getTileEntity(i, j, k);
         if (tile instanceof ISortingInventory)
         {
             ((ISortingInventory)tile).getSortingInventoryHandler().onTileDestroyed();
@@ -48,7 +48,7 @@ public class BlockSortingIronChest extends BlockIronChest
             FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERED, world, i, j, k);
             return true;
         }
-        return world.isBlockSolidOnSide(i, j + 1, k, ForgeDirection.DOWN) || GuiHelper.openGui(player, world.getBlockTileEntity(i, j, k));
+        return world.isSideSolid(i, j + 1, k, ForgeDirection.DOWN) || GuiHelper.openGui(player, world.getTileEntity(i, j, k));
     }
 
     @Override

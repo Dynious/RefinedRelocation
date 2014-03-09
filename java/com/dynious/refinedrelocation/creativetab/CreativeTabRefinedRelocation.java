@@ -1,9 +1,9 @@
 package com.dynious.refinedrelocation.creativetab;
 
-import com.dynious.refinedrelocation.lib.BlockIds;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import com.dynious.refinedrelocation.block.ModBlocks;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class CreativeTabRefinedRelocation extends CreativeTabs
 {
@@ -14,9 +14,14 @@ public class CreativeTabRefinedRelocation extends CreativeTabs
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public int getTabIconItemIndex()
+    public Item getTabIconItem()
     {
-        return BlockIds.BLOCK_EXTENDER;
+        return null;
+    }
+
+    @Override
+    public ItemStack getIconItemStack()
+    {
+        return new ItemStack(ModBlocks.blockExtender);
     }
 }

@@ -41,7 +41,7 @@ public class SortingInventoryHandler extends SortingMemberHandler
                     {
                         inventory.getInventory()[slot] = itemStack;
 
-                        inventory.onInventoryChanged();
+                        inventory.markDirty();
                         itemStack = null;
                     }
                     else
@@ -81,7 +81,7 @@ public class SortingInventoryHandler extends SortingMemberHandler
      */
     public final void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
-        if (owner.worldObj.isRemote)
+        if (owner.getWorldObj().isRemote)
         {
             return;
         }
@@ -89,7 +89,7 @@ public class SortingInventoryHandler extends SortingMemberHandler
         if (par2ItemStack == null || (!inventory.getFilter().blacklists && inventory.getFilter().passesFilter(par2ItemStack)))
         {
             inventory.getInventory()[par1] = par2ItemStack;
-            inventory.onInventoryChanged();
+            inventory.markDirty();
         }
         else
         {
@@ -97,7 +97,7 @@ public class SortingInventoryHandler extends SortingMemberHandler
             if (filteredStack != null)
             {
                 inventory.getInventory()[par1] = par2ItemStack;
-                inventory.onInventoryChanged();
+                inventory.markDirty();
             }
         }
         syncInventory();

@@ -110,7 +110,7 @@ It's even possible to use an ic2 energy net delegate alongside an in-world TileE
 designed to work with ic2 energy at all, like making a furnace electric by receiving energy through
 a delegate and adding the corresponding fuel amount to the in-world furnace TileEntity.
 
-Getting the in-world TileEntity for a delegate involves calling World.getBlockTileEntity() with the
+Getting the in-world TileEntity for a delegate involves calling World.getTileEntity() with the
 delegate's world and xyz coordinate information.
 
 

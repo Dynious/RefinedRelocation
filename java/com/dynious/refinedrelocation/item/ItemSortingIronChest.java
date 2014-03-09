@@ -1,14 +1,15 @@
 package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 public class ItemSortingIronChest extends ItemBlock
 {
-    public ItemSortingIronChest(int par1)
+    public ItemSortingIronChest(Block block)
     {
-        super(par1);
+        super(block);
         setHasSubtypes(true);
     }
 

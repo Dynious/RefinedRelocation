@@ -7,12 +7,12 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -25,23 +25,22 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Iterator;
 import java.util.Random;
-
-import static net.minecraftforge.common.ForgeDirection.DOWN;
 
 public class BlockSortingChest extends BlockContainer
 {
     private final Random random = new Random();
 
-    protected BlockSortingChest(int id)
+    protected BlockSortingChest()
     {
-        super(id, Material.wood);
+        super(Material.wood);
         setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
-        this.setUnlocalizedName(Names.sortingChest);
+        this.setBlockName(Names.sortingChest);
     }
 
     /**
@@ -115,7 +114,7 @@ public class BlockSortingChest extends BlockContainer
             chestFacing = 4;
         }
 
-        TileEntity te = par1World.getBlockTileEntity(par2, par3, par4);
+        TileEntity te = par1World.getTileEntity(par2, par3, par4);
         if (te != null && te instanceof TileSortingChest)
         {
             TileSortingChest tile = (TileSortingChest) te;
@@ -129,9 +128,10 @@ public class BlockSortingChest extends BlockContainer
      * different metadata value, but before the new metadata value is set. Args: World, x, y, z, old block ID, old
      * metadata
      */
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
+    @Override
+    public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6)
     {
-        TileSortingChest tileentitychest = (TileSortingChest) par1World.getBlockTileEntity(par2, par3, par4);
+        TileSortingChest tileentitychest = (TileSortingChest) par1World.getTileEntity(par2, par3, par4);
 
         if (tileentitychest != null)
         {
@@ -157,7 +157,7 @@ public class BlockSortingChest extends BlockContainer
                         }
 
                         itemstack.stackSize -= k1;
-                        entityitem = new EntityItem(par1World, (double) ((float) par2 + f), (double) ((float) par3 + f1), (double) ((float) par4 + f2), new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(par1World, (double) ((float) par2 + f), (double) ((float) par3 + f1), (double) ((float) par4 + f2), new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
                         entityitem.motionX = (double) ((float) this.random.nextGaussian() * f3);
                         entityitem.motionY = (double) ((float) this.random.nextGaussian() * f3 + 0.2F);
@@ -171,11 +171,12 @@ public class BlockSortingChest extends BlockContainer
                 }
             }
 
-            par1World.func_96440_m(par2, par3, par4, par5);
+            par1World.func_147453_f(par2, par3, par4, par5);
         }
 
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
     }
+
 
     /**
      * Called upon block activation (right click on the block.)
@@ -202,7 +203,7 @@ public class BlockSortingChest extends BlockContainer
             {
                 if (!player.isSneaking())
                 {
-                    GuiHelper.openGui(player, world.getBlockTileEntity(x, y, z));
+                    GuiHelper.openGui(player, world.getTileEntity(x, y, z));
                 }
                 else
                 {
@@ -221,13 +222,13 @@ public class BlockSortingChest extends BlockContainer
      */
     public IInventory getInventory(World par1World, int par2, int par3, int par4)
     {
-        Object object = par1World.getBlockTileEntity(par2, par3, par4);
+        Object object = par1World.getTileEntity(par2, par3, par4);
 
         if (object == null)
         {
             return null;
         }
-        else if (par1World.isBlockSolidOnSide(par2, par3 + 1, par4, DOWN))
+        else if (par1World.isSideSolid(par2, par3 + 1, par4, ForgeDirection.DOWN))
         {
             return null;
         }
@@ -244,7 +245,8 @@ public class BlockSortingChest extends BlockContainer
     /**
      * Returns a new instance of a block's tile entity class. Called on placing the block.
      */
-    public TileEntity createNewTileEntity(World par1World)
+    @Override
+    public TileEntity createNewTileEntity(World par1World, int meta)
     {
         return new TileSortingChest();
     }
@@ -277,7 +279,7 @@ public class BlockSortingChest extends BlockContainer
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
      */
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerBlockIcons(IIconRegister par1IconRegister)
     {
         this.blockIcon = par1IconRegister.registerIcon("planks_oak");
     }

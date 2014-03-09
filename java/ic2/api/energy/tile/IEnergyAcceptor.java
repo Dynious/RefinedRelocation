@@ -1,7 +1,7 @@
 package ic2.api.energy.tile;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * For internal/multi-block usage only.

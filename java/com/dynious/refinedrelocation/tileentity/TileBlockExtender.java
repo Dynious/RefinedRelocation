@@ -2,12 +2,8 @@ package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
-import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import cpw.mods.fml.common.Loader;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
@@ -17,18 +13,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,9 +32,11 @@ import static cpw.mods.fml.common.Optional.*;
         @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
         @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
         @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
+        /*
         @Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity"),
-        @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")})
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IEnergyInterface, IPeripheral, IDisguisable
+        @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")
+        */})
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IDisguisable /*, IEnergyHandler, IEnergyInterface, IPeripheral */
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
@@ -51,8 +45,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     protected IFluidHandler fluidHandler;
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
+    /*
     protected IEnergyHandler energyHandler;
     protected IEnergyInterface energyInterface;
+    */
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
     protected boolean isRedstonePowered = false;
@@ -109,7 +105,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         this.connectedDirection = ForgeDirection.getOrientation(connectedSide);
         this.blocksChanged = true;
         if (worldObj != null)
-            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
     }
 
     public ForgeDirection getConnectedDirection()
@@ -140,11 +136,6 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         this.powerReceptor = powerReceptor;
     }
 
-    public void setEnergyHandler(IEnergyHandler energyHandler)
-    {
-        this.energyHandler = energyHandler;
-    }
-
     public void setEnergySink(IEnergySink energySink)
     {
         if (this.energySink == null && energySink != null)
@@ -165,10 +156,19 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         }
     }
 
+    /*
+
+    public void setEnergyHandler(IEnergyHandler energyHandler)
+    {
+        this.energyHandler = energyHandler;
+    }
+
     public void setEnergyInterface(IEnergyInterface energyInterface)
     {
         this.energyInterface = energyInterface;
     }
+
+    */
 
     public IInventory getInventory()
     {
@@ -190,6 +190,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return energySink;
     }
 
+    /*
+
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
@@ -199,6 +201,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         return energyInterface;
     }
+
+    */
 
     public TileEntity[] getTiles()
     {
@@ -264,7 +268,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 if (tile == null)
                 {
                     resetConnections();
-                    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
                 }
                 else
                 {
@@ -313,6 +317,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 }
                 setEnergySink((IEnergySink) tile);
             }
+
+            /*
+
             if (Loader.isModLoaded("CoFHCore") && tile instanceof IEnergyHandler)
             {
                 if (getEnergyHandler() == null)
@@ -329,9 +336,12 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 }
                 setEnergyInterface((IEnergyInterface) tile);
             }
+
+            */
+
             if (updated || tile instanceof TileBlockExtender)
             {
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
         }
     }
@@ -342,8 +352,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         setFluidHandler(null);
         setPowerReceptor(null);
         setEnergySink(null);
+        /*
         setEnergyHandler(null);
         setEnergyInterface(null);
+        */
     }
 
     public boolean hasConnection()
@@ -360,14 +372,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         {
             return true;
         }
-        if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
+/*        if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
         {
             return true;
         }
         if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
         {
             return true;
-        }
+        }*/
         return false;
     }
 
@@ -383,10 +395,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             connections.add("Buildcraft Energy");
         if (Loader.isModLoaded("IC2") && getEnergySink() != null)
             connections.add("IC2 Energy");
-        if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
+/*        if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
             connections.add("Thermal Expansion Energy");
         if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
-            connections.add("Universal Electricity Energy");
+            connections.add("Universal Electricity Energy");*/
 
         return connections;
     }
@@ -431,7 +443,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (isRedstoneTransmissionActive() != wasRedstonePowered)
         {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            worldObj.notifyBlockOfNeighborChange(xCoord + connectedDirection.offsetX, yCoord + connectedDirection.offsetY, zCoord + connectedDirection.offsetZ, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            worldObj.notifyBlockOfNeighborChange(xCoord + connectedDirection.offsetX, yCoord + connectedDirection.offsetY, zCoord + connectedDirection.offsetZ, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
         }
     }
 
@@ -510,6 +522,9 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     /*
     ComputerCraft interaction
      */
+
+    /*
+
     HashSet<IComputerAccess> computers = new HashSet<IComputerAccess>();
 
     @Method(modid = "ComputerCraft")
@@ -569,6 +584,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         computers.remove(computer);
     }
+
+    */
 
     /*
     Item/Fluid/Power interaction
@@ -666,19 +683,19 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         if (getInventory() != null)
         {
-            return getInventory().getInvName();
+            return getInventory().getInventoryName();
         }
         return null;
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
-        return getInventory() != null && getInventory().isInvNameLocalized();
+        return getInventory() != null && getInventory().hasCustomInventoryName();
     }
 
     @Override
@@ -698,20 +715,20 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
         if (getInventory() != null)
         {
-            getInventory().openChest();
+            getInventory().openInventory();
         }
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
         if (getInventory() != null)
         {
-            getInventory().closeChest();
+            getInventory().closeInventory();
         }
     }
 
@@ -845,6 +862,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return getEnergySink() != null && getEnergySink().acceptsEnergyFrom(tileEntity, getInputSide(forgeDirection));
     }
 
+    /*
+
     @Method(modid = "CoFHCore")
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
@@ -929,6 +948,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         return false;
     }
 
+    */
+
     /*
     NBT stuffs
      */
@@ -943,7 +964,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         if (disguiseBlockId != 0)
         {
             int disguisedMeta = compound.getInteger("disguisedMeta");
-            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+            setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }
 
@@ -955,7 +976,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         compound.setBoolean("redstoneEnabled", this.isRedstoneTransmissionEnabled());
         if (blockDisguisedAs != null)
         {
-            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedId", Block.getIdFromBlock(blockDisguisedAs));
             compound.setInteger("disguisedMeta", blockDisguisedMetadata);
         }
     }

@@ -3,7 +3,7 @@ package com.dynious.refinedrelocation.api;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;

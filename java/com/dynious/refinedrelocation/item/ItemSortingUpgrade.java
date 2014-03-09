@@ -9,7 +9,7 @@ import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,9 +20,9 @@ import net.minecraft.world.World;
 
 public class ItemSortingUpgrade extends Item
 {
-    public ItemSortingUpgrade(int par1)
+    public ItemSortingUpgrade()
     {
-        super(par1);
+        super();
         setMaxStackSize(1);
         setUnlocalizedName(Names.sortingUpgrade);
         setCreativeTab(RefinedRelocation.tabRefinedRelocation);
@@ -32,13 +32,13 @@ public class ItemSortingUpgrade extends Item
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int X, int Y, int Z, int side, float hitX, float hitY, float hitZ)
     {
         if (world.isRemote) return false;
-        TileEntity te = world.getBlockTileEntity(X, Y, Z);
+        TileEntity te = world.getTileEntity(X, Y, Z);
         if (te != null)
         {
             if (te instanceof TileEntityChest)
             {
                 TileEntityChest tec = (TileEntityChest) te;
-                if (tec.numUsingPlayers > 0)
+                if (tec.numPlayersUsing > 0)
                 {
                     return false;
                 }
@@ -52,16 +52,16 @@ public class ItemSortingUpgrade extends Item
                     chestInventory[i] = null;
                 }
                 // Clear the old block out
-                world.setBlock(X, Y, Z, 0, 0, 3);
+                world.setBlock(X, Y, Z, null, 0, 3);
                 // Force the Chest TE to reset it's knowledge of neighbouring blocks
                 tec.updateContainingBlockInfo();
                 // Force the Chest TE to update any neighbours so they update next
                 // tick
                 tec.checkForAdjacentChests();
                 // And put in our block instead
-                world.setBlock(X, Y, Z, ModBlocks.sortingChest.blockID, 0, 3);
+                world.setBlock(X, Y, Z, ModBlocks.sortingChest, 0, 3);
 
-                world.setBlockTileEntity(X, Y, Z, newChest);
+                world.setTileEntity(X, Y, Z, newChest);
                 world.setBlockMetadataWithNotify(X, Y, Z, 0, 3);
                 System.arraycopy(chestContents, 0, newChest.inventory, 0, newChest.getSizeInventory());
             }
@@ -79,12 +79,12 @@ public class ItemSortingUpgrade extends Item
                     chestInventory[i] = null;
                 }
                 // Clear the old block out
-                world.setBlock(X, Y, Z, 0, 0, 3);
+                world.setBlock(X, Y, Z, null, 0, 3);
 
                 // And put in our block instead
-                world.setBlock(X, Y, Z, ModBlocks.filteringHopper.blockID, meta, 3);
+                world.setBlock(X, Y, Z, ModBlocks.filteringHopper, meta, 3);
 
-                world.setBlockTileEntity(X, Y, Z, newHopper);
+                world.setTileEntity(X, Y, Z, newHopper);
                 world.setBlockMetadataWithNotify(X, Y, Z, meta, 3);
                 System.arraycopy(chestContents, 0, (ItemStack[]) ObfuscationReflectionHelper.getPrivateValue(TileEntityHopper.class, newHopper, 0), 0, newHopper.getSizeInventory());
             }
@@ -110,7 +110,7 @@ public class ItemSortingUpgrade extends Item
 
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerIcons(IIconRegister par1IconRegister)
     {
         itemIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
                 + Names.sortingUpgrade);

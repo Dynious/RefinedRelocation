@@ -3,11 +3,9 @@ package com.dynious.refinedrelocation.tileentity;
 import com.dynious.refinedrelocation.api.Filter;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.common.Optional;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class TileAdvancedFilteredBlockExtender extends TileBlockExtender implements IAdvancedFilteredTile
@@ -172,6 +170,8 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     ComputerCraft interaction
     */
 
+    /*
+
     @Optional.Method(modid = "ComputerCraft")
     @Override
     public String getType()
@@ -263,6 +263,8 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         }
         return null;
     }
+
+    */
 
     @Override
     public void readFromNBT(NBTTagCompound compound)

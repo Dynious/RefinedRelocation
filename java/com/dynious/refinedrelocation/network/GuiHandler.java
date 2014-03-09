@@ -28,7 +28,7 @@ public class GuiHandler implements IGuiHandler
     @Override
     public Object getServerGuiElement(int GuiId, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
 
         switch (GuiId)
         {
@@ -57,7 +57,7 @@ public class GuiHandler implements IGuiHandler
     @Override
     public Object getClientGuiElement(int GuiId, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
 
         switch (GuiId)
         {

@@ -109,8 +109,8 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         {
             if (l != getType().ordinal())
             {
-                worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, new TileSortingIronChest(IronChestType.values()[l]));
-                return (TileEntityIronChest) worldObj.getBlockTileEntity(xCoord, yCoord, zCoord);
+                worldObj.setTileEntity(xCoord, yCoord, zCoord, new TileSortingIronChest(IronChestType.values()[l]));
+                return (TileEntityIronChest) worldObj.getTileEntity(xCoord, yCoord, zCoord);
             }
         }
         return this;

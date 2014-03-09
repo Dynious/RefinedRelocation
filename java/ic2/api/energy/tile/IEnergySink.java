@@ -1,6 +1,6 @@
 package ic2.api.energy.tile;
 
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Allows a tile entity (mostly a machine) to receive energy.

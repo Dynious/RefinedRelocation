@@ -81,7 +81,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
         if (disguiseBlockId != 0)
         {
             int disguisedMeta = compound.getInteger("disguisedMeta");
-            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+            setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }
 
@@ -91,7 +91,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
         super.writeToNBT(compound);
         if (blockDisguisedAs != null)
         {
-            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedId", Block.getIdFromBlock(blockDisguisedAs));
             compound.setInteger("disguisedMeta", blockDisguisedMetadata);
         }
     }
