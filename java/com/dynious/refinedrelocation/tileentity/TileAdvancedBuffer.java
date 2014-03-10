@@ -99,9 +99,10 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
         else
         {
-            if (currentInsertSide + 1 < insertPriorities.size())
+            int priorityIndexOfSide = currentInsertSide == -1 ? -1 : insertPriorities.indexOf((byte) currentInsertSide);
+            if ((priorityIndexOfSide != -1 || currentInsertSide == -1) && priorityIndexOfSide + 1 < insertPriorities.size())
             {
-                return insertPriorities.get(currentInsertSide + 1);
+                return insertPriorities.get(priorityIndexOfSide + 1);
             }
             else
             {
@@ -118,12 +119,12 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
             ItemStack tempStack = itemstack.copy();
             tempStack.stackSize = 1;
 
-            int currentInsetSide = -1;
-            while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+            int currentInsertSide = -1;
+            while ((currentInsertSide = getNextInsertSide(currentInsertSide)) != -1)
             {
-                if (currentInsetSide == inputSide)
+                if (currentInsertSide == inputSide)
                     continue;
-                ItemStack returnedStack = insertItemStack(tempStack.copy(), currentInsetSide);
+                ItemStack returnedStack = insertItemStack(tempStack.copy(), currentInsertSide);
                 if (returnedStack == null || returnedStack.stackSize == 0)
                 {
                     itemstack.stackSize--;
@@ -135,12 +136,12 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
         else
         {
-            int currentInsetSide = -1;
-            while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+            int currentInsertSide = -1;
+            while ((currentInsertSide = getNextInsertSide(currentInsertSide)) != -1)
             {
-                if (currentInsetSide == inputSide)
+                if (currentInsertSide == inputSide)
                     continue;
-                itemstack = insertItemStack(itemstack, currentInsetSide);
+                itemstack = insertItemStack(itemstack, currentInsertSide);
                 if (itemstack == null || itemstack.stackSize == 0)
                     return null;
             }
