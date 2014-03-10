@@ -1,11 +1,11 @@
 package com.dynious.refinedrelocation.event;
 
-import net.minecraftforge.event.ForgeSubscribe;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public class EventHandler
 {
-    @ForgeSubscribe
+    @SubscribeEvent
     public void playerNameEvent(PlayerEvent.NameFormat event)
     {
         if (event.username.equals("redmen800"))

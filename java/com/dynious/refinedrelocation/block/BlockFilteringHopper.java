@@ -32,7 +32,7 @@ public class BlockFilteringHopper extends BlockHopper
         super();
         this.setBlockName(Names.filteringHopper);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
-        this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundWoodFootstep);
+        this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundTypeWood);
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
         {
