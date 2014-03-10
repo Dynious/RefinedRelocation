@@ -120,8 +120,6 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
         }
     }
 
-    ;
-
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int type)
     {
