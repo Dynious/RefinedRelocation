@@ -5,9 +5,12 @@ import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,9 +21,12 @@ import java.lang.reflect.Field;
 
 public class BlockFilteringHopper extends BlockHopper
 {
-    static final Field iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon", "field_94455_b", "b"));
-    static final Field iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon", "field_94456_c", "c"));
-    static final Field iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon", "field_94454_cO", "d"));
+    @SideOnly(Side.CLIENT)
+    public Field iconField;
+    @SideOnly(Side.CLIENT)
+    public Field iconFieldTop;
+    @SideOnly(Side.CLIENT)
+    public Field iconFieldInside;
 
     protected BlockFilteringHopper(int id)
     {
@@ -28,6 +34,13 @@ public class BlockFilteringHopper extends BlockHopper
         this.setUnlocalizedName(Names.filteringHopper);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundWoodFootstep);
+
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        {
+            iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon", "field_94455_b", "b"));
+            iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon", "field_94456_c", "c"));
+            iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon", "field_94454_cO", "d"));
+        }
     }
 
     @Override
