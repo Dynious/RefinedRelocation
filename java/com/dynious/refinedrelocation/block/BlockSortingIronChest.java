@@ -52,7 +52,7 @@ public class BlockSortingIronChest extends BlockIronChest
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata)
+    public TileEntity createTileEntity(World world, int metadata)
     {
         return new TileSortingIronChest(IronChestType.values()[metadata]);
     }

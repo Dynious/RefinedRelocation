@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
@@ -89,7 +90,7 @@ public class Filter
                     oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
                 }
 
-                if (customFilters[0] && oreName.contains("ingot"))
+                if (customFilters[0] && (oreName.contains("ingot") || itemStack.getItem() == Items.iron_ingot || itemStack.getItem() == Items.gold_ingot))
                     return true;
                 if (customFilters[1] && oreName.contains("ore"))
                     return true;
