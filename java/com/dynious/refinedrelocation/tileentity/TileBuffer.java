@@ -54,7 +54,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
             onBlocksChanged();
             firstRun = false;
             worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, bufferedItemStack == null ? 0 : 1);
-            if (Loader.isModLoaded("IC2"))
+            if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
             {
                 MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
             }
