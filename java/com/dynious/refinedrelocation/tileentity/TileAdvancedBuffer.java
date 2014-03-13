@@ -1,26 +1,45 @@
 package com.dynious.refinedrelocation.tileentity;
 
+import buildcraft.api.power.PowerHandler;
 import com.google.common.primitives.Bytes;
+import cpw.mods.fml.common.Optional;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Optional.InterfaceList(value = {
+        @Optional.Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
+        @Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy"),
+        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2")
+        /*
+        @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
+        @Optional.Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity")
+        */
+        })
 public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 {
-    private byte[] insertPrioritiesArrayProxy = {0, 1, 2, 3, 4, 5};
-    private List<Byte> insertPriorities = new ArrayList<Byte>(Bytes.asList(insertPrioritiesArrayProxy));
+    private byte[] outputPrioritiesArrayProxy = {0, 1, 2, 3, 4, 5};
+    private List<Byte> outputPriorities = new ArrayList<Byte>(Bytes.asList(outputPrioritiesArrayProxy));
     private boolean spreadItems = false;
-    private byte nextInsertDirection;
-    private int insertionTries = 0;
+    private ForgeDirection lastItemOutputSide = ForgeDirection.UNKNOWN;
+    private ForgeDirection lastFluidOutputSide = ForgeDirection.UNKNOWN;
+    private ForgeDirection lastBCEnergyOutputSide = ForgeDirection.UNKNOWN;
+    private ForgeDirection lastIC2EnergyOutputSide = ForgeDirection.UNKNOWN;
+
+    /*
+    private ForgeDirection lastCoFHEnergyOutputSide = ForgeDirection.UNKNOWN;
+    private ForgeDirection lastUEEnergyOutputSide = ForgeDirection.UNKNOWN;
+    */
 
     public static final byte NULL_PRIORITY = (byte) (ForgeDirection.VALID_DIRECTIONS.length);
 
     public byte[] getInsertDirection()
     {
-        return insertPrioritiesArrayProxy;
+        return outputPrioritiesArrayProxy;
     }
 
     public void setInsertDirection(int from, int value)
@@ -31,22 +50,22 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     public void setPriorityOfSideTo(int side, int priority)
     {
         priority = Math.min(NULL_PRIORITY, Math.max(0, priority));
-        if (getPriority(side) < priority && priority == insertPriorities.size())
+        if (getPriority(side) < priority && priority == outputPriorities.size())
             priority = NULL_PRIORITY;
 
-        insertPriorities.remove(new Byte((byte) side));
+        outputPriorities.remove(new Byte((byte) side));
         if (priority != NULL_PRIORITY)
-            insertPriorities.add(Math.min(insertPriorities.size(), priority), (byte) side);
+            outputPriorities.add(Math.min(outputPriorities.size(), priority), (byte) side);
 
-        for (int i = 0; i < insertPrioritiesArrayProxy.length; i++)
+        for (int i = 0; i < outputPrioritiesArrayProxy.length; i++)
         {
-            insertPrioritiesArrayProxy[i] = getPriority(i);
+            outputPrioritiesArrayProxy[i] = getPriority(i);
         }
     }
 
     public byte getPriority(int side)
     {
-        int priority = insertPriorities.indexOf((byte) side);
+        int priority = outputPriorities.indexOf((byte) side);
         if (priority == -1)
             priority = NULL_PRIORITY;
         return (byte) priority;
@@ -77,38 +96,34 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     }
 
     @Override
-    public int getNextInsertSide(int currentInsertSide)
+    public List<ForgeDirection> getOutputSidesForInsertDirection(ForgeDirection insertDirection) 
     {
-        if (spreadItems)
+        List<ForgeDirection> outputSides = new ArrayList<ForgeDirection>();
+        for (Byte prioritySide : outputPriorities)
         {
-            nextInsertDirection = (byte) Math.max(0, Math.min(nextInsertDirection, insertPriorities.size() - 1));
-            if (insertionTries < insertPriorities.size())
+            ForgeDirection side = ForgeDirection.getOrientation(prioritySide);
+
+            if (side != insertDirection)
+                outputSides.add(side);
+        }
+        return outputSides;
+    }
+
+    public List<ForgeDirection> getOutputSidesForInsertDirection(ForgeDirection insertDirection, ForgeDirection lastOutputSide)
+    {
+        List<ForgeDirection> outputSides = new ArrayList<ForgeDirection>();
+        if (outputPriorities.size() > 0)
+        {
+            // indexOf will return -1 for any value not found, which will then get bumped up to 0
+            int startPriorityIndex = (outputPriorities.indexOf((byte) lastOutputSide.ordinal()) + 1) % outputPriorities.size();
+            for (int i=0, priorityIndexOfSide=startPriorityIndex; i<outputPriorities.size(); i++, priorityIndexOfSide = (priorityIndexOfSide + 1) % outputPriorities.size())
             {
-                insertionTries++;
-                int side = insertPriorities.get(nextInsertDirection);
-                if (nextInsertDirection < insertPriorities.size() - 1)
-                    nextInsertDirection++;
-                else
-                    nextInsertDirection = 0;
-                return side;
-            }
-            else
-            {
-                return -1;
+                ForgeDirection side = ForgeDirection.getOrientation(outputPriorities.get(priorityIndexOfSide));
+                if (side != insertDirection)
+                    outputSides.add(side);
             }
         }
-        else
-        {
-            int priorityIndexOfSide = currentInsertSide == -1 ? -1 : insertPriorities.indexOf((byte) currentInsertSide);
-            if ((priorityIndexOfSide != -1 || currentInsertSide == -1) && priorityIndexOfSide + 1 < insertPriorities.size())
-            {
-                return insertPriorities.get(priorityIndexOfSide + 1);
-            }
-            else
-            {
-                return -1;
-            }
-        }
+        return outputSides;
     }
 
     @Override
@@ -116,54 +131,234 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     {
         if (spreadItems)
         {
+            boolean didInsert;
+            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(ForgeDirection.getOrientation(inputSide), lastItemOutputSide);
             ItemStack tempStack = itemstack.copy();
             tempStack.stackSize = 1;
 
-            int currentInsertSide = -1;
-            while ((currentInsertSide = getNextInsertSide(currentInsertSide)) != -1)
+            do
             {
-                if (currentInsertSide == inputSide)
-                    continue;
-                ItemStack returnedStack = insertItemStack(tempStack.copy(), currentInsertSide);
-                if (returnedStack == null || returnedStack.stackSize == 0)
+                didInsert = false;
+                for (ForgeDirection outputSide : outputSides)
                 {
-                    itemstack.stackSize--;
-                    insertionTries = 0;
+                    lastItemOutputSide = outputSide;
+                    ItemStack returnedStack = insertItemStack(tempStack.copy(), outputSide.ordinal());
+                    if (returnedStack == null || returnedStack.stackSize == 0)
+                    {
+                        itemstack.stackSize--;
+                        didInsert = true;
+                        
+                        if (itemstack == null || itemstack.stackSize == 0)
+                            return null;
+                    }
                 }
-                if (itemstack == null || itemstack.stackSize == 0)
-                    return null;
-            }
+            } while (didInsert);
         }
         else
         {
-            int currentInsertSide = -1;
-            while ((currentInsertSide = getNextInsertSide(currentInsertSide)) != -1)
-            {
-                if (currentInsertSide == inputSide)
-                    continue;
-                itemstack = insertItemStack(itemstack, currentInsertSide);
-                if (itemstack == null || itemstack.stackSize == 0)
-                    return null;
-            }
+            return super.outputItemStack(itemstack, inputSide);
         }
         return itemstack;
     }
 
     @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
+    {
+        int inputAmount = resource.amount;
+        if (spreadItems)
+        {
+            boolean didFill;
+            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(from, lastFluidOutputSide);
+            FluidStack tempStack = resource.copy();
+            tempStack.amount = outputSides.isEmpty() ? 0 : (int) Math.ceil(resource.amount / outputSides.size());
+
+            do
+            {
+                didFill = false;
+                for (ForgeDirection outputSide : outputSides)
+                {
+                    lastFluidOutputSide = outputSide;
+                    FluidStack returnedStack = insertFluidStack(tempStack.copy(), outputSide.ordinal());
+                    if (returnedStack == null || returnedStack.amount == 0)
+                    {
+                        int amountFilled = returnedStack == null ? tempStack.amount : tempStack.amount - returnedStack.amount;
+                        resource.amount -= Math.min(resource.amount, amountFilled);
+                        didFill = true;
+
+                        if (resource == null || resource.amount == 0)
+                            return inputAmount;
+                    }
+                }
+            } while (didFill);
+        }
+        else
+        {
+            return super.fill(from, resource, doFill);
+        }
+        return inputAmount - resource.amount;
+    }
+
+    @Optional.Method(modid = "IC2")
+    @Override
+    public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
+    {
+        double inputAmount = amount;
+        if (spreadItems)
+        {
+            boolean didInject;
+            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(directionFrom, lastIC2EnergyOutputSide);
+            double amountPerStack = outputSides.isEmpty() ? 0 : amount / outputSides.size();
+
+            do
+            {
+                didInject = false;
+                for (ForgeDirection outputSide : outputSides)
+                {
+                    lastIC2EnergyOutputSide = outputSide;
+                    double amountLeft = insertEnergyUnits(amountPerStack, outputSide.ordinal());
+                    if (amountLeft != amountPerStack)
+                    {
+                        amount -= Math.min(amount, amountPerStack - amountLeft);
+                        didInject = true;
+
+                        if (amount == 0)
+                            return inputAmount;
+                    }
+                }
+            } while (didInject);
+        }
+        else
+        {
+            return super.injectEnergyUnits(directionFrom, amount);
+        }
+        return inputAmount - amount;
+    }
+
+    @Optional.Method(modid = "BuildCraft|Energy")
+    @Override
+    public void doWork(PowerHandler powerHandler)
+    {
+        if (spreadItems)
+        {
+            boolean didUseEnergy;
+            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(ForgeDirection.UNKNOWN, lastBCEnergyOutputSide);
+            double amountPerStack = outputSides.isEmpty() ? 0 : powerHandler.getEnergyStored() / outputSides.size();
+
+            do
+            {
+                didUseEnergy = false;
+                for (ForgeDirection outputSide : outputSides)
+                {
+                    lastBCEnergyOutputSide = outputSide;
+                    double usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(amountPerStack, outputSide.ordinal());
+                    if (usedEnergy > 0)
+                    {
+                        powerHandler.useEnergy(usedEnergy, usedEnergy, true);
+                        didUseEnergy = true;
+
+                        if (powerHandler.getEnergyStored() == 0)
+                            return;
+                    }
+                }
+            } while (didUseEnergy);
+        }
+        else
+        {
+            super.doWork(powerHandler);
+        }
+    }
+
+    /*
+
+    @Optional.Method(modid = "CoFHCore")
+    @Override
+    public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        int inputAmount = i;
+        if (spreadItems)
+        {
+            boolean didReceive;
+            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(forgeDirection, lastCoFHEnergyOutputSide);
+            int amountPerStack = outputSides.isEmpty() ? 0 : (int) Math.ceil(i / outputSides.size());
+
+            do
+            {
+                didReceive = false;
+                for (ForgeDirection outputSide : outputSides)
+                {
+                    lastCoFHEnergyOutputSide = outputSide;
+                    int amountLeft = insertRedstoneFlux(amountPerStack, outputSide.ordinal(), b);
+                    if (amountLeft != amountPerStack)
+                    {
+                        i -= Math.min(i, amountPerStack - amountLeft);
+                        didReceive = true;
+
+                        if (i == 0)
+                            return inputAmount;
+                    }
+                }
+            } while (didReceive);
+        }
+        else
+        {
+            return super.receiveEnergy(forgeDirection, i, b);
+        }
+        return inputAmount - i;
+    }
+
+    @Optional.Method(modid = "UniversalElectricity")
+    @Override
+    public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
+    {
+        long inputAmount = l;
+        if (spreadItems)
+        {
+            boolean didReceive;
+            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(direction, lastUEEnergyOutputSide);
+            long amountPerStack = outputSides.isEmpty() ? 0 : (long) Math.ceil(l / outputSides.size());
+
+            do
+            {
+                didReceive = false;
+                for (ForgeDirection outputSide : outputSides)
+                {
+                    lastUEEnergyOutputSide = outputSide;
+                    long amountLeft = insertUEEnergy(amountPerStack, outputSide.ordinal(), b);
+                    if (amountLeft != amountPerStack)
+                    {
+                        l -= Math.min(l, amountPerStack - amountLeft);
+                        didReceive = true;
+
+                        if (l == 0)
+                            return inputAmount;
+                    }
+                }
+            } while (didReceive);
+        }
+        else
+        {
+            return super.onReceiveEnergy(direction, l, b);
+        }
+        return inputAmount - l;
+    }
+
+    */
+
+    @Override
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        insertPriorities.clear();
+        outputPriorities.clear();
         byte byteArrayPriorities[] = compound.getByteArray("insertPriority");
         for (int priority = 0; priority < byteArrayPriorities.length; priority++)
         {
             setPriorityOfSideTo(byteArrayPriorities[priority], priority);
         }
         // any side not included in the saved data has a null priority
-        for (byte i = 0; i < insertPrioritiesArrayProxy.length; i++)
+        for (byte i = 0; i < outputPrioritiesArrayProxy.length; i++)
         {
-            if (!insertPriorities.contains(i))
-                insertPrioritiesArrayProxy[i] = NULL_PRIORITY;
+            if (!outputPriorities.contains(i))
+                outputPrioritiesArrayProxy[i] = NULL_PRIORITY;
         }
     }
 
@@ -171,10 +366,10 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        byte byteArrayPriorities[] = new byte[insertPriorities.size()];
-        for (int priority = 0; priority < insertPriorities.size(); priority++)
+        byte byteArrayPriorities[] = new byte[outputPriorities.size()];
+        for (int priority = 0; priority < outputPriorities.size(); priority++)
         {
-            byteArrayPriorities[priority] = insertPriorities.get(priority);
+            byteArrayPriorities[priority] = outputPriorities.get(priority);
         }
         compound.setByteArray("insertPriority", byteArrayPriorities);
     }

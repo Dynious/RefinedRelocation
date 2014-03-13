@@ -26,6 +26,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Optional.InterfaceList(value = {
         @Optional.Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
         @Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy"),
@@ -94,17 +97,22 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
             return itemStack;
         }
     }
-
-    public int getNextInsertSide(int currentInsertSide)
+    
+    public List<ForgeDirection> getOutputSidesForInsertDirection(ForgeDirection insertDirection)
     {
-        if (currentInsertSide + 1 < tiles.length)
+        List<ForgeDirection> outputSides = new ArrayList<ForgeDirection>();
+
+        // the opposite side of the insert direction has the highest priority by default
+        ForgeDirection oppositeDirection = insertDirection.getOpposite();
+        if (oppositeDirection != ForgeDirection.UNKNOWN)
+            outputSides.add(oppositeDirection);
+
+        for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
         {
-            return currentInsertSide + 1;
+            if (dir != insertDirection && dir != oppositeDirection)
+                outputSides.add(dir);
         }
-        else
-        {
-            return -1;
-        }
+        return outputSides;
     }
 
     @Override
@@ -162,16 +170,11 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
 
     public ItemStack outputItemStack(ItemStack itemstack, int inputSide)
     {
-        int currentInsetSide = -1;
-        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(ForgeDirection.getOrientation(inputSide)))
         {
-            if (currentInsetSide == inputSide)
-                continue;
-            itemstack = insertItemStack(itemstack, currentInsetSide);
+            itemstack = insertItemStack(itemstack, outputSide.ordinal());
             if (itemstack == null || itemstack.stackSize == 0)
-            {
                 return null;
-            }
         }
         return itemstack;
     }
@@ -286,18 +289,14 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
     {
         int inputAmount = resource.amount;
-        int currentInsetSide = -1;
-        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(from))
         {
-            if (currentInsetSide == from.ordinal() || DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
-                continue;
-            resource = insertFluidStack(resource, currentInsetSide);
+            resource = insertFluidStack(resource, outputSide.ordinal());
             if (resource == null || resource.amount == 0)
             {
                 return inputAmount;
             }
         }
-
         return inputAmount - resource.amount;
     }
 
@@ -360,18 +359,14 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
     {
         double inputAmount = amount;
-        int currentInsetSide = -1;
-        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(directionFrom))
         {
-            if (currentInsetSide == directionFrom.ordinal() || DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
-                continue;
-            amount = insertEnergyUnits(amount, currentInsetSide);
+            amount = insertEnergyUnits(amount, outputSide.ordinal());
             if (amount == 0)
             {
                 return inputAmount;
             }
         }
-
         return inputAmount - amount;
     }
 
@@ -444,12 +439,9 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     @Override
     public void doWork(PowerHandler powerHandler)
     {
-        int currentInsetSide = -1;
-        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(ForgeDirection.UNKNOWN))
         {
-            if (DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
-                continue;
-            double usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(powerHandler.getEnergyStored(), currentInsetSide);
+            double usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(powerHandler.getEnergyStored(), outputSide.ordinal());
             powerHandler.useEnergy(usedEnergy, usedEnergy, true);
             if (powerHandler.getEnergyStored() == 0)
             {
@@ -496,12 +488,9 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
         int inputAmount = i;
-        int currentInsetSide = -1;
-        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(direction))
         {
-            if (currentInsetSide == forgeDirection.ordinal() || DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
-                continue;
-            i = insertRedstoneFlux(i, currentInsetSide, b);
+            i = insertRedstoneFlux(i, outputSide.ordinal(), b);
             if (i == 0)
             {
                 return inputAmount;
@@ -557,18 +546,14 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
     {
         long inputAmount = l;
-        int currentInsetSide = -1;
-        while ((currentInsetSide = getNextInsertSide(currentInsetSide)) != -1)
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(direction))
         {
-            if (currentInsetSide == direction.ordinal() || DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(currentInsetSide)) instanceof TileBlockExtender)
-                continue;
-            l = insertUEEnergy(l, currentInsetSide, b);
+            l = insertUEEnergy(l, outputSide.ordinal(), b);
             if (l == 0)
             {
                 return inputAmount;
             }
         }
-
         return inputAmount - l;
     }
 
