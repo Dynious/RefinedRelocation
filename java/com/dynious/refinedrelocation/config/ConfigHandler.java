@@ -24,6 +24,7 @@ public class ConfigHandler
             BlockIds.SORTING_IRON_CHEST = configuration.getBlock(Names.sortingIronChest, BlockIds.SORTING_IRON_CHEST_DEFAULT).getInt(BlockIds.SORTING_IRON_CHEST_DEFAULT);
             BlockIds.SORTING_CONNECTOR = configuration.getBlock(Names.sortingConnector, BlockIds.SORTING_CONNECTOR_DEFAULT).getInt(BlockIds.SORTING_CONNECTOR_DEFAULT);
             BlockIds.FILTERING_HOPPER = configuration.getBlock(Names.filteringHopper, BlockIds.FILTERING_HOPPER_DEFAULT).getInt(BlockIds.FILTERING_HOPPER_DEFAULT);
+            BlockIds.SORTING_BARREL = configuration.getBlock(Names.sortingBarrel, BlockIds.SORTING_BARREL_DEFAULT).getInt(BlockIds.SORTING_BARREL_DEFAULT);
 
             ItemIds.LINKER = configuration.getItem(Names.linker, ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);
             ItemIds.SORTING_UPGRADE = configuration.getItem(Names.sortingUpgrade, ItemIds.SORTING_UPGRADE_DEFAULT).getInt(ItemIds.SORTING_UPGRADE_DEFAULT);
