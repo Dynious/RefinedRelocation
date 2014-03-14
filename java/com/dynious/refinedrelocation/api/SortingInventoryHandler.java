@@ -79,27 +79,30 @@ public class SortingInventoryHandler extends SortingMemberHandler
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
      */
-    public final void setInventorySlotContents(int par1, ItemStack par2ItemStack)
+    public final void setInventorySlotContents(int par1, ItemStack itemStack)
     {
         if (owner.worldObj.isRemote)
         {
             return;
         }
 
-        if (par2ItemStack == null || (!inventory.getFilter().blacklists && inventory.getFilter().passesFilter(par2ItemStack)))
+        if (itemStack == null || itemStack.stackSize == 0)
         {
-            inventory.getInventory()[par1] = par2ItemStack;
+            inventory.getInventory()[par1] = itemStack;
             inventory.onInventoryChanged();
         }
         else
         {
-            ItemStack filteredStack = getLeader().filterStackToGroup(par2ItemStack, this);
-            if (filteredStack != null)
-            {
-                inventory.getInventory()[par1] = par2ItemStack;
-                inventory.onInventoryChanged();
-            }
+            itemStack = getLeader().filterStackToGroup(itemStack);
         }
+
+
+        if (itemStack != null && itemStack.stackSize != 0)
+        {
+            inventory.getInventory()[par1] = itemStack;
+            inventory.onInventoryChanged();
+        }
+
         syncInventory();
     }
 

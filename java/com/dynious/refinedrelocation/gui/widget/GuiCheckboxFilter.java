@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.IFilterGUITile;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketFilterOption;
@@ -8,10 +8,10 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiCheckboxFilter extends GuiCheckbox
 {
-    protected IFilterTile tile;
+    protected IFilterGUITile tile;
     protected int index;
 
-    public GuiCheckboxFilter(IGuiParent parent, int x, int y, int w, int h, int index, IFilterTile tile)
+    public GuiCheckboxFilter(IGuiParent parent, int x, int y, int w, int h, int index, IFilterGUITile tile)
     {
         super(parent, x, y, w, h, null);
         this.tile = tile;

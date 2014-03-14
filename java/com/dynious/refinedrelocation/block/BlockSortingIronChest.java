@@ -31,7 +31,7 @@ public class BlockSortingIronChest extends BlockIronChest
         TileEntity tile = world.getBlockTileEntity(i, j, k);
         if (tile instanceof ISortingInventory)
         {
-            ((ISortingInventory)tile).getSortingInventoryHandler().onTileDestroyed();
+            ((ISortingInventory)tile).getSortingHandler().onTileDestroyed();
         }
         super.breakBlock(world, i, j, k, i1, i2);
     }

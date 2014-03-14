@@ -1,9 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.Filter;
-import com.dynious.refinedrelocation.api.ISortingInventory;
-import com.dynious.refinedrelocation.api.SortingInventoryHandler;
-import com.dynious.refinedrelocation.api.SortingMemberHandler;
+import com.dynious.refinedrelocation.api.*;
+import com.dynious.refinedrelocation.mods.BarrelFilter;
 import com.dynious.refinedrelocation.mods.BarrelSortingInventoryHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,7 +13,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
 {
     public boolean isFirstRun = true;
 
-    private Filter filter = new Filter();
+    private BarrelFilter filter = new BarrelFilter(this);
 
     private BarrelSortingInventoryHandler sortingInventoryHandler = new BarrelSortingInventoryHandler(this);
 
@@ -37,25 +35,25 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
-    public SortingInventoryHandler getSortingInventoryHandler()
-    {
-        return sortingInventoryHandler;
-    }
-
-    @Override
     public ItemStack[] getInventory()
     {
         return null;
     }
 
     @Override
-    public Filter getFilter()
+    public IFilter getFilter()
     {
         return filter;
     }
 
     @Override
-    public SortingMemberHandler getSortingMemberHandler()
+    public Priority getPriority()
+    {
+        return Priority.HIGH;
+    }
+
+    @Override
+    public SortingInventoryHandler getSortingHandler()
     {
         return sortingInventoryHandler;
     }
@@ -71,13 +69,11 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     public void readFromNBT(NBTTagCompound nbttagcompound)
     {
         super.readFromNBT(nbttagcompound);
-        filter.readFromNBT(nbttagcompound);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbttagcompound)
     {
         super.writeToNBT(nbttagcompound);
-        filter.writeToNBT(nbttagcompound);
     }
 }

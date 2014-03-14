@@ -17,16 +17,19 @@ public class BarrelSortingInventoryHandler extends SortingInventoryHandler
     @Override
     public ItemStack putInInventory(ItemStack itemStack)
     {
+        System.out.println("Start: " + itemStack);
         if (owner instanceof TileSortingBarrel)
         {
             TileSortingBarrel tile = (TileSortingBarrel) owner;
-            int added = tile.getStorage().addStack(itemStack);
-            itemStack.stackSize -= added;
-            PacketDispatcher.sendPacketToAllInDimension(Packet0x01ContentUpdate.create(tile), tile.worldObj.provider.dimensionId);
-            if (itemStack.stackSize == 0)
-                return null;
-            else
-                return itemStack;
+            int added = tile.getStorage().addStack(itemStack.copy());
+            System.out.println(added + " : " + itemStack);
+            if (added != 0)
+            {
+                itemStack.stackSize -= added;
+                PacketDispatcher.sendPacketToAllInDimension(Packet0x01ContentUpdate.create(tile), tile.worldObj.provider.dimensionId);
+                if (itemStack.stackSize == 0)
+                    return null;
+            }
         }
         return itemStack;
     }

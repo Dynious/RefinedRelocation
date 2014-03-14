@@ -1,9 +1,6 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.Filter;
-import com.dynious.refinedrelocation.api.SortingInventoryHandler;
-import com.dynious.refinedrelocation.api.SortingMemberHandler;
-import com.dynious.refinedrelocation.api.ISortingInventory;
+import com.dynious.refinedrelocation.api.*;
 import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -15,11 +12,11 @@ import cpw.mods.ironchest.TileEntityIronChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileSortingIronChest extends TileEntityIronChest implements ISortingInventory
+public class TileSortingIronChest extends TileEntityIronChest implements ISortingInventory, IFilterGUITile
 {
     public boolean isFirstRun = true;
 
-    private Filter filter = new Filter();
+    private FilterStandard filter = new FilterStandard();
 
     private SortingInventoryHandler sortingInventoryHandler = new SortingInventoryHandler(this);
 
@@ -72,25 +69,25 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     }
 
     @Override
-    public SortingInventoryHandler getSortingInventoryHandler()
-    {
-        return sortingInventoryHandler;
-    }
-
-    @Override
     public ItemStack[] getInventory()
     {
         return chestContents;
     }
 
     @Override
-    public Filter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
     }
 
     @Override
-    public SortingMemberHandler getSortingMemberHandler()
+    public Priority getPriority()
+    {
+        return getFilter().isBlacklisting() ? Priority.LOW : Priority.NORMAL;
+    }
+
+    @Override
+    public SortingInventoryHandler getSortingHandler()
     {
         return sortingInventoryHandler;
     }

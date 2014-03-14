@@ -1,13 +1,13 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.IFilterGUITile;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
 public class GuiUserFilter extends GuiRefinedRelocationWidgetBase
 {
-    protected IFilterTile tile;
+    protected IFilterGUITile tile;
     protected boolean drawLabel = true;
 
     protected GuiLabel userFilterLabel;
@@ -16,7 +16,7 @@ public class GuiUserFilter extends GuiRefinedRelocationWidgetBase
 
     public int inputHeight = 15;
 
-    public GuiUserFilter(IGuiParent parent, int x, int y, int w, int h, boolean drawLabel, IFilterTile tile)
+    public GuiUserFilter(IGuiParent parent, int x, int y, int w, int h, boolean drawLabel, IFilterGUITile tile)
     {
         super(parent, x, y, w, h);
         this.drawLabel = drawLabel;

@@ -15,19 +15,19 @@ public class ContainerSortingIronChest extends ContainerIronChestBase
     {
         super(player.inventory, chestInventory, type, xSize, ySize);
         chest = chestInventory;
-        ((TileSortingIronChest)chest).getSortingInventoryHandler().addCrafter(player);
+        ((TileSortingIronChest)chest).getSortingHandler().addCrafter(player);
     }
 
     @Override
     public void putStackInSlot(int par1, ItemStack par2ItemStack)
     {
-        ((TileSortingIronChest)chest).getSortingInventoryHandler().putStackInSlot(par2ItemStack, par1);
+        ((TileSortingIronChest)chest).getSortingHandler().putStackInSlot(par2ItemStack, par1);
     }
 
     @Override
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
-        ((TileSortingIronChest)chest).getSortingInventoryHandler().removeCrafter(par1EntityPlayer);
+        ((TileSortingIronChest)chest).getSortingHandler().removeCrafter(par1EntityPlayer);
         super.onContainerClosed(par1EntityPlayer);
     }
 

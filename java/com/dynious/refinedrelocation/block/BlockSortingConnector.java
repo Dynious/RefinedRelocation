@@ -37,7 +37,7 @@ public class BlockSortingConnector extends BlockContainer
         TileEntity tile = par1World.getBlockTileEntity(par2, par3, par4);
         if (tile != null && tile instanceof TileSortingConnector)
         {
-            ((TileSortingConnector)tile).getSortingMemberHandler().onTileDestroyed();
+            ((TileSortingConnector)tile).getSortingHandler().onTileDestroyed();
         }
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
     }

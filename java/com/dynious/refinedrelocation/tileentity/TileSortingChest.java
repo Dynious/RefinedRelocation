@@ -1,9 +1,6 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.Filter;
-import com.dynious.refinedrelocation.api.ISortingInventory;
-import com.dynious.refinedrelocation.api.SortingInventoryHandler;
-import com.dynious.refinedrelocation.api.SortingMemberHandler;
+import com.dynious.refinedrelocation.api.*;
 import com.dynious.refinedrelocation.block.BlockSortingChest;
 import com.dynious.refinedrelocation.gui.container.ContainerSortingChest;
 import cpw.mods.fml.relauncher.Side;
@@ -21,7 +18,7 @@ import net.minecraft.util.AxisAlignedBB;
 
 import java.util.List;
 
-public class TileSortingChest extends TileEntity implements ISortingInventory
+public class TileSortingChest extends TileEntity implements ISortingInventory, IFilterGUITile
 {
     /**
      * The current angle of the lid (between 0 and 1)
@@ -47,7 +44,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory
 
     public ItemStack[] inventory;
 
-    private Filter filter = new Filter();
+    private FilterStandard filter = new FilterStandard();
     private boolean blacklist = true;
 
     private SortingInventoryHandler sortingInventoryHandler = new SortingInventoryHandler(this);
@@ -394,20 +391,20 @@ public class TileSortingChest extends TileEntity implements ISortingInventory
     }
 
     @Override
-    public SortingInventoryHandler getSortingInventoryHandler()
-    {
-        return sortingInventoryHandler;
-    }
-
-    @Override
     public ItemStack[] getInventory()
     {
         return inventory;
     }
 
-    public Filter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
+    }
+
+    @Override
+    public Priority getPriority()
+    {
+        return getFilter().isBlacklisting() ? Priority.LOW : Priority.NORMAL;
     }
 
     public boolean getBlackList()
@@ -421,7 +418,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory
     }
 
     @Override
-    public SortingMemberHandler getSortingMemberHandler()
+    public SortingInventoryHandler getSortingHandler()
     {
         return sortingInventoryHandler;
     }

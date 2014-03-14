@@ -26,7 +26,7 @@ public class BlockSortingBarrel extends BlockBarrel
     public void breakBlock(World world, int x, int y, int z, int par5, int par6)
     {
         TileSortingBarrel tile = (TileSortingBarrel )world.getBlockTileEntity(x, y, z);
-        tile.getSortingInventoryHandler().onTileDestroyed();
+        tile.getSortingHandler().onTileDestroyed();
         super.breakBlock(world, x, y, z, par5, par6);
     }
 }

@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.IFilterGUITile;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
@@ -12,21 +12,21 @@ import net.minecraft.inventory.ICrafting;
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered
 {
 
-    public IFilterTile tile;
+    public IFilterGUITile tile;
 
     private String lastUserFilter = "";
     private boolean lastBlacklist = true;
     private boolean lastFilterOptions[];
     private boolean initialUpdate = true;
 
-    public ContainerFiltered(IFilterTile tile)
+    public ContainerFiltered(IFilterGUITile tile)
     {
         this.tile = tile;
 
         lastFilterOptions = new boolean[tile.getFilter().getSize()];
     }
 
-    public ContainerFiltered(IFilterTile tile, ContainerHierarchical parentContainer)
+    public ContainerFiltered(IFilterGUITile tile, ContainerHierarchical parentContainer)
     {
         super(parentContainer);
 
@@ -40,16 +40,16 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     {
         super.detectAndSendChanges();
 
-        if (!tile.getFilter().userFilter.equals(lastUserFilter) || initialUpdate)
+        if (!tile.getFilter().getUserFilter().equals(lastUserFilter) || initialUpdate)
         {
             for (Object crafter : crafters)
             {
                 if (crafter instanceof EntityPlayer)
                 {
-                    PacketDispatcher.sendPacketToPlayer(PacketTypeHandler.populatePacket(new PacketUserFilter(tile.getFilter().userFilter)), ((Player) crafter));
+                    PacketDispatcher.sendPacketToPlayer(PacketTypeHandler.populatePacket(new PacketUserFilter(tile.getFilter().getUserFilter())), ((Player) crafter));
                 }
             }
-            lastUserFilter = tile.getFilter().userFilter;
+            lastUserFilter = tile.getFilter().getUserFilter();
         }
 
         for (int i = 0; i < tile.getFilter().getSize(); i++)
@@ -64,13 +64,13 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             }
         }
 
-        if (tile.getFilter().blacklists != lastBlacklist || initialUpdate)
+        if (tile.getFilter().isBlacklisting() != lastBlacklist || initialUpdate)
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + 2, tile.getFilter().blacklists ? 1 : 0);
+                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + 2, tile.getFilter().isBlacklisting() ? 1 : 0);
             }
-            lastBlacklist = tile.getFilter().blacklists;
+            lastBlacklist = tile.getFilter().isBlacklisting();
         }
 
         if (initialUpdate)
@@ -109,14 +109,14 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     public void setUserFilter(String filter)
     {
         lastUserFilter = filter;
-        tile.getFilter().userFilter = filter;
+        tile.getFilter().setUserFilter(filter);
     }
 
     @Override
     public void setBlackList(boolean value)
     {
         lastBlacklist = value;
-        tile.getFilter().blacklists = value;
+        tile.getFilter().setBlacklists(value);
     }
 
     @Override

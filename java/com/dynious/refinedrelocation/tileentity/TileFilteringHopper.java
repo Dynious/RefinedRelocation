@@ -1,15 +1,16 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.Filter;
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.FilterStandard;
+import com.dynious.refinedrelocation.api.IFilterGUI;
+import com.dynious.refinedrelocation.api.IFilterGUITile;
 import com.dynious.refinedrelocation.lib.Names;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityHopper;
 
-public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
+public class TileFilteringHopper extends TileEntityHopper implements IFilterGUITile
 {
-    private Filter filter = new Filter();
+    private FilterStandard filter = new FilterStandard();
 
     @Override
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
@@ -32,7 +33,7 @@ public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
     }
 
     @Override
-    public Filter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
     }

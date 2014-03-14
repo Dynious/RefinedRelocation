@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.Filter;
+import com.dynious.refinedrelocation.api.FilterStandard;
+import com.dynious.refinedrelocation.api.IFilterGUI;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;
@@ -18,7 +19,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
     private ItemStack lastStack;
-    private Filter filter = new Filter();
+    private FilterStandard filter = new FilterStandard();
     private byte maxStackSize = 64;
     public boolean restrictExtraction = false;
 
@@ -163,7 +164,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     }
 
     @Override
-    public Filter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
     }

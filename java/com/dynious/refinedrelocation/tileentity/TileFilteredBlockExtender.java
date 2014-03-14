@@ -1,7 +1,8 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.Filter;
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.FilterStandard;
+import com.dynious.refinedrelocation.api.IFilterGUI;
+import com.dynious.refinedrelocation.api.IFilterGUITile;
 import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
@@ -9,9 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 
-public class TileFilteredBlockExtender extends TileBlockExtender implements IFilterTile
+public class TileFilteredBlockExtender extends TileBlockExtender implements IFilterGUITile
 {
-    private Filter filter = new Filter();
+    private FilterStandard filter = new FilterStandard();
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
@@ -74,7 +75,7 @@ public class TileFilteredBlockExtender extends TileBlockExtender implements IFil
     }
 
     @Override
-    public Filter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
     }
