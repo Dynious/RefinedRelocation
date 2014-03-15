@@ -12,7 +12,7 @@ import cpw.mods.ironchest.TileEntityIronChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileSortingIronChest extends TileEntityIronChest implements ISortingInventory, IFilterGUITile
+public class TileSortingIronChest extends TileEntityIronChest implements ISortingInventory, IFilterTileGUI
 {
     public boolean isFirstRun = true;
 

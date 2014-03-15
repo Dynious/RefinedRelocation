@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mcp.mobius.betterbarrels.common.blocks.TileEntityBarrel;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class TileSortingBarrel extends TileEntityBarrel implements ISortingInventory
 {
@@ -31,7 +30,14 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     @Override
     public void setInventorySlotContents(int i, ItemStack itemstack)
     {
-        sortingInventoryHandler.setInventorySlotContents(i, itemstack);
+        if (!getStorage().hasItem())
+        {
+            super.setInventorySlotContents(i, itemstack);
+        }
+        else
+        {
+            sortingInventoryHandler.setInventorySlotContents(i, itemstack);
+        }
     }
 
     @Override
@@ -56,24 +62,5 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     public SortingInventoryHandler getSortingHandler()
     {
         return sortingInventoryHandler;
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean shouldRenderInPass(int pass)
-    {
-        return pass == 0 || pass == 1;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbttagcompound)
-    {
-        super.readFromNBT(nbttagcompound);
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbttagcompound)
-    {
-        super.writeToNBT(nbttagcompound);
     }
 }

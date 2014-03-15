@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.api.IFilterGUITile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
@@ -12,21 +12,21 @@ import net.minecraft.inventory.ICrafting;
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered
 {
 
-    public IFilterGUITile tile;
+    public IFilterTileGUI tile;
 
     private String lastUserFilter = "";
     private boolean lastBlacklist = true;
     private boolean lastFilterOptions[];
     private boolean initialUpdate = true;
 
-    public ContainerFiltered(IFilterGUITile tile)
+    public ContainerFiltered(IFilterTileGUI tile)
     {
         this.tile = tile;
 
         lastFilterOptions = new boolean[tile.getFilter().getSize()];
     }
 
-    public ContainerFiltered(IFilterGUITile tile, ContainerHierarchical parentContainer)
+    public ContainerFiltered(IFilterTileGUI tile, ContainerHierarchical parentContainer)
     {
         super(parentContainer);
 

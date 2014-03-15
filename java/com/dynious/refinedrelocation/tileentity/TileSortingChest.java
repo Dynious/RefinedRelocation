@@ -18,7 +18,7 @@ import net.minecraft.util.AxisAlignedBB;
 
 import java.util.List;
 
-public class TileSortingChest extends TileEntity implements ISortingInventory, IFilterGUITile
+public class TileSortingChest extends TileEntity implements ISortingInventory, IFilterTileGUI
 {
     /**
      * The current angle of the lid (between 0 and 1)

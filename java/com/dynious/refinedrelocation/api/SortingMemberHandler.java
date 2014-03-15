@@ -210,7 +210,7 @@ public class SortingMemberHandler
     private List<List<ISortingInventory>> createSortingList()
     {
         List<List<ISortingInventory>> list = new ArrayList<List<ISortingInventory>>();
-        for (IFilterTile.Priority ignored : IFilterTile.Priority.values())
+        for (ISortingInventory.Priority ignored : ISortingInventory.Priority.values())
         {
             list.add(new ArrayList<ISortingInventory>());
         }
@@ -221,6 +221,7 @@ public class SortingMemberHandler
             {
                 ISortingInventory filteringInventory = (ISortingInventory) filteringMember.owner;
 
+                System.out.println("TEST: " + filteringMember.owner.zCoord + " : " + filteringInventory.getPriority().ordinal());
                 list.get(filteringInventory.getPriority().ordinal()).add(filteringInventory);
             }
         }

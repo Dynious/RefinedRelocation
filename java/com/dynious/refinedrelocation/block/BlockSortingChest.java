@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.lib.Names;
@@ -206,7 +207,7 @@ public class BlockSortingChest extends BlockContainer
                 }
                 else
                 {
-                    FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERED, world, x, y, z);
+                    APIUtils.openFilteringGUI(player, world, x, y, z);
                 }
             }
 

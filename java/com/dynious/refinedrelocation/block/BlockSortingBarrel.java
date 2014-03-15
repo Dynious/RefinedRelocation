@@ -4,7 +4,11 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;
 import mcp.mobius.betterbarrels.common.blocks.BlockBarrel;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockSortingBarrel extends BlockBarrel
@@ -28,5 +32,22 @@ public class BlockSortingBarrel extends BlockBarrel
         TileSortingBarrel tile = (TileSortingBarrel )world.getBlockTileEntity(x, y, z);
         tile.getSortingHandler().onTileDestroyed();
         super.breakBlock(world, x, y, z, par5, par6);
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack par6ItemStack)
+    {
+        super.onBlockPlacedBy(world, x, y, z, entity, par6ItemStack);
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileSortingBarrel)
+        {
+            ((TileSortingBarrel)tile).getSortingHandler().onTileAdded();
+        }
+    }
+
+    @Override
+    public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+    {
+        return super.getBlockTexture(par1IBlockAccess, x, y, z, side);
     }
 }

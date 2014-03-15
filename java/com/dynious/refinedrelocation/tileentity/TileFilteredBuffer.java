@@ -2,11 +2,11 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.FilterStandard;
 import com.dynious.refinedrelocation.api.IFilterGUI;
-import com.dynious.refinedrelocation.api.IFilterGUITile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileFilteredBuffer extends TileBuffer implements IFilterGUITile
+public class TileFilteredBuffer extends TileBuffer implements IFilterTileGUI
 {
     private FilterStandard filter = new FilterStandard();
 

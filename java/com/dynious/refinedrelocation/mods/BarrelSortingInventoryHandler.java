@@ -17,7 +17,6 @@ public class BarrelSortingInventoryHandler extends SortingInventoryHandler
     @Override
     public ItemStack putInInventory(ItemStack itemStack)
     {
-        System.out.println("Start: " + itemStack);
         if (owner instanceof TileSortingBarrel)
         {
             TileSortingBarrel tile = (TileSortingBarrel) owner;

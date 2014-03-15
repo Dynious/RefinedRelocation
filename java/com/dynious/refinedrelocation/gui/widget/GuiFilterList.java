@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.api.IFilterGUITile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import org.lwjgl.input.Mouse;
@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiFilterList extends GuiRefinedRelocationWidgetBase
 {
-    protected IFilterGUITile tile;
+    protected IFilterTileGUI tile;
     public int numFiltersPerScreen;
     public int filterRowHeight = 10;
     protected int currentIndex = 0;
@@ -23,7 +23,7 @@ public class GuiFilterList extends GuiRefinedRelocationWidgetBase
     public int scrollBarXPos;
     public int scrollBarColor = 0xFFAAAAAA;
 
-    public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IFilterGUITile tile)
+    public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile)
     {
         super(parent, x, y, w, h);
         this.tile = tile;

@@ -18,6 +18,7 @@ tile.sortingIronChest6.name=Sorting Obsidian Chest
 tile.sortingIronChest7.name=Sorting Dirt Chest
 tile.sortingConnector.name=Sorting Connector
 tile.filteringHopper.name=Filtering Hopper
+tile.sortingBarrel.name=Sorting Barrel
 
 # Item localizations
 item.linker.name=Linker

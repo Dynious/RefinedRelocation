@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.api.IFilterGUITile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered
 {
     protected final IInventory inventory;
-    protected IFilterGUITile tile;
+    protected IFilterTileGUI tile;
 
     private String lastUserFilter = "";
     private boolean lastBlacklist = true;
@@ -25,7 +25,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     private boolean initialUpdate = true;
 
     @SuppressWarnings("unchecked")
-    public ContainerFilteringHopper(InventoryPlayer par1InventoryPlayer, IFilterGUITile filterTile)
+    public ContainerFilteringHopper(InventoryPlayer par1InventoryPlayer, IFilterTileGUI filterTile)
     {
         super(par1InventoryPlayer, (IInventory) filterTile);
         this.tile = filterTile;

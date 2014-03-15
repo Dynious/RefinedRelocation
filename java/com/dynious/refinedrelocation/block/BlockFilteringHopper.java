@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -55,7 +56,7 @@ public class BlockFilteringHopper extends BlockHopper
         if (!world.isRemote)
         {
             if (player.isSneaking())
-                FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERED, world, x, y, z);
+                APIUtils.openFilteringGUI(player, world, x, y, z);
             else
                 FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERING_HOPPER, world, x, y, z);
             return true;

@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.api.IFilterGUITile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
@@ -8,9 +8,9 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiTextInputUserFilter extends GuiTextInput
 {
-    protected IFilterGUITile tile;
+    protected IFilterTileGUI tile;
 
-    public GuiTextInputUserFilter(IGuiParent parent, int x, int y, int w, int h, IFilterGUITile tile)
+    public GuiTextInputUserFilter(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile)
     {
         super(parent, x, y, w, h);
         this.tile = tile;

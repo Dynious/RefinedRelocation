@@ -2,13 +2,13 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.FilterStandard;
 import com.dynious.refinedrelocation.api.IFilterGUI;
-import com.dynious.refinedrelocation.api.IFilterGUITile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.lib.Names;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityHopper;
 
-public class TileFilteringHopper extends TileEntityHopper implements IFilterGUITile
+public class TileFilteringHopper extends TileEntityHopper implements IFilterTileGUI
 {
     private FilterStandard filter = new FilterStandard();
 

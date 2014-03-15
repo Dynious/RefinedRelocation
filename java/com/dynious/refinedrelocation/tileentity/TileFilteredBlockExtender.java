@@ -2,7 +2,7 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.FilterStandard;
 import com.dynious.refinedrelocation.api.IFilterGUI;
-import com.dynious.refinedrelocation.api.IFilterGUITile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import cpw.mods.fml.common.Optional;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 
-public class TileFilteredBlockExtender extends TileBlockExtender implements IFilterGUITile
+public class TileFilteredBlockExtender extends TileBlockExtender implements IFilterTileGUI
 {
     private FilterStandard filter = new FilterStandard();
 

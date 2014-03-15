@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.ISortingInventory;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.GuiIds;
@@ -45,7 +46,7 @@ public class BlockSortingIronChest extends BlockIronChest
         }
         if (player.isSneaking())
         {
-            FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERED, world, i, j, k);
+            APIUtils.openFilteringGUI(player, world, i, j, k);
             return true;
         }
         return world.isBlockSolidOnSide(i, j + 1, k, ForgeDirection.DOWN) || GuiHelper.openGui(player, world.getBlockTileEntity(i, j, k));
