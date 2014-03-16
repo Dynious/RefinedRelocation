@@ -64,7 +64,7 @@ public class IronChestHelper
                     TileSortingIronChest newchest = new TileSortingIronChest(IronChestType.values()[chestChanger.getType().getTarget()]);
                     ItemStack[] chestInventory = tec.inventory;
                     ItemStack[] chestContents = chestInventory.clone();
-                    newchest.setFacing((byte) tec.getBlockMetadata());
+                    newchest.setFacing((byte) tec.getFacing());
                     for (int i = 0; i < chestInventory.length; i++)
                     {
                         chestInventory[i] = null;
