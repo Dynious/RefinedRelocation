@@ -16,6 +16,6 @@ public class BarrelFilter implements IFilter
     @Override
     public boolean passesFilter(ItemStack itemStack)
     {
-        return tile.getStorage().sameItem(itemStack);
+        return tile.getStorage().hasItem() && tile.getStorage().sameItem(itemStack);
     }
 }
