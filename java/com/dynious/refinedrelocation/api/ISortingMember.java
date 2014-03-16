@@ -12,5 +12,5 @@ public interface ISortingMember
      *
      * @return The SortingMemberHandler of this tile
      */
-    public SortingMemberHandler getSortingMemberHandler();
+    public SortingMemberHandler getSortingHandler();
 }

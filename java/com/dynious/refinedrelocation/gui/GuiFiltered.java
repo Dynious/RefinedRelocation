@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui;
 
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
 import com.dynious.refinedrelocation.gui.widget.*;
 import com.dynious.refinedrelocation.helper.BlockHelper;
@@ -12,9 +12,9 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiFiltered extends GuiRefinedRelocationContainer
 {
-    private IFilterTile filterTile;
+    private IFilterTileGUI filterTile;
 
-    public GuiFiltered(InventoryPlayer invPlayer, IFilterTile filterTile)
+    public GuiFiltered(InventoryPlayer invPlayer, IFilterTileGUI filterTile)
     {
         super(new ContainerFiltered(filterTile));
         this.filterTile = filterTile;

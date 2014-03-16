@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.ISortingInventory;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.GuiIds;
@@ -31,7 +32,7 @@ public class BlockSortingIronChest extends BlockIronChest
         TileEntity tile = world.getTileEntity(i, j, k);
         if (tile instanceof ISortingInventory)
         {
-            ((ISortingInventory)tile).getSortingInventoryHandler().onTileDestroyed();
+            ((ISortingInventory)tile).getSortingHandler().onTileDestroyed();
         }
         super.breakBlock(world, i, j, k, i1, i2);
     }
@@ -45,7 +46,7 @@ public class BlockSortingIronChest extends BlockIronChest
         }
         if (player.isSneaking())
         {
-            player.openGui(RefinedRelocation.instance, GuiIds.FILTERED, world, i, j, k);
+            APIUtils.openFilteringGUI(player, world, i, j, k);
             return true;
         }
         return world.isSideSolid(i, j + 1, k, ForgeDirection.DOWN) || GuiHelper.openGui(player, world.getTileEntity(i, j, k));

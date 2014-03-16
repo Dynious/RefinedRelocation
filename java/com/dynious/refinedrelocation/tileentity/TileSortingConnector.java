@@ -68,7 +68,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     }
 
     @Override
-    public SortingMemberHandler getSortingMemberHandler()
+    public SortingMemberHandler getSortingHandler()
     {
         return sortingMemberHandler;
     }

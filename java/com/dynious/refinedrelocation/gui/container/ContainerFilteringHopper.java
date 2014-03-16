@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered
 {
     protected final IInventory inventory;
-    protected IFilterTile tile;
+    protected IFilterTileGUI tile;
 
     private String lastUserFilter = "";
     private boolean lastBlacklist = true;
@@ -23,7 +23,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     private boolean initialUpdate = true;
 
     @SuppressWarnings("unchecked")
-    public ContainerFilteringHopper(InventoryPlayer par1InventoryPlayer, IFilterTile filterTile)
+    public ContainerFilteringHopper(InventoryPlayer par1InventoryPlayer, IFilterTileGUI filterTile)
     {
         super(par1InventoryPlayer, (IInventory) filterTile);
         this.tile = filterTile;
@@ -84,16 +84,16 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     {
         super.detectAndSendChanges();
 
-        if (!tile.getFilter().userFilter.equals(lastUserFilter) || initialUpdate)
+        if (!tile.getFilter().getUserFilter().equals(lastUserFilter) || initialUpdate)
         {
             for (Object crafter : crafters)
             {
                 if (crafter instanceof EntityPlayer)
                 {
-                    NetworkHelper.sendTo(new PacketUserFilter(tile.getFilter().userFilter), (EntityPlayer) crafter);
+                    NetworkHelper.sendTo(new PacketUserFilter(tile.getFilter().getUserFilter()), (EntityPlayer) crafter);
                 }
             }
-            lastUserFilter = tile.getFilter().userFilter;
+            lastUserFilter = tile.getFilter().getUserFilter();
         }
 
         for (int i = 0; i < tile.getFilter().getSize(); i++)
@@ -108,13 +108,13 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
             }
         }
 
-        if (tile.getFilter().blacklists != lastBlacklist || initialUpdate)
+        if (tile.getFilter().isBlacklisting() != lastBlacklist || initialUpdate)
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, GuiNetworkIds.FILTERED_BASE + 2, tile.getFilter().blacklists ? 1 : 0);
+                ((ICrafting) crafter).sendProgressBarUpdate(this, GuiNetworkIds.FILTERED_BASE + 2, tile.getFilter().isBlacklisting() ? 1 : 0);
             }
-            lastBlacklist = tile.getFilter().blacklists;
+            lastBlacklist = tile.getFilter().isBlacklisting();
         }
 
         if (initialUpdate)
@@ -147,14 +147,14 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     public void setUserFilter(String filter)
     {
         lastUserFilter = filter;
-        tile.getFilter().userFilter = filter;
+        tile.getFilter().setUserFilter(filter);
     }
 
     @Override
     public void setBlackList(boolean value)
     {
         lastBlacklist = value;
-        tile.getFilter().blacklists = value;
+        tile.getFilter().setBlacklists(value);
     }
 
     @Override

@@ -1,15 +1,15 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
 
 public class GuiTextInputUserFilter extends GuiTextInput
 {
-    protected IFilterTile tile;
+    protected IFilterTileGUI tile;
 
-    public GuiTextInputUserFilter(IGuiParent parent, int x, int y, int w, int h, IFilterTile tile)
+    public GuiTextInputUserFilter(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile)
     {
         super(parent, x, y, w, h);
         this.tile = tile;
@@ -22,7 +22,7 @@ public class GuiTextInputUserFilter extends GuiTextInput
         if (tile == null)
             return;
 
-        tile.getFilter().userFilter = newFilter;
+        tile.getFilter().setUserFilter(newFilter);
         NetworkHelper.sendToServer(new PacketUserFilter(newFilter));
     }
 
@@ -30,7 +30,7 @@ public class GuiTextInputUserFilter extends GuiTextInput
     public void update()
     {
         if (tile != null)
-            setText(tile.getFilter().userFilter);
+            setText(tile.getFilter().getUserFilter());
 
         super.update();
     }

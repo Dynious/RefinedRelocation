@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.item.ItemBuffer;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
+import com.dynious.refinedrelocation.mods.JabbaHelper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
@@ -19,6 +20,7 @@ public class ModBlocks
     public static BlockSortingIronChest sortingIronChest;
     public static BlockSortingConnector sortingConnector;
     public static BlockFilteringHopper filteringHopper;
+    public static BlockSortingBarrel sortingBarrel;
 
     public static void init()
     {
@@ -58,6 +60,12 @@ public class ModBlocks
         {
             IronChestHelper.addIronChestBlocks();
             IronChestHelper.addIronChestRecipes();
+        }
+
+        if (Loader.isModLoaded("JABBA"))
+        {
+            JabbaHelper.addBarrelBlock();
+            JabbaHelper.addBarrelRecipes();
         }
     }
 }

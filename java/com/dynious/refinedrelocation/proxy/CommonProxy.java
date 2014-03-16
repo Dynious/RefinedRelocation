@@ -40,6 +40,10 @@ public class CommonProxy
         {
             GameRegistry.registerTileEntity(TileSortingIronChest.class, Names.sortingIronChest);
         }
+        if (Loader.isModLoaded("JABBA"))
+        {
+            GameRegistry.registerTileEntity(TileSortingBarrel.class, Names.sortingBarrel);
+        }
 
         new GuiHandler();
     }

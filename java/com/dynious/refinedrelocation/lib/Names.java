@@ -14,6 +14,7 @@ public class Names
     public static final String sortingIronChest = "sortingIronChest";
     public static final String sortingConnector = "sortingConnector";
     public static final String filteringHopper = "filteringHopper";
+    public static final String sortingBarrel = "sortingBarrel";
 
     public static final String linker = "linker";
     public static final String sortingUpgrade = "sortingUpgrade";

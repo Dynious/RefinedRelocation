@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 
-public interface IAdvancedFilteredTile extends IAdvancedTile, IFilterTile
+public interface IAdvancedFilteredTile extends IAdvancedTile, IFilterTileGUI
 {
     public boolean getRestrictExtraction();
 

@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.api.IFilterTile;
+import com.dynious.refinedrelocation.api.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.*;
 import com.dynious.refinedrelocation.gui.container.*;
 import com.dynious.refinedrelocation.lib.GuiIds;
@@ -31,7 +31,7 @@ public class GuiHandler implements IGuiHandler
             //case GuiIds.BLOCK_EXTENDER:
             //case GuiIds.BUFFER:
             case GuiIds.FILTERED:
-                return new ContainerFiltered((IFilterTile) tile);
+                return new ContainerFiltered((IFilterTileGUI) tile);
             case GuiIds.ADVANCED_BLOCK_EXTENDER:
             case GuiIds.ADVANCED_BUFFER:
                 return new ContainerAdvanced((IAdvancedTile) tile);
@@ -44,7 +44,7 @@ public class GuiHandler implements IGuiHandler
                 }
                 return new ContainerSortingChest(player, (TileSortingChest) tile);
             case GuiIds.FILTERING_HOPPER:
-                return new ContainerFilteringHopper(player.inventory, (IFilterTile) tile);
+                return new ContainerFilteringHopper(player.inventory, (IFilterTileGUI) tile);
         }
 
         return null;
@@ -64,9 +64,9 @@ public class GuiHandler implements IGuiHandler
                 }
                 break;
             case GuiIds.FILTERED:
-                if (tile != null && tile instanceof IFilterTile)
+                if (tile != null && tile instanceof IFilterTileGUI)
                 {
-                    return new GuiFiltered(player.inventory, (IFilterTile) tile);
+                    return new GuiFiltered(player.inventory, (IFilterTileGUI) tile);
                 }
                 break;
             case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:

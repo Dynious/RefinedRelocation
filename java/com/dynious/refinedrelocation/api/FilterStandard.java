@@ -16,7 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Field;
 
-public class Filter
+public class FilterStandard implements IFilterGUI
 {
     private static Field displayOnCreativeTab = ReflectionHelper.findField(Block.class, ObfuscationReflectionHelper.remapFieldNames(Block.class.getName(), "displayOnCreativeTab", "field_149772_a", "a"));
     private static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
@@ -25,9 +25,9 @@ public class Filter
     private static final int FILTER_SIZE = 10;
     private boolean[] customFilters = new boolean[FILTER_SIZE];
     private boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
-    public String userFilter = "";
+    private String userFilter = "";
 
-    public boolean blacklists = true;
+    private boolean blacklists = true;
 
     public int getSize()
     {
@@ -36,7 +36,7 @@ public class Filter
 
     public boolean passesFilter(ItemStack itemStack)
     {
-        return blacklists ? !isInFilter(itemStack) : isInFilter(itemStack);
+        return isBlacklisting() ? !isInFilter(itemStack) : isInFilter(itemStack);
     }
 
     private boolean isInFilter(ItemStack itemStack)
@@ -45,9 +45,9 @@ public class Filter
         {
             String oreName = null;
 
-            if (userFilter != null && !userFilter.isEmpty())
+            if (getUserFilter() != null && !getUserFilter().isEmpty())
             {
-                String filter = userFilter.toLowerCase().replaceAll("\\s+", "");
+                String filter = getUserFilter().toLowerCase().replaceAll("\\s+", "");
                 for (String s : filter.split(","))
                 {
                     String filterName;
@@ -210,10 +210,30 @@ public class Filter
         return index;
     }
 
+    public boolean isBlacklisting()
+    {
+        return blacklists;
+    }
+
+    public void setBlacklists(boolean blacklists)
+    {
+        this.blacklists = blacklists;
+    }
+
+    public String getUserFilter()
+    {
+        return userFilter;
+    }
+
+    public void setUserFilter(String userFilter)
+    {
+        this.userFilter = userFilter;
+    }
+
     public void writeToNBT(NBTTagCompound compound)
     {
-        compound.setString("userFilter", userFilter);
-        compound.setBoolean("blacklists", blacklists);
+        compound.setString("userFilter", getUserFilter());
+        compound.setBoolean("blacklists", isBlacklisting());
         for (int i = 0; i < customFilters.length; i++)
         {
             compound.setBoolean("cumstomFilters" + i, customFilters[i]);
@@ -226,8 +246,8 @@ public class Filter
 
     public void readFromNBT(NBTTagCompound compound)
     {
-        userFilter = compound.getString("userFilter");
-        blacklists = compound.getBoolean("blacklists");
+        setUserFilter(compound.getString("userFilter"));
+        setBlacklists(compound.getBoolean("blacklists"));
         for (int i = 0; i < customFilters.length; i++)
         {
             customFilters[i] = compound.getBoolean("cumstomFilters" + i);

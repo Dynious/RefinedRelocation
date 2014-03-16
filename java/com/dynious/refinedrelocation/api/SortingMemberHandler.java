@@ -49,7 +49,7 @@ public class SortingMemberHandler
             TileEntity tile = DirectionHelper.getTileAtSide(owner, direction);
             if (tile != null && tile instanceof ISortingMember)
             {
-                SortingMemberHandler filteringMember = ((ISortingMember) tile).getSortingMemberHandler();
+                SortingMemberHandler filteringMember = ((ISortingMember) tile).getSortingHandler();
                 if (filteringMember.canJoinGroup() && filteringMember.getLeader() != this)
                 {
                     if (leader == null && childs == null)
@@ -180,37 +180,22 @@ public class SortingMemberHandler
     /**
      * Filters an ItemStack to all members of the SortingMember group
      *
+     *
      * @param itemStack The ItemStack to be filtered to all childs and this SortingMember
-     * @param requester The SortingInventoryHandler that requested the filtering
      * @return The ItemStack that was not able to fit in any ISortingInventory
      */
-    public final ItemStack filterStackToGroup(ItemStack itemStack, SortingInventoryHandler requester)
+    public final ItemStack filterStackToGroup(ItemStack itemStack)
     {
         if (childs != null && !childs.isEmpty())
         {
-            List<Integer> blackListers = new ArrayList<Integer>();
-
-            //Try to put the ItemStack in a child that passes (whitelisted) the filter
-            for (int i = 0; i < childs.size(); i++)
+            List<List<ISortingInventory>> sortingList = createSortingList();
+            for (List<ISortingInventory> list : sortingList)
             {
-                SortingMemberHandler filteringMember = childs.get(i);
-                if (filteringMember == requester)
+                for (ISortingInventory inventory : list)
                 {
-                    continue;
-                }
-                if (filteringMember.owner instanceof ISortingInventory)
-                {
-                    ISortingInventory filteringInventory = (ISortingInventory) filteringMember.owner;
-
-                    if (filteringInventory.getFilter().blacklists)
+                    if (inventory.getFilter().passesFilter(itemStack))
                     {
-                        blackListers.add(i);
-                        continue;
-                    }
-
-                    if (filteringInventory.getFilter().passesFilter(itemStack))
-                    {
-                        itemStack = filteringInventory.getSortingInventoryHandler().putInInventory(itemStack);
+                        itemStack = inventory.getSortingHandler().putInInventory(itemStack);
                         if (itemStack == null || itemStack.stackSize == 0)
                         {
                             return null;
@@ -218,55 +203,35 @@ public class SortingMemberHandler
                     }
                 }
             }
-
-            //If this (leader) is an inventory try to put the ItemStack in the inventory if whitelisted
-            if (this instanceof SortingInventoryHandler)
-            {
-                SortingInventoryHandler myInv = (SortingInventoryHandler) this;
-                if (!((ISortingInventory)myInv.owner).getFilter().blacklists && ((ISortingInventory)myInv.owner).getFilter().passesFilter(itemStack))
-                {
-                    itemStack = myInv.putInInventory(itemStack);
-                    if (itemStack == null || itemStack.stackSize == 0)
-                    {
-                        return null;
-                    }
-                }
-            }
-
-            //If the ItemStack can also be put in the requester inventory (it's a blackList Tile), prefer this blacklisted inventory
-            if (((ISortingInventory) requester.owner).getFilter().blacklists && ((ISortingInventory) requester.owner).getFilter().passesFilter(itemStack))
-            {
-                return itemStack;
-            }
-
-            //Lastly, try to insert the item in a blacklisting child
-            for (int i : blackListers)
-            {
-                ISortingInventory filteringInventory = (ISortingInventory) childs.get(i).owner;
-                if (filteringInventory.getFilter().passesFilter(itemStack))
-                {
-                    itemStack = filteringInventory.getSortingInventoryHandler().putInInventory(itemStack);
-                    if (itemStack == null || itemStack.stackSize == 0)
-                    {
-                        return null;
-                    }
-                }
-            }
-
-            //Lastly, if this (leader) is an inventory try to put the ItemStack in the inventory not blacklisted
-            if (this instanceof SortingInventoryHandler)
-            {
-                SortingInventoryHandler myInv = (SortingInventoryHandler) this;
-                if (((ISortingInventory)myInv.owner).getFilter().blacklists && ((ISortingInventory)myInv.owner).getFilter().passesFilter(itemStack))
-                {
-                    itemStack = myInv.putInInventory(itemStack);
-                    if (itemStack == null || itemStack.stackSize == 0)
-                    {
-                        return null;
-                    }
-                }
-            }
         }
         return itemStack;
+    }
+
+    private List<List<ISortingInventory>> createSortingList()
+    {
+        List<List<ISortingInventory>> list = new ArrayList<List<ISortingInventory>>();
+        for (ISortingInventory.Priority ignored : ISortingInventory.Priority.values())
+        {
+            list.add(new ArrayList<ISortingInventory>());
+        }
+
+        for (SortingMemberHandler filteringMember : childs)
+        {
+            if (filteringMember.owner instanceof ISortingInventory)
+            {
+                ISortingInventory filteringInventory = (ISortingInventory) filteringMember.owner;
+
+                System.out.println("TEST: " + filteringMember.owner.zCoord + " : " + filteringInventory.getPriority().ordinal());
+                list.get(filteringInventory.getPriority().ordinal()).add(filteringInventory);
+            }
+        }
+
+        if (this instanceof SortingInventoryHandler)
+        {
+            ISortingInventory myInventory = (ISortingInventory) ((SortingInventoryHandler) this).owner;
+            list.get(myInventory.getPriority().ordinal()).add(myInventory);
+        }
+
+        return list;
     }
 }
