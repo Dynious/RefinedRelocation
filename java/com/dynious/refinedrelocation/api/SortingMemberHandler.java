@@ -221,7 +221,6 @@ public class SortingMemberHandler
             {
                 ISortingInventory filteringInventory = (ISortingInventory) filteringMember.owner;
 
-                System.out.println("TEST: " + filteringMember.owner.zCoord + " : " + filteringInventory.getPriority().ordinal());
                 list.get(filteringInventory.getPriority().ordinal()).add(filteringInventory);
             }
         }

@@ -21,7 +21,6 @@ public class BarrelSortingInventoryHandler extends SortingInventoryHandler
         {
             TileSortingBarrel tile = (TileSortingBarrel) owner;
             int added = tile.getStorage().addStack(itemStack.copy());
-            System.out.println(added + " : " + itemStack);
             if (added != 0)
             {
                 itemStack.stackSize -= added;
