@@ -52,7 +52,7 @@ public class ItemSortingUpgrade extends Item
                     chestInventory[i] = null;
                 }
                 // Clear the old block out
-                world.setBlock(X, Y, Z, null, 0, 3);
+                world.setBlockToAir(X, Y, Z);
                 // Force the Chest TE to reset it's knowledge of neighbouring blocks
                 tec.updateContainingBlockInfo();
                 // Force the Chest TE to update any neighbours so they update next
@@ -79,7 +79,7 @@ public class ItemSortingUpgrade extends Item
                     chestInventory[i] = null;
                 }
                 // Clear the old block out
-                world.setBlock(X, Y, Z, null, 0, 3);
+                world.setBlockToAir(X, Y, Z);
 
                 // And put in our block instead
                 world.setBlock(X, Y, Z, ModBlocks.filteringHopper, meta, 3);

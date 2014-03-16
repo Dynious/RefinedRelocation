@@ -71,7 +71,7 @@ public class IronChestHelper
                         chestInventory[i] = null;
                     }
                     // Clear the old block out
-                    world.setBlock(x, y, z, null, 0, 3);
+                    world.setBlockToAir(x, y, z);
                     // Force the Chest TE to reset it's knowledge of neighbouring blocks
                     // And put in our block instead
                     world.setBlock(x, y, z, ModBlocks.sortingIronChest, chestChanger.getType().getTarget(), 3);
@@ -107,7 +107,7 @@ public class IronChestHelper
                 teic.chestContents[i] = null;
             }
             // Clear the old block out
-            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, null, 0, 3);
+            world.setBlockToAir(tile.xCoord, tile.yCoord, tile.zCoord);
             // And put in our block instead
             world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingIronChest, teic.getType().ordinal(), 3);
 
