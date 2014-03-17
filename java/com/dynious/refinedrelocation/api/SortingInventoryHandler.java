@@ -93,7 +93,7 @@ public class SortingInventoryHandler extends SortingMemberHandler
         }
         else
         {
-            itemStack = getLeader().filterStackToGroup(itemStack);
+            itemStack = getLeader().filterStackToGroup(itemStack, this.owner);
         }
 
 
