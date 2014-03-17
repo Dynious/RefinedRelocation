@@ -184,11 +184,11 @@ public class SortingMemberHandler
      * @param itemStack The ItemStack to be filtered to all childs and this SortingMember
      * @return The ItemStack that was not able to fit in any ISortingInventory
      */
-    public final ItemStack filterStackToGroup(ItemStack itemStack)
+    public final ItemStack filterStackToGroup(ItemStack itemStack, TileEntity requester)
     {
         if (childs != null && !childs.isEmpty())
         {
-            List<List<ISortingInventory>> sortingList = createSortingList();
+            List<List<ISortingInventory>> sortingList = createSortingList(requester);
             for (List<ISortingInventory> list : sortingList)
             {
                 for (ISortingInventory inventory : list)
@@ -207,7 +207,7 @@ public class SortingMemberHandler
         return itemStack;
     }
 
-    private List<List<ISortingInventory>> createSortingList()
+    private List<List<ISortingInventory>> createSortingList(TileEntity requester)
     {
         List<List<ISortingInventory>> list = new ArrayList<List<ISortingInventory>>();
         for (ISortingInventory.Priority ignored : ISortingInventory.Priority.values())
@@ -221,14 +221,29 @@ public class SortingMemberHandler
             {
                 ISortingInventory filteringInventory = (ISortingInventory) filteringMember.owner;
 
-                list.get(filteringInventory.getPriority().ordinal()).add(filteringInventory);
+                if (filteringInventory == requester)
+                {
+                    list.get(filteringInventory.getPriority().ordinal()).add(0, filteringInventory);
+                }
+                else
+                {
+                    list.get(filteringInventory.getPriority().ordinal()).add(filteringInventory);
+                }
             }
         }
 
         if (this instanceof SortingInventoryHandler)
         {
             ISortingInventory myInventory = (ISortingInventory) ((SortingInventoryHandler) this).owner;
-            list.get(myInventory.getPriority().ordinal()).add(myInventory);
+
+            if (myInventory == requester)
+            {
+                list.get(myInventory.getPriority().ordinal()).add(0, myInventory);
+            }
+            else
+            {
+                list.get(myInventory.getPriority().ordinal()).add(myInventory);
+            }
         }
 
         return list;
