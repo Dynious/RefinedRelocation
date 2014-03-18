@@ -7,7 +7,7 @@ public class Resources
     public static final String MOD_ID = Reference.MOD_ID.toLowerCase();
     public static final String GUI_SHEET_LOCATION = "textures/gui/";
     public static final String MODEL_SHEET_LOCATION = "textures/model/";
-    public static final String MODEL_LOCATION = "/models/";
+    public static final String MODEL_LOCATION = "models/";
 
     public static final ResourceLocation GUI_ADVANCED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBlockExtender.png");
     public static final ResourceLocation GUI_FILTERED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "filteredBlockExtender.png");
