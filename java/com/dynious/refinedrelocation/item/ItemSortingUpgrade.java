@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
+import com.dynious.refinedrelocation.mods.JabbaHelper;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
 import cpw.mods.fml.common.Loader;
@@ -64,6 +65,8 @@ public class ItemSortingUpgrade extends Item
                 world.setTileEntity(X, Y, Z, newChest);
                 world.setBlockMetadataWithNotify(X, Y, Z, 0, 3);
                 System.arraycopy(chestContents, 0, newChest.inventory, 0, newChest.getSizeInventory());
+                stack.stackSize--;
+                return true;
             }
             else if (te instanceof TileEntityHopper)
             {
@@ -87,25 +90,27 @@ public class ItemSortingUpgrade extends Item
                 world.setTileEntity(X, Y, Z, newHopper);
                 world.setBlockMetadataWithNotify(X, Y, Z, meta, 3);
                 System.arraycopy(chestContents, 0, (ItemStack[]) ObfuscationReflectionHelper.getPrivateValue(TileEntityHopper.class, newHopper, 0), 0, newHopper.getSizeInventory());
+                stack.stackSize--;
+                return true;
             }
-            else if (Loader.isModLoaded("IronChest"))
+            if (Loader.isModLoaded("IronChest"))
             {
-                if (!IronChestHelper.upgradeIronToFilteringChest(te))
+                if (IronChestHelper.upgradeIronToFilteringChest(te))
                 {
-                    return false;
+                    stack.stackSize--;
+                    return true;
                 }
             }
-            else
+            if (Loader.isModLoaded("JABBA"))
             {
-                return false;
+                if (JabbaHelper.upgradeIronToFilteringChest(te))
+                {
+                    stack.stackSize--;
+                    return true;
+                }
             }
         }
-        else
-        {
-            return false;
-        }
-        stack.stackSize--;
-        return true;
+        return false;
     }
 
 
