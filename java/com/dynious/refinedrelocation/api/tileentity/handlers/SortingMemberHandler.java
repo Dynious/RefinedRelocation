@@ -27,6 +27,10 @@ public class SortingMemberHandler
      */
     public final void onTileAdded()
     {
+        if (owner.getWorldObj().isRemote)
+        {
+            return;
+        }
         searchForLeader();
     }
 
@@ -35,6 +39,10 @@ public class SortingMemberHandler
      */
     public final void onTileDestroyed()
     {
+        if (owner.getWorldObj().isRemote)
+        {
+            return;
+        }
         canJoinGroup = false;
         getLeader().removeChild(this);
         getLeader().resetChilds();
@@ -43,7 +51,7 @@ public class SortingMemberHandler
     /**
      * Searches for leaders around the TileEntity and demotes leaders if it already has a leader
      */
-    public final void searchForLeader()
+    private void searchForLeader()
     {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
