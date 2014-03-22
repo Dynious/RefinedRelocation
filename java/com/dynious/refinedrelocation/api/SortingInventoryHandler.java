@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.api;
 
-import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -49,7 +48,7 @@ public class SortingInventoryHandler extends SortingMemberHandler
                         inventory.getInventory()[slot] = itemStack.splitStack(max);
                     }
                 }
-                else if (ItemStackHelper.areItemStacksEqual(itemstack1, itemStack))
+                else if (areItemStacksEqual(itemstack1, itemStack))
                 {
                     int max = Math.min(itemStack.getMaxStackSize(), inventory.getInventoryStackLimit());
                     if (max > itemstack1.stackSize)
@@ -132,5 +131,10 @@ public class SortingInventoryHandler extends SortingMemberHandler
     public final void removeCrafter(EntityPlayer player)
     {
         crafters.remove(player);
+    }
+
+    public static boolean areItemStacksEqual(ItemStack itemStack1, ItemStack itemStack2)
+    {
+        return itemStack1 == null && itemStack2 == null || (!(itemStack1 == null || itemStack2 == null) && (itemStack1.itemID == itemStack2.itemID && (itemStack1.getItemDamage() == itemStack2.getItemDamage() && (!(itemStack1.stackTagCompound == null && itemStack2.stackTagCompound != null) && (itemStack1.stackTagCompound == null || itemStack1.stackTagCompound.equals(itemStack2.stackTagCompound))))));
     }
 }
