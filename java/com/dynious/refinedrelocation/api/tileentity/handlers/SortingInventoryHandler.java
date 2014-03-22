@@ -1,5 +1,6 @@
-package com.dynious.refinedrelocation.api;
+package com.dynious.refinedrelocation.api.tileentity.handlers;
 
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

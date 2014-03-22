@@ -1,10 +1,10 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.*;
+import com.dynious.refinedrelocation.api.filter.IFilter;
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.api.tileentity.handlers.SortingInventoryHandler;
 import com.dynious.refinedrelocation.mods.BarrelFilter;
 import com.dynious.refinedrelocation.mods.BarrelSortingInventoryHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mcp.mobius.betterbarrels.common.blocks.TileEntityBarrel;
 import net.minecraft.item.ItemStack;
 

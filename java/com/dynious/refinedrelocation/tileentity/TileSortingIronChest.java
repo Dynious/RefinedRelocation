@@ -1,6 +1,10 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.*;
+import com.dynious.refinedrelocation.api.filter.FilterStandard;
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.api.tileentity.handlers.SortingInventoryHandler;
 import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import cpw.mods.fml.relauncher.ReflectionHelper;

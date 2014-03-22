@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.FilterStandard;
-import com.dynious.refinedrelocation.api.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.FilterStandard;
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.item.ItemStack;

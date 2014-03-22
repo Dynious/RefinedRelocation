@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.mods;
 
-import com.dynious.refinedrelocation.api.SortingInventoryHandler;
+import com.dynious.refinedrelocation.api.tileentity.handlers.SortingInventoryHandler;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;
 import mcp.mobius.betterbarrels.network.BarrelPacketHandler;
 import mcp.mobius.betterbarrels.network.Message0x01ContentUpdate;

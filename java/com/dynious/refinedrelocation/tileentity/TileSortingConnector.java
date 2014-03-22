@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.SortingMemberHandler;
-import com.dynious.refinedrelocation.api.ISortingMember;
+import com.dynious.refinedrelocation.api.tileentity.handlers.SortingMemberHandler;
+import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

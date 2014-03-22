@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.FilterStandard;
-import com.dynious.refinedrelocation.api.IFilterGUI;
-import com.dynious.refinedrelocation.api.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.filter.FilterStandard;
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 

@@ -2,9 +2,8 @@ package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.ISortingInventory;
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.helper.GuiHelper;
-import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
 import cpw.mods.fml.relauncher.Side;

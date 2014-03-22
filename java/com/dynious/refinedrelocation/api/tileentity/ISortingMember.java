@@ -1,4 +1,6 @@
-package com.dynious.refinedrelocation.api;
+package com.dynious.refinedrelocation.api.tileentity;
+
+import com.dynious.refinedrelocation.api.tileentity.handlers.SortingMemberHandler;
 
 /**
  * This is the interface that will make your TileEntity part of the Sorting Network.

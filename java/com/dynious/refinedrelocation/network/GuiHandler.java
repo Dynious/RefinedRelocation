@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.api.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.*;
 import com.dynious.refinedrelocation.gui.container.*;
 import com.dynious.refinedrelocation.lib.GuiIds;

@@ -1,5 +1,7 @@
-package com.dynious.refinedrelocation.api;
+package com.dynious.refinedrelocation.api.tileentity.handlers;
 
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;

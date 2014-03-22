@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.api.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
