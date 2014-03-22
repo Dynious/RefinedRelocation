@@ -12,10 +12,12 @@ public class ModItems
     public static ItemLinker linker;
     public static ItemSortingUpgrade sortingUpgrade;
 
+    private static final int ID_SHIFT = 256;
+
     public static void init()
     {
-        linker = new ItemLinker(ItemIds.LINKER);
-        sortingUpgrade = new ItemSortingUpgrade(ItemIds.SORTING_UPGRADE);
+        linker = new ItemLinker(ItemIds.LINKER - ID_SHIFT);
+        sortingUpgrade = new ItemSortingUpgrade(ItemIds.SORTING_UPGRADE - ID_SHIFT);
 
         GameRegistry.registerItem(linker, Names.linker);
         GameRegistry.registerItem(sortingUpgrade, Names.sortingUpgrade);
