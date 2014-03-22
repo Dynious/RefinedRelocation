@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.api;
 
-import com.dynious.refinedrelocation.helper.DirectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -46,7 +45,7 @@ public class SortingMemberHandler
     {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity tile = DirectionHelper.getTileAtSide(owner, direction);
+            TileEntity tile = owner.getWorldObj().getTileEntity(owner.xCoord + direction.offsetX, owner.yCoord + direction.offsetY, owner.zCoord + direction.offsetZ);
             if (tile != null && tile instanceof ISortingMember)
             {
                 SortingMemberHandler filteringMember = ((ISortingMember) tile).getSortingHandler();
