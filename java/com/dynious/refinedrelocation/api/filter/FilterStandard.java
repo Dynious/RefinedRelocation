@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.api;
+package com.dynious.refinedrelocation.api.filter;
 
 import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;

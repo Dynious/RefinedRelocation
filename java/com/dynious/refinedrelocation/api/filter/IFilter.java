@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.api;
+package com.dynious.refinedrelocation.api.filter;
 
 import net.minecraft.item.ItemStack;
 

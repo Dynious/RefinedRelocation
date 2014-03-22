@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.mods;
 
-import com.dynious.refinedrelocation.api.IFilter;
+import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;
 import net.minecraft.item.ItemStack;
 
