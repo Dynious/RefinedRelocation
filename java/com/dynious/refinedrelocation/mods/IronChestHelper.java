@@ -12,6 +12,8 @@ import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.ironchest.IronChest;
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.ItemChestChanger;
@@ -39,6 +41,7 @@ public class IronChestHelper
         }
     }
 
+    @SideOnly(Side.CLIENT)
     public static void addIronChestRenders()
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileSortingIronChest.class, new RendererSortingIronChest());
