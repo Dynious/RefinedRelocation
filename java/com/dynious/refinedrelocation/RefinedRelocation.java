@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
 import com.dynious.refinedrelocation.event.EventHandler;
+import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.PacketHandler;
@@ -33,6 +34,8 @@ public class RefinedRelocation
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        LogHelper.init();
+        
         VersionChecker.execute();
 
         ConfigHandler.init(event.getSuggestedConfigurationFile());
