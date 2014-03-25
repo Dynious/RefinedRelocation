@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.PacketHandler;
 import com.dynious.refinedrelocation.proxy.CommonProxy;
+import com.dynious.refinedrelocation.version.VersionChecker;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -32,6 +33,8 @@ public class RefinedRelocation
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        VersionChecker.execute();
+
         ConfigHandler.init(event.getSuggestedConfigurationFile());
 
         ModBlocks.init();
