@@ -1,0 +1,14 @@
+{
+	"versionList": [
+		{
+			"mcVersion":"1.7.2",
+			"modVersion":"1.0.0-beta3",
+			"changeLog":"Server start up crash fix"
+		},
+		{
+			"mcVersion":"1.6.4",
+			"modVersion":"1.0.0-beta3",
+			"changeLog":"Server start up crash fix"
+		}
+	]
+}
