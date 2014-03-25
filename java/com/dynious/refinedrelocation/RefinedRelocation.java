@@ -31,8 +31,6 @@ public class RefinedRelocation
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        LogHelper.init();
-        
         VersionChecker.execute();
 
         ConfigHandler.init(event.getSuggestedConfigurationFile());
