@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.filter.FilterStandard;
+import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.sorting.FilterStandard;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.lib.Names;
@@ -10,7 +11,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 
 public class TileFilteringHopper extends TileEntityHopper implements IFilterTileGUI
 {
-    private FilterStandard filter = new FilterStandard();
+    private IFilterGUI filter = APIUtils.createStandardFilter();
 
     @Override
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)

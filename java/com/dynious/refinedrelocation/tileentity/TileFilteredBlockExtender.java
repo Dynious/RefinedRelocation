@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.filter.FilterStandard;
+import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.sorting.FilterStandard;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import cpw.mods.fml.common.Optional;
@@ -12,7 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class TileFilteredBlockExtender extends TileBlockExtender implements IFilterTileGUI
 {
-    private FilterStandard filter = new FilterStandard();
+    private IFilterGUI filter = APIUtils.createStandardFilter();
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)

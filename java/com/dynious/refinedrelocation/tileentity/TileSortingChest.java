@@ -1,12 +1,14 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.filter.FilterStandard;
+import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.sorting.FilterStandard;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
-import com.dynious.refinedrelocation.api.tileentity.handlers.SortingInventoryHandler;
+import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.block.BlockSortingChest;
 import com.dynious.refinedrelocation.gui.container.ContainerSortingChest;
+import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,10 +50,10 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
 
     public ItemStack[] inventory;
 
-    private FilterStandard filter = new FilterStandard();
+    private IFilterGUI filter = APIUtils.createStandardFilter();
     private boolean blacklist = true;
 
-    private SortingInventoryHandler sortingInventoryHandler = new SortingInventoryHandler(this);
+    private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
     private boolean isFirstTick = true;
 
     public TileSortingChest()
@@ -400,6 +402,45 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         return inventory;
     }
 
+    @Override
+    public ItemStack putInInventory(ItemStack itemStack)
+    {
+        for (int slot = 0; slot < getSizeInventory() && itemStack != null && itemStack.stackSize > 0; ++slot)
+        {
+            if (isItemValidForSlot(slot, itemStack))
+            {
+                ItemStack itemstack1 = getStackInSlot(slot);
+
+                if (itemstack1 == null)
+                {
+                    int max = Math.min(itemStack.getMaxStackSize(), getInventoryStackLimit());
+                    if (max >= itemStack.stackSize)
+                    {
+                        inventory[slot] = itemStack;
+
+                        onInventoryChanged();
+                        itemStack = null;
+                    }
+                    else
+                    {
+                        inventory[slot] = itemStack.splitStack(max);
+                    }
+                }
+                else if (ItemStackHelper.areItemStacksEqual(itemstack1, itemStack))
+                {
+                    int max = Math.min(itemStack.getMaxStackSize(), getInventoryStackLimit());
+                    if (max > itemstack1.stackSize)
+                    {
+                        int l = Math.min(itemStack.stackSize, max - itemstack1.stackSize);
+                        itemStack.stackSize -= l;
+                        itemstack1.stackSize += l;
+                    }
+                }
+            }
+        }
+        return itemStack;
+    }
+
     public IFilterGUI getFilter()
     {
         return filter;
@@ -422,7 +463,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     }
 
     @Override
-    public SortingInventoryHandler getSortingHandler()
+    public ISortingInventoryHandler getSortingHandler()
     {
         return sortingInventoryHandler;
     }

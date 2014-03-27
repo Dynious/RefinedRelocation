@@ -1,5 +1,6 @@
-package com.dynious.refinedrelocation.api.filter;
+package com.dynious.refinedrelocation.sorting;
 
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
