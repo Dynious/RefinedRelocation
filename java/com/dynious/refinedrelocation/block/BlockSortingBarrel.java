@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;
 import mcp.mobius.betterbarrels.common.blocks.BlockBarrel;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -46,8 +47,7 @@ public class BlockSortingBarrel extends BlockBarrel
     }
 
     @Override
-    public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
+    public void registerIcons(IconRegister iconRegister)
     {
-        return super.getBlockTexture(par1IBlockAccess, x, y, z, side);
     }
 }
