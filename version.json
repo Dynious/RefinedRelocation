@@ -2,13 +2,13 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.2",
-			"modVersion":"1.0.0-beta3",
-			"changeLog":"Server start up crash fix"
+			"modVersion":"1.0.0-beta4",
+			"changeLog":"Added Version Checker, fixed JABBA textures and finalized API"
 		},
 		{
 			"mcVersion":"Minecraft 1.6.4",
-			"modVersion":"1.0.0-beta3",
-			"changeLog":"Server start up crash fix"
+			"modVersion":"1.0.0-beta4",
+			"changeLog":"Added Version Checker and finalized API"
 		}
 	]
 }

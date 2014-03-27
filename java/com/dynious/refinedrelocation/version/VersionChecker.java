@@ -87,38 +87,43 @@ public class VersionChecker implements Runnable
     {
         if (result == CheckState.UNINITIALIZED)
         {
-            return "UNINITIALIZED";
+            return "Version Checker Status: UNINITIALIZED";
         }
         else if (result == CheckState.CURRENT)
         {
-            return "CURRENT";
+            return "Version Checker Status: CURRENT";
         }
         else if (result == CheckState.OUTDATED && remoteVersion != null)
         {
-            return String.format("OUTDATED! Using %s, latest %s, changelog: %s", Reference.VERSION, remoteVersion.getModVersion(), remoteVersion.getChangeLog());
+            return String.format("Version Checker Status: OUTDATED! Using %s, latest %s, changelog: %s", Reference.VERSION, remoteVersion.getModVersion(), remoteVersion.getChangeLog());
         }
         else if (result == CheckState.ERROR)
         {
-            return "ERROR";
+            return "Version Checker Status: ERROR";
         }
         else if (result == CheckState.FINAL_ERROR)
         {
-            return "ENDED WITH ERROR";
+            return "Version Checker Status: ENDED WITH ERROR";
         }
         else if (result == CheckState.MC_VERSION_NOT_FOUND)
         {
-            return "This version of MC is not supported";
+            return "Version Checker Status: MC VERSION NOT SUPPORTED";
         }
         else
         {
             result = CheckState.ERROR;
-            return "ERROR";
+            return "Version Checker Status: ERROR";
         }
     }
 
     public static CheckState getResult()
     {
         return result;
+    }
+
+    public static VersionContainer.Version getRemoteVersion()
+    {
+        return remoteVersion;
     }
 
     @Override
