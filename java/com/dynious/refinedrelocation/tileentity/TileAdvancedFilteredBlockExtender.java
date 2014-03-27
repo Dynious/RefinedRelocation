@@ -1,7 +1,6 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.sorting.FilterStandard;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.common.Optional;

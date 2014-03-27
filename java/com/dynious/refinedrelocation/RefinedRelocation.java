@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
 import com.dynious.refinedrelocation.event.EventHandler;
+import com.dynious.refinedrelocation.event.TickEvent;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Reference;
@@ -16,6 +17,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -39,6 +42,8 @@ public class RefinedRelocation
         VersionChecker.execute();
 
         ConfigHandler.init(event.getSuggestedConfigurationFile());
+
+        TickRegistry.registerTickHandler(new TickEvent(), Side.CLIENT);
 
         ModBlocks.init();
 

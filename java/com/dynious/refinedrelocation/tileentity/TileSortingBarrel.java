@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
-import com.dynious.refinedrelocation.sorting.SortingInventoryHandler;
 import com.dynious.refinedrelocation.mods.BarrelFilter;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import mcp.mobius.betterbarrels.common.blocks.TileEntityBarrel;
