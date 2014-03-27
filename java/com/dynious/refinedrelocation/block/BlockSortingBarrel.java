@@ -45,10 +45,4 @@ public class BlockSortingBarrel extends BlockBarrel
             ((TileSortingBarrel)tile).getSortingHandler().onTileAdded();
         }
     }
-
-    @Override
-    public IIcon getIcon(IBlockAccess par1IBlockAccess, int x, int y, int z, int side)
-    {
-        return super.getIcon(par1IBlockAccess, x, y, z, side);
-    }
 }
