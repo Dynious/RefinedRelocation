@@ -418,7 +418,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
                     {
                         inventory[slot] = itemStack;
 
-                        onInventoryChanged();
+                        markDirty();
                         itemStack = null;
                     }
                     else

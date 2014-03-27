@@ -96,7 +96,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
                     {
                         chestContents[slot] = itemStack;
 
-                        onInventoryChanged();
+                        markDirty();
                         itemStack = null;
                     }
                     else
