@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.api.tileentity;
 
-import com.dynious.refinedrelocation.api.tileentity.handlers.SortingInventoryHandler;
+import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
@@ -27,10 +27,11 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
 {
     /**
      * This should return the SortingInventoryHandler of this tile. It cannot be null.
+     * Create a new SortingMemberHandler instance using APIUtils.createSortingInventoryHandler(...)
      *
      * @return The SortingInventoryHandler of this tile
      */
-    public SortingInventoryHandler getSortingHandler();
+    public ISortingInventoryHandler getSortingHandler();
 
     /**
      * Should return all stored ItemStacks in this tile.
@@ -38,6 +39,14 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
      * @return The stored ItemStacks
      */
     public ItemStack[] getInventory();
+
+    /**
+     * This should try to add the ItemStack to the inventory of this TileEntity
+     *
+     * @param itemStack The stack that should be put in the inventory
+     * @return The remaining ItemStack after trying to put the ItemStack in the Inventory
+     */
+    public ItemStack putInInventory(ItemStack itemStack);
 
     /**
      * The Sorting System will try to put items in the highest priority inventory.

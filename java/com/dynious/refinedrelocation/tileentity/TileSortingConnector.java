@@ -1,6 +1,8 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.tileentity.handlers.SortingMemberHandler;
+import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
+import com.dynious.refinedrelocation.sorting.SortingMemberHandler;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileSortingConnector extends TileEntity implements ISortingMember, IDisguisable
 {
-    private SortingMemberHandler sortingMemberHandler = new SortingMemberHandler(this);
+    private ISortingMemberHandler sortingMemberHandler = APIUtils.createSortingMemberHandler(this);
     private boolean isFirstTick = true;
 
     public Block blockDisguisedAs = null;
@@ -68,7 +70,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     }
 
     @Override
-    public SortingMemberHandler getSortingHandler()
+    public ISortingMemberHandler getSortingHandler()
     {
         return sortingMemberHandler;
     }

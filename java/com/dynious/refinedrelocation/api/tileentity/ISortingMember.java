@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.api.tileentity;
 
-import com.dynious.refinedrelocation.api.tileentity.handlers.SortingMemberHandler;
+import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 
 /**
  * This is the interface that will make your TileEntity part of the Sorting Network.
@@ -10,9 +10,10 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.SortingMemberHandle
 public interface ISortingMember
 {
     /**
-     * This should return the SortingMemberHandler of this tile. It cannot be null.
+     * This should return the ISortingMemberHandler of this tile. It cannot be null.
+     * Create a new SortingMemberHandler instance using APIUtils.createSortingMemberHandler(...)
      *
      * @return The SortingMemberHandler of this tile
      */
-    public SortingMemberHandler getSortingHandler();
+    public ISortingMemberHandler getSortingHandler();
 }

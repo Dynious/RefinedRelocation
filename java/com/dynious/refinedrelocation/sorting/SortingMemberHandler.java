@@ -1,7 +1,8 @@
-package com.dynious.refinedrelocation.api.tileentity.handlers;
+package com.dynious.refinedrelocation.sorting;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
+import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -9,17 +10,27 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SortingMemberHandler
+public class SortingMemberHandler implements ISortingMemberHandler
 {
     protected TileEntity owner;
 
-    private SortingMemberHandler leader;
-    private ArrayList<SortingMemberHandler> childs;
+    private ISortingMemberHandler leader;
+    private ArrayList<ISortingMemberHandler> childs;
     private boolean canJoinGroup = true;
 
     public SortingMemberHandler(TileEntity owner)
     {
         this.owner = owner;
+    }
+
+    /**
+     * get the owner of this Handler
+     *
+     * @return The TileEntity this Handler is linked to
+     */
+    public TileEntity getOwner()
+    {
+        return owner;
     }
 
     /**
@@ -58,7 +69,7 @@ public class SortingMemberHandler
             TileEntity tile = owner.getWorldObj().getTileEntity(owner.xCoord + direction.offsetX, owner.yCoord + direction.offsetY, owner.zCoord + direction.offsetZ);
             if (tile != null && tile instanceof ISortingMember)
             {
-                SortingMemberHandler filteringMember = ((ISortingMember) tile).getSortingHandler();
+                ISortingMemberHandler filteringMember = ((ISortingMember) tile).getSortingHandler();
                 if (filteringMember.canJoinGroup() && filteringMember.getLeader() != this)
                 {
                     if (leader == null && childs == null)
@@ -79,7 +90,7 @@ public class SortingMemberHandler
      *
      * @return The leader of this SortingMember (can be itself)
      */
-    public final SortingMemberHandler getLeader()
+    public final ISortingMemberHandler getLeader()
     {
         if (leader == null)
         {
@@ -96,7 +107,7 @@ public class SortingMemberHandler
      *
      * @param newLeader The new Leader for this SortingMember
      */
-    public final void setLeader(SortingMemberHandler newLeader)
+    public final void setLeader(ISortingMemberHandler newLeader)
     {
         if (newLeader == this)
         {
@@ -115,11 +126,11 @@ public class SortingMemberHandler
      *
      * @param child Child to be added
      */
-    public final void addChild(SortingMemberHandler child)
+    public final void addChild(ISortingMemberHandler child)
     {
         if (childs == null)
         {
-            childs = new ArrayList<SortingMemberHandler>();
+            childs = new ArrayList<ISortingMemberHandler>();
         }
         if (!childs.contains(child))
         {
@@ -132,7 +143,7 @@ public class SortingMemberHandler
      *
      * @param child Child to be removed
      */
-    public final void removeChild(SortingMemberHandler child)
+    public final void removeChild(ISortingMemberHandler child)
     {
         if (childs != null)
         {
@@ -147,15 +158,15 @@ public class SortingMemberHandler
     {
         if (childs != null && !childs.isEmpty())
         {
-            ArrayList<SortingMemberHandler> tempChilds = new ArrayList<SortingMemberHandler>(childs);
+            ArrayList<ISortingMemberHandler> tempChilds = new ArrayList<ISortingMemberHandler>(childs);
             childs = null;
-            for (SortingMemberHandler child : tempChilds)
+            for (ISortingMemberHandler child : tempChilds)
             {
                 child.setLeader(null);
             }
-            for (SortingMemberHandler child : tempChilds)
+            for (ISortingMemberHandler child : tempChilds)
             {
-                child.searchForLeader();
+                child.onTileAdded();
             }
         }
     }
@@ -165,12 +176,12 @@ public class SortingMemberHandler
      *
      * @param newLeader The new Leader for this SortingMember and it's childs
      */
-    public final void demoteToChild(SortingMemberHandler newLeader)
+    public final void demoteToChild(ISortingMemberHandler newLeader)
     {
         setLeader(newLeader);
         if (childs != null && !childs.isEmpty())
         {
-            for (SortingMemberHandler child : childs)
+            for (ISortingMemberHandler child : childs)
             {
                 child.setLeader(getLeader());
             }
@@ -189,7 +200,6 @@ public class SortingMemberHandler
     /**
      * Filters an ItemStack to all members of the SortingMember group
      *
-     *
      * @param itemStack The ItemStack to be filtered to all childs and this SortingMember
      * @return The ItemStack that was not able to fit in any ISortingInventory
      */
@@ -204,7 +214,7 @@ public class SortingMemberHandler
                 {
                     if (inventory.getFilter().passesFilter(itemStack))
                     {
-                        itemStack = inventory.getSortingHandler().putInInventory(itemStack);
+                        itemStack = inventory.putInInventory(itemStack);
                         if (itemStack == null || itemStack.stackSize == 0)
                         {
                             return null;
@@ -224,11 +234,11 @@ public class SortingMemberHandler
             list.add(new ArrayList<ISortingInventory>());
         }
 
-        for (SortingMemberHandler filteringMember : childs)
+        for (ISortingMemberHandler filteringMember : childs)
         {
-            if (filteringMember.owner instanceof ISortingInventory)
+            if (filteringMember.getOwner() instanceof ISortingInventory)
             {
-                ISortingInventory filteringInventory = (ISortingInventory) filteringMember.owner;
+                ISortingInventory filteringInventory = (ISortingInventory) filteringMember.getOwner();
 
                 if (filteringInventory == requester)
                 {
@@ -241,9 +251,9 @@ public class SortingMemberHandler
             }
         }
 
-        if (this instanceof SortingInventoryHandler)
+        if (owner instanceof ISortingInventory)
         {
-            ISortingInventory myInventory = (ISortingInventory) ((SortingInventoryHandler) this).owner;
+            ISortingInventory myInventory = (ISortingInventory) this.owner;
 
             if (myInventory == requester)
             {
