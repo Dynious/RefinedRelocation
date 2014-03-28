@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.client.GUIChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -40,7 +41,7 @@ public class GuiHandler implements IGuiHandler
             case GuiIds.FILTERING_CHEST:
                 if (Loader.isModLoaded("IronChest") && tile != null && tile instanceof TileSortingIronChest)
                 {
-                    return GuiSortingIronChest.makeContainer(GUIChest.GUI.values()[((TileSortingIronChest)tile).getType().ordinal()], player, (TileSortingIronChest) tile);
+                    return new ContainerSortingIronChest(player, (TileSortingIronChest) tile, ((TileSortingIronChest) tile).getType(), 0, 0);
                 }
                 return new ContainerSortingChest(player, (TileSortingChest) tile);
             case GuiIds.FILTERING_HOPPER:
