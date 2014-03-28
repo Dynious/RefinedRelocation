@@ -41,8 +41,9 @@ public class TickEvent implements ITickHandler
                                 if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
                                 {
                                     Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(String.format("Refined Relocation %s is outdated! Latest version: %s", Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
-                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText("    Change log:"));
-                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(String.format("    %s", VersionChecker.getRemoteVersion().getChangeLog())));
+                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Change log:"));
+                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(String.format(" %s", VersionChecker.getRemoteVersion().getChangeLog())));
+                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText("Get latest using: '/RefinedRelocation latest'"));
                                 }
                             }
                         }
