@@ -5,6 +5,7 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import buildcraft.api.transport.IPipeTile;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
+import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.event.EnergyTileLoadEvent;
@@ -124,7 +125,41 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side)
     {
-        return bufferedItemStack == null;
+        if (bufferedItemStack != null)
+        {
+            return false;
+        }
+        ItemStack addingItemStack = itemstack.copy();
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(ForgeDirection.getOrientation(side)))
+        {
+            TileEntity tile = tiles[outputSide.ordinal()];
+            if (tile != null)
+            {
+                if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
+                {
+                    IPipeTile pipe = (IPipeTile) tile;
+                    if (pipe.isPipeConnected(outputSide.getOpposite()))
+                    {
+                        addingItemStack.stackSize -= pipe.injectItem(addingItemStack, false, outputSide.getOpposite());
+                        if (addingItemStack == null || addingItemStack.stackSize == 0)
+                            return true;
+                    }
+                }
+                /*
+                else if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
+                {
+                    return true;
+                }
+                */
+                else if (tile instanceof IInventory)
+                {
+                    addingItemStack = ItemStackHelper.simulateInsertion((IInventory) tile, addingItemStack, outputSide.getOpposite().ordinal());
+                    if (addingItemStack == null || addingItemStack.stackSize == 0)
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
