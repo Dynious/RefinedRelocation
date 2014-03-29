@@ -31,8 +31,9 @@ public class TickEvent
                             if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
                             {
                                 Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(String.format("Refined Relocation %s is outdated! Latest version: %s", Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
-                                Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("    Change log:"));
-                                Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(String.format("    %s", VersionChecker.getRemoteVersion().getChangeLog())));
+                                Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Change log:"));
+                                Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(String.format(" %s", VersionChecker.getRemoteVersion().getChangeLog())));
+                                Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Get latest using: '/RefinedRelocation latest'"));
                             }
                         }
                     }

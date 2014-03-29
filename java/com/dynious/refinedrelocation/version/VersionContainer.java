@@ -28,12 +28,14 @@ public class VersionContainer
         private String mcVersion;
         private String modVersion;
         private String changeLog;
+        private String updateURL;
 
-        private Version(String mcVersion, String modVersion, String changeLog)
+        private Version(String mcVersion, String modVersion, String changeLog, String updateURL)
         {
             this.mcVersion = mcVersion;
             this.modVersion = modVersion;
             this.changeLog = changeLog;
+            this.updateURL = updateURL;
         }
 
         public String getMcVersion()
@@ -49,6 +51,11 @@ public class VersionContainer
         public String getChangeLog()
         {
             return changeLog;
+        }
+
+        public String getUpdateURL()
+        {
+            return updateURL;
         }
     }
 }
