@@ -93,7 +93,7 @@ public class ItemStackHelper
             }
             if (flag)
             {
-                inventory.onInventoryChanged();
+                inventory.markDirty();
             }
         }
 
