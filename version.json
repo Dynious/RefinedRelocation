@@ -2,15 +2,15 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.2",
-			"modVersion":"1.0.0-beta5",
-			"changeLog":"Fixed server-side crash when opening Sorting Iron Chests, fixed Inventory Tweaks weirdness, added easy update/changlog command, Buffers now don't accept items when they can't output them.",
-			"updateURL":"http://www.curseforge.com/media/files/781/658/RefinedRelocation-1.7.2-1.0.0-beta5.jar"
+			"modVersion":"1.0.0-beta6",
+			"changeLog":"Sorry for the rapid releases. Fixed duping bug + Items now go in correct slots.",
+			"updateURL":"http://www.curseforge.com/media/files/781/745/RefinedRelocation-1.7.2-1.0.0-beta6.jar"
 		},
 		{
 			"mcVersion":"Minecraft 1.6.4",
-			"modVersion":"1.0.0-beta5",
-			"changeLog":"Fixed server-side crash when opening Sorting Iron Chests, fixed Inventory Tweaks weirdness, added easy update/changlog command, Buffers now don't accept items when they can't output them.",
-			"updateURL":"http://www.curseforge.com/media/files/781/657/RefinedRelocation-1.6.4-1.0.0-beta5.jar"
+			"modVersion":"1.0.0-beta6",
+			"changeLog":"Sorry for the rapid releases. Fixed duping bug + Items now go in correct slots.",
+			"updateURL":"http://www.curseforge.com/media/files/781/743/RefinedRelocation-1.6.4-1.0.0-beta6.jar"
 		}
 	]
 }
