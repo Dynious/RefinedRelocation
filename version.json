@@ -2,15 +2,15 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.2",
-			"modVersion":"1.0.0-beta4",
-			"changeLog":"Added Version Checker and finalized API",
-			"updateURL":"http://www.curseforge.com/media/files/781/314/RefinedRelocation-1.7.2-1.0.0-beta4.jar"
+			"modVersion":"1.0.0-beta5",
+			"changeLog":"Fixed server-side crash when opening Sorting Iron Chests, fixed Inventory Tweaks weirdness, added easy update/changlog command, Buffers now don't accept items when they can't output them.",
+			"updateURL":"http://www.curseforge.com/media/files/781/658/RefinedRelocation-1.7.2-1.0.0-beta5.jar"
 		},
 		{
 			"mcVersion":"Minecraft 1.6.4",
-			"modVersion":"1.0.0-beta4",
-			"changeLog":"Added Version Checker, fixed JABBA textures and finalized API",
-			"updateURL":"http://www.curseforge.com/media/files/781/313/RefinedRelocation-1.6.4-1.0.0-beta4.jar"
+			"modVersion":"1.0.0-beta5",
+			"changeLog":"Fixed server-side crash when opening Sorting Iron Chests, fixed Inventory Tweaks weirdness, added easy update/changlog command, Buffers now don't accept items when they can't output them.",
+			"updateURL":"http://www.curseforge.com/media/files/781/657/RefinedRelocation-1.6.4-1.0.0-beta5.jar"
 		}
 	]
 }

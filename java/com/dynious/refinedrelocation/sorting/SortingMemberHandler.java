@@ -203,7 +203,7 @@ public class SortingMemberHandler implements ISortingMemberHandler
      * @param itemStack The ItemStack to be filtered to all childs and this SortingMember
      * @return The ItemStack that was not able to fit in any ISortingInventory
      */
-    public final ItemStack filterStackToGroup(ItemStack itemStack, TileEntity requester)
+    public final ItemStack filterStackToGroup(ItemStack itemStack, TileEntity requester, int slot)
     {
         if (childs != null && !childs.isEmpty())
         {
@@ -214,10 +214,18 @@ public class SortingMemberHandler implements ISortingMemberHandler
                 {
                     if (inventory.getFilter().passesFilter(itemStack))
                     {
-                        itemStack = inventory.putInInventory(itemStack);
-                        if (itemStack == null || itemStack.stackSize == 0)
+                        if (inventory == requester)
                         {
+                            inventory.getSortingHandler().putStackInSlot(itemStack, slot);
                             return null;
+                        }
+                        else
+                        {
+                            itemStack = inventory.putInInventory(itemStack);
+                            if (itemStack == null || itemStack.stackSize == 0)
+                            {
+                                return null;
+                            }
                         }
                     }
                 }
