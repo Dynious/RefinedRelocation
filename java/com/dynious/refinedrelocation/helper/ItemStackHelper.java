@@ -14,7 +14,7 @@ public class ItemStackHelper
         return itemStack1 == null && itemStack2 == null || (!(itemStack1 == null || itemStack2 == null) && (itemStack1.getItem() == itemStack2.getItem() && (itemStack1.getItemDamage() == itemStack2.getItemDamage() && (!(itemStack1.stackTagCompound == null && itemStack2.stackTagCompound != null) && (itemStack1.stackTagCompound == null || itemStack1.stackTagCompound.equals(itemStack2.stackTagCompound))))));
     }
 
-    public static ItemStack simulateInsertion(IInventory inventory, ItemStack itemStack, int side)
+    public static ItemStack insert(IInventory inventory, ItemStack itemStack, int side, boolean simulate)
     {
         if (inventory instanceof ISidedInventory && side > -1)
         {
@@ -23,7 +23,7 @@ public class ItemStackHelper
 
             for (int j = 0; j < aint.length && itemStack != null && itemStack.stackSize > 0; ++j)
             {
-                itemStack = simulateInsertion(inventory, itemStack, aint[j], side);
+                itemStack = insert(inventory, itemStack, aint[j], side, simulate);
             }
         }
         else
@@ -32,7 +32,7 @@ public class ItemStackHelper
 
             for (int l = 0; l < k && itemStack != null && itemStack.stackSize > 0; ++l)
             {
-                itemStack = simulateInsertion(inventory, itemStack, l, side);
+                itemStack = insert(inventory, itemStack, l, side, simulate);
             }
         }
 
@@ -44,22 +44,37 @@ public class ItemStackHelper
         return itemStack;
     }
 
-    private static ItemStack simulateInsertion(IInventory inventory, ItemStack itemStack, int slot, int side)
+    public static ItemStack insert(IInventory inventory, ItemStack itemStack, int slot, int side, boolean simulate)
     {
         ItemStack itemstack1 = inventory.getStackInSlot(slot);
 
         if (canInsertItemToInventory(inventory, itemStack, slot, side))
         {
+            boolean flag = false;
+
             if (itemstack1 == null)
             {
                 int max = Math.min(itemStack.getMaxStackSize(), inventory.getInventoryStackLimit());
                 if (max >= itemStack.stackSize)
                 {
+                    if (!simulate)
+                    {
+                        inventory.setInventorySlotContents(slot, itemStack);
+                        flag = true;
+                    }
                     itemStack = null;
                 }
                 else
                 {
-                    itemStack.splitStack(max);
+                    if (!simulate)
+                    {
+                        inventory.setInventorySlotContents(slot, itemStack.splitStack(max));
+                        flag = true;
+                    }
+                    else
+                    {
+                        itemStack.splitStack(max);
+                    }
                 }
             }
             else if (areItemStacksEqual(itemstack1, itemStack))
@@ -69,7 +84,16 @@ public class ItemStackHelper
                 {
                     int l = Math.min(itemStack.stackSize, max - itemstack1.stackSize);
                     itemStack.stackSize -= l;
+                    if (!simulate)
+                    {
+                        itemstack1.stackSize += l;
+                        flag = l > 0;
+                    }
                 }
+            }
+            if (flag)
+            {
+                inventory.onInventoryChanged();
             }
         }
 
