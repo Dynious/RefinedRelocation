@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.sorting;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -43,6 +44,11 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
             return;
         }
 
+        if (((IInventory) owner).getStackInSlot(par1) != null)
+        {
+            putStackInSlot(null, par1);
+        }
+
         if (itemStack == null || itemStack.stackSize == 0)
         {
             inventory.getInventory()[par1] = itemStack;
@@ -50,9 +56,8 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
         }
         else
         {
-            itemStack = getLeader().filterStackToGroup(itemStack, this.owner);
+            itemStack = getLeader().filterStackToGroup(itemStack, this.owner, par1);
         }
-
 
         if (itemStack != null && itemStack.stackSize != 0)
         {

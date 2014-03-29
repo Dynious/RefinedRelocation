@@ -71,7 +71,9 @@ public interface ISortingMemberHandler
      * Filters an ItemStack to all members of the SortingMember group
      *
      * @param itemStack The ItemStack to be filtered to all childs and this SortingMember
+     * @param requester The requester of the filterStackToGroup method
+     * @param slot The slot the ItemStack was attempted to be put in
      * @return The ItemStack that was not able to fit in any ISortingInventory
      */
-    public ItemStack filterStackToGroup(ItemStack itemStack, TileEntity requester);
+    public ItemStack filterStackToGroup(ItemStack itemStack, TileEntity requester, int slot);
 }
