@@ -152,7 +152,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
                 }
                 else if (tile instanceof IInventory)
                 {
-                    addingItemStack = ItemStackHelper.simulateInsertion((IInventory) tile, addingItemStack, outputSide.getOpposite().ordinal());
+                    addingItemStack = ItemStackHelper.insert((IInventory) tile, addingItemStack, outputSide.getOpposite().ordinal(), true);
                     if (addingItemStack == null || addingItemStack.stackSize == 0)
                         return true;
                 }
