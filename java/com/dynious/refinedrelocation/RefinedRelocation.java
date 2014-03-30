@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.event.TickEvent;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Reference;
+import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
 import com.dynious.refinedrelocation.network.PacketHandler;
 import com.dynious.refinedrelocation.proxy.CommonProxy;
 import com.dynious.refinedrelocation.version.VersionChecker;
@@ -56,6 +57,8 @@ public class RefinedRelocation
         ModBlocks.init();
 
         ModItems.init();
+
+        ModMultiBlocks.init();
 
         MinecraftForge.EVENT_BUS.register(new EventHandler());
     }

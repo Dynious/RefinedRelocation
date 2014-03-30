@@ -22,6 +22,8 @@ public class ModBlocks
     public static BlockSortingConnector sortingConnector;
     public static BlockFilteringHopper filteringHopper;
     public static BlockSortingBarrel sortingBarrel;
+    public static BlockRelocationPortal relocationPortal;
+    public static BlockRelocationController relocationController;
 
     public static void init()
     {
@@ -30,12 +32,16 @@ public class ModBlocks
         sortingChest = new BlockSortingChest(BlockIds.SORTING_CHEST);
         sortingConnector = new BlockSortingConnector(BlockIds.SORTING_CONNECTOR);
         filteringHopper = new BlockFilteringHopper(BlockIds.FILTERING_HOPPER);
+        relocationPortal = new BlockRelocationPortal(BlockIds.RELOCATION_PORTAL);
+        relocationController = new BlockRelocationController(BlockIds.RELOCATION_CONTROLLER);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
         GameRegistry.registerBlock(sortingChest, Names.sortingChest);
         GameRegistry.registerBlock(sortingConnector, Names.sortingConnector);
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
+        GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
+        GameRegistry.registerBlock(relocationController, Names.relocationController);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));

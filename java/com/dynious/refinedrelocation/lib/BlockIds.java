@@ -9,6 +9,8 @@ public class BlockIds
     public static int SORTING_CONNECTOR_DEFAULT = 1544;
     public static int FILTERING_HOPPER_DEFAULT = 1545;
     public static int SORTING_BARREL_DEFAULT = 1546;
+    public static int RELOCATION_PORTAL_DEFAULT = 1567;
+    public static int RELOCATION_CONTROLLER_DEFAULT = 1567;
 
     public static int BLOCK_EXTENDER;
     public static int BUFFER;
@@ -17,4 +19,6 @@ public class BlockIds
     public static int SORTING_CONNECTOR;
     public static int FILTERING_HOPPER;
     public static int SORTING_BARREL;
+    public static int RELOCATION_PORTAL;
+    public static int RELOCATION_CONTROLLER;
 }

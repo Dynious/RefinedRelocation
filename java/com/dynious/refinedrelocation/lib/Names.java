@@ -15,7 +15,10 @@ public class Names
     public static final String sortingConnector = "sortingConnector";
     public static final String filteringHopper = "filteringHopper";
     public static final String sortingBarrel = "sortingBarrel";
+    public static final String relocationPortal = "relocationPortal";
+    public static final String relocationController = "relocationController";
 
     public static final String linker = "linker";
     public static final String sortingUpgrade = "sortingUpgrade";
+    public static final String playerRelocator = "playerRelocator";
 }

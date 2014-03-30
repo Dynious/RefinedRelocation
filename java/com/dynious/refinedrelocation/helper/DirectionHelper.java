@@ -15,4 +15,14 @@ public class DirectionHelper
     {
         return getTileAtSide(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, direction);
     }
+
+    public static int getBlockIdAtSide(IBlockAccess world, int x, int y, int z, ForgeDirection direction)
+    {
+        return world.getBlockId(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
+    }
+
+    public static int getBlockIdAtSide(TileEntity tileEntity, ForgeDirection direction)
+    {
+        return getBlockIdAtSide(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, direction);
+    }
 }
