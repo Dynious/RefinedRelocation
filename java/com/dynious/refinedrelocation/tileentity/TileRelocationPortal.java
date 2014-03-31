@@ -11,8 +11,8 @@ import java.util.List;
 
 public class TileRelocationPortal extends TileEntity
 {
-    private int oldId = 0;
-    private int oldMeta = 0;
+    public int oldId = 0;
+    public int oldMeta = 0;
     private Vector3 linkedPos;
     private byte time = 0;
 
@@ -73,6 +73,11 @@ public class TileRelocationPortal extends TileEntity
             world.spawnParticle("portal", player.posX, player.posY, player.posZ, world.rand.nextGaussian(), world.rand.nextGaussian(), world.rand.nextGaussian());
         }
         returnToOldBlock();
+    }
+
+    public boolean isLower()
+    {
+        return linkedPos != null;
     }
 
     @Override

@@ -12,7 +12,7 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
     @Override
     public void updateEntity()
     {
-        if (!worldObj.isRemote)
+        if (!worldObj.isRemote && shouldAutoCheckFormation())
         {
             if (checkCount <= 0)
             {
@@ -46,8 +46,8 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
                                 //UnInit
                                 if (isFormed)
                                 {
-                                    onStateChange();
                                     isFormed = false;
+                                    onFormationChange();
                                 }
                                 return;
                             }
@@ -60,8 +60,8 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
                                 //UnInit
                                 if (isFormed)
                                 {
-                                    onStateChange();
                                     isFormed = false;
+                                    onFormationChange();
                                 }
                                 return;
                             }
@@ -75,8 +75,8 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
                                 //UnInit
                                 if (isFormed)
                                 {
-                                    onStateChange();
                                     isFormed = false;
+                                    onFormationChange();
                                 }
                                 return;
                             }
@@ -88,9 +88,14 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
         //Init
         if (!isFormed)
         {
-            onStateChange();
             isFormed = true;
+            onFormationChange();
         }
+    }
+
+    public boolean shouldAutoCheckFormation()
+    {
+        return true;
     }
 
     public boolean isFormed(boolean forceRecheck)
@@ -102,7 +107,7 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
         return isFormed;
     }
 
-    protected void onStateChange()
+    protected void onFormationChange()
     {
 
     }

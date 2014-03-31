@@ -12,8 +12,13 @@ public class TileRelocationController extends TileMultiBlockBase
     }
 
     @Override
-    protected void onStateChange()
+    public boolean shouldAutoCheckFormation()
     {
-        System.out.println("State change. State: " + isFormed(false));
+        return false;
+    }
+
+    @Override
+    protected void onFormationChange()
+    {
     }
 }

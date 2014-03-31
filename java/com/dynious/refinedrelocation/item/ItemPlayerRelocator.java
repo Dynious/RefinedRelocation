@@ -2,23 +2,39 @@ package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.helper.ParticleHelper;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Sounds;
 import com.dynious.refinedrelocation.tileentity.TileRelocationController;
 import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
 import com.dynious.refinedrelocation.until.Vector3;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.particle.EntityPortalFX;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.FOVUpdateEvent;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
 
 import java.util.List;
 
 public class ItemPlayerRelocator extends Item
 {
+    public static final String COOL_DOWN = "coolDown";
+
     public ItemPlayerRelocator(int id)
     {
         super(id);
@@ -35,7 +51,7 @@ public class ItemPlayerRelocator extends Item
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationController)
         {
-            if (((TileRelocationController)tile).isFormed(false))
+            if (((TileRelocationController)tile).isFormed(true))
             {
                 if (!stack.hasTagCompound())
                 {
@@ -51,7 +67,49 @@ public class ItemPlayerRelocator extends Item
     }
 
     @Override
+    public EnumAction getItemUseAction(ItemStack par1ItemStack)
+    {
+        return EnumAction.block;
+    }
+
+    @Override
+    public int getMaxItemUseDuration(ItemStack par1ItemStack)
+    {
+        return 45;
+    }
+
+    @Override
+    public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5)
+    {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("COOL_DOWN"))
+        {
+            short coolDown = stack.getTagCompound().getShort("COOL_DOWN");
+            coolDown--;
+            if (coolDown <= 0)
+            {
+                stack.getTagCompound().removeTag("COOL_DOWN");
+            }
+            else
+            {
+                stack.getTagCompound().setShort("COOL_DOWN", coolDown);
+            }
+        }
+    }
+
+    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+    {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && !stack.getTagCompound().hasKey("COOL_DOWN"))
+        {
+            player.setItemInUse(stack, getMaxItemUseDuration(stack));
+            world.playSoundAtEntity(player, Sounds.ambiance, 1F, 1F);
+            ParticleHelper.spawnParticlesInCircle("portal", 2.0F, 100, world, player.posX, player.posY - 0.5F, player.posZ, true);
+        }
+        return stack;
+    }
+
+    @Override
+    public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x"))
         {
@@ -69,10 +127,13 @@ public class ItemPlayerRelocator extends Item
                     setBlockToPortal(world, xPos, yPos - 1, zPos, null);
                     setBlockToPortal(world, xPos, yPos - 2, zPos, null);
                     setBlockToPortal(world, xPos, yPos - 3, zPos, new Vector3(connectedTile.xCoord, connectedTile.yCoord, connectedTile.zCoord));
+
+                    world.playSoundAtEntity(player, Sounds.explosion, 1F, 1F);
+                    stack.getTagCompound().setShort("COOL_DOWN", (short) 200);
                 }
             }
         }
-        return super.onItemRightClick(stack, world, player);
+        return stack;
     }
 
     private boolean checkBlocks(World world, int posX, int posY, int posZ)
@@ -109,6 +170,51 @@ public class ItemPlayerRelocator extends Item
         if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("x"))
         {
             list.add("Linked to Relocation Controller at: " + itemStack.getTagCompound().getInteger("x") + ":" + itemStack.getTagCompound().getInteger("y") + ":" +  itemStack.getTagCompound().getInteger("z"));
+            if (itemStack.getTagCompound().hasKey("COOL_DOWN"))
+            {
+                list.add("Cooldown: " + itemStack.getTagCompound().getShort("COOL_DOWN"));
+            }
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void shiftFOV(ItemStack stack, FOVUpdateEvent event)
+    {
+        float inUse = Minecraft.getMinecraft().thePlayer.getItemInUse().getMaxItemUseDuration() - Minecraft.getMinecraft().thePlayer.getItemInUseCount();
+        event.newfov = event.fov + inUse/110;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void renderBlur(ItemStack stack, ScaledResolution resolution)
+    {
+        float inUse = ((float) stack.getMaxItemUseDuration() - Minecraft.getMinecraft().thePlayer.getItemInUseCount()) / stack.getMaxItemUseDuration();
+
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        float scale = 2/inUse;
+
+        Vector2f sourceCenter = new Vector2f(resolution.getScaledWidth()/2, resolution.getScaledHeight()/2);
+        Vector2f destCenter = new Vector2f(resolution.getScaledWidth()/2, resolution.getScaledHeight()/2);
+        GL11.glTranslatef(destCenter.getX(), destCenter.getY(), 0.0F);
+        GL11.glScalef(scale, scale, 0.0F);
+        GL11.glTranslatef(sourceCenter.getX() * -1.0F, sourceCenter.getY() * -1.0F, 0.0F);
+
+        Minecraft.getMinecraft().getTextureManager().bindTexture(Resources.TEXTURE_BLUR);
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(0.0D, resolution.getScaledHeight(), 0, 0.0D, 1.0D);
+        tessellator.addVertexWithUV(resolution.getScaledWidth(), resolution.getScaledHeight(), 0, 1.0D, 1.0D);
+        tessellator.addVertexWithUV(resolution.getScaledWidth(), 0.0D, 0, 1.0D, 0.0D);
+        tessellator.addVertexWithUV(0.0D, 0.0D, 0, 0.0D, 0.0D);
+        tessellator.draw();
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glPopMatrix();
     }
 }
