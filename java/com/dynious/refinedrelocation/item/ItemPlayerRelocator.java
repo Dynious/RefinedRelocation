@@ -26,6 +26,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
+import net.minecraftforge.common.DimensionManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -57,6 +58,15 @@ public class ItemPlayerRelocator extends Item
                 {
                     stack.setTagCompound(new NBTTagCompound());
                 }
+                if (((TileRelocationController) tile).isIntraLinker())
+                {
+                    stack.getTagCompound().setBoolean("interLink", true);
+                }
+                else
+                {
+                    stack.getTagCompound().setBoolean("interLink", false);
+                }
+                stack.getTagCompound().setInteger("dimId", tile.getWorldObj().provider.dimensionId);
                 stack.getTagCompound().setInteger("x", x);
                 stack.getTagCompound().setInteger("y", y);
                 stack.getTagCompound().setInteger("z", z);
@@ -81,17 +91,17 @@ public class ItemPlayerRelocator extends Item
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5)
     {
-        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("COOL_DOWN"))
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey(COOL_DOWN))
         {
-            short coolDown = stack.getTagCompound().getShort("COOL_DOWN");
+            short coolDown = stack.getTagCompound().getShort(COOL_DOWN);
             coolDown--;
             if (coolDown <= 0)
             {
-                stack.getTagCompound().removeTag("COOL_DOWN");
+                stack.getTagCompound().removeTag(COOL_DOWN);
             }
             else
             {
-                stack.getTagCompound().setShort("COOL_DOWN", coolDown);
+                stack.getTagCompound().setShort(COOL_DOWN, coolDown);
             }
         }
     }
@@ -99,7 +109,7 @@ public class ItemPlayerRelocator extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && !stack.getTagCompound().hasKey("COOL_DOWN"))
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && !stack.getTagCompound().hasKey(COOL_DOWN))
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
             world.playSoundAtEntity(player, Sounds.ambiance, 1F, 1F);
@@ -111,25 +121,45 @@ public class ItemPlayerRelocator extends Item
     @Override
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
+        if (world.isRemote)
+        {
+            return stack;
+        }
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x"))
         {
-            TileEntity connectedTile = world.getBlockTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
-            if (connectedTile != null && connectedTile instanceof TileRelocationController && ((TileRelocationController)connectedTile).isFormed(true))
+            World world2 = world;
+            if (stack.getTagCompound().hasKey("dimId"))
             {
-                int xPos = MathHelper.floor_double(player.posX);
-                int yPos = MathHelper.floor_double(player.posY);
-                int zPos = MathHelper.floor_double(player.posZ);
-
-                if (checkBlocks(world, xPos, yPos, zPos))
+                world2 = DimensionManager.getProvider(stack.getTagCompound().getInteger("dimId")).worldObj;
+            }
+            if (world == world2 || stack.getTagCompound().getBoolean("interLink"))
+            {
+                TileEntity connectedTile = world2.getBlockTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
+                if (connectedTile != null && connectedTile instanceof TileRelocationController && ((TileRelocationController) connectedTile).isFormed(true))
                 {
-                    player.setPositionAndUpdate(xPos + 0.5D, yPos, zPos + 0.5D);
+                    if (world != world2 && !((TileRelocationController) connectedTile).isIntraLinker())
+                    {
+                        return stack;
+                    }
+                    int xPos = MathHelper.floor_double(player.posX);
+                    int yPos = MathHelper.floor_double(player.posY);
+                    int zPos = MathHelper.floor_double(player.posZ);
 
-                    setBlockToPortal(world, xPos, yPos - 1, zPos, null);
-                    setBlockToPortal(world, xPos, yPos - 2, zPos, null);
-                    setBlockToPortal(world, xPos, yPos - 3, zPos, new Vector3(connectedTile.xCoord, connectedTile.yCoord, connectedTile.zCoord));
+                    if (checkBlocks(world, xPos, yPos, zPos))
+                    {
+                        player.setPositionAndUpdate(xPos + 0.5D, yPos, zPos + 0.5D);
 
-                    world.playSoundAtEntity(player, Sounds.explosion, 1F, 1F);
-                    stack.getTagCompound().setShort("COOL_DOWN", (short) 200);
+                        setBlockToPortal(world, xPos, yPos - 1, zPos);
+                        setBlockToPortal(world, xPos, yPos - 2, zPos);
+                        if (stack.getTagCompound().hasKey("dimId"))
+                        {
+                            setLowerBlockToDimensionalPortal(world, xPos, yPos - 3, zPos, new Vector3(connectedTile.xCoord, connectedTile.yCoord, connectedTile.zCoord), stack.getTagCompound().getInteger("dimId"));
+                        }
+                        setLowerBlockToPortal(world, xPos, yPos - 3, zPos, new Vector3(connectedTile.xCoord, connectedTile.yCoord, connectedTile.zCoord));
+
+                        world.playSoundAtEntity(player, Sounds.explosion, 1F, 1F);
+                        stack.getTagCompound().setShort(COOL_DOWN, (short) 200);
+                    }
                 }
             }
         }
@@ -151,7 +181,19 @@ public class ItemPlayerRelocator extends Item
                 && (blockID3 != ModBlocks.relocationPortal.blockID);
     }
 
-    private void setBlockToPortal(World world, int x, int y, int z, Vector3 linkedPos)
+    private void setBlockToPortal(World world, int x, int y, int z)
+    {
+        int blockID = world.getBlockId(x, y, z);
+        int blockMeta = world.getBlockMetadata(x, y, z);
+        world.setBlock(x, y, z, ModBlocks.relocationPortal.blockID);
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileRelocationPortal)
+        {
+            ((TileRelocationPortal)tile).init(blockID, blockMeta);
+        }
+    }
+
+    private void setLowerBlockToPortal(World world, int x, int y, int z, Vector3 linkedPos)
     {
         int blockID = world.getBlockId(x, y, z);
         int blockMeta = world.getBlockMetadata(x, y, z);
@@ -163,6 +205,18 @@ public class ItemPlayerRelocator extends Item
         }
     }
 
+    private void setLowerBlockToDimensionalPortal(World world, int x, int y, int z, Vector3 linkedPos, int dimentionId)
+    {
+        int blockID = world.getBlockId(x, y, z);
+        int blockMeta = world.getBlockMetadata(x, y, z);
+        world.setBlock(x, y, z, ModBlocks.relocationPortal.blockID);
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileRelocationPortal)
+        {
+            ((TileRelocationPortal)tile).init(blockID, blockMeta, linkedPos, dimentionId);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
@@ -170,9 +224,13 @@ public class ItemPlayerRelocator extends Item
         if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("x"))
         {
             list.add("Linked to Relocation Controller at: " + itemStack.getTagCompound().getInteger("x") + ":" + itemStack.getTagCompound().getInteger("y") + ":" +  itemStack.getTagCompound().getInteger("z"));
-            if (itemStack.getTagCompound().hasKey("COOL_DOWN"))
+            if (itemStack.getTagCompound().getBoolean("interLink"))
             {
-                list.add("Cooldown: " + itemStack.getTagCompound().getShort("COOL_DOWN"));
+                list.add("Inter-Dimensional link to: " + DimensionManager.getProvider(itemStack.getTagCompound().getInteger("dimId")).getDimensionName());
+            }
+            if (itemStack.getTagCompound().hasKey(COOL_DOWN))
+            {
+                list.add("Cooldown: " + itemStack.getTagCompound().getShort(COOL_DOWN));
             }
         }
     }
@@ -180,7 +238,7 @@ public class ItemPlayerRelocator extends Item
     @SideOnly(Side.CLIENT)
     public void shiftFOV(ItemStack stack, FOVUpdateEvent event)
     {
-        float inUse = Minecraft.getMinecraft().thePlayer.getItemInUse().getMaxItemUseDuration() - Minecraft.getMinecraft().thePlayer.getItemInUseCount();
+        float inUse = stack.getMaxItemUseDuration() - Minecraft.getMinecraft().thePlayer.getItemInUseCount();
         event.newfov = event.fov + inUse/110;
     }
 

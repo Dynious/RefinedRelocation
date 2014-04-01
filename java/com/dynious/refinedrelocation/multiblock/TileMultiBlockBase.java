@@ -4,10 +4,15 @@ import com.dynious.refinedrelocation.until.Vector2;
 import com.dynious.refinedrelocation.until.Vector3;
 import net.minecraft.tileentity.TileEntity;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlockLeader
 {
     private int checkCount = 0;
     private boolean isFormed = false;
+    protected Map<Integer, Integer> typeIds = new HashMap<Integer, Integer>();
 
     @Override
     public void updateEntity()
@@ -26,8 +31,7 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
     private void checkMultiBlock()
     {
         IMultiBlock multiBlock = MultiBlockRegistry.getMultiBlock(getMultiBlockIdentifier());
-        Vector3 vec3 = multiBlock.getRelativeLeaderPos();
-        int id, meta;
+        Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
 
         for (int x = 0; x < multiBlock.getMultiBlockMap().getSizeX(); x++)
         {
@@ -35,29 +39,24 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
             {
                 for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
                 {
-                    Vector2 vec = multiBlock.getMultiBlockMap().getBlockAtPos(x, y, z);
+                    Vector2 blockInfo = multiBlock.getMultiBlockMap().getBlockAtPos(x, y, z);
 
-                    if (vec != null)
+                    if (blockInfo != null)
                     {
-                        if (vec.getX() == 0)
+                        if (blockInfo.getX() < 0)
                         {
-                            if (!worldObj.isAirBlock(xCoord + x - vec3.getX(), yCoord + y - vec3.getY(), zCoord + z - vec3.getZ()))
+                            List<Vector2> list = multiBlock.getOptionalBlockList(blockInfo.getX());
+                            boolean foundBlock = false;
+                            for (int i = 0; i < list.size(); i++)
                             {
-                                //UnInit
-                                if (isFormed)
+                                if (checkFormation(list.get(i), xCoord + x - leaderPos.getX(), yCoord + y - leaderPos.getY(), zCoord + z - leaderPos.getZ()))
                                 {
-                                    isFormed = false;
-                                    onFormationChange();
+                                    foundBlock = true;
+                                    typeIds.put(-blockInfo.getX(), i);
                                 }
-                                return;
                             }
-                        }
-                        else if (vec.getY() == -1)
-                        {
-                            id = worldObj.getBlockId(xCoord + x - vec3.getX(), yCoord + y - vec3.getY(), zCoord + z - vec3.getZ());
-                            if (id != vec.getX())
+                            if (!foundBlock)
                             {
-                                //UnInit
                                 if (isFormed)
                                 {
                                     isFormed = false;
@@ -68,9 +67,7 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
                         }
                         else
                         {
-                            id = worldObj.getBlockId(xCoord + x - vec3.getX(), yCoord + y - vec3.getY(), zCoord + z - vec3.getZ());
-                            meta = worldObj.getBlockMetadata(xCoord + x - vec3.getX(), yCoord + y - vec3.getY(), zCoord + z - vec3.getZ());
-                            if (id != vec.getX() || meta != vec.getY())
+                            if (!checkFormation(blockInfo, xCoord + x - leaderPos.getX(), yCoord + y - leaderPos.getY(), zCoord + z - leaderPos.getZ()))
                             {
                                 //UnInit
                                 if (isFormed)
@@ -91,6 +88,35 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
             isFormed = true;
             onFormationChange();
         }
+    }
+
+    private boolean checkFormation(Vector2 blockInfo, int x, int y, int z)
+    {
+        if (blockInfo.getX() == 0)
+        {
+            if (!worldObj.isAirBlock(x, y, z))
+            {
+                return false;
+            }
+        }
+        else if (blockInfo.getY() == -1)
+        {
+            int id = worldObj.getBlockId(x, y, z);
+            if (id != blockInfo.getX())
+            {
+                return false;
+            }
+        }
+        else
+        {
+            int id = worldObj.getBlockId(x, y, z);
+            int meta = worldObj.getBlockMetadata(x, y, z);
+            if (id != blockInfo.getX() || meta != blockInfo.getY())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean shouldAutoCheckFormation()

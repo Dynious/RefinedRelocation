@@ -1,8 +1,12 @@
 package com.dynious.refinedrelocation.multiblock;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.until.Vector2;
 import com.dynious.refinedrelocation.until.Vector3;
 import net.minecraft.block.Block;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultiBlockPlayerRelocator implements IMultiBlock
 {
@@ -46,7 +50,7 @@ public class MultiBlockPlayerRelocator implements IMultiBlock
         map.addBlockAtPos(Block.fenceIron.blockID, 2, 2, 2);
         map.addBlockAtPos(Block.fenceIron.blockID, 2, 2, 0);
 
-        map.addBlockAtPos(Block.blockGold.blockID, 1, 3, 1);
+        map.addBlockAtPos(-1, 1, 3, 1);
         map.addBlockAtPos(ModBlocks.relocationController.blockID, 1, 0, 1);
 
         map.addBlockAtPos(0, 1, 1, 1);
@@ -63,5 +67,19 @@ public class MultiBlockPlayerRelocator implements IMultiBlock
     public Vector3 getRelativeLeaderPos()
     {
         return new Vector3(1, 0, 1);
+    }
+
+    @Override
+    public List<Vector2> getOptionalBlockList(int optionalId)
+    {
+        List<Vector2> list = new ArrayList<Vector2>();
+        switch(optionalId)
+        {
+            case -1:
+                list.add(new Vector2(Block.blockGold.blockID, -1));
+                list.add(new Vector2(Block.blockDiamond.blockID, -1));
+                break;
+        }
+        return list;
     }
 }

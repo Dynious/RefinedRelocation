@@ -1,11 +1,12 @@
 package com.dynious.refinedrelocation.tileentity;
 
+import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.helper.TeleportHelper;
 import com.dynious.refinedrelocation.until.Vector3;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -14,7 +15,14 @@ public class TileRelocationPortal extends TileEntity
     public int oldId = 0;
     public int oldMeta = 0;
     private Vector3 linkedPos;
+    private int dimension = Integer.MAX_VALUE;
     private byte time = 0;
+
+    public void init(int oldId, int oldMeta)
+    {
+        this.oldId = oldId;
+        this.oldMeta = oldMeta;
+    }
 
     public void init(int oldId, int oldMeta, Vector3 linkedPos)
     {
@@ -23,8 +31,21 @@ public class TileRelocationPortal extends TileEntity
         this.linkedPos = linkedPos;
     }
 
+    public void init(int oldId, int oldMeta, Vector3 linkedPos, int dimension)
+    {
+        this.oldId = oldId;
+        this.oldMeta = oldMeta;
+        this.linkedPos = linkedPos;
+        this.dimension = dimension;
+    }
+
     public void returnToOldBlock()
     {
+        if (oldId == ModBlocks.relocationPortal.blockID)
+        {
+            oldId = 0;
+            oldMeta = 0;
+        }
         worldObj.setBlock(xCoord, yCoord, zCoord, oldId, oldMeta, 3);
     }
 
@@ -34,6 +55,10 @@ public class TileRelocationPortal extends TileEntity
     {
         super.updateEntity();
 
+        if (worldObj.isRemote)
+        {
+            return;
+        }
         time++;
         if (time > 60)
         {
@@ -47,7 +72,14 @@ public class TileRelocationPortal extends TileEntity
             {
                 if (entity.posY % 1 < 0.5D)
                 {
-                    teleportEntity(worldObj, linkedPos.getX(), linkedPos.getY() + 1, linkedPos.getZ(), entity);
+                    if (dimension != Integer.MAX_VALUE && dimension != worldObj.provider.dimensionId)
+                    {
+                        TeleportHelper.travelToDimension(entity, dimension, linkedPos.getX(), linkedPos.getY() + 1, linkedPos.getZ());
+                    }
+                    else
+                    {
+                        TeleportHelper.travelToPosition(entity, linkedPos.getX(), linkedPos.getY() + 1, linkedPos.getZ());
+                    }
 
                     TileEntity upperTile = worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord);
                     if (upperTile != null && upperTile instanceof TileRelocationPortal)
@@ -60,19 +92,10 @@ public class TileRelocationPortal extends TileEntity
                         ((TileRelocationPortal)upperTile).returnToOldBlock();
                     }
                     returnToOldBlock();
+                    break;
                 }
             }
         }
-    }
-
-    private void teleportEntity(World world, int x, int y, int z, EntityLivingBase player)
-    {
-        player.setPositionAndUpdate(x + 0.5, y, z + 0.5);
-        player.playSound("mob.endermen.portal", 1.0f, 1.0f);
-        for (int particles = 0; particles < 2; particles++) {
-            world.spawnParticle("portal", player.posX, player.posY, player.posZ, world.rand.nextGaussian(), world.rand.nextGaussian(), world.rand.nextGaussian());
-        }
-        returnToOldBlock();
     }
 
     public boolean isLower()
@@ -86,6 +109,7 @@ public class TileRelocationPortal extends TileEntity
         super.writeToNBT(compound);
         compound.setInteger("oldId", oldId);
         compound.setInteger("oldMeta", oldMeta);
+        compound.setInteger("dimension", dimension);
         compound.setByte("time", time);
     }
 
@@ -95,6 +119,7 @@ public class TileRelocationPortal extends TileEntity
         super.readFromNBT(compound);
         oldId = compound.getInteger("oldId");
         oldMeta = compound.getInteger("oldMeta");
+        dimension = compound.getInteger("dimension");
         time = compound.getByte("time");
     }
 }

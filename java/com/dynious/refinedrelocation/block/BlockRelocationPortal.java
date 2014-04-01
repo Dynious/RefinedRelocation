@@ -71,14 +71,6 @@ public class BlockRelocationPortal extends BlockContainer
     }
 
     @Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
-        for (int particles = 0; particles < 10; particles++) {
-            world.spawnParticle("portal", x + 0.5D +random.nextGaussian()/2, y + 0.5D + random.nextGaussian()/2, z + 0.5D + random.nextGaussian()/2, random.nextGaussian(), random.nextGaussian(), random.nextGaussian());
-        }
-    }
-
-    @Override
     public int colorMultiplier(IBlockAccess world, int x, int y, int z)
     {
         TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
@@ -112,7 +104,7 @@ public class BlockRelocationPortal extends BlockContainer
     {
         ForgeDirection dir = ForgeDirection.getOrientation(side);
 
-        TileEntity tileEntity = DirectionHelper.getTileAtSide(world, x, y, z, dir.getOpposite());
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
         if (tileEntity != null && tileEntity instanceof TileRelocationPortal)
         {
             TileRelocationPortal tile = (TileRelocationPortal) tileEntity;

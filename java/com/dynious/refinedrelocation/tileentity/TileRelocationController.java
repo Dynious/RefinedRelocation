@@ -21,4 +21,9 @@ public class TileRelocationController extends TileMultiBlockBase
     protected void onFormationChange()
     {
     }
+
+    public boolean isIntraLinker()
+    {
+        return typeIds.get(1) == 1;
+    }
 }
