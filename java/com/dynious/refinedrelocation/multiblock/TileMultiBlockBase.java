@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.multiblock;
 
-import com.dynious.refinedrelocation.until.Vector2;
+import com.dynious.refinedrelocation.until.BlockAndMeta;
 import com.dynious.refinedrelocation.until.Vector3;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -41,13 +41,13 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
             {
                 for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
                 {
-                    Vector2 blockInfo = multiBlock.getMultiBlockMap().getBlockAtPos(x, y, z);
+                    BlockAndMeta blockInfo = multiBlock.getMultiBlockMap().getBlockAtPos(x, y, z);
 
                     if (blockInfo != null)
                     {
                         if (blockInfo.getBlock() < 0)
                         {
-                            List<Vector2> list = multiBlock.getOptionalBlockList(blockInfo.getBlock());
+                            List<BlockAndMeta> list = multiBlock.getOptionalBlockList(blockInfo.getBlock());
                             boolean foundBlock = false;
                             for (int i = 0; i < list.size(); i++)
                             {
@@ -92,7 +92,7 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
         }
     }
 
-    private boolean checkFormation(Vector2 blockInfo, int x, int y, int z)
+    private boolean checkFormation(BlockAndMeta blockInfo, int x, int y, int z)
     {
         if (blockInfo.getBlock() == Blocks.air)
         {

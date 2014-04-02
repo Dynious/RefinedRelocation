@@ -2,12 +2,12 @@ package com.dynious.refinedrelocation.until;
 
 import net.minecraft.block.Block;
 
-public class Vector2
+public class BlockAndMeta
 {
     private Block block;
     private int meta;
 
-    public Vector2(Block block, int meta)
+    public BlockAndMeta(Block block, int meta)
     {
         this.block = block;
         this.meta = meta;
