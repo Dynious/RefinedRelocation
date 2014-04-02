@@ -24,6 +24,6 @@ public class TileRelocationController extends TileMultiBlockBase
 
     public boolean isIntraLinker()
     {
-        return typeIds.get(1) == 1;
+        return type == 1;
     }
 }

@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.until;
+package com.dynious.refinedrelocation.util;
 
 public class Vector3
 {

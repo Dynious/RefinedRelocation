@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.until;
+package com.dynious.refinedrelocation.util;
 
 import net.minecraft.block.Block;
 
@@ -12,6 +12,12 @@ public class BlockAndMeta
         this.block = block;
         this.meta = meta;
     }
+    public BlockAndMeta(Block block)
+    {
+        this.block = block;
+        this.meta = -1;
+    }
+
 
     public Block getBlock()
     {

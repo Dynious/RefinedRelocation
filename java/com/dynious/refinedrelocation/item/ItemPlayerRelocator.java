@@ -8,7 +8,7 @@ import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Sounds;
 import com.dynious.refinedrelocation.tileentity.TileRelocationController;
 import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
-import com.dynious.refinedrelocation.until.Vector3;
+import com.dynious.refinedrelocation.util.Vector3;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

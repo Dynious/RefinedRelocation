@@ -1,7 +1,8 @@
 package com.dynious.refinedrelocation.multiblock;
 
-import com.dynious.refinedrelocation.until.BlockAndMeta;
-import com.dynious.refinedrelocation.until.Vector3;
+import com.dynious.refinedrelocation.util.BlockAndMeta;
+import com.dynious.refinedrelocation.util.MultiBlockAndMeta;
+import com.dynious.refinedrelocation.util.Vector3;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +15,7 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
 {
     private int checkCount = 0;
     private boolean isFormed = false;
-    protected Map<Integer, Integer> typeIds = new HashMap<Integer, Integer>();
+    protected int type = -1;
 
     @Override
     public void updateEntity()
@@ -41,44 +42,44 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
             {
                 for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
                 {
-                    BlockAndMeta blockInfo = multiBlock.getMultiBlockMap().getBlockAtPos(x, y, z);
+                    Object blockInfo = multiBlock.getMultiBlockMap().getBlockAndMetaAtPos(x, y, z);
 
-                    if (blockInfo != null)
+                    if (blockInfo instanceof MultiBlockAndMeta)
                     {
-                        if (blockInfo.getBlock() < 0)
+                        MultiBlockAndMeta multiBlockAndMeta = (MultiBlockAndMeta) blockInfo;
+                        boolean foundBlock = false;
+                        for (int i = 0; i < multiBlockAndMeta.getBlockAndMetas().size(); i++)
                         {
-                            List<BlockAndMeta> list = multiBlock.getOptionalBlockList(blockInfo.getBlock());
-                            boolean foundBlock = false;
-                            for (int i = 0; i < list.size(); i++)
+                            if (checkFormation(multiBlockAndMeta.getBlockAndMetas().get(i), xCoord + x - leaderPos.getX(), yCoord + y - leaderPos.getY(), zCoord + z - leaderPos.getZ()))
                             {
-                                if (checkFormation(list.get(i), xCoord + x - leaderPos.getX(), yCoord + y - leaderPos.getY(), zCoord + z - leaderPos.getZ()))
-                                {
-                                    foundBlock = true;
-                                    typeIds.put(-blockInfo.getBlock(), i);
-                                }
-                            }
-                            if (!foundBlock)
-                            {
-                                if (isFormed)
-                                {
-                                    isFormed = false;
-                                    onFormationChange();
-                                }
-                                return;
+                                foundBlock = true;
+                                type = i;
+                                break;
                             }
                         }
-                        else
+                        if (!foundBlock)
                         {
-                            if (!checkFormation(blockInfo, xCoord + x - leaderPos.getX(), yCoord + y - leaderPos.getY(), zCoord + z - leaderPos.getZ()))
+                            //UnInit
+                            if (isFormed)
                             {
-                                //UnInit
-                                if (isFormed)
-                                {
-                                    isFormed = false;
-                                    onFormationChange();
-                                }
-                                return;
+                                isFormed = false;
+                                onFormationChange();
                             }
+                            return;
+                        }
+                    }
+                    else if (blockInfo instanceof BlockAndMeta)
+                    {
+                        BlockAndMeta blockAndMeta = (BlockAndMeta) blockInfo;
+                        if (!checkFormation(blockAndMeta, xCoord + x - leaderPos.getX(), yCoord + y - leaderPos.getY(), zCoord + z - leaderPos.getZ()))
+                        {
+                            //UnInit
+                            if (isFormed)
+                            {
+                                isFormed = false;
+                                onFormationChange();
+                            }
+                            return;
                         }
                     }
                 }
