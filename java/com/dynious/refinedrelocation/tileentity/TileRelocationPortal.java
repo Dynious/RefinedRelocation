@@ -2,7 +2,7 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.TeleportHelper;
-import com.dynious.refinedrelocation.until.Vector3;
+import com.dynious.refinedrelocation.util.Vector3;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
