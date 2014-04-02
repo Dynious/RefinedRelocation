@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.block;
 
+import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.multiblock.BlockMultiBlockBase;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
@@ -14,6 +15,7 @@ public class BlockRelocationController extends BlockMultiBlockBase
         super(Material.rock);
         this.setBlockName(Names.relocationController);
         this.setHardness(3.0F);
+        this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
     @Override
