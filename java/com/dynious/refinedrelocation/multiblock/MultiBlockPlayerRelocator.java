@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.multiblock;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
-import com.dynious.refinedrelocation.until.Vector2;
+import com.dynious.refinedrelocation.until.BlockAndMeta;
 import com.dynious.refinedrelocation.until.Vector3;
 import net.minecraft.block.Block;
 
@@ -70,14 +70,14 @@ public class MultiBlockPlayerRelocator implements IMultiBlock
     }
 
     @Override
-    public List<Vector2> getOptionalBlockList(int optionalId)
+    public List<BlockAndMeta> getOptionalBlockList(int optionalId)
     {
-        List<Vector2> list = new ArrayList<Vector2>();
+        List<BlockAndMeta> list = new ArrayList<BlockAndMeta>();
         switch(optionalId)
         {
             case -1:
-                list.add(new Vector2(Block.blockGold.blockID, -1));
-                list.add(new Vector2(Block.blockDiamond.blockID, -1));
+                list.add(new BlockAndMeta(Block.blockGold.blockID, -1));
+                list.add(new BlockAndMeta(Block.blockDiamond.blockID, -1));
                 break;
         }
         return list;

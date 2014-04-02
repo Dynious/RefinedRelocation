@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.multiblock;
 
-import com.dynious.refinedrelocation.until.Vector2;
+import com.dynious.refinedrelocation.until.BlockAndMeta;
 import com.dynious.refinedrelocation.until.Vector3;
 import net.minecraft.tileentity.TileEntity;
 
@@ -39,20 +39,20 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
             {
                 for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
                 {
-                    Vector2 blockInfo = multiBlock.getMultiBlockMap().getBlockAtPos(x, y, z);
+                    BlockAndMeta blockInfo = multiBlock.getMultiBlockMap().getBlockAtPos(x, y, z);
 
                     if (blockInfo != null)
                     {
-                        if (blockInfo.getX() < 0)
+                        if (blockInfo.getBlockId() < 0)
                         {
-                            List<Vector2> list = multiBlock.getOptionalBlockList(blockInfo.getX());
+                            List<BlockAndMeta> list = multiBlock.getOptionalBlockList(blockInfo.getBlockId());
                             boolean foundBlock = false;
                             for (int i = 0; i < list.size(); i++)
                             {
                                 if (checkFormation(list.get(i), xCoord + x - leaderPos.getX(), yCoord + y - leaderPos.getY(), zCoord + z - leaderPos.getZ()))
                                 {
                                     foundBlock = true;
-                                    typeIds.put(-blockInfo.getX(), i);
+                                    typeIds.put(-blockInfo.getBlockId(), i);
                                 }
                             }
                             if (!foundBlock)
@@ -90,19 +90,19 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
         }
     }
 
-    private boolean checkFormation(Vector2 blockInfo, int x, int y, int z)
+    private boolean checkFormation(BlockAndMeta blockInfo, int x, int y, int z)
     {
-        if (blockInfo.getX() == 0)
+        if (blockInfo.getBlockId() == 0)
         {
             if (!worldObj.isAirBlock(x, y, z))
             {
                 return false;
             }
         }
-        else if (blockInfo.getY() == -1)
+        else if (blockInfo.getMeta() == -1)
         {
             int id = worldObj.getBlockId(x, y, z);
-            if (id != blockInfo.getX())
+            if (id != blockInfo.getBlockId())
             {
                 return false;
             }
@@ -111,7 +111,7 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
         {
             int id = worldObj.getBlockId(x, y, z);
             int meta = worldObj.getBlockMetadata(x, y, z);
-            if (id != blockInfo.getX() || meta != blockInfo.getY())
+            if (id != blockInfo.getBlockId() || meta != blockInfo.getMeta())
             {
                 return false;
             }

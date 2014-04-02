@@ -1,17 +1,17 @@
 package com.dynious.refinedrelocation.multiblock;
 
-import com.dynious.refinedrelocation.until.Vector2;
+import com.dynious.refinedrelocation.until.BlockAndMeta;
 
 public class MultiBlockMap
 {
-    private Vector2[][][] map;
+    private BlockAndMeta[][][] map;
 
     public MultiBlockMap(int sizeX, int sizeY, int sizeZ)
     {
-        map = new Vector2[sizeX][sizeY][sizeZ];
+        map = new BlockAndMeta[sizeX][sizeY][sizeZ];
     }
 
-    public void addBlockAtPos(Vector2 blockIdMeta, int x, int y, int z)
+    public void addBlockAtPos(BlockAndMeta blockIdMeta, int x, int y, int z)
     {
         if (x >= 0 && x < map.length && y >= 0 && y < map[0].length && z >= 0 && z < map[0][0].length)
         {
@@ -21,15 +21,15 @@ public class MultiBlockMap
 
     public void addBlockAtPos(int blockID, int x, int y, int z)
     {
-        addBlockAtPos(new Vector2(blockID, -1), x, y, z);
+        addBlockAtPos(new BlockAndMeta(blockID, -1), x, y, z);
     }
 
     public void addBlockAtPos(int blockID, int blockMeta, int x, int y, int z)
     {
-        addBlockAtPos(new Vector2(blockID, blockMeta), x, y, z);
+        addBlockAtPos(new BlockAndMeta(blockID, blockMeta), x, y, z);
     }
 
-    public Vector2 getBlockAtPos(int x, int y, int z)
+    public BlockAndMeta getBlockAtPos(int x, int y, int z)
     {
         if (x >= 0 && x < map.length && y >= 0 && y < map[0].length && z >= 0 && z < map[0][0].length)
         {

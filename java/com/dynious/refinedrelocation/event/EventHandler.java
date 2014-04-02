@@ -1,22 +1,14 @@
 package com.dynious.refinedrelocation.event;
 
-import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.LogHelper;
-import com.dynious.refinedrelocation.item.ItemPlayerRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
-import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Sounds;
-import com.dynious.refinedrelocation.until.Vector2;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector2f;
 
 public class EventHandler
 {
