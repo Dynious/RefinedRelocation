@@ -1,0 +1,14 @@
+{
+    "ambiance": {
+        "category": "master",
+        "sounds": [
+            "ambiance"
+        ]
+    },
+    "explosion": {
+        "category": "master",
+        "sounds": [
+            "explosion"
+        ]
+    }
+}

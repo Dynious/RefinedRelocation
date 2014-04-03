@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.helper.TeleportHelper;
 import com.dynious.refinedrelocation.util.Vector3;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class TileRelocationPortal extends TileEntity
 {
-    public Block oldBlock = null;
+    public Block oldBlock = Blocks.air;
     public int oldMeta = 0;
     private Vector3 linkedPos;
     private int dimension = Integer.MAX_VALUE;
@@ -44,7 +45,7 @@ public class TileRelocationPortal extends TileEntity
     {
         if (oldBlock == ModBlocks.relocationPortal)
         {
-            oldBlock = null;
+            oldBlock = Blocks.air;
             oldMeta = 0;
         }
         worldObj.setBlock(xCoord, yCoord, zCoord, oldBlock, oldMeta, 3);
