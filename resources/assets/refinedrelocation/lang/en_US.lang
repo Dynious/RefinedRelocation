@@ -19,10 +19,12 @@ tile.sortingIronChest7.name=Sorting Dirt Chest
 tile.sortingConnector.name=Sorting Connector
 tile.filteringHopper.name=Filtering Hopper
 tile.sortingBarrel.name=Sorting Barrel
+tile.relocationController.name=Relocation Controller
 
 # Item localizations
 item.linker.name=Linker
 item.sortingUpgrade.name=Sorting Upgrade
+item.playerRelocator.name=Player Relocator
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest

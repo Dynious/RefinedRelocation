@@ -62,6 +62,8 @@ public class ModBlocks
 
         GameRegistry.addShapedRecipe(new ItemStack(filteringHopper), "g g", " h ", "g g", 'g', Items.gold_ingot, 'h', new ItemStack(Blocks.hopper));
 
+        GameRegistry.addShapedRecipe(new ItemStack(relocationController), "ded", "ece", "ded", 'd', Items.diamond, 'e', Items.ender_eye, 'c', Items.compass);
+
         if (Loader.isModLoaded("IronChest"))
         {
             IronChestHelper.addIronChestBlocks();
