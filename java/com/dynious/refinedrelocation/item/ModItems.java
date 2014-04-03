@@ -27,5 +27,6 @@ public class ModItems
 
         GameRegistry.addShapedRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade), "g g", " p ", "g g", 'g', Item.ingotGold, 'p', Block.thinGlass);
+        GameRegistry.addShapedRecipe(new ItemStack(playerRelocator), "gbg", "ede", "gfg", 'g', Item.ingotGold, 'b', Item.blazeRod, 'e', Item.enderPearl, 'd', Item.diamond, 'f', Item.fireballCharge);
     }
 }

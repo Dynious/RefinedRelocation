@@ -16,13 +16,15 @@ tile.sortingIronChest4.name=Sorterende Zilveren Kist
 tile.sortingIronChest5.name=Sorterende Crystal Kist
 tile.sortingIronChest6.name=Sorterende Obsidianen Kist
 tile.sortingIronChest7.name=Sorterende Aarden Kist
-tile.filteringConnector.name=Filtrerende Verbinder
+tile.sortingConnector.name=Filtrerende Verbinder
 tile.filteringHopper.name=Filtrerende Trechter
 tile.sortingBarrel.name=Sorterende Ton
+tile.relocationController.name=Verplaatsings Controller
 
 # Item localizations
 item.linker.name=Linker
 item.sortingUpgrade.name=Sorterende Upgrade
+tile.playerRelocator.name=Speler Verplaatser
 
 # Inventory localizations
 container.sortingChest.name=Sorterende Kist
