@@ -51,6 +51,7 @@ public class TileRelocationController extends TileMultiBlockBase
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setString("UUID", linkedUUID);
+        if (linkedUUID != null && !linkedUUID.isEmpty())
+            compound.setString("UUID", linkedUUID);
     }
 }
