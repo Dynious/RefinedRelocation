@@ -20,11 +20,6 @@ public class TileRelocationController extends TileMultiBlockBase
         return false;
     }
 
-    @Override
-    protected void onFormationChange()
-    {
-    }
-
     public boolean isIntraLinker()
     {
         return type == 1;
