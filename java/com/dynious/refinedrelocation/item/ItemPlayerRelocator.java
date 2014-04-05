@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.helper.ParticleHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Sounds;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileRelocationController;
 import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
 import com.dynious.refinedrelocation.util.Vector3;
@@ -23,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.common.DimensionManager;
@@ -237,18 +239,18 @@ public class ItemPlayerRelocator extends Item
     {
         if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("x"))
         {
-            list.add("Linked to Relocation Controller at: " + itemStack.getTagCompound().getInteger("x") + ":" + itemStack.getTagCompound().getInteger("y") + ":" +  itemStack.getTagCompound().getInteger("z"));
+            list.add(StatCollector.translateToLocalFormatted(Strings.LINKED_TO_AT, StatCollector.translateToLocal("tile.relocationController.name"), itemStack.getTagCompound().getInteger("x"), itemStack.getTagCompound().getInteger("y"), itemStack.getTagCompound().getInteger("z")));
             if (itemStack.getTagCompound().getBoolean(INTER_LINK_TAG))
             {
-                list.add("Inter-Dimensional link to: " + DimensionManager.getProvider(itemStack.getTagCompound().getInteger(DIMENSION_TAG)).getDimensionName());
+                list.add(StatCollector.translateToLocalFormatted(Strings.INTER_DIMENSIONAL, DimensionManager.getProvider(itemStack.getTagCompound().getInteger(DIMENSION_TAG)).getDimensionName()));
             }
             if (!itemStack.getTagCompound().hasKey(UUID_TAG))
             {
-                list.add("§4Broken link!");
+                list.add("§4" + StatCollector.translateToLocal(Strings.BROKEN_LINK));
             }
             if (itemStack.getTagCompound().hasKey(COOL_DOWN_TAG))
             {
-                list.add("§eCooldown: " + itemStack.getTagCompound().getShort(COOL_DOWN_TAG)/20);
+                list.add("§e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, itemStack.getTagCompound().getShort(COOL_DOWN_TAG)/20));
             }
         }
     }

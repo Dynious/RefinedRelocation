@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.lib;
 public class Strings
 {
     private static final String GUI_PREFIX = "gui." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
 
     public static final String BLACKLIST = GUI_PREFIX + "blacklist";
     public static final String WHITELIST = GUI_PREFIX + "whitelist";
@@ -37,8 +38,16 @@ public class Strings
     public static final String OREDICT_CHARACTER =  GUI_PREFIX + "oredictChar";
     public static final String COMMA_SEPARATION =  GUI_PREFIX + "commaSeparation";
     public static final String WIRELESS_LINK =  GUI_PREFIX + "wirelessLink";
-    public static final String LINKED =  GUI_PREFIX + "linked";
-    public static final String TO =  GUI_PREFIX + "to";
-    public static final String AT =  GUI_PREFIX + "at";
+    public static final String LINKED_TO_AT =  GUI_PREFIX + "linkedToAt";
     public static final String CONNECTIONS =  GUI_PREFIX + "connections";
+
+    public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
+    public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";
+    public static final String DISGUISED_AS = ITEM_DESC_PREFIX + "disguisedAs";
+    public static final String CANNOT_DISGUISE_AS = ITEM_DESC_PREFIX + "cannotDisguiseAs";
+    public static final String LINKER_SET = ITEM_DESC_PREFIX + "linkerSet";
+    public static final String NO_LONGER_LINKED = ITEM_DESC_PREFIX + "noLongerLinked";
+    public static final String INTER_DIMENSIONAL = ITEM_DESC_PREFIX + "interDimensional";
+    public static final String BROKEN_LINK = ITEM_DESC_PREFIX + "brokenLink";
+    public static final String COOLDOWN = ITEM_DESC_PREFIX + "cooldown";
 }

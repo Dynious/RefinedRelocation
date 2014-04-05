@@ -45,9 +45,7 @@ public class GuiWirelessLinkStatus extends GuiRefinedRelocationButton
             tooltip.add(StatCollector.translateToLocal(Strings.WIRELESS_LINK));
             if (linked)
             {
-                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.LINKED));
-                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.TO) + ": " + yellowColor + BlockHelper.getBlockDisplayName(tile.worldObj, tile.xConnected, tile.yConnected, tile.zConnected));
-                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.AT) + ": " + yellowColor + tile.xConnected + ":" + tile.yConnected + ":" + tile.zConnected);
+                tooltip.add(grayColor + StatCollector.translateToLocalFormatted(Strings.LINKED_TO_AT, BlockHelper.getBlockDisplayName(tile.worldObj, tile.xConnected, tile.yConnected, tile.zConnected), tile.xConnected, tile.yConnected, tile.zConnected));
 
                 if (tile.hasConnection())
                 {
@@ -61,7 +59,7 @@ public class GuiWirelessLinkStatus extends GuiRefinedRelocationButton
             }
             else
             {
-                tooltip.add(grayColor + "Unlinked");
+                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.UNLINKED));
             }
         }
 
