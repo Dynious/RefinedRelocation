@@ -1,0 +1,70 @@
+# Block localizations
+tile.blockExtender0.name=Blockerweiterung
+tile.blockExtender1.name=Fortgeschrittene Blockerweiterung
+tile.blockExtender2.name=Gefilterte Blockerweiterung
+tile.blockExtender3.name=Fortgeschrittene Gefilterte Blockerweiterung
+tile.blockExtender4.name=Drahtlose Blockerweiterung
+tile.buffer0.name=Puffer
+tile.buffer1.name=Fortgeschrittener Puffer
+tile.buffer2.name=Gefilterter Puffer
+tile.sortingChest.name=Sortiertruhe
+tile.sortingIronChest0.name=Sortierende Eisentruhe
+tile.sortingIronChest1.name=Sortierende Goldtruhe
+tile.sortingIronChest2.name=Sortierende Diamanttruhe
+tile.sortingIronChest3.name=Sortierende Kupfertruhe
+tile.sortingIronChest4.name=Sortierende Silbertruhe
+tile.sortingIronChest5.name=Sortierende Kristalltruhe
+tile.sortingIronChest6.name=Sortierende Obsidiantruhe
+tile.sortingIronChest7.name=DirtChest9001
+tile.sortingConnector.name=Sortier-Konnektor
+tile.filteringHopper.name=Filternder Trichter
+tile.sortingBarrel.name=Sortierendes Fass
+tile.relocationController.name=Relokationskontrolle
+
+# Item localizations
+item.linker.name=Verbinder
+item.sortingUpgrade.name=Sortier-Upgrade
+item.playerRelocator.name=Spieler-Relokator
+
+# Inventory localizations
+container.sortingChest.name=Sortiertruhe
+itemGroup.RefinedRelocation=Refined Relocation
+
+# GUI localizations
+gui.refinedrelocation.blacklist=Blacklist
+gui.refinedrelocation.whitelist=Whitelist
+gui.refinedrelocation.click=Click
+gui.refinedrelocation.shiftClick=Shift+Click
+gui.refinedrelocation.filteredExtr=Filtered Extraction
+gui.refinedrelocation.unfilteredExtr=Unfiltered Extraction
+gui.refinedrelocation.maxStackSize=Max Stack Size
+gui.refinedrelocation.mode=Mode
+gui.refinedrelocation.roundRobin=Round-robin
+gui.refinedrelocation.roundRobinInfo=Spread output across\nall valid sides
+gui.refinedrelocation.greedy=Greedy
+gui.refinedrelocation.greedyInfo=Only output to the valid side\nwith the highest priority
+gui.refinedrelocation.spread=Spread items
+gui.refinedrelocation.stack=Stack items
+gui.refinedrelocation.disguised=Disguised as
+gui.refinedrelocation.undisguised=Undisguised
+gui.refinedrelocation.disguisedInfo=Use an unlinked linker\nto undisguise this block
+gui.refinedrelocation.undisguisedInfo=Use a linker to disguise this block
+gui.refinedrelocation.connected=Connected
+gui.refinedrelocation.notConnected=Not Connected
+gui.refinedrelocation.bufferInsInfo=Output side priorities\nItems that get inserted\ninto the buffer will attempt\nto be outputted to a valid\nside in order of priority\n(lower number = higher priority)
+gui.refinedrelocation.blockExtenderInsInfo=Insert directions\nItems will get inserted\ninto the chosen side\nof the connected inventory\nwhenever they are inserted\ninto the relevant side of\nthis block extender
+gui.refinedrelocation.redstoneTrans=Redstone signal transmission
+gui.refinedrelocation.enabled=Enabled
+gui.refinedrelocation.disabled=Disabled
+gui.refinedrelocation.active=Active
+gui.refinedrelocation.inactive=Inactive
+gui.refinedrelocation.customFilter=Custom filter
+gui.refinedrelocation.nameMatching=Item name matching
+gui.refinedrelocation.wildcardChar=Wildcard character
+gui.refinedrelocation.oredictChar=Oredict lookup prefix
+gui.refinedrelocation.commaSeparation=Separate filters with a comma
+gui.refinedrelocation.wirelessLink=Wireless Link
+gui.refinedrelocation.linked=Linked
+gui.refinedrelocation.to=To
+gui.refinedrelocation.at=At
+gui.refinedrelocation.connections=Connections
