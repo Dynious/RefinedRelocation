@@ -45,7 +45,7 @@ gui.refinedrelocation.greedy=Greedy
 gui.refinedrelocation.greedyInfo=Only output to the valid side\nwith the highest priority
 gui.refinedrelocation.spread=Spread items
 gui.refinedrelocation.stack=Stack items
-gui.refinedrelocation.disguised=Disguised as
+gui.refinedrelocation.disguised=Disguised as: %s
 gui.refinedrelocation.undisguised=Undisguised
 gui.refinedrelocation.disguisedInfo=Use an unlinked linker\nto undisguise this block
 gui.refinedrelocation.undisguisedInfo=Use a linker to disguise this block
@@ -64,7 +64,15 @@ gui.refinedrelocation.wildcardChar=Wildcard character
 gui.refinedrelocation.oredictChar=Oredict lookup prefix
 gui.refinedrelocation.commaSeparation=Separate filters with a comma
 gui.refinedrelocation.wirelessLink=Wireless Link
-gui.refinedrelocation.linked=Linked
-gui.refinedrelocation.to=To
-gui.refinedrelocation.at=At
+gui.refinedrelocation.linkedToAt=Linked to %s at: %s:%s:%s
 gui.refinedrelocation.connections=Connections
+
+#Item Description Localizations
+itemDesc.refinedrelocation.linkedPos=Linked position: %s:%s:%s (%s)
+itemDesc.refinedrelocation.unlinked=Unlinked
+itemDesc.refinedrelocation.cannotDisguiseAs=Can not disguise as: %s
+itemDesc.refinedrelocation.linkerSet=Linker set to position: %s:%s:%s (%s)
+itemDesc.refinedrelocation.noLongerLinked=Linker is no longer linked
+itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
+itemDesc.refinedrelocation.brokenLink=Broken link!
+itemDesc.refinedrelocation.cooldown=Cooldown: %s
