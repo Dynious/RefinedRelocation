@@ -45,7 +45,7 @@ gui.refinedrelocation.greedy=Hebberig
 gui.refinedrelocation.greedyInfo=Alleen naar zijde met\nde hoogste prioriteit
 gui.refinedrelocation.spread=Verspreid voorwerpen
 gui.refinedrelocation.stack=Hoop voorwerpen op
-gui.refinedrelocation.disguised=Vermomd als
+gui.refinedrelocation.disguised=Vermomd als: %
 gui.refinedrelocation.undisguised=Niet vermomd
 gui.refinedrelocation.disguisedInfo=Gebruik een ongelinkte linker\nom dit blok niet meer te vermommen
 gui.refinedrelocation.undisguisedInfo=Gebruik een linker om dit blok te vermommen
@@ -64,7 +64,15 @@ gui.refinedrelocation.wildcardChar=Jokerteken
 gui.refinedrelocation.oredictChar=Oredict teken
 gui.refinedrelocation.commaSeparation=Scheid filters met een komma
 gui.refinedrelocation.wirelessLink=Draadloze Link
-gui.refinedrelocation.linked=Gelinked
-gui.refinedrelocation.to=Met
-gui.refinedrelocation.at=Op
+gui.refinedrelocation.linked=Gelinked met %s op %s
 gui.refinedrelocation.connections=Connecties
+
+#Item Description Localizations
+itemDesc.refinedrelocation.linkedPos=Gelinkte positie: %s:%s:%s (%s)
+itemDesc.refinedrelocation.unlinked=Niet gelinked
+itemDesc.refinedrelocation.cannotDisguiseAs=Kan niet vermommen als: %s
+itemDesc.refinedrelocation.linkerSet=Linker gezet op positie: %s:%s:%s (%s)
+itemDesc.refinedrelocation.noLongerLinked=Linker is niet meer gelinked
+itemDesc.refinedrelocation.interDimensional=Inter-Dimensionale link met: %s
+itemDesc.refinedrelocation.brokenLink=Kapotte link!
+itemDesc.refinedrelocation.cooldown=Afkoelen: %s

@@ -1,33 +1,33 @@
 # Block localizations
-tile.blockExtender0.name=Block Extender
-tile.blockExtender1.name=Advanced Block Extender
-tile.blockExtender2.name=Filtered Block Extender
-tile.blockExtender3.name=Advanced Filtered Block Extender
-tile.blockExtender4.name=Wireless Block Extender
-tile.buffer0.name=Buffer
-tile.buffer1.name=Advanced Buffer
-tile.buffer2.name=Filtered Buffer
-tile.sortingChest.name=Sorting Chest
-tile.sortingIronChest0.name=Sorting Iron Chest
-tile.sortingIronChest1.name=Sorting Gold Chest
-tile.sortingIronChest2.name=Sorting Diamond Chest
-tile.sortingIronChest3.name=Sorting Copper Chest
-tile.sortingIronChest4.name=Sorting Silver Chest
-tile.sortingIronChest5.name=Sorting Crystal Chest
-tile.sortingIronChest6.name=Sorting Obsidian Chest
+tile.blockExtender0.name=Blockerweiterung
+tile.blockExtender1.name=Fortgeschrittene Blockerweiterung
+tile.blockExtender2.name=Gefilterte Blockerweiterung
+tile.blockExtender3.name=Fortgeschrittene Gefilterte Blockerweiterung
+tile.blockExtender4.name=Drahtlose Blockerweiterung
+tile.buffer0.name=Puffer
+tile.buffer1.name=Fortgeschrittener Puffer
+tile.buffer2.name=Gefilterter Puffer
+tile.sortingChest.name=Sortiertruhe
+tile.sortingIronChest0.name=Sortierende Eisentruhe
+tile.sortingIronChest1.name=Sortierende Goldtruhe
+tile.sortingIronChest2.name=Sortierende Diamanttruhe
+tile.sortingIronChest3.name=Sortierende Kupfertruhe
+tile.sortingIronChest4.name=Sortierende Silbertruhe
+tile.sortingIronChest5.name=Sortierende Kristalltruhe
+tile.sortingIronChest6.name=Sortierende Obsidiantruhe
 tile.sortingIronChest7.name=DirtChest9001
-tile.sortingConnector.name=Sorting Connector
-tile.filteringHopper.name=Filtering Hopper
-tile.sortingBarrel.name=Sorting Barrel
-tile.relocationController.name=Relocation Controller
+tile.sortingConnector.name=Sortier-Konnektor
+tile.filteringHopper.name=Filternder Trichter
+tile.sortingBarrel.name=Sortierendes Fass
+tile.relocationController.name=Relokationskontrolle
 
 # Item localizations
-item.linker.name=Linker
-item.sortingUpgrade.name=Sorting Upgrade
-item.playerRelocator.name=Player Relocator
+item.linker.name=Verbinder
+item.sortingUpgrade.name=Sortier-Upgrade
+item.playerRelocator.name=Spieler-Relokator
 
 # Inventory localizations
-container.sortingChest.name=Sorting Chest
+container.sortingChest.name=Sortiertruhe
 itemGroup.RefinedRelocation=Refined Relocation
 
 # GUI localizations

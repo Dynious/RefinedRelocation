@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.IDisguisable;
 import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.relauncher.Side;
@@ -17,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -44,11 +46,11 @@ public class ItemLinker extends Item
             int x = stack.getTagCompound().getInteger("tileX");
             int y = stack.getTagCompound().getInteger("tileY");
             int z = stack.getTagCompound().getInteger("tileZ");
-            list.add("Linked position: " + x + ":" + y + ":" + z + " (" + BlockHelper.getBlockDisplayName(par2EntityPlayer.getEntityWorld(), x, y, z) + ")");
+            list.add(StatCollector.translateToLocalFormatted(Strings.LINKED_POS, x, y, z, BlockHelper.getBlockDisplayName(par2EntityPlayer.getEntityWorld(), x, y, z)));
         }
         else
         {
-            list.add("Unlinked");
+            list.add(StatCollector.translateToLocal(Strings.UNLINKED));
         }
     }
 
@@ -85,19 +87,22 @@ public class ItemLinker extends Item
                 {
                     disguisable.setDisguise(linkedBlock, linkedBlockMetadata);
                     if (world.isRemote)
-                        entityPlayer.addChatComponentMessage(new ChatComponentText("Disguised " + BlockHelper.getBlockDisplayName(world, x, y, z) + " as " + BlockHelper.getBlockDisplayName(linkedBlock, linkedBlockMetadata)));
+                        entityPlayer.addChatComponentMessage(new ChatComponentText(
+                                (StatCollector.translateToLocalFormatted(Strings.DISGUISED_AS, BlockHelper.getBlockDisplayName(world, x, y, z), BlockHelper.getBlockDisplayName(linkedBlock, linkedBlockMetadata)))));
                 }
                 else
                 {
                     if (world.isRemote)
-                        entityPlayer.addChatComponentMessage(new ChatComponentText("Can not disguise as " + BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)));
+                        entityPlayer.addChatComponentMessage(new ChatComponentText(
+                                (StatCollector.translateToLocalFormatted(Strings.CANNOT_DISGUISE_AS, BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)))));
                 }
             }
             else if (disguisable.getDisguise() != null)
             {
                 disguisable.clearDisguise();
                 if (world.isRemote)
-                    entityPlayer.addChatComponentMessage(new ChatComponentText("Undisguised " + BlockHelper.getBlockDisplayName(world, x, y, z)));
+                    entityPlayer.addChatComponentMessage(new ChatComponentText(
+                            (StatCollector.translateToLocal(Strings.UNDISGUISED) + " " + BlockHelper.getBlockDisplayName(world, x, y, z))));
             }
             else
             {
@@ -119,7 +124,8 @@ public class ItemLinker extends Item
         {
             linkTileAtPosition(itemStack, x, y, z);
             if (world.isRemote)
-                entityPlayer.addChatComponentMessage(new ChatComponentText("Linker set to position " + x + ":" + y + ":" + z + " (" + BlockHelper.getBlockDisplayName(world, x, y, z) + ")"));
+                entityPlayer.addChatComponentMessage(new ChatComponentText(
+                        (StatCollector.translateToLocalFormatted(Strings.LINKER_SET, x, y, z, BlockHelper.getBlockDisplayName(world, x, y, z)))));
         }
         return true;
     }
@@ -156,7 +162,7 @@ public class ItemLinker extends Item
             entityPlayer.swingItem();
             unlink(stack);
             if (world.isRemote)
-                entityPlayer.addChatComponentMessage(new ChatComponentText("Linker is no longer linked"));
+                entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocal(Strings.NO_LONGER_LINKED))));
             return stack;
         }
         return super.onItemRightClick(stack, world, entityPlayer);
