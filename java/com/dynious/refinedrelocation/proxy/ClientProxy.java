@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.proxy;
 
 import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
+import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.renderer.*;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -19,6 +20,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileBuffer.class, new RendererBuffer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileSortingChest.class, new RendererSortingChest());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRelocationPortal.class, new RendererRelocationPortal());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileMultiBlockBase.class, new RendererMultiBlock());
 
         MinecraftForgeClient.registerItemRenderer(BlockIds.BLOCK_EXTENDER, new ItemRendererBlockExtender());
         MinecraftForgeClient.registerItemRenderer(BlockIds.BUFFER, new ItemRendererBuffer());

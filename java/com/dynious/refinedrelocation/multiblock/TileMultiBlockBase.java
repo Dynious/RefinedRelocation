@@ -3,6 +3,10 @@ package com.dynious.refinedrelocation.multiblock;
 import com.dynious.refinedrelocation.util.BlockAndMeta;
 import com.dynious.refinedrelocation.util.MultiBlockAndMeta;
 import com.dynious.refinedrelocation.util.Vector3;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.HashMap;
@@ -11,26 +15,29 @@ import java.util.Map;
 
 public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlockLeader
 {
-    private int checkCount = 0;
+    public int timer = 0;
     private boolean isFormed = false;
     protected int type = -1;
 
     @Override
     public void updateEntity()
     {
-        if (!worldObj.isRemote && shouldAutoCheckFormation())
+        timer++;
+        if (shouldAutoCheckFormation())
         {
-            if (checkCount <= 0)
+            if (timer % 200 == 0)
             {
-                checkCount = 200;
                 checkMultiBlock();
             }
-            checkCount--;
         }
     }
 
     private void checkMultiBlock()
     {
+        if (worldObj.isRemote)
+        {
+            return;
+        }
         IMultiBlock multiBlock = MultiBlockRegistry.getMultiBlock(getMultiBlockIdentifier());
         Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
 
@@ -136,11 +143,25 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
 
     protected void onFormationChange()
     {
-
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     public void forceCheck()
     {
         checkMultiBlock();
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setBoolean("isFormed", isFormed);
+        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
+    }
+
+    @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData packet)
+    {
+        isFormed = packet.data.getBoolean("isFormed");
     }
 }

@@ -22,7 +22,6 @@ public class MultiBlockAndMeta
 
     public MultiBlockAndMeta(List<BlockAndMeta> blockAndMeta)
     {
-        System.out.println(blockAndMeta);
         blockAndMetas = new ArrayList<BlockAndMeta>(blockAndMeta);
     }
 

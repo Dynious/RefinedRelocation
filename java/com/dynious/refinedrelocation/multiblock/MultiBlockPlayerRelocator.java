@@ -41,14 +41,14 @@ public class MultiBlockPlayerRelocator implements IMultiBlock
         map.addBlockAtPos(2, 3, 1, Block.blockIron.blockID);
         map.addBlockAtPos(0, 3, 1, Block.blockIron.blockID);
 
-        map.addBlockAtPos(0, 1, 0, Block.fenceIron.blockID);
-        map.addBlockAtPos(0, 1, 2, Block.fenceIron.blockID);
-        map.addBlockAtPos(2, 1, 2, Block.fenceIron.blockID);
-        map.addBlockAtPos(2, 1, 0, Block.fenceIron.blockID);
-        map.addBlockAtPos(0, 2, 0, Block.fenceIron.blockID);
-        map.addBlockAtPos(0, 2, 2, Block.fenceIron.blockID);
-        map.addBlockAtPos(2, 2, 2, Block.fenceIron.blockID);
-        map.addBlockAtPos(2, 2, 0, Block.fenceIron.blockID);
+        map.addBlockAtPos(0, 1, 0, Block.glass.blockID);
+        map.addBlockAtPos(0, 1, 2, Block.glass.blockID);
+        map.addBlockAtPos(2, 1, 2, Block.glass.blockID);
+        map.addBlockAtPos(2, 1, 0, Block.glass.blockID);
+        map.addBlockAtPos(0, 2, 0, Block.glass.blockID);
+        map.addBlockAtPos(0, 2, 2, Block.glass.blockID);
+        map.addBlockAtPos(2, 2, 2, Block.glass.blockID);
+        map.addBlockAtPos(2, 2, 0, Block.glass.blockID);
 
         map.addBlocksAtPos(1, 3, 1, new BlockAndMeta(Block.blockGold.blockID), new BlockAndMeta(Block.blockDiamond.blockID));
         map.addBlockAtPos(1, 0, 1, ModBlocks.relocationController.blockID);
