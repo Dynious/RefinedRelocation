@@ -62,7 +62,7 @@ public class RefinedRelocation
 
         ModMultiBlocks.init();
 
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
+        proxy.registerEventHandlers();
 
         ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallbackHelper());
     }

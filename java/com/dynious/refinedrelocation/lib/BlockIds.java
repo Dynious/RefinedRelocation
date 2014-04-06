@@ -10,7 +10,7 @@ public class BlockIds
     public static int FILTERING_HOPPER_DEFAULT = 1545;
     public static int SORTING_BARREL_DEFAULT = 1546;
     public static int RELOCATION_PORTAL_DEFAULT = 1567;
-    public static int RELOCATION_CONTROLLER_DEFAULT = 1567;
+    public static int RELOCATION_CONTROLLER_DEFAULT = 1568;
 
     public static int BLOCK_EXTENDER;
     public static int BUFFER;

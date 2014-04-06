@@ -20,41 +20,4 @@ public class EventHandler
             event.displayname = "Dynious";
         }
     }
-
-    @ForgeSubscribe
-    public void FOVEvent(FOVUpdateEvent event)
-    {
-        if (Minecraft.getMinecraft().thePlayer.getItemInUse() != null && Minecraft.getMinecraft().thePlayer.getItemInUse().getItem().itemID == ModItems.playerRelocator.itemID)
-        {
-            ModItems.playerRelocator.shiftFOV(Minecraft.getMinecraft().thePlayer.getItemInUse(), event);
-        }
-    }
-
-    @ForgeSubscribe
-    public void onSoundLoad(SoundLoadEvent event)
-    {
-        for (String soundFile : Sounds.sounds)
-        {
-            try
-            {
-                event.manager.addSound(soundFile);
-            }
-            catch (Exception e)
-            {
-                LogHelper.warning("Failed loading sound file: " + soundFile);
-            }
-        }
-    }
-
-    @ForgeSubscribe
-    public void overlayEvent(RenderGameOverlayEvent event)
-    {
-        if (event.type == RenderGameOverlayEvent.ElementType.HELMET)
-        {
-            if (Minecraft.getMinecraft().thePlayer.getItemInUse() != null && Minecraft.getMinecraft().thePlayer.getItemInUse().getItem().itemID == ModItems.playerRelocator.itemID)
-            {
-                ModItems.playerRelocator.renderBlur(Minecraft.getMinecraft().thePlayer.getItemInUse(), event.resolution);
-            }
-        }
-    }
 }

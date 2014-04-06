@@ -129,7 +129,8 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     @Override
     public void toggleFilterOption(int filterIndex)
     {
-        this.setFilterOption(filterIndex, !tile.getFilter().getValue(filterIndex));
+        if (filterIndex >= 0 && filterIndex < lastUserFilter.length())
+            this.setFilterOption(filterIndex, !tile.getFilter().getValue(filterIndex));
     }
 
 }

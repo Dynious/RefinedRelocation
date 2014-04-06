@@ -16,12 +16,16 @@ public class GuiFilterList extends GuiRefinedRelocationWidgetBase
 
     protected GuiCheckboxFilter filters[];
 
-    public int scrollBarAreaWidth = 5;
-    public int scrollBarWidth = 2;
+    public int scrollBarAreaWidth = 10;
+    public int scrollBarWidth = 7;
     public int scrollBarScaledHeight;
     public int scrollBarYPos;
     public int scrollBarXPos;
     public int scrollBarColor = 0xFFAAAAAA;
+
+    public int mouseClickY = -1;
+    public int indexWhenClicked;
+    public int lastNumberOfMoves;
 
     public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile)
     {
@@ -58,14 +62,26 @@ public class GuiFilterList extends GuiRefinedRelocationWidgetBase
     public void recalculateScrollBar()
     {
         int scrollBarTotalHeight = h - 2;
-        this.scrollBarScaledHeight = (int) (scrollBarTotalHeight * numFiltersPerScreen / tile.getFilter().getSize());
-        this.scrollBarYPos = y + 1 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (tile.getFilter().getSize() - numFiltersPerScreen));
-        this.scrollBarXPos = x + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2;
+        this.scrollBarScaledHeight = (int) (scrollBarTotalHeight * numFiltersPerScreen / tile.getFilter().getSize()) + 1;
+        this.scrollBarYPos = y + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (tile.getFilter().getSize() - numFiltersPerScreen));
+        this.scrollBarXPos = x + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
     }
 
     @Override
     public void drawBackground(int mouseX, int mouseY)
     {
+        if (mouseClickY != -1)
+        {
+            int pixelsPerFilter = (h - 2 - scrollBarScaledHeight) / (tile.getFilter().getSize() - numFiltersPerScreen);
+            int numberOfFiltersMoved = (mouseY - mouseClickY) / pixelsPerFilter;
+            if (numberOfFiltersMoved != lastNumberOfMoves)
+            {
+                setCurrentIndex(indexWhenClicked + numberOfFiltersMoved);
+                recalculateScrollBar();
+                lastNumberOfMoves = numberOfFiltersMoved;
+            }
+        }
+
         GL11.glColor4f(1F, 1F, 1F, 1F);
 
         GuiContainer.drawRect(scrollBarXPos - scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, scrollBarColor);
@@ -86,4 +102,35 @@ public class GuiFilterList extends GuiRefinedRelocationWidgetBase
         setCurrentIndex(i > 0 ? getCurrentIndex() - 1 : getCurrentIndex() + 1);
     }
 
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
+    {
+        super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
+
+        if (mouseX >= scrollBarXPos - scrollBarWidth && mouseX <= scrollBarXPos && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight)
+        {
+            mouseClickY = mouseY;
+            indexWhenClicked = getCurrentIndex();
+        }
+    }
+
+    @Override
+    public void draw(int mouseX, int mouseY)
+    {
+        super.draw(mouseX, mouseY);
+    }
+
+
+
+    @Override
+    public void mouseMovedOrUp(int mouseX, int mouseY, int type)
+    {
+        super.mouseMovedOrUp(mouseX, mouseY, type);
+        if (type != -1 && mouseClickY != -1)
+        {
+            mouseClickY = -1;
+            indexWhenClicked = 0;
+            lastNumberOfMoves = 0;
+        }
+    }
 }

@@ -201,4 +201,11 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
         for (IGuiRefinedRelocationWidgetBase child : this.children)
             child.update();
     }
+
+    @Override
+    public void mouseMovedOrUp(int par1, int par2, int par3)
+    {
+        for (IGuiRefinedRelocationWidgetBase child : this.children)
+            child.mouseMovedOrUp(par1, par2, par3);
+    }
 }

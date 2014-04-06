@@ -22,7 +22,7 @@ public class FilterStandard implements IFilterGUI
     private static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
     private static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
 
-    private static final int FILTER_SIZE = 10;
+    private static final int FILTER_SIZE = 11;
     private boolean[] customFilters = new boolean[FILTER_SIZE];
     private boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     private String userFilter = "";
@@ -110,6 +110,8 @@ public class FilterStandard implements IFilterGUI
                     return true;
                 if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
                     return true;
+                if (customFilters[10] && oreName.contains("seed"))
+                    return true;
             }
 
             if (Booleans.contains(creativeTabs, true))
@@ -195,6 +197,8 @@ public class FilterStandard implements IFilterGUI
                 return "All Gems";
             case 9:
                 return "All Food";
+            case 10:
+                return "All Dyes";
             default:
                 return I18n.getString(CreativeTabs.creativeTabArray[getCreativeTab(place)].getTranslatedTabLabel());
         }
