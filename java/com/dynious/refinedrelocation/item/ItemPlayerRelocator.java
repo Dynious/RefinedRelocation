@@ -23,6 +23,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
@@ -127,12 +128,8 @@ public class ItemPlayerRelocator extends Item
         }
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x"))
         {
-            World world2 = world;
-            if (stack.getTagCompound().hasKey(DIMENSION_TAG))
-            {
-                world2 = DimensionManager.getProvider(stack.getTagCompound().getInteger(DIMENSION_TAG)).worldObj;
-            }
-            if (world == world2 || stack.getTagCompound().getBoolean(INTER_LINK_TAG))
+            World world2 = MinecraftServer.getServer().worldServerForDimension(stack.getTagCompound().getInteger(DIMENSION_TAG));
+            if (world2 != null && (world == world2 || stack.getTagCompound().getBoolean(INTER_LINK_TAG)))
             {
                 TileEntity connectedTile = world2.getTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
                 if (connectedTile != null && connectedTile instanceof TileRelocationController && ((TileRelocationController) connectedTile).isFormed(true))

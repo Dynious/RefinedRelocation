@@ -9,7 +9,6 @@ import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.client.GUIChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

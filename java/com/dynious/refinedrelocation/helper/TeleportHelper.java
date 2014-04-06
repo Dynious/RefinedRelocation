@@ -3,9 +3,7 @@ package com.dynious.refinedrelocation.helper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayerMP;
-
 import net.minecraft.server.MinecraftServer;
-
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldServer;
 

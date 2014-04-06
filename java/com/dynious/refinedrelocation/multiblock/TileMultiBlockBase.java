@@ -12,10 +12,6 @@ import net.minecraft.network.play.server.S1CPacketEntityMetadata;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlockLeader
 {
     public int timer = 0;
