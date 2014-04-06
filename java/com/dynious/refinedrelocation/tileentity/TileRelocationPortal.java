@@ -26,11 +26,6 @@ public class TileRelocationPortal extends TileEntity
     private int dimension = Integer.MAX_VALUE;
     private byte time = 0;
 
-    /**
-     * Used to keep world loaded when portal is open
-     */
-    private World linkedWorld;
-
     public void init(int oldId, int oldMeta)
     {
         this.oldId = oldId;
@@ -52,10 +47,13 @@ public class TileRelocationPortal extends TileEntity
         this.dimension = dimension;
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
-            linkedWorld = MinecraftServer.getServer().worldServerForDimension(dimension);
-            Chunk chunk = linkedWorld.getChunkFromBlockCoords(linkedPos.getX(), linkedPos.getZ());
-            ForgeChunkManager.forceChunk(ForgeChunkManager.requestTicket(RefinedRelocation.instance, linkedWorld, ForgeChunkManager.Type.NORMAL), new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition));
-            LogHelper.info("Force-loaded: " + linkedWorld.provider.getDimensionName());
+            World linkedWorld = MinecraftServer.getServer().worldServerForDimension(dimension);
+            if (linkedWorld != null)
+            {
+                Chunk chunk = linkedWorld.getChunkFromBlockCoords(linkedPos.getX(), linkedPos.getZ());
+                ForgeChunkManager.forceChunk(ForgeChunkManager.requestTicket(RefinedRelocation.instance, linkedWorld, ForgeChunkManager.Type.NORMAL), new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition));
+                LogHelper.info("Force-loaded: " + linkedWorld.provider.getDimensionName());
+            }
         }
     }
 
@@ -63,10 +61,13 @@ public class TileRelocationPortal extends TileEntity
     {
         if (dimension != Integer.MAX_VALUE)
         {
-            linkedWorld = MinecraftServer.getServer().worldServerForDimension(dimension);
-            Chunk chunk = linkedWorld.getChunkFromBlockCoords(linkedPos.getX(), linkedPos.getZ());
-            ForgeChunkManager.unforceChunk(ForgeChunkManager.requestTicket(RefinedRelocation.instance, linkedWorld, ForgeChunkManager.Type.NORMAL), new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition));
-            LogHelper.info("Stopped force-load for: " + linkedWorld.provider.getDimensionName());
+            World linkedWorld = MinecraftServer.getServer().worldServerForDimension(dimension);
+            if (linkedWorld != null)
+            {
+                Chunk chunk = linkedWorld.getChunkFromBlockCoords(linkedPos.getX(), linkedPos.getZ());
+                ForgeChunkManager.unforceChunk(ForgeChunkManager.requestTicket(RefinedRelocation.instance, linkedWorld, ForgeChunkManager.Type.NORMAL), new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition));
+                LogHelper.info("Stopped force-load for: " + linkedWorld.provider.getDimensionName());
+            }
         }
         if (oldId == ModBlocks.relocationPortal.blockID)
         {
