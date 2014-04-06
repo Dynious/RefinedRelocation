@@ -149,4 +149,11 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
         super.keyTyped(c, i);
     }
 
+    @Override
+    protected void mouseMovedOrUp(int par1, int par2, int par3)
+    {
+        for (IGuiRefinedRelocationWidgetBase child : this.children)
+            child.mouseMovedOrUp(par1, par2, par3);
+        super.mouseMovedOrUp(par1, par2, par3);
+    }
 }

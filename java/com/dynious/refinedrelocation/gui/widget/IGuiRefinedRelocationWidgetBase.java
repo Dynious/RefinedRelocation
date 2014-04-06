@@ -33,4 +33,6 @@ public interface IGuiRefinedRelocationWidgetBase extends IGuiParent
     public void handleMouseInput();
 
     public void update();
+
+    public void mouseMovedOrUp(int par1, int par2, int par3);
 }
