@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
 import com.dynious.refinedrelocation.event.EventHandler;
 import com.dynious.refinedrelocation.event.TickEvent;
+import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Reference;
@@ -23,6 +24,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
@@ -61,6 +63,8 @@ public class RefinedRelocation
         ModMultiBlocks.init();
 
         MinecraftForge.EVENT_BUS.register(new EventHandler());
+
+        ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallbackHelper());
     }
 
     @Mod.EventHandler

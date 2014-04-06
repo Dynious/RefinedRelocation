@@ -1,14 +1,10 @@
 package com.dynious.refinedrelocation.block;
 
-import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;

@@ -1,12 +1,20 @@
 package com.dynious.refinedrelocation.tileentity;
 
+import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.helper.TeleportHelper;
 import com.dynious.refinedrelocation.util.Vector3;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.ForgeChunkManager;
 
 import java.util.List;
 
@@ -17,6 +25,11 @@ public class TileRelocationPortal extends TileEntity
     private Vector3 linkedPos;
     private int dimension = Integer.MAX_VALUE;
     private byte time = 0;
+
+    /**
+     * Used to keep world loaded when portal is open
+     */
+    private World linkedWorld;
 
     public void init(int oldId, int oldMeta)
     {
@@ -37,10 +50,24 @@ public class TileRelocationPortal extends TileEntity
         this.oldMeta = oldMeta;
         this.linkedPos = linkedPos;
         this.dimension = dimension;
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer())
+        {
+            linkedWorld = MinecraftServer.getServer().worldServerForDimension(dimension);
+            Chunk chunk = linkedWorld.getChunkFromBlockCoords(linkedPos.getX(), linkedPos.getZ());
+            ForgeChunkManager.forceChunk(ForgeChunkManager.requestTicket(RefinedRelocation.instance, linkedWorld, ForgeChunkManager.Type.NORMAL), new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition));
+            LogHelper.info("Force-loaded: " + linkedWorld.provider.getDimensionName());
+        }
     }
 
     public void returnToOldBlock()
     {
+        if (dimension != Integer.MAX_VALUE)
+        {
+            linkedWorld = MinecraftServer.getServer().worldServerForDimension(dimension);
+            Chunk chunk = linkedWorld.getChunkFromBlockCoords(linkedPos.getX(), linkedPos.getZ());
+            ForgeChunkManager.unforceChunk(ForgeChunkManager.requestTicket(RefinedRelocation.instance, linkedWorld, ForgeChunkManager.Type.NORMAL), new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition));
+            LogHelper.info("Stopped force-load for: " + linkedWorld.provider.getDimensionName());
+        }
         if (oldId == ModBlocks.relocationPortal.blockID)
         {
             oldId = 0;

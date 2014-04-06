@@ -5,9 +5,6 @@ import com.dynious.refinedrelocation.util.BlockAndMeta;
 import com.dynious.refinedrelocation.util.Vector3;
 import net.minecraft.block.Block;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MultiBlockPlayerRelocator implements IMultiBlock
 {
     private static MultiBlockMap map;
