@@ -29,7 +29,7 @@ public class GuiTextInputUserFilter extends GuiTextInput
     @Override
     public void update()
     {
-        if (tile != null)
+        if (tile != null && !tile.getFilter().getUserFilter().equals(textField.getText()))
             setText(tile.getFilter().getUserFilter());
 
         super.update();
