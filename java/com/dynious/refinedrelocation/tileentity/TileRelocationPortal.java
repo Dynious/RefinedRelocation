@@ -48,7 +48,7 @@ public class TileRelocationPortal extends TileEntity
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
             World linkedWorld = MinecraftServer.getServer().worldServerForDimension(dimension);
-            if (linkedWorld != null)
+            if (linkedWorld != null && linkedWorld != worldObj)
             {
                 Chunk chunk = linkedWorld.getChunkFromBlockCoords(linkedPos.getX(), linkedPos.getZ());
                 ForgeChunkManager.forceChunk(ForgeChunkManager.requestTicket(RefinedRelocation.instance, linkedWorld, ForgeChunkManager.Type.NORMAL), new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition));
@@ -62,7 +62,7 @@ public class TileRelocationPortal extends TileEntity
         if (dimension != Integer.MAX_VALUE)
         {
             World linkedWorld = MinecraftServer.getServer().worldServerForDimension(dimension);
-            if (linkedWorld != null)
+            if (linkedWorld != null && linkedWorld != worldObj)
             {
                 Chunk chunk = linkedWorld.getChunkFromBlockCoords(linkedPos.getX(), linkedPos.getZ());
                 ForgeChunkManager.unforceChunk(ForgeChunkManager.requestTicket(RefinedRelocation.instance, linkedWorld, ForgeChunkManager.Type.NORMAL), new ChunkCoordIntPair(chunk.xPosition, chunk.zPosition));
