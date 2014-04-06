@@ -36,7 +36,6 @@ import java.util.UUID;
 
 public class ItemPlayerRelocator extends Item
 {
-    public static final String COOL_DOWN_TAG = "coolDown";
     public static final String UUID_TAG = "UUID";
     public static final String DIMENSION_TAG = "dimId";
     public static final String INTER_LINK_TAG = "interLink";
@@ -47,6 +46,7 @@ public class ItemPlayerRelocator extends Item
         this.setUnlocalizedName(Names.playerRelocator);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setMaxStackSize(1);
+        this.setMaxDamage(12000);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ItemPlayerRelocator extends Item
         {
             if (((TileRelocationController) tile).isFormed(true))
             {
-                if (!stack.hasTagCompound())
+                if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(UUID_TAG))
                 {
                     stack.setTagCompound(new NBTTagCompound());
                     stack.getTagCompound().setString(UUID_TAG, UUID.randomUUID().toString());
@@ -99,25 +99,16 @@ public class ItemPlayerRelocator extends Item
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5)
     {
-        if (stack.hasTagCompound() && stack.getTagCompound().hasKey(COOL_DOWN_TAG))
+        if (stack.getItemDamage() > 0)
         {
-            short coolDown = stack.getTagCompound().getShort(COOL_DOWN_TAG);
-            coolDown--;
-            if (coolDown <= 0)
-            {
-                stack.getTagCompound().removeTag(COOL_DOWN_TAG);
-            }
-            else
-            {
-                stack.getTagCompound().setShort(COOL_DOWN_TAG, coolDown);
-            }
+            stack.setItemDamage(stack.getItemDamage() - 1);
         }
     }
 
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && !stack.getTagCompound().hasKey(COOL_DOWN_TAG))
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && stack.getItemDamage() == 0)
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
             world.playSoundAtEntity(player, Sounds.ambiance, 1F, 1F);
@@ -169,11 +160,11 @@ public class ItemPlayerRelocator extends Item
                         world.playSoundAtEntity(player, Sounds.explosion, 1F, 1F);
                         if (!player.capabilities.isCreativeMode)
                         {
-                            stack.getTagCompound().setShort(COOL_DOWN_TAG, (short) 12000);
+                            stack.setItemDamage(12000);
                         }
                         else
                         {
-                            stack.getTagCompound().setShort(COOL_DOWN_TAG, (short) 10);
+                            stack.setItemDamage(10);
                         }
                     }
                 }
@@ -248,9 +239,9 @@ public class ItemPlayerRelocator extends Item
             {
                 list.add("§4" + StatCollector.translateToLocal(Strings.BROKEN_LINK));
             }
-            if (itemStack.getTagCompound().hasKey(COOL_DOWN_TAG))
+            if (itemStack.getItemDamage() != 0)
             {
-                list.add("§e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, itemStack.getTagCompound().getShort(COOL_DOWN_TAG)/20));
+                list.add("§e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, itemStack.getItemDamage()/20));
             }
         }
     }
