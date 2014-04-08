@@ -77,7 +77,6 @@ public class GuiFilterList extends GuiRefinedRelocationWidgetBase
             if (numberOfFiltersMoved != lastNumberOfMoves)
             {
                 setCurrentIndex(indexWhenClicked + numberOfFiltersMoved);
-                recalculateScrollBar();
                 lastNumberOfMoves = numberOfFiltersMoved;
             }
         }
@@ -113,14 +112,6 @@ public class GuiFilterList extends GuiRefinedRelocationWidgetBase
             indexWhenClicked = getCurrentIndex();
         }
     }
-
-    @Override
-    public void draw(int mouseX, int mouseY)
-    {
-        super.draw(mouseX, mouseY);
-    }
-
-
 
     @Override
     public void mouseMovedOrUp(int mouseX, int mouseY, int type)

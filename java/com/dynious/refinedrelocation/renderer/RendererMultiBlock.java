@@ -45,7 +45,9 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
                             {
                                 if (!tileMultiBlock.getWorldObj().isAirBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ()))
                                 {
-                                    continue;
+                                    Block block = tileMultiBlock.getWorldObj().getBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ());
+                                    if (block != null && block.getRenderType() == 0)
+                                        continue;
                                 }
                                 Object blockInfo = multiBlock.getMultiBlockMap().getBlockAndMetaAtPos(x, y, z);
 

@@ -61,7 +61,7 @@ public class BlockSortingConnector extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        blockIcon = iconRegister.registerIcon(Resources.MOD_ID + ":" + "sortingConnector");
+        blockIcon = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector);
     }
 
     @Override

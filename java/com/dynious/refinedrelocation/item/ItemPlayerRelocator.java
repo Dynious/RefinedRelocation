@@ -16,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -242,6 +243,14 @@ public class ItemPlayerRelocator extends Item
                 list.add("§e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, itemStack.getItemDamage()/20));
             }
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister par1IconRegister)
+    {
+        itemIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
+                + Names.playerRelocator);
     }
 
     @SideOnly(Side.CLIENT)
