@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.lib.ItemIds;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.Settings;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -27,6 +28,10 @@ public class ModItems
 
         GameRegistry.addShapedRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade), "g g", " p ", "g g", 'g', Item.ingotGold, 'p', Block.thinGlass);
-        GameRegistry.addShapedRecipe(new ItemStack(playerRelocator), "gbg", "ede", "gfg", 'g', Item.ingotGold, 'b', Item.blazeRod, 'e', Item.enderPearl, 'd', Item.diamond, 'f', Item.fireballCharge);
+
+        if (!Settings.DISABLE_PLAYER_RELOCATOR)
+        {
+            GameRegistry.addShapedRecipe(new ItemStack(playerRelocator), "gbg", "ede", "gfg", 'g', Item.ingotGold, 'b', Item.blazeRod, 'e', Item.enderPearl, 'd', Item.diamond, 'f', Item.fireballCharge);
+        }
     }
 }

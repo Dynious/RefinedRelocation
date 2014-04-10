@@ -42,7 +42,7 @@ import static cpw.mods.fml.common.Optional.*;
         @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
         @Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity"),
         @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")})
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IEnergyInterface, IPeripheral, IDisguisable
+public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IEnergyHandler, IEnergyInterface, IPeripheral, IDisguisable, ILoopable
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
@@ -484,21 +484,21 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
 
     private boolean isLooping(TileEntity tile)
     {
-        return tile != null && tile instanceof TileBlockExtender && isTileConnectedToThis((TileBlockExtender) tile, new ArrayList<TileBlockExtender>());
+        return tile != null && tile instanceof ILoopable && isTileConnectedToThis((ILoopable) tile, new ArrayList<ILoopable>());
     }
 
-    private boolean isTileConnectedToThis(TileBlockExtender blockExtender, List<TileBlockExtender> visited)
+    private boolean isTileConnectedToThis(ILoopable loopable, List<ILoopable> visited)
     {
         boolean isLooping;
-        TileEntity tile = blockExtender.getConnectedTile();
+        TileEntity tile = loopable.getConnectedTile();
         if (tile == this || visited.contains(tile))
         {
             return true;
         }
-        if (tile != null && tile instanceof TileBlockExtender)
+        if (tile != null && tile instanceof ILoopable)
         {
-            visited.add((TileBlockExtender) tile);
-            isLooping = isTileConnectedToThis((TileBlockExtender) tile, visited);
+            visited.add((ILoopable) tile);
+            isLooping = isTileConnectedToThis((ILoopable) tile, visited);
         }
         else
         {
