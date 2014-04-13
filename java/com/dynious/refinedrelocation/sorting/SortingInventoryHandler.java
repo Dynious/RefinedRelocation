@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.sorting;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -31,7 +32,9 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
     public final void putStackInSlot(ItemStack itemStack, int slotIndex)
     {
         if (slotIndex >= 0 && slotIndex < inventory.getInventory().length)
+        {
             inventory.getInventory()[slotIndex] = itemStack;
+        }
     }
 
     /**
@@ -51,8 +54,11 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
 
         if (itemStack == null || itemStack.stackSize == 0)
         {
-            inventory.getInventory()[par1] = itemStack;
-            inventory.onInventoryChanged();
+            if (par1 >= 0 && par1 < inventory.getInventory().length)
+            {
+                inventory.getInventory()[par1] = itemStack;
+                inventory.onInventoryChanged();
+            }
         }
         else
         {
@@ -61,8 +67,20 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
 
         if (itemStack != null && itemStack.stackSize != 0)
         {
-            inventory.getInventory()[par1] = itemStack;
-            inventory.onInventoryChanged();
+            if (par1 >= 0 && par1 < inventory.getInventory().length)
+            {
+                inventory.getInventory()[par1] = itemStack;
+                inventory.onInventoryChanged();
+            }
+            else
+            {
+                itemStack = inventory.putInInventory(itemStack);
+                if (itemStack != null)
+                {
+                    EntityItem entityItem = new EntityItem(owner.worldObj, owner.xCoord, owner.yCoord, owner.zCoord, itemStack);
+                    owner.worldObj.spawnEntityInWorld(entityItem);
+                }
+            }
         }
 
         syncInventory();

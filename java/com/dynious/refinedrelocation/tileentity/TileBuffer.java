@@ -7,7 +7,7 @@ import buildcraft.api.transport.IPipeTile;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.transport.IItemConduit;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
-import com.dynious.refinedrelocation.helper.ItemStackHelper;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.event.EnergyTileLoadEvent;
@@ -20,7 +20,6 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
@@ -152,7 +151,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
                 }
                 else if (tile instanceof IInventory)
                 {
-                    addingItemStack = ItemStackHelper.insert((IInventory) tile, addingItemStack, outputSide.getOpposite().ordinal(), true);
+                    addingItemStack = IOHelper.insert((IInventory) tile, addingItemStack, outputSide.getOpposite().ordinal(), true);
                     if (addingItemStack == null || addingItemStack.stackSize == 0)
                         return true;
                 }
@@ -215,29 +214,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
 
     public ItemStack insertItemStack(ItemStack itemstack, int side)
     {
-        TileEntity tile = tiles[side];
-        if (tile != null)
-        {
-            if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
-            {
-                return ((IItemConduit) tile).insertItem(ForgeDirection.getOrientation(side).getOpposite(), itemstack);
-            }
-            else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
-            {
-                IPipeTile pipe = (IPipeTile) tile;
-                if (pipe.isPipeConnected(ForgeDirection.getOrientation(side).getOpposite()))
-                {
-                    int size = pipe.injectItem(itemstack, true, ForgeDirection.getOrientation(side).getOpposite());
-                    itemstack.stackSize -= size;
-                    return itemstack;
-                }
-            }
-            else if (tile instanceof IInventory)
-            {
-                return TileEntityHopper.insertStack((IInventory) tile, itemstack, ForgeDirection.OPPOSITES[side]);
-            }
-        }
-        return itemstack;
+        return IOHelper.insert(tiles[side], itemstack, ForgeDirection.getOrientation(side).getOpposite());
     }
 
     @Override

@@ -5,17 +5,9 @@ import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import cpw.mods.fml.common.Loader;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -24,10 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
@@ -52,6 +40,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
     public float maxAcceptedEnergy = 1;
+    public boolean disablePower = true;
 
     public void setConnectedSide(int connectedSide)
     {
@@ -232,7 +221,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
                 }
                 setEnergyInterface((IEnergyInterface) tile);
             }
-            if (updated || tile instanceof TileBlockExtender)
+            if (updated || tile instanceof ILoopable)
             {
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
             }
@@ -327,7 +316,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     @Override
     public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
     {
-        if (getPowerReceptor() != null)
+        if (getPowerReceptor() != null && !disablePower)
         {
             return getPowerReceptor().getPowerReceiver(forgeDirection.getOpposite());
         }
@@ -359,9 +348,14 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     @Override
     public double demandedEnergyUnits()
     {
-        if (getEnergySink() != null)
+        if (getEnergySink() != null && !disablePower)
         {
-            return getEnergySink().demandedEnergyUnits();
+            double demanded =  getEnergySink().demandedEnergyUnits();
+            if (demanded > maxAcceptedEnergy)
+            {
+                demanded = maxAcceptedEnergy;
+            }
+            return demanded;
         }
         return 0;
     }
@@ -370,7 +364,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     @Override
     public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
     {
-        if (getEnergySink() != null)
+        if (getEnergySink() != null && !disablePower)
         {
             double storedEnergy = 0D;
             if (v > maxAcceptedEnergy)
@@ -380,7 +374,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
             }
             return getEnergySink().injectEnergyUnits(forgeDirection.getOpposite(), v) + storedEnergy;
         }
-        return 0;
+        return v;
     }
 
     @Method(modid = "IC2")
@@ -405,7 +399,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
-        if (getEnergyHandler() != null)
+        if (getEnergyHandler() != null  && !disablePower)
         {
             int storedEnergy = 0;
             if (i > maxAcceptedEnergy)
@@ -462,7 +456,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     @Override
     public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
     {
-        if (getEnergyInterface() != null)
+        if (getEnergyInterface() != null  && !disablePower)
         {
             long storedEnergy = 0;
             if (l > maxAcceptedEnergy)

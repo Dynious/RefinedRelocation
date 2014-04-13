@@ -329,7 +329,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
                 }
                 setEnergyInterface((IEnergyInterface) tile);
             }
-            if (updated || tile instanceof TileBlockExtender)
+            if (updated || tile instanceof ILoopable)
             {
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
             }

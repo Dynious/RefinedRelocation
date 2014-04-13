@@ -18,6 +18,7 @@ public class Names
     public static final String relocationPortal = "relocationPortal";
     public static final String relocationController = "relocationController";
     public static final String powerLimiter = "powerLimiter";
+    public static final String sortingInterface = "sortingInterface";
 
     public static final String linker = "linker";
     public static final String sortingUpgrade = "sortingUpgrade";
