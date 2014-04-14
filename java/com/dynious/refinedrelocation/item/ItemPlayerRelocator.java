@@ -46,7 +46,7 @@ public class ItemPlayerRelocator extends Item
         this.setUnlocalizedName(Names.playerRelocator);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setMaxStackSize(1);
-        this.setMaxDamage(12000);
+        this.setMaxDamage(Settings.PLAYER_RELOCATOR_COOLDOWN);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class ItemPlayerRelocator extends Item
                         world.playSoundAtEntity(player, Sounds.explosion, 1F, 1F);
                         if (!player.capabilities.isCreativeMode)
                         {
-                            stack.setItemDamage(12000);
+                            stack.setItemDamage(Settings.PLAYER_RELOCATOR_COOLDOWN);
                         }
                         else
                         {

@@ -38,7 +38,7 @@ public class ConfigHandler
             Settings.DISPLAY_VERSION_RESULT = configuration.get(CATEGORY_SETTINGS, "Display Version Result", Settings.DISPLAY_VERSION_RESULT_DEFAULT).getBoolean(Settings.DISPLAY_VERSION_RESULT_DEFAULT);
             Settings.DISABLE_PLAYER_RELOCATOR = configuration.get(CATEGORY_SETTINGS, "Disable Player Relocator", Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT).getBoolean(Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT);
             Settings.PLAYER_RELOCATOR_DISABLED_AGES = configuration.get(CATEGORY_SETTINGS, "Ages Player Relocator Cannot Teleport From", Settings.PLAYER_RELOCATOR_DISABLED_AGES_DEFAULT).getIntList();
-
+            Settings.PLAYER_RELOCATOR_COOLDOWN = configuration.get(CATEGORY_SETTINGS, "Player Relocator Cooldown Time (ticks)", Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT).getInt(Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT);
 
         } catch (Exception ignored)
         {
