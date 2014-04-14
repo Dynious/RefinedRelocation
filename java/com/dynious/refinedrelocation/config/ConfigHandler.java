@@ -37,6 +37,8 @@ public class ConfigHandler
             Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER = configuration.get(CATEGORY_SETTINGS, "Max Range Wireless Block Extender", Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT).getInt(Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT);
             Settings.DISPLAY_VERSION_RESULT = configuration.get(CATEGORY_SETTINGS, "Display Version Result", Settings.DISPLAY_VERSION_RESULT_DEFAULT).getBoolean(Settings.DISPLAY_VERSION_RESULT_DEFAULT);
             Settings.DISABLE_PLAYER_RELOCATOR = configuration.get(CATEGORY_SETTINGS, "Disable Player Relocator", Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT).getBoolean(Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT);
+            Settings.PLAYER_RELOCATOR_DISABLED_AGES = configuration.get(CATEGORY_SETTINGS, "Ages Player Relocator Cannot Teleport From", Settings.PLAYER_RELOCATOR_DISABLED_AGES_DEFAULT).getIntList();
+
 
         } catch (Exception ignored)
         {

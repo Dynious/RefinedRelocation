@@ -3,10 +3,7 @@ package com.dynious.refinedrelocation.item;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ParticleHelper;
-import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.lib.Sounds;
-import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.lib.*;
 import com.dynious.refinedrelocation.tileentity.TileRelocationController;
 import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
 import com.dynious.refinedrelocation.util.Vector3;
@@ -30,6 +27,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.common.DimensionManager;
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -134,7 +132,11 @@ public class ItemPlayerRelocator extends Item
                 TileEntity connectedTile = world2.getBlockTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
                 if (connectedTile != null && connectedTile instanceof TileRelocationController && ((TileRelocationController) connectedTile).isFormed(true))
                 {
-                    if ((world != world2 && !((TileRelocationController) connectedTile).isIntraLinker()) || !stack.getTagCompound().getString(UUID_TAG).equals(((TileRelocationController) connectedTile).getLinkedUUID()))
+                    if ((world != world2 && !((TileRelocationController) connectedTile).isIntraLinker()) || ArrayUtils.contains(Settings.PLAYER_RELOCATOR_DISABLED_AGES, world.provider.dimensionId))
+                    {
+                        return stack;
+                    }
+                    if (!stack.getTagCompound().getString(UUID_TAG).equals(((TileRelocationController) connectedTile).getLinkedUUID()))
                     {
                         stack.getTagCompound().removeTag(UUID_TAG);
                         return stack;
