@@ -73,11 +73,14 @@ public class GuiFilterList extends GuiRefinedRelocationWidgetBase
         if (mouseClickY != -1)
         {
             int pixelsPerFilter = (h - 2 - scrollBarScaledHeight) / (tile.getFilter().getSize() - numFiltersPerScreen);
-            int numberOfFiltersMoved = (mouseY - mouseClickY) / pixelsPerFilter;
-            if (numberOfFiltersMoved != lastNumberOfMoves)
+            if (pixelsPerFilter != 0)
             {
-                setCurrentIndex(indexWhenClicked + numberOfFiltersMoved);
-                lastNumberOfMoves = numberOfFiltersMoved;
+                int numberOfFiltersMoved = (mouseY - mouseClickY) / pixelsPerFilter;
+                if (numberOfFiltersMoved != lastNumberOfMoves)
+                {
+                    setCurrentIndex(indexWhenClicked + numberOfFiltersMoved);
+                    lastNumberOfMoves = numberOfFiltersMoved;
+                }
             }
         }
 
