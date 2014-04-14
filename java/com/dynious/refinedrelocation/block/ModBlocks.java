@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.block;
 import com.dynious.refinedrelocation.item.ItemBlockExtender;
 import com.dynious.refinedrelocation.item.ItemBuffer;
 import com.dynious.refinedrelocation.item.ItemPowerLimiter;
+import com.dynious.refinedrelocation.item.ItemSortingConnector;
 import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
@@ -26,7 +27,6 @@ public class ModBlocks
     public static BlockRelocationPortal relocationPortal;
     public static BlockRelocationController relocationController;
     public static BlockPowerLimiter powerLimiter;
-    public static BlockSortingInterface sortingInterface;
 
     public static void init()
     {
@@ -38,17 +38,15 @@ public class ModBlocks
         relocationPortal = new BlockRelocationPortal(BlockIds.RELOCATION_PORTAL);
         relocationController = new BlockRelocationController(BlockIds.RELOCATION_CONTROLLER);
         powerLimiter = new BlockPowerLimiter(BlockIds.POWER_LIMITER);
-        sortingInterface = new BlockSortingInterface(BlockIds.SORTING_INTERFACE);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
         GameRegistry.registerBlock(sortingChest, Names.sortingChest);
-        GameRegistry.registerBlock(sortingConnector, Names.sortingConnector);
+        GameRegistry.registerBlock(sortingConnector, ItemSortingConnector.class, Names.sortingConnector);
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
         GameRegistry.registerBlock(relocationController, Names.relocationController);
         GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
-        GameRegistry.registerBlock(sortingInterface, Names.sortingInterface);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));

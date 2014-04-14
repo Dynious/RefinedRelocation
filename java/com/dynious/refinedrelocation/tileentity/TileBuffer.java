@@ -44,7 +44,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     protected boolean firstRun = true;
 
     protected int bufferedSide = -1;
-    protected ItemStack bufferedItemStack = null;
+    public ItemStack bufferedItemStack = null;
 
     public boolean containsItemStack = false;
 
@@ -595,4 +595,6 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     {
         return false;
     }
+
+
 }

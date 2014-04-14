@@ -216,8 +216,11 @@ public class SortingMemberHandler implements ISortingMemberHandler
                     {
                         if (inventory == requester)
                         {
-                            inventory.getSortingHandler().putStackInSlot(itemStack, slot);
-                            return null;
+                            if (inventory.putStackInSlot(itemStack.copy(), slot))
+                            {
+                                inventory.onInventoryChanged();
+                                return null;
+                            }
                         }
                         else
                         {

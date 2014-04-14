@@ -16,12 +16,12 @@ tile.sortingIronChest4.name=Sorting Silver Chest
 tile.sortingIronChest5.name=Sorting Crystal Chest
 tile.sortingIronChest6.name=Sorting Obsidian Chest
 tile.sortingIronChest7.name=DirtChest9001
-tile.sortingConnector.name=Sorting Connector
+tile.sortingConnector0.name=Sorting Connector
+tile.sortingConnector1.name=Sorting Interface
 tile.filteringHopper.name=Filtering Hopper
 tile.sortingBarrel.name=Sorting Barrel
 tile.relocationController.name=Relocation Controller
 tile.powerLimiter.name=Power Limiter
-tile.sortingInterface.name=Sorting Interface
 
 # Item localizations
 item.linker.name=Linker

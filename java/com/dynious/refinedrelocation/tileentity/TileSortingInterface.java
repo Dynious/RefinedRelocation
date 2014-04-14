@@ -8,8 +8,10 @@ import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.lib.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -17,6 +19,8 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
 {
     private ISortingInventoryHandler sortingHandler = APIUtils.createSortingInventoryHandler(this);
     private IFilterGUI filter = APIUtils.createStandardFilter();
+    public ItemStack[] bufferInventory = new ItemStack[1];
+    private int counter;
 
     @Override
     public ISortingInventoryHandler getSortingHandler()
@@ -27,7 +31,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public ItemStack[] getInventory()
     {
-        return new ItemStack[0];
+        return bufferInventory;
     }
 
     @Override
@@ -47,9 +51,20 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
+    public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
+    {
+        itemStack = putInInventory(itemStack);
+        if (itemStack != null)
+        {
+            bufferInventory[0] = itemStack;
+        }
+        return true;
+    }
+
+    @Override
     public Priority getPriority()
     {
-        return Priority.HIGH;
+        return filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL;
     }
 
     @Override
@@ -63,44 +78,78 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         sortingHandler.onTileDestroyed();
     }
 
-    /*
-    Fake Inventory
-     */
+    @Override
+    public void updateEntity()
+    {
+        super.updateEntity();
+        if (bufferInventory[0] != null)
+        {
+            counter++;
+            if (counter % 22 == 0)
+            {
+                ItemStack stack = bufferInventory[0].copy();
+                bufferInventory[0] = null;
+                sortingHandler.setInventorySlotContents(0, stack);
+            }
+        }
+    }
 
     @Override
     public int getSizeInventory()
     {
-        return 0;
+        return 1;
     }
 
     @Override
     public ItemStack getStackInSlot(int i)
     {
-        return null;
+        return bufferInventory[i];
     }
 
     @Override
-    public ItemStack decrStackSize(int i, int j)
+    public ItemStack decrStackSize(int slotIndex, int decrementAmount)
     {
-        return null;
+        ItemStack itemStack = getStackInSlot(slotIndex);
+        if (itemStack != null)
+        {
+            if (itemStack.stackSize <= decrementAmount)
+            {
+                setInventorySlotContents(slotIndex, null);
+            }
+            else
+            {
+                itemStack = itemStack.splitStack(decrementAmount);
+                if (itemStack.stackSize == 0)
+                {
+                    setInventorySlotContents(slotIndex, null);
+                }
+            }
+        }
+
+        return itemStack;
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int i)
+    public ItemStack getStackInSlotOnClosing(int slotIndex)
     {
-        return null;
+        ItemStack itemStack = getStackInSlot(slotIndex);
+        if (itemStack != null)
+        {
+            setInventorySlotContents(slotIndex, null);
+        }
+        return itemStack;
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack)
+    public void setInventorySlotContents(int slotIndex, ItemStack itemStack)
     {
-
+        sortingHandler.setInventorySlotContents(slotIndex, itemStack);
     }
 
     @Override
     public String getInvName()
     {
-        return null;
+        return Names.sortingInterface;
     }
 
     @Override
@@ -112,13 +161,13 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public int getInventoryStackLimit()
     {
-        return 0;
+        return 64;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer)
     {
-        return false;
+        return true;
     }
 
     @Override
@@ -136,6 +185,25 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
-        return false;
+        return bufferInventory[0] == null;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound)
+    {
+        super.readFromNBT(compound);
+        filter.readFromNBT(compound);
+        this.bufferInventory[0] = ItemStack.loadItemStackFromNBT(compound);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound compound)
+    {
+        super.writeToNBT(compound);
+        filter.writeToNBT(compound);
+        if (bufferInventory[0] != null)
+        {
+            this.bufferInventory[0].writeToNBT(compound);
+        }
     }
 }

@@ -79,6 +79,18 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         return chestContents;
     }
 
+
+    @Override
+    public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < chestContents.length)
+        {
+            chestContents[slotIndex] = itemStack;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public ItemStack putInInventory(ItemStack itemStack)
     {

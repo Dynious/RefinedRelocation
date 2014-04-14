@@ -24,20 +24,6 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
     }
 
     /**
-     * Forcibly sets an ItemStack to the slotIndex (Only used client side)
-     *
-     * @param itemStack The stack to add
-     * @param slotIndex The slot index to add the ItemStack in
-     */
-    public final void putStackInSlot(ItemStack itemStack, int slotIndex)
-    {
-        if (slotIndex >= 0 && slotIndex < inventory.getInventory().length)
-        {
-            inventory.getInventory()[slotIndex] = itemStack;
-        }
-    }
-
-    /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
      */
     public final void setInventorySlotContents(int par1, ItemStack itemStack)
@@ -47,18 +33,14 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
             return;
         }
 
-        if (((IInventory) owner).getStackInSlot(par1) != null)
+        if (inventory.getStackInSlot(par1) != null)
         {
-            putStackInSlot(null, par1);
+            inventory.putStackInSlot(null, par1);
         }
 
         if (itemStack == null || itemStack.stackSize == 0)
         {
-            if (par1 >= 0 && par1 < inventory.getInventory().length)
-            {
-                inventory.getInventory()[par1] = itemStack;
-                inventory.onInventoryChanged();
-            }
+            inventory.putStackInSlot(null, par1);
         }
         else
         {
@@ -67,9 +49,8 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
 
         if (itemStack != null && itemStack.stackSize != 0)
         {
-            if (par1 >= 0 && par1 < inventory.getInventory().length)
+            if (inventory.putStackInSlot(itemStack.copy(), par1))
             {
-                inventory.getInventory()[par1] = itemStack;
                 inventory.onInventoryChanged();
             }
             else

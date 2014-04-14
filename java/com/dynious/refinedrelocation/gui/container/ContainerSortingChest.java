@@ -89,7 +89,7 @@ public class ContainerSortingChest extends ContainerHierarchical
     @Override
     public void putStackInSlot(int par1, ItemStack par2ItemStack)
     {
-        ((TileSortingChest) lowerChestInventory).getSortingHandler().putStackInSlot(par2ItemStack, par1);
+        ((TileSortingChest) lowerChestInventory).putStackInSlot(par2ItemStack, par1);
     }
 
     /**

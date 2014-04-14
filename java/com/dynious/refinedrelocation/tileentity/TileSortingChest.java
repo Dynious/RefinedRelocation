@@ -402,6 +402,17 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     }
 
     @Override
+    public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
+    {
+        if (slotIndex >= 0 && slotIndex < inventory.length)
+        {
+            inventory[slotIndex] = itemStack;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public ItemStack putInInventory(ItemStack itemStack)
     {
         for (int slot = 0; slot < getSizeInventory() && itemStack != null && itemStack.stackSize > 0; ++slot)
@@ -449,16 +460,6 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     public Priority getPriority()
     {
         return getFilter().isBlacklisting() ? Priority.LOW : Priority.NORMAL;
-    }
-
-    public boolean getBlackList()
-    {
-        return blacklist;
-    }
-
-    public void setBlackList(boolean value)
-    {
-        blacklist = value;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.block;
 import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.GuiHelper;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBuffer;
 import com.dynious.refinedrelocation.tileentity.TileBuffer;
@@ -127,6 +128,13 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
     }
 
     @Override
+    public void breakBlock(World world, int par2, int par3, int par4, int par5, int par6)
+    {
+        IOHelper.dropInventory(world, par2, par3, par4);
+        super.breakBlock(world, par2, par3, par4, par5, par6);
+    }
+
+    @Override
     protected String getTextureName()
     {
         return "obsidian";
@@ -145,11 +153,11 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
     {
         int meta = world.getBlockMetadata(x, y, z);
 
+        IOHelper.dropInventory(world, x, y, z);
         ArrayList<ItemStack> items = this.getBlockDropped(world, x, y, z, meta, 0);
 
         for (ItemStack item : items)
         {
-
             EntityItem entityitem = new EntityItem(world, x + 0.5F, y + 0.5F, z + 0.5F, item);
 
             entityitem.delayBeforeCanPickup = 10;
