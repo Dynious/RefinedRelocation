@@ -72,7 +72,7 @@ public class BlockHelper
             }
 
             List<ItemStack> dropped = block.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-            if (!dropped.isEmpty())
+            if (dropped != null && !dropped.isEmpty())
             {
                 Collections.sort(dropped, new Comparator<ItemStack>()
                 {

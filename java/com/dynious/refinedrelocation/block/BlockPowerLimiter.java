@@ -3,15 +3,20 @@ package com.dynious.refinedrelocation.block;
 import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -20,7 +25,9 @@ import java.util.ArrayList;
 @Optional.InterfaceList(value = {@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")})
 public class BlockPowerLimiter extends BlockContainer implements IDismantleable
 {
-    protected BlockPowerLimiter(int id)
+    private Icon[] icons;
+
+    public BlockPowerLimiter(int id)
     {
         super(id, Material.rock);
         this.setUnlocalizedName(Names.powerLimiter);
@@ -43,6 +50,24 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
         {
             ((TilePowerLimiter) tile).blocksChanged = true;
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister iconRegister)
+    {
+        icons = new Icon[2];
+        for (int i = 0; i < icons.length; i++)
+        {
+            icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + i);
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Icon getIcon(int side, int metaData)
+    {
+        return icons[metaData];
     }
 
     @Optional.Method(modid = "CoFHCore")
