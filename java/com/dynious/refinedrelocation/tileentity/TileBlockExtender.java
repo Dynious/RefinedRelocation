@@ -341,8 +341,8 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             }
 
             */
-
-            if (updated || tile instanceof TileBlockExtender)
+            
+            if (updated || tile instanceof ILoopable)
             {
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
@@ -499,21 +499,21 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
 
     private boolean isLooping(TileEntity tile)
     {
-        return tile != null && tile instanceof TileBlockExtender && isTileConnectedToThis((TileBlockExtender) tile, new ArrayList<TileBlockExtender>());
+        return tile != null && tile instanceof ILoopable && isTileConnectedToThis((ILoopable) tile, new ArrayList<ILoopable>());
     }
 
-    private boolean isTileConnectedToThis(TileBlockExtender blockExtender, List<TileBlockExtender> visited)
+    private boolean isTileConnectedToThis(ILoopable loopable, List<ILoopable> visited)
     {
         boolean isLooping;
-        TileEntity tile = blockExtender.getConnectedTile();
+        TileEntity tile = loopable.getConnectedTile();
         if (tile == this || visited.contains(tile))
         {
             return true;
         }
-        if (tile != null && tile instanceof TileBlockExtender)
+        if (tile != null && tile instanceof ILoopable)
         {
-            visited.add((TileBlockExtender) tile);
-            isLooping = isTileConnectedToThis((TileBlockExtender) tile, visited);
+            visited.add((ILoopable) tile);
+            isLooping = isTileConnectedToThis((ILoopable) tile, visited);
         }
         else
         {

@@ -41,6 +41,15 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
     public ItemStack[] getInventory();
 
     /**
+     * Forcibly sets an ItemStack to the slotIndex
+     *
+     * @param itemStack The stack to add
+     * @param slotIndex The slot index to add the ItemStack in
+     * @return Were we able to add the ItemStack?
+     */
+    public boolean putStackInSlot(ItemStack itemStack, int slotIndex);
+
+    /**
      * This should try to add the ItemStack to the inventory of this TileEntity
      *
      * @param itemStack The stack that should be put in the inventory

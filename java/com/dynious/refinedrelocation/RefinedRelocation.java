@@ -23,7 +23,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME, dependencies = Reference.DEPENDENCIES)
 public class RefinedRelocation
 {
     @Mod.Instance(Reference.MOD_ID)
@@ -43,6 +43,8 @@ public class RefinedRelocation
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        event.getModMetadata().version = Reference.VERSION;
+        
         VersionChecker.execute();
 
         ConfigHandler.init(event.getSuggestedConfigurationFile());

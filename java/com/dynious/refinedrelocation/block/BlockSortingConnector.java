@@ -1,23 +1,36 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.tileentity.TileBuffer;
 import com.dynious.refinedrelocation.tileentity.TileSortingConnector;
+import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BlockSortingConnector extends BlockContainer
 {
-    protected BlockSortingConnector()
+    private IIcon[] icons;
+
+    public BlockSortingConnector()
     {
         super(Material.rock);
         this.setBlockName(Names.sortingConnector);
@@ -28,18 +41,66 @@ public class BlockSortingConnector extends BlockContainer
     @Override
     public TileEntity createNewTileEntity(World world, int meta)
     {
-        return new TileSortingConnector();
+        return null;
     }
 
     @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6)
+    public TileEntity createTileEntity(World world, int metadata)
     {
-        TileEntity tile = par1World.getTileEntity(par2, par3, par4);
+        switch (metadata)
+        {
+            case 0:
+                return new TileSortingConnector();
+            case 1:
+                return new TileSortingInterface();
+        }
+        return null;
+    }
+
+    @Override
+    public int damageDropped(int metadata)
+    {
+        return metadata;
+    }
+
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
+    {
+        if (world.isRemote)
+        {
+            return true;
+        }
+        else
+        {
+            TileEntity tile = world.getTileEntity(x, y, z);
+            if (tile instanceof TileSortingInterface)
+            {
+                APIUtils.openFilteringGUI(player, world, x, y, z);
+            }
+            return true;
+        }
+    }
+
+    @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs,
+                             List par3List)
+    {
+        for (int j = 0; j < 2; ++j)
+        {
+            par3List.add(new ItemStack(par1, 1, j));
+        }
+    }
+    
+    @Override
+    public void breakBlock(World world, int par2, int par3, int par4, Block par5, int par6)
+    {
+        TileEntity tile = world.getTileEntity(par2, par3, par4);
         if (tile != null && tile instanceof TileSortingConnector)
         {
             ((TileSortingConnector)tile).getSortingHandler().onTileDestroyed();
         }
-        super.breakBlock(par1World, par2, par3, par4, par5, par6);
+        IOHelper.dropInventory(world, par2, par3, par4);
+        super.breakBlock(world, par2, par3, par4, par5, par6);
     }
 
     @Override
@@ -58,13 +119,6 @@ public class BlockSortingConnector extends BlockContainer
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
-        blockIcon = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector);
-    }
-
-    @Override
     public int colorMultiplier(IBlockAccess world, int x, int y, int z)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
@@ -76,5 +130,23 @@ public class BlockSortingConnector extends BlockContainer
                 return blockDisguisedAs.colorMultiplier(world, x, y, z);
         }
         return super.colorMultiplier(world, x, y, z);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister)
+    {
+        icons = new IIcon[2];
+        for (int i = 0; i < icons.length; i++)
+        {
+            icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + i);
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int metaData)
+    {
+        return icons[metaData];
     }
 }

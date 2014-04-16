@@ -21,7 +21,7 @@ public class ContainerSortingIronChest extends ContainerIronChest
     @Override
     public void putStackInSlot(int par1, ItemStack par2ItemStack)
     {
-        ((TileSortingIronChest)chest).getSortingHandler().putStackInSlot(par2ItemStack, par1);
+        ((TileSortingIronChest)chest).putStackInSlot(par2ItemStack, par1);
     }
 
     @Override

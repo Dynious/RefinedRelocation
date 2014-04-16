@@ -103,7 +103,7 @@ public class ItemSortingUpgrade extends Item
             }
             if (Loader.isModLoaded("JABBA"))
             {
-                if (JabbaHelper.upgradeIronToFilteringChest(te))
+                if (JabbaHelper.upgradeToSortingBarrel(te))
                 {
                     stack.stackSize--;
                     return true;

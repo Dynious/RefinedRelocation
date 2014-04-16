@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileSortingConnector extends TileEntity implements ISortingMember, IDisguisable
 {
-    private ISortingMemberHandler sortingMemberHandler = APIUtils.createSortingMemberHandler(this);
+    private ISortingMemberHandler sortingHandler = APIUtils.createSortingMemberHandler(this);
     private boolean isFirstTick = true;
 
     public Block blockDisguisedAs = null;
@@ -62,7 +62,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     {
         if (isFirstTick)
         {
-            sortingMemberHandler.onTileAdded();
+            sortingHandler.onTileAdded();
             isFirstTick = false;
         }
         super.updateEntity();
@@ -71,7 +71,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     @Override
     public ISortingMemberHandler getSortingHandler()
     {
-        return sortingMemberHandler;
+        return sortingHandler;
     }
 
     @Override

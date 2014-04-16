@@ -26,7 +26,7 @@ public class JabbaHelper
         GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingBarrel), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(BetterBarrels.blockBarrel));
     }
 
-    public static boolean upgradeIronToFilteringChest(TileEntity tile)
+    public static boolean upgradeToSortingBarrel(TileEntity tile)
     {
         if (tile instanceof TileEntityBarrel && !(tile instanceof TileSortingBarrel))
         {

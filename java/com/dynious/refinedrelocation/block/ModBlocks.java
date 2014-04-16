@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.item.ItemBlockExtender;
 import com.dynious.refinedrelocation.item.ItemBuffer;
+import com.dynious.refinedrelocation.item.ItemSortingConnector;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
@@ -23,6 +24,7 @@ public class ModBlocks
     public static BlockSortingBarrel sortingBarrel;
     public static BlockRelocationPortal relocationPortal;
     public static BlockRelocationController relocationController;
+    //public static BlockPowerLimiter powerLimiter;
 
     public static void init()
     {
@@ -33,14 +35,16 @@ public class ModBlocks
         filteringHopper = new BlockFilteringHopper();
         relocationPortal = new BlockRelocationPortal();
         relocationController = new BlockRelocationController();
+        //powerLimiter = new BlockPowerLimiter();
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
         GameRegistry.registerBlock(sortingChest, Names.sortingChest);
-        GameRegistry.registerBlock(sortingConnector, Names.sortingConnector);
+        GameRegistry.registerBlock(sortingConnector, ItemSortingConnector.class, Names.sortingConnector);
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
         GameRegistry.registerBlock(relocationController, Names.relocationController);
+        //GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Items.iron_ingot, 'o', Blocks.obsidian, 'g', Blocks.glass_pane, 'e', Items.ender_pearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Blocks.redstone_block, 'b', new ItemStack(blockExtender, 1, 0));
@@ -62,7 +66,10 @@ public class ModBlocks
 
         GameRegistry.addShapedRecipe(new ItemStack(filteringHopper), "g g", " h ", "g g", 'g', Items.gold_ingot, 'h', new ItemStack(Blocks.hopper));
 
-        GameRegistry.addShapedRecipe(new ItemStack(relocationController), "ded", "ece", "ded", 'd', Items.diamond, 'e', Items.ender_eye, 'c', Items.compass);
+        if (!Settings.DISABLE_PLAYER_RELOCATOR)
+        {
+            GameRegistry.addShapedRecipe(new ItemStack(relocationController), "ded", "ece", "ded", 'd', Items.diamond, 'e', Items.ender_eye, 'c', Items.compass);
+        }
 
         if (Loader.isModLoaded("IronChest"))
         {

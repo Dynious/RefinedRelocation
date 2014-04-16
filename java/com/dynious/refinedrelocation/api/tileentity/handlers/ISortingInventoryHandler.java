@@ -6,14 +6,6 @@ import net.minecraft.item.ItemStack;
 public interface ISortingInventoryHandler extends ISortingMemberHandler
 {
     /**
-     * Forcibly sets an ItemStack to the slotIndex (Only used client side)
-     *
-     * @param itemStack The stack to add
-     * @param slotIndex The slot index to add the ItemStack in
-     */
-    public void putStackInSlot(ItemStack itemStack, int slotIndex);
-
-    /**
      * Used when adding an item to the inventory of the TileEntity
      * (Should be called by setInventorySlotContents(...) in the TileEntity class)
      */
