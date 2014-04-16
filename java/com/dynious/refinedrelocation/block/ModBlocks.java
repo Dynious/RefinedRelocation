@@ -26,7 +26,7 @@ public class ModBlocks
     public static BlockSortingBarrel sortingBarrel;
     public static BlockRelocationPortal relocationPortal;
     public static BlockRelocationController relocationController;
-    public static BlockPowerLimiter powerLimiter;
+    //public static BlockPowerLimiter powerLimiter;
 
     public static void init()
     {
@@ -37,7 +37,7 @@ public class ModBlocks
         filteringHopper = new BlockFilteringHopper(BlockIds.FILTERING_HOPPER);
         relocationPortal = new BlockRelocationPortal(BlockIds.RELOCATION_PORTAL);
         relocationController = new BlockRelocationController(BlockIds.RELOCATION_CONTROLLER);
-        powerLimiter = new BlockPowerLimiter(BlockIds.POWER_LIMITER);
+        //powerLimiter = new BlockPowerLimiter(BlockIds.POWER_LIMITER);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
@@ -46,7 +46,7 @@ public class ModBlocks
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
         GameRegistry.registerBlock(relocationController, Names.relocationController);
-        GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
+        //GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));
