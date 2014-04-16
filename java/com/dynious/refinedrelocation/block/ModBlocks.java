@@ -63,6 +63,8 @@ public class ModBlocks
 
         GameRegistry.addShapedRecipe(new ItemStack(sortingChest, 1, 0), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(Blocks.chest));
         GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 0), "gsg", "sis", "gsg", 'g', Items.gold_nugget, 's', Blocks.stone, 'i', Items.iron_ingot);
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 1), "g g", " i ", "g g", 'g', Items.gold_nugget, 'i', new ItemStack(sortingConnector, 4, 0));
+
 
         GameRegistry.addShapedRecipe(new ItemStack(filteringHopper), "g g", " h ", "g g", 'g', Items.gold_ingot, 'h', new ItemStack(Blocks.hopper));
 
