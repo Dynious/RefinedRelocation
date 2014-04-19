@@ -193,4 +193,18 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         super.writeToNBT(nbttagcompound);
         filter.writeToNBT(nbttagcompound);
     }
+
+    @Override
+    public void invalidate()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.onChunkUnload();
+    }
 }

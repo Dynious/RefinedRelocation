@@ -119,4 +119,18 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
         }
         return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
     }
+
+    @Override
+    public void invalidate()
+    {
+        sortingHandler.onTileRemoved();
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        sortingHandler.onTileRemoved();
+        super.onChunkUnload();
+    }
 }

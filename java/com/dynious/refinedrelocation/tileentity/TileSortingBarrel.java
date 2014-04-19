@@ -61,6 +61,20 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
+    public void invalidate()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.onChunkUnload();
+    }
+
+    @Override
     public IFilter getFilter()
     {
         return filter;

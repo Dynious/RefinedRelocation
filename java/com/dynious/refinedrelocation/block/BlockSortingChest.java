@@ -134,7 +134,6 @@ public class BlockSortingChest extends BlockContainer
 
         if (tileentitychest != null)
         {
-            tileentitychest.onTileDestroyed();
 
             for (int j1 = 0; j1 < tileentitychest.getSizeInventory(); ++j1)
             {

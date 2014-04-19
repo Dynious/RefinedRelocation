@@ -73,11 +73,6 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         return filter;
     }
 
-    public void onTileDestroyed()
-    {
-        sortingHandler.onTileDestroyed();
-    }
-
     @Override
     public void updateEntity()
     {

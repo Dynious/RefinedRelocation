@@ -101,11 +101,6 @@ public class BlockSortingConnector extends BlockContainer
     @Override
     public void breakBlock(World world, int par2, int par3, int par4, int par5, int par6)
     {
-        TileEntity tile = world.getBlockTileEntity(par2, par3, par4);
-        if (tile != null && tile instanceof TileSortingConnector)
-        {
-            ((TileSortingConnector)tile).getSortingHandler().onTileDestroyed();
-        }
         IOHelper.dropInventory(world, par2, par3, par4);
         super.breakBlock(world, par2, par3, par4, par5, par6);
     }

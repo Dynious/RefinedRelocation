@@ -26,14 +26,6 @@ public class BlockSortingBarrel extends BlockBarrel
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, int par5, int par6)
-    {
-        TileSortingBarrel tile = (TileSortingBarrel )world.getBlockTileEntity(x, y, z);
-        tile.getSortingHandler().onTileDestroyed();
-        super.breakBlock(world, x, y, z, par5, par6);
-    }
-
-    @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack par6ItemStack)
     {
         super.onBlockPlacedBy(world, x, y, z, entity, par6ItemStack);

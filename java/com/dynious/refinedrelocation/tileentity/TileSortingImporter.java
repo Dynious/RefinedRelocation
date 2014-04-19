@@ -82,7 +82,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     public void setInventorySlotContents(int i, ItemStack itemstack)
     {
         //Convert!
-        bufferInventory[0] = getSortingHandler().filterStackToGroup(itemstack, this, i);
+        bufferInventory[0] = getSortingHandler().getLeader().filterStackToGroup(itemstack, this, i);
     }
 
     @Override
