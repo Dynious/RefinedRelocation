@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileBuffer;
 import com.dynious.refinedrelocation.tileentity.TileSortingConnector;
+import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
 import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -52,6 +53,8 @@ public class BlockSortingConnector extends BlockContainer
                 return new TileSortingConnector();
             case 1:
                 return new TileSortingInterface();
+            case 2:
+                return new TileSortingImporter();
         }
         return null;
     }
@@ -76,6 +79,10 @@ public class BlockSortingConnector extends BlockContainer
             {
                 APIUtils.openFilteringGUI(player, world, x, y, z);
             }
+            else if (tile instanceof TileSortingImporter)
+            {
+                ((TileSortingImporter)tile).onRightClick(player);
+            }
             return true;
         }
     }
@@ -85,7 +92,7 @@ public class BlockSortingConnector extends BlockContainer
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
-        for (int j = 0; j < 2; ++j)
+        for (int j = 0; j < 3; ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }
@@ -136,7 +143,7 @@ public class BlockSortingConnector extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister)
     {
-        icons = new Icon[2];
+        icons = new Icon[3];
         for (int i = 0; i < icons.length; i++)
         {
             icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + i);

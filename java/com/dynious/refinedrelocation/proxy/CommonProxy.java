@@ -27,6 +27,7 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileRelocationController.class, Names.relocationController);
         GameRegistry.registerTileEntity(TilePowerLimiter.class, Names.powerLimiter);
         GameRegistry.registerTileEntity(TileSortingInterface.class, Names.sortingInterface);
+        GameRegistry.registerTileEntity(TileSortingImporter.class, Names.sortingImporter);
 
         if (Loader.isModLoaded("IronChest"))
         {
