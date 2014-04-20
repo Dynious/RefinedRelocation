@@ -1,20 +1,64 @@
 package com.dynious.refinedrelocation.tileentity;
 
+import com.dynious.refinedrelocation.helper.GuiHelper;
+import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.lib.Names;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileSortingImporter extends TileSortingConnector implements IInventory
 {
     private ItemStack[] bufferInventory = new ItemStack[1];
+    private List<ItemStack> itemList = new ArrayList<ItemStack>();
+    private List<Integer> idList = new ArrayList<Integer>();
+    private long lastClickTime;
+    private ItemStack lastAddedStack;
 
     public void onRightClick(EntityPlayer player)
     {
-        if (player.getHeldItem() != null && bufferInventory[0] == null)
+        if (player.isSneaking())
         {
-            setInventorySlotContents(0, player.getHeldItem());
-            player.inventory.mainInventory[player.inventory.currentItem] = null;
+            GuiHelper.openGui(player, this);
+        }
+        else if (bufferInventory[0] == null)
+        {
+            if (player.getHeldItem() != null)
+            {
+                //lastAddedStack = player.getHeldItem();
+                setInventorySlotContents(0, player.getHeldItem());
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+            }
+
+            /*
+            if (worldObj.getWorldTime() - lastClickTime < 10L)
+            {
+                for (int invSlot = 0; invSlot < player.inventory.getSizeInventory(); ++invSlot)
+                {
+                    ItemStack stack = player.inventory.getStackInSlot(invSlot);
+                    if (ItemStackHelper.areItemStacksEqual(lastAddedStack, stack))
+                    {
+                        setInventorySlotContents(0, player.getHeldItem());
+                        player.inventory.setInventorySlotContents(invSlot, null);
+                    }
+                    if (bufferInventory[0] != null)
+                    {
+                        break;
+                    }
+                }
+            }
+            lastClickTime = worldObj.getWorldTime();
+            */
         }
     }
 
@@ -27,7 +71,21 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     @Override
     public ItemStack getStackInSlot(int i)
     {
-        return bufferInventory[i];
+        if (i == 0 )
+        {
+            return bufferInventory[0];
+        }
+        else
+        {
+            if (i - 1 < itemList.size())
+            {
+                return itemList.get(i - 1);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 
     @Override
@@ -81,8 +139,48 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     @Override
     public void setInventorySlotContents(int i, ItemStack itemstack)
     {
-        //Convert!
-        bufferInventory[0] = getSortingHandler().getLeader().filterStackToGroup(itemstack, this, i);
+        if (i == 0)
+        {
+            if (worldObj.isRemote)
+            {
+                return;
+            }
+            int id = OreDictionary.getOreID(itemstack);
+            if (idList.contains(id))
+            {
+                ItemStack stack = itemList.get(idList.indexOf(id)).copy();
+                stack.stackSize = itemstack.stackSize;
+                itemstack = stack;
+            }
+            bufferInventory[0] = getSortingHandler().getLeader().filterStackToGroup(itemstack, this, i);
+        }
+        else
+        {
+            int index = i - 1;
+
+            if (itemstack == null && index < itemList.size())
+            {
+                itemList.remove(index);
+                idList.remove(index);
+            }
+            else if (itemstack != null)
+            {
+                int id = OreDictionary.getOreID(itemstack);
+                if (id != -1)
+                {
+                    if (i - 1 < itemList.size() && (!idList.contains(id) || id == idList.get(index)))
+                    {
+                        itemList.set(index, itemstack);
+                        idList.set(index, id);
+                    }
+                    else if (index == itemList.size() && !idList.contains(id))
+                    {
+                        itemList.add(itemstack);
+                        idList.add(id);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -125,5 +223,35 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
         return bufferInventory[0] == null;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound)
+    {
+        super.readFromNBT(compound);
+        NBTTagList nbttaglist = compound.getTagList("Items");
+        for (int i = 0; i < nbttaglist.tagCount(); ++i)
+        {
+            NBTTagCompound tag = (NBTTagCompound) nbttaglist.tagAt(i);
+            itemList.add(ItemStack.loadItemStackFromNBT(tag));
+            idList.add(tag.getInteger("oreId"));
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound compound)
+    {
+        super.writeToNBT(compound);
+
+        NBTTagList nbttaglist = new NBTTagList();
+
+        for (int i = 0; i < this.itemList.size(); ++i)
+        {
+            NBTTagCompound tag = new NBTTagCompound();
+            this.itemList.get(i).writeToNBT(tag);
+            tag.setInteger("oreId", idList.get(i));
+            nbttaglist.appendTag(tag);
+        }
+        compound.setTag("Items", nbttaglist);
     }
 }
