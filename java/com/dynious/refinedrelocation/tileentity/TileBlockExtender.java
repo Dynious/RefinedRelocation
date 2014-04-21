@@ -109,7 +109,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         this.connectedDirection = ForgeDirection.getOrientation(connectedSide);
         this.blocksChanged = true;
         if (worldObj != null)
-            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+        {
+            worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+            worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+        }
     }
 
     public ForgeDirection getConnectedDirection()

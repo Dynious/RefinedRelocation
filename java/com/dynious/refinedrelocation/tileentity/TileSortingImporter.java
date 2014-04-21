@@ -8,6 +8,7 @@ import com.google.common.collect.Multimap;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,26 +20,24 @@ import java.util.List;
 
 public class TileSortingImporter extends TileSortingConnector implements IInventory
 {
-    private ItemStack[] bufferInventory = new ItemStack[1];
+    public ItemStack[] bufferInventory = new ItemStack[1];
     private List<ItemStack> itemList = new ArrayList<ItemStack>();
     private List<Integer> idList = new ArrayList<Integer>();
     private long lastClickTime;
     private ItemStack lastAddedStack;
+    protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
 
     public void onRightClick(EntityPlayer player)
     {
-        if (player.isSneaking())
+        if (player.isSneaking() || player.getHeldItem() == null)
         {
             GuiHelper.openGui(player, this);
         }
         else if (bufferInventory[0] == null)
         {
-            if (player.getHeldItem() != null)
-            {
-                //lastAddedStack = player.getHeldItem();
-                setInventorySlotContents(0, player.getHeldItem());
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-            }
+            //lastAddedStack = player.getHeldItem();
+            setInventorySlotContents(0, player.getHeldItem());
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 
             /*
             if (worldObj.getWorldTime() - lastClickTime < 10L)
@@ -153,6 +152,10 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
                 itemstack = stack;
             }
             bufferInventory[0] = getSortingHandler().getLeader().filterStackToGroup(itemstack, this, i);
+            if (bufferInventory[0] != null)
+            {
+                syncInventory();
+            }
         }
         else
         {
@@ -210,13 +213,29 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     @Override
     public void openChest()
     {
-
     }
 
     @Override
     public void closeChest()
     {
+    }
 
+    public final void addCrafter(EntityPlayer player)
+    {
+        crafters.add(player);
+    }
+
+    public final void removeCrafter(EntityPlayer player)
+    {
+        crafters.remove(player);
+    }
+
+    public void syncInventory()
+    {
+        for (EntityPlayer crafter : crafters)
+        {
+            ((ICrafting)crafter).sendSlotContents(crafter.openContainer, 0, bufferInventory[0]);
+        }
     }
 
     @Override

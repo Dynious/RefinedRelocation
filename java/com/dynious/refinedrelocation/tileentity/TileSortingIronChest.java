@@ -69,7 +69,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         System.arraycopy(chestContents, 0, newEntity.chestContents, 0, Math.min(newSize, chestContents.length));
         BlockSortingIronChest block = ModBlocks.sortingIronChest;
         block.dropContent(newSize, this, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-        
+
         //Copy filter settings
         NBTTagCompound filterTag = new NBTTagCompound();
         filter.writeToNBT(filterTag);

@@ -48,7 +48,10 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
         blockDisguisedAs = block;
         blockDisguisedMetadata = metadata;
         if (worldObj != null)
+        {
             worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+            worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+        }
     }
 
     @Override
@@ -79,6 +82,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     {
         super.readFromNBT(compound);
         int disguiseBlockId = compound.getInteger("disguisedId");
+        System.out.println(disguiseBlockId);
         if (disguiseBlockId != 0)
         {
             int disguisedMeta = compound.getInteger("disguisedMeta");
@@ -90,6 +94,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
+        System.out.println("Block: " + blockDisguisedAs);
         if (blockDisguisedAs != null)
         {
             compound.setInteger("disguisedId", blockDisguisedAs.blockID);

@@ -19,6 +19,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -277,26 +278,31 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+    public void readFromNBT(NBTTagCompound compound)
     {
-        super.readFromNBT(par1NBTTagCompound);
+        super.readFromNBT(compound);
 
-        if (par1NBTTagCompound.hasKey("bufferedSide"))
+        if (compound.hasKey("bufferedSide"))
         {
-            bufferedSide = par1NBTTagCompound.getByte("bufferedSide");
-            this.bufferedItemStack = ItemStack.loadItemStackFromNBT(par1NBTTagCompound);
+            bufferedSide = compound.getByte("bufferedSide");
+            NBTTagList tagList = compound.getTagList("Items");
+            bufferedItemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) tagList.tagAt(0));
         }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+    public void writeToNBT(NBTTagCompound compound)
     {
-        super.writeToNBT(par1NBTTagCompound);
+        super.writeToNBT(compound);
 
         if (bufferedItemStack != null)
         {
-            par1NBTTagCompound.setByte("bufferedSide", (byte) bufferedSide);
-            this.bufferedItemStack.writeToNBT(par1NBTTagCompound);
+            compound.setByte("bufferedSide", (byte) bufferedSide);
+            NBTTagList nbttaglist = new NBTTagList();
+            NBTTagCompound tag = new NBTTagCompound();
+            this.bufferedItemStack.writeToNBT(tag);
+            nbttaglist.appendTag(tag);
+            compound.setTag("Items", nbttaglist);
         }
     }
 
