@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;
 import mcp.mobius.betterbarrels.common.blocks.BlockBarrel;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -26,21 +27,7 @@ public class BlockSortingBarrel extends BlockBarrel
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block par5, int par6)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
-        TileSortingBarrel tile = (TileSortingBarrel )world.getTileEntity(x, y, z);
-        tile.getSortingHandler().onTileDestroyed();
-        super.breakBlock(world, x, y, z, par5, par6);
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack par6ItemStack)
-    {
-        super.onBlockPlacedBy(world, x, y, z, entity, par6ItemStack);
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileSortingBarrel)
-        {
-            ((TileSortingBarrel)tile).getSortingHandler().onTileAdded();
-        }
     }
 }

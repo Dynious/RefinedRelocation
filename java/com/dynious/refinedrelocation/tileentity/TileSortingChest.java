@@ -60,11 +60,6 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         this.inventory = new ItemStack[getSizeInventory()];
     }
 
-    public void onTileDestroyed()
-    {
-        sortingInventoryHandler.onTileDestroyed();
-    }
-
     /**
      * Returns the number of slots in the inventory.
      */
@@ -354,7 +349,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 255;
 
             if (j >= 0 && j < this.inventory.length)
@@ -393,6 +388,20 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         par1NBTTagCompound.setBoolean("blacklist", blacklist);
 
         par1NBTTagCompound.setByte("facing", (byte)facing);
+    }
+
+    @Override
+    public void invalidate()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.onChunkUnload();
     }
 
     @Override

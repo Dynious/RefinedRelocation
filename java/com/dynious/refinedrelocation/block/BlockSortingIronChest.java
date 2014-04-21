@@ -26,17 +26,6 @@ public class BlockSortingIronChest extends BlockIronChest
     }
 
     @Override
-    public void breakBlock(World world, int i, int j, int k, Block i1, int i2)
-    {
-        TileEntity tile = world.getTileEntity(i, j, k);
-        if (tile instanceof ISortingInventory)
-        {
-            ((ISortingInventory)tile).getSortingHandler().onTileDestroyed();
-        }
-        super.breakBlock(world, i, j, k, i1, i2);
-    }
-
-    @Override
     public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int i1, float f1, float f2, float f3)
     {
         if (world.isRemote)

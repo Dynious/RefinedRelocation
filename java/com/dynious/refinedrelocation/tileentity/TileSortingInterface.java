@@ -12,6 +12,7 @@ import com.dynious.refinedrelocation.lib.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -71,11 +72,6 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     public IFilterGUI getFilter()
     {
         return filter;
-    }
-
-    public void onTileDestroyed()
-    {
-        sortingHandler.onTileDestroyed();
     }
 
     @Override
@@ -173,13 +169,11 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public void openInventory()
     {
-
     }
 
     @Override
     public void closeInventory()
     {
-
     }
 
     @Override
@@ -193,7 +187,11 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     {
         super.readFromNBT(compound);
         filter.readFromNBT(compound);
-        this.bufferInventory[0] = ItemStack.loadItemStackFromNBT(compound);
+        if (compound.hasKey("Items"))
+        {
+            NBTTagList tagList = compound.getTagList("Items", 10);
+            this.bufferInventory[0] = ItemStack.loadItemStackFromNBT(tagList.getCompoundTagAt(0));
+        }
     }
 
     @Override
@@ -203,7 +201,11 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         filter.writeToNBT(compound);
         if (bufferInventory[0] != null)
         {
-            this.bufferInventory[0].writeToNBT(compound);
+            NBTTagList nbttaglist = new NBTTagList();
+            NBTTagCompound tag = new NBTTagCompound();
+            this.bufferInventory[0].writeToNBT(tag);
+            nbttaglist.appendTag(tag);
+            compound.setTag("Items", nbttaglist);
         }
     }
 }

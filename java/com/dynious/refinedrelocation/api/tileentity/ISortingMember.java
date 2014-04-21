@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandl
 /**
  * This is the interface that will make your TileEntity part of the Sorting Network.
  *
- * Make sure you call the onTileAdded() and onTileDestroyed() at the right time.
+ * Make sure you call the onTileAdded() and onTileRemoved() at the right time.
  */
 public interface ISortingMember
 {

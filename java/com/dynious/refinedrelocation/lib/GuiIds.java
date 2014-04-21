@@ -10,7 +10,8 @@ public class GuiIds
     public static final int BUFFER = 20;
     public static final int ADVANCED_BUFFER = 21;
 
-    public static final int FILTERING_CHEST = 30;
+    public static final int SORTING_CHEST = 30;
     
     public static final int FILTERING_HOPPER = 40;
+    public static final int SORTING_IMPORTER = 41;
 }

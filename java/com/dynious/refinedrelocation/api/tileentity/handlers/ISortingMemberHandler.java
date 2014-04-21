@@ -13,14 +13,14 @@ public interface ISortingMemberHandler
     public TileEntity getOwner();
 
     /**
-     * Should be called on first tick from its block
+     * Should be called on first tick from its TileEntity
      */
     public void onTileAdded();
 
     /**
-     * Should be called by breakBlock(...) from its block
+     * Should be called by invalidate() and onChunkUnload() from its TileEntity
      */
-    public void onTileDestroyed();
+    public void onTileRemoved();
 
     /**
      * Get the leader of this SortingMember

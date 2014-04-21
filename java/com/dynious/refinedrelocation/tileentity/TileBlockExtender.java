@@ -94,7 +94,10 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
         blockDisguisedAs = block;
         blockDisguisedMetadata = metadata;
         if (worldObj != null)
+        {
             worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+            worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+        }
     }
 
     @Override

@@ -22,84 +22,117 @@ public class GuiHandler implements IGuiHandler
     }
 
     @Override
-    public Object getServerGuiElement(int GuiId, EntityPlayer player, World world, int x, int y, int z)
+    public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int x, int y, int z)
     {
         TileEntity tile = world.getTileEntity(x, y, z);
 
-        switch (GuiId)
+        if (tile != null)
         {
-            //case GuiIds.BLOCK_EXTENDER:
-            //case GuiIds.BUFFER:
-            case GuiIds.FILTERED:
-                return new ContainerFiltered((IFilterTileGUI) tile);
-            case GuiIds.ADVANCED_BLOCK_EXTENDER:
-            case GuiIds.ADVANCED_BUFFER:
-                return new ContainerAdvanced((IAdvancedTile) tile);
-            case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
-                return new ContainerAdvancedFiltered((IAdvancedFilteredTile) tile);
-            case GuiIds.FILTERING_CHEST:
-                if (Loader.isModLoaded("IronChest") && tile != null && tile instanceof TileSortingIronChest)
-                {
-                    return new ContainerSortingIronChest(player, (TileSortingIronChest) tile, ((TileSortingIronChest) tile).getType(), 0, 0);
-                }
-                return new ContainerSortingChest(player, (TileSortingChest) tile);
-            case GuiIds.FILTERING_HOPPER:
-                return new ContainerFilteringHopper(player.inventory, (IFilterTileGUI) tile);
+            switch (guiId)
+            {
+                case GuiIds.FILTERED:
+                    if (tile instanceof IFilterTileGUI)
+                    {
+                        return new ContainerFiltered((IFilterTileGUI) tile);
+                    }
+                    break;
+                case GuiIds.ADVANCED_BLOCK_EXTENDER:
+                case GuiIds.ADVANCED_BUFFER:
+                    if (tile instanceof IAdvancedTile)
+                    {
+                        return new ContainerAdvanced((IAdvancedTile) tile);
+                    }
+                    break;
+                case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
+                    if (tile instanceof IAdvancedFilteredTile)
+                    {
+                        return new ContainerAdvancedFiltered((IAdvancedFilteredTile) tile);
+                    }
+                    break;
+                case GuiIds.SORTING_CHEST:
+                    if (Loader.isModLoaded("IronChest") && tile instanceof TileSortingIronChest)
+                    {
+                        return new ContainerSortingIronChest(player, (TileSortingIronChest) tile, ((TileSortingIronChest) tile).getType(), 0, 0);
+                    }
+                    else if (tile instanceof TileSortingChest)
+                    {
+                        return new ContainerSortingChest(player, (TileSortingChest) tile);
+                    }
+                    break;
+                case GuiIds.FILTERING_HOPPER:
+                    if (tile instanceof TileFilteringHopper)
+                    {
+                        return new ContainerFilteringHopper(player.inventory, (IFilterTileGUI) tile);
+                    }
+                    break;
+                case GuiIds.SORTING_IMPORTER:
+                    if (tile instanceof TileSortingImporter)
+                    {
+                        return new ContainerSortingImporter(player, (TileSortingImporter) tile);
+                    }
+                    break;
+            }
         }
-
         return null;
     }
 
     @Override
-    public Object getClientGuiElement(int GuiId, EntityPlayer player, World world, int x, int y, int z)
+    public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int x, int y, int z)
     {
         TileEntity tile = world.getTileEntity(x, y, z);
 
-        switch (GuiId)
+        if (tile != null)
         {
-            case GuiIds.ADVANCED_BLOCK_EXTENDER:
-                if (tile != null && tile instanceof TileAdvancedBlockExtender)
-                {
-                    return new GuiAdvancedBlockExtender(player.inventory, (TileAdvancedBlockExtender) tile);
-                }
-                break;
-            case GuiIds.FILTERED:
-                if (tile != null && tile instanceof IFilterTileGUI)
-                {
-                    return new GuiFiltered(player.inventory, (IFilterTileGUI) tile);
-                }
-                break;
-            case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
-                if (tile != null && tile instanceof TileAdvancedFilteredBlockExtender)
-                {
-                    return new GuiAdvancedFilteredBlockExtender(player.inventory, (TileAdvancedFilteredBlockExtender) tile);
-                }
-                break;
-            case GuiIds.ADVANCED_BUFFER:
-                if (tile != null && tile instanceof TileAdvancedBuffer)
-                {
-                    return new GuiAdvancedBuffer(player.inventory, (TileAdvancedBuffer) tile);
-                }
-                break;
-            case GuiIds.FILTERING_CHEST:
-                if (Loader.isModLoaded("IronChest") && tile != null && tile instanceof TileSortingIronChest)
-                {
-                    return new GuiSortingIronChest(GUIChest.GUI.values()[((TileSortingIronChest)tile).getType().ordinal()], player, (TileSortingIronChest) tile);
-                }
-
-                if (tile != null && tile instanceof TileSortingChest)
-                {
-                    return new GuiSortingChest(player, (TileSortingChest) tile);
-                }
-                break;
-            case GuiIds.FILTERING_HOPPER:
-                if (tile != null && tile instanceof TileFilteringHopper)
-                {
-                    return new GuiFilteringHopper(player.inventory, (TileFilteringHopper) tile);
-                }
-                break;
+            switch (guiId)
+            {
+                case GuiIds.ADVANCED_BLOCK_EXTENDER:
+                    if (tile instanceof TileAdvancedBlockExtender)
+                    {
+                        return new GuiAdvancedBlockExtender(player.inventory, (TileAdvancedBlockExtender) tile);
+                    }
+                    break;
+                case GuiIds.FILTERED:
+                    if (tile instanceof IFilterTileGUI)
+                    {
+                        return new GuiFiltered(player.inventory, (IFilterTileGUI) tile);
+                    }
+                    break;
+                case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
+                    if (tile instanceof TileAdvancedFilteredBlockExtender)
+                    {
+                        return new GuiAdvancedFilteredBlockExtender(player.inventory, (TileAdvancedFilteredBlockExtender) tile);
+                    }
+                    break;
+                case GuiIds.ADVANCED_BUFFER:
+                    if (tile instanceof TileAdvancedBuffer)
+                    {
+                        return new GuiAdvancedBuffer(player.inventory, (TileAdvancedBuffer) tile);
+                    }
+                    break;
+                case GuiIds.SORTING_CHEST:
+                    if (Loader.isModLoaded("IronChest") && tile instanceof TileSortingIronChest)
+                    {
+                        return new GuiSortingIronChest(GUIChest.GUI.values()[((TileSortingIronChest) tile).getType().ordinal()], player, (TileSortingIronChest) tile);
+                    }
+                    else if (tile instanceof TileSortingChest)
+                    {
+                        return new GuiSortingChest(player, (TileSortingChest) tile);
+                    }
+                    break;
+                case GuiIds.FILTERING_HOPPER:
+                    if (tile instanceof TileFilteringHopper)
+                    {
+                        return new GuiFilteringHopper(player.inventory, (TileFilteringHopper) tile);
+                    }
+                    break;
+                case GuiIds.SORTING_IMPORTER:
+                    if (tile instanceof TileSortingImporter)
+                    {
+                        return new GuiSortingImporter(player, (TileSortingImporter) tile);
+                    }
+                    break;
+            }
         }
-
         return null;
     }
 

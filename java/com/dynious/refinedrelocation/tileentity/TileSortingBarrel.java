@@ -30,6 +30,12 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
+    public boolean canUpdate()
+    {
+        return isFirstRun || super.canUpdate();
+    }
+
+    @Override
     public ItemStack[] getInventory()
     {
         return new ItemStack[] {getStorage().getStack()};
@@ -58,6 +64,20 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
                 return null;
         }
         return itemStack;
+    }
+
+    @Override
+    public void invalidate()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.onChunkUnload();
     }
 
     @Override

@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SortingMemberHandler implements ISortingMemberHandler
@@ -48,7 +49,7 @@ public class SortingMemberHandler implements ISortingMemberHandler
     /**
      * Should be called by breakBlock(...) from its block
      */
-    public final void onTileDestroyed()
+    public final void onTileRemoved()
     {
         if (owner.getWorldObj().isRemote)
         {
@@ -134,7 +135,21 @@ public class SortingMemberHandler implements ISortingMemberHandler
         }
         if (!childs.contains(child))
         {
+            removeDuplicateChild(child);
             childs.add(child);
+        }
+    }
+
+    private void removeDuplicateChild(ISortingMemberHandler child)
+    {
+        for (Iterator<ISortingMemberHandler> iterator = childs.iterator(); iterator.hasNext(); )
+        {
+            ISortingMemberHandler child1 = iterator.next();
+            if (child.getOwner().xCoord == child1.getOwner().xCoord && child.getOwner().yCoord == child1.getOwner().yCoord && child.getOwner().zCoord == child1.getOwner().zCoord)
+            {
+                iterator.remove();
+                return;
+            }
         }
     }
 

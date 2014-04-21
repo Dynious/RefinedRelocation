@@ -48,7 +48,10 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
         blockDisguisedAs = block;
         blockDisguisedMetadata = metadata;
         if (worldObj != null)
+        {
             worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+            worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+        }
     }
 
     @Override
@@ -118,5 +121,19 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
             compound.setInteger("disguisedMeta", blockDisguisedMetadata);
         }
         return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
+    }
+
+    @Override
+    public void invalidate()
+    {
+        sortingHandler.onTileRemoved();
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        sortingHandler.onTileRemoved();
+        super.onChunkUnload();
     }
 }

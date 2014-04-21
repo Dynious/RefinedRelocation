@@ -41,7 +41,11 @@ public class GuiHelper
             }
             else if (tile instanceof TileSortingChest || (Loader.isModLoaded("IronChest") && tile instanceof TileSortingIronChest))
             {
-                guiId = GuiIds.FILTERING_CHEST;
+                guiId = GuiIds.SORTING_CHEST;
+            }
+            else if (tile instanceof TileSortingImporter)
+            {
+                guiId = GuiIds.SORTING_IMPORTER;
             }
 
             if (guiId != -1)

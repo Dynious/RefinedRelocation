@@ -63,10 +63,19 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
             return null;
         }
         TileSortingIronChest newEntity = new TileSortingIronChest(IronChestType.values()[itemChestChanger.getTargetChestOrdinal(getType().ordinal())]);
+
+        //Copy stacks and remove old stacks
         int newSize = newEntity.chestContents.length;
         System.arraycopy(chestContents, 0, newEntity.chestContents, 0, Math.min(newSize, chestContents.length));
         BlockSortingIronChest block = ModBlocks.sortingIronChest;
         block.dropContent(newSize, this, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+
+        //Copy filter settings
+        NBTTagCompound filterTag = new NBTTagCompound();
+        filter.writeToNBT(filterTag);
+        newEntity.filter.readFromNBT(filterTag);
+
+        //Set facing, sort and reset syncTick
         newEntity.setFacing((Byte) ReflectionHelper.getPrivateValue(TileEntityIronChest.class, this, "facing"));
         newEntity.sortTopStacks();
         ReflectionHelper.setPrivateValue(TileEntityIronChest.class, this, -1, "ticksSinceSync");
@@ -192,5 +201,19 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         nbttagcompound.setByte("type", (byte) getType().ordinal());
         super.writeToNBT(nbttagcompound);
         filter.writeToNBT(nbttagcompound);
+    }
+
+    @Override
+    public void invalidate()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.invalidate();
+    }
+
+    @Override
+    public void onChunkUnload()
+    {
+        sortingInventoryHandler.onTileRemoved();
+        super.onChunkUnload();
     }
 }
