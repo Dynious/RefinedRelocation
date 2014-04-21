@@ -2,15 +2,15 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.2",
-			"modVersion":"1.0.1",
-			"changeLog":"Added Sorting Interface + more config options, fixed a few (crash)bugs",
-			"updateURL":"http://www.curseforge.com/media/files/785/386/RefinedRelocation-1.7.2-1.0.1.jar"
+			"modVersion":"1.0.2",
+			"changeLog":"Added Sorting Importer (WIP), fixed a LOT of bugs, lower sound volume",
+			"updateURL":"http://www.curseforge.com/media/files/786/577/RefinedRelocation-1.7.2-1.0.2.jar"
 		},
 		{
 			"mcVersion":"Minecraft 1.6.4",
-			"modVersion":"1.0.1",
-			"changeLog":"Added Sorting Interface + more config options, fixed a few (crash)bugs",
-			"updateURL":"http://www.curseforge.com/media/files/785/385/RefinedRelocation-1.6.4-1.0.1.jar"
+			"modVersion":"1.0.2",
+			"changeLog":"Added Sorting Importer (WIP), fixed a LOT of bugs, lower sound volume",
+			"updateURL":"http://www.curseforge.com/media/files/786/575/RefinedRelocation-1.6.4-1.0.2.jar"
 		}
 	]
 }
