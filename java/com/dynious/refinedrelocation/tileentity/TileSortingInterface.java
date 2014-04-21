@@ -197,7 +197,6 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
-        System.out.println(compound);
         super.writeToNBT(compound);
         filter.writeToNBT(compound);
         if (bufferInventory[0] != null)
