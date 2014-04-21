@@ -26,17 +26,6 @@ public class BlockSortingBarrel extends BlockBarrel
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack par6ItemStack)
-    {
-        super.onBlockPlacedBy(world, x, y, z, entity, par6ItemStack);
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileSortingBarrel)
-        {
-            ((TileSortingBarrel)tile).getSortingHandler().onTileAdded();
-        }
-    }
-
-    @Override
     public void registerIcons(IconRegister iconRegister)
     {
     }

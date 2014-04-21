@@ -134,7 +134,6 @@ public class BlockSortingChest extends BlockContainer
 
         if (tileentitychest != null)
         {
-
             for (int j1 = 0; j1 < tileentitychest.getSizeInventory(); ++j1)
             {
                 ItemStack itemstack = tileentitychest.getStackInSlot(j1);
@@ -171,7 +170,6 @@ public class BlockSortingChest extends BlockContainer
 
             par1World.func_96440_m(par2, par3, par4, par5);
         }
-
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
     }
 

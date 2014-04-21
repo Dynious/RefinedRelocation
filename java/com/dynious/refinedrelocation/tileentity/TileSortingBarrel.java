@@ -30,6 +30,12 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
+    public boolean canUpdate()
+    {
+        return isFirstRun || super.canUpdate();
+    }
+
+    @Override
     public ItemStack[] getInventory()
     {
         return new ItemStack[] {getStorage().getStack()};
