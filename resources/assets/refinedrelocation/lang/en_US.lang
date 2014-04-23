@@ -69,6 +69,7 @@ gui.refinedrelocation.commaSeparation=Separate filters with a comma
 gui.refinedrelocation.wirelessLink=Wireless Link
 gui.refinedrelocation.linkedToAt=Linked to %s at: %s:%s:%s
 gui.refinedrelocation.connections=Connections
+gui.refinedrelocation.oreDictConversion=OreDict. Conversion
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: %s:%s:%s (%s)

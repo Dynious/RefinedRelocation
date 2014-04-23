@@ -238,6 +238,11 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
         }
     }
 
+    public int getItemListSize()
+    {
+        return itemList.size();
+    }
+
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
