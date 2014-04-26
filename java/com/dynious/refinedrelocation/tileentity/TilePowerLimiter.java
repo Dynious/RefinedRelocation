@@ -39,7 +39,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     protected IEnergyInterface energyInterface;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
-    private double maxAcceptedEnergy = 1;
+    private double maxAcceptedEnergy = 10;
     public boolean disablePower = false;
 
     public void setConnectedSide(int connectedSide)
@@ -267,18 +267,18 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
         return false;
     }
 
-    public List<String> getConnectionTypes()
+    public List<EnergyType> getConnectionTypes()
     {
-        List<String> connections = new ArrayList<String>();
+        List<EnergyType> connections = new ArrayList<EnergyType>();
 
         if (Loader.isModLoaded("BuildCraft|Energy") && getPowerReceptor() != null)
-            connections.add("Buildcraft Energy");
+            connections.add(EnergyType.MJ);
         if (Loader.isModLoaded("IC2") && getEnergySink() != null)
-            connections.add("IC2 Energy");
+            connections.add(EnergyType.EU);
         if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
-            connections.add("Thermal Expansion Energy");
+            connections.add(EnergyType.RF);
         if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
-            connections.add("Universal Electricity Energy");
+            connections.add(EnergyType.KJ);
 
         return connections;
     }
@@ -510,6 +510,8 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     {
         super.readFromNBT(compound);
         setConnectedSide(compound.getByte("side"));
+        setMaxAcceptedEnergy(compound.getDouble("maxEnergy"));
+        disablePower = compound.getBoolean("disablePower");
     }
 
     @Override
@@ -517,6 +519,8 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     {
         super.writeToNBT(compound);
         compound.setByte("side", (byte) connectedDirection.ordinal());
+        compound.setDouble("maxEnergy", maxAcceptedEnergy);
+        compound.setBoolean("disablePower", disablePower);
     }
 
     @Override

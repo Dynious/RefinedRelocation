@@ -2,8 +2,8 @@ package com.dynious.refinedrelocation.helper;
 
 public enum EnergyType
 {
-    EU(2.0F),
     MJ(5.0F),
+    EU(2.0F),
     RF(0.5F),
     KJ(0.04F);
 

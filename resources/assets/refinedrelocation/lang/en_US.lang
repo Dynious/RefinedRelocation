@@ -70,6 +70,7 @@ gui.refinedrelocation.wirelessLink=Wireless Link
 gui.refinedrelocation.linkedToAt=Linked to %s at: %s:%s:%s
 gui.refinedrelocation.connections=Connections
 gui.refinedrelocation.oreDictConversion=OreDict. Conversion
+gui.refinedrelocation.maxEnergy=The max energy throughput
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: %s:%s:%s (%s)
