@@ -24,6 +24,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -276,5 +277,24 @@ public class BlockSortingChest extends BlockContainer
     public void registerIcons(IconRegister par1IconRegister)
     {
         this.blockIcon = par1IconRegister.registerIcon("planks_oak");
+    }
+
+    @Override
+    public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)
+    {
+        if (worldObj.isRemote)
+        {
+            return false;
+        }
+        if (axis == ForgeDirection.UP || axis == ForgeDirection.DOWN)
+        {
+            TileEntity tileEntity = worldObj.getBlockTileEntity(x, y, z);
+            if (tileEntity instanceof TileSortingChest) {
+                TileSortingChest sortingChest = (TileSortingChest) tileEntity;
+                sortingChest.rotateAround(axis);
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -20,6 +20,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.List;
 
@@ -475,5 +477,11 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     public ISortingInventoryHandler getSortingHandler()
     {
         return sortingInventoryHandler;
+    }
+
+    public void rotateAround(ForgeDirection axis)
+    {
+        setFacing((byte) ForgeDirection.getOrientation(facing).getRotation(axis).ordinal());
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 }
