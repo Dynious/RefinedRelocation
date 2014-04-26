@@ -8,10 +8,10 @@ import cofh.api.energy.IEnergyHandler;
 import cofh.api.transport.IItemConduit;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.mods.IC2Helper;
+import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +23,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -33,13 +32,8 @@ import universalelectricity.api.energy.IEnergyInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-@Optional.InterfaceList(value = {
-        @Optional.Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
-        @Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy"),
-        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
-        @Optional.Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity")})
-public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHandler, IPowerEmitter, IPowerReceptor, IEnergySink, IEnergyHandler, IEnergyInterface
+@Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy")
+public class TileBuffer extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IPowerEmitter
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean firstRun = true;
@@ -61,7 +55,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
             worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null ? 0 : 1);
             if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
             {
-                MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+                IC2Helper.addToEnergyNet(this);
             }
         }
         if (!worldObj.isRemote)
@@ -146,7 +140,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
                     if (pipe.isPipeConnected(outputSide.getOpposite()))
                     {
                         addingItemStack.stackSize -= pipe.injectItem(addingItemStack, false, outputSide.getOpposite());
-                        if (addingItemStack == null || addingItemStack.stackSize == 0)
+                        if (addingItemStack.stackSize == 0)
                             return true;
                     }
                 }
@@ -384,6 +378,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return inputAmount - i;
     }
 
+    @Optional.Method(modid = "CoFHCore")
     public int insertRedstoneFlux(int amount, int side, boolean simulate)
     {
         TileEntity tile = tiles[side];
@@ -448,6 +443,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return inputAmount - amount;
     }
 
+    @Optional.Method(modid = "IC2")
     public double insertEnergyUnits(double amount, int side)
     {
         TileEntity tile = tiles[side];
@@ -473,7 +469,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     {
         if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
         {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            IC2Helper.removeFromEnergyNet(this);
         }
         super.invalidate();
     }
@@ -483,7 +479,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     {
         if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
         {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            IC2Helper.removeFromEnergyNet(this);
         }
         super.onChunkUnload();
     }
@@ -502,6 +498,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return getPowerReceiver();
     }
 
+    @Optional.Method(modid = "BuildCraft|Energy")
     public PowerHandler.PowerReceiver getPowerReceiver()
     {
         if (powerHandler == null)
@@ -528,6 +525,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         }
     }
 
+    @Optional.Method(modid = "BuildCraft|Energy")
     public float insertMinecraftJoules(float amount, int side)
     {
         TileEntity tile = tiles[side];
@@ -575,6 +573,7 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
         return inputAmount - l;
     }
 
+    @Optional.Method(modid = "UniversalElectricity")
     public long insertUEEnergy(long amount, int side, boolean simulate)
     {
         TileEntity tile = tiles[side];
@@ -601,6 +600,4 @@ public class TileBuffer extends TileEntity implements ISidedInventory, IFluidHan
     {
         return false;
     }
-
-
 }

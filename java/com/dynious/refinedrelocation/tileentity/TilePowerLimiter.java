@@ -5,9 +5,9 @@ import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.EnergyType;
+import com.dynious.refinedrelocation.mods.IC2Helper;
+import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
 import cpw.mods.fml.common.Loader;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -16,20 +16,14 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static cpw.mods.fml.common.Optional.*;
+import static cpw.mods.fml.common.Optional.Method;
 
-@InterfaceList(value = {
-        @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
-        @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
-        @Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity")})
-public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEnergySink, IEnergyHandler, IEnergyInterface, ILoopable
+public class TilePowerLimiter extends TileUniversalElectricity implements ILoopable
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
@@ -72,14 +66,14 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
             this.energySink = energySink;
             if (!worldObj.isRemote)
             {
-                MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+                IC2Helper.addToEnergyNet(this);
             }
         }
         else if (this.energySink != null)
         {
             if (energySink == null && !worldObj.isRemote)
             {
-                MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+                IC2Helper.removeFromEnergyNet(this);
             }
             this.energySink = energySink;
         }
@@ -130,7 +124,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     {
         if (this.getEnergySink() != null && !worldObj.isRemote)
         {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            IC2Helper.removeFromEnergyNet(this);
         }
         super.invalidate();
     }
@@ -140,7 +134,7 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     {
         if (this.getEnergySink() != null && !worldObj.isRemote)
         {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            IC2Helper.removeFromEnergyNet(this);
         }
         super.onChunkUnload();
     }

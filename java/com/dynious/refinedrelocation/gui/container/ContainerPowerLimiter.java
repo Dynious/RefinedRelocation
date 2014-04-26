@@ -1,10 +1,8 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 
 public class ContainerPowerLimiter extends Container
 {

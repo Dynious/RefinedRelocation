@@ -5,7 +5,6 @@ import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.tileentity.TileBuffer;
 import com.dynious.refinedrelocation.tileentity.TileSortingConnector;
 import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
 import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
@@ -23,7 +22,6 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BlockSortingConnector extends BlockContainer

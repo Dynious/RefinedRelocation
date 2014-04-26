@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.command.CommandRefinedRelocation;
 import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
-import com.dynious.refinedrelocation.event.EventHandler;
 import com.dynious.refinedrelocation.event.TickEvent;
 import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.helper.LogHelper;
@@ -25,7 +24,6 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, dependencies = Reference.DEPENDENCIES)
 @NetworkMod(channels = {Reference.CHANNEL_NAME}, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)

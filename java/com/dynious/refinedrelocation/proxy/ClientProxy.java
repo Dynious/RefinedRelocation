@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.proxy;
 
-import com.dynious.refinedrelocation.event.EventHandler;
 import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.mods.IronChestHelper;

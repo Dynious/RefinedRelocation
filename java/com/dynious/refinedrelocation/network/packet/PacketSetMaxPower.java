@@ -1,7 +1,6 @@
 package com.dynious.refinedrelocation.network.packet;
 
 import com.dynious.refinedrelocation.gui.container.ContainerPowerLimiter;
-import com.dynious.refinedrelocation.gui.container.IContainerAdvanced;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.entity.player.EntityPlayer;

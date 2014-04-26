@@ -9,7 +9,6 @@ import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
