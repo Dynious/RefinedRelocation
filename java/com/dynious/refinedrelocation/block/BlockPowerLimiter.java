@@ -5,7 +5,6 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -18,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -51,10 +51,21 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
         }
         else
         {
-            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            TilePowerLimiter tile = (TilePowerLimiter) world.getBlockTileEntity(x, y, z);
+            if (player.isSneaking())
+            {
+                tile.setDisablePower(!tile.getDisablePower());
+                return true;
+            }
             GuiHelper.openGui(player, tile);
             return true;
         }
+    }
+
+    @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
+    {
+        return true;
     }
 
     @Override
@@ -72,7 +83,7 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister)
     {
-        icons = new Icon[2];
+        icons = new Icon[3];
         for (int i = 0; i < icons.length; i++)
         {
             icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + i);
@@ -80,10 +91,27 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public Icon getIcon(int side, int metaData)
+    public Icon getIcon(int par1, int par2)
     {
-        return icons[metaData];
+        return icons[0];
+    }
+
+    @Override
+    public Icon getBlockTexture(IBlockAccess worldObj, int x, int y, int z, int side)
+    {
+        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getBlockTileEntity(x, y, z);
+        if (tile.getConnectedDirection().ordinal() == side)
+        {
+            return icons[2];
+        }
+        else if (tile.getDisablePower())
+        {
+            return icons[1];
+        }
+        else
+        {
+            return icons[0];
+        }
     }
 
     @Optional.Method(modid = "CoFHCore")
@@ -122,7 +150,7 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     @Override
     public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)
     {
-        TileBlockExtender tile = (TileBlockExtender) worldObj.getBlockTileEntity(x, y, z);
+        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getBlockTileEntity(x, y, z);
         return tile.rotateBlock();
     }
 }
