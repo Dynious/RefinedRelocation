@@ -19,7 +19,8 @@ public enum PacketTypeHandler
     RESTRICT_EXTRACTION(PacketRestrictExtraction.class),
     REDSTONE_ENABLED(PacketRedstoneEnabled.class),
     TILE_UPDATE(PacketTileUpdate.class),
-    SWITCH_PAGE(PacketSwitchPage.class);
+    SWITCH_PAGE(PacketSwitchPage.class),
+    SET_MAX_POWER(PacketSetMaxPower.class);
 
     private Class<? extends CustomPacket> clazz;
 

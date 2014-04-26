@@ -71,6 +71,12 @@ public class GuiHandler implements IGuiHandler
                         return new ContainerSortingImporter(player, (TileSortingImporter) tile);
                     }
                     break;
+                case GuiIds.POWER_LIMITER:
+                    if (tile instanceof TilePowerLimiter)
+                    {
+                        return new ContainerPowerLimiter((TilePowerLimiter) tile);
+                    }
+                    break;
             }
         }
         return null;
@@ -129,6 +135,12 @@ public class GuiHandler implements IGuiHandler
                     if (tile instanceof TileSortingImporter)
                     {
                         return new GuiSortingImporter(player, (TileSortingImporter) tile);
+                    }
+                    break;
+                case GuiIds.POWER_LIMITER:
+                    if (tile instanceof TilePowerLimiter)
+                    {
+                        return new GuiPowerLimiter((TilePowerLimiter) tile);
                     }
                     break;
             }

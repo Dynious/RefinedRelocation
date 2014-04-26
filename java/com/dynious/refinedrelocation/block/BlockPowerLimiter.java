@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.block;
 
 import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
@@ -39,6 +40,21 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     public TileEntity createNewTileEntity(World world)
     {
         return new TilePowerLimiter();
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
+    {
+        if (world.isRemote)
+        {
+            return true;
+        }
+        else
+        {
+            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            GuiHelper.openGui(player, tile);
+            return true;
+        }
     }
 
     @Override

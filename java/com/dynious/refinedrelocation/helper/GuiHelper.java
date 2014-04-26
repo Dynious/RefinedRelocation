@@ -48,6 +48,10 @@ public class GuiHelper
             {
                 guiId = GuiIds.SORTING_IMPORTER;
             }
+            else if (tile instanceof TilePowerLimiter)
+            {
+                guiId = GuiIds.POWER_LIMITER;
+            }
 
             if (guiId != -1)
             {

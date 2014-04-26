@@ -4,6 +4,7 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
+import com.dynious.refinedrelocation.helper.EnergyType;
 import cpw.mods.fml.common.Loader;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
@@ -19,7 +20,6 @@ import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static cpw.mods.fml.common.Optional.*;
@@ -39,8 +39,8 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     protected IEnergyInterface energyInterface;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
-    public float maxAcceptedEnergy = 1;
-    public boolean disablePower = true;
+    private double maxAcceptedEnergy = 1;
+    public boolean disablePower = false;
 
     public void setConnectedSide(int connectedSide)
     {
@@ -113,6 +113,16 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
     public TileEntity[] getTiles()
     {
         return tiles;
+    }
+
+    public double getMaxAcceptedEnergy()
+    {
+        return maxAcceptedEnergy;
+    }
+
+    public void setMaxAcceptedEnergy(double value)
+    {
+        maxAcceptedEnergy = value;
     }
 
     @Override
@@ -351,9 +361,9 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
         if (getEnergySink() != null && !disablePower)
         {
             double demanded =  getEnergySink().demandedEnergyUnits();
-            if (demanded > maxAcceptedEnergy)
+            if (demanded > EnergyType.EU.fromInternal(maxAcceptedEnergy))
             {
-                demanded = maxAcceptedEnergy;
+                demanded = EnergyType.EU.fromInternal(maxAcceptedEnergy);
             }
             return demanded;
         }
@@ -367,10 +377,10 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
         if (getEnergySink() != null && !disablePower)
         {
             double storedEnergy = 0D;
-            if (v > maxAcceptedEnergy)
+            if (v > EnergyType.EU.fromInternal(maxAcceptedEnergy))
             {
-                storedEnergy = v - maxAcceptedEnergy;
-                v = maxAcceptedEnergy;
+                storedEnergy = v - EnergyType.EU.fromInternal(maxAcceptedEnergy);
+                v = EnergyType.EU.fromInternal(maxAcceptedEnergy);
             }
             return getEnergySink().injectEnergyUnits(forgeDirection.getOpposite(), v) + storedEnergy;
         }
@@ -402,10 +412,10 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
         if (getEnergyHandler() != null  && !disablePower)
         {
             int storedEnergy = 0;
-            if (i > maxAcceptedEnergy)
+            if (i > EnergyType.RF.fromInternal(maxAcceptedEnergy))
             {
-                storedEnergy = i - (int) maxAcceptedEnergy;
-                i = (int) maxAcceptedEnergy;
+                storedEnergy = i - (int) EnergyType.RF.fromInternal(maxAcceptedEnergy);
+                i = (int) EnergyType.RF.fromInternal(maxAcceptedEnergy);
             }
             return getEnergyHandler().receiveEnergy(forgeDirection.getOpposite(), i, b) + storedEnergy;
         }
@@ -459,10 +469,10 @@ public class TilePowerLimiter extends TileEntity implements IPowerReceptor, IEne
         if (getEnergyInterface() != null  && !disablePower)
         {
             long storedEnergy = 0;
-            if (l > maxAcceptedEnergy)
+            if (l > EnergyType.KJ.fromInternal(maxAcceptedEnergy))
             {
-                storedEnergy = l - (long) maxAcceptedEnergy;
-                l = (long) maxAcceptedEnergy;
+                storedEnergy = l - (long) EnergyType.KJ.fromInternal(maxAcceptedEnergy);
+                l = (long) EnergyType.KJ.fromInternal(maxAcceptedEnergy);
             }
             return getEnergyInterface().onReceiveEnergy(direction.getOpposite(), l, b) + storedEnergy;
         }
