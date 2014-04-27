@@ -22,9 +22,4 @@ public class BlockSortingBarrel extends BlockBarrel
     {
         return new TileSortingBarrel();
     }
-
-    @Override
-    public void registerIcons(IconRegister iconRegister)
-    {
-    }
 }
