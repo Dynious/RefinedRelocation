@@ -64,10 +64,13 @@ public class ModBlocks
         GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 2), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(buffer, 1, 0));
 
         GameRegistry.addShapedRecipe(new ItemStack(sortingChest, 1, 0), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(Block.chest));
+
         GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 0), "gsg", "sis", "gsg", 'g', Item.goldNugget, 's', Block.stone, 'i', Item.ingotIron);
-        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 1), "g g", " i ", "g g", 'g', Item.goldNugget, 'i', new ItemStack(sortingConnector, 4, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 1), "g g", " i ", "g g", 'g', Item.ingotGold, 'i', new ItemStack(sortingConnector, 4, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 2), "rgr", "sis", "rgr", 'g', Item.ingotGold, 's', Item.redstone, 'r', Item.ingotIron, 'i', new ItemStack(sortingConnector, 4, 0));
 
         GameRegistry.addShapedRecipe(new ItemStack(filteringHopper), "g g", " h ", "g g", 'g', Item.ingotGold, 'h', new ItemStack(Block.hopperBlock));
+        GameRegistry.addShapedRecipe(new ItemStack(powerLimiter), "iri", "rbr", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'b', Block.blockRedstone);
 
         if (!Settings.DISABLE_PLAYER_RELOCATOR)
         {
