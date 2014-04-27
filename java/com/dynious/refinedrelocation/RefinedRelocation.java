@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.ForgeChunkManager;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, dependencies = Reference.DEPENDENCIES)
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME,version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 @NetworkMod(channels = {Reference.CHANNEL_NAME}, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class RefinedRelocation
 {
@@ -46,8 +46,6 @@ public class RefinedRelocation
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        event.getModMetadata().version = Reference.VERSION;
-
         LogHelper.init();
         
         VersionChecker.execute();
