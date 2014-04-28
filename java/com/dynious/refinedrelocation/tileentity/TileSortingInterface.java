@@ -13,6 +13,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -22,6 +25,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     private IFilterGUI filter = APIUtils.createStandardFilter();
     public ItemStack[] bufferInventory = new ItemStack[1];
     private int counter;
+    private ForgeDirection connectedSide = ForgeDirection.UNKNOWN;
 
     @Override
     public ISortingInventoryHandler getSortingHandler()
@@ -38,12 +42,12 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public ItemStack putInInventory(ItemStack itemStack)
     {
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+        if (connectedSide != ForgeDirection.UNKNOWN)
         {
-            TileEntity tile = DirectionHelper.getTileAtSide(worldObj, xCoord, yCoord, zCoord, direction);
+            TileEntity tile = DirectionHelper.getTileAtSide(worldObj, xCoord, yCoord, zCoord, connectedSide);
             if (tile != null && !(tile instanceof ISortingMember))
             {
-                itemStack = IOHelper.insert(tile, itemStack, direction.getOpposite());
+                itemStack = IOHelper.insert(tile, itemStack, connectedSide.getOpposite());
                 if (itemStack == null || itemStack.stackSize == 0)
                     return null;
             }
@@ -187,6 +191,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     {
         super.readFromNBT(compound);
         filter.readFromNBT(compound);
+        setConnectedSide(ForgeDirection.getOrientation(compound.getByte("side")));
         if (compound.hasKey("Items"))
         {
             NBTTagList tagList = compound.getTagList("Items");
@@ -199,6 +204,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     {
         super.writeToNBT(compound);
         filter.writeToNBT(compound);
+        compound.setByte("side", (byte) connectedSide.ordinal());
         if (bufferInventory[0] != null)
         {
             NBTTagList nbttaglist = new NBTTagList();
@@ -207,5 +213,37 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
             nbttaglist.appendTag(tag);
             compound.setTag("Items", nbttaglist);
         }
+    }
+
+    @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    {
+        super.onDataPacket(net, pkt);
+        setConnectedSide(ForgeDirection.getOrientation(pkt.data.getByte("side")));
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        Packet132TileEntityData pkt = (Packet132TileEntityData) super.getDescriptionPacket();
+        pkt.data.setByte("side", (byte) connectedSide.ordinal());
+        return pkt;
+    }
+
+    public boolean rotateBlock()
+    {
+        setConnectedSide(ForgeDirection.getOrientation((connectedSide.ordinal() + 1) % ForgeDirection.VALID_DIRECTIONS.length));
+        return true;
+    }
+
+    public void setConnectedSide(ForgeDirection direction)
+    {
+        this.connectedSide = direction;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public ForgeDirection getConnectedSide()
+    {
+        return connectedSide;
     }
 }

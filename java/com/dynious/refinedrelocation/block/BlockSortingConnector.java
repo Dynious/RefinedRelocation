@@ -21,12 +21,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import java.util.List;
 
 public class BlockSortingConnector extends BlockContainer
 {
     private Icon[] icons;
+    private Icon connectedSideInterface;
 
     public BlockSortingConnector(int par1)
     {
@@ -115,7 +117,13 @@ public class BlockSortingConnector extends BlockContainer
             Block blockDisguisedAs = tile.getDisguise();
             int disguisedMeta = tile.blockDisguisedMetadata;
             if (blockDisguisedAs != null)
+            {
                 return blockDisguisedAs.getIcon(side, disguisedMeta);
+            }
+            else if (tile instanceof TileSortingInterface && ((TileSortingInterface) tile).getConnectedSide().ordinal() == side)
+            {
+                return connectedSideInterface;
+            }
         }
         return super.getBlockTexture(world, x, y, z, side);
     }
@@ -143,6 +151,7 @@ public class BlockSortingConnector extends BlockContainer
         {
             icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + i);
         }
+        connectedSideInterface = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 1 + "ConSide");
     }
 
     @Override
@@ -150,5 +159,16 @@ public class BlockSortingConnector extends BlockContainer
     public Icon getIcon(int side, int metaData)
     {
         return icons[metaData];
+    }
+
+    @Override
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileSortingInterface)
+        {
+            return ((TileSortingInterface) tile).rotateBlock();
+        }
+        return false;
     }
 }
