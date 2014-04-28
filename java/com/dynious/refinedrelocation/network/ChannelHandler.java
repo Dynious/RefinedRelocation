@@ -20,7 +20,9 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<IPacket>
         FILTER_OPTION,
         RESTRICT_EXTRACTION,
         REDSTONE_ENABLED,
-        TILE_UPDATE
+        TILE_UPDATE,
+        SWITCH_PAGE,
+        SET_MAX_POWER
     }
 
     public ChannelHandler() {
@@ -33,6 +35,8 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<IPacket>
         addDiscriminator(Packets.RESTRICT_EXTRACTION.ordinal(), PacketRestrictExtraction.class);
         addDiscriminator(Packets.REDSTONE_ENABLED.ordinal(), PacketRedstoneEnabled.class);
         addDiscriminator(Packets.TILE_UPDATE.ordinal(), PacketTileUpdate.class);
+        addDiscriminator(Packets.SWITCH_PAGE.ordinal(), PacketSwitchPage.class);
+        addDiscriminator(Packets.SET_MAX_POWER.ordinal(), PacketSetMaxPower.class);
     }
 
     @Override

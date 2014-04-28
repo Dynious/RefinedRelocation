@@ -290,7 +290,7 @@ public class BlockSortingChest extends BlockContainer
         }
         if (axis == ForgeDirection.UP || axis == ForgeDirection.DOWN)
         {
-            TileEntity tileEntity = worldObj.getBlockTileEntity(x, y, z);
+            TileEntity tileEntity = worldObj.getTileEntity(x, y, z);
             if (tileEntity instanceof TileSortingChest) {
                 TileSortingChest sortingChest = (TileSortingChest) tileEntity;
                 sortingChest.rotateAround(axis);

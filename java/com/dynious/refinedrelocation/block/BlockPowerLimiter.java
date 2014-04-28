@@ -11,8 +11,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -46,7 +48,7 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
         }
         else
         {
-            TilePowerLimiter tile = (TilePowerLimiter) world.getBlockTileEntity(x, y, z);
+            TilePowerLimiter tile = (TilePowerLimiter) world.getTileEntity(x, y, z);
             if (player.isSneaking())
             {
                 tile.setDisablePower(!tile.getDisablePower());
@@ -64,7 +66,7 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int par5)
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block par5)
     {
         super.onNeighborBlockChange(world, x, y, z, par5);
         TileEntity tile = world.getTileEntity(x, y, z);
@@ -91,10 +93,11 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
         return icons[0];
     }
 
+
     @Override
-    public Icon getBlockTexture(IBlockAccess worldObj, int x, int y, int z, int side)
+    public IIcon getIcon(IBlockAccess worldObj, int x, int y, int z, int side)
     {
-        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getBlockTileEntity(x, y, z);
+        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getTileEntity(x, y, z);
         if (tile.getConnectedDirection().ordinal() == side)
         {
             return icons[2];

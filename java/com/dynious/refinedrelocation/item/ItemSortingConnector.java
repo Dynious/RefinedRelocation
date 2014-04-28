@@ -8,7 +8,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemSortingConnector extends ItemBlock
 {
@@ -37,7 +37,7 @@ public class ItemSortingConnector extends ItemBlock
         {
             return false;
         }
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileSortingInterface)
         {
             ((TileSortingInterface) tile).setConnectedSide(ForgeDirection.getOrientation(side).getOpposite());

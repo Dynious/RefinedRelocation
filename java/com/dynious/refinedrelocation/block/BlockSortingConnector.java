@@ -22,7 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -164,7 +164,7 @@ public class BlockSortingConnector extends BlockContainer
     @Override
     public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileSortingInterface)
         {
             return ((TileSortingInterface) tile).rotateBlock();

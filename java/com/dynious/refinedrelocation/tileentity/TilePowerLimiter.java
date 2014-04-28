@@ -15,7 +15,6 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -294,10 +293,12 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
             connections.add(EnergyType.MJ);
         if (Loader.isModLoaded("IC2") && getEnergySink() != null)
             connections.add(EnergyType.EU);
+        /*
         if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
             connections.add(EnergyType.RF);
         if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
             connections.add(EnergyType.KJ);
+        */
 
         return connections;
     }
@@ -547,9 +548,9 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        setConnectedSide(pkt.data.getByte("side"));
-        setDisablePower(pkt.data.getBoolean("disablePower"));
-        worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
+        setConnectedSide(pkt.func_148857_g().getByte("side"));
+        setDisablePower(pkt.func_148857_g().getBoolean("disablePower"));
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
@@ -558,7 +559,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         NBTTagCompound compound = new NBTTagCompound();
         compound.setByte("side", (byte) connectedDirection.ordinal());
         compound.setBoolean("disablePower", getDisablePower());
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
     }
 
     public boolean rotateBlock()

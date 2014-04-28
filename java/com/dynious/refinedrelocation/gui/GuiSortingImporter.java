@@ -3,10 +3,9 @@ package com.dynious.refinedrelocation.gui;
 import com.dynious.refinedrelocation.gui.container.ContainerSortingImporter;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
+import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketSwitchPage;
 import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,7 +56,7 @@ public class GuiSortingImporter extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
-        this.fontRenderer.drawString(StatCollector.translateToLocal(Strings.ORE_DICT_CON), 106 - fontRenderer.getStringWidth(StatCollector.translateToLocal(Strings.ORE_DICT_CON))/2, 6, 4210752);
+        this.fontRendererObj.drawString(StatCollector.translateToLocal(Strings.ORE_DICT_CON), 106 - fontRendererObj.getStringWidth(StatCollector.translateToLocal(Strings.ORE_DICT_CON)) / 2, 6, 4210752);
     }
 
     @Override
@@ -89,11 +88,11 @@ public class GuiSortingImporter extends GuiContainer
         {
             case 0:
                 ((ContainerSortingImporter) inventorySlots).previousPage();
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSwitchPage(true)));
+                NetworkHelper.sendToServer(new PacketSwitchPage(true));
                 break;
             case 1:
                 ((ContainerSortingImporter) inventorySlots).nextPage();
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSwitchPage(false)));
+                NetworkHelper.sendToServer(new PacketSwitchPage(false));
                 break;
         }
     }

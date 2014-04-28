@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.proxy;
 
+import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;

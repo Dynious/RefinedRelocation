@@ -25,13 +25,11 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
-import static cpw.mods.fml.common.Optional.Interface;
 import static cpw.mods.fml.common.Optional.Method;
 
-public class TileBlockExtender extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IPeripheral, IDisguisable, ILoopable
+public class TileBlockExtender extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IDisguisable, ILoopable
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;

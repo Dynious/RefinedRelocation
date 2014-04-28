@@ -2,10 +2,9 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.gui.GuiPowerLimiter;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
+import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketSetMaxPower;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.StringUtils;
 
@@ -34,7 +33,7 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
 
         maxAcceptedEnergy = stringToMaxEnergy(newFilter);
         tile.setMaxAcceptedEnergy(maxAcceptedEnergy);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSetMaxPower(maxAcceptedEnergy)));
+        NetworkHelper.sendToServer(new PacketSetMaxPower(maxAcceptedEnergy));
     }
 
     @Override

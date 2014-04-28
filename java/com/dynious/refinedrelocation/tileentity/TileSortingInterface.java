@@ -13,9 +13,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -216,17 +216,17 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
         super.onDataPacket(net, pkt);
-        setConnectedSide(ForgeDirection.getOrientation(pkt.data.getByte("side")));
+        setConnectedSide(ForgeDirection.getOrientation(pkt.func_148857_g().getByte("side")));
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
-        Packet132TileEntityData pkt = (Packet132TileEntityData) super.getDescriptionPacket();
-        pkt.data.setByte("side", (byte) connectedSide.ordinal());
+        S35PacketUpdateTileEntity pkt = (S35PacketUpdateTileEntity) super.getDescriptionPacket();
+        pkt.func_148857_g().setByte("side", (byte) connectedSide.ordinal());
         return pkt;
     }
 
