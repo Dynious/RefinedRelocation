@@ -239,7 +239,8 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     public void setConnectedSide(ForgeDirection direction)
     {
         this.connectedSide = direction;
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        if (worldObj != null)
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     public ForgeDirection getConnectedSide()
