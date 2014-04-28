@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.command.CommandRefinedRelocation;
 import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
-import com.dynious.refinedrelocation.event.EventHandler;
 import com.dynious.refinedrelocation.event.TickEvent;
 import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
@@ -21,9 +20,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, dependencies = Reference.DEPENDENCIES)
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
 public class RefinedRelocation
 {
     @Mod.Instance(Reference.MOD_ID)
@@ -43,8 +41,6 @@ public class RefinedRelocation
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        event.getModMetadata().version = Reference.VERSION;
-        
         VersionChecker.execute();
 
         ConfigHandler.init(event.getSuggestedConfigurationFile());

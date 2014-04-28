@@ -24,7 +24,7 @@ public class ModBlocks
     public static BlockSortingBarrel sortingBarrel;
     public static BlockRelocationPortal relocationPortal;
     public static BlockRelocationController relocationController;
-    //public static BlockPowerLimiter powerLimiter;
+    public static BlockPowerLimiter powerLimiter;
 
     public static void init()
     {
@@ -35,7 +35,7 @@ public class ModBlocks
         filteringHopper = new BlockFilteringHopper();
         relocationPortal = new BlockRelocationPortal();
         relocationController = new BlockRelocationController();
-        //powerLimiter = new BlockPowerLimiter();
+        powerLimiter = new BlockPowerLimiter();
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
@@ -44,7 +44,7 @@ public class ModBlocks
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
         GameRegistry.registerBlock(relocationController, Names.relocationController);
-        //GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
+        GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Items.iron_ingot, 'o', Blocks.obsidian, 'g', Blocks.glass_pane, 'e', Items.ender_pearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Blocks.redstone_block, 'b', new ItemStack(blockExtender, 1, 0));
@@ -62,11 +62,15 @@ public class ModBlocks
         GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 2), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(buffer, 1, 0));
 
         GameRegistry.addShapedRecipe(new ItemStack(sortingChest, 1, 0), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(Blocks.chest));
-        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 0), "gsg", "sis", "gsg", 'g', Items.gold_nugget, 's', Blocks.stone, 'i', Items.iron_ingot);
-        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 1), "g g", " i ", "g g", 'g', Items.gold_nugget, 'i', new ItemStack(sortingConnector, 4, 0));
-
+        GameRegistry.addShapelessRecipe(new ItemStack(Block.chest), new ItemStack(sortingChest, 1, 0));
+        
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 0), "gsg", "sis", "gsg", 'g', Items.gold_nugget, 's', Blocks.stone, 'i', Items.iron_ingot);
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 1), "g g", " i ", "g g", 'g', Items.gold_nugget, 'i', new ItemStack(sortingConnector, 4, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 2), "rgr", "sis", "rgr", 'g', Item.ingotGold, 's', Item.redstone, 'r', Item.ingotIron, 'i', new ItemStack(sortingConnector, 4, 0));
 
         GameRegistry.addShapedRecipe(new ItemStack(filteringHopper), "g g", " h ", "g g", 'g', Items.gold_ingot, 'h', new ItemStack(Blocks.hopper));
+        GameRegistry.addShapedRecipe(new ItemStack(powerLimiter), "iri", "rbr", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'b', Block.blockRedstone);
+
 
         if (!Settings.DISABLE_PLAYER_RELOCATOR)
         {

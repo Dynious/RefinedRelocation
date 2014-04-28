@@ -40,6 +40,8 @@ public class Strings
     public static final String WIRELESS_LINK =  GUI_PREFIX + "wirelessLink";
     public static final String LINKED_TO_AT =  GUI_PREFIX + "linkedToAt";
     public static final String CONNECTIONS =  GUI_PREFIX + "connections";
+    public static final String ORE_DICT_CON =  GUI_PREFIX + "oreDictConversion";
+    public static final String MAX_ENERGY =  GUI_PREFIX + "maxEnergy";
 
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";

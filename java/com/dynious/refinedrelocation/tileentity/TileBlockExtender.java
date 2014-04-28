@@ -3,9 +3,9 @@ package com.dynious.refinedrelocation.tileentity;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
+import com.dynious.refinedrelocation.mods.IC2Helper;
+import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
 import cpw.mods.fml.common.Loader;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -29,17 +28,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import static cpw.mods.fml.common.Optional.*;
+import static cpw.mods.fml.common.Optional.Interface;
+import static cpw.mods.fml.common.Optional.Method;
 
-@InterfaceList(value = {
-        @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
-        @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
-        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore")
-        /*
-        @Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity"),
-        @Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")
-        */})
-public class TileBlockExtender extends TileEntity implements ISidedInventory, IFluidHandler, IPowerReceptor, IEnergySink, IDisguisable /*, IEnergyHandler, IEnergyInterface, IPeripheral */
+public class TileBlockExtender extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IPeripheral, IDisguisable, ILoopable
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
@@ -149,14 +141,14 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
             this.energySink = energySink;
             if (!worldObj.isRemote)
             {
-                MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+                IC2Helper.addToEnergyNet(this);
             }
         }
         else if (this.energySink != null)
         {
             if (energySink == null && !worldObj.isRemote)
             {
-                MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+                IC2Helper.removeFromEnergyNet(this);
             }
             this.energySink = energySink;
         }
@@ -220,7 +212,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (this.getEnergySink() != null && !worldObj.isRemote)
         {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            IC2Helper.removeFromEnergyNet(this);
         }
         super.invalidate();
     }
@@ -230,7 +222,7 @@ public class TileBlockExtender extends TileEntity implements ISidedInventory, IF
     {
         if (this.getEnergySink() != null && !worldObj.isRemote)
         {
-            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+            IC2Helper.removeFromEnergyNet(this);
         }
         super.onChunkUnload();
     }

@@ -1,9 +1,9 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,7 +38,33 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block par5)
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
+    {
+        if (world.isRemote)
+        {
+            return true;
+        }
+        else
+        {
+            TilePowerLimiter tile = (TilePowerLimiter) world.getBlockTileEntity(x, y, z);
+            if (player.isSneaking())
+            {
+                tile.setDisablePower(!tile.getDisablePower());
+                return true;
+            }
+            GuiHelper.openGui(player, tile);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
+    {
+        return true;
+    }
+
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, int par5)
     {
         super.onNeighborBlockChange(world, x, y, z, par5);
         TileEntity tile = world.getTileEntity(x, y, z);
@@ -52,7 +78,7 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        icons = new IIcon[2];
+        icons = new IIcon[3];
         for (int i = 0; i < icons.length; i++)
         {
             icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + i);
@@ -60,10 +86,27 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metaData)
+    public IIcon getIcon(int par1, int par2)
     {
-        return icons[metaData];
+        return icons[0];
+    }
+
+    @Override
+    public Icon getBlockTexture(IBlockAccess worldObj, int x, int y, int z, int side)
+    {
+        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getBlockTileEntity(x, y, z);
+        if (tile.getConnectedDirection().ordinal() == side)
+        {
+            return icons[2];
+        }
+        else if (tile.getDisablePower())
+        {
+            return icons[1];
+        }
+        else
+        {
+            return icons[0];
+        }
     }
 
     /*
@@ -104,7 +147,7 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
     @Override
     public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)
     {
-        TileBlockExtender tile = (TileBlockExtender) worldObj.getTileEntity(x, y, z);
+        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getTileEntity(x, y, z);
         return tile.rotateBlock();
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerSortingImporter extends ContainerPhantom
 {
     private TileSortingImporter inventory;
+    private int page = 0;
 
     public ContainerSortingImporter(EntityPlayer player, TileSortingImporter inventory)
     {
@@ -15,13 +16,13 @@ public class ContainerSortingImporter extends ContainerPhantom
         inventory.openInventory();
         inventory.addCrafter(player);
 
-        this.addSlotToContainer(new Slot(inventory, 0, 26, 34));
+        this.addSlotToContainer(new Slot(inventory, 0, 26, 35));
 
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 3; x++)
             {
-                this.addSlotToContainer(new SlotPhantom(inventory, 1 + y * 3 + x, 98 + x * 18, 17 + y * 18));
+                this.addSlotToContainer(new SlotPhantom(inventory, 1 + y * 3 + x, 80 + x * 18, 17 + y * 18));
             }
         }
 
@@ -112,5 +113,39 @@ public class ContainerSortingImporter extends ContainerPhantom
         {
             super.putStackInSlot(par1, par2ItemStack);
         }
+    }
+
+    public void nextPage()
+    {
+        if (((SlotPhantom) inventorySlots.get(1)).getSlotIndex() + 8 > inventory.getItemListSize())
+        {
+            return;
+        }
+
+        for (int i = 1; i < 10; i++)
+        {
+            SlotPhantom slot = (SlotPhantom) inventorySlots.get(i);
+            slot.setSlotIndex(slot.getSlotIndex() + 9);
+        }
+        page++;
+    }
+
+    public void previousPage()
+    {
+        if (((SlotPhantom) inventorySlots.get(1)).getSlotIndex() - 9 < 0)
+        {
+            return;
+        }
+        for (int i = 1; i < 10; i++)
+        {
+            SlotPhantom slot = (SlotPhantom) inventorySlots.get(i);
+            slot.setSlotIndex(slot.getSlotIndex() - 9);
+        }
+        page--;
+    }
+
+    public int getPage()
+    {
+        return page;
     }
 }

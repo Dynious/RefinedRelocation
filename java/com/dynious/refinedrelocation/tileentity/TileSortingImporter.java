@@ -1,12 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.helper.GuiHelper;
-import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.lib.Names;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
@@ -236,6 +231,11 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
         {
             ((ICrafting)crafter).sendSlotContents(crafter.openContainer, 0, bufferInventory[0]);
         }
+    }
+
+    public int getItemListSize()
+    {
+        return itemList.size();
     }
 
     @Override

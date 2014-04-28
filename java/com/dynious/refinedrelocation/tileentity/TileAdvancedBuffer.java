@@ -11,15 +11,6 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.ArrayList;
 import java.util.List;
 
-@Optional.InterfaceList(value = {
-        @Optional.Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
-        @Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy"),
-        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2")
-        /*
-        @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore"),
-        @Optional.Interface(iface = "universalelectricity.api.energy.IEnergyInterface", modid = "UniversalElectricity")
-        */
-        })
 public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 {
     private byte[] outputPrioritiesArrayProxy = {0, 1, 2, 3, 4, 5};
