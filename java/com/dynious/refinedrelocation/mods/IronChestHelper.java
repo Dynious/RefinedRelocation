@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.mods;
 
+import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.item.ItemSortingIronChest;
@@ -30,6 +31,7 @@ public class IronChestHelper
     public static void addIronChestBlocks()
     {
         ModBlocks.sortingIronChest = new BlockSortingIronChest(BlockIds.SORTING_IRON_CHEST);
+        ModObjects.sortingIronChest = new ItemStack(ModBlocks.sortingIronChest);
         GameRegistry.registerBlock(ModBlocks.sortingIronChest, ItemSortingIronChest.class, Names.sortingIronChest);
     }
 

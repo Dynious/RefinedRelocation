@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.block;
 
+import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.item.ItemBlockExtender;
 import com.dynious.refinedrelocation.item.ItemBuffer;
 import com.dynious.refinedrelocation.item.ItemPowerLimiter;
@@ -38,6 +39,23 @@ public class ModBlocks
         relocationPortal = new BlockRelocationPortal(BlockIds.RELOCATION_PORTAL);
         relocationController = new BlockRelocationController(BlockIds.RELOCATION_CONTROLLER);
         powerLimiter = new BlockPowerLimiter(BlockIds.POWER_LIMITER);
+
+        ModObjects.blockExtender = new ItemStack(blockExtender);
+        ModObjects.advancedBlockExtender = new ItemStack(blockExtender, 1, 1);
+        ModObjects.filteredBlockExtender = new ItemStack(blockExtender, 1, 2);
+        ModObjects.advancedFilteredBlockExtender = new ItemStack(blockExtender, 1, 3);
+        ModObjects.wirelessBlockExtender = new ItemStack(blockExtender, 1, 4);
+        ModObjects.buffer = new ItemStack(buffer);
+        ModObjects.advancedBuffer = new ItemStack(buffer, 1, 1);
+        ModObjects.filteredBuffer = new ItemStack(buffer, 1, 2);
+        ModObjects.sortingChest = new ItemStack(sortingChest);
+        ModObjects.sortingConnector = new ItemStack(sortingConnector);
+        ModObjects.sortingInterface = new ItemStack(sortingConnector, 1, 1);
+        ModObjects.sortingImporter = new ItemStack(sortingConnector, 1, 2);
+        ModObjects.filteringHopper = new ItemStack(filteringHopper);
+        ModObjects.relocationPortal = new ItemStack(relocationPortal);
+        ModObjects.relocationController = new ItemStack(relocationController);
+        ModObjects.powerLimiter = new ItemStack(powerLimiter);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);

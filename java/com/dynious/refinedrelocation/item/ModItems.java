@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.item;
 
+import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.lib.ItemIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
@@ -21,6 +22,10 @@ public class ModItems
         linker = new ItemLinker(ItemIds.LINKER - ID_SHIFT);
         sortingUpgrade = new ItemSortingUpgrade(ItemIds.SORTING_UPGRADE - ID_SHIFT);
         playerRelocator = new ItemPlayerRelocator(ItemIds.PLAYER_RELOCATOR - ID_SHIFT);
+
+        ModObjects.linker = new ItemStack(linker);
+        ModObjects.sortingUpgrade = new ItemStack(sortingUpgrade);
+        ModObjects.playerRelocator = new ItemStack(playerRelocator);
 
         GameRegistry.registerItem(linker, Names.linker);
         GameRegistry.registerItem(sortingUpgrade, Names.sortingUpgrade);

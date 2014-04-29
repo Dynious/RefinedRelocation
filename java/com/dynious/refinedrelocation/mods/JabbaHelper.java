@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.mods;
 
+import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.block.BlockSortingBarrel;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.BlockIds;
@@ -19,6 +20,7 @@ public class JabbaHelper
     public static void addBarrelBlock()
     {
         ModBlocks.sortingBarrel = new BlockSortingBarrel(BlockIds.SORTING_BARREL);
+        ModObjects.sortingBarrel = new ItemStack(ModBlocks.sortingBarrel);
         GameRegistry.registerBlock(ModBlocks.sortingBarrel, Names.sortingBarrel);
     }
 
