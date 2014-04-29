@@ -34,12 +34,6 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public ItemStack[] getInventory()
-    {
-        return bufferInventory;
-    }
-
-    @Override
     public ItemStack putInInventory(ItemStack itemStack)
     {
         if (connectedSide != ForgeDirection.UNKNOWN)

@@ -30,4 +30,5 @@ public class ModObjects
     /* Mod Dependant Blocks (does not include metadata variants)*/
     public static ItemStack sortingIronChest;
     public static ItemStack sortingBarrel;
+    public static ItemStack sortingAlchemicalChest;
 }

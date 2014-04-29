@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.proxy;
 
 import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.lib.BlockIds;
+import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.renderer.*;
@@ -31,6 +32,11 @@ public class ClientProxy extends CommonProxy
         if (Loader.isModLoaded("IronChest"))
         {
             IronChestHelper.addIronChestRenders();
+        }
+
+        if (Loader.isModLoaded("EE3"))
+        {
+            EE3Helper.addEE3Renders();
         }
     }
 

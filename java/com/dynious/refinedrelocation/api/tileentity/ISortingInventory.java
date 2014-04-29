@@ -34,13 +34,6 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
     public ISortingInventoryHandler getSortingHandler();
 
     /**
-     * Should return all stored ItemStacks in this tile.
-     *
-     * @return The stored ItemStacks
-     */
-    public ItemStack[] getInventory();
-
-    /**
      * Forcibly sets an ItemStack to the slotIndex
      *
      * @param itemStack The stack to add

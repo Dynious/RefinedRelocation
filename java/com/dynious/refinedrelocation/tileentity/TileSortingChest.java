@@ -407,12 +407,6 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     }
 
     @Override
-    public ItemStack[] getInventory()
-    {
-        return inventory;
-    }
-
-    @Override
     public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
     {
         if (slotIndex >= 0 && slotIndex < inventory.length)

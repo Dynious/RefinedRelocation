@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.item.ItemSortingConnector;
 import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
+import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.JabbaHelper;
 import cpw.mods.fml.common.Loader;
@@ -28,6 +29,7 @@ public class ModBlocks
     public static BlockRelocationPortal relocationPortal;
     public static BlockRelocationController relocationController;
     public static BlockPowerLimiter powerLimiter;
+    public static BlockSortingAlchemicalChest sortingAlchemicalChest;
 
     public static void init()
     {
@@ -106,6 +108,12 @@ public class ModBlocks
         {
             JabbaHelper.addBarrelBlock();
             JabbaHelper.addBarrelRecipes();
+        }
+
+        if (Loader.isModLoaded("EE3"))
+        {
+            EE3Helper.addEE3Blocks();
+            EE3Helper.addEE3Recipes();
         }
     }
 }

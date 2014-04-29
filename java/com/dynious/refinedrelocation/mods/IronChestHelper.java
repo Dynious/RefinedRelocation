@@ -22,6 +22,7 @@ import cpw.mods.ironchest.TileEntityIronChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -78,6 +79,11 @@ public class IronChestHelper
                     {
                         chestInventory[i] = null;
                     }
+
+                    NBTTagCompound tag = new NBTTagCompound();
+                    tec.getFilter().writeToNBT(tag);
+                    newchest.getFilter().readFromNBT(tag);
+
                     // Clear the old block out
                     world.setBlock(x, y, z, 0, 0, 3);
                     // Force the Chest TE to reset it's knowledge of neighbouring blocks

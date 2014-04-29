@@ -36,12 +36,6 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
-    public ItemStack[] getInventory()
-    {
-        return new ItemStack[] {getStorage().getStack()};
-    }
-
-    @Override
     public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
     {
         getStorage().setItem(itemStack);

@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.JabbaHelper;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
@@ -104,6 +105,14 @@ public class ItemSortingUpgrade extends Item
             if (Loader.isModLoaded("JABBA"))
             {
                 if (JabbaHelper.upgradeToSortingBarrel(te))
+                {
+                    stack.stackSize--;
+                    return true;
+                }
+            }
+            if (Loader.isModLoaded("EE3"))
+            {
+                if (EE3Helper.upgradeAlchemicalToSortingChest(te))
                 {
                     stack.stackSize--;
                     return true;
