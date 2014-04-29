@@ -1,0 +1,84 @@
+# Block localizations
+tile.blockExtender0.name=方块延长器
+tile.blockExtender1.name=高级方块延长器
+tile.blockExtender2.name=过滤方块延长器
+tile.blockExtender3.name=高级过滤方块延长器
+tile.blockExtender4.name=无线方块延长器
+tile.buffer0.name=缓冲器
+tile.buffer1.name=高级缓冲器
+tile.buffer2.name=过滤缓冲器
+tile.sortingChest.name=分类箱子
+tile.sortingIronChest0.name=分类铁箱子
+tile.sortingIronChest1.name=分类金箱子
+tile.sortingIronChest2.name=分类钻石箱子
+tile.sortingIronChest3.name=分类桶箱子
+tile.sortingIronChest4.name=分类银箱子
+tile.sortingIronChest5.name=分类水晶箱子
+tile.sortingIronChest6.name=分类黑曜石箱子
+tile.sortingIronChest7.name=泥土箱子9001!
+tile.sortingConnector0.name=分类连接器
+tile.sortingConnector1.name=分类接口
+tile.sortingConnector2.name=分类输入器
+tile.filteringHopper.name=过滤漏斗
+tile.sortingBarrel.name=分类桶
+tile.relocationController.name=定位控制器
+tile.powerLimiter.name=能量限制器
+
+# Item localizations
+item.linker.name=连接器
+item.sortingUpgrade.name=分类升级
+item.playerRelocator.name=玩家定位器
+
+# Inventory localizations
+container.sortingChest.name=分类箱子
+itemGroup.RefinedRelocation=精确定位
+
+# GUI localizations
+gui.refinedrelocation.blacklist=黑名单
+gui.refinedrelocation.whitelist=白名单
+gui.refinedrelocation.click=点击
+gui.refinedrelocation.shiftClick=Shift点击
+gui.refinedrelocation.filteredExtr=过滤提取
+gui.refinedrelocation.unfilteredExtr=未过滤提取
+gui.refinedrelocation.maxStackSize=最大物品组数
+gui.refinedrelocation.mode=模式
+gui.refinedrelocation.roundRobin=循环
+gui.refinedrelocation.roundRobinInfo=分散输出\n所有有效面
+gui.refinedrelocation.greedy=Greedy
+gui.refinedrelocation.greedyInfo=只输出到有效面\n拥有最高优先级
+gui.refinedrelocation.spread=传输物品
+gui.refinedrelocation.stack=整组物品
+gui.refinedrelocation.disguised=伪装: %s
+gui.refinedrelocation.undisguised=无伪装
+gui.refinedrelocation.disguisedInfo=使用一个为未建立连接的连接器\n来伪装这个方块
+gui.refinedrelocation.undisguisedInfo=使用一个连接器来伪装方块
+gui.refinedrelocation.connected=已连接
+gui.refinedrelocation.notConnected=未连接
+gui.refinedrelocation.bufferInsInfo=输出面优先级\n导入缓冲器\n的物品会尝试\n被输出到一个有效面\n按照优先级\n(越低数字 = 越高优先级)
+gui.refinedrelocation.blockExtenderInsInfo=导入方向\n物品会被导入\n到一个选定的\n建立连接的物品栏的一侧\n只要他们被导入\n到这个方块延长器\n相关的一侧
+gui.refinedrelocation.redstoneTrans=红石信号传输
+gui.refinedrelocation.enabled=启用
+gui.refinedrelocation.disabled=禁用
+gui.refinedrelocation.active=激活
+gui.refinedrelocation.inactive=未激活
+gui.refinedrelocation.customFilter=自定义过滤器
+gui.refinedrelocation.nameMatching=物品名称匹配中
+gui.refinedrelocation.wildcardChar=通配符
+gui.refinedrelocation.oredictChar=矿物字典查询同类
+gui.refinedrelocation.commaSeparation=分离的过滤器
+gui.refinedrelocation.wirelessLink=无线连接
+gui.refinedrelocation.linkedToAt=连接至 %s : %s:%s:%s
+gui.refinedrelocation.connections=连接
+gui.refinedrelocation.oreDictConversion=矿物字典. 转换
+gui.refinedrelocation.maxEnergy=最大通过能量
+
+#Item Description Localizations
+itemDesc.refinedrelocation.linkedPos=连接位置: %s:%s:%s (%s)
+itemDesc.refinedrelocation.unlinked=未连接
+itemDesc.refinedrelocation.disguisedAs=伪装 %s 成: %s
+itemDesc.refinedrelocation.cannotDisguiseAs=不能伪装成: %s
+itemDesc.refinedrelocation.linkerSet=设置连接器位置: %s:%s:%s (%s)
+itemDesc.refinedrelocation.noLongerLinked=连接器失去连接
+itemDesc.refinedrelocation.interDimensional=空间内连接至: %s
+itemDesc.refinedrelocation.brokenLink=连接断开!
+itemDesc.refinedrelocation.cooldown=冷却: %s
