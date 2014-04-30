@@ -85,12 +85,6 @@ public class ContainerSortingChest extends ContainerHierarchical
         return itemstack;
     }
 
-    @Override
-    public void putStackInSlot(int par1, ItemStack par2ItemStack)
-    {
-        ((TileSortingChest) lowerChestInventory).putStackInSlot(par2ItemStack, par1);
-    }
-
     /**
      * Called when the container is closed.
      */
