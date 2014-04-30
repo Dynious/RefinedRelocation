@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.gui.*;
 import com.dynious.refinedrelocation.gui.container.*;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.tileentity.*;
+import com.pahimar.ee3.client.gui.inventory.GuiAlchemicalChest;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -50,11 +51,7 @@ public class GuiHandler implements IGuiHandler
                     }
                     break;
                 case GuiIds.SORTING_CHEST:
-                    if (Loader.isModLoaded("IronChest") && tile instanceof TileSortingIronChest)
-                    {
-                        return new ContainerSortingIronChest(player, (TileSortingIronChest) tile, ((TileSortingIronChest) tile).getType(), 0, 0);
-                    }
-                    else if (tile instanceof TileSortingChest)
+                    if (tile instanceof TileSortingChest)
                     {
                         return new ContainerSortingChest(player, (TileSortingChest) tile);
                     }
@@ -116,11 +113,7 @@ public class GuiHandler implements IGuiHandler
                     }
                     break;
                 case GuiIds.SORTING_CHEST:
-                    if (Loader.isModLoaded("IronChest") && tile instanceof TileSortingIronChest)
-                    {
-                        return new GuiSortingIronChest(GUIChest.GUI.values()[((TileSortingIronChest) tile).getType().ordinal()], player, (TileSortingIronChest) tile);
-                    }
-                    else if (tile instanceof TileSortingChest)
+                    if (tile instanceof TileSortingChest)
                     {
                         return new GuiSortingChest(player, (TileSortingChest) tile);
                     }

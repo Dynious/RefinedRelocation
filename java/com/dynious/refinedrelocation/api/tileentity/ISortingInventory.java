@@ -15,13 +15,7 @@ import net.minecraft.item.ItemStack;
  *
  * To open the Filtering GUI for this TileEntity also implement {@link IFilterTileGUI}).
  *
- * THIS DOES NOT AUTOMATICALLY SYNC THE INVENTORY WITH THE CLIENT!
- *
- * To sync the inventory follow these steps:
- * Make sure you call addCrafter(...) when a player opens the container of this
- * tile (in constructor of {@link net.minecraft.inventory.Container})
- * and removeCrafter(...) when a container is closed (onContainerClosed(...) in {@link net.minecraft.inventory.Container}).
- * You also need to override putStackInSlot(...) in the container of your TileEntity and call putStackInSlot(...).
+ * Automatically syncs the inventory to all players in a 5 block radius.
  */
 public interface ISortingInventory extends ISortingMember, IInventory, IFilterTile
 {

@@ -40,7 +40,7 @@ public class GuiHelper
             {
                 guiId = GuiIds.FILTERED;
             }
-            else if (tile instanceof TileSortingChest || (Loader.isModLoaded("IronChest") && tile instanceof TileSortingIronChest))
+            else if (tile instanceof TileSortingChest)
             {
                 guiId = GuiIds.SORTING_CHEST;
             }

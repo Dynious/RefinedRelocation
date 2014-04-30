@@ -10,18 +10,4 @@ public interface ISortingInventoryHandler extends ISortingMemberHandler
      * (Should be called by setInventorySlotContents(...) in the TileEntity class)
      */
     public void setInventorySlotContents(int par1, ItemStack itemStack);
-
-    /**
-     * Should be called by the constructor of the Container of this tile, used to sync Inventory contents
-     *
-     * @param player The player opening the container
-     */
-    public void addCrafter(EntityPlayer player);
-
-    /**
-     * Should be called by onContainerClosed(...) of the Container of this this tile, used to stop syncing Inventory contents
-     *
-     * @param player The player closing the container
-     */
-    public void removeCrafter(EntityPlayer player);
 }

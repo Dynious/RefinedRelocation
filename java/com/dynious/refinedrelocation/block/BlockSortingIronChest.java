@@ -2,7 +2,6 @@ package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
 import cpw.mods.fml.relauncher.Side;
@@ -12,7 +11,6 @@ import cpw.mods.ironchest.IronChestType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 
 public class BlockSortingIronChest extends BlockIronChest
 {
@@ -35,7 +33,7 @@ public class BlockSortingIronChest extends BlockIronChest
             APIUtils.openFilteringGUI(player, world, i, j, k);
             return true;
         }
-        return world.isBlockSolidOnSide(i, j + 1, k, ForgeDirection.DOWN) || GuiHelper.openGui(player, world.getBlockTileEntity(i, j, k));
+        return super.onBlockActivated(world, i, j, k, player, i1, f1, f2, f3);
     }
 
     @Override
