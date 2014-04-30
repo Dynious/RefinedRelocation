@@ -23,6 +23,7 @@ tile.filteringHopper.name=Filtering Hopper
 tile.sortingBarrel.name=Sorting Barrel
 tile.relocationController.name=Relocation Controller
 tile.powerLimiter.name=Power Limiter
+tile.sortingAlchemicalChest.name=Sorting Alchemical Chest
 
 # Item localizations
 item.linker.name=Linker

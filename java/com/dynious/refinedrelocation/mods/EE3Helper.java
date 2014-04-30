@@ -5,12 +5,15 @@ import com.dynious.refinedrelocation.block.BlockSortingAlchemicalChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.renderer.ItemRendererSortingAlchemicalChest;
+import com.dynious.refinedrelocation.renderer.RendererSortingAlchemicalChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.pahimar.ee3.client.renderer.item.ItemAlchemicalChestRenderer;
 import com.pahimar.ee3.item.ItemAlchemicalUpgrade;
 import com.pahimar.ee3.item.ItemBlockAlchemicalChest;
 import com.pahimar.ee3.tileentity.TileAlchemicalChest;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,7 +43,8 @@ public class EE3Helper
 
     public static void addEE3Renders()
     {
-        MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_ALCHEMICAL_CHEST, new ItemAlchemicalChestRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSortingAlchemicalChest.class, new RendererSortingAlchemicalChest());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_ALCHEMICAL_CHEST, new ItemRendererSortingAlchemicalChest());
     }
 
     public static boolean upgradeToAlchemicalChest(World world, EntityPlayer player, int x, int y, int z)

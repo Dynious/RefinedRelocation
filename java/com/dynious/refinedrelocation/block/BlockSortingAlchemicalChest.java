@@ -5,6 +5,9 @@ import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
 import com.pahimar.ee3.block.BlockAlchemicalChest;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -56,5 +59,26 @@ public class BlockSortingAlchemicalChest extends BlockAlchemicalChest
     public String getUnlocalizedName()
     {
         return "tile." + Names.sortingAlchemicalChest;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getRenderBlockPass()
+    {
+        return 1;
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean canRenderInPass(int pass)
+    {
+        return pass == 0 || pass == 1;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister iconRegister)
+    {
+        blockIcon = iconRegister.registerIcon("EE3:alchemicalChest");
     }
 }

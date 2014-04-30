@@ -9,6 +9,8 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.pahimar.ee3.inventory.ContainerAlchemicalChest;
 import com.pahimar.ee3.tileentity.TileAlchemicalChest;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -111,38 +113,6 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
         return sortingInventoryHandler;
     }
 
-    public void fixState(byte state)
-    {
-        this.state = state;
-
-        try
-        {
-            Field inventory = this.getClass().getField("inventory");
-            inventory.setAccessible(true);
-
-            if (state == 0)
-            {
-                inventory.set(this, new ItemStack[ContainerAlchemicalChest.SMALL_INVENTORY_SIZE]);
-            }
-            else if (state == 1)
-            {
-                inventory.set(this, new ItemStack[ContainerAlchemicalChest.MEDIUM_INVENTORY_SIZE]);
-            }
-            else if (state == 2)
-            {
-                inventory.set(this, new ItemStack[ContainerAlchemicalChest.LARGE_INVENTORY_SIZE]);
-            }
-        }
-        catch (NoSuchFieldException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public boolean upgradeChest(int upgradeMetadata)
     {
@@ -183,7 +153,6 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound)
     {
-        fixState(nbttagcompound.getByte("state"));
         super.readFromNBT(nbttagcompound);
         filter.readFromNBT(nbttagcompound);
     }
@@ -191,7 +160,6 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     @Override
     public void writeToNBT(NBTTagCompound nbttagcompound)
     {
-        nbttagcompound.setByte("state", state);
         super.writeToNBT(nbttagcompound);
         filter.writeToNBT(nbttagcompound);
     }
@@ -208,5 +176,12 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     {
         sortingInventoryHandler.onTileRemoved();
         super.onChunkUnload();
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean shouldRenderInPass(int pass)
+    {
+        return pass == 0 || pass == 1;
     }
 }
