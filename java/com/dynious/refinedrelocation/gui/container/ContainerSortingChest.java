@@ -1,11 +1,12 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.tileentity.TileSortingChest;
+import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+@ChestContainer
 public class ContainerSortingChest extends ContainerHierarchical
 {
     private IInventory lowerChestInventory;
