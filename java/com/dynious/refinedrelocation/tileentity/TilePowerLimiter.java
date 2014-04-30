@@ -35,6 +35,8 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     public boolean blocksChanged = true;
     private double maxAcceptedEnergy = 10;
     private boolean disablePower = false;
+    private boolean redstoneToggle = false;
+    private boolean oldState = false;
 
     public void setConnectedSide(int connectedSide)
     {
@@ -119,6 +121,39 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         maxAcceptedEnergy = value;
     }
 
+    public void setDisablePower(boolean value)
+    {
+        if (value != disablePower)
+        {
+            disablePower = value;
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        }
+    }
+
+    public boolean getDisablePower()
+    {
+        return disablePower || (!redstoneToggle && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
+    }
+
+    public void setRedstoneToggle(boolean toggle)
+    {
+        redstoneToggle = toggle;
+    }
+
+    public boolean getRedstoneToggle()
+    {
+        return redstoneToggle;
+    }
+
+    public void newRedstoneState(boolean state)
+    {
+        if (!oldState && state)
+        {
+            setDisablePower(!disablePower);
+        }
+        oldState = state;
+    }
+
     @Override
     public void invalidate()
     {
@@ -183,25 +218,15 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                     checkConnectedDirection(tile);
                 }
 
+                if (redstoneToggle)
+                {
+                    newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
+                }
                 blocksChanged = false;
             }
         }
     }
 
-
-    public boolean getDisablePower()
-    {
-        return disablePower || worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
-    }
-
-    public void setDisablePower(boolean value)
-    {
-        if (value != disablePower)
-        {
-            disablePower = value;
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        }
-    }
     protected void checkConnectedDirection(TileEntity tile)
     {
         if (tile != null && !isLooping(tile))
@@ -520,6 +545,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         setConnectedSide(compound.getByte("side"));
         setMaxAcceptedEnergy(compound.getDouble("maxEnergy"));
         setDisablePower(compound.getBoolean("disablePower"));
+        setRedstoneToggle(compound.getBoolean("toggle"));
     }
 
     @Override
@@ -529,6 +555,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         compound.setByte("side", (byte) connectedDirection.ordinal());
         compound.setDouble("maxEnergy", maxAcceptedEnergy);
         compound.setBoolean("disablePower", getDisablePower());
+        compound.setBoolean("toggle", getRedstoneToggle());
     }
 
     @Override

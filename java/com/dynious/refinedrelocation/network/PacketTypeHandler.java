@@ -20,7 +20,8 @@ public enum PacketTypeHandler
     REDSTONE_ENABLED(PacketRedstoneEnabled.class),
     TILE_UPDATE(PacketTileUpdate.class),
     SWITCH_PAGE(PacketSwitchPage.class),
-    SET_MAX_POWER(PacketSetMaxPower.class);
+    SET_MAX_POWER(PacketSetMaxPower.class),
+    REDSTONE_TOGGLE(PacketRedstoneToggle.class);
 
     private Class<? extends CustomPacket> clazz;
 
