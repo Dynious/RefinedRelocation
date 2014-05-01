@@ -83,6 +83,12 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
+    public void setPriority(Priority priority)
+    {
+        //NOOP
+    }
+
+    @Override
     public ISortingInventoryHandler getSortingHandler()
     {
         return sortingInventoryHandler;

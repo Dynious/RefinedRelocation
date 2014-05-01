@@ -46,18 +46,27 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
 
     /**
      * The Sorting System will try to put items in the highest priority inventory.
-     * Blacklisting Chests have a low Priority, while whitelisting chests have a normal priority.
-     * Barrels have the high priority, because they only accept one type of item.
+     * Blacklisting Chests have a low standard Priority, while whitelisting chests have a normal standard priority.
+     * Barrels have the high standard priority, because they only accept one type of item.
      * This will not affect items that do not pass the Filter.
      *
      * @return The Priority of this ISortingInventory
      */
     public Priority getPriority();
 
+    /**
+     * Sets the priority of a block to a new value.
+     *
+     * @param priority The new priority of this tile
+     */
+    public void setPriority(Priority priority);
+
     enum Priority
     {
         HIGH,
+        NORMAL_HIGH,
         NORMAL,
+        NORMAL_LOW,
         LOW
     }
 }

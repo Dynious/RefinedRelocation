@@ -24,6 +24,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     private IFilterGUI filter = APIUtils.createStandardFilter();
 
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
+    private Priority priority = Priority.NORMAL;
 
     public TileSortingIronChest()
     {
@@ -141,7 +142,13 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     @Override
     public Priority getPriority()
     {
-        return getFilter().isBlacklisting() ? Priority.LOW : Priority.NORMAL;
+        return priority;
+    }
+
+    @Override
+    public void setPriority(Priority priority)
+    {
+        this.priority = priority;
     }
 
     @Override
@@ -181,19 +188,28 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbttagcompound)
+    public void readFromNBT(NBTTagCompound compound)
     {
-        fixType(IronChestType.values()[nbttagcompound.getByte("type")]);
-        super.readFromNBT(nbttagcompound);
-        filter.readFromNBT(nbttagcompound);
+        fixType(IronChestType.values()[compound.getByte("type")]);
+        super.readFromNBT(compound);
+        filter.readFromNBT(compound);
+        if (compound.hasKey("priority"))
+        {
+            setPriority(Priority.values()[compound.getByte("priority")]);
+        }
+        else
+        {
+            setPriority(filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL);
+        }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbttagcompound)
+    public void writeToNBT(NBTTagCompound compound)
     {
-        nbttagcompound.setByte("type", (byte) getType().ordinal());
-        super.writeToNBT(nbttagcompound);
-        filter.writeToNBT(nbttagcompound);
+        compound.setByte("type", (byte) getType().ordinal());
+        super.writeToNBT(compound);
+        filter.writeToNBT(compound);
+        compound.setByte("priority", (byte) priority.ordinal());
     }
 
     @Override

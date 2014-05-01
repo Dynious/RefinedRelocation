@@ -21,7 +21,8 @@ public enum PacketTypeHandler
     TILE_UPDATE(PacketTileUpdate.class),
     SWITCH_PAGE(PacketSwitchPage.class),
     SET_MAX_POWER(PacketSetMaxPower.class),
-    REDSTONE_TOGGLE(PacketRedstoneToggle.class);
+    REDSTONE_TOGGLE(PacketRedstoneToggle.class),
+    PRIORITY(PacketPriority.class);
 
     private Class<? extends CustomPacket> clazz;
 

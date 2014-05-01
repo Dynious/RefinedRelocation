@@ -27,7 +27,7 @@ public class FilterStandard implements IFilterGUI
     private boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     private String userFilter = "";
 
-    private boolean blacklists = true;
+    private boolean blacklists = false;
 
     public int getSize()
     {

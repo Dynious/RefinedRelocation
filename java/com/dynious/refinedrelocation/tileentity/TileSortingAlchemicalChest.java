@@ -21,6 +21,7 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     public boolean isFirstRun = true;
     private IFilterGUI filter = APIUtils.createStandardFilter();
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
+    private Priority priority = Priority.NORMAL;
 
     public TileSortingAlchemicalChest()
     {
@@ -104,7 +105,13 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     @Override
     public Priority getPriority()
     {
-        return getFilter().isBlacklisting() ? Priority.LOW : Priority.NORMAL;
+        return priority;
+    }
+
+    @Override
+    public void setPriority(Priority priority)
+    {
+        this.priority = priority;
     }
 
     @Override
@@ -151,17 +158,26 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbttagcompound)
+    public void readFromNBT(NBTTagCompound compound)
     {
-        super.readFromNBT(nbttagcompound);
-        filter.readFromNBT(nbttagcompound);
+        super.readFromNBT(compound);
+        filter.readFromNBT(compound);
+        if (compound.hasKey("priority"))
+        {
+            setPriority(Priority.values()[compound.getByte("priority")]);
+        }
+        else
+        {
+            setPriority(filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL);
+        }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbttagcompound)
+    public void writeToNBT(NBTTagCompound compound)
     {
-        super.writeToNBT(nbttagcompound);
-        filter.writeToNBT(nbttagcompound);
+        super.writeToNBT(compound);
+        filter.writeToNBT(compound);
+        compound.setByte("priority", (byte) priority.ordinal());
     }
 
     @Override

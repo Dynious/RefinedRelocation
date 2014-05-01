@@ -9,4 +9,6 @@ public interface IContainerFiltered
     public void setFilterOption(int filterIndex, boolean value);
 
     public void toggleFilterOption(int filterIndex);
+
+    public void setPriority(int priority);
 }
