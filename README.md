@@ -63,8 +63,8 @@ This allows ForgeGradle to know what it's compiling.
 
 1. Clone Refined Relocation just like you did with ForgeGradle.  All you have to change are the folder locations and `git clone` command.
 2. Copy the `java` and `resources` folders from the Refined Relocation source to `mcdev\src\main` (delete the folders that are already there).
-3. Create a folder called `libs` in `mcdev` and put [BuildCraft](http://www.mod-buildcraft.com/download/), [Iron Chests](http://files.minecraftforge.net/IronChests2/) (deobfurscated!), [Industrial Craft 2](http://ic2api.player.to:8080/job/IC2_experimental/), [ComputerCraft](http://www.computercraft.info/download/), [CoFHCore](http://teamcofh.com/index.php?page=downloads), [Universal Electricity](http://universalelectricity.com/downloads/), [Equivalent Exchange 3](http://www.minecraftforum.net/topic/1540010-equivalent-exchange-3-01140/) (deobfurscated!), ( [Waila](http://minecraft.curseforge.com/mc-mods/waila/files/) and [JABBA](http://minecraft.curseforge.com/mc-mods/jabba/files/) (deobfurscated!) in it.
-	* Note: As Refined Relocation is currently only for 1.6.4, please download 1.6.4 versions of the above mods.
+3. Create a folder called `libs` in `mcdev` and put [BuildCraft](http://www.mod-buildcraft.com/download/), [Iron Chests](http://files.minecraftforge.net/IronChests2/) (deobfurscated!), [Industrial Craft 2](http://ic2api.player.to:8080/job/IC2_experimental/), [ComputerCraft](http://www.computercraft.info/download/), [CoFHCore](http://teamcofh.com/index.php?page=downloads), [Universal Electricity](http://universalelectricity.com/downloads/), [Equivalent Exchange 3](http://www.minecraftforum.net/topic/1540010-equivalent-exchange-3-01140/) (deobfurscated!), [Waila](http://minecraft.curseforge.com/mc-mods/waila/files/) and [JABBA](http://minecraft.curseforge.com/mc-mods/jabba/files/) (deobfurscated!) in it.
+	* Note: Make sure you download the version of the mods for the correct Minecraft version!
 4. Your directory structure should now look like:
 
 ***
