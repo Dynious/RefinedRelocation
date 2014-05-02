@@ -28,7 +28,7 @@ public class FilterStandard implements IFilterGUI
     private boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     private String userFilter = "";
 
-    private boolean blacklists = true;
+    private boolean blacklists = false;
 
     public int getSize()
     {
@@ -111,7 +111,7 @@ public class FilterStandard implements IFilterGUI
                     return true;
                 if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
                     return true;
-                if (customFilters[10] && oreName.contains("seed"))
+                if (customFilters[10] && oreName.contains("dye"))
                     return true;
             }
 

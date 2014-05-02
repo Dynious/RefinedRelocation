@@ -87,36 +87,49 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
 
     // delegate methods
+    @Override
     public void setUserFilter(String filter)
     {
         containerFiltered.setUserFilter(filter);
     }
 
+    @Override
     public void setBlackList(boolean value)
     {
         containerFiltered.setBlackList(value);
     }
 
+    @Override
     public void setFilterOption(int filterIndex, boolean value)
     {
         containerFiltered.setFilterOption(filterIndex, value);
     }
 
+    @Override
     public void toggleFilterOption(int filterIndex)
     {
         containerFiltered.toggleFilterOption(filterIndex);
     }
 
+    @Override
+    public void setPriority(int priority)
+    {
+        //NOOP
+    }
+
+    @Override
     public void setInsertDirection(int from, int value)
     {
         containerAdvanced.setInsertDirection(from, value);
     }
 
+    @Override
     public void setMaxStackSize(byte maxStackSize)
     {
         containerAdvanced.setMaxStackSize(maxStackSize);
     }
 
+    @Override
     public void setSpreadItems(boolean spreadItems)
     {
         containerAdvanced.setSpreadItems(spreadItems);

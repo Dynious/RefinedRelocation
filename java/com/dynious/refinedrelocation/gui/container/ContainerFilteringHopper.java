@@ -169,4 +169,10 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     {
         this.setFilterOption(filterIndex, !tile.getFilter().getValue(filterIndex));
     }
+
+    @Override
+    public void setPriority(int priority)
+    {
+        //NOOP
+    }
 }

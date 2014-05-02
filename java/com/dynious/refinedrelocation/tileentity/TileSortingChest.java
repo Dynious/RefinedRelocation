@@ -55,6 +55,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
 
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
     private boolean isFirstTick = true;
+    private Priority priority = Priority.NORMAL;
 
     public TileSortingChest()
     {
@@ -342,10 +343,10 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     /**
      * Reads a tile entity from NBT.
      */
-    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+    public void readFromNBT(NBTTagCompound compound)
     {
-        super.readFromNBT(par1NBTTagCompound);
-        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items", 10);
+        super.readFromNBT(compound);
+        NBTTagList nbttaglist = compound.getTagList("Items", 10);
         this.inventory = new ItemStack[this.getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
@@ -358,18 +359,26 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
                 this.inventory[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
-        filter.readFromNBT(par1NBTTagCompound);
-        blacklist = par1NBTTagCompound.getBoolean("blacklist");
+        filter.readFromNBT(compound);
+        blacklist = compound.getBoolean("blacklist");
 
-        facing = par1NBTTagCompound.getByte("facing");
+        facing = compound.getByte("facing");
+        if (compound.hasKey("priority"))
+        {
+            setPriority(Priority.values()[compound.getByte("priority")]);
+        }
+        else
+        {
+            setPriority(filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL);
+        }
     }
 
     /**
      * Writes a tile entity to NBT.
      */
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+    public void writeToNBT(NBTTagCompound compound)
     {
-        super.writeToNBT(par1NBTTagCompound);
+        super.writeToNBT(compound);
         NBTTagList nbttaglist = new NBTTagList();
 
         for (int i = 0; i < this.inventory.length; ++i)
@@ -383,12 +392,13 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
             }
         }
 
-        par1NBTTagCompound.setTag("Items", nbttaglist);
+        compound.setTag("Items", nbttaglist);
 
-        filter.writeToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setBoolean("blacklist", blacklist);
+        filter.writeToNBT(compound);
+        compound.setBoolean("blacklist", blacklist);
 
-        par1NBTTagCompound.setByte("facing", (byte)facing);
+        compound.setByte("facing", (byte) facing);
+        compound.setByte("priority", (byte) priority.ordinal());
     }
 
     @Override
@@ -403,12 +413,6 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     {
         sortingInventoryHandler.onTileRemoved();
         super.onChunkUnload();
-    }
-
-    @Override
-    public ItemStack[] getInventory()
-    {
-        return inventory;
     }
 
     @Override
@@ -469,7 +473,13 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     @Override
     public Priority getPriority()
     {
-        return getFilter().isBlacklisting() ? Priority.LOW : Priority.NORMAL;
+        return priority;
+    }
+
+    @Override
+    public void setPriority(Priority priority)
+    {
+        this.priority = priority;
     }
 
     @Override

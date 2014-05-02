@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import cpw.mods.fml.common.Loader;
@@ -183,6 +184,13 @@ public class BlockSortingChest extends BlockContainer
         if (Loader.isModLoaded("IronChest"))
         {
             if (IronChestHelper.upgradeToIronChest(world, player, x, y, z))
+            {
+                return true;
+            }
+        }
+        if (Loader.isModLoaded("EE3"))
+        {
+            if (EE3Helper.upgradeToAlchemicalChest(world, player, x, y, z))
             {
                 return true;
             }

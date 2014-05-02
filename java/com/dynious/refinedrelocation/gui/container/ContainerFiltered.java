@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.gui.container;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
@@ -16,6 +17,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     private boolean lastBlacklist = true;
     private boolean lastFilterOptions[];
     private boolean initialUpdate = true;
+    private int lastPriority;
 
     public ContainerFiltered(IFilterTileGUI tile)
     {
@@ -71,6 +73,19 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             lastBlacklist = tile.getFilter().isBlacklisting();
         }
 
+        if (tile instanceof ISortingInventory)
+        {
+            ISortingInventory inv = (ISortingInventory) tile;
+            if (inv.getPriority().ordinal() != lastPriority || initialUpdate)
+            {
+                for (Object crafter : crafters)
+                {
+                    ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + 3, inv.getPriority().ordinal());
+                }
+                lastPriority = inv.getPriority().ordinal();
+            }
+        }
+
         if (initialUpdate)
             initialUpdate = false;
     }
@@ -93,6 +108,9 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
                 break;
             case 2:
                 setBlackList(value != 0);
+                break;
+            case 3:
+                setPriority(value);
                 break;
         }
     }
@@ -131,4 +149,11 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             this.setFilterOption(filterIndex, !tile.getFilter().getValue(filterIndex));
     }
 
+    @Override
+    public void setPriority(int priority)
+    {
+        lastPriority = priority;
+        if (tile instanceof ISortingInventory)
+            ((ISortingInventory) tile).setPriority(ISortingInventory.Priority.values()[priority]);
+    }
 }

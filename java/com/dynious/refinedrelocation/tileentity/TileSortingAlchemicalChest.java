@@ -5,34 +5,31 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
-import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
-import cpw.mods.fml.relauncher.ReflectionHelper;
+import com.pahimar.ee3.tileentity.TileEntityAlchemicalChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.ironchest.IronChestType;
-import cpw.mods.ironchest.ItemChestChanger;
-import cpw.mods.ironchest.TileEntityIronChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileSortingIronChest extends TileEntityIronChest implements ISortingInventory, IFilterTileGUI
+import java.lang.reflect.Field;
+
+public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implements ISortingInventory, IFilterTileGUI
 {
     public boolean isFirstRun = true;
-
     private IFilterGUI filter = APIUtils.createStandardFilter();
-
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
     private Priority priority = Priority.NORMAL;
 
-    public TileSortingIronChest()
+    public TileSortingAlchemicalChest()
     {
+        super(0);
     }
 
-    public TileSortingIronChest(IronChestType type)
+    public TileSortingAlchemicalChest(int metaData)
     {
-        super(type);
+        super(metaData);
     }
 
     @Override
@@ -53,45 +50,10 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     }
 
     @Override
-    public TileEntityIronChest applyUpgradeItem(ItemChestChanger itemChestChanger)
-    {
-        if ((Integer) ReflectionHelper.getPrivateValue(TileEntityIronChest.class, this, "numUsingPlayers") > 0)
-        {
-            return null;
-        }
-        if (!itemChestChanger.getType().canUpgrade(this.getType()))
-        {
-            return null;
-        }
-        TileSortingIronChest newEntity = new TileSortingIronChest(IronChestType.values()[itemChestChanger.getTargetChestOrdinal(getType().ordinal())]);
-
-        //Copy stacks and remove old stacks
-        int newSize = newEntity.chestContents.length;
-        System.arraycopy(chestContents, 0, newEntity.chestContents, 0, Math.min(newSize, chestContents.length));
-        BlockSortingIronChest block = ModBlocks.sortingIronChest;
-        block.dropContent(newSize, this, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-
-        //Copy filter settings
-        NBTTagCompound filterTag = new NBTTagCompound();
-        filter.writeToNBT(filterTag);
-        newEntity.filter.readFromNBT(filterTag);
-
-        //Set facing, sort and reset syncTick
-        newEntity.setFacing((Byte) ReflectionHelper.getPrivateValue(TileEntityIronChest.class, this, "facing"));
-        newEntity.sortTopStacks();
-        ReflectionHelper.setPrivateValue(TileEntityIronChest.class, this, -1, "ticksSinceSync");
-        return newEntity;
-    }
-
-    @Override
     public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
     {
-        if (slotIndex >= 0 && slotIndex < chestContents.length)
-        {
-            chestContents[slotIndex] = itemStack;
-            return true;
-        }
-        return false;
+        super.setInventorySlotContents(slotIndex, itemStack);
+        return true;
     }
 
     @Override
@@ -108,14 +70,14 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
                     int max = Math.min(itemStack.getMaxStackSize(), getInventoryStackLimit());
                     if (max >= itemStack.stackSize)
                     {
-                        chestContents[slot] = itemStack;
+                        super.setInventorySlotContents(slot, itemStack);
 
                         markDirty();
                         itemStack = null;
                     }
                     else
                     {
-                        chestContents[slot] = itemStack.splitStack(max);
+                        super.setInventorySlotContents(slot, itemStack.splitStack(max));
                     }
                 }
                 else if (ItemStackHelper.areItemStacksEqual(itemstack1, itemStack))
@@ -157,40 +119,46 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         return sortingInventoryHandler;
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean shouldRenderInPass(int pass)
+    //@Override
+    public boolean upgradeChest(int upgradeMetadata)
     {
-        return pass == 0 || pass == 1;
-    }
-
-    @Override
-    public TileEntityIronChest updateFromMetadata(int l)
-    {
-        if (worldObj != null && worldObj.isRemote)
+        if (upgradeMetadata > getBlockMetadata())
         {
-            if (l != getType().ordinal())
+            //If players are using this chest, don't upgrade
+            if (numUsingPlayers > 0)
             {
-                worldObj.setTileEntity(xCoord, yCoord, zCoord, new TileSortingIronChest(IronChestType.values()[l]));
-                return (TileEntityIronChest) worldObj.getTileEntity(xCoord, yCoord, zCoord);
+                return false;
             }
-        }
-        return this;
-    }
 
-    public void fixType(IronChestType type)
-    {
-        if (type != getType())
-        {
-            ReflectionHelper.setPrivateValue(TileEntityIronChest.class, this, type, "type");
+            //Make the new Sorting Alchemical Chest TileEntity
+            TileSortingAlchemicalChest newChest = (TileSortingAlchemicalChest) ModBlocks.sortingAlchemicalChest.createTileEntity(worldObj, upgradeMetadata);
+
+            //Set the correct orientation
+            newChest.setOrientation(getOrientation());
+
+            //Copy all the ItemStacks in our new chest and delete the ItemStacks in the old chest
+            for (int slot = 0; slot < getSizeInventory(); slot++)
+            {
+                newChest.putStackInSlot(getStackInSlot(slot), slot);
+                setInventorySlotContents(slot, null);
+            }
+
+            NBTTagCompound tag = new NBTTagCompound();
+            getFilter().writeToNBT(tag);
+            newChest.getFilter().readFromNBT(tag);
+
+            //Set our new metadata and TileEntity instead
+            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, upgradeMetadata, 3);
+            worldObj.setTileEntity(xCoord, yCoord, zCoord, newChest);
+
+            return true;
         }
-        this.chestContents = new ItemStack[getSizeInventory()];
+        return false;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
-        fixType(IronChestType.values()[compound.getByte("type")]);
         super.readFromNBT(compound);
         filter.readFromNBT(compound);
         if (compound.hasKey("priority"))
@@ -206,7 +174,6 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
-        compound.setByte("type", (byte) getType().ordinal());
         super.writeToNBT(compound);
         filter.writeToNBT(compound);
         compound.setByte("priority", (byte) priority.ordinal());
@@ -224,5 +191,12 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     {
         sortingInventoryHandler.onTileRemoved();
         super.onChunkUnload();
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean shouldRenderInPass(int pass)
+    {
+        return pass == 0 || pass == 1;
     }
 }

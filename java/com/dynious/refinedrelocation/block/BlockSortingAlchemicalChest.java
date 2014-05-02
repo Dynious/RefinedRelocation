@@ -3,22 +3,21 @@ package com.dynious.refinedrelocation.block;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
+import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
+import com.pahimar.ee3.block.BlockAlchemicalChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.ironchest.BlockIronChest;
-import cpw.mods.ironchest.IronChestType;
-import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockSortingIronChest extends BlockIronChest
+public class BlockSortingAlchemicalChest extends BlockAlchemicalChest
 {
-    public BlockSortingIronChest()
+    public BlockSortingAlchemicalChest()
     {
         super();
-        this.setBlockName(Names.sortingIronChest);
+        this.setBlockName(Names.sortingAlchemicalChest);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
@@ -38,9 +37,28 @@ public class BlockSortingIronChest extends BlockIronChest
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata)
+    public TileEntity createTileEntity(World world, int metaData)
     {
-        return new TileSortingIronChest(IronChestType.values()[metadata]);
+        if (metaData == 0)
+        {
+            return new TileSortingAlchemicalChest(0);
+        }
+        else if (metaData == 1)
+        {
+            return new TileSortingAlchemicalChest(1);
+        }
+        else if (metaData == 2)
+        {
+            return new TileSortingAlchemicalChest(2);
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getUnlocalizedName()
+    {
+        return "tile." + Names.sortingAlchemicalChest;
     }
 
     @SideOnly(Side.CLIENT)
@@ -55,5 +73,12 @@ public class BlockSortingIronChest extends BlockIronChest
     public boolean canRenderInPass(int pass)
     {
         return pass == 0 || pass == 1;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister)
+    {
+        blockIcon = iconRegister.registerIcon("EE3:alchemicalChest");
     }
 }

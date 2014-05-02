@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.item;
 
+import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -18,6 +19,10 @@ public class ModItems
         linker = new ItemLinker();
         sortingUpgrade = new ItemSortingUpgrade();
         playerRelocator = new ItemPlayerRelocator();
+
+        ModObjects.linker = new ItemStack(linker);
+        ModObjects.sortingUpgrade = new ItemStack(sortingUpgrade);
+        ModObjects.playerRelocator = new ItemStack(playerRelocator);
 
         GameRegistry.registerItem(linker, Names.linker);
         GameRegistry.registerItem(sortingUpgrade, Names.sortingUpgrade);

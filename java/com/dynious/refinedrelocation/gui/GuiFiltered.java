@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.gui;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
 import com.dynious.refinedrelocation.gui.widget.*;
 import com.dynious.refinedrelocation.helper.BlockHelper;
@@ -39,6 +40,10 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
         {
             new GuiRedstoneSignalStatus(this, width / 2 + 35, height / 2 - 63, (TileBlockExtender) filterTile);
             new GuiDisguise(this, width / 2 + 15, height / 2 - 63, 16, 16, (TileBlockExtender) filterTile);
+        }
+        if (filterTile instanceof ISortingInventory)
+        {
+            new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile);
         }
     }
 

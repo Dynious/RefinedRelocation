@@ -26,17 +26,12 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     public ItemStack[] bufferInventory = new ItemStack[1];
     private int counter;
     private ForgeDirection connectedSide = ForgeDirection.UNKNOWN;
+    private Priority priority = Priority.NORMAL;
 
     @Override
     public ISortingInventoryHandler getSortingHandler()
     {
         return sortingHandler;
-    }
-
-    @Override
-    public ItemStack[] getInventory()
-    {
-        return bufferInventory;
     }
 
     @Override
@@ -69,7 +64,13 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public Priority getPriority()
     {
-        return filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL;
+        return priority;
+    }
+
+    @Override
+    public void setPriority(Priority priority)
+    {
+        this.priority = priority;
     }
 
     @Override
@@ -192,6 +193,14 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         super.readFromNBT(compound);
         filter.readFromNBT(compound);
         setConnectedSide(ForgeDirection.getOrientation(compound.getByte("side")));
+        if (compound.hasKey("priority"))
+        {
+            setPriority(Priority.values()[compound.getByte("priority")]);
+        }
+        else
+        {
+            setPriority(filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL);
+        }
         if (compound.hasKey("Items"))
         {
             NBTTagList tagList = compound.getTagList("Items", 10);
@@ -205,6 +214,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         super.writeToNBT(compound);
         filter.writeToNBT(compound);
         compound.setByte("side", (byte) connectedSide.ordinal());
+        compound.setByte("priority", (byte) priority.ordinal());
         if (bufferInventory[0] != null)
         {
             NBTTagList nbttaglist = new NBTTagList();

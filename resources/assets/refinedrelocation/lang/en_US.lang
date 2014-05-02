@@ -23,6 +23,7 @@ tile.filteringHopper.name=Filtering Hopper
 tile.sortingBarrel.name=Sorting Barrel
 tile.relocationController.name=Relocation Controller
 tile.powerLimiter.name=Power Limiter
+tile.sortingAlchemicalChest.name=Sorting Alchemical Chest
 
 # Item localizations
 item.linker.name=Linker
@@ -71,6 +72,8 @@ gui.refinedrelocation.linkedToAt=Linked to %s at: %s:%s:%s
 gui.refinedrelocation.connections=Connections
 gui.refinedrelocation.oreDictConversion=OreDict. Conversion
 gui.refinedrelocation.maxEnergy=The max energy throughput
+gui.refinedrelocation.RSOn=Redstone high disables power
+gui.refinedrelocation.RSPulse=Redstone pulse toggles power
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: %s:%s:%s (%s)

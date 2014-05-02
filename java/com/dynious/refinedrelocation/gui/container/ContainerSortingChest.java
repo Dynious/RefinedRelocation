@@ -1,11 +1,12 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.tileentity.TileSortingChest;
+import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+@ChestContainer
 public class ContainerSortingChest extends ContainerHierarchical
 {
     private IInventory lowerChestInventory;
@@ -16,7 +17,6 @@ public class ContainerSortingChest extends ContainerHierarchical
         this.lowerChestInventory = par2IInventory;
         this.numRows = par2IInventory.getSizeInventory() / 9;
         par2IInventory.openInventory();
-        ((TileSortingChest) this.lowerChestInventory).getSortingHandler().addCrafter(player);
         int i = (this.numRows - 4) * 18;
         int j;
         int k;
@@ -86,12 +86,6 @@ public class ContainerSortingChest extends ContainerHierarchical
         return itemstack;
     }
 
-    @Override
-    public void putStackInSlot(int par1, ItemStack par2ItemStack)
-    {
-        ((TileSortingChest) lowerChestInventory).putStackInSlot(par2ItemStack, par1);
-    }
-
     /**
      * Called when the container is closed.
      */
@@ -99,7 +93,6 @@ public class ContainerSortingChest extends ContainerHierarchical
     {
         super.onContainerClosed(par1EntityPlayer);
         this.lowerChestInventory.closeInventory();
-        ((TileSortingChest) this.lowerChestInventory).getSortingHandler().removeCrafter(par1EntityPlayer);
     }
 
     /**

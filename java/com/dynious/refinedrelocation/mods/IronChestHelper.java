@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.mods;
 
+import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.item.ItemSortingIronChest;
@@ -22,6 +23,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -31,6 +33,7 @@ public class IronChestHelper
     public static void addIronChestBlocks()
     {
         ModBlocks.sortingIronChest = new BlockSortingIronChest();
+        ModObjects.sortingIronChest = new ItemStack(ModBlocks.sortingIronChest);
         GameRegistry.registerBlock(ModBlocks.sortingIronChest, ItemSortingIronChest.class, Names.sortingIronChest);
     }
 
@@ -77,6 +80,11 @@ public class IronChestHelper
                     {
                         chestInventory[i] = null;
                     }
+
+                    NBTTagCompound tag = new NBTTagCompound();
+                    tec.getFilter().writeToNBT(tag);
+                    newchest.getFilter().readFromNBT(tag);
+
                     // Clear the old block out
                     world.setBlockToAir(x, y, z);
                     // Force the Chest TE to reset it's knowledge of neighbouring blocks

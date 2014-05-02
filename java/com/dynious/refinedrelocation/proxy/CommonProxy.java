@@ -51,6 +51,11 @@ public class CommonProxy
             GameRegistry.registerTileEntity(TileSortingBarrel.class, Names.sortingBarrel);
         }
 
+        if (Loader.isModLoaded("EE3"))
+        {
+            GameRegistry.registerTileEntity(TileSortingAlchemicalChest.class, Names.sortingAlchemicalChest);
+        }
+
         new GuiHandler();
     }
 

@@ -2,10 +2,12 @@ package com.dynious.refinedrelocation.sorting;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,6 @@ import java.util.List;
 public class SortingInventoryHandler extends SortingMemberHandler implements ISortingInventoryHandler
 {
     protected ISortingInventory inventory;
-
-    protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
 
     public SortingInventoryHandler(TileEntity owner)
     {
@@ -27,68 +27,30 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
      */
     public final void setInventorySlotContents(int par1, ItemStack itemStack)
     {
+        inventory.putStackInSlot(itemStack, par1);
+
+        if (itemStack == null || owner.getWorldObj().isRemote)
+            return;
+
+        itemStack = getLeader().filterStackToGroup(itemStack.copy(), this.owner, par1);
+
         if (itemStack == null || itemStack.stackSize == 0)
         {
             inventory.putStackInSlot(null, par1);
-            inventory.markDirty();
-            return;
-        }
-
-        if (owner.getWorldObj().isRemote)
-            return;
-
-        if (inventory.getStackInSlot(par1) != null)
-        {
-            inventory.putStackInSlot(null, par1);
-        }
-
-        itemStack = getLeader().filterStackToGroup(itemStack, this.owner, par1);
-
-        if (itemStack != null && itemStack.stackSize != 0)
-        {
-            if (inventory.putStackInSlot(itemStack.copy(), par1))
-            {
-                inventory.markDirty();
-            }
-            else
-            {
-                itemStack = inventory.putInInventory(itemStack);
-                if (itemStack != null)
-                {
-                    EntityItem entityItem = new EntityItem(owner.getWorldObj(), owner.xCoord, owner.yCoord, owner.zCoord, itemStack);
-                    owner.getWorldObj().spawnEntityInWorld(entityItem);
-                }
-            }
-        }
-
-        syncInventory();
-    }
-
-    private void syncInventory()
-    {
-        for (EntityPlayer player : crafters)
-        {
-            player.openContainer.detectAndSendChanges();
+            syncInventory(par1);
         }
     }
 
-    /**
-     * Should be called by the constructor of the Container of this tile, used to sync Inventory contents
-     *
-     * @param player The player opening the container
-     */
-    public final void addCrafter(EntityPlayer player)
+    private void syncInventory(int slot)
     {
-        crafters.add(player);
-    }
+        float checkSize = 5.0F;
+        List list = this.owner.getWorldObj().getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB((float) this.owner.xCoord - checkSize, (float) this.owner.yCoord - checkSize, (float) this.owner.zCoord - checkSize, (float) this.owner.xCoord + 1 + checkSize, (float) this.owner.yCoord + 1 + checkSize, (float) this.owner.zCoord + 1 + checkSize));
 
-    /**
-     * Should be called by onContainerClosed(...) of the Container of this this tile, used to stop syncing Inventory contents
-     *
-     * @param player The player closing the container
-     */
-    public final void removeCrafter(EntityPlayer player)
-    {
-        crafters.remove(player);
+        for (Object aList : list)
+        {
+            EntityPlayer player = (EntityPlayer) aList;
+            if (!(player.openContainer instanceof ContainerPlayer) && slot < player.openContainer.inventoryItemStacks.size() && player.openContainer.inventoryItemStacks.get(slot) == null)
+                ((EntityPlayerMP) player).sendSlotContents(player.openContainer, slot, null);
+        }
     }
 }

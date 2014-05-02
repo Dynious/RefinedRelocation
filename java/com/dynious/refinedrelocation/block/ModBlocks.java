@@ -1,11 +1,13 @@
 package com.dynious.refinedrelocation.block;
 
+import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.item.ItemBlockExtender;
 import com.dynious.refinedrelocation.item.ItemBuffer;
 import com.dynious.refinedrelocation.item.ItemPowerLimiter;
 import com.dynious.refinedrelocation.item.ItemSortingConnector;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
+import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.JabbaHelper;
 import cpw.mods.fml.common.Loader;
@@ -26,6 +28,7 @@ public class ModBlocks
     public static BlockRelocationPortal relocationPortal;
     public static BlockRelocationController relocationController;
     public static BlockPowerLimiter powerLimiter;
+    public static BlockSortingAlchemicalChest sortingAlchemicalChest;
 
     public static void init()
     {
@@ -37,6 +40,23 @@ public class ModBlocks
         relocationPortal = new BlockRelocationPortal();
         relocationController = new BlockRelocationController();
         powerLimiter = new BlockPowerLimiter();
+
+        ModObjects.blockExtender = new ItemStack(blockExtender);
+        ModObjects.advancedBlockExtender = new ItemStack(blockExtender, 1, 1);
+        ModObjects.filteredBlockExtender = new ItemStack(blockExtender, 1, 2);
+        ModObjects.advancedFilteredBlockExtender = new ItemStack(blockExtender, 1, 3);
+        ModObjects.wirelessBlockExtender = new ItemStack(blockExtender, 1, 4);
+        ModObjects.buffer = new ItemStack(buffer);
+        ModObjects.advancedBuffer = new ItemStack(buffer, 1, 1);
+        ModObjects.filteredBuffer = new ItemStack(buffer, 1, 2);
+        ModObjects.sortingChest = new ItemStack(sortingChest);
+        ModObjects.sortingConnector = new ItemStack(sortingConnector);
+        ModObjects.sortingInterface = new ItemStack(sortingConnector, 1, 1);
+        ModObjects.sortingImporter = new ItemStack(sortingConnector, 1, 2);
+        ModObjects.filteringHopper = new ItemStack(filteringHopper);
+        ModObjects.relocationPortal = new ItemStack(relocationPortal);
+        ModObjects.relocationController = new ItemStack(relocationController);
+        ModObjects.powerLimiter = new ItemStack(powerLimiter);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
@@ -88,6 +108,12 @@ public class ModBlocks
         {
             JabbaHelper.addBarrelBlock();
             JabbaHelper.addBarrelRecipes();
+        }
+
+        if (Loader.isModLoaded("EE3"))
+        {
+            EE3Helper.addEE3Blocks();
+            EE3Helper.addEE3Recipes();
         }
     }
 }
