@@ -36,19 +36,19 @@ public class GuiButtonPriority extends GuiRefinedRelocationButton
         switch (priority)
         {
             case HIGH:
-                text = "§a+";
+                text = "+";
                 break;
             case NORMAL_HIGH:
-                text = "§f0§a+";
+                text = "0+";
                 break;
             case NORMAL:
-                text = "§f0";
+                text = "0";
                 break;
             case NORMAL_LOW:
-                text = "§c-§f0";
+                text = "-0";
                 break;
             case LOW:
-                text = "§c-";
+                text = "-";
                 break;
         }
         this.label.setText(text);

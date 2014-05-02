@@ -110,7 +110,7 @@ public class FilterStandard implements IFilterGUI
                     return true;
                 if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
                     return true;
-                if (customFilters[10] && oreName.contains("seed"))
+                if (customFilters[10] && oreName.contains("dye"))
                     return true;
             }
 
