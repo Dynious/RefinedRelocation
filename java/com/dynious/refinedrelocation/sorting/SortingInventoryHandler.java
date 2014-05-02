@@ -49,7 +49,7 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
         for (Object aList : list)
         {
             EntityPlayer player = (EntityPlayer) aList;
-            if (!(player.openContainer instanceof ContainerPlayer) && player.openContainer.inventoryItemStacks.get(slot) == null)
+            if (!(player.openContainer instanceof ContainerPlayer) && slot < player.openContainer.inventoryItemStacks.size() && player.openContainer.inventoryItemStacks.get(slot) == null)
                 ((EntityPlayerMP) player).sendSlotContents(player.openContainer, slot, null);
         }
     }
