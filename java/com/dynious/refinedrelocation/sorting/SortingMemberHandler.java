@@ -256,8 +256,14 @@ public class SortingMemberHandler implements ISortingMemberHandler
             list.add(new ArrayList<ISortingInventory>());
         }
 
-        for (ISortingMemberHandler filteringMember : childs)
+        for (Iterator<ISortingMemberHandler> iterator = childs.iterator(); iterator.hasNext(); )
         {
+            ISortingMemberHandler filteringMember = iterator.next();
+            if (filteringMember.getOwner().isInvalid())
+            {
+                iterator.remove();
+                continue;
+            }
             if (filteringMember.getOwner() instanceof ISortingInventory)
             {
                 ISortingInventory filteringInventory = (ISortingInventory) filteringMember.getOwner();
@@ -271,6 +277,12 @@ public class SortingMemberHandler implements ISortingMemberHandler
                     list.get(filteringInventory.getPriority().ordinal()).add(filteringInventory);
                 }
             }
+        }
+
+        if (owner.isInvalid())
+        {
+            ISortingInventory myInventory = (ISortingInventory) this.owner;
+            myInventory.getSortingHandler().onTileRemoved();
         }
 
         if (owner instanceof ISortingInventory)

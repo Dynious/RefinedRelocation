@@ -28,6 +28,7 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
     public final void setInventorySlotContents(int par1, ItemStack itemStack)
     {
         inventory.putStackInSlot(itemStack, par1);
+        inventory.onInventoryChanged();
 
         if (itemStack == null || owner.worldObj.isRemote)
             return;
