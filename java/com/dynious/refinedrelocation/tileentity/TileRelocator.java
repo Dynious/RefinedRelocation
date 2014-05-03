@@ -124,7 +124,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (passesFilter(itemStack, side))
         {
-            cachedTravellingItem = getHandler().getGrid().findOutput(itemStack, this, side);
+            cachedTravellingItem = getHandler().getGrid().findOutput(itemStack, this);
             if (cachedTravellingItem != null)
             {
                 maxStackSize = cachedTravellingItem.getStackSize();
@@ -169,7 +169,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (cachedTravellingItem.isItemSameAs(itemstack))
         {
-            getHandler().getGrid().travelItem(cachedTravellingItem);
+            getHandler().getGrid().travelItem(cachedTravellingItem, int side);
         }
         //Input from side
     }

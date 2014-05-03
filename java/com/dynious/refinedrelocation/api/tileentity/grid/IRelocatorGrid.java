@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 public interface IRelocatorGrid extends IGrid
 {
-    public TravellingItem findOutput(ItemStack itemStack, IRelocator relocator, int direction);
+    public TravellingItem findOutput(ItemStack itemStack, IRelocator relocator);
 
-    public void travelItem(TravellingItem item);
+    public void travelItem(TravellingItem item, int side);
 }
