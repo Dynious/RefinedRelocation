@@ -152,7 +152,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     }
 
     @Override
-    public ISortingInventoryHandler getSortingHandler()
+    public ISortingInventoryHandler getHandler()
     {
         return sortingInventoryHandler;
     }

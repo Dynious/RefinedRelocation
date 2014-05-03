@@ -89,7 +89,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
-    public ISortingInventoryHandler getSortingHandler()
+    public ISortingInventoryHandler getHandler()
     {
         return sortingInventoryHandler;
     }

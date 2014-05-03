@@ -115,7 +115,7 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     }
 
     @Override
-    public ISortingInventoryHandler getSortingHandler()
+    public ISortingInventoryHandler getHandler()
     {
         return sortingInventoryHandler;
     }

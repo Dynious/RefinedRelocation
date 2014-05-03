@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.sorting;
+package com.dynious.refinedrelocation.grid.sorting;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SortingInventoryHandler extends SortingMemberHandler implements ISortingInventoryHandler
@@ -33,7 +32,7 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
         if (itemStack == null || owner.worldObj.isRemote)
             return;
 
-        itemStack = getLeader().filterStackToGroup(itemStack.copy(), this.owner, par1);
+        itemStack = getGrid().filterStackToGroup(itemStack.copy(), this.owner, par1);
 
         if (itemStack == null || itemStack.stackSize == 0)
         {

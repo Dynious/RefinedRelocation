@@ -130,26 +130,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
             TileEntity tile = tiles[outputSide.ordinal()];
             if (tile != null)
             {
-                if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
-                {
-                    return true;
-                }
-                else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
-                {
-                    IPipeTile pipe = (IPipeTile) tile;
-                    if (pipe.isPipeConnected(outputSide.getOpposite()))
-                    {
-                        addingItemStack.stackSize -= pipe.injectItem(addingItemStack, false, outputSide.getOpposite());
-                        if (addingItemStack.stackSize == 0)
-                            return true;
-                    }
-                }
-                else if (tile instanceof IInventory)
-                {
-                    addingItemStack = IOHelper.insert((IInventory) tile, addingItemStack, outputSide.getOpposite().ordinal(), true);
-                    if (addingItemStack == null || addingItemStack.stackSize == 0)
-                        return true;
-                }
+                return IOHelper.insert(tile, itemstack, outputSide.getOpposite(), true) == null;
             }
         }
         return false;
@@ -209,7 +190,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
 
     public ItemStack insertItemStack(ItemStack itemstack, int side)
     {
-        return IOHelper.insert(tiles[side], itemstack, ForgeDirection.getOrientation(side).getOpposite());
+        return IOHelper.insert(tiles[side], itemstack, ForgeDirection.getOrientation(side).getOpposite(), false);
     }
 
     @Override

@@ -25,7 +25,7 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
      *
      * @return The SortingInventoryHandler of this tile
      */
-    public ISortingInventoryHandler getSortingHandler();
+    public ISortingInventoryHandler getHandler();
 
     /**
      * Forcibly sets an ItemStack to the slotIndex

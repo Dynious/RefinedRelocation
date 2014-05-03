@@ -5,9 +5,9 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import com.dynious.refinedrelocation.lib.GuiIds;
-import com.dynious.refinedrelocation.sorting.FilterStandard;
-import com.dynious.refinedrelocation.sorting.SortingInventoryHandler;
-import com.dynious.refinedrelocation.sorting.SortingMemberHandler;
+import com.dynious.refinedrelocation.grid.FilterStandard;
+import com.dynious.refinedrelocation.grid.sorting.SortingInventoryHandler;
+import com.dynious.refinedrelocation.grid.sorting.SortingMemberHandler;
 import net.minecraft.tileentity.TileEntity;
 
 public class APIHandler implements IAPIHandler

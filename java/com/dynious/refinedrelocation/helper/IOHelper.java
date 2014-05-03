@@ -16,10 +16,14 @@ import java.util.Random;
 
 public class IOHelper
 {
-    public static ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side)
+    public static ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
     {
         if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
         {
+            if (simulate)
+            {
+                return null;
+            }
             return ((IItemConduit) tile).insertItem(side, itemStack);
         }
         else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
@@ -27,14 +31,18 @@ public class IOHelper
             IPipeTile pipe = (IPipeTile) tile;
             if (pipe.isPipeConnected(side))
             {
-                int size = pipe.injectItem(itemStack, true, side);
+                int size = pipe.injectItem(itemStack, !simulate, side);
                 itemStack.stackSize -= size;
+                if (itemStack.stackSize == 0)
+                {
+                    return null;
+                }
                 return itemStack;
             }
         }
         else if (tile instanceof IInventory)
         {
-            return insert((IInventory) tile, itemStack, side.ordinal(), false);
+            return insert((IInventory) tile, itemStack, side.ordinal(), simulate);
         }
         return itemStack;
     }

@@ -29,7 +29,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     private Priority priority = Priority.NORMAL;
 
     @Override
-    public ISortingInventoryHandler getSortingHandler()
+    public ISortingInventoryHandler getHandler()
     {
         return sortingHandler;
     }
@@ -42,7 +42,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
             TileEntity tile = DirectionHelper.getTileAtSide(worldObj, xCoord, yCoord, zCoord, connectedSide);
             if (tile != null && !(tile instanceof ISortingMember))
             {
-                itemStack = IOHelper.insert(tile, itemStack, connectedSide.getOpposite());
+                itemStack = IOHelper.insert(tile, itemStack, connectedSide.getOpposite(), false);
                 if (itemStack == null || itemStack.stackSize == 0)
                     return null;
             }
