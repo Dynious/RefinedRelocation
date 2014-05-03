@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.api.tileentity;
 
+
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 
 /**
@@ -7,7 +8,7 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandl
  *
  * Make sure you call the onTileAdded() and onTileRemoved() at the right time.
  */
-public interface ISortingMember
+public interface ISortingMember extends IGridMember
 {
     /**
      * This should return the ISortingMemberHandler of this tile. It cannot be null.
@@ -15,5 +16,5 @@ public interface ISortingMember
      *
      * @return The SortingMemberHandler of this tile
      */
-    public ISortingMemberHandler getSortingHandler();
+    public ISortingMemberHandler getHandler();
 }

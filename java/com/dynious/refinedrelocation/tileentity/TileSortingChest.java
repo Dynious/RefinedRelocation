@@ -484,7 +484,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     }
 
     @Override
-    public ISortingInventoryHandler getSortingHandler()
+    public ISortingInventoryHandler getHandler()
     {
         return sortingInventoryHandler;
     }

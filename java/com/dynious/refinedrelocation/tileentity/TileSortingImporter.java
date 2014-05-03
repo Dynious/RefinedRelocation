@@ -146,7 +146,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
                 stack.stackSize = itemstack.stackSize;
                 itemstack = stack;
             }
-            bufferInventory[0] = getSortingHandler().getLeader().filterStackToGroup(itemstack, this, i);
+            bufferInventory[0] = getHandler().getGrid().filterStackToGroup(itemstack, this, i);
             if (bufferInventory[0] != null)
             {
                 syncInventory();

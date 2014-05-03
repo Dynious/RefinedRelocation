@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.sorting;
+package com.dynious.refinedrelocation.grid;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.google.common.primitives.Booleans;

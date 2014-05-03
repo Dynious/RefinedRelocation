@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.api.tileentity.handlers;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public interface ISortingInventoryHandler extends ISortingMemberHandler
