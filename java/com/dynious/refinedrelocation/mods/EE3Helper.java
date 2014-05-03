@@ -16,6 +16,8 @@ import com.pahimar.ee3.tileentity.TileAlchemicalChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,6 +43,7 @@ public class EE3Helper
         }
     }
 
+    @SideOnly(Side.CLIENT)
     public static void addEE3Renders()
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileSortingAlchemicalChest.class, new RendererSortingAlchemicalChest());
