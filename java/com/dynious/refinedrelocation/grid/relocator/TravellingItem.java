@@ -10,15 +10,13 @@ public class TravellingItem
 {
     private ItemStack itemStack;
     private IRelocator startingPoint;
-    private IRelocator endPoint;
-    private List<Byte> decisions;
+    private PathToRelocator path;
 
-    public TravellingItem(ItemStack itemStack, IRelocator startingPoint, IRelocator endPoint, List<Byte> decisions)
+    public TravellingItem(ItemStack itemStack, IRelocator startingPoint, PathToRelocator path)
     {
         this.itemStack = itemStack;
         this.startingPoint = startingPoint;
-        this.endPoint = endPoint;
-        this.decisions = decisions;
+        this.path = path;
     }
 
     public int getStackSize()
