@@ -47,6 +47,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             isFirstTick = false;
         }
 
+        items.addAll(itemsToAdd);
+        itemsToAdd.clear();
+
         for (Iterator<TravellingItem> iterator = items.iterator(); iterator.hasNext(); )
         {
             TravellingItem item = iterator.next();
@@ -54,14 +57,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             if (item.counter > TravellingItem.timePerRelocator)
             {
                 iterator.remove();
-                byte side = item.getPath().PATH.get(0);
-                item.getPath().PATH.remove(0);
-                outputToSide(item, side);
+                outputToSide(item, item.onOutput());
             }
         }
-
-        items.addAll(itemsToAdd);
-        itemsToAdd.clear();
 
         if (blocksChanged)
         {
@@ -108,8 +106,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return inventories;
     }
 
+    @Override
     public void receiveTravellingItem(TravellingItem item, int side)
     {
+        if (item.getPath().PATH.isEmpty())
+        {
+            retryOutput(item, (byte) 0);
+        }
         itemsToAdd.add(item);
     }
 
@@ -117,24 +120,41 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (getConnectedRelocators()[side] != null)
         {
-            item.counter = 0;
             getConnectedRelocators()[side].receiveTravellingItem(item, ForgeDirection.OPPOSITES[side]);
         }
         else if (getConnectedInventories()[side] != null)
         {
-            ItemStack stack = IOHelper.insert(getConnectedInventories()[side], item.getItemStack(), ForgeDirection.getOrientation(side).getOpposite(), false);
+            ItemStack stack = IOHelper.insert(getConnectedInventories()[side], item.getItemStack().copy(), ForgeDirection.getOrientation(side).getOpposite(), false);
             if (stack != null)
             {
-                stack = insert(stack.copy(), ForgeDirection.OPPOSITES[side], false);
-                //GO BACK TO START
-                System.out.println(stack);
+                item.getItemStack().stackSize = stack.stackSize;
+                retryOutput(item, side);
             }
         }
         else
         {
-            ItemStack stack = insert(item.getItemStack().copy(), ForgeDirection.OPPOSITES[side], false);
-            //GO BACK TO START
+            retryOutput(item, side);
+        }
+    }
+
+    public void retryOutput(TravellingItem item, byte side)
+    {
+        ItemStack stack = item.getItemStack().copy();
+        TravellingItem travellingItem = getHandler().getGrid().findOutput(item.getItemStack(), this, side);
+        if (travellingItem != null)
+        {
+            travellingItem.setStartingPoint(item.getStartingPoint());
+            receiveTravellingItem(travellingItem, ForgeDirection.OPPOSITES[side]);
+            stack.stackSize -= item.getStackSize();
+            if (stack.stackSize <= 0)
+            {
+                stack = null;
+            }
+        }
+        if (stack != null)
+        {
             System.out.println(stack);
+            //GO BACK!
         }
     }
 

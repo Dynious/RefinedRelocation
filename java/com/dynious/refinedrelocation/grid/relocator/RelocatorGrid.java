@@ -15,10 +15,12 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
 {
     private TravellingItem travellingItem;
     private IRelocator start;
+    private byte startSide;
 
     public TravellingItem findOutput(ItemStack itemStack, IRelocator relocator, int side)
     {
         start = relocator;
+        startSide = (byte) side;
         List<IRelocator> checkedRelocators = new ArrayList<IRelocator>();
         PathToRelocator path = new PathToRelocator(relocator, new ArrayList<Byte>());
 
@@ -112,7 +114,7 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
                             {
                                 stack = itemStack.copy();
                             }
-                            return new TravellingItem(stack, start, newPath);
+                            return new TravellingItem(stack, start, newPath, startSide);
                         }
                     }
                 }
