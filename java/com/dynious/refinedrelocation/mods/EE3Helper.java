@@ -114,7 +114,7 @@ public class EE3Helper
             // Clear the old block out
             world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, 0, 0, 3);
             // And put in our block instead
-            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingIronChest.blockID, meta, 3);
+            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingAlchemicalChest.blockID, meta, 3);
 
             world.setBlockTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, chest);
             world.setBlockMetadataWithNotify(tile.xCoord, tile.yCoord, tile.zCoord, meta, 3);
