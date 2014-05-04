@@ -21,6 +21,7 @@ public class ModObjects
     public static ItemStack relocationPortal;
     public static ItemStack relocationController;
     public static ItemStack powerLimiter;
+    public static ItemStack relocator;
 
     /* Items */
     public static ItemStack linker;

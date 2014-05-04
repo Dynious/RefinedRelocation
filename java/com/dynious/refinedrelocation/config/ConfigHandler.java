@@ -29,6 +29,7 @@ public class ConfigHandler
             BlockIds.RELOCATION_CONTROLLER = configuration.getBlock(Names.relocationController, BlockIds.RELOCATION_CONTROLLER_DEFAULT).getInt(BlockIds.RELOCATION_CONTROLLER_DEFAULT);
             BlockIds.POWER_LIMITER = configuration.getBlock(Names.powerLimiter, BlockIds.POWER_LIMITER_DEFAULT).getInt(BlockIds.POWER_LIMITER_DEFAULT);
             BlockIds.SORTING_ALCHEMICAL_CHEST = configuration.getBlock(Names.sortingAlchemicalChest, BlockIds.SORTING_ALCHEMICAL_CHEST_DEFAULT).getInt(BlockIds.SORTING_ALCHEMICAL_CHEST_DEFAULT);
+            BlockIds.RELOCATOR = configuration.getBlock(Names.relocator, BlockIds.RELOCATOR_DEFAULT).getInt(BlockIds.RELOCATOR_DEFAULT);
 
             ItemIds.LINKER = configuration.getItem(Names.linker, ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);
             ItemIds.SORTING_UPGRADE = configuration.getItem(Names.sortingUpgrade, ItemIds.SORTING_UPGRADE_DEFAULT).getInt(ItemIds.SORTING_UPGRADE_DEFAULT);

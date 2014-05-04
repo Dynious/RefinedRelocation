@@ -16,46 +16,46 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
     private TravellingItem travellingItem;
     private IRelocator start;
 
-    public TravellingItem findOutput(ItemStack itemStack, IRelocator relocator)
+    public TravellingItem findOutput(ItemStack itemStack, IRelocator relocator, int side)
     {
         start = relocator;
         List<IRelocator> checkedRelocators = new ArrayList<IRelocator>();
         PathToRelocator path = new PathToRelocator(relocator, new ArrayList<Byte>());
 
         //Try to output
-        List<PathToRelocator> unckeckedRelocators = tryOutputAndReturnConnections(itemStack, path, checkedRelocators);
+        List<PathToRelocator> uncheckedRelocators = tryOutputAndReturnConnections(itemStack, path, checkedRelocators, side);
         //If an output was found the to-be-checked list is null, now return the travellingItem
-        if (unckeckedRelocators == null)
+        if (uncheckedRelocators == null)
         {
             return travellingItem;
         }
 
-        //While to list of to-be-checked unckeckedRelocators is not empty go on
-        while (!unckeckedRelocators.isEmpty())
+        //While to list of to-be-checked uncheckedRelocators is not empty go on
+        while (!uncheckedRelocators.isEmpty())
         {
-            for (PathToRelocator pathToRelocator : new ArrayList<PathToRelocator>(unckeckedRelocators))
+            for (PathToRelocator pathToRelocator : new ArrayList<PathToRelocator>(uncheckedRelocators))
             {
                 //Try to output
-                List<PathToRelocator> pathList = tryOutputAndReturnConnections(itemStack, pathToRelocator, checkedRelocators);
+                List<PathToRelocator> pathList = tryOutputAndReturnConnections(itemStack, pathToRelocator, checkedRelocators, -1);
                 //If an output was found the to-be-checked list is null, now return the travellingItem
                 if (pathList == null)
                 {
                     return travellingItem;
                 }
                 //Add all connected Relocators and the Path to it
-                unckeckedRelocators.addAll(pathList);
+                uncheckedRelocators.addAll(pathList);
                 //Remove the current checked Relocator and Path to it
-                unckeckedRelocators.remove(pathToRelocator);
+                uncheckedRelocators.remove(pathToRelocator);
             }
         }
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    public List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<IRelocator> checkedRelocators)
+    public List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<IRelocator> checkedRelocators, int excludedOutputSide)
     {
         //Try to output the stack to the connected Tiles
-        TravellingItem travellingItem = tryToOutput(itemStack, path);
+        TravellingItem travellingItem = tryToOutput(itemStack, path, excludedOutputSide);
         //If something could be outputted set the travellingItem to the found item and return null (stop searching)
         if (travellingItem != null)
         {
@@ -70,7 +70,7 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
         for (int i = 0; i < path.RELOCATOR.getConnectedRelocators().length; i++)
         {
             IRelocator relocator1 = path.RELOCATOR.getConnectedRelocators()[i];
-            if (relocator1 != null && !checkedRelocators.contains(relocator1))
+            if (relocator1 != null && !checkedRelocators.contains(relocator1) && path.RELOCATOR.passesFilter(itemStack, i) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i]))
             {
                 //Clone the path to the connected Relocator and add the new side to it
                 ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
@@ -83,34 +83,37 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
     }
 
     @SuppressWarnings("unchecked")
-    public TravellingItem tryToOutput(ItemStack itemStack, PathToRelocator path)
+    public TravellingItem tryToOutput(ItemStack itemStack, PathToRelocator path, int excludedSide)
     {
         for (int i = 0; i < path.RELOCATOR.getConnectedInventories().length; i++)
         {
-            if (path.RELOCATOR.passesFilter(itemStack, i))
+            if (i != excludedSide)
             {
                 TileEntity inventory = path.RELOCATOR.getConnectedInventories()[i];
                 if (inventory != null)
                 {
-                    //Try to insert
-                    ItemStack stack = IOHelper.insert(inventory, itemStack.copy(), ForgeDirection.getOrientation(i).getOpposite(), true);
-                    //If we managed to output everything or a part of the stack go on
-                    if (stack == null || stack.stackSize <= itemStack.stackSize)
+                    if (path.RELOCATOR.passesFilter(itemStack, i))
                     {
-                        //Create a new path with the side we can output to
-                        ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
-                        newP.add((byte) i);
-                        PathToRelocator newPath = new PathToRelocator(path.RELOCATOR, newP);
-                        //Invert the stack size (we get back what didn't fit)
-                        if (stack != null)
+                        //Try to insert
+                        ItemStack stack = IOHelper.insert(inventory, itemStack.copy(), ForgeDirection.getOrientation(i).getOpposite(), true);
+                        //If we managed to output everything or a part of the stack go on
+                        if (stack == null || stack.stackSize < itemStack.stackSize)
                         {
-                            stack.stackSize = itemStack.stackSize - stack.stackSize;
+                            //Create a new path with the side we can output to
+                            ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
+                            newP.add((byte) i);
+                            PathToRelocator newPath = new PathToRelocator(path.RELOCATOR, newP);
+                            //Invert the stack size (we get back what didn't fit)
+                            if (stack != null)
+                            {
+                                stack.stackSize = itemStack.stackSize - stack.stackSize;
+                            }
+                            else
+                            {
+                                stack = itemStack.copy();
+                            }
+                            return new TravellingItem(stack, start, newPath);
                         }
-                        else
-                        {
-                            stack = itemStack.copy();
-                        }
-                        return new TravellingItem(stack, start, newPath);
                     }
                 }
             }
@@ -120,6 +123,6 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
 
     public void travelItem(TravellingItem item, int side)
     {
-
+        //NOOP
     }
 }

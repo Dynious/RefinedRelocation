@@ -13,6 +13,7 @@ public class BlockIds
     public static final int RELOCATION_CONTROLLER_DEFAULT = 1568;
     public static final int POWER_LIMITER_DEFAULT = 1569;
     public static final int SORTING_ALCHEMICAL_CHEST_DEFAULT = 1570;
+    public static final int RELOCATOR_DEFAULT = 1571;
 
     public static int BLOCK_EXTENDER;
     public static int BUFFER;
@@ -25,4 +26,5 @@ public class BlockIds
     public static int RELOCATION_CONTROLLER;
     public static int POWER_LIMITER;
     public static int SORTING_ALCHEMICAL_CHEST;
+    public static int RELOCATOR;
 }

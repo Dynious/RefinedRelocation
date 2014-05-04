@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.IRelocatorHandler;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorHandler;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -14,13 +15,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class TileRelocator extends TileEntity implements IRelocator, ISidedInventory
 {
     private boolean isFirstTick = true;
-    private boolean blocksChanged = true;
+    public boolean blocksChanged = true;
 
     private IRelocatorHandler handler = new RelocatorHandler(this);
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
@@ -31,7 +33,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private int maxStackSize = 64;
 
     private List<TravellingItem> items = new ArrayList<TravellingItem>();
+    private List<TravellingItem> itemsToAdd = new ArrayList<TravellingItem>();
 
+    @Override
     public void updateEntity()
     {
         super.updateEntity();
@@ -43,13 +47,41 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             isFirstTick = false;
         }
 
+        for (Iterator<TravellingItem> iterator = items.iterator(); iterator.hasNext(); )
+        {
+            TravellingItem item = iterator.next();
+            item.counter++;
+            if (item.counter > TravellingItem.timePerRelocator)
+            {
+                iterator.remove();
+                byte side = item.getPath().PATH.get(0);
+                item.getPath().PATH.remove(0);
+                outputToSide(item, side);
+            }
+        }
+
+        items.addAll(itemsToAdd);
+        itemsToAdd.clear();
+
         if (blocksChanged)
         {
             inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
+            relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
 
             for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
             {
-                inventories[direction.ordinal()] = DirectionHelper.getTileAtSide(this, direction);
+                TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
+                if (tile != null)
+                {
+                    if (!(tile instanceof IRelocator))
+                    {
+                        inventories[direction.ordinal()] = tile;
+                    }
+                    else
+                    {
+                        relocators[direction.ordinal()] = (IRelocator) tile;
+                    }
+                }
             }
             blocksChanged = false;
         }
@@ -59,34 +91,51 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
-    public boolean isDecisionPoint()
-    {
-        return hasConnectedInventories();
-    }
-
-    private boolean hasConnectedInventories()
-    {
-        for (TileEntity inventory : inventories)
-        {
-            if (inventory != null)
-                return true;
-        }
-        return false;
-    }
-
     public IRelocator[] getConnectedRelocators()
     {
         return relocators;
     }
 
+    @Override
     public boolean passesFilter(ItemStack itemStack, int side)
     {
         return filters[side] == null || filters[side].passesFilter(itemStack);
     }
 
+    @Override
     public TileEntity[] getConnectedInventories()
     {
         return inventories;
+    }
+
+    public void receiveTravellingItem(TravellingItem item, int side)
+    {
+        itemsToAdd.add(item);
+    }
+
+    public void outputToSide(TravellingItem item, byte side)
+    {
+        if (getConnectedRelocators()[side] != null)
+        {
+            item.counter = 0;
+            getConnectedRelocators()[side].receiveTravellingItem(item, ForgeDirection.OPPOSITES[side]);
+        }
+        else if (getConnectedInventories()[side] != null)
+        {
+            ItemStack stack = IOHelper.insert(getConnectedInventories()[side], item.getItemStack(), ForgeDirection.getOrientation(side).getOpposite(), false);
+            if (stack != null)
+            {
+                stack = insert(stack.copy(), ForgeDirection.OPPOSITES[side], false);
+                //GO BACK TO START
+                System.out.println(stack);
+            }
+        }
+        else
+        {
+            ItemStack stack = insert(item.getItemStack().copy(), ForgeDirection.OPPOSITES[side], false);
+            //GO BACK TO START
+            System.out.println(stack);
+        }
     }
 
     @Override
@@ -109,6 +158,27 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         super.invalidate();
     }
 
+    @Override
+    public ItemStack insert(ItemStack itemStack, int side, boolean simulate)
+    {
+        if (getHandler().getGrid() != null && passesFilter(itemStack, side))
+        {
+            TravellingItem item = getHandler().getGrid().findOutput(itemStack.copy(), this, side);
+            if (item != null)
+            {
+                if (!simulate)
+                {
+                    receiveTravellingItem(item, side);
+                }
+                itemStack.stackSize -= item.getStackSize();
+                if (itemStack.stackSize <= 0)
+                {
+                    return null;
+                }
+            }
+        }
+        return itemStack;
+    }
     /*
     ISidedInventory implementation
      */
@@ -122,9 +192,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public boolean canInsertItem(int slot, ItemStack itemStack, int side)
     {
-        if (passesFilter(itemStack, side))
+        if (getHandler().getGrid() != null && passesFilter(itemStack, side))
         {
-            cachedTravellingItem = getHandler().getGrid().findOutput(itemStack, this);
+            cachedTravellingItem = getHandler().getGrid().findOutput(itemStack, this, side);
             if (cachedTravellingItem != null)
             {
                 maxStackSize = cachedTravellingItem.getStackSize();
@@ -169,9 +239,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (cachedTravellingItem.isItemSameAs(itemstack))
         {
-            getHandler().getGrid().travelItem(cachedTravellingItem, int side);
+            receiveTravellingItem(cachedTravellingItem, side);
         }
-        //Input from side
     }
 
     @Override
@@ -189,15 +258,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public int getInventoryStackLimit()
     {
-        int size = maxStackSize;
-        maxStackSize = 64;
-        return size;
+        return maxStackSize;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer)
     {
-        return false;
+        return true;
     }
 
     @Override
