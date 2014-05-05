@@ -65,9 +65,12 @@ public class PacketItemList extends PacketTile
     public void execute(INetworkManager manager, Player player)
     {
         super.execute(manager, player);
-        for (TravellingItem item : items)
+        if (tile != null)
         {
-            ((IRelocator) tile).receiveTravellingItem(item);
+            for (TravellingItem item : items)
+            {
+                ((IRelocator) tile).receiveTravellingItem(item);
+            }
         }
     }
 }

@@ -156,27 +156,31 @@ public class IOHelper
 
             if (itemStack != null && itemStack.stackSize > 0)
             {
-                Random rand = new Random();
-
-                float dX = rand.nextFloat() * 0.8F + 0.1F;
-                float dY = rand.nextFloat() * 0.8F + 0.1F;
-                float dZ = rand.nextFloat() * 0.8F + 0.1F;
-
-                EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, new ItemStack(itemStack.itemID, itemStack.stackSize, itemStack.getItemDamage()));
-
-                if (itemStack.hasTagCompound())
-                {
-                    entityItem.getEntityItem().setTagCompound((NBTTagCompound) itemStack.getTagCompound().copy());
-                }
-
-                float factor = 0.05F;
-                entityItem.motionX = rand.nextGaussian() * factor;
-                entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
-                entityItem.motionZ = rand.nextGaussian() * factor;
-                world.spawnEntityInWorld(entityItem);
-                itemStack.stackSize = 0;
+                spawnItemInWorld(world, itemStack, x, y, z);
             }
         }
+    }
+
+    public static void spawnItemInWorld(World world, ItemStack itemStack, double x, double y, double z)
+    {
+
+        float dX = world.rand.nextFloat() * 0.8F + 0.1F;
+        float dY = world.rand.nextFloat() * 0.8F + 0.1F;
+        float dZ = world.rand.nextFloat() * 0.8F + 0.1F;
+
+        EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, new ItemStack(itemStack.itemID, itemStack.stackSize, itemStack.getItemDamage()));
+
+        if (itemStack.hasTagCompound())
+        {
+            entityItem.getEntityItem().setTagCompound((NBTTagCompound) itemStack.getTagCompound().copy());
+        }
+
+        float factor = 0.05F;
+        entityItem.motionX = world.rand.nextGaussian() * factor;
+        entityItem.motionY = world.rand.nextGaussian() * factor + 0.2F;
+        entityItem.motionZ = world.rand.nextGaussian() * factor;
+        world.spawnEntityInWorld(entityItem);
+        itemStack.stackSize = 0;
     }
 
     public static boolean canInterfaceWith(TileEntity tile, ForgeDirection side)

@@ -2,7 +2,7 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorGrid;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
@@ -77,6 +77,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         if (!itemsToAdd.isEmpty())
         {
             items.addAll(itemsToAdd);
+            //TODO: don't send packet when transferring to Relocators
             PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64, worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketItemList(this, itemsToAdd)));
             itemsToAdd.clear();
         }
@@ -180,7 +181,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public void retryOutput(TravellingItem item, byte side)
     {
         ItemStack stack = item.getItemStack().copy();
-        TravellingItem travellingItem = RelocatorGrid.findOutput(item.getItemStack(), this, side);
+        TravellingItem travellingItem = RelocatorGridLogic.findOutput(item.getItemStack(), this, side);
         if (travellingItem != null)
         {
             travellingItem.setStartingPoint(item.getStartingPoint());
@@ -194,7 +195,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         if (stack != null)
         {
             System.out.println(stack);
-            //GO BACK!
+            //TODO: GO BACK!
         }
     }
 
@@ -203,7 +204,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (passesFilter(itemStack, side))
         {
-            TravellingItem item = RelocatorGrid.findOutput(itemStack.copy(), this, side);
+            TravellingItem item = RelocatorGridLogic.findOutput(itemStack.copy(), this, side);
             if (item != null)
             {
                 if (!simulate)
@@ -240,7 +241,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (passesFilter(itemStack, side))
         {
-            cachedTravellingItem = RelocatorGrid.findOutput(itemStack, this, side);
+            cachedTravellingItem = RelocatorGridLogic.findOutput(itemStack, this, side);
             if (cachedTravellingItem != null)
             {
                 maxStackSize = cachedTravellingItem.getStackSize();
@@ -286,6 +287,19 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         if (side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemstack))
         {
             receiveTravellingItem(cachedTravellingItem);
+        }
+        else
+        {
+            TravellingItem travellingItem = RelocatorGridLogic.findOutput(itemstack, this, side);
+            if (travellingItem != null)
+            {
+                itemstack.stackSize -= travellingItem.getStackSize();
+                receiveTravellingItem(travellingItem);
+            }
+            if (itemstack != null && itemstack.stackSize > 0)
+            {
+                //TODO: Place it somewhere!
+            }
         }
     }
 

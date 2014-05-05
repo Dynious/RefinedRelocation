@@ -11,7 +11,7 @@ import net.minecraftforge.common.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelocatorGrid
+public class RelocatorGridLogic
 {
     private static TravellingItem travellingItem;
     private static IRelocator start;
@@ -54,7 +54,7 @@ public class RelocatorGrid
     }
 
     @SuppressWarnings("unchecked")
-    public static List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<IRelocator> checkedRelocators, int excludedOutputSide)
+    private static List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<IRelocator> checkedRelocators, int excludedOutputSide)
     {
         //Try to output the stack to the connected Tiles
         TravellingItem item = tryToOutput(itemStack, path, excludedOutputSide);
@@ -85,7 +85,7 @@ public class RelocatorGrid
     }
 
     @SuppressWarnings("unchecked")
-    public static TravellingItem tryToOutput(ItemStack itemStack, PathToRelocator path, int excludedSide)
+    private static TravellingItem tryToOutput(ItemStack itemStack, PathToRelocator path, int excludedSide)
     {
         for (int i = 0; i < path.RELOCATOR.getConnectedInventories().length; i++)
         {

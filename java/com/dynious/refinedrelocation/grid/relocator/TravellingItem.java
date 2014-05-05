@@ -74,10 +74,6 @@ public class TravellingItem
         return path.get(0);
     }
 
-    /*
-    Client Side methods
-     */
-
     public float getClientSideProgress(float partialRenderTime)
     {
         return ((float) counter + partialRenderTime) / timePerRelocator;
