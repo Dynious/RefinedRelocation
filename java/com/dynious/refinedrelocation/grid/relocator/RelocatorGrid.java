@@ -11,13 +11,13 @@ import net.minecraftforge.common.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelocatorGrid extends Grid implements IRelocatorGrid
+public class RelocatorGrid
 {
-    private TravellingItem travellingItem;
-    private IRelocator start;
-    private byte startSide;
+    private static TravellingItem travellingItem;
+    private static IRelocator start;
+    private static byte startSide;
 
-    public TravellingItem findOutput(ItemStack itemStack, IRelocator relocator, int side)
+    public static TravellingItem findOutput(ItemStack itemStack, IRelocator relocator, int side)
     {
         start = relocator;
         startSide = (byte) side;
@@ -54,14 +54,14 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
     }
 
     @SuppressWarnings("unchecked")
-    public List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<IRelocator> checkedRelocators, int excludedOutputSide)
+    public static List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<IRelocator> checkedRelocators, int excludedOutputSide)
     {
         //Try to output the stack to the connected Tiles
-        TravellingItem travellingItem = tryToOutput(itemStack, path, excludedOutputSide);
+        TravellingItem item = tryToOutput(itemStack, path, excludedOutputSide);
         //If something could be outputted set the travellingItem to the found item and return null (stop searching)
-        if (travellingItem != null)
+        if (item != null)
         {
-            this.travellingItem = travellingItem;
+            travellingItem = item;
             return null;
         }
         //Add the Relocator to the checked list, this Relocator will not be checked again if found
@@ -85,7 +85,7 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
     }
 
     @SuppressWarnings("unchecked")
-    public TravellingItem tryToOutput(ItemStack itemStack, PathToRelocator path, int excludedSide)
+    public static TravellingItem tryToOutput(ItemStack itemStack, PathToRelocator path, int excludedSide)
     {
         for (int i = 0; i < path.RELOCATOR.getConnectedInventories().length; i++)
         {
@@ -102,9 +102,8 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
                         if (stack == null || stack.stackSize < itemStack.stackSize)
                         {
                             //Create a new path with the side we can output to
-                            ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
-                            newP.add((byte) i);
-                            PathToRelocator newPath = new PathToRelocator(path.RELOCATOR, newP);
+                            ArrayList<Byte> newPath = (ArrayList<Byte>) path.PATH.clone();
+                            newPath.add((byte) i);
                             //Invert the stack size (we get back what didn't fit)
                             if (stack != null)
                             {
@@ -121,10 +120,5 @@ public class RelocatorGrid extends Grid implements IRelocatorGrid
             }
         }
         return null;
-    }
-
-    public void travelItem(TravellingItem item, int side)
-    {
-        //NOOP
     }
 }

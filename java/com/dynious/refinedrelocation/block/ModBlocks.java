@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.item.ItemBuffer;
 import com.dynious.refinedrelocation.item.ItemPowerLimiter;
 import com.dynious.refinedrelocation.item.ItemSortingConnector;
 import com.dynious.refinedrelocation.lib.BlockIds;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.EE3Helper;
@@ -102,19 +103,19 @@ public class ModBlocks
             GameRegistry.addShapedRecipe(new ItemStack(relocationController), "ded", "ece", "ded", 'd', Item.diamond, 'e', Item.eyeOfEnder, 'c', Item.compass);
         }
 
-        if (Loader.isModLoaded("IronChest"))
+        if (Mods.IS_IRON_CHEST_LOADED)
         {
             IronChestHelper.addIronChestBlocks();
             IronChestHelper.addIronChestRecipes();
         }
 
-        if (Loader.isModLoaded("JABBA"))
+        if (Mods.IS_JABBA_LOADED)
         {
             JabbaHelper.addBarrelBlock();
             JabbaHelper.addBarrelRecipes();
         }
 
-        if (Loader.isModLoaded("EE3"))
+        if (Mods.IS_EE3_LOADED)
         {
             EE3Helper.addEE3Blocks();
             EE3Helper.addEE3Recipes();

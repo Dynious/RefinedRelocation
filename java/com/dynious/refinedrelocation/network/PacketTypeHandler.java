@@ -22,7 +22,8 @@ public enum PacketTypeHandler
     SWITCH_PAGE(PacketSwitchPage.class),
     SET_MAX_POWER(PacketSetMaxPower.class),
     REDSTONE_TOGGLE(PacketRedstoneToggle.class),
-    PRIORITY(PacketPriority.class);
+    PRIORITY(PacketPriority.class),
+    ITEM_LIST(PacketItemList.class);
 
     private Class<? extends CustomPacket> clazz;
 

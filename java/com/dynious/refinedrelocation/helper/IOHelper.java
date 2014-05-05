@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.helper;
 
 import buildcraft.api.transport.IPipeTile;
 import cofh.api.transport.IItemConduit;
+import com.dynious.refinedrelocation.lib.Mods;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
@@ -18,7 +19,7 @@ public class IOHelper
 {
     public static ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
     {
-        if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
+        if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
         {
             if (simulate)
             {
@@ -26,7 +27,7 @@ public class IOHelper
             }
             return ((IItemConduit) tile).insertItem(side, itemStack);
         }
-        else if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
+        else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
             IPipeTile pipe = (IPipeTile) tile;
             if (pipe.isPipeConnected(side))
@@ -176,5 +177,26 @@ public class IOHelper
                 itemStack.stackSize = 0;
             }
         }
+    }
+
+    public static boolean canInterfaceWith(TileEntity tile, ForgeDirection side)
+    {
+        if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
+        {
+            return true;
+        }
+        else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
+        {
+            IPipeTile pipe = (IPipeTile) tile;
+            if (pipe.isPipeConnected(side))
+            {
+                return true;
+            }
+        }
+        else if (tile instanceof IInventory)
+        {
+            return !(tile instanceof ISidedInventory) || ((ISidedInventory) tile).getAccessibleSlotsFromSide(side.ordinal()).length > 0;
+        }
+        return false;
     }
 }

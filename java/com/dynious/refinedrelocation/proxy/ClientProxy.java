@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.proxy;
 
 import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.lib.BlockIds;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
@@ -24,17 +25,18 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileSortingChest.class, new RendererSortingChest());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRelocationPortal.class, new RendererRelocationPortal());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMultiBlockBase.class, new RendererMultiBlock());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileRelocator.class, new RendererRelocator());
 
         MinecraftForgeClient.registerItemRenderer(BlockIds.BLOCK_EXTENDER, new ItemRendererBlockExtender());
         MinecraftForgeClient.registerItemRenderer(BlockIds.BUFFER, new ItemRendererBuffer());
         MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_CHEST, new ItemRendererSortingChest());
 
-        if (Loader.isModLoaded("IronChest"))
+        if (Mods.IS_IRON_CHEST_LOADED)
         {
             IronChestHelper.addIronChestRenders();
         }
 
-        if (Loader.isModLoaded("EE3"))
+        if (Mods.IS_EE3_LOADED)
         {
             EE3Helper.addEE3Renders();
         }

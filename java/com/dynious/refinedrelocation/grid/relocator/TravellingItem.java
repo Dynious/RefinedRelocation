@@ -9,14 +9,14 @@ import java.util.List;
 
 public class TravellingItem
 {
-    public static final byte timePerRelocator = 5;
+    public static final byte timePerRelocator = 10;
     private ItemStack itemStack;
     private IRelocator startingPoint;
-    private PathToRelocator path;
+    private List<Byte> path;
     public byte input;
     public byte counter;
 
-    public TravellingItem(ItemStack itemStack, IRelocator startingPoint, PathToRelocator path, int inputSide)
+    public TravellingItem(ItemStack itemStack, IRelocator startingPoint, List<Byte> path, int inputSide)
     {
         this.itemStack = itemStack;
         this.startingPoint = startingPoint;
@@ -34,7 +34,7 @@ public class TravellingItem
         return ItemStackHelper.areItemStacksEqual(this.itemStack, itemStack);
     }
 
-    public PathToRelocator getPath()
+    public List<Byte> getPath()
     {
         return path;
     }
@@ -42,9 +42,9 @@ public class TravellingItem
     public byte onOutput()
     {
         counter = 0;
-        
-        byte side = getPath().PATH.get(0);
-        getPath().PATH.remove(0);
+
+        byte side = getPath().get(0);
+        getPath().remove(0);
         input = (byte) ForgeDirection.OPPOSITES[side];
         return side;
     }
@@ -71,6 +71,51 @@ public class TravellingItem
 
     public byte getOutputSide()
     {
-        return path.PATH.get(0);
+        return path.get(0);
+    }
+
+    /*
+    Client Side methods
+     */
+
+    public float getClientSideProgress(float partialRenderTime)
+    {
+        return ((float) counter + partialRenderTime) / timePerRelocator;
+    }
+
+    public float getX(float clientSideProgress)
+    {
+        if (clientSideProgress <= 0.5F)
+        {
+            return 0.5F + (ForgeDirection.getOrientation(getInputSide()).offsetX * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetX * clientSideProgress);
+        }
+        else
+        {
+            return 0.5F + (ForgeDirection.getOrientation(getOutputSide()).offsetX * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetX * 0.5F);
+        }
+    }
+
+    public float getY(float clientSideProgress)
+    {
+        if (clientSideProgress <= 0.5F)
+        {
+            return 0.5F + (ForgeDirection.getOrientation(getInputSide()).offsetY * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetY * clientSideProgress);
+        }
+        else
+        {
+            return 0.5F + (ForgeDirection.getOrientation(getOutputSide()).offsetY * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetY * 0.5F);
+        }
+    }
+
+    public float getZ(float clientSideProgress)
+    {
+        if (clientSideProgress <= 0.5F)
+        {
+            return 0.5F + (ForgeDirection.getOrientation(getInputSide()).offsetZ * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetZ * clientSideProgress);
+        }
+        else
+        {
+            return 0.5F + (ForgeDirection.getOrientation(getOutputSide()).offsetZ * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetZ * 0.5F);
+        }
     }
 }

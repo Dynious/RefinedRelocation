@@ -5,6 +5,7 @@ import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.EnergyType;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
 import cpw.mods.fml.common.Loader;
@@ -232,7 +233,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         if (tile != null && !isLooping(tile))
         {
             boolean updated = false;
-            if (Loader.isModLoaded("BuildCraft|Energy") && tile instanceof IPowerReceptor)
+            if (Mods.IS_BC_ENERGY_LOADED && tile instanceof IPowerReceptor)
             {
                 if (getPowerReceptor() == null)
                 {
@@ -240,7 +241,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 }
                 setPowerReceptor((IPowerReceptor) tile);
             }
-            if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
+            if (Mods.IS_IC2_LOADED && tile instanceof IEnergySink)
             {
                 if (getEnergySink() == null)
                 {
@@ -248,7 +249,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 }
                 setEnergySink((IEnergySink) tile);
             }
-            if (Loader.isModLoaded("CoFHCore") && tile instanceof IEnergyHandler)
+            if (Mods.IS_COFH_CORE_LOADED && tile instanceof IEnergyHandler)
             {
                 if (getEnergyHandler() == null)
                 {
@@ -256,7 +257,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 }
                 setEnergyHandler((IEnergyHandler) tile);
             }
-            if (Loader.isModLoaded("UniversalElectricity") && tile instanceof IEnergyInterface)
+            if (Mods.IS_UE_LOADED && tile instanceof IEnergyInterface)
             {
                 if (getEnergyInterface() == null)
                 {
@@ -279,38 +280,17 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         setEnergyInterface(null);
     }
 
-    public boolean hasConnection()
-    {
-        if (Loader.isModLoaded("BuildCraft|Energy") && getPowerReceptor() != null)
-        {
-            return true;
-        }
-        if (Loader.isModLoaded("IC2") && getEnergySink() != null)
-        {
-            return true;
-        }
-        if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
-        {
-            return true;
-        }
-        if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
-        {
-            return true;
-        }
-        return false;
-    }
-
     public List<EnergyType> getConnectionTypes()
     {
         List<EnergyType> connections = new ArrayList<EnergyType>();
 
-        if (Loader.isModLoaded("BuildCraft|Energy") && getPowerReceptor() != null)
+        if (Mods.IS_BC_ENERGY_LOADED && getPowerReceptor() != null)
             connections.add(EnergyType.MJ);
-        if (Loader.isModLoaded("IC2") && getEnergySink() != null)
+        if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add(EnergyType.EU);
-        if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
+        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
             connections.add(EnergyType.RF);
-        if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
+        if (Mods.IS_UE_LOADED && getEnergyInterface() != null)
             connections.add(EnergyType.KJ);
 
         return connections;

@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.proxy;
 
 import com.dynious.refinedrelocation.event.EventHandler;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.network.GuiHandler;
 import com.dynious.refinedrelocation.tileentity.*;
@@ -30,16 +31,16 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileSortingImporter.class, Names.sortingImporter);
         GameRegistry.registerTileEntity(TileRelocator.class, Names.relocator);
 
-        if (Loader.isModLoaded("IronChest"))
+        if (Mods.IS_IRON_CHEST_LOADED)
         {
             GameRegistry.registerTileEntity(TileSortingIronChest.class, Names.sortingIronChest);
         }
-        if (Loader.isModLoaded("JABBA"))
+        if (Mods.IS_JABBA_LOADED)
         {
             GameRegistry.registerTileEntity(TileSortingBarrel.class, Names.sortingBarrel);
         }
 
-        if (Loader.isModLoaded("EE3"))
+        if (Mods.IS_EE3_LOADED)
         {
             GameRegistry.registerTileEntity(TileSortingAlchemicalChest.class, Names.sortingAlchemicalChest);
         }

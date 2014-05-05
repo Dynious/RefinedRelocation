@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.mods;
 
+import com.dynious.refinedrelocation.lib.Mods;
 import cpw.mods.fml.common.Loader;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
@@ -11,13 +12,13 @@ public class IC2Helper
 {
     public static void addToEnergyNet(TileEntity tile)
     {
-        if (Loader.isModLoaded("IC2") && tile instanceof IEnergyTile)
+        if (Mods.IS_IC2_LOADED && tile instanceof IEnergyTile)
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile) tile));
     }
 
     public static void removeFromEnergyNet(TileEntity tile)
     {
-        if (Loader.isModLoaded("IC2") && tile instanceof IEnergyTile)
+        if (Mods.IS_IC2_LOADED && tile instanceof IEnergyTile)
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile) tile));
     }
 }

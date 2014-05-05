@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.mods.EE3Helper;
@@ -94,7 +95,7 @@ public class ItemSortingUpgrade extends Item
                 stack.stackSize--;
                 return true;
             }
-            if (Loader.isModLoaded("IronChest"))
+            if (Mods.IS_IRON_CHEST_LOADED)
             {
                 if (IronChestHelper.upgradeIronToFilteringChest(te))
                 {
@@ -102,7 +103,7 @@ public class ItemSortingUpgrade extends Item
                     return true;
                 }
             }
-            if (Loader.isModLoaded("JABBA"))
+            if (Mods.IS_JABBA_LOADED)
             {
                 if (JabbaHelper.upgradeToSortingBarrel(te))
                 {
@@ -110,7 +111,7 @@ public class ItemSortingUpgrade extends Item
                     return true;
                 }
             }
-            if (Loader.isModLoaded("EE3"))
+            if (Mods.IS_EE3_LOADED)
             {
                 if (EE3Helper.upgradeAlchemicalToSortingChest(te))
                 {

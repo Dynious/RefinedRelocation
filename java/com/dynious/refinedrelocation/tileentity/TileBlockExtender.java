@@ -4,6 +4,7 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
 import cpw.mods.fml.common.Loader;
@@ -295,7 +296,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setFluidHandler((IFluidHandler) tile);
             }
-            if (Loader.isModLoaded("BuildCraft|Energy") && tile instanceof IPowerReceptor)
+            if (Mods.IS_BC_ENERGY_LOADED && tile instanceof IPowerReceptor)
             {
                 if (getPowerReceptor() == null)
                 {
@@ -303,7 +304,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setPowerReceptor((IPowerReceptor) tile);
             }
-            if (Loader.isModLoaded("IC2") && tile instanceof IEnergySink)
+            if (Mods.IS_IC2_LOADED && tile instanceof IEnergySink)
             {
                 if (getEnergySink() == null)
                 {
@@ -311,7 +312,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setEnergySink((IEnergySink) tile);
             }
-            if (Loader.isModLoaded("CoFHCore") && tile instanceof IEnergyHandler)
+            if (Mods.IS_COFH_CORE_LOADED && tile instanceof IEnergyHandler)
             {
                 if (getEnergyHandler() == null)
                 {
@@ -319,7 +320,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setEnergyHandler((IEnergyHandler) tile);
             }
-            if (Loader.isModLoaded("UniversalElectricity") && tile instanceof IEnergyInterface)
+            if (Mods.IS_UE_LOADED && tile instanceof IEnergyInterface)
             {
                 if (getEnergyInterface() == null)
                 {
@@ -350,19 +351,19 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         {
             return true;
         }
-        if (Loader.isModLoaded("BuildCraft|Energy") && getPowerReceptor() != null)
+        if (Mods.IS_BC_ENERGY_LOADED && getPowerReceptor() != null)
         {
             return true;
         }
-        if (Loader.isModLoaded("IC2") && getEnergySink() != null)
+        if (Mods.IS_IC2_LOADED && getEnergySink() != null)
         {
             return true;
         }
-        if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
+        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
         {
             return true;
         }
-        if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
+        if (Mods.IS_UE_LOADED && getEnergyInterface() != null)
         {
             return true;
         }
@@ -377,13 +378,13 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
             connections.add("Inventory");
         if (getFluidHandler() != null)
             connections.add("Fluid Transmission");
-        if (Loader.isModLoaded("BuildCraft|Energy") && getPowerReceptor() != null)
+        if (Mods.IS_BC_ENERGY_LOADED && getPowerReceptor() != null)
             connections.add("Buildcraft Energy");
-        if (Loader.isModLoaded("IC2") && getEnergySink() != null)
+        if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add("IC2 Energy");
-        if (Loader.isModLoaded("CoFHCore") && getEnergyHandler() != null)
+        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
             connections.add("Thermal Expansion Energy");
-        if (Loader.isModLoaded("UniversalElectricity") && getEnergyInterface() != null)
+        if (Mods.IS_UE_LOADED && getEnergyInterface() != null)
             connections.add("Universal Electricity Energy");
 
         return connections;

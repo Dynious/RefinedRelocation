@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.block;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.helper.GuiHelper;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
@@ -180,14 +181,14 @@ public class BlockSortingChest extends BlockContainer
      */
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
     {
-        if (Loader.isModLoaded("IronChest"))
+        if (Mods.IS_IRON_CHEST_LOADED)
         {
             if (IronChestHelper.upgradeToIronChest(world, player, x, y, z))
             {
                 return true;
             }
         }
-        if (Loader.isModLoaded("EE3"))
+        if (Mods.IS_EE3_LOADED)
         {
             if (EE3Helper.upgradeToAlchemicalChest(world, player, x, y, z))
             {

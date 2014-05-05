@@ -8,6 +8,7 @@ import cofh.api.energy.IEnergyHandler;
 import cofh.api.transport.IItemConduit;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
 import cpw.mods.fml.common.Loader;
@@ -53,7 +54,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
             onBlocksChanged();
             firstRun = false;
             worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null ? 0 : 1);
-            if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
+            if (!worldObj.isRemote && Mods.IS_IC2_LOADED)
             {
                 IC2Helper.addToEnergyNet(this);
             }
@@ -448,7 +449,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     @Override
     public void invalidate()
     {
-        if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
+        if (!worldObj.isRemote && Mods.IS_IC2_LOADED)
         {
             IC2Helper.removeFromEnergyNet(this);
         }
@@ -458,7 +459,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     @Override
     public void onChunkUnload()
     {
-        if (!worldObj.isRemote && Loader.isModLoaded("IC2"))
+        if (!worldObj.isRemote && Mods.IS_IC2_LOADED)
         {
             IC2Helper.removeFromEnergyNet(this);
         }
