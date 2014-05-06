@@ -1,8 +1,6 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
-import com.dynious.refinedrelocation.api.tileentity.grid.IRelocatorGrid;
-import com.dynious.refinedrelocation.grid.Grid;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

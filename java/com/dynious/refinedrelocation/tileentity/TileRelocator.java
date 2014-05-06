@@ -8,10 +8,15 @@ import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketItemList;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -26,6 +31,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
     private IFilter[] filters = new IFilter[ForgeDirection.VALID_DIRECTIONS.length];
+
+    private boolean[] isConnected = new boolean[6];
 
     private TravellingItem cachedTravellingItem;
     private int maxStackSize = 64;
@@ -59,6 +66,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     }
                 }
             }
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             blocksChanged = false;
         }
 
@@ -223,7 +231,51 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public boolean connectsToSide(int side)
     {
-        return relocators[side] != null || inventories[side] != null;
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer())
+            return relocators[side] != null || inventories[side] != null;
+        else
+            return isConnected[side];
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+    {
+        super.readFromNBT(par1NBTTagCompound);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+    {
+        super.writeToNBT(par1NBTTagCompound);
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
+        {
+            if (connectsToSide(i))
+                tag.setBoolean("c" + i, true);
+        }
+        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
+    }
+
+    @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    {
+        NBTTagCompound tag = pkt.data;
+        for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
+        {
+            if (tag.hasKey("c" + i))
+            {
+                isConnected[i] = true;
+            }
+            else
+            {
+                isConnected[i] = false;
+            }
+        }
     }
 
     /*

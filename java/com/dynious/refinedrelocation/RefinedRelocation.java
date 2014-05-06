@@ -8,9 +8,12 @@ import com.dynious.refinedrelocation.event.TickEvent;
 import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Reference;
+import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
 import com.dynious.refinedrelocation.network.PacketHandler;
+import com.dynious.refinedrelocation.part.PartFactory;
 import com.dynious.refinedrelocation.proxy.CommonProxy;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import cpw.mods.fml.common.Mod;
@@ -68,6 +71,11 @@ public class RefinedRelocation
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+        if (Mods.IS_FMP_LOADED)
+        {
+            FMPHelper.addFMPBlocks();
+        }
+
         proxy.initTileEntities();
 
         FMLInterModComms.sendMessage("Waila", "register", "com.dynious.refinedrelocation.mods.WailaProvider.callbackRegister");

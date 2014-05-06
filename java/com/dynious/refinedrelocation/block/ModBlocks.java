@@ -10,6 +10,7 @@ import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.EE3Helper;
+import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.JabbaHelper;
 import cpw.mods.fml.common.Loader;
@@ -43,7 +44,6 @@ public class ModBlocks
         relocationPortal = new BlockRelocationPortal(BlockIds.RELOCATION_PORTAL);
         relocationController = new BlockRelocationController(BlockIds.RELOCATION_CONTROLLER);
         powerLimiter = new BlockPowerLimiter(BlockIds.POWER_LIMITER);
-        relocator = new BlockRelocator(BlockIds.RELOCATOR);
 
         ModObjects.blockExtender = new ItemStack(blockExtender);
         ModObjects.advancedBlockExtender = new ItemStack(blockExtender, 1, 1);
@@ -61,7 +61,6 @@ public class ModBlocks
         ModObjects.relocationPortal = new ItemStack(relocationPortal);
         ModObjects.relocationController = new ItemStack(relocationController);
         ModObjects.powerLimiter = new ItemStack(powerLimiter);
-        ModObjects.relocator = new ItemStack(relocator);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
@@ -71,7 +70,6 @@ public class ModBlocks
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
         GameRegistry.registerBlock(relocationController, Names.relocationController);
         GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
-        GameRegistry.registerBlock(relocator, Names.relocator);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));
@@ -119,6 +117,13 @@ public class ModBlocks
         {
             EE3Helper.addEE3Blocks();
             EE3Helper.addEE3Recipes();
+        }
+
+        if (!Mods.IS_FMP_LOADED)
+        {
+            relocator = new BlockRelocator(BlockIds.RELOCATOR);
+            ModObjects.relocator = new ItemStack(relocator);
+            GameRegistry.registerBlock(relocator, Names.relocator);
         }
     }
 }
