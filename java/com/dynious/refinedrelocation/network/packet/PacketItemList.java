@@ -39,8 +39,9 @@ public class PacketItemList extends PacketTile
         for (TravellingItem item : items)
         {
             Packet.writeItemStack(item.getItemStack(), data);
-            data.writeByte(item.getPath().size());
-            data.write(Bytes.toArray(item.getPath()));
+            data.writeByte(item.getPath().get(0));
+            //data.writeByte(item.getPath().size());
+            //data.write(Bytes.toArray(item.getPath()));
             data.writeByte(item.input);
         }
     }
@@ -54,10 +55,12 @@ public class PacketItemList extends PacketTile
         for (int i = 0; i < size; i++)
         {
             ItemStack stack = Packet.readItemStack(data);
-            byte[] path = new byte[data.readByte()];
-            data.read(path);
+            List<Byte> list = new ArrayList<Byte>();
+            //byte[] path = new byte[data.readByte()];
+            //data.read(path);
+            list.add(data.readByte());
             byte input = data.readByte();
-            items.add(new TravellingItem(stack, (IRelocator) tile, Bytes.asList(path), input));
+            items.add(new TravellingItem(stack, (IRelocator) tile, list, input));
         }
     }
 

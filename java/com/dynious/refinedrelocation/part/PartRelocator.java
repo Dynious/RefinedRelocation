@@ -122,8 +122,6 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
         RendererRelocator.instance.renderTileEntityAt(relocator, pos.x, pos.y, pos.z, frame);
     }
 
-
-
     /*
     NBT Handling
      */

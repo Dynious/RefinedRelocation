@@ -4,9 +4,11 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -67,5 +69,11 @@ public class BlockRelocator extends BlockContainer
             }
         }
         super.breakBlock(world, x, y, z, id, meta);
+    }
+
+    @Override
+    public void registerIcons(IconRegister register)
+    {
+        RendererRelocator.loadIcons(register);
     }
 }

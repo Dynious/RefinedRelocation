@@ -83,11 +83,11 @@ public class TravellingItem
     {
         if (clientSideProgress <= 0.5F)
         {
-            return 0.5F + (ForgeDirection.getOrientation(getInputSide()).offsetX * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetX * clientSideProgress);
+            return 0.6F + (ForgeDirection.getOrientation(getInputSide()).offsetX * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetX * clientSideProgress);
         }
         else
         {
-            return 0.5F + (ForgeDirection.getOrientation(getOutputSide()).offsetX * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetX * 0.5F);
+            return 0.6F + (ForgeDirection.getOrientation(getOutputSide()).offsetX * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetX * 0.5F);
         }
     }
 
@@ -95,11 +95,11 @@ public class TravellingItem
     {
         if (clientSideProgress <= 0.5F)
         {
-            return 0.5F + (ForgeDirection.getOrientation(getInputSide()).offsetY * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetY * clientSideProgress);
+            return 0.6F + (ForgeDirection.getOrientation(getInputSide()).offsetY * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetY * clientSideProgress);
         }
         else
         {
-            return 0.5F + (ForgeDirection.getOrientation(getOutputSide()).offsetY * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetY * 0.5F);
+            return 0.6F + (ForgeDirection.getOrientation(getOutputSide()).offsetY * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetY * 0.5F);
         }
     }
 
@@ -107,11 +107,11 @@ public class TravellingItem
     {
         if (clientSideProgress <= 0.5F)
         {
-            return 0.5F + (ForgeDirection.getOrientation(getInputSide()).offsetZ * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetZ * clientSideProgress);
+            return 0.6F + (ForgeDirection.getOrientation(getInputSide()).offsetZ * 0.5F) - (ForgeDirection.getOrientation(getInputSide()).offsetZ * clientSideProgress);
         }
         else
         {
-            return 0.5F + (ForgeDirection.getOrientation(getOutputSide()).offsetZ * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetZ * 0.5F);
+            return 0.6F + (ForgeDirection.getOrientation(getOutputSide()).offsetZ * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetZ * 0.5F);
         }
     }
 }
