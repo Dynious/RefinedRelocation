@@ -20,9 +20,11 @@ public class FilterStandard implements IFilterGUI
 {
     private static Field displayOnCreativeTab = ReflectionHelper.findField(Block.class, ObfuscationReflectionHelper.remapFieldNames(Block.class.getName(), "displayOnCreativeTab", "field_149772_a", "a"));
     private static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
-    private static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
+    private static Field tabLabel = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabLabel", "field_78034_o", "o"));
 
-    private static final int FILTER_SIZE = 11;
+    public static String[] tabLabels;
+
+    public static final int FILTER_SIZE = 11;
     private boolean[] customFilters = new boolean[FILTER_SIZE];
     private boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
     private String userFilter = "";
@@ -130,11 +132,11 @@ public class FilterStandard implements IFilterGUI
                     }
                     if (tab != null)
                     {
-                        int index = tabIndex.getInt(tab);
+                        String label = (String) tabLabel.get(tab);
 
                         for (int i = 0; i < creativeTabs.length; i++)
                         {
-                            if (creativeTabs[i] && index == i)
+                            if (creativeTabs[i] && label.equalsIgnoreCase(tabLabels[i]))
                             {
                                 return true;
                             }
@@ -173,6 +175,24 @@ public class FilterStandard implements IFilterGUI
         }
     }
 
+    public static String getLabel(int place)
+    {
+        return tabLabels[getCreativeTab(place)];
+    }
+
+    public static int getIndex(String label)
+    {
+        for (int i = 0; i < tabLabels.length; i++)
+        {
+            String tab = tabLabels[i];
+            if (label.equalsIgnoreCase(tab))
+            {
+                return getIndex(i);
+            }
+        }
+        return -1;
+    }
+
     public String getName(int place)
     {
         switch (place)
@@ -204,13 +224,23 @@ public class FilterStandard implements IFilterGUI
         }
     }
 
-    public int getCreativeTab(int place)
+    public static int getCreativeTab(int place)
     {
         int index = place - FILTER_SIZE;
         if (index >= 5)
             index++;
         if (index >= 11)
             index++;
+        return index;
+    }
+
+    public static int getIndex(int creativeTabIndex)
+    {
+        int index = creativeTabIndex + FILTER_SIZE;
+        if (index >= 5)
+            index--;
+        if (index >= 11)
+            index--;
         return index;
     }
 
@@ -259,6 +289,24 @@ public class FilterStandard implements IFilterGUI
         for (int i = 0; i < creativeTabs.length; i++)
         {
             creativeTabs[i] = compound.getBoolean("creativeTabs" + i);
+        }
+    }
+
+    static
+    {
+        tabLabels = new String[CreativeTabs.creativeTabArray.length];
+        for (int i = 0; i < CreativeTabs.creativeTabArray.length; i++)
+        {
+            CreativeTabs tab = CreativeTabs.creativeTabArray[i];
+
+            try
+            {
+                tabLabels[i] = (String) tabLabel.get(tab);
+            }
+            catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 }
