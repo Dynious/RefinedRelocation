@@ -22,7 +22,8 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<IPacket>
         REDSTONE_ENABLED,
         TILE_UPDATE,
         SWITCH_PAGE,
-        SET_MAX_POWER
+        SET_MAX_POWER,
+        PRIORITY
     }
 
     public ChannelHandler() {
@@ -37,6 +38,7 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<IPacket>
         addDiscriminator(Packets.TILE_UPDATE.ordinal(), PacketTileUpdate.class);
         addDiscriminator(Packets.SWITCH_PAGE.ordinal(), PacketSwitchPage.class);
         addDiscriminator(Packets.SET_MAX_POWER.ordinal(), PacketSetMaxPower.class);
+        addDiscriminator(Packets.PRIORITY.ordinal(), PacketPriority.class);
     }
 
     @Override
