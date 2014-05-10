@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.gui.container;
 
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
+import com.dynious.refinedrelocation.sorting.FilterStandard;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
@@ -109,6 +110,14 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     public void toggleFilterOption(int filterIndex)
     {
         containerFiltered.toggleFilterOption(filterIndex);
+    }
+
+    @Override
+    public void toggleFilterOption(String label)
+    {
+        int index = FilterStandard.getIndex(label);
+        if (index >= 0)
+            this.setFilterOption(index, !tile.getFilter().getValue(index));
     }
 
     @Override
