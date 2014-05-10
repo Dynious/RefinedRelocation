@@ -4,6 +4,8 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketFilterOption;
+import com.dynious.refinedrelocation.network.packet.PacketLabeledFilterOption;
+import com.dynious.refinedrelocation.sorting.FilterStandard;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiCheckboxFilter extends GuiCheckbox
@@ -33,7 +35,14 @@ public class GuiCheckboxFilter extends GuiCheckbox
             return;
 
         tile.getFilter().setValue(index, newState);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((byte) index)));
+        if (index > FilterStandard.FILTER_SIZE)
+        {
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketLabeledFilterOption(FilterStandard.getLabel(index))));
+        }
+        else
+        {
+            PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketFilterOption((byte) index)));
+        }
     }
 
     @Override
