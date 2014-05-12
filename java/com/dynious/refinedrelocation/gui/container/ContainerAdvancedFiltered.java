@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.gui.container;
 
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
-import com.dynious.refinedrelocation.sorting.FilterStandard;
+import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;

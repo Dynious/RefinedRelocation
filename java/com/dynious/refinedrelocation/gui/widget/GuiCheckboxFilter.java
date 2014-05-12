@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketFilterOption;
 import com.dynious.refinedrelocation.network.packet.PacketLabeledFilterOption;
-import com.dynious.refinedrelocation.sorting.FilterStandard;
+import com.dynious.refinedrelocation.grid.FilterStandard;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiCheckboxFilter extends GuiCheckbox
