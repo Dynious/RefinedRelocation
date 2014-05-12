@@ -77,7 +77,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         newEntity.filter.readFromNBT(filterTag);
 
         //Set facing, sort and reset syncTick
-        newEntity.setFacing((Byte) ReflectionHelper.getPrivateValue(TileEntityIronChest.class, this, "facing"));
+        newEntity.setFacing((int) ReflectionHelper.getPrivateValue(TileEntityIronChest.class, this, "facing"));
         newEntity.sortTopStacks();
         ReflectionHelper.setPrivateValue(TileEntityIronChest.class, this, -1, "ticksSinceSync");
         return newEntity;
