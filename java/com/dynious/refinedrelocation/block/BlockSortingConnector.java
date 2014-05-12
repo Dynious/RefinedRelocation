@@ -158,7 +158,9 @@ public class BlockSortingConnector extends BlockContainer
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metaData)
     {
-        return icons[metaData];
+        if (metaData >= 0 && metaData < icons.length)
+            return icons[metaData];
+        return null;
     }
 
     @Override

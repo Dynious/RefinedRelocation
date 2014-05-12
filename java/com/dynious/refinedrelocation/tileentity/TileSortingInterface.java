@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHa
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -236,7 +237,8 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     public Packet getDescriptionPacket()
     {
         S35PacketUpdateTileEntity pkt = (S35PacketUpdateTileEntity) super.getDescriptionPacket();
-        pkt.func_148857_g().setByte("side", (byte) connectedSide.ordinal());
+        NBTTagCompound tag = ObfuscationReflectionHelper.getPrivateValue(S35PacketUpdateTileEntity.class, pkt, "field_148860_e", "e");
+        tag.setByte("side", (byte) connectedSide.ordinal());
         return pkt;
     }
 
