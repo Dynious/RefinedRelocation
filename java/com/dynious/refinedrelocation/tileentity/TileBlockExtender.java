@@ -178,21 +178,25 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return fluidHandler;
     }
 
+    @Method(modid = "BuildCraft|Energy")
     public IPowerReceptor getPowerReceptor()
     {
         return powerReceptor;
     }
 
+    @Method(modid = "IC2")
     public IEnergySink getEnergySink()
     {
         return energySink;
     }
 
+    @Method(modid = "CoFHCore")
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
     }
 
+    @Method(modid = "UniversalElectricity")
     public IEnergyInterface getEnergyInterface()
     {
         return energyInterface;

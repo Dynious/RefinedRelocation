@@ -24,7 +24,6 @@ public class ItemRendererSortingIronChest implements IItemRenderer
     public ItemRendererSortingIronChest()
     {
         model = new ModelChest();
-        locations = ReflectionHelper.getPrivateValue(TileEntityIronChestRenderer.class, null, "locations");
     }
 
     @Override
@@ -42,13 +41,18 @@ public class ItemRendererSortingIronChest implements IItemRenderer
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data)
     {
+        if (locations == null)
+        {
+            locations = ReflectionHelper.getPrivateValue(TileEntityIronChestRenderer.class, null, "locations");
+        }
         render(item, 0);
         render(item, 1);
     }
 
     public void render(ItemStack itemStack, int renderPass)
     {
-        if (itemStack == null) {
+        if (itemStack == null)
+        {
             return;
         }
 
