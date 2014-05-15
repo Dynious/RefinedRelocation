@@ -2,11 +2,13 @@ package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.helper.MiscHelper;
 import com.dynious.refinedrelocation.helper.ParticleHelper;
 import com.dynious.refinedrelocation.lib.*;
 import com.dynious.refinedrelocation.tileentity.TileRelocationController;
 import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
 import com.dynious.refinedrelocation.util.Vector3;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -40,6 +42,7 @@ public class ItemPlayerRelocator extends Item
     public static final String UUID_TAG = "UUID";
     public static final String DIMENSION_TAG = "dimId";
     public static final String INTER_LINK_TAG = "interLink";
+    public static final String TIME = "time";
 
     public ItemPlayerRelocator()
     {
@@ -47,7 +50,6 @@ public class ItemPlayerRelocator extends Item
         this.setUnlocalizedName(Names.playerRelocator);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setMaxStackSize(1);
-        this.setMaxDamage(Settings.PLAYER_RELOCATOR_COOLDOWN);
     }
 
     @Override
@@ -98,18 +100,9 @@ public class ItemPlayerRelocator extends Item
     }
 
     @Override
-    public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5)
-    {
-        if (stack.getItemDamage() > 0)
-        {
-            stack.setItemDamage(stack.getItemDamage() - 1);
-        }
-    }
-
-    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && stack.getItemDamage() == 0)
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && getTimeDifference(stack)/1000 > (player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN))
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
             world.playSoundAtEntity(player, Sounds.ambiance, 1F, 1F);
@@ -159,14 +152,7 @@ public class ItemPlayerRelocator extends Item
                         setLowerBlockToPortal(world, xPos, yPos - 3, zPos, new Vector3(connectedTile.xCoord, connectedTile.yCoord, connectedTile.zCoord));
 
                         world.playSoundAtEntity(player, Sounds.explosion, 1F, 1F);
-                        if (!player.capabilities.isCreativeMode)
-                        {
-                            stack.setItemDamage(Settings.PLAYER_RELOCATOR_COOLDOWN);
-                        }
-                        else
-                        {
-                            stack.setItemDamage(10);
-                        }
+                        stack.getTagCompound().setLong(TIME, System.currentTimeMillis());
                     }
                 }
             }
@@ -240,9 +226,9 @@ public class ItemPlayerRelocator extends Item
             {
                 list.add("§4" + StatCollector.translateToLocal(Strings.BROKEN_LINK));
             }
-            if (itemStack.getItemDamage() != 0)
+            if (getTimeLeft(itemStack, player) > 0)
             {
-                list.add("§e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, itemStack.getItemDamage()/20));
+                list.add("§e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, MiscHelper.getDurationString(getTimeLeft(itemStack, player))));
             }
         }
     }
@@ -260,6 +246,48 @@ public class ItemPlayerRelocator extends Item
     {
         float inUse = stack.getMaxItemUseDuration() - Minecraft.getMinecraft().thePlayer.getItemInUseCount();
         event.newfov = event.fov + inUse/110;
+    }
+
+    @Override
+    public int getDisplayDamage(ItemStack stack)
+    {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        {
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            if (getTimeLeft(stack, player) > 0)
+            {
+                return getTimeLeft(stack, player);
+            }
+        }
+        return super.getDisplayDamage(stack);
+    }
+
+    @Override
+    public int getMaxDamage(ItemStack stack)
+    {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        {
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            return player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
+        }
+        return super.getMaxDamage(stack);
+    }
+
+    @Override
+    public boolean isDamageable()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isDamaged(ItemStack itemStack)
+    {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        {
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            return getTimeLeft(itemStack, player) > 0;
+        }
+        return super.isDamaged(itemStack);
     }
 
     @SideOnly(Side.CLIENT)
@@ -294,5 +322,16 @@ public class ItemPlayerRelocator extends Item
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
+    }
+
+    public static long getTimeDifference(ItemStack stack)
+    {
+        return System.currentTimeMillis() - stack.getTagCompound().getLong(TIME);
+    }
+
+    public static int getTimeLeft(ItemStack stack, EntityPlayer player)
+    {
+        int cooldown = player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
+        return (int) (cooldown - (getTimeDifference(stack)/1000));
     }
 }

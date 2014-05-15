@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.command;
 
-import com.dynious.refinedrelocation.helper.WebpageHelper;
+import com.dynious.refinedrelocation.helper.MiscHelper;
 import com.dynious.refinedrelocation.lib.Commands;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import com.dynious.refinedrelocation.version.VersionContainer;
@@ -55,7 +55,7 @@ public class CommandRefinedRelocation extends CommandBase
                 {
                     try
                     {
-                        WebpageHelper.openWebpage(new URL(version.getUpdateURL()));
+                        MiscHelper.openWebpage(new URL(version.getUpdateURL()));
                     }
                     catch (MalformedURLException e)
                     {
