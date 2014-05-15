@@ -5,7 +5,6 @@ import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
-import com.dynious.refinedrelocation.sorting.FilterStandard;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
@@ -148,14 +147,6 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     {
         if (filterIndex >= 0 && filterIndex < lastFilterOptions.length)
             this.setFilterOption(filterIndex, !tile.getFilter().getValue(filterIndex));
-    }
-
-    @Override
-    public void toggleFilterOption(String label)
-    {
-        int index = FilterStandard.getIndex(label);
-        if (index >= 0)
-            this.setFilterOption(index, !tile.getFilter().getValue(index));
     }
 
     @Override

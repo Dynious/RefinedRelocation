@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
-import com.dynious.refinedrelocation.sorting.FilterStandard;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerHopper;
@@ -169,14 +168,6 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     public void toggleFilterOption(int filterIndex)
     {
         this.setFilterOption(filterIndex, !tile.getFilter().getValue(filterIndex));
-    }
-
-    @Override
-    public void toggleFilterOption(String label)
-    {
-        int index = FilterStandard.getIndex(label);
-        if (index >= 0)
-            this.setFilterOption(index, !tile.getFilter().getValue(index));
     }
 
     @Override

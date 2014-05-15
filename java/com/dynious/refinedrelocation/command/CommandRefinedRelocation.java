@@ -25,7 +25,13 @@ public class CommandRefinedRelocation extends CommandBase
     @Override
     public String getCommandUsage(ICommandSender icommandsender)
     {
-        return null;
+        return "/" + this.getCommandName() + " " + Commands.HELP;
+    }
+
+    @Override
+    public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
+    {
+        return true;
     }
 
     @Override
@@ -36,6 +42,13 @@ public class CommandRefinedRelocation extends CommandBase
             String commandName = args[0];
             System.arraycopy(args, 1, args, 0, args.length - 1);
 
+            if (commandName.equalsIgnoreCase(Commands.HELP))
+            {
+                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Format: '" + this.getCommandName() + " <command> <arguments>'"));
+                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Available commands:"));
+                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("- latest : Download latest"));
+                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("- changelog : Show latest changelog"));
+            }
             if (commandName.equalsIgnoreCase(Commands.LATEST))
             {
                 VersionContainer.Version version = VersionChecker.getRemoteVersion();
@@ -48,12 +61,12 @@ public class CommandRefinedRelocation extends CommandBase
                     catch (MalformedURLException e)
                     {
                         e.printStackTrace();
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("ERROR: Version URL was corrupt"));
+                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("ERROR: Version URL was corrupt"));
                     }
                 }
                 else
                 {
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Version Checker has not initialized"));
+                    icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Version Checker has not initialized"));
                 }
             }
             if (commandName.equalsIgnoreCase(Commands.CHANGE_LOG))
@@ -61,11 +74,11 @@ public class CommandRefinedRelocation extends CommandBase
                 VersionContainer.Version version = VersionChecker.getRemoteVersion();
                 if (version != null)
                 {
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(version.getChangeLog()));
+                    icommandsender.sendChatToPlayer(new ChatMessageComponent().addText(version.getChangeLog()));
                 }
                 else
                 {
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Version Checker has not initialized"));
+                    icommandsender.sendChatToPlayer(new ChatMessageComponent().addText("Version Checker has not initialized"));
                 }
             }
         }
@@ -78,7 +91,7 @@ public class CommandRefinedRelocation extends CommandBase
         {
             case 1:
             {
-                return getListOfStringsMatchingLastWord(args, Commands.LATEST, Commands.CHANGE_LOG);
+                return getListOfStringsMatchingLastWord(args, Commands.HELP, Commands.LATEST, Commands.CHANGE_LOG);
             }
         }
         return null;

@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.proxy;
 
-import com.dynious.refinedrelocation.event.EventHandler;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.ChannelHandler;
@@ -15,7 +14,6 @@ import io.netty.channel.embedded.EmbeddedChannel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraftforge.common.MinecraftForge;
 
 import java.util.EnumMap;
 
@@ -83,6 +81,5 @@ public class CommonProxy
 
     public void registerEventHandlers()
     {
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 }

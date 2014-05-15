@@ -10,7 +10,5 @@ public interface IContainerFiltered
 
     public void toggleFilterOption(int filterIndex);
 
-    public void toggleFilterOption(String label);
-
     public void setPriority(int priority);
 }

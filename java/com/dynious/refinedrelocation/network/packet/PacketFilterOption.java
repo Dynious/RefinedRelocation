@@ -7,13 +7,13 @@ import net.minecraft.inventory.Container;
 
 public class PacketFilterOption implements IPacket
 {
-    public byte filterIndex;
+    public int filterIndex;
 
     public PacketFilterOption()
     {
     }
 
-    public PacketFilterOption(byte filterIndex)
+    public PacketFilterOption(int filterIndex)
     {
         this.filterIndex = filterIndex;
     }
@@ -21,7 +21,7 @@ public class PacketFilterOption implements IPacket
     @Override
     public void readBytes(ByteBuf bytes, EntityPlayer player)
     {
-        filterIndex = bytes.readByte();
+        filterIndex = bytes.readInt();
 
         Container container = player.openContainer;
 
@@ -34,6 +34,6 @@ public class PacketFilterOption implements IPacket
     @Override
     public void writeBytes(ByteBuf bytes)
     {
-        bytes.writeByte(filterIndex);
+        bytes.writeInt(filterIndex);
     }
 }

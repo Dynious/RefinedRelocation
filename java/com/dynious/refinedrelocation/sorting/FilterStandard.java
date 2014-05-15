@@ -16,18 +16,20 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class FilterStandard implements IFilterGUI
 {
     private static Field displayOnCreativeTab = ReflectionHelper.findField(Block.class, ObfuscationReflectionHelper.remapFieldNames(Block.class.getName(), "displayOnCreativeTab", "field_149772_a", "a"));
     private static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
+    private static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
     private static Field tabLabel = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabLabel", "field_78034_o", "o"));
 
-    public static String[] tabLabels;
+    private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
 
     public static final int FILTER_SIZE = 11;
     private boolean[] customFilters = new boolean[FILTER_SIZE];
-    private boolean[] creativeTabs = new boolean[CreativeTabs.creativeTabArray.length];
+    private boolean[] creativeTabs = new boolean[tabs.length];
     private String userFilter = "";
 
     private boolean blacklists = false;
@@ -133,11 +135,11 @@ public class FilterStandard implements IFilterGUI
                     }
                     if (tab != null)
                     {
-                        String label = (String) tabLabel.get(tab);
+                        int index = tabIndex.getInt(tab);
 
                         for (int i = 0; i < creativeTabs.length; i++)
                         {
-                            if (creativeTabs[i] && label.equalsIgnoreCase(tabLabels[i]))
+                            if (creativeTabs[i] && index == i)
                             {
                                 return true;
                             }
@@ -160,6 +162,14 @@ public class FilterStandard implements IFilterGUI
         }
         else
         {
+            try
+            {
+                System.out.println(getCreativeTab(place));
+                System.out.println(tabLabel.get(tabs[getCreativeTab(place)]));
+            } catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
             creativeTabs[getCreativeTab(place)] = value;
         }
     }
@@ -174,24 +184,6 @@ public class FilterStandard implements IFilterGUI
         {
             return creativeTabs[getCreativeTab(place)];
         }
-    }
-
-    public static String getLabel(int place)
-    {
-        return tabLabels[getCreativeTab(place)];
-    }
-
-    public static int getIndex(String label)
-    {
-        for (int i = 0; i < tabLabels.length; i++)
-        {
-            String tab = tabLabels[i];
-            if (label.equalsIgnoreCase(tab))
-            {
-                return getIndex(i);
-            }
-        }
-        return -1;
     }
 
     public String getName(int place)
@@ -221,27 +213,17 @@ public class FilterStandard implements IFilterGUI
             case 10:
                 return "All Dyes";
             default:
-                return I18n.format(CreativeTabs.creativeTabArray[getCreativeTab(place)].getTranslatedTabLabel());
+                return I18n.format(tabs[getCreativeTab(place)].getTranslatedTabLabel());
         }
     }
 
-    public static int getCreativeTab(int place)
+    public int getCreativeTab(int place)
     {
         int index = place - FILTER_SIZE;
         if (index >= 5)
             index++;
         if (index >= 11)
             index++;
-        return index;
-    }
-
-    public static int getIndex(int creativeTabIndex)
-    {
-        int index = creativeTabIndex + FILTER_SIZE;
-        if (index >= 5)
-            index--;
-        if (index >= 11)
-            index--;
         return index;
     }
 
@@ -293,21 +275,39 @@ public class FilterStandard implements IFilterGUI
         }
     }
 
-    static
+    public static void syncTabs(String[] tabLabels)
     {
-        tabLabels = new String[CreativeTabs.creativeTabArray.length];
-        for (int i = 0; i < CreativeTabs.creativeTabArray.length; i++)
+        tabs = new CreativeTabs[tabLabels.length];
+        for (int i = 0; i < tabLabels.length; i++)
         {
-            CreativeTabs tab = CreativeTabs.creativeTabArray[i];
+            String label = tabLabels[i];
+            for (CreativeTabs tab : CreativeTabs.creativeTabArray)
+            {
+                if (label.equalsIgnoreCase(tab.getTabLabel()))
+                {
+                    tabs[i] = tab;
+                }
+            }
+            if (tabs[i] == null)
+                tabs[i] = CreativeTabs.tabInventory;
+        }
+    }
 
+    public static String[] getLabels()
+    {
+        String[] labels = new String[CreativeTabs.creativeTabArray.length];
+        CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
+        for (int i = 0; i < creativeTabArray.length; i++)
+        {
             try
             {
-                tabLabels[i] = (String) tabLabel.get(tab);
+                labels[i] = (String) tabLabel.get(creativeTabArray[i]);
             }
             catch (IllegalAccessException e)
             {
                 e.printStackTrace();
             }
         }
+        return labels;
     }
 }
