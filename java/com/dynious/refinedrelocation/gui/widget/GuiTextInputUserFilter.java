@@ -14,6 +14,7 @@ public class GuiTextInputUserFilter extends GuiTextInput
     {
         super(parent, x, y, w, h);
         this.tile = tile;
+        setMaxStringLength(256);
         update();
     }
 
@@ -35,5 +36,4 @@ public class GuiTextInputUserFilter extends GuiTextInput
 
         super.update();
     }
-
 }
