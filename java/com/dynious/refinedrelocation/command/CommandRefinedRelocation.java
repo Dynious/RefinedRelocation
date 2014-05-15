@@ -1,10 +1,9 @@
 package com.dynious.refinedrelocation.command;
 
-import com.dynious.refinedrelocation.helper.WebpageHelper;
+import com.dynious.refinedrelocation.helper.MiscHelper;
 import com.dynious.refinedrelocation.lib.Commands;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import com.dynious.refinedrelocation.version.VersionContainer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -56,7 +55,7 @@ public class CommandRefinedRelocation extends CommandBase
                 {
                     try
                     {
-                        WebpageHelper.openWebpage(new URL(version.getUpdateURL()));
+                        MiscHelper.openWebpage(new URL(version.getUpdateURL()));
                     }
                     catch (MalformedURLException e)
                     {
