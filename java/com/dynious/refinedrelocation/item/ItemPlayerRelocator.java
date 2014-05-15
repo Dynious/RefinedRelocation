@@ -26,6 +26,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.common.DimensionManager;
 import org.apache.commons.lang3.ArrayUtils;
@@ -218,15 +219,17 @@ public class ItemPlayerRelocator extends Item
             list.add(StatCollector.translateToLocalFormatted(Strings.LINKED_TO_AT, StatCollector.translateToLocal("tile.relocationController.name"), itemStack.getTagCompound().getInteger("x"), itemStack.getTagCompound().getInteger("y"), itemStack.getTagCompound().getInteger("z")));
             if (itemStack.getTagCompound().getBoolean(INTER_LINK_TAG))
             {
-                list.add(StatCollector.translateToLocalFormatted(Strings.INTER_DIMENSIONAL, DimensionManager.getProvider(itemStack.getTagCompound().getInteger(DIMENSION_TAG)).getDimensionName()));
+                WorldProvider p = WorldProvider.getProviderForDimension(itemStack.getTagCompound().getInteger(DIMENSION_TAG));
+                String worldString = p != null ? p.getDimensionName() : "<Error>";
+                list.add(StatCollector.translateToLocalFormatted(Strings.INTER_DIMENSIONAL, worldString));
             }
             if (!itemStack.getTagCompound().hasKey(UUID_TAG))
             {
-                list.add("§4" + StatCollector.translateToLocal(Strings.BROKEN_LINK));
+                list.add("\u00A74" + StatCollector.translateToLocal(Strings.BROKEN_LINK));
             }
             if (getTimeLeft(itemStack, player) > 0)
             {
-                list.add("§e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, MiscHelper.getDurationString(getTimeLeft(itemStack, player))));
+                list.add("\u00A7e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, MiscHelper.getDurationString(getTimeLeft(itemStack, player))));
             }
         }
     }
@@ -250,10 +253,13 @@ public class ItemPlayerRelocator extends Item
     @Override
     public int getDisplayDamage(ItemStack stack)
     {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if (getTimeLeft(stack, player) > 0)
+        if (stack.hasTagCompound())
         {
-            return getTimeLeft(stack, player);
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            if (getTimeLeft(stack, player) > 0)
+            {
+                return getTimeLeft(stack, player);
+            }
         }
         return 0;
     }
@@ -262,8 +268,12 @@ public class ItemPlayerRelocator extends Item
     @Override
     public int getMaxDamage(ItemStack stack)
     {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        return player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
+        if (stack.hasTagCompound())
+        {
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            return player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
+        }
+        return 0;
     }
 
     @SideOnly(Side.CLIENT)
@@ -277,8 +287,12 @@ public class ItemPlayerRelocator extends Item
     @Override
     public boolean isDamaged(ItemStack itemStack)
     {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        return getTimeLeft(itemStack, player) > 0;
+        if (itemStack.hasTagCompound())
+        {
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            return getTimeLeft(itemStack, player) > 0;
+        }
+        return false;
     }
 
     @SideOnly(Side.CLIENT)
