@@ -1,16 +1,22 @@
 package com.dynious.refinedrelocation.event;
 
+import com.dynious.refinedrelocation.network.NetworkHelper;
+import com.dynious.refinedrelocation.network.packet.PacketTabSync;
+import com.dynious.refinedrelocation.sorting.FilterStandard;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 
 public class EventHandler
 {
     @SubscribeEvent
-    public void playerNameEvent(PlayerEvent.NameFormat event)
+    public void loggedInEvent(PlayerEvent.PlayerLoggedInEvent event)
     {
-        if (event.username.equals("redmen800"))
+        System.out.println("Fire!!");
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
-            event.displayname = "Dynious";
+            System.out.println("Sent!");
+            NetworkHelper.sendTo(new PacketTabSync(FilterStandard.getLabels()), event.player);
         }
     }
 }

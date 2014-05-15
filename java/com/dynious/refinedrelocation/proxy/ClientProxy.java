@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.renderer.*;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.channel.embedded.EmbeddedChannel;
@@ -70,6 +71,8 @@ public class ClientProxy extends CommonProxy
     public void registerEventHandlers()
     {
         super.registerEventHandlers();
-        MinecraftForge.EVENT_BUS.register(new EventHandlerClient());
+        EventHandlerClient ev = new EventHandlerClient();
+        FMLCommonHandler.instance().bus().register(ev);
+        MinecraftForge.EVENT_BUS.register(ev);
     }
 }

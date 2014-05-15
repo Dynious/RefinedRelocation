@@ -18,7 +18,7 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<IPacket>
         USER_FILTER,
         BLACKLIST,
         FILTER_OPTION,
-        LABELED_FILTER_OPTION,
+        TAB_SYNC,
         RESTRICT_EXTRACTION,
         REDSTONE_ENABLED,
         TILE_UPDATE,
@@ -34,7 +34,7 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<IPacket>
         addDiscriminator(Packets.USER_FILTER.ordinal(), PacketUserFilter.class);
         addDiscriminator(Packets.BLACKLIST.ordinal(), PacketBlacklist.class);
         addDiscriminator(Packets.FILTER_OPTION.ordinal(), PacketFilterOption.class);
-        addDiscriminator(Packets.LABELED_FILTER_OPTION.ordinal(), PacketLabeledFilterOption.class);
+        addDiscriminator(Packets.TAB_SYNC.ordinal(), PacketTabSync.class);
         addDiscriminator(Packets.RESTRICT_EXTRACTION.ordinal(), PacketRestrictExtraction.class);
         addDiscriminator(Packets.REDSTONE_ENABLED.ordinal(), PacketRedstoneEnabled.class);
         addDiscriminator(Packets.TILE_UPDATE.ordinal(), PacketTileUpdate.class);

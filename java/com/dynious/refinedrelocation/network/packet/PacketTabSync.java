@@ -1,55 +1,41 @@
 package com.dynious.refinedrelocation.network.packet;
 
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.sorting.FilterStandard;
-import cpw.mods.fml.common.network.Player;
-import net.minecraft.network.INetworkManager;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
-public class PacketTabSync extends CustomPacket
+public class PacketTabSync implements IPacket
 {
     public String[] labels;
 
     public PacketTabSync()
     {
-        super(PacketTypeHandler.TAB_SYNC, false);
     }
 
     public PacketTabSync(String[] labels)
     {
-        super(PacketTypeHandler.TAB_SYNC, false);
         this.labels = labels;
     }
 
     @Override
-    public void writeData(DataOutputStream data) throws IOException
+    public void writeBytes(ByteBuf bytes)
     {
-        super.writeData(data);
-        data.writeInt(labels.length);
+        bytes.writeInt(labels.length);
         for (String label : labels)
         {
-            data.writeUTF(label);
+            ByteBufUtils.writeUTF8String(bytes, label);
         }
     }
 
     @Override
-    public void readData(DataInputStream data) throws IOException
+    public void readBytes(ByteBuf bytes, EntityPlayer player)
     {
-        super.readData(data);
-        labels = new String[data.readInt()];
+        labels = new String[bytes.readInt()];
         for (int i = 0; i < labels.length; i++)
         {
-            labels[i] = data.readUTF();
+            labels[i] = ByteBufUtils.readUTF8String(bytes);
         }
-    }
-
-    @Override
-    public void execute(INetworkManager manager, Player player)
-    {
-        super.execute(manager, player);
 
         FilterStandard.syncTabs(labels);
     }

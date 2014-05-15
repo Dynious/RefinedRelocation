@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.command.CommandRefinedRelocation;
 import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
-import com.dynious.refinedrelocation.event.PlayerTracker;
 import com.dynious.refinedrelocation.event.TickEvent;
 import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
@@ -47,8 +46,6 @@ public class RefinedRelocation
         ConfigHandler.init(event.getSuggestedConfigurationFile());
 
         FMLCommonHandler.instance().bus().register(new TickEvent());
-
-        GameRegistry.registerPlayerTracker(new PlayerTracker());
 
         ModBlocks.init();
 

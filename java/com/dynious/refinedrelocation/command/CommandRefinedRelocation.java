@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.helper.WebpageHelper;
 import com.dynious.refinedrelocation.lib.Commands;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import com.dynious.refinedrelocation.version.VersionContainer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -44,10 +43,10 @@ public class CommandRefinedRelocation extends CommandBase
 
             if (commandName.equalsIgnoreCase(Commands.HELP))
             {
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Format: '" + this.getCommandName() + " <command> <arguments>'"));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Available commands:"));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("- latest : Download latest"));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("- changelog : Show latest changelog"));
+                icommandsender.addChatMessage(new ChatComponentText("Format: '" + this.getCommandName() + " <command> <arguments>'"));
+                icommandsender.addChatMessage(new ChatComponentText("Available commands:"));
+                icommandsender.addChatMessage(new ChatComponentText("- latest : Download latest"));
+                icommandsender.addChatMessage(new ChatComponentText("- changelog : Show latest changelog"));
             }
             if (commandName.equalsIgnoreCase(Commands.LATEST))
             {
@@ -61,12 +60,12 @@ public class CommandRefinedRelocation extends CommandBase
                     catch (MalformedURLException e)
                     {
                         e.printStackTrace();
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("ERROR: Version URL was corrupt"));
+                        icommandsender.addChatMessage(new ChatComponentText("ERROR: Version URL was corrupt"));
                     }
                 }
                 else
                 {
-                    icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Version Checker has not initialized"));
+                    icommandsender.addChatMessage(new ChatComponentText("Version Checker has not initialized"));
                 }
             }
             if (commandName.equalsIgnoreCase(Commands.CHANGE_LOG))
@@ -74,11 +73,11 @@ public class CommandRefinedRelocation extends CommandBase
                 VersionContainer.Version version = VersionChecker.getRemoteVersion();
                 if (version != null)
                 {
-                    icommandsender.sendChatToPlayer(new ChatMessageComponent().addText(version.getChangeLog()));
+                    icommandsender.addChatMessage(new ChatComponentText(version.getChangeLog()));
                 }
                 else
                 {
-                    icommandsender.sendChatToPlayer(new ChatMessageComponent().addText("Version Checker has not initialized"));
+                    icommandsender.addChatMessage(new ChatComponentText("Version Checker has not initialized"));
                 }
             }
         }
