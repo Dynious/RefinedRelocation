@@ -70,10 +70,11 @@ gui.refinedrelocation.commaSeparation=Отделяйте фильтры запя
 gui.refinedrelocation.wirelessLink=Беспроводное соединение
 gui.refinedrelocation.linkedToAt=Соединён с %s на: %s:%s:%s
 gui.refinedrelocation.connections=Соединения
-gui.refinedrelocation.oreDictConversion=OreDict. Conversion
+gui.refinedrelocation.oreDictConversion=OreDict. преобразование
 gui.refinedrelocation.maxEnergy=Максимальная пропускная энергия
 gui.refinedrelocation.RSOn=Высокий сигнал красного камня отключает питание
 gui.refinedrelocation.RSPulse=Импульс красного камня включает питание
+gui.refinedrelocation.priority=Приоритет
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Соединённая позиция: %s:%s:%s (%s)
