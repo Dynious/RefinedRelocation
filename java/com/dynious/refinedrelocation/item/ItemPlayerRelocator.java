@@ -8,7 +8,6 @@ import com.dynious.refinedrelocation.lib.*;
 import com.dynious.refinedrelocation.tileentity.TileRelocationController;
 import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
 import com.dynious.refinedrelocation.util.Vector3;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -16,7 +15,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
@@ -248,46 +246,39 @@ public class ItemPlayerRelocator extends Item
         event.newfov = event.fov + inUse/110;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public int getDisplayDamage(ItemStack stack)
     {
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if (getTimeLeft(stack, player) > 0)
         {
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-            if (getTimeLeft(stack, player) > 0)
-            {
-                return getTimeLeft(stack, player);
-            }
+            return getTimeLeft(stack, player);
         }
-        return super.getDisplayDamage(stack);
+        return 0;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public int getMaxDamage(ItemStack stack)
     {
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-        {
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-            return player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
-        }
-        return super.getMaxDamage(stack);
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        return player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public boolean isDamageable()
     {
         return true;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public boolean isDamaged(ItemStack itemStack)
     {
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-        {
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-            return getTimeLeft(itemStack, player) > 0;
-        }
-        return super.isDamaged(itemStack);
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        return getTimeLeft(itemStack, player) > 0;
     }
 
     @SideOnly(Side.CLIENT)
