@@ -67,6 +67,8 @@ public class RefinedRelocation
 
         ModMultiBlocks.init();
 
+        proxy.registerEventHandlers();
+
         ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallbackHelper());
     }
 
