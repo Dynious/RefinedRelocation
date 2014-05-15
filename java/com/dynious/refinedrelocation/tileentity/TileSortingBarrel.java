@@ -79,7 +79,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     @Override
     public Priority getPriority()
     {
-        return Priority.HIGH;
+        return Priority.NORMAL_HIGH;
     }
 
     @Override

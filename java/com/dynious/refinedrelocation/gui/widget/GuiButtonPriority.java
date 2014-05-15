@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.EnergyType;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketPriority;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
@@ -61,7 +62,8 @@ public class GuiButtonPriority extends GuiRefinedRelocationButton
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             List<String> tooltip = new ArrayList<String>();
-            tooltip.add(StatCollector.translateToLocal(tile.getPriority().name().replace('_', '-')));
+            tooltip.add(StatCollector.translateToLocal(Strings.PRIORITY) + ":");
+            tooltip.add("\u00A77" + StatCollector.translateToLocal(tile.getPriority().name().replace('_', '-')));
             tooltip.addAll(subTooltip);
             return tooltip;
         }
