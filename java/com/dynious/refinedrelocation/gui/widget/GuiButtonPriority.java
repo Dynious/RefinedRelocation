@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketPriority;
 import net.minecraft.util.StatCollector;
@@ -56,7 +57,8 @@ public class GuiButtonPriority extends GuiRefinedRelocationButton
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             List<String> tooltip = new ArrayList<String>();
-            tooltip.add(StatCollector.translateToLocal(tile.getPriority().name().replace('_', '-')));
+            tooltip.add(StatCollector.translateToLocal(Strings.PRIORITY) + ":");
+            tooltip.add("\u00A77" + StatCollector.translateToLocal(tile.getPriority().name().replace('_', '-')));
             tooltip.addAll(subTooltip);
             return tooltip;
         }
