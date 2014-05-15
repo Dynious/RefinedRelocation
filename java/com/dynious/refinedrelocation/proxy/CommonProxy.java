@@ -1,12 +1,10 @@
 package com.dynious.refinedrelocation.proxy;
 
-import com.dynious.refinedrelocation.event.EventHandler;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.network.GuiHandler;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy
 {
@@ -48,6 +46,5 @@ public class CommonProxy
 
     public void registerEventHandlers()
     {
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 }
