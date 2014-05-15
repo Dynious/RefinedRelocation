@@ -162,14 +162,6 @@ public class FilterStandard implements IFilterGUI
         }
         else
         {
-            try
-            {
-                System.out.println(getCreativeTab(place));
-                System.out.println(tabLabel.get(tabs[getCreativeTab(place)]));
-            } catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
             creativeTabs[getCreativeTab(place)] = value;
         }
     }
