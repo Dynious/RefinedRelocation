@@ -5,7 +5,6 @@ import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
-import com.dynious.refinedrelocation.grid.FilterStandard;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.entity.player.EntityPlayer;
@@ -61,7 +60,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             {
                 for (Object crafter : crafters)
                 {
-                    ((ICrafting) crafter).sendProgressBarUpdate(this, GuiNetworkIds.FILTERED_BASE + (tile.getFilter().getValue(i) ? 0 : 1), i);
+                    ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + (tile.getFilter().getValue(i) ? 0 : 1), i);
                 }
                 lastFilterOptions[i] = tile.getFilter().getValue(i);
             }
@@ -150,14 +149,6 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     {
         if (filterIndex >= 0 && filterIndex < lastFilterOptions.length)
             this.setFilterOption(filterIndex, !tile.getFilter().getValue(filterIndex));
-    }
-
-    @Override
-    public void toggleFilterOption(String label)
-    {
-        int index = FilterStandard.getIndex(label);
-        if (index >= 0)
-            this.setFilterOption(index, !tile.getFilter().getValue(index));
     }
 
     @Override

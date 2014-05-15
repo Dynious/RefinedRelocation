@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.command.CommandRefinedRelocation;
 import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
+import com.dynious.refinedrelocation.event.PlayerTracker;
 import com.dynious.refinedrelocation.event.TickEvent;
 import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.helper.LogHelper;
@@ -23,6 +24,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
@@ -57,13 +59,13 @@ public class RefinedRelocation
 
         TickRegistry.registerTickHandler(new TickEvent(), Side.CLIENT);
 
+        GameRegistry.registerPlayerTracker(new PlayerTracker());
+
         ModBlocks.init();
 
         ModItems.init();
 
         ModMultiBlocks.init();
-
-        proxy.registerEventHandlers();
 
         ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallbackHelper());
     }

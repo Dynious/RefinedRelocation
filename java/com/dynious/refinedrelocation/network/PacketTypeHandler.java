@@ -16,7 +16,7 @@ public enum PacketTypeHandler
     USER_FILTER(PacketUserFilter.class),
     BLACKLIST(PacketBlacklist.class),
     FILTER_OPTION(PacketFilterOption.class),
-    LABELED_FILTER_OPTION(PacketLabeledFilterOption.class),
+    TAB_SYNC(PacketTabSync.class),
     RESTRICT_EXTRACTION(PacketRestrictExtraction.class),
     REDSTONE_ENABLED(PacketRedstoneEnabled.class),
     TILE_UPDATE(PacketTileUpdate.class),

@@ -13,14 +13,14 @@ import java.io.IOException;
 
 public class PacketFilterOption extends CustomPacket
 {
-    public byte filterIndex;
+    public int filterIndex;
 
     public PacketFilterOption()
     {
         super(PacketTypeHandler.FILTER_OPTION, false);
     }
 
-    public PacketFilterOption(byte filterIndex)
+    public PacketFilterOption(int filterIndex)
     {
         super(PacketTypeHandler.FILTER_OPTION, false);
         this.filterIndex = filterIndex;
@@ -30,14 +30,14 @@ public class PacketFilterOption extends CustomPacket
     public void writeData(DataOutputStream data) throws IOException
     {
         super.writeData(data);
-        data.write(filterIndex);
+        data.writeInt(filterIndex);
     }
 
     @Override
     public void readData(DataInputStream data) throws IOException
     {
         super.readData(data);
-        filterIndex = data.readByte();
+        filterIndex = data.readInt();
     }
 
     @Override
