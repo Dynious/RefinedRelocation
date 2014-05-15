@@ -74,6 +74,7 @@ gui.refinedrelocation.oreDictConversion=OreDict. Conversion
 gui.refinedrelocation.maxEnergy=The max energy throughput
 gui.refinedrelocation.RSOn=Redstone high disables power
 gui.refinedrelocation.RSPulse=Redstone pulse toggles power
+gui.refinedrelocation.priority=Priority
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: %s:%s:%s (%s)
