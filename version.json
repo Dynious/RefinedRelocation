@@ -2,15 +2,15 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.2",
-			"modVersion":"1.0.4c",
-			"changeLog":"Fixed a lot of bugs!",
-			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2201980/download"
+			"modVersion":"1.0.4d",
+			"changeLog":"Fixed a lot of bugs, again!",
+			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2202135/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.6.4",
-			"modVersion":"1.0.4c",
-			"changeLog":"Fixed a lot of bugs!",
-			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2201979/download"
+			"modVersion":"1.0.4d",
+			"changeLog":"Fixed a lot of bugs, again!",
+			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2202133/download"
 		}
 	]
 }
