@@ -1,6 +1,8 @@
 package com.dynious.refinedrelocation.api.tileentity;
 
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -19,4 +21,10 @@ public interface IRelocator
     public void receiveTravellingItem(TravellingItem item);
 
     public List<TravellingItem> getItems(boolean includeItemsToAdd);
+
+    public TileEntity getTileEntity();
+
+    public GuiScreen getGUI(int side);
+
+    public Container getContainer(int side);
 }

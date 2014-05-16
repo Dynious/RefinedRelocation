@@ -2,18 +2,17 @@ package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.gui.*;
 import com.dynious.refinedrelocation.gui.container.*;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.tileentity.*;
-import com.pahimar.ee3.client.gui.inventory.GuiAlchemicalChest;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.ironchest.client.GUIChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public class GuiHandler implements IGuiHandler
 {
@@ -75,6 +74,13 @@ public class GuiHandler implements IGuiHandler
                     }
                     break;
             }
+            if (guiId >= GuiIds.RELOCATOR_FILTER_BASE && guiId < (GuiIds.RELOCATOR_FILTER_BASE + ForgeDirection.VALID_DIRECTIONS.length))
+            {
+                if (tile instanceof IRelocator)
+                {
+                    return ((IRelocator) tile).getContainer(guiId - GuiIds.RELOCATOR_FILTER_BASE);
+                }
+            }
         }
         return null;
     }
@@ -97,7 +103,7 @@ public class GuiHandler implements IGuiHandler
                 case GuiIds.FILTERED:
                     if (tile instanceof IFilterTileGUI)
                     {
-                        return new GuiFiltered(player.inventory, (IFilterTileGUI) tile);
+                        return new GuiFiltered((IFilterTileGUI) tile);
                     }
                     break;
                 case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
@@ -136,6 +142,13 @@ public class GuiHandler implements IGuiHandler
                         return new GuiPowerLimiter((TilePowerLimiter) tile);
                     }
                     break;
+            }
+            if (guiId >= GuiIds.RELOCATOR_FILTER_BASE && guiId < (GuiIds.RELOCATOR_FILTER_BASE + ForgeDirection.VALID_DIRECTIONS.length))
+            {
+                if (tile instanceof IRelocator)
+                {
+                    return ((IRelocator) tile).getGUI(guiId - GuiIds.RELOCATOR_FILTER_BASE);
+                }
             }
         }
         return null;

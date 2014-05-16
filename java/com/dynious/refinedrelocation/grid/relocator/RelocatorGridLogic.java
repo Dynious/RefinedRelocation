@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.util.Vector3;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -19,7 +20,7 @@ public class RelocatorGridLogic
     {
         start = relocator;
         startSide = (byte) side;
-        List<IRelocator> checkedRelocators = new ArrayList<IRelocator>();
+        List<TileEntity> checkedRelocators = new ArrayList<TileEntity>();
         PathToRelocator path = new PathToRelocator(relocator, new ArrayList<Byte>());
 
         //Try to output
@@ -52,7 +53,7 @@ public class RelocatorGridLogic
     }
 
     @SuppressWarnings("unchecked")
-    private static List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<IRelocator> checkedRelocators, int excludedOutputSide)
+    private static List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<TileEntity> checkedRelocators, int excludedOutputSide)
     {
         //Try to output the stack to the connected Tiles
         TravellingItem item = tryToOutput(itemStack, path, excludedOutputSide);
@@ -63,14 +64,14 @@ public class RelocatorGridLogic
             return null;
         }
         //Add the Relocator to the checked list, this Relocator will not be checked again if found
-        checkedRelocators.add(path.RELOCATOR);
+        checkedRelocators.add(path.RELOCATOR.getTileEntity());
 
         //Make a new list of the connected Relocators
         List<PathToRelocator> uncheckedRelocators =  new ArrayList<PathToRelocator>();
         for (int i = 0; i < path.RELOCATOR.getConnectedRelocators().length; i++)
         {
             IRelocator relocator1 = path.RELOCATOR.getConnectedRelocators()[i];
-            if (relocator1 != null && !checkedRelocators.contains(relocator1) && path.RELOCATOR.passesFilter(itemStack, i) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i]))
+            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && path.RELOCATOR.passesFilter(itemStack, i) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i]))
             {
                 //Clone the path to the connected Relocator and add the new side to it
                 ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
@@ -111,7 +112,7 @@ public class RelocatorGridLogic
                             {
                                 stack = itemStack.copy();
                             }
-                            return new TravellingItem(stack, start, newPath, startSide);
+                            return new TravellingItem(stack, Vector3.getFromTile(start.getTileEntity()), newPath, startSide);
                         }
                     }
                 }

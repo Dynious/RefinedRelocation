@@ -6,18 +6,23 @@ import codechicken.lib.raytracer.IndexedCuboid6;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
 import codechicken.multipart.JCuboidPart;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
+import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 
 import java.util.ArrayList;
@@ -122,6 +127,20 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
         RendererRelocator.instance.renderTileEntityAt(relocator, pos.x, pos.y, pos.z, frame);
     }
 
+    @Override
+    public boolean activate(EntityPlayer player, MovingObjectPosition hit, ItemStack item)
+    {
+        if (hit.subHit < 6)
+        {
+            relocator.sideHit(player, hit.subHit, item);
+        }
+        else
+        {
+            //Middle was hit
+        }
+        return super.activate(player, hit, item);
+    }
+
     /*
     NBT Handling
      */
@@ -145,14 +164,12 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public void writeDesc(MCDataOutput packet)
     {
-        System.out.println("write");
         packet.writeNBTTagCompound(((Packet132TileEntityData) relocator.getDescriptionPacket()).data);
     }
 
     @Override
     public void readDesc(MCDataInput packet)
     {
-        System.out.println("read");
         relocator.onDataPacket(null, new Packet132TileEntityData(0, 0, 0, 0, packet.readNBTTagCompound()));
     }
 
@@ -194,6 +211,24 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public List<TravellingItem> getItems(boolean includeItemsToAdd)
     {
         return relocator.getItems(includeItemsToAdd);
+    }
+
+    @Override
+    public TileEntity getTileEntity()
+    {
+        return relocator;
+    }
+
+    @Override
+    public GuiScreen getGUI(int side)
+    {
+        return relocator.getGUI(side);
+    }
+
+    @Override
+    public Container getContainer(int side)
+    {
+        return relocator.getContainer(side);
     }
 
     /*

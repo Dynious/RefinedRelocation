@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.api;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.IRelocatorFilter;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
@@ -65,5 +66,16 @@ public final class APIUtils
     public static ISortingInventoryHandler createSortingInventoryHandler(TileEntity owner)
     {
         return apiHandler.createSortingInventoryHandler(owner);
+    }
+
+    /**
+     * Creates a new SortingInventoryHandler instance. Use with ISortingInventory implementers.
+     *
+     * @param identifier The identifier of this filter
+     * @param clazz The class of this filter
+     */
+    public static void registerRelocatorFilter(String identifier, Class<? extends IRelocatorFilter> clazz) throws IllegalArgumentException
+    {
+        apiHandler.registerRelocatorFilter(identifier, clazz);
     }
 }

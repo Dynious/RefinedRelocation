@@ -2,21 +2,25 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
+import com.dynious.refinedrelocation.util.Vector3;
+import com.google.common.primitives.Bytes;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TravellingItem
 {
     public static final byte timePerRelocator = 10;
     private ItemStack itemStack;
-    private IRelocator startingPoint;
+    private Vector3 startingPoint;
     private List<Byte> path;
     public byte input;
     public byte counter;
 
-    public TravellingItem(ItemStack itemStack, IRelocator startingPoint, List<Byte> path, int inputSide)
+    public TravellingItem(ItemStack itemStack, Vector3 startingPoint, List<Byte> path, int inputSide)
     {
         this.itemStack = itemStack;
         this.startingPoint = startingPoint;
@@ -54,12 +58,12 @@ public class TravellingItem
         return itemStack;
     }
 
-    public IRelocator getStartingPoint()
+    public Vector3 getStartingPoint()
     {
         return startingPoint;
     }
 
-    public void setStartingPoint(IRelocator startingPoint)
+    public void setStartingPoint(Vector3 startingPoint)
     {
         this.startingPoint = startingPoint;
     }
@@ -113,5 +117,30 @@ public class TravellingItem
         {
             return 0.6F + (ForgeDirection.getOrientation(getOutputSide()).offsetZ * clientSideProgress) - (ForgeDirection.getOrientation(getOutputSide()).offsetZ * 0.5F);
         }
+    }
+
+    public void writeToNBT(NBTTagCompound compound)
+    {
+        itemStack.writeToNBT(compound);
+        startingPoint.writeToNBT(compound);
+        compound.setByteArray("path", Bytes.toArray(path));
+        compound.setByte("input", input);
+        compound.setByte("counter", counter);
+    }
+
+    public void readFromNBT(NBTTagCompound compound)
+    {
+        itemStack = ItemStack.loadItemStackFromNBT(compound);
+        startingPoint = Vector3.createFromNBT(compound);
+        path = Bytes.asList(compound.getByteArray("path"));
+        input = compound.getByte("input");
+        counter = compound.getByte("counter");
+    }
+
+    public static TravellingItem createFromNBT(NBTTagCompound compound)
+    {
+        TravellingItem t = new TravellingItem(ItemStack.loadItemStackFromNBT(compound), Vector3.createFromNBT(compound), new ArrayList<Byte>(Bytes.asList(compound.getByteArray("path"))), compound.getByte("input"));
+        t.counter = compound.getByte("counter");
+        return t;
     }
 }
