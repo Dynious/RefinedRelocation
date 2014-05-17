@@ -58,12 +58,12 @@ public class FilterStandard implements IFilterGUI
                     String filterName;
                     if (s.contains("!"))
                     {
-                        filterName = oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
+                        filterName = oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase().replaceAll("\\s+", "");
                         s = s.replace("!", "");
                     }
                     else
                     {
-                        filterName = itemStack.getDisplayName().toLowerCase();
+                        filterName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
                     }
                     if (s.startsWith("*") && s.length() > 1)
                     {
