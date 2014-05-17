@@ -58,7 +58,13 @@ public class FilterStandard implements IFilterGUI
                     String filterName;
                     if (s.contains("!"))
                     {
-                        filterName = oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase().replaceAll("\\s+", "");
+                        int id = OreDictionary.getOreID(itemStack);
+                        if (id == -1)
+                        {
+                            oreName = "";
+                            break;
+                        }
+                        filterName = oreName = OreDictionary.getOreName(id).toLowerCase().replaceAll("\\s+", "");
                         s = s.replace("!", "");
                     }
                     else
@@ -92,31 +98,42 @@ public class FilterStandard implements IFilterGUI
             {
                 if (oreName == null)
                 {
-                    oreName = OreDictionary.getOreName(OreDictionary.getOreID(itemStack)).toLowerCase();
+                    int id = OreDictionary.getOreID(itemStack);
+                    if (id == -1)
+                    {
+                        oreName = "";
+                    }
+                    else
+                    {
+                        oreName = OreDictionary.getOreName(id).toLowerCase().replaceAll("\\s+", "");
+                    }
                 }
 
-                if (customFilters[0] && (oreName.contains("ingot") || itemStack.getItem() == Items.iron_ingot || itemStack.getItem() == Items.gold_ingot))
-                    return true;
-                if (customFilters[1] && oreName.contains("ore"))
-                    return true;
-                if (customFilters[2] && oreName.contains("log"))
-                    return true;
-                if (customFilters[3] && oreName.contains("plank"))
-                    return true;
-                if (customFilters[4] && oreName.contains("dust"))
-                    return true;
-                if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
-                    return true;
-                if (customFilters[6] && oreName.contains("purified"))
-                    return true;
-                if (customFilters[7] && oreName.contains("plate"))
-                    return true;
-                if (customFilters[8] && oreName.contains("gem"))
-                    return true;
-                if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
-                    return true;
-                if (customFilters[10] && oreName.contains("dye"))
-                    return true;
+                if (!oreName.isEmpty())
+                {
+                    if (customFilters[0] && (oreName.contains("ingot") || itemStack.getItem() == Items.iron_ingot || itemStack.getItem() == Items.gold_ingot))
+                        return true;
+                    if (customFilters[1] && oreName.contains("ore"))
+                        return true;
+                    if (customFilters[2] && oreName.contains("log"))
+                        return true;
+                    if (customFilters[3] && oreName.contains("plank"))
+                        return true;
+                    if (customFilters[4] && oreName.contains("dust"))
+                        return true;
+                    if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
+                        return true;
+                    if (customFilters[6] && oreName.contains("purified"))
+                        return true;
+                    if (customFilters[7] && oreName.contains("plate"))
+                        return true;
+                    if (customFilters[8] && oreName.contains("gem"))
+                        return true;
+                    if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
+                        return true;
+                    if (customFilters[10] && oreName.contains("dye"))
+                        return true;
+                }
             }
 
             if (Booleans.contains(creativeTabs, true))
