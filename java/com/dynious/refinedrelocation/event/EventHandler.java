@@ -12,10 +12,8 @@ public class EventHandler
     @SubscribeEvent
     public void loggedInEvent(PlayerEvent.PlayerLoggedInEvent event)
     {
-        System.out.println("Fire!!");
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
-            System.out.println("Sent!");
             NetworkHelper.sendTo(new PacketTabSync(FilterStandard.getLabels()), event.player);
         }
     }
