@@ -75,6 +75,9 @@ gui.refinedrelocation.maxEnergy=Максимальная пропускная э
 gui.refinedrelocation.RSOn=Высокий сигнал красного камня отключает питание
 gui.refinedrelocation.RSPulse=Импульс красного камня включает питание
 gui.refinedrelocation.priority=Приоритет
+gui.refinedrelocation.outdated=Версия %s Refined Relocation устарела! Последняя версия: %s
+gui.refinedrelocation.changeLog=Изменения
+gui.refinedrelocation.latest=Чтобы обновиться, используйте: '/RefinedRelocation latest'
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Соединённая позиция: %s:%s:%s (%s)
