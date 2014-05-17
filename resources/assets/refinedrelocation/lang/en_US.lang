@@ -75,6 +75,9 @@ gui.refinedrelocation.maxEnergy=The max energy throughput
 gui.refinedrelocation.RSOn=Redstone high disables power
 gui.refinedrelocation.RSPulse=Redstone pulse toggles power
 gui.refinedrelocation.priority=Priority
+gui.refinedrelocation.outdated=Refined Relocation %s is outdated! Latest version: %s
+gui.refinedrelocation.changeLog=Change log
+gui.refinedrelocation.latest=Get latest using: '/RefinedRelocation latest'
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: %s:%s:%s (%s)

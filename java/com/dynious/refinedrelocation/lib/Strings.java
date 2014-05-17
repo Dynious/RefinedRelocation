@@ -45,6 +45,9 @@ public class Strings
     public static final String RS_ON =  GUI_PREFIX + "RSOn";
     public static final String RS_PULSE =  GUI_PREFIX + "RSPulse";
     public static final String PRIORITY =  GUI_PREFIX + "priority";
+    public static final String OUTDATED =  GUI_PREFIX + "outdated";
+    public static final String CHANGE_LOG =  GUI_PREFIX + "changeLog";
+    public static final String LATEST =  GUI_PREFIX + "latest";
 
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";
