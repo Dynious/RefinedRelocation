@@ -133,16 +133,19 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         this.fluidHandler = fluidHandler;
     }
 
+    @Method(modid = "BuildCraft|Energy")
     public void setPowerReceptor(IPowerReceptor powerReceptor)
     {
         this.powerReceptor = powerReceptor;
     }
 
+    @Method(modid = "CoFHCore")
     public void setEnergyHandler(IEnergyHandler energyHandler)
     {
         this.energyHandler = energyHandler;
     }
 
+    @Method(modid = "IC2")
     public void setEnergySink(IEnergySink energySink)
     {
         if (this.energySink == null && energySink != null)
@@ -163,6 +166,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         }
     }
 
+    @Method(modid = "UniversalElectricity")
     public void setEnergyInterface(IEnergyInterface energyInterface)
     {
         this.energyInterface = energyInterface;
@@ -210,7 +214,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     @Override
     public void invalidate()
     {
-        if (this.getEnergySink() != null && !worldObj.isRemote)
+        if (Loader.isModLoaded("IC2") && this.getEnergySink() != null)
         {
             IC2Helper.removeFromEnergyNet(this);
         }
@@ -220,7 +224,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     @Override
     public void onChunkUnload()
     {
-        if (this.getEnergySink() != null && !worldObj.isRemote)
+        if (Loader.isModLoaded("IC2") && this.getEnergySink() != null)
         {
             IC2Helper.removeFromEnergyNet(this);
         }
@@ -267,6 +271,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 {
                     resetConnections();
                     worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                    worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
                 }
                 else
                 {
@@ -334,6 +339,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
             if (updated || tile instanceof ILoopable)
             {
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
             }
         }
     }
@@ -342,10 +348,15 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     {
         setInventory(null);
         setFluidHandler(null);
-        setPowerReceptor(null);
-        setEnergySink(null);
-        setEnergyHandler(null);
-        setEnergyInterface(null);
+
+        if (Loader.isModLoaded("BuildCraft|Energy"))
+            setPowerReceptor(null);
+        if (Loader.isModLoaded("IC2"))
+            setEnergySink(null);
+        if (Loader.isModLoaded("CoFHCore"))
+            setEnergyHandler(null);
+        if (Loader.isModLoaded("UniversalElectricity"))
+            setEnergyInterface(null);
     }
 
     public boolean hasConnection()

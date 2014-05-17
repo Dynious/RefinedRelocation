@@ -11,13 +11,13 @@ public class IC2Helper
 {
     public static void addToEnergyNet(TileEntity tile)
     {
-        if (Loader.isModLoaded("IC2") && tile instanceof IEnergyTile)
+        if (!tile.getWorldObj().isRemote && tile instanceof IEnergyTile)
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile) tile));
     }
 
     public static void removeFromEnergyNet(TileEntity tile)
     {
-        if (Loader.isModLoaded("IC2") && tile instanceof IEnergyTile)
+        if (!tile.getWorldObj().isRemote && tile instanceof IEnergyTile)
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile) tile));
     }
 }
