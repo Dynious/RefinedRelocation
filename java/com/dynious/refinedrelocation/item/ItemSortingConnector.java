@@ -20,7 +20,7 @@ public class ItemSortingConnector extends ItemBlock
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        return ModBlocks.sortingConnector.getUnlocalizedName() + stack.getItemDamage();
+        return getUnlocalizedName() + stack.getItemDamage();
     }
 
     @Override

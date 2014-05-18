@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 public class TileFilteredBuffer extends TileBuffer implements IFilterTileGUI
 {
@@ -20,6 +21,12 @@ public class TileFilteredBuffer extends TileBuffer implements IFilterTileGUI
     public IFilterGUI getFilter()
     {
         return filter;
+    }
+
+    @Override
+    public TileEntity getTileEntity()
+    {
+        return this;
     }
 
     @Override

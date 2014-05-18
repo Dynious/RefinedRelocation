@@ -1,16 +1,13 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.filter.IRelocatorFilter;
+import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
-import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorFilterRegistry;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorFilterStandard;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
-import com.dynious.refinedrelocation.item.ItemSortingUpgrade;
-import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -38,7 +35,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
-    private IRelocatorFilter[] filters = new IRelocatorFilter[ForgeDirection.VALID_DIRECTIONS.length];
+    private IRelocatorModule[] filters = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
 
     private boolean[] isConnected = new boolean[6];
 
@@ -76,6 +73,14 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             }
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             blocksChanged = false;
+        }
+
+        for (int i = 0; i < filters.length; i++)
+        {
+            if (filters[i] != null)
+            {
+                filters[i].onUpdate(this, i);
+            }
         }
 
         if (worldObj.isRemote)
@@ -128,10 +133,14 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void sideHit(EntityPlayer player, int side, ItemStack stack)
     {
-        if (stack != null && stack.getItem() instanceof ItemSortingUpgrade && filters[side] == null)
+        if (stack != null && stack.getItem() instanceof IItemRelocatorModule && filters[side] == null)
         {
-            filters[side] = new RelocatorFilterStandard();
-            stack.stackSize--;
+            IRelocatorModule filter = ((IItemRelocatorModule) stack.getItem()).getRelocatorFilter(stack);
+            if (filter != null)
+            {
+                filters[side] = filter;
+                stack.stackSize--;
+            }
         }
         else if (filters[side] != null)
         {
@@ -156,9 +165,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
-    public boolean passesFilter(ItemStack itemStack, int side)
+    public boolean passesFilter(ItemStack itemStack, int side, boolean input)
     {
-        return filters[side] == null || filters[side].passesFilter(itemStack);
+        return filters[side] == null || filters[side].passesFilter(itemStack, input);
     }
 
     @Override
@@ -247,7 +256,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public ItemStack insert(ItemStack itemStack, int side, boolean simulate)
     {
-        if (passesFilter(itemStack, side))
+        if (passesFilter(itemStack, side, true))
         {
             TravellingItem item = RelocatorGridLogic.findOutput(itemStack.copy(), this, side);
             if (item != null)
@@ -387,7 +396,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
             byte place = nbttagcompound1.getByte("place");
-            IRelocatorFilter filter = RelocatorFilterRegistry.getFilter(nbttagcompound1.getString("clazzIdentifier"));
+            IRelocatorModule filter = RelocatorFilterRegistry.getFilter(nbttagcompound1.getString("clazzIdentifier"));
             if (filter != null)
             {
                 filters[place] = filter;
@@ -409,7 +418,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public boolean canInsertItem(int slot, ItemStack itemStack, int side)
     {
-        if (passesFilter(itemStack, side))
+        if (passesFilter(itemStack, side, true))
         {
             cachedTravellingItem = RelocatorGridLogic.findOutput(itemStack, this, side);
             if (cachedTravellingItem != null)

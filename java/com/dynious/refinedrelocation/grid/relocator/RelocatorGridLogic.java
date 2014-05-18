@@ -71,7 +71,7 @@ public class RelocatorGridLogic
         for (int i = 0; i < path.RELOCATOR.getConnectedRelocators().length; i++)
         {
             IRelocator relocator1 = path.RELOCATOR.getConnectedRelocators()[i];
-            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && path.RELOCATOR.passesFilter(itemStack, i) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i]))
+            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && path.RELOCATOR.passesFilter(itemStack, i, false) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i], true))
             {
                 //Clone the path to the connected Relocator and add the new side to it
                 ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
@@ -93,7 +93,7 @@ public class RelocatorGridLogic
                 TileEntity inventory = path.RELOCATOR.getConnectedInventories()[i];
                 if (inventory != null)
                 {
-                    if (path.RELOCATOR.passesFilter(itemStack, i))
+                    if (path.RELOCATOR.passesFilter(itemStack, i, false))
                     {
                         //Try to insert
                         ItemStack stack = IOHelper.insert(inventory, itemStack.copy(), ForgeDirection.getOrientation(i).getOpposite(), true);

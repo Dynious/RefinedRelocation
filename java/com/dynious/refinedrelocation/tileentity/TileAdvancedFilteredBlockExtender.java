@@ -8,6 +8,7 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -167,6 +168,12 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     public IFilterGUI getFilter()
     {
         return filter;
+    }
+
+    @Override
+    public TileEntity getTileEntity()
+    {
+        return this;
     }
 
     /*

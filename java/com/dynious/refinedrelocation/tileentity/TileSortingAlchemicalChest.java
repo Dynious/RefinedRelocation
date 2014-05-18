@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 import java.lang.reflect.Field;
 
@@ -100,6 +101,12 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     public IFilterGUI getFilter()
     {
         return filter;
+    }
+
+    @Override
+    public TileEntity getTileEntity()
+    {
+        return this;
     }
 
     @Override

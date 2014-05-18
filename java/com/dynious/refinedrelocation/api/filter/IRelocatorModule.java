@@ -9,16 +9,18 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public interface IRelocatorFilter
+public interface IRelocatorModule
 {
     public void onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack);
+
+    public void onUpdate(IRelocator relocator, int side);
 
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator);
 
     public Container getContainer(IRelocator relocator);
 
-    public boolean passesFilter(ItemStack stack);
+    public boolean passesFilter(ItemStack stack, boolean input);
 
     public void readFromNBT(NBTTagCompound compound);
 

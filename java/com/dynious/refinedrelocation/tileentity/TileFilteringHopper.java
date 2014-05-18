@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.lib.Names;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
 
 public class TileFilteringHopper extends TileEntityHopper implements IFilterTileGUI
@@ -37,7 +38,13 @@ public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
     {
         return filter;
     }
-    
+
+    @Override
+    public TileEntity getTileEntity()
+    {
+        return this;
+    }
+
     @Override
     public String getInvName()
     {

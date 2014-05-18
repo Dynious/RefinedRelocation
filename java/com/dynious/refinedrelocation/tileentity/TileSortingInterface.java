@@ -80,6 +80,12 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
+    public TileEntity getTileEntity()
+    {
+        return this;
+    }
+
+    @Override
     public void updateEntity()
     {
         super.updateEntity();

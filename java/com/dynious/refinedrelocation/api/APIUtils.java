@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.api;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.filter.IRelocatorFilter;
-import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
+import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -69,13 +69,26 @@ public final class APIUtils
     }
 
     /**
-     * Creates a new SortingInventoryHandler instance. Use with ISortingInventory implementers.
+     * Registers a filter for attachment to relocators. To correctly save the filter your
+     * filter MUST be registered here.
      *
      * @param identifier The identifier of this filter
      * @param clazz The class of this filter
      */
-    public static void registerRelocatorFilter(String identifier, Class<? extends IRelocatorFilter> clazz) throws IllegalArgumentException
+    public static void registerRelocatorFilter(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
     {
         apiHandler.registerRelocatorFilter(identifier, clazz);
+    }
+
+    /**
+     * Will open a GUI for the filter by calling the getGUI() and getContainer() methods in your filter.
+     *
+     * @param relocator The identifier of this filter
+     * @param player The Player that the GUI should open for
+     * @param side The side of the filter that should open a GUI
+     */
+    public static void openRelocatorFilterGUI(IRelocator relocator, EntityPlayer player, int side)
+    {
+        apiHandler.openRelocatorFilterGUI(relocator, player, side);
     }
 }

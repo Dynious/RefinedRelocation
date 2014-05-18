@@ -34,6 +34,7 @@ public class ConfigHandler
             ItemIds.LINKER = configuration.getItem(Names.linker, ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);
             ItemIds.SORTING_UPGRADE = configuration.getItem(Names.sortingUpgrade, ItemIds.SORTING_UPGRADE_DEFAULT).getInt(ItemIds.SORTING_UPGRADE_DEFAULT);
             ItemIds.PLAYER_RELOCATOR = configuration.getItem(Names.playerRelocator, ItemIds.PLAYER_RELOCATOR_DEFAULT).getInt(ItemIds.PLAYER_RELOCATOR_DEFAULT);
+            ItemIds.RELOCATOR_FILTER = configuration.getItem(Names.relocatorModule, ItemIds.RELOCATOR_FILTER_DEFAULT).getInt(ItemIds.RELOCATOR_FILTER_DEFAULT);
 
             Settings.DISABLE_WIRELESS_BLOCK_EXTENDER = configuration.get(CATEGORY_SETTINGS, "Disable Wireless Block Extender", Settings.DISABLE_WIRELESS_BLOCK_EXTENDER_DEFAULT).getBoolean(Settings.DISABLE_WIRELESS_BLOCK_EXTENDER_DEFAULT);
             Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER = configuration.get(CATEGORY_SETTINGS, "Max Range Wireless Block Extender", Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT).getInt(Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT);
@@ -41,6 +42,7 @@ public class ConfigHandler
             Settings.DISABLE_PLAYER_RELOCATOR = configuration.get(CATEGORY_SETTINGS, "Disable Player Relocator", Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT).getBoolean(Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT);
             Settings.PLAYER_RELOCATOR_DISABLED_AGES = configuration.get(CATEGORY_SETTINGS, "Ages Player Relocator Cannot Teleport From", Settings.PLAYER_RELOCATOR_DISABLED_AGES_DEFAULT).getIntList();
             Settings.PLAYER_RELOCATOR_COOLDOWN = configuration.get(CATEGORY_SETTINGS, "Player Relocator Cooldown Time (seconds)", Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT).getInt(Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT);
+            Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION = configuration.get(CATEGORY_SETTINGS, "Minimum ticks between Relocator extractions", Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION_DEFAULT).getInt(Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION_DEFAULT);
 
         } catch (Exception ignored)
         {

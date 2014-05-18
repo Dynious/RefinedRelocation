@@ -1,16 +1,16 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.IRelocatorFilter;
+import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RelocatorFilterRegistry
 {
-    private static Map<String, Class<? extends IRelocatorFilter>> filters = new HashMap<String, Class<? extends IRelocatorFilter>>();
+    private static Map<String, Class<? extends IRelocatorModule>> filters = new HashMap<String, Class<? extends IRelocatorModule>>();
 
-    public static void add(String identifier, Class<? extends IRelocatorFilter> clazz) throws IllegalArgumentException
+    public static void add(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
     {
         if (identifier == null || identifier.isEmpty() || clazz == null)
         {
@@ -28,7 +28,7 @@ public class RelocatorFilterRegistry
         return filters.containsKey(identifier);
     }
 
-    public static IRelocatorFilter getFilter(String identifier)
+    public static IRelocatorModule getFilter(String identifier)
     {
         if (filters.containsKey(identifier))
         {
@@ -48,9 +48,9 @@ public class RelocatorFilterRegistry
         return null;
     }
 
-    public static String getIdentifier(Class<? extends IRelocatorFilter> clazz)
+    public static String getIdentifier(Class<? extends IRelocatorModule> clazz)
     {
-        for (Map.Entry<String, Class<? extends IRelocatorFilter>> e : filters.entrySet())
+        for (Map.Entry<String, Class<? extends IRelocatorModule>> e : filters.entrySet())
         {
             if (e.getValue().equals(clazz))
             {
@@ -63,6 +63,6 @@ public class RelocatorFilterRegistry
 
     public static void registerModFilters()
     {
-        APIUtils.registerRelocatorFilter("filterStandard", RelocatorFilterStandard.class);
+        APIUtils.registerRelocatorFilter("filterStandard", RelocatorModuleFilter.class);
     }
 }

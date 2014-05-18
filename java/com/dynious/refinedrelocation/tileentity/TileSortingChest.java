@@ -466,9 +466,16 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         return itemStack;
     }
 
+    @Override
     public IFilterGUI getFilter()
     {
         return filter;
+    }
+
+    @Override
+    public TileEntity getTileEntity()
+    {
+        return this;
     }
 
     @Override

@@ -8,6 +8,7 @@ public class Settings
     public static final boolean DISABLE_PLAYER_RELOCATOR_DEFAULT = false;
     public static final int[] PLAYER_RELOCATOR_DISABLED_AGES_DEFAULT = new int[0];
     public static final int PLAYER_RELOCATOR_COOLDOWN_DEFAULT = 600;
+    public static final int RELOCATOR_MIN_TICKS_PER_EXTRACTION_DEFAULT = 10;
 
     public static boolean DISABLE_WIRELESS_BLOCK_EXTENDER;
     public static int MAX_RANGE_WIRELESS_BLOCK_EXTENDER;
@@ -15,4 +16,5 @@ public class Settings
     public static boolean DISABLE_PLAYER_RELOCATOR;
     public static int[] PLAYER_RELOCATOR_DISABLED_AGES;
     public static int PLAYER_RELOCATOR_COOLDOWN;
+    public static int RELOCATOR_MIN_TICKS_PER_EXTRACTION;
 }

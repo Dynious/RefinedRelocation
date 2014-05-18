@@ -17,6 +17,46 @@ import java.util.Random;
 
 public class IOHelper
 {
+    public static ItemStack extract(IInventory inventory, ForgeDirection direction)
+    {
+        if (inventory instanceof ISidedInventory)
+        {
+            ISidedInventory isidedinventory = (ISidedInventory)inventory;
+            int[] accessibleSlotsFromSide = isidedinventory.getAccessibleSlotsFromSide(direction.ordinal());
+
+            for (int anAccessibleSlotsFromSide : accessibleSlotsFromSide)
+            {
+                ItemStack stack = extract(inventory, direction, anAccessibleSlotsFromSide);
+                if (stack != null)
+                    return stack;
+            }
+        }
+        else
+        {
+            int j = inventory.getSizeInventory();
+
+            for (int k = 0; k < j; ++k)
+            {
+                ItemStack stack = extract(inventory, direction, k);
+                if (stack != null)
+                    return stack;
+            }
+        }
+        return null;
+    }
+
+    public static ItemStack extract(IInventory inventory, ForgeDirection direction, int slot)
+    {
+        ItemStack itemstack = inventory.getStackInSlot(slot);
+
+        if (itemstack != null && canExtractItemFromInventory(inventory, itemstack, slot, direction.ordinal()))
+        {
+            inventory.setInventorySlotContents(slot, null);
+            return itemstack;
+        }
+        return null;
+    }
+
     public static ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
     {
         if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
@@ -134,9 +174,14 @@ public class IOHelper
         return itemStack;
     }
 
-    private static boolean canInsertItemToInventory(IInventory inventory, ItemStack itemStack, int slot, int side)
+    public static boolean canInsertItemToInventory(IInventory inventory, ItemStack itemStack, int slot, int side)
     {
         return inventory.isItemValidForSlot(slot, itemStack) && (!(inventory instanceof ISidedInventory) || ((ISidedInventory) inventory).canInsertItem(slot, itemStack, side));
+    }
+
+    public static boolean canExtractItemFromInventory(IInventory inventory, ItemStack itemStack, int slot, int side)
+    {
+        return !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canExtractItem(slot, itemStack, side);
     }
 
     public static void dropInventory(World world, int x, int y, int z)
