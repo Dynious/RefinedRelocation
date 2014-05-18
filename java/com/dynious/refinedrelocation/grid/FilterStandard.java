@@ -297,7 +297,7 @@ public class FilterStandard implements IFilterGUI
                 }
             }
             if (tabs[i] == null)
-                tabs[i] = CreativeTabs.tabInventory;
+                tabs[i] = createNewFakeTab(label);
         }
     }
 
@@ -317,5 +317,13 @@ public class FilterStandard implements IFilterGUI
             }
         }
         return labels;
+    }
+
+    public static CreativeTabs createNewFakeTab(String tabName)
+    {
+        CreativeTabs oldTab = CreativeTabs.creativeTabArray[0];
+        CreativeTabs tab = new CreativeTabs(0, tabName);
+        CreativeTabs.creativeTabArray[0] = oldTab;
+        return tab;
     }
 }
