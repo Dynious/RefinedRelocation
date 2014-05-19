@@ -131,7 +131,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
     }
 
-    public void sideHit(EntityPlayer player, int side, ItemStack stack)
+    public boolean sideHit(EntityPlayer player, int side, ItemStack stack)
     {
         if (stack != null && stack.getItem() instanceof IItemRelocatorModule && filters[side] == null)
         {
@@ -140,12 +140,30 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 filters[side] = filter;
                 stack.stackSize--;
+                return true;
             }
         }
         else if (filters[side] != null)
         {
-            filters[side].onActivated(this, player, side, stack);
+            if (player.isSneaking())
+            {
+                List<ItemStack> list = filters[side].getDrops(this, side);
+                if (list != null)
+                {
+                    for (ItemStack stack1 : list)
+                    {
+                        IOHelper.spawnItemInWorld(worldObj, stack1, xCoord, yCoord, zCoord);
+                    }
+                }
+                filters[side] = null;
+                return true;
+            }
+            else
+            {
+                return filters[side].onActivated(this, player, side, stack);
+            }
         }
+        return false;
     }
 
     public GuiScreen getGUI(int side)

@@ -9,9 +9,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.List;
+
 public interface IRelocatorModule
 {
-    public void onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack);
+    public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack);
 
     public void onUpdate(IRelocator relocator, int side);
 
@@ -25,4 +27,6 @@ public interface IRelocatorModule
     public void readFromNBT(NBTTagCompound compound);
 
     public void writeToNBT(NBTTagCompound  compound);
+
+    public List<ItemStack> getDrops(IRelocator relocator, int side);
 }

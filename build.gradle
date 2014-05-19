@@ -10,6 +10,11 @@ buildscript
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+		maven
+		{
+			name = "ic2"
+			url = "http://maven.ic2.player.to/"
+		}
     }
     dependencies
 	{
@@ -19,9 +24,16 @@ buildscript
 
 apply plugin: 'forge'
 
+ext.env = System.getenv()
+
 version = "1.0.4e"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.6.4"
+
+if (env.BUILD_NUMBER != null)
+{
+    version += "-snapshot-" + env.BUILD_NUMBER
+}
 
 minecraft
 {
@@ -33,6 +45,7 @@ minecraft
 
 dependencies
 {
+	compile 'net.industrial-craft:industrialcraft-2:2.0.397-experimental:api'
 	compile fileTree(dir: '/../Libraries/1.6.4')
 }
 

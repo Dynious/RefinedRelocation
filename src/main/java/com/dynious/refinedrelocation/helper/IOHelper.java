@@ -208,6 +208,7 @@ public class IOHelper
 
     public static void spawnItemInWorld(World world, ItemStack itemStack, double x, double y, double z)
     {
+        if (world.isRemote) return;
         float dX = world.rand.nextFloat() * 0.8F + 0.1F;
         float dY = world.rand.nextFloat() * 0.8F + 0.1F;
         float dZ = world.rand.nextFloat() * 0.8F + 0.1F;

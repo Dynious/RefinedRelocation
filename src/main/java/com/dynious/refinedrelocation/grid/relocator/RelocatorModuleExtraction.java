@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Settings;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,15 +15,19 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RelocatorModuleExtraction implements IRelocatorModule
 {
     private byte tick = 0;
-    private int lastCheckedSlot;
+    private int lastCheckedSlot = -1;
 
     @Override
-    public void onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
+    public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         //NO-OP
+        return false;
     }
 
     @Override
@@ -57,6 +62,8 @@ public class RelocatorModuleExtraction implements IRelocatorModule
         }
         else if (firstChecked != lastCheckedSlot)
         {
+            if (firstChecked < 0) firstChecked = 0;
+
             tryExtraction(relocator, inventory, side, firstChecked);
         }
     }
@@ -118,5 +125,13 @@ public class RelocatorModuleExtraction implements IRelocatorModule
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+    }
+
+    @Override
+    public List<ItemStack> getDrops(IRelocator relocator, int side)
+    {
+        List<ItemStack> list = new ArrayList<ItemStack>();
+        list.add(new ItemStack(ModItems.relocatorModule, 1, 3));
+        return list;
     }
 }

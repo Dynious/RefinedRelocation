@@ -132,7 +132,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     {
         if (hit.subHit < 6)
         {
-            relocator.sideHit(player, hit.subHit, item);
+            return relocator.sideHit(player, hit.subHit, item);
         }
         else
         {
