@@ -1,34 +1,49 @@
-buildscript {
-    repositories {
+import org.apache.tools.ant.filters.ReplaceTokens
+
+buildscript
+{
+    repositories
+	{
         mavenCentral()
-        maven {
+        maven
+		{
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
     }
-    dependencies {
+    dependencies
+	{
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
     }
 }
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+version = "1.0.4e"
+group = "com.dynious.refinedrelocation"
+archivesBaseName = "RefinedRelocation-1.6.4"
 
-minecraft {
+minecraft
+{
 	version = "1.6.4-9.11.1.964"
+	
+	replaceIn "lib/Reference.java"
+    replace "@VERSION@", project.version
+}
+
+dependencies
+{
+	compile fileTree(dir: '/../Libraries/1.6.4')
 }
 
 processResources
 {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod/info'
+        include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        filter(ReplaceTokens, tokens: [version: project.version, mcversion: project.minecraft.version])
     }
         
     // copy everything else, thats not the mcmod.info
