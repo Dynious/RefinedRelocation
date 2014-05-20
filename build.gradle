@@ -10,11 +10,6 @@ buildscript
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-		maven
-		{
-			name = "ic2"
-			url = "http://maven.ic2.player.to/"
-		}
     }
     dependencies
 	{
@@ -23,10 +18,11 @@ buildscript
 }
 
 apply plugin: 'forge'
+apply plugin: 'scala'
 
 ext.env = System.getenv()
 
-version = "1.0.4e"
+version = "1.0.5"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.6.4"
 
@@ -43,10 +39,98 @@ minecraft
     replace "@VERSION@", project.version
 }
 
-dependencies
+apply from: 'downloader.gradle'
+
+addGitDep("ccl","https://github.com/Chicken-Bones/CodeChickenLib.git","34154fc0115ce983338e7be54c2ed210495b810a")
+addHgDep("ccc","https://bitbucket.org/ChickenBones/codechickencore","4bad417f4db168b24662b684d349048b6003ad0a")
+addHgDep("nei","https://bitbucket.org/ChickenBones/notenoughitems","3d7c952ca8f5c669d719e553cf873ebf57da605a")
+addGitDep("fmp","https://github.com/Chicken-Bones/ForgeMultipart.git","2f2a18052ae3261ce24dcb1c6811f68d39fd54df")
+
+addGitDep("cofh","https://github.com/KingLemming/CoFHLib.git","24600c4cfda893a16316c0631972170413f3a1e3")
+addGitDep("bc","https://github.com/BuildCraft/BuildCraft.git","03acd96b2b5a9a3270985246cd835c0ca866def7")
+addGitDep("ue","https://github.com/Universal-Electricity/Universal-Electricity.git","719c318857427fac77d7d763d1b39ea33d760753")
+addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","5ca5edf95b07fbdc0c913ba6503cd7639b5d7c86")
+addGitDep("ic","https://github.com/cpw/ironchest.git","32c6389b4eb9750ed5dd5a645e4da496a6149ad7")
+addZipDep("ic2","http://ic2api.player.to:8080/job/IC2_experimental/307/artifact/packages/industrialcraft-2-api_2.0.307-experimental.zip","307")
+addZipDep("cc","http://www.curseforge.com/media/files/758/858/ComputerCraft1.58.zip","158")
+addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/77/artifact/build/out/InventoryTweaks-api-MC1.6.2-1.56-b77.jar","156")
+addHgDep("waila","https://bitbucket.org/ProfMobius/waila","db53ba213fdbb5ed87ab8db70c9bfdaa2f569f33")
+addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","b8d08c05ee9ba0959af00ae1a9d25aff59b14d9a")
+
+task patchDeps(type: Sync) {
+    dependsOn getDeps
+    from "build/deps"
+    into "build/patched"
+    exclude "**/.git"
+    exclude "**/.hg"
+	exclude "ue/src/main/java/buildcraft"
+	exclude "ue/src/main/java/cofh"
+	exclude "ue/src/main/java/ic2"
+    doLast {
+        println("Applying patch...")
+        ant.fixcrlf(srcDir: "build/patched", includes: "**/*.java")
+        ant.patch(patchfile: "fixes.patch", strip: "1", dir: "build/patched", ignorewhitespace: "Yes", failonerror: "Yes")
+    }
+}
+
+deobfBinJar.dependsOn(patchDeps)
+
+afterEvaluate {
+    sourceMainJava.dependsOn(patchDeps)
+}
+
+deobfBinJar.addTransformer('build/patched/nei/nei_at.cfg')
+
+sourceSets
 {
-	compile 'net.industrial-craft:industrialcraft-2:2.0.397-experimental:api'
-	compile fileTree(dir: '/../Libraries/1.6.4')
+    api
+	{
+        java
+		{
+			srcDir 'build/patched/ccc'
+            srcDir 'build/patched/ccl'
+            srcDir 'build/patched/nei'
+            include 'codechicken/**'
+            include 'net/**'
+
+            srcDir 'build/patched/bc/common'
+            include 'buildcraft/api/**'
+
+            srcDir 'build/patched/ic2'
+            include 'ic2/**'
+			
+			srcDir 'build/patched/cc/api/src'
+            include 'dan200/**'
+
+            srcDir 'build/patched/cofh'
+            include 'cofh/api/**'
+			
+			srcDir 'build/patched/ue/src/main/java'
+			include 'universalelectricity/api/**'
+
+            srcDir 'build/patched/waila'
+            include 'mcp/mobius/waila/api/*.java'
+			include 'au/**'
+			
+			srcDir 'build/patched/ee3/src/main/java'
+            include 'com/**'
+			
+			srcDir 'build/patched/jabba'
+            include 'mcp/**'
+			include 'powercrystals/**'
+			
+			srcDir 'build/patched/ic/IronChests2/common'
+            include 'cpw/**'
+			
+			srcDir 'build/patched/it'
+            include 'invtweaks/**'
+		}
+		scala
+		{
+			srcDir 'build/patched/fmp'
+            include 'codechicken/**'
+		}
+	}
 }
 
 processResources
