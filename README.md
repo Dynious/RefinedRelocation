@@ -66,7 +66,9 @@ This allows ForgeGradle to know what it's compiling.
 
 `5.` Open a command line in your ForgeGradle folder and execute `gradlew build` if using Windows.
 	* Note: If you have [Gradle](http://www.gradle.org/) installed, use `gradle` instead.
+
 `6.` Gradle will now install ForgeGradle, download all needed files and build Refined Relocation. This can take a while the first time.
+
 `7.` Find your fresh copy of Refined Relocation in `mcdev/build/libs`!
 
 ###Contributing
