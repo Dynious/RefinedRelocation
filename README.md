@@ -11,11 +11,9 @@ This is the official GitHub page for Refined Relocation!
 
 [Setup Git](#setup-git)
 
-[Setup ForgeGradle](#setup-forgegradle)
+[Setup Mercurial](#setup-mercurial)
 
 [Setup Refined Relocation](#setup-refined-relocation)
-
-[Compile Refined Relocation](#compile-refined-relocation)
 
 ####Setup Java
 The Java JDK is used to compile Refined Relocation.
@@ -43,28 +41,17 @@ Git is used to clone Refined Relocation and update your local copy.
 1. Download and install Git [here](http://git-scm.com/download/).
 	* *Optional*: Download and install a Git GUI client, such as Github for Windows/Mac, SmartGitHg, TortoiseGit, etc.  A nice list is available [here](http://git-scm.com/downloads/guis).
 
-####Setup ForgeGradle
-ForgeGradle allows Gradle to know what it needs to do.  This section assumes you know how to operate the command line.
+####Setup Mercurial
+Mercurial is used to clone some dependencies of Refined Relocation.
 
-1. Open up your command line.
-2. Navigate to a place where you want to download ForgeGradle's source (eg `C:\Github\ForgeGradle\`) by executing `mkdir [folder location]` and then `cd [folder location]`.  This location is known as `mcdev` from now on.
-3. Execute `git clone https://github.com/MinecraftForge/ForgeGradle.git`.  This will download Block Extender's source into `mcdev`.
-4. Right now, you should have a directory structure that looks like:
-
-***
-	mcdev
-	\-gradle
-	\-src
-	|-Other misc ForgeGradle files (should include `build.gradle`)
-***
+1. Download and install Mercurial [here](http://mercurial.selenic.com/downloads/).
 
 ####Setup Refined Relocation
 This allows ForgeGradle to know what it's compiling.
 
-1. Clone Refined Relocation just like you did with ForgeGradle.  All you have to change are the folder locations and `git clone` command.
-2. Copy the `java` and `resources` folders from the Refined Relocation source to `mcdev\src\main` (delete the folders that are already there).
-3. Create a folder called `libs` in `mcdev` and put [BuildCraft](http://www.mod-buildcraft.com/download/), [Iron Chests](http://files.minecraftforge.net/IronChests2/) (deobfurscated!), [Industrial Craft 2](http://ic2api.player.to:8080/job/IC2_experimental/), [ComputerCraft](http://www.computercraft.info/download/), [CoFHCore](http://teamcofh.com/index.php?page=downloads), [Universal Electricity](http://universalelectricity.com/downloads/), [Equivalent Exchange 3](http://www.minecraftforum.net/topic/1540010-equivalent-exchange-3-01140/) (deobfurscated!), [Waila](http://minecraft.curseforge.com/mc-mods/waila/files/) and [JABBA](http://minecraft.curseforge.com/mc-mods/jabba/files/) (deobfurscated!) in it.
-	* Note: Make sure you download the version of the mods for the correct Minecraft version!
+1. Open up your command line.
+2. Navigate to a place where you want to download Refined Relocation's source (eg `C:\Github\RefinedRelocation\`) by executing `mkdir [folder location]` and then `cd [folder location]`.  This location is known as `mcdev` from now on.
+3. Execute `git clone https://github.com/Dynious/RefinedRelocation.git`.  This will download Refined Relocation's source into `mcdev`.
 4. Your directory structure should now look like:
 
 ***
@@ -74,23 +61,13 @@ This allows ForgeGradle to know what it's compiling.
 		\-main
 			\-java
 			\-resources
-	\-libs
-		\-Mods that you just downloaded
-	|-Other misc ForgeGradle files (should include `build.gradle`)
+	|-Other misc Refined Relocation files (should include `build.gradle`)
 ***
 
-`5.` Add this to `build.gradle` below the closing bracket of `minecraft`:
-
-```
-dependencies {
-        compile fileTree(dir: 'libs')
-}
-```
-
-`6.` Open a command line in your ForgeGradle folder and execute `gradlew build` or `gradlew.bat build` if using Windows.
+5. Open a command line in your ForgeGradle folder and execute `gradlew build` if using Windows.
 	* Note: If you have [Gradle](http://www.gradle.org/) installed, use `gradle` instead.
-
-`7.` Find your fresh copy of Refined Relocation in `mcdev/build/libs`!
+6. Gradle will now install ForgeGradle, download all needed files and build Refined Relocation. This can take a while the first time.
+7. Find your fresh copy of Refined Relocation in `mcdev/build/libs`!
 
 ###Contributing
 ####Submitting a Pull Request
