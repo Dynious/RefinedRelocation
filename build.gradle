@@ -67,8 +67,6 @@ repositories
 
 dependencies
 {
-    compile "codechicken:NotEnoughItems:1.7.2-1.0.1:dev"
-    compile "codechicken:CodeChickenLib:1.7.2-1.1.0.76:dev"
 	compile "codechicken:ForgeMultipart:1.7.2-1.1.0.275:dev"
     compile "com.mod-buildcraft:buildcraft:6.0.8:dev"
     compile "net.industrial-craft:industrialcraft-2:2.1.470-experimental:api"
