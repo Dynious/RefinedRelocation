@@ -323,7 +323,14 @@ public class FilterStandard implements IFilterGUI
     public static CreativeTabs createNewFakeTab(String tabName)
     {
         CreativeTabs oldTab = CreativeTabs.creativeTabArray[0];
-        CreativeTabs tab = new CreativeTabs(0, tabName);
+        CreativeTabs tab = new CreativeTabs(0, tabName)
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return null;
+            }
+        };
         CreativeTabs.creativeTabArray[0] = oldTab;
         return tab;
     }

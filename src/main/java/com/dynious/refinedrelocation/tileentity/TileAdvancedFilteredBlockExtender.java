@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.apache.commons.lang3.ArrayUtils;
 

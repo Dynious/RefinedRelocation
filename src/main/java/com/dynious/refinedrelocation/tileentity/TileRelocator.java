@@ -8,10 +8,10 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
+import com.dynious.refinedrelocation.network.NetworkHelper;
 import com.dynious.refinedrelocation.network.packet.PacketItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -19,11 +19,11 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -99,7 +99,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             items.addAll(itemsToAdd);
             //TODO: don't send packet when transferring to Relocators
-            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64, worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketItemList(this, itemsToAdd)));
+            NetworkHelper.sendToAllAround(new PacketItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
             itemsToAdd.clear();
         }
 
@@ -308,19 +308,19 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
         if (compound.hasKey("Items"))
         {
-            NBTTagList nbttaglist = compound.getTagList("Items");
+            NBTTagList nbttaglist = compound.getTagList("Items", 10);
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
                 items.add(TravellingItem.createFromNBT(nbttagcompound1));
             }
         }
         if (compound.hasKey("ItemsToAdd"))
         {
-            NBTTagList nbttaglist = compound.getTagList("ItemsToAdd");
+            NBTTagList nbttaglist = compound.getTagList("ItemsToAdd", 10);
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
                 itemsToAdd.add(TravellingItem.createFromNBT(nbttagcompound1));
             }
         }
@@ -376,18 +376,18 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
         saveFilters(tag);
 
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, tag);
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        NBTTagCompound tag = pkt.data;
+        NBTTagCompound tag = pkt.func_148857_g();
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
             isConnected[i] = tag.hasKey("c" + i);
         }
-        readFilters(pkt.data);
+        readFilters(pkt.func_148857_g());
     }
 
     public void saveFilters(NBTTagCompound compound)
@@ -409,10 +409,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void readFilters(NBTTagCompound compound)
     {
-        NBTTagList nbttaglist = compound.getTagList("filters");
+        NBTTagList nbttaglist = compound.getTagList("filters", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
             byte place = nbttagcompound1.getByte("place");
             IRelocatorModule filter = RelocatorFilterRegistry.getFilter(nbttagcompound1.getString("clazzIdentifier"));
             if (filter != null)
@@ -501,13 +501,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return "tile.relocator.name";
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return false;
     }
@@ -525,12 +525,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
     }
 

@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.proxy;
 
 import com.dynious.refinedrelocation.event.EventHandler;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.ChannelHandler;

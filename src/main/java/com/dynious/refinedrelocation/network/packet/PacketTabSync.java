@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.network.packet;
 
-import com.dynious.refinedrelocation.sorting.FilterStandard;
+import com.dynious.refinedrelocation.grid.FilterStandard;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;

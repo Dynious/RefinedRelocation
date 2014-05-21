@@ -251,7 +251,7 @@ public class ItemPlayerRelocator extends Item
 
     @SideOnly(Side.CLIENT)
     @Override
-    public int getDisplayDamage(ItemStack stack)
+    public int getDamage(ItemStack stack)
     {
         if (stack.hasTagCompound())
         {

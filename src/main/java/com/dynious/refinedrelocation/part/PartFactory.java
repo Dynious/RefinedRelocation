@@ -5,11 +5,15 @@ import codechicken.multipart.MultiPartRegistry;
 import codechicken.multipart.MultipartGenerator;
 import codechicken.multipart.TMultiPart;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
-import com.dynious.refinedrelocation.lib.BlockIds;
+import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PartFactory implements MultiPartRegistry.IPartFactory, MultiPartRegistry.IPartConverter
 {
@@ -37,18 +41,20 @@ public class PartFactory implements MultiPartRegistry.IPartFactory, MultiPartReg
     }
 
     @Override
-    public boolean canConvert(int id)
+    public Iterable<Block> blockTypes()
     {
-        return id == BlockIds.RELOCATOR;
+        List<Block> list = new ArrayList<Block>();
+        list.add(ModBlocks.relocator);
+        return list;
     }
 
     @Override
     public TMultiPart convert(World world, BlockCoord pos)
     {
-        int id = world.getBlockId(pos.x, pos.y, pos.z);
-        if (id == BlockIds.RELOCATOR)
+        Block block = world.getBlock(pos.x, pos.y, pos.z);
+        if (block == ModBlocks.relocator)
         {
-            return new PartRelocator((TileRelocator) world.getBlockTileEntity(pos.x, pos.y, pos.z));
+            return new PartRelocator((TileRelocator) world.getTileEntity(pos.x, pos.y, pos.z));
         }
 
         return null;

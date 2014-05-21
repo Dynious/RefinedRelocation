@@ -1,7 +1,6 @@
 package com.dynious.refinedrelocation.mods;
 
 import com.dynious.refinedrelocation.api.ModObjects;
-import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.part.ItemPartRelocator;
 import com.dynious.refinedrelocation.part.PartFactory;
@@ -16,7 +15,7 @@ public class FMPHelper
     public static void addFMPBlocks()
     {
         PartFactory.init();
-        partRelocator = new ItemPartRelocator(BlockIds.RELOCATOR);
+        partRelocator = new ItemPartRelocator();
         GameRegistry.registerItem(partRelocator, Names.relocator);
         ModObjects.relocator = new ItemStack(partRelocator);
     }

@@ -1,12 +1,7 @@
 package com.dynious.refinedrelocation.helper;
 
 import buildcraft.api.transport.IPipeTile;
-<<<<<<< HEAD:java/com/dynious/refinedrelocation/helper/IOHelper.java
-=======
-import cofh.api.transport.IItemConduit;
 import com.dynious.refinedrelocation.lib.Mods;
->>>>>>> refs/remotes/origin/master:src/main/java/com/dynious/refinedrelocation/helper/IOHelper.java
-import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -16,15 +11,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.Random;
-
 public class IOHelper
 {
     public static ItemStack extract(IInventory inventory, ForgeDirection direction)
     {
-<<<<<<< HEAD:java/com/dynious/refinedrelocation/helper/IOHelper.java
-        if (Loader.isModLoaded("BuildCraft|Transport") && tile instanceof IPipeTile)
-=======
         if (inventory instanceof ISidedInventory)
         {
             ISidedInventory isidedinventory = (ISidedInventory)inventory;
@@ -65,6 +55,7 @@ public class IOHelper
 
     public static ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
     {
+        /*
         if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
         {
             if (simulate)
@@ -73,8 +64,8 @@ public class IOHelper
             }
             return ((IItemConduit) tile).insertItem(side, itemStack);
         }
-        else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
->>>>>>> refs/remotes/origin/master:src/main/java/com/dynious/refinedrelocation/helper/IOHelper.java
+        */
+        if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
             IPipeTile pipe = (IPipeTile) tile;
             if (pipe.isPipeConnected(side))
@@ -88,12 +79,6 @@ public class IOHelper
                 return itemStack;
             }
         }
-        /*
-        else if (Loader.isModLoaded("CoFHCore") && tile instanceof IItemConduit)
-        {
-            return ((IItemConduit) tile).insertItem(side, itemStack);
-        }
-        */
         else if (tile instanceof IInventory)
         {
             return insert((IInventory) tile, itemStack, side.ordinal(), simulate);
@@ -226,11 +211,7 @@ public class IOHelper
         float dY = world.rand.nextFloat() * 0.8F + 0.1F;
         float dZ = world.rand.nextFloat() * 0.8F + 0.1F;
 
-<<<<<<< HEAD:java/com/dynious/refinedrelocation/helper/IOHelper.java
-                EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, new ItemStack(itemStack.getItem(), itemStack.stackSize, itemStack.getItemDamage()));
-=======
-        EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, new ItemStack(itemStack.itemID, itemStack.stackSize, itemStack.getItemDamage()));
->>>>>>> refs/remotes/origin/master:src/main/java/com/dynious/refinedrelocation/helper/IOHelper.java
+        EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, new ItemStack(itemStack.getItem(), itemStack.stackSize, itemStack.getItemDamage()));
 
         if (itemStack.hasTagCompound())
         {
@@ -247,11 +228,13 @@ public class IOHelper
 
     public static boolean canInterfaceWith(TileEntity tile, ForgeDirection side)
     {
+        /*
         if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
         {
             return true;
         }
-        else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
+        */
+        if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
             IPipeTile pipe = (IPipeTile) tile;
             if (pipe.isPipeConnected(side))

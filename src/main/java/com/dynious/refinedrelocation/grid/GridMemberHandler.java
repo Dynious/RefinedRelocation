@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.api.tileentity.grid.IGrid;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.grid.Grid;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class GridMemberHandler implements IGridMemberHandler
 {
@@ -62,7 +62,7 @@ public class GridMemberHandler implements IGridMemberHandler
     {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity tile = owner.getWorldObj().getBlockTileEntity(owner.xCoord + direction.offsetX, owner.yCoord + direction.offsetY, owner.zCoord + direction.offsetZ);
+            TileEntity tile = owner.getWorldObj().getTileEntity(owner.xCoord + direction.offsetX, owner.yCoord + direction.offsetY, owner.zCoord + direction.offsetZ);
             if (tile != null && tile instanceof ISortingMember)
             {
                 IGridMemberHandler filteringMember = ((ISortingMember) tile).getHandler();

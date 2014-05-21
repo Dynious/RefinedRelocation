@@ -15,9 +15,9 @@ import java.util.List;
 
 public class ItemRelocatorModule extends Item implements IItemRelocatorModule
 {
-    public ItemRelocatorModule(int id)
+    public ItemRelocatorModule()
     {
-        super(id);
+        super();
         this.setHasSubtypes(true);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
@@ -51,7 +51,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         for (int j = 0; j < 4; ++j)
         {

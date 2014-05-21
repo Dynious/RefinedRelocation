@@ -2,18 +2,14 @@ package com.dynious.refinedrelocation.renderer;
 
 import codechicken.lib.lighting.LightModel;
 import codechicken.lib.render.*;
-import codechicken.lib.vec.Cuboid6;
+import codechicken.lib.render.uv.IconTransformation;
 import codechicken.lib.vec.Translation;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
-import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.part.ItemPartRelocator;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.tileentity.TileEntity;
@@ -57,7 +53,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     {
         IRelocator relocator = (IRelocator) tile;
 
-        resetRenderer(tile.worldObj, (int) x, (int) y, (int) z);
+        resetRenderer(tile.getWorldObj(), (int) x, (int) y, (int) z);
 
         GL11.glPushMatrix();
 
@@ -80,7 +76,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
             float progress = item.getClientSideProgress(partialTick);
             GL11.glTranslated(item.getX(progress), item.getY(progress), item.getZ(progress));
 
-            renderer.doRenderItem(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+            renderer.doRender(entityItem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
 
             GL11.glPopMatrix();
         }
@@ -93,10 +89,9 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     {
         CCRenderState.reset();
         CCRenderState.setBrightness(world, x, y, z);
-        CCRenderState.useModelColours(true);
     }
 
-    public static void loadIcons(IconRegister register)
+    public static void loadIcons(IIconRegister register)
     {
         iconTransformation = new IconTransformation(register.registerIcon(Resources.MOD_ID + ":" + "relocatorMiddle"));
     }

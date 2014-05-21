@@ -2,18 +2,12 @@ package com.dynious.refinedrelocation.network.packet;
 
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.util.Vector3;
-import com.google.common.primitives.Bytes;
-import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,52 +17,45 @@ public class PacketItemList extends PacketTile
 
     public PacketItemList()
     {
-        super(PacketTypeHandler.ITEM_LIST, false);
     }
 
     public PacketItemList(TileEntity tile, List<TravellingItem> items)
     {
-        super(PacketTypeHandler.ITEM_LIST, false, tile);
         this.items = items;
     }
 
     @Override
-    public void writeData(DataOutputStream data) throws IOException
+    public void writeBytes(ByteBuf bytes)
     {
-        super.writeData(data);
-        data.writeByte(items.size());
+        super.writeBytes(bytes);
+        bytes.writeByte(items.size());
         for (TravellingItem item : items)
         {
-            Packet.writeItemStack(item.getItemStack(), data);
-            data.writeByte(item.getPath().get(0));
+            ByteBufUtils.writeItemStack(bytes, item.getItemStack());
+            bytes.writeByte(item.getPath().get(0));
             //data.writeByte(item.getPath().size());
             //data.write(Bytes.toArray(item.getPath()));
-            data.writeByte(item.input);
+            bytes.writeByte(item.input);
         }
     }
 
     @Override
-    public void readData(DataInputStream data) throws IOException
+    public void readBytes(ByteBuf bytes, EntityPlayer player)
     {
-        super.readData(data);
+        super.readBytes(bytes, player);
         items = new ArrayList<TravellingItem>();
-        int size = data.readByte();
+        int size = bytes.readByte();
         for (int i = 0; i < size; i++)
         {
-            ItemStack stack = Packet.readItemStack(data);
+            ItemStack stack = ByteBufUtils.readItemStack(bytes);
             List<Byte> list = new ArrayList<Byte>();
             //byte[] path = new byte[data.readByte()];
             //data.read(path);
-            list.add(data.readByte());
-            byte input = data.readByte();
+            list.add(bytes.readByte());
+            byte input = bytes.readByte();
             items.add(new TravellingItem(stack, null, list, input));
         }
-    }
 
-    @Override
-    public void execute(INetworkManager manager, Player player)
-    {
-        super.execute(manager, player);
         if (tile != null)
         {
             for (TravellingItem item : items)

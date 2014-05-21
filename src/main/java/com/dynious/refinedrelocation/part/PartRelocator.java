@@ -20,10 +20,10 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +111,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
 
     public void initRelocator()
     {
-        if (relocator.worldObj == null)
+        if (relocator.getWorldObj() == null)
         {
             relocator.setWorldObj(world());
             relocator.xCoord = x();
@@ -151,7 +151,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
         super.save(tag);
         NBTTagCompound compound = new NBTTagCompound();
         relocator.writeToNBT(compound);
-        tag.setCompoundTag("relocator", compound);
+        tag.setTag("relocator", compound);
     }
 
     @Override
@@ -164,13 +164,13 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public void writeDesc(MCDataOutput packet)
     {
-        packet.writeNBTTagCompound(((Packet132TileEntityData) relocator.getDescriptionPacket()).data);
+        packet.writeNBTTagCompound(((S35PacketUpdateTileEntity) relocator.getDescriptionPacket()).func_148857_g());
     }
 
     @Override
     public void readDesc(MCDataInput packet)
     {
-        relocator.onDataPacket(null, new Packet132TileEntityData(0, 0, 0, 0, packet.readNBTTagCompound()));
+        relocator.onDataPacket(null, new S35PacketUpdateTileEntity(0, 0, 0, 0, packet.readNBTTagCompound()));
     }
 
     /*
@@ -284,15 +284,15 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
-        return relocator.getInvName();
+        return relocator.getInventoryName();
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
-        return relocator.isInvNameLocalized();
+        return relocator.hasCustomInventoryName();
     }
 
     @Override
@@ -302,9 +302,9 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public void onInventoryChanged()
+    public void markDirty()
     {
-        relocator.onInventoryChanged();
+        relocator.markDirty();
     }
 
     @Override
@@ -314,15 +314,15 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
-        relocator.openChest();
+        relocator.openInventory();
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
-        relocator.closeChest();
+        relocator.closeInventory();
     }
 
     @Override

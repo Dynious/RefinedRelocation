@@ -5,11 +5,7 @@ import com.dynious.refinedrelocation.item.ItemBlockExtender;
 import com.dynious.refinedrelocation.item.ItemBuffer;
 import com.dynious.refinedrelocation.item.ItemPowerLimiter;
 import com.dynious.refinedrelocation.item.ItemSortingConnector;
-<<<<<<< HEAD:java/com/dynious/refinedrelocation/block/ModBlocks.java
-=======
-import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Mods;
->>>>>>> refs/remotes/origin/master:src/main/java/com/dynious/refinedrelocation/block/ModBlocks.java
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.EE3Helper;
@@ -125,7 +121,7 @@ public class ModBlocks
 
         if (!Mods.IS_FMP_LOADED)
         {
-            relocator = new BlockRelocator(BlockIds.RELOCATOR);
+            relocator = new BlockRelocator();
             ModObjects.relocator = new ItemStack(relocator);
             GameRegistry.registerBlock(relocator, Names.relocator);
         }

@@ -22,8 +22,8 @@ buildscript
     }
 }
 
-apply plugin: 'forge'
 apply plugin: 'scala'
+apply plugin: 'forge'
 
 ext.env = System.getenv()
 
@@ -45,42 +45,50 @@ minecraft
     replace "@VERSION@", project.version
 }
 
-apply from: 'downloader.gradle'
-
-addGitDep("ccl","https://github.com/Chicken-Bones/CodeChickenLib.git","f1153412c123e7926d97840ba18ef680831e655f")
-addGitDep("ccc","https://github.com/Chicken-Bones/CodeChickenCore.git","4751d252ea93d65febc724c28f5c5298d074978b")
-addGitDep("nei","https://github.com/Chicken-Bones/NotEnoughItems.git","e5aa4e4b1015845f42e6d4c2e2fe44a225638546")
-addGitDep("fmp","https://github.com/Chicken-Bones/ForgeMultipart.git","52fcf1a0ea459cdf195f30444c7aaf9d6194d515")
-
-addGitDep("cofh","https://github.com/CoFH/CoFHLib.git","0fa10c8f74fd7869714b0c0c09512be32767cf1a")
-addGitDep("bc","https://github.com/BuildCraft/BuildCraft.git","7b6f66db02a3bd83d3c9f1a6d8878a3541875940")
-addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","61e9278915bb4a176fc9151c974f3e161a5f19cc")
-addGitDep("ic","https://github.com/progwml6/ironchest.git","103a22860b5e35306e60a9fb78e3be2b7043d2cd")
-addZipDep("ic2","http://ic2api.player.to:8080/job/IC2_experimental/477/artifact/build/libs/industrialcraft-2-2.1.477-experimental-api.jar","447")
-addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/116/artifact/build/libs/InventoryTweaks-api-1.57-116.jar","157")
-addHgDep("waila","https://bitbucket.org/ProfMobius/waila","30add706d879bddc89210153bffe604ff6b875cd")
-addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","1de12a215ba2eb5636f543f8c7b3ec17fbcb6655")
-
-task patchDeps(type: Sync) {
-    dependsOn getDeps
-    from "build/deps"
-    into "build/patched"
-    exclude "**/.git"
-    exclude "**/.hg"
-    doLast {
-        println("Applying patch...")
-        ant.fixcrlf(srcDir: "build/patched", includes: "**/*.java")
-        //ant.patch(patchfile: "fixes.patch", strip: "1", dir: "build/patched", ignorewhitespace: "Yes", failonerror: "Yes")
+repositories
+{
+    mavenCentral()
+    maven
+	{
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven"
+    }
+    maven
+	{
+        name = "ic2"
+        url = "http://maven.ic2.player.to/"
+    }
+    maven
+	{
+        name "waila"
+        url "http://mobiusstrip.eu/maven"
     }
 }
 
-deobfBinJar.dependsOn(patchDeps)
-
-afterEvaluate {
-    sourceMainJava.dependsOn(patchDeps)
+dependencies
+{
+    compile "codechicken:NotEnoughItems:1.7.2-1.0.1:dev"
+    compile "codechicken:CodeChickenLib:1.7.2-1.1.0.76:dev"
+	compile "codechicken:ForgeMultipart:1.7.2-1.1.0.275:dev"
+    compile "com.mod-buildcraft:buildcraft:6.0.8:dev"
+    compile "net.industrial-craft:industrialcraft-2:2.1.470-experimental:api"
+    compile "mcp.mobius.waila:Waila:1.5.2a"
 }
 
-deobfBinJar.addTransformer('build/patched/nei/nei_at.cfg')
+apply from: 'downloader.gradle'
+
+addGitDep("cofh","https://github.com/CoFH/CoFHLib.git","0fa10c8f74fd7869714b0c0c09512be32767cf1a")
+addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","61e9278915bb4a176fc9151c974f3e161a5f19cc")
+addGitDep("ic","https://github.com/progwml6/ironchest.git","103a22860b5e35306e60a9fb78e3be2b7043d2cd")
+addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/116/artifact/build/libs/InventoryTweaks-api-1.57-116.jar","157")
+addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","1de12a215ba2eb5636f543f8c7b3ec17fbcb6655")
+
+deobfBinJar.dependsOn(getDeps)
+
+afterEvaluate
+{
+    sourceMainJava.dependsOn(getDeps)
+}
 
 sourceSets
 {
@@ -88,42 +96,21 @@ sourceSets
 	{
         java
 		{
-			srcDir 'build/patched/ccc/src'
-            srcDir 'build/patched/ccl/src'
-            srcDir 'build/patched/nei/src'
-            include 'codechicken/**'
-            include 'net/**'
-
-            srcDir 'build/patched/bc/common'
-            include 'buildcraft/api/**'
-
-            srcDir 'build/patched/ic2'
-            include 'ic2/**'
-
-            srcDir 'build/patched/cofh/src/main/java'
+            srcDir 'build/deps/cofh/src/main/java'
             include 'cofh/api/**'
-
-            srcDir 'build/patched/waila'
-            include 'mcp/mobius/waila/api/*.java'
-			include 'au/**'
 			
-			srcDir 'build/patched/ee3/src/main/java'
+			srcDir 'build/deps/ee3/src/main/java'
             include 'com/**'
 			
-			srcDir 'build/patched/jabba'
+			srcDir 'build/deps/jabba'
             include 'mcp/**'
 			include 'powercrystals/**'
 			
-			srcDir 'build/patched/ic/src/main/java'
+			srcDir 'build/deps/ic/src/main/java'
             include 'cpw/**'
 			
-			srcDir 'build/patched/it'
+			srcDir 'build/deps/it'
             include 'invtweaks/**'
-		}
-		scala
-		{
-			srcDir 'build/patched/fmp/src'
-            include 'codechicken/**'
 		}
 	}
 }

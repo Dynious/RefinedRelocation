@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.util.Vector3;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
