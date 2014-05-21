@@ -10,10 +10,15 @@ buildscript
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+		maven
+		{
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
     }
     dependencies
 	{
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
@@ -24,7 +29,7 @@ ext.env = System.getenv()
 
 version = "1.0.5"
 group = "com.dynious.refinedrelocation"
-archivesBaseName = "RefinedRelocation-1.6.4"
+archivesBaseName = "RefinedRelocation-1.7.2"
 
 if (env.BUILD_NUMBER != null)
 {
@@ -33,7 +38,8 @@ if (env.BUILD_NUMBER != null)
 
 minecraft
 {
-	version = "1.6.4-9.11.1.964"
+	version = "1.7.2-10.12.1.1084"
+	assetDir = "eclipse/assets"
 	
 	replaceIn "lib/Reference.java"
     replace "@VERSION@", project.version
@@ -41,21 +47,19 @@ minecraft
 
 apply from: 'downloader.gradle'
 
-addGitDep("ccl","https://github.com/Chicken-Bones/CodeChickenLib.git","34154fc0115ce983338e7be54c2ed210495b810a")
-addHgDep("ccc","https://bitbucket.org/ChickenBones/codechickencore","4bad417f4db168b24662b684d349048b6003ad0a")
-addHgDep("nei","https://bitbucket.org/ChickenBones/notenoughitems","3d7c952ca8f5c669d719e553cf873ebf57da605a")
-addGitDep("fmp","https://github.com/Chicken-Bones/ForgeMultipart.git","2f2a18052ae3261ce24dcb1c6811f68d39fd54df")
+addGitDep("ccl","https://github.com/Chicken-Bones/CodeChickenLib.git","f1153412c123e7926d97840ba18ef680831e655f")
+addGitDep("ccc","https://github.com/Chicken-Bones/CodeChickenCore.git","4751d252ea93d65febc724c28f5c5298d074978b")
+addGitDep("nei","https://github.com/Chicken-Bones/NotEnoughItems.git","e5aa4e4b1015845f42e6d4c2e2fe44a225638546")
+addGitDep("fmp","https://github.com/Chicken-Bones/ForgeMultipart.git","52fcf1a0ea459cdf195f30444c7aaf9d6194d515")
 
-addGitDep("cofh","https://github.com/KingLemming/CoFHLib.git","24600c4cfda893a16316c0631972170413f3a1e3")
-addGitDep("bc","https://github.com/BuildCraft/BuildCraft.git","03acd96b2b5a9a3270985246cd835c0ca866def7")
-addGitDep("ue","https://github.com/Universal-Electricity/Universal-Electricity.git","719c318857427fac77d7d763d1b39ea33d760753")
-addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","5ca5edf95b07fbdc0c913ba6503cd7639b5d7c86")
-addGitDep("ic","https://github.com/cpw/ironchest.git","32c6389b4eb9750ed5dd5a645e4da496a6149ad7")
-addZipDep("ic2","http://ic2api.player.to:8080/job/IC2_experimental/307/artifact/packages/industrialcraft-2-api_2.0.307-experimental.zip","307")
-addZipDep("cc","http://www.curseforge.com/media/files/758/858/ComputerCraft1.58.zip","158")
-addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/77/artifact/build/out/InventoryTweaks-api-MC1.6.2-1.56-b77.jar","156")
-addHgDep("waila","https://bitbucket.org/ProfMobius/waila","db53ba213fdbb5ed87ab8db70c9bfdaa2f569f33")
-addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","b8d08c05ee9ba0959af00ae1a9d25aff59b14d9a")
+addGitDep("cofh","https://github.com/CoFH/CoFHLib.git","0fa10c8f74fd7869714b0c0c09512be32767cf1a")
+addGitDep("bc","https://github.com/BuildCraft/BuildCraft.git","7b6f66db02a3bd83d3c9f1a6d8878a3541875940")
+addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","61e9278915bb4a176fc9151c974f3e161a5f19cc")
+addGitDep("ic","https://github.com/progwml6/ironchest.git","103a22860b5e35306e60a9fb78e3be2b7043d2cd")
+addZipDep("ic2","http://ic2api.player.to:8080/job/IC2_experimental/477/artifact/build/libs/industrialcraft-2-2.1.477-experimental-api.jar","447")
+addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/116/artifact/build/libs/InventoryTweaks-api-1.57-116.jar","157")
+addHgDep("waila","https://bitbucket.org/ProfMobius/waila","30add706d879bddc89210153bffe604ff6b875cd")
+addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","1de12a215ba2eb5636f543f8c7b3ec17fbcb6655")
 
 task patchDeps(type: Sync) {
     dependsOn getDeps
@@ -63,13 +67,10 @@ task patchDeps(type: Sync) {
     into "build/patched"
     exclude "**/.git"
     exclude "**/.hg"
-	exclude "ue/src/main/java/buildcraft"
-	exclude "ue/src/main/java/cofh"
-	exclude "ue/src/main/java/ic2"
     doLast {
         println("Applying patch...")
         ant.fixcrlf(srcDir: "build/patched", includes: "**/*.java")
-        ant.patch(patchfile: "fixes.patch", strip: "1", dir: "build/patched", ignorewhitespace: "Yes", failonerror: "Yes")
+        //ant.patch(patchfile: "fixes.patch", strip: "1", dir: "build/patched", ignorewhitespace: "Yes", failonerror: "Yes")
     }
 }
 
@@ -87,9 +88,9 @@ sourceSets
 	{
         java
 		{
-			srcDir 'build/patched/ccc'
-            srcDir 'build/patched/ccl'
-            srcDir 'build/patched/nei'
+			srcDir 'build/patched/ccc/src'
+            srcDir 'build/patched/ccl/src'
+            srcDir 'build/patched/nei/src'
             include 'codechicken/**'
             include 'net/**'
 
@@ -98,15 +99,9 @@ sourceSets
 
             srcDir 'build/patched/ic2'
             include 'ic2/**'
-			
-			srcDir 'build/patched/cc/api/src'
-            include 'dan200/**'
 
-            srcDir 'build/patched/cofh'
+            srcDir 'build/patched/cofh/src/main/java'
             include 'cofh/api/**'
-			
-			srcDir 'build/patched/ue/src/main/java'
-			include 'universalelectricity/api/**'
 
             srcDir 'build/patched/waila'
             include 'mcp/mobius/waila/api/*.java'
@@ -119,7 +114,7 @@ sourceSets
             include 'mcp/**'
 			include 'powercrystals/**'
 			
-			srcDir 'build/patched/ic/IronChests2/common'
+			srcDir 'build/patched/ic/src/main/java'
             include 'cpw/**'
 			
 			srcDir 'build/patched/it'
@@ -127,7 +122,7 @@ sourceSets
 		}
 		scala
 		{
-			srcDir 'build/patched/fmp'
+			srcDir 'build/patched/fmp/src'
             include 'codechicken/**'
 		}
 	}
