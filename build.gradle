@@ -1,28 +1,22 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-buildscript
-{
-    repositories
-	{
+buildscript {
+    repositories {
         mavenCentral()
-        maven
-		{
+        maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-		maven
-		{
+        maven {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
-    dependencies
-	{
+    dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
-apply plugin: 'scala'
 apply plugin: 'forge'
 
 ext.env = System.getenv()
@@ -31,43 +25,36 @@ version = "1.0.5"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.7.2"
 
-if (env.BUILD_NUMBER != null)
-{
+if (env.BUILD_NUMBER != null) {
     version += "-snapshot-" + env.BUILD_NUMBER
 }
 
-minecraft
-{
-	version = "1.7.2-10.12.1.1084"
-	assetDir = "eclipse/assets"
-	
-	replaceIn "lib/Reference.java"
+minecraft {
+    version = "1.7.2-10.12.1.1084"
+    assetDir = "eclipse/assets"
+    
+    replaceIn "lib/Reference.java"
     replace "@VERSION@", project.version
 }
 
-repositories
-{
+repositories {
     mavenCentral()
-    maven
-	{
+    maven {
         name = "chickenbones"
         url = "http://chickenbones.net/maven"
     }
-    maven
-	{
+    maven {
         name = "ic2"
         url = "http://maven.ic2.player.to/"
     }
-    maven
-	{
+    maven {
         name "waila"
         url "http://mobiusstrip.eu/maven"
     }
 }
 
-dependencies
-{
-	compile "codechicken:ForgeMultipart:1.7.2-1.1.0.275:dev"
+dependencies {
+    compile "codechicken:ForgeMultipart:1.7.2-1.1.0.275:dev"
     compile "com.mod-buildcraft:buildcraft:6.0.8:dev"
     compile "net.industrial-craft:industrialcraft-2:2.1.470-experimental:api"
     compile "mcp.mobius.waila:Waila:1.5.2a"
@@ -83,38 +70,33 @@ addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","1de12a215ba2eb5636f54
 
 deobfBinJar.dependsOn(getDeps)
 
-afterEvaluate
-{
+afterEvaluate {
     sourceMainJava.dependsOn(getDeps)
 }
 
-sourceSets
-{
-    api
-	{
-        java
-		{
+sourceSets {
+    api {
+        java {
             srcDir 'build/deps/cofh/src/main/java'
             include 'cofh/api/**'
-			
-			srcDir 'build/deps/ee3/src/main/java'
+            
+            srcDir 'build/deps/ee3/src/main/java'
             include 'com/**'
-			
-			srcDir 'build/deps/jabba'
+            
+            srcDir 'build/deps/jabba'
             include 'mcp/**'
-			include 'powercrystals/**'
-			
-			srcDir 'build/deps/ic/src/main/java'
+            include 'powercrystals/**'
+            
+            srcDir 'build/deps/ic/src/main/java'
             include 'cpw/**'
-			
-			srcDir 'build/deps/it'
+            
+            srcDir 'build/deps/it'
             include 'invtweaks/**'
-		}
-	}
+        }
+    }
 }
 
-processResources
-{
+processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
@@ -127,4 +109,24 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task apiZip(type: Zip) {
+    from(sourceSets.main.java) {
+        include 'com/dynious/refinedrelocation/api/**'
+    }
+    //destinationDir = file 'build/lib'
+    classifier = 'api'
+}
+
+apiZip.mustRunAfter(jar)
+
+artifacts {
+    archives deobfJar
+    archives apiZip
 }
