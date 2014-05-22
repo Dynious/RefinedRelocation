@@ -1,13 +1,23 @@
 package com.dynious.refinedrelocation.event;
 
+import com.dynious.refinedrelocation.gui.container.IContainerFiltered;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Sounds;
+import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
+import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import org.lwjgl.input.Keyboard;
 
 public class EventHandlerClient
 {
@@ -45,6 +55,23 @@ public class EventHandlerClient
             {
                 ModItems.playerRelocator.renderBlur(Minecraft.getMinecraft().thePlayer.getItemInUse(), event.resolution);
             }
+        }
+    }
+
+    @ForgeSubscribe
+    public void onTextureStitch(TextureStitchEvent.Pre event)
+    {
+        RendererRelocator.loadIcons(event.map);
+    }
+
+    @ForgeSubscribe(priority = EventPriority.LOWEST)
+    public void tooltipEvent(ItemTooltipEvent event)
+    {
+        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || event.entityPlayer.openContainer instanceof IContainerFiltered)
+        {
+            CreativeTabs tab = event.itemStack.getItem().getCreativeTab();
+            if (tab != null)
+                event.toolTip.add(StatCollector.translateToLocal(Strings.TAB) + ": " + I18n.getString(tab.getTranslatedTabLabel()));
         }
     }
 }

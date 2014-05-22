@@ -70,10 +70,4 @@ public class BlockRelocator extends BlockContainer
         }
         super.breakBlock(world, x, y, z, id, meta);
     }
-
-    @Override
-    public void registerIcons(IconRegister register)
-    {
-        RendererRelocator.loadIcons(register);
-    }
 }

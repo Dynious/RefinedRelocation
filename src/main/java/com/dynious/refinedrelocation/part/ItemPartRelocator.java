@@ -28,10 +28,4 @@ public class ItemPartRelocator extends JItemMultiPart
     {
         return PartFactory.INSTANCE.createPart(Names.relocator, false);
     }
-
-    @Override
-    public void registerIcons(IconRegister register)
-    {
-        RendererRelocator.loadIcons(register);
-    }
 }

@@ -26,7 +26,7 @@ public class FilterStandard implements IFilterGUI
 
     private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
 
-    public static final int FILTER_SIZE = 11;
+    public static final int FILTER_SIZE = 12;
     private boolean[] customFilters = new boolean[FILTER_SIZE];
     private boolean[] creativeTabs = new boolean[tabs.length];
     private String userFilter = "";
@@ -132,6 +132,8 @@ public class FilterStandard implements IFilterGUI
                         return true;
                     if (customFilters[10] && oreName.contains("dye"))
                         return true;
+                    if (customFilters[11] && oreName.contains("nugget"))
+                        return true;
                 }
             }
 
@@ -220,6 +222,8 @@ public class FilterStandard implements IFilterGUI
                 return "All Food";
             case 10:
                 return "All Dyes";
+            case 11:
+                return "All Nuggets";
             default:
                 return I18n.getString(tabs[getCreativeTab(place)].getTranslatedTabLabel());
         }

@@ -8,6 +8,7 @@ public class Resources
     public static final String GUI_SHEET_LOCATION = "textures/gui/";
     public static final String MODEL_SHEET_LOCATION = "textures/model/";
     public static final String MODEL_LOCATION = "/assets/" + MOD_ID + "/models/";
+    public static final String BLOCK_SHEET_LOCATION = "textures/blocks/";
 
     public static final ResourceLocation GUI_ADVANCED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBlockExtender.png");
     public static final ResourceLocation GUI_FILTERED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "filteredBlockExtender.png");
@@ -27,7 +28,7 @@ public class Resources
     public static final ResourceLocation MODEL_TEXTURE_ENDERPEARL = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "enderPearl.png");
     public static final ResourceLocation MODEL_TEXTURE_OVERLAY_CHEST =  new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "chestFilterOverlay.png");
     public static final ResourceLocation MODEL_TEXTURE_OVERLAY_ALCHEMICAL_CHEST =  new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "chestFilterOverlayAlchemical.png");
-    public static final ResourceLocation MODEL_TEXTURE_RELOCATOR =  new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "relocatorMiddle.png");
+    public static final ResourceLocation MODEL_TEXTURE_RELOCATOR =  new ResourceLocation(MOD_ID, BLOCK_SHEET_LOCATION + "relocatorMiddle.png");
 
     public static final ResourceLocation TEXTURE_BLUR = new ResourceLocation(MOD_ID, "textures/misc/blur.png");
 }

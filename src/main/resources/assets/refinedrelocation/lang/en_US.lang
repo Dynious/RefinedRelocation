@@ -78,6 +78,8 @@ gui.refinedrelocation.priority=Priority
 gui.refinedrelocation.outdated=Refined Relocation %s is outdated! Latest version: %s
 gui.refinedrelocation.changeLog=Change log
 gui.refinedrelocation.latest=Get latest using: '/RefinedRelocation latest'
+gui.refinedrelocation.tab=Tab
+gui.refinedrelocation.english=Use English item name!
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: %s:%s:%s (%s)
