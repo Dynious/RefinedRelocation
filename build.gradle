@@ -1,18 +1,14 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-buildscript
-{
-    repositories
-	{
+buildscript {
+    repositories {
         mavenCentral()
-        maven
-		{
+        maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
     }
-    dependencies
-	{
+    dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
     }
 }
@@ -26,17 +22,19 @@ version = "1.0.5"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.6.4"
 
-if (env.BUILD_NUMBER != null)
-{
+if (env.BUILD_NUMBER != null) {
     version += "-snapshot-" + env.BUILD_NUMBER
 }
 
-minecraft
-{
+minecraft {
 	version = "1.6.4-9.11.1.964"
 	
 	replaceIn "lib/Reference.java"
     replace "@VERSION@", project.version
+}
+
+dependencies {
+    compile fileTree(dir: '/build/depsDeobf')
 }
 
 apply from: 'downloader.gradle'
@@ -52,10 +50,10 @@ addGitDep("ue","https://github.com/Universal-Electricity/Universal-Electricity.g
 addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","5ca5edf95b07fbdc0c913ba6503cd7639b5d7c86")
 addGitDep("ic","https://github.com/cpw/ironchest.git","32c6389b4eb9750ed5dd5a645e4da496a6149ad7")
 addZipDep("ic2","http://ic2api.player.to:8080/job/IC2_experimental/307/artifact/packages/industrialcraft-2-api_2.0.307-experimental.zip","307")
-addZipDep("cc","http://www.curseforge.com/media/files/758/858/ComputerCraft1.58.zip","158")
 addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/77/artifact/build/out/InventoryTweaks-api-MC1.6.2-1.56-b77.jar","156")
 addHgDep("waila","https://bitbucket.org/ProfMobius/waila","db53ba213fdbb5ed87ab8db70c9bfdaa2f569f33")
 addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","b8d08c05ee9ba0959af00ae1a9d25aff59b14d9a")
+addZipDepDeobf("metallurgy", "https://dl.dropbox.com/s/dnblpigxplzslox/Metallurgy-1.6.4-3.3.2-deobf.jar", "3.3.2")
 
 task patchDeps(type: Sync) {
     dependsOn getDeps
@@ -81,12 +79,9 @@ afterEvaluate {
 
 deobfBinJar.addTransformer('build/patched/nei/nei_at.cfg')
 
-sourceSets
-{
-    api
-	{
-        java
-		{
+sourceSets {
+    api {
+        java {
 			srcDir 'build/patched/ccc'
             srcDir 'build/patched/ccl'
             srcDir 'build/patched/nei'
@@ -98,9 +93,6 @@ sourceSets
 
             srcDir 'build/patched/ic2'
             include 'ic2/**'
-			
-			srcDir 'build/patched/cc/api/src'
-            include 'dan200/**'
 
             srcDir 'build/patched/cofh'
             include 'cofh/api/**'
@@ -125,16 +117,14 @@ sourceSets
 			srcDir 'build/patched/it'
             include 'invtweaks/**'
 		}
-		scala
-		{
+		scala {
 			srcDir 'build/patched/fmp'
             include 'codechicken/**'
 		}
 	}
 }
 
-processResources
-{
+processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
@@ -147,4 +137,24 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+task apiZip(type: Zip) {
+    from(sourceSets.main.java) {
+        include 'com/dynious/refinedrelocation/api/**'
+    }
+    //destinationDir = file 'build/lib'
+    classifier = 'api'
+}
+
+apiZip.mustRunAfter(jar)
+
+artifacts {
+    archives deobfJar
+    archives apiZip
 }

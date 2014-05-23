@@ -128,8 +128,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             for (byte i = 0; i < stuffedItems.length; i++)
             {
                 TravellingItem travellingItem = stuffedItems[i];
-                stuffedItems[i] = null;
-                outputToSide(travellingItem, i);
+                if (travellingItem != null)
+                {
+                    stuffedItems[i] = null;
+                    outputToSide(travellingItem, i);
+                }
             }
         }
 

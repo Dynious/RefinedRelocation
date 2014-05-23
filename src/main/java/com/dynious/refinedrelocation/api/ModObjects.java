@@ -33,4 +33,5 @@ public class ModObjects
     public static ItemStack sortingIronChest;
     public static ItemStack sortingBarrel;
     public static ItemStack sortingAlchemicalChest;
+    public static ItemStack sortingPreciousChest;
 }

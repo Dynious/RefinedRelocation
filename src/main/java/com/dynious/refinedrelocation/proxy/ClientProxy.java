@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
+import com.dynious.refinedrelocation.mods.MetallurgyHelper;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.renderer.*;
 import com.dynious.refinedrelocation.tileentity.*;
@@ -39,6 +40,11 @@ public class ClientProxy extends CommonProxy
         if (Mods.IS_EE3_LOADED)
         {
             EE3Helper.addEE3Renders();
+        }
+
+        if (Mods.IS_METAL_LOADED)
+        {
+            MetallurgyHelper.addMetalRenders();
         }
     }
 

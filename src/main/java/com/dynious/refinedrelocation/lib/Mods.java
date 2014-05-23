@@ -13,4 +13,5 @@ public class Mods
     public static final boolean IS_IC2_LOADED = Loader.isModLoaded("IC2");
     public static final boolean IS_UE_LOADED = Loader.isModLoaded("UniversalElectricity");
     public static final boolean IS_FMP_LOADED = Loader.isModLoaded("McMultipart");
+    public static final boolean IS_METAL_LOADED = Loader.isModLoaded("Metallurgy3Machines");
 }

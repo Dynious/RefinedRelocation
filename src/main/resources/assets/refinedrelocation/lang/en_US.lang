@@ -24,6 +24,11 @@ tile.sortingBarrel.name=Sorting Barrel
 tile.relocationController.name=Relocation Controller
 tile.powerLimiter.name=Power Limiter
 tile.sortingAlchemicalChest.name=Sorting Alchemical Chest
+tile.sortingPreciousChest.BrassChest.name=Sorting Brass Chest
+tile.sortingPreciousChest.SilverChest.name=Sorting Silver Chest
+tile.sortingPreciousChest.GoldChest.name=Sorting Gold Chest
+tile.sortingPreciousChest.ElectrumChest.name=Sorting Electrum Chest
+tile.sortingPreciousChest.PlatinumChest.name=Sorting Platinum Chest
 
 # Item localizations
 item.linker.name=Linker

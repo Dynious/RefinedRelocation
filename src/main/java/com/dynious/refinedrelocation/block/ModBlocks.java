@@ -9,10 +9,7 @@ import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
-import com.dynious.refinedrelocation.mods.EE3Helper;
-import com.dynious.refinedrelocation.mods.FMPHelper;
-import com.dynious.refinedrelocation.mods.IronChestHelper;
-import com.dynious.refinedrelocation.mods.JabbaHelper;
+import com.dynious.refinedrelocation.mods.*;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -33,6 +30,7 @@ public class ModBlocks
     public static BlockPowerLimiter powerLimiter;
     public static BlockSortingAlchemicalChest sortingAlchemicalChest;
     public static BlockRelocator relocator;
+    public static BlockSortingPreciousChest sortingPreciousChest;
 
     public static void init()
     {
@@ -117,6 +115,12 @@ public class ModBlocks
         {
             EE3Helper.addEE3Blocks();
             EE3Helper.addEE3Recipes();
+        }
+
+        if (Mods.IS_METAL_LOADED)
+        {
+            MetallurgyHelper.addMetalBlocks();
+            MetallurgyHelper.addMetalRecipes();
         }
 
         if (!Mods.IS_FMP_LOADED)

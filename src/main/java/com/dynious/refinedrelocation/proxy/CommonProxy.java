@@ -43,6 +43,11 @@ public class CommonProxy
             GameRegistry.registerTileEntity(TileSortingAlchemicalChest.class, Names.sortingAlchemicalChest);
         }
 
+        if (Mods.IS_METAL_LOADED)
+        {
+            GameRegistry.registerTileEntity(TileSortingPreciousChest.class, Names.sortingPreciousChest);
+        }
+
         new GuiHandler();
     }
 
