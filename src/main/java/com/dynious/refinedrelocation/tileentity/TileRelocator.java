@@ -23,6 +23,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.ForgeDirection;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         if (!itemsToAdd.isEmpty())
         {
             items.addAll(itemsToAdd);
-            //TODO: don't send packet when transferring to Relocators
+            //TODO: More efficient client syncing
             PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64, worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketItemList(this, itemsToAdd)));
             itemsToAdd.clear();
         }
@@ -129,6 +130,19 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 iterator.remove();
             }
         }
+    }
+
+    public boolean onActivated(EntityPlayer player, MovingObjectPosition hit, ItemStack stack)
+    {
+        if (hit.subHit < 6)
+        {
+            return sideHit(player, hit.subHit, stack);
+        }
+        else
+        {
+            //Middle was hit
+        }
+        return false;
     }
 
     public boolean sideHit(EntityPlayer player, int side, ItemStack stack)

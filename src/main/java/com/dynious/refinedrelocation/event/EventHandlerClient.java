@@ -1,5 +1,7 @@
 package com.dynious.refinedrelocation.event;
 
+import codechicken.lib.raytracer.RayTracer;
+import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.gui.container.IContainerFiltered;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
@@ -9,7 +11,9 @@ import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -72,6 +76,15 @@ public class EventHandlerClient
             CreativeTabs tab = event.itemStack.getItem().getCreativeTab();
             if (tab != null)
                 event.toolTip.add(StatCollector.translateToLocal(Strings.TAB) + ": " + I18n.getString(tab.getTranslatedTabLabel()));
+        }
+    }
+
+    @ForgeSubscribe
+    public void onBlockHighlight(DrawBlockHighlightEvent event)
+    {
+        if(event.target.typeOfHit == EnumMovingObjectType.TILE && event.player.worldObj.getBlockId(event.target.blockX, event.target.blockY, event.target.blockZ) == ModBlocks.relocator.blockID)
+        {
+            RayTracer.retraceBlock(event.player.worldObj, event.player, event.target.blockX, event.target.blockY, event.target.blockZ);
         }
     }
 }
