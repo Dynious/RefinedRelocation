@@ -24,6 +24,11 @@ tile.sortingBarrel.name=Сортирующая бочка
 tile.relocationController.name=Перемещающий контроллер
 tile.powerLimiter.name=Ограничитель энергии
 tile.sortingAlchemicalChest.name=Сортирующий алхимический сундук
+tile.sortingPreciousChest.BrassChest.name=Сортирующий латунный сундук
+tile.sortingPreciousChest.SilverChest.name=Сортирующий серебряный сундук
+tile.sortingPreciousChest.GoldChest.name=Сортирующий золотой сундук
+tile.sortingPreciousChest.ElectrumChest.name=Сортирующий электрумовый сундук
+tile.sortingPreciousChest.PlatinumChest.name=Сортирующий платиновый сундук
 
 # Item localizations
 item.linker.name=Соединитель
@@ -78,6 +83,7 @@ gui.refinedrelocation.priority=Приоритет
 gui.refinedrelocation.outdated=Версия %s Refined Relocation устарела! Последняя версия: %s
 gui.refinedrelocation.changeLog=Изменения
 gui.refinedrelocation.latest=Чтобы обновиться, используйте: '/RefinedRelocation latest'
+gui.refinedrelocation.tab=Вкладка
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Соединённая позиция: %s:%s:%s (%s)
