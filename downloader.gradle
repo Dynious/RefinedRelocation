@@ -99,3 +99,21 @@ project.ext.addZipDep = {String name, String url, String version ->
 
     getDeps.dependsOn(unzip)
 }
+
+project.ext.addZipDepDeobf = {String name, String url, String version ->
+    def zipname = "build/depsDeobf/"+name+"-"+version+".zip"
+
+    def download = task("download"+name.capitalize()) {
+        inputs.property "url", url
+        inputs.property "version", version
+        outputs.file zipname
+        doFirst {
+            mkdir("build/depsDeobf")
+        }
+        doLast {
+            ant.get(src: url, dest: zipname, verbose: "true")
+        }
+    }
+	
+	getDeps.dependsOn(download)
+}

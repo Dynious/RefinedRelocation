@@ -130,15 +130,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public boolean activate(EntityPlayer player, MovingObjectPosition hit, ItemStack item)
     {
-        if (hit.subHit < 6)
-        {
-            return relocator.sideHit(player, hit.subHit, item);
-        }
-        else
-        {
-            //Middle was hit
-        }
-        return super.activate(player, hit, item);
+        return relocator.onActivated(player, hit, item);
     }
 
     /*

@@ -59,6 +59,8 @@ public class RendererRelocator extends TileEntitySpecialRenderer
 
         GL11.glPushMatrix();
 
+        //Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+
         model.render(0, 24, new Translation(x, y, z), iconTransformation, null);
 
         GL11.glPopMatrix();

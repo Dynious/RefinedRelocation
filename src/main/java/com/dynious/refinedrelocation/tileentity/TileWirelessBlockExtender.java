@@ -242,61 +242,6 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 
     */
 
-    /*
-    ComputerCraft interaction
-    */
-
-    /*
-
-    @Optional.Method(modid = "ComputerCraft")
-    @Override
-    public String getType()
-    {
-        return "wireless_block_extender";
-    }
-
-    @Optional.Method(modid = "ComputerCraft")
-    @Override
-    public String[] getMethodNames()
-    {
-        return ArrayUtils.addAll(super.getMethodNames(), "getConnectedPosition", "setConnectedPosition");
-    }
-
-    @Optional.Method(modid = "ComputerCraft")
-    @Override
-    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
-    {
-        switch (method)
-        {
-            case 0:
-                return null;
-            case 1:
-                return new Boolean[]{false};
-            case 8:
-                if (xConnected == Integer.MAX_VALUE)
-                {
-                    return null;
-                }
-                return new Integer[]{xConnected, yConnected, zConnected};
-            case 9:
-                if (arguments.length > 0 && arguments[0] instanceof Double && arguments[1] instanceof Double && arguments[2] instanceof Double)
-                {
-                    double x = (Double) arguments[0];
-                    double y = (Double) arguments[1];
-                    double z = (Double) arguments[2];
-                    setLink((int) x, (int) y, (int) z);
-                }
-        }
-        Object[] superArr = super.callMethod(computer, context, method, arguments);
-        if (superArr != null)
-        {
-            return superArr;
-        }
-        return null;
-    }
-
-    */
-
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
