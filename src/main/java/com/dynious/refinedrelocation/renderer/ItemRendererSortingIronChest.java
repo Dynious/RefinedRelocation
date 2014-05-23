@@ -59,7 +59,11 @@ public class ItemRendererSortingIronChest implements IItemRenderer
         if (renderPass == 0)
         {
             IronChestType type = IronChestType.values()[itemStack.getItemDamage()];
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(locations.get(type));
+            ResourceLocation loc = locations.get(type);
+            if (loc != null)
+            {
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(loc);
+            }
         }
         else
         {

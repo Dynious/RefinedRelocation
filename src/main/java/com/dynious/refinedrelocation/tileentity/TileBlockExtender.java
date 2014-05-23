@@ -8,9 +8,6 @@ import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
 import cpw.mods.fml.common.Loader;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,14 +28,11 @@ import net.minecraftforge.fluids.IFluidHandler;
 import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
-import static cpw.mods.fml.common.Optional.Interface;
 import static cpw.mods.fml.common.Optional.Method;
 
-@Interface(iface = "dan200.computer.api.IPeripheral", modid = "ComputerCraft")
-public class TileBlockExtender extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IPeripheral, IDisguisable, ILoopable
+public class TileBlockExtender extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IDisguisable, ILoopable
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
@@ -519,69 +513,6 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
             return false;
         }
         return isLooping;
-    }
-
-    /*
-    ComputerCraft interaction
-     */
-    HashSet<IComputerAccess> computers = new HashSet<IComputerAccess>();
-
-    @Method(modid = "ComputerCraft")
-    @Override
-    public String getType()
-    {
-        return "block_extender";
-    }
-
-    @Method(modid = "ComputerCraft")
-    @Override
-    public String[] getMethodNames()
-    {
-        return new String[]{"getConnectedDirection", "setConnectedDirection"};
-    }
-
-    @Method(modid = "ComputerCraft")
-    @Override
-    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
-    {
-        switch (method)
-        {
-            case 0:
-                return new String[]{connectedDirection.toString()};
-            case 1:
-                if (arguments.length > 0 && arguments[0] instanceof String)
-                {
-                    ForgeDirection direction = ForgeDirection.valueOf(((String) arguments[0]).toUpperCase());
-                    if (direction != null && direction != ForgeDirection.UNKNOWN)
-                    {
-                        setConnectedSide(direction.ordinal());
-                        return new Boolean[]{true};
-                    }
-                }
-                return new Boolean[]{false};
-        }
-        return null;
-    }
-
-    @Method(modid = "ComputerCraft")
-    @Override
-    public boolean canAttachToSide(int side)
-    {
-        return true;
-    }
-
-    @Method(modid = "ComputerCraft")
-    @Override
-    public void attach(IComputerAccess computer)
-    {
-        computers.add(computer);
-    }
-
-    @Method(modid = "ComputerCraft")
-    @Override
-    public void detach(IComputerAccess computer)
-    {
-        computers.remove(computer);
     }
 
     /*
