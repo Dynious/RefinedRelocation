@@ -68,7 +68,7 @@ addGitDep("ic","https://github.com/progwml6/ironchest.git","103a22860b5e35306e60
 addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/116/artifact/build/libs/InventoryTweaks-api-1.57-116.jar","157")
 addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","1de12a215ba2eb5636f543f8c7b3ec17fbcb6655")
 
-deobfBinJar.dependsOn(getDeps)
+compileApiJava.dependsOn(getDeps)
 
 afterEvaluate {
     sourceMainJava.dependsOn(getDeps)
