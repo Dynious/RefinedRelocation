@@ -34,7 +34,7 @@ minecraft {
 }
 
 dependencies {
-    compile fileTree(dir: '/build/depsDeobf')
+    compile fileTree(dir: 'build/depsDeobf')
 }
 
 apply from: 'downloader.gradle'
