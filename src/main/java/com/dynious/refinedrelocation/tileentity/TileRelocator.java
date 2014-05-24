@@ -57,31 +57,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         super.updateEntity();
 
-        if (blocksChanged)
-        {
-            inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
-            relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
-
-            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
-            {
-                TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
-                if (tile != null)
-                {
-                    if (!(tile instanceof IRelocator))
-                    {
-                        if (IOHelper.canInterfaceWith(tile, direction.getOpposite()))
-                            inventories[direction.ordinal()] = tile;
-                    }
-                    else
-                    {
-                        relocators[direction.ordinal()] = (IRelocator) tile;
-                    }
-                }
-            }
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            blocksChanged = false;
-        }
-
         for (int i = 0; i < filters.length; i++)
         {
             if (filters[i] != null)
@@ -102,6 +77,34 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     private void serverSideUpdate()
     {
+        if (blocksChanged)
+        {
+            inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
+            relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
+
+            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+            {
+                TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
+                if (tile != null)
+                {
+                    if (!canConnectOnSide(direction.ordinal()))
+                        continue;
+
+                    if (tile instanceof IRelocator && ((IRelocator)tile).canConnectOnSide(direction.getOpposite().ordinal()))
+                    {
+                        System.out.println(direction);
+                        relocators[direction.ordinal()] = (IRelocator) tile;
+                    }
+                    else if (IOHelper.canInterfaceWith(tile, direction.getOpposite()))
+                    {
+                        inventories[direction.ordinal()] = tile;
+                    }
+                }
+            }
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            blocksChanged = false;
+        }
+
         if (!itemsToAdd.isEmpty())
         {
             items.addAll(itemsToAdd);
@@ -209,6 +212,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public Container getContainer(int side)
     {
         return filters[side].getContainer(this);
+    }
+
+    @Override
+    public boolean canConnectOnSide(int side)
+    {
+        return true;
     }
 
     @Override
