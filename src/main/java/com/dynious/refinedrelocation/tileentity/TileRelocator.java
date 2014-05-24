@@ -327,6 +327,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return itemStack;
     }
 
+    @Override
     public boolean connectsToSide(int side)
     {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())

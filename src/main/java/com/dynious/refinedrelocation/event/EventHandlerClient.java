@@ -82,7 +82,7 @@ public class EventHandlerClient
     @ForgeSubscribe
     public void onBlockHighlight(DrawBlockHighlightEvent event)
     {
-        if(event.target.typeOfHit == EnumMovingObjectType.TILE && event.player.worldObj.getBlockId(event.target.blockX, event.target.blockY, event.target.blockZ) == ModBlocks.relocator.blockID)
+        if(ModBlocks.relocator != null && event.target.typeOfHit == EnumMovingObjectType.TILE && event.player.worldObj.getBlockId(event.target.blockX, event.target.blockY, event.target.blockZ) == ModBlocks.relocator.blockID)
         {
             RayTracer.retraceBlock(event.player.worldObj, event.player, event.target.blockX, event.target.blockY, event.target.blockZ);
         }

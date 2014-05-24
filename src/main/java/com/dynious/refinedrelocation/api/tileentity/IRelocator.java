@@ -14,6 +14,8 @@ public interface IRelocator
 
     public IRelocator[] getConnectedRelocators();
 
+    public boolean connectsToSide(int side);
+
     public boolean passesFilter(ItemStack itemStack, int side, boolean input);
 
     public ItemStack insert(ItemStack itemStack, int side, boolean simulate);
