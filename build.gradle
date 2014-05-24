@@ -139,9 +139,19 @@ processResources {
     }
 }
 
+jar {
+    manifest {
+        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin")
+    }
+}
+
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
+	
+	manifest {
+        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin")
+    }
 }
 
 task apiZip(type: Zip) {
