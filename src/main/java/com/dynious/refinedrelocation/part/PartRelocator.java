@@ -5,11 +5,10 @@ import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
-import codechicken.multipart.JCuboidPart;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import codechicken.multipart.*;
+import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
-import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
@@ -28,7 +27,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory
+public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart
 {
     private TileRelocator relocator;
 
@@ -83,6 +82,12 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
+    public void onPartChanged(TMultiPart part)
+    {
+        relocator.blocksChanged = true;
+    }
+
+    @Override
     public Iterable<ItemStack> getDrops()
     {
         List<ItemStack> items = new ArrayList<ItemStack>();
@@ -133,6 +138,26 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
         return relocator.onActivated(player, hit, item);
     }
 
+    @Override
+    public Iterable<Cuboid6> getOcclusionBoxes()
+    {
+        List<Cuboid6> list = new ArrayList<Cuboid6>();
+        list.add(RelocatorData.middleCuboid);
+        return list;
+    }
+
+    @Override
+    public boolean occlusionTest(TMultiPart part)
+    {
+        return NormalOcclusionTest.apply(this, part);
+    }
+
+    @Override
+    public int getSlotMask()
+    {
+        return 0;
+    }
+
     /*
     NBT Handling
      */
@@ -179,6 +204,24 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public IRelocator[] getConnectedRelocators()
     {
         return relocator.getConnectedRelocators();
+    }
+
+    @Override
+    public boolean canConnectOnSide(int side)
+    {
+        return tile().canAddPart(new NormallyOccludedPart(RelocatorData.sideCuboids[side]));
+    }
+
+    @Override
+    public boolean connectsToSide(int side)
+    {
+        return relocator.connectsToSide(side);
+    }
+
+    @Override
+    public IRelocatorModule getRelocatorModule(int side)
+    {
+        return relocator.getRelocatorModule(side);
     }
 
     @Override

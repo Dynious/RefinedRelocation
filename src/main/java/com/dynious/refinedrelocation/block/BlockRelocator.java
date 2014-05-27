@@ -44,7 +44,9 @@ public class BlockRelocator extends BlockContainer
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block par5)
     {
-        super.onNeighborBlockChange(world, x, y, z, par5);
+        if (world.isRemote)
+            return;
+
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {

@@ -6,7 +6,7 @@ import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorFilterRegistry;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.grid.sorting.SortingInventoryHandler;
@@ -45,7 +45,7 @@ public class APIHandler implements IAPIHandler
 
     public void registerRelocatorFilter(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
     {
-        RelocatorFilterRegistry.add(identifier, clazz);
+        RelocatorModuleRegistry.add(identifier, clazz);
     }
 
     public void openRelocatorFilterGUI(IRelocator relocator, EntityPlayer player, int side)

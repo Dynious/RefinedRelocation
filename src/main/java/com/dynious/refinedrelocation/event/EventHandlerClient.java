@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.event;
 
 import codechicken.lib.raytracer.RayTracer;
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.gui.container.IContainerFiltered;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -46,7 +47,9 @@ public class EventHandlerClient
     @SubscribeEvent
     public void onTextureStitch(TextureStitchEvent.Pre event)
     {
+        System.out.println(event.map.getTextureType());
         RendererRelocator.loadIcons(event.map);
+        RelocatorModuleRegistry.registerIcons(event.map);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -63,7 +66,7 @@ public class EventHandlerClient
     @SubscribeEvent
     public void onBlockHighlight(DrawBlockHighlightEvent event)
     {
-        if(event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && event.player.worldObj.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ) == ModBlocks.relocator)
+        if(ModBlocks.relocator != null && event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && event.player.worldObj.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ) == ModBlocks.relocator)
         {
             RayTracer.retraceBlock(event.player.worldObj, event.player, event.target.blockX, event.target.blockY, event.target.blockZ);
         }

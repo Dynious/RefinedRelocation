@@ -4,8 +4,10 @@ import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.item.ModItems;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Settings;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -13,6 +15,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.List;
 
 public class RelocatorModuleExtraction implements IRelocatorModule
 {
+    private static IIcon icon;
     private byte tick = 0;
     private int lastCheckedSlot = -1;
 
@@ -133,5 +137,17 @@ public class RelocatorModuleExtraction implements IRelocatorModule
         List<ItemStack> list = new ArrayList<ItemStack>();
         list.add(new ItemStack(ModItems.relocatorModule, 1, 3));
         return list;
+    }
+
+    @Override
+    public IIcon getIcon(IRelocator relocator, int side)
+    {
+        return icon;
+    }
+
+    @Override
+    public void registerIcons(IIconRegister register)
+    {
+        icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleExtraction");
     }
 }

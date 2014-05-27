@@ -2,11 +2,14 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class RelocatorFilterRegistry
+public class RelocatorModuleRegistry
 {
     private static Map<String, Class<? extends IRelocatorModule>> filters = new HashMap<String, Class<? extends IRelocatorModule>>();
 
@@ -61,8 +64,31 @@ public class RelocatorFilterRegistry
         return "";
     }
 
-    public static void registerModFilters()
+    public static void registerModules()
     {
-        APIUtils.registerRelocatorFilter("filterStandard", RelocatorModuleFilter.class);
+        APIUtils.registerRelocatorFilter("filter", RelocatorModuleFilter.class);
+        APIUtils.registerRelocatorFilter("oneWay", RelocatorModuleOneWay.class);
+        APIUtils.registerRelocatorFilter("extraction", RelocatorModuleExtraction.class);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void registerIcons(IIconRegister register)
+    {
+        for (Class clazz : filters.values())
+        {
+            try
+            {
+                IRelocatorModule module = (IRelocatorModule) clazz.newInstance();
+                module.registerIcons(register);
+            }
+            catch (InstantiationException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

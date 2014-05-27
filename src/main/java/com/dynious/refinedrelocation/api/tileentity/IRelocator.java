@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.api.tileentity;
 
+import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.inventory.Container;
@@ -13,6 +14,12 @@ public interface IRelocator
     public TileEntity[] getConnectedInventories();
 
     public IRelocator[] getConnectedRelocators();
+
+    public boolean canConnectOnSide(int side);
+
+    public boolean connectsToSide(int side);
+
+    public IRelocatorModule getRelocatorModule(int side);
 
     public boolean passesFilter(ItemStack itemStack, int side, boolean input);
 

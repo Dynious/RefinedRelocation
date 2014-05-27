@@ -50,6 +50,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
