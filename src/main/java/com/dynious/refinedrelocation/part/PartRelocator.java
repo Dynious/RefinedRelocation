@@ -6,6 +6,7 @@ import codechicken.lib.raytracer.IndexedCuboid6;
 import codechicken.lib.vec.Cuboid6;
 import codechicken.lib.vec.Vector3;
 import codechicken.multipart.*;
+import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.lib.Names;
@@ -208,13 +209,19 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public boolean canConnectOnSide(int side)
     {
-        return tile().occlusionTest(tile().partList(), new PartTestOcclusion(RelocatorData.sideCuboids[side]));
+        return tile().canAddPart(new NormallyOccludedPart(RelocatorData.sideCuboids[side]));
     }
 
     @Override
     public boolean connectsToSide(int side)
     {
         return relocator.connectsToSide(side);
+    }
+
+    @Override
+    public IRelocatorModule getRelocatorModule(int side)
+    {
+        return relocator.getRelocatorModule(side);
     }
 
     @Override

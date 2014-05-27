@@ -6,7 +6,7 @@ import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
 import com.dynious.refinedrelocation.event.PlayerTracker;
 import com.dynious.refinedrelocation.event.TickEvent;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorFilterRegistry;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
@@ -15,7 +15,6 @@ import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
 import com.dynious.refinedrelocation.network.PacketHandler;
-import com.dynious.refinedrelocation.part.PartFactory;
 import com.dynious.refinedrelocation.proxy.CommonProxy;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import cpw.mods.fml.common.Mod;
@@ -68,7 +67,7 @@ public class RefinedRelocation
 
         ModMultiBlocks.init();
 
-        RelocatorFilterRegistry.registerModFilters();
+        RelocatorModuleRegistry.registerModules();
 
         proxy.registerEventHandlers();
 

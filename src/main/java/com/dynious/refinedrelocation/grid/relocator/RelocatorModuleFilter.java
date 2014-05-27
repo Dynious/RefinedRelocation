@@ -9,17 +9,22 @@ import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.gui.GuiFiltered;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
 import com.dynious.refinedrelocation.item.ModItems;
+import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RelocatorModuleFilter extends FilterStandard implements IRelocatorModule
 {
+    private static Icon icon;
+
     @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
@@ -75,5 +80,17 @@ public class RelocatorModuleFilter extends FilterStandard implements IRelocatorM
                 return relocator.getTileEntity();
             }
         };
+    }
+
+    @Override
+    public Icon getIcon(IRelocator relocator, int side)
+    {
+        return icon;
+    }
+
+    @Override
+    public void registerIcons(IconRegister register)
+    {
+        icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleFilter");
     }
 }

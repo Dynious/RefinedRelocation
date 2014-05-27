@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.event;
 
 import codechicken.lib.raytracer.RayTracer;
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.gui.container.IContainerFiltered;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.item.ModItems;
@@ -66,6 +67,7 @@ public class EventHandlerClient
     public void onTextureStitch(TextureStitchEvent.Pre event)
     {
         RendererRelocator.loadIcons(event.map);
+        RelocatorModuleRegistry.registerIcons(event.map);
     }
 
     @ForgeSubscribe(priority = EventPriority.LOWEST)

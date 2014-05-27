@@ -3,7 +3,7 @@ package com.dynious.refinedrelocation.tileentity;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorFilterRegistry;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.BlockHelper;
@@ -39,7 +39,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
-    private IRelocatorModule[] filters = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
+    private IRelocatorModule[] modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
     private TravellingItem[] stuffedItems = new TravellingItem[ForgeDirection.VALID_DIRECTIONS.length];
 
     private boolean[] isConnected = new boolean[6];
@@ -57,11 +57,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         super.updateEntity();
 
-        for (int i = 0; i < filters.length; i++)
+        for (int i = 0; i < modules.length; i++)
         {
-            if (filters[i] != null)
+            if (modules[i] != null)
             {
-                filters[i].onUpdate(this, i);
+                modules[i].onUpdate(this, i);
             }
         }
 
@@ -84,16 +84,18 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
             for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
             {
+                if (!((IRelocator)worldObj.getBlockTileEntity(xCoord, yCoord, zCoord)).canConnectOnSide(direction.ordinal()))
+                    continue;
+
                 TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
                 if (tile != null)
                 {
-                    if (!canConnectOnSide(direction.ordinal()))
-                        continue;
-
-                    if (tile instanceof IRelocator && ((IRelocator)tile).canConnectOnSide(direction.getOpposite().ordinal()))
+                    if (tile instanceof IRelocator)
                     {
-                        System.out.println(direction);
-                        relocators[direction.ordinal()] = (IRelocator) tile;
+                        if (((IRelocator)tile).canConnectOnSide(direction.getOpposite().ordinal()))
+                        {
+                            relocators[direction.ordinal()] = (IRelocator) tile;
+                        }
                     }
                     else if (IOHelper.canInterfaceWith(tile, direction.getOpposite()))
                     {
@@ -171,21 +173,21 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public boolean sideHit(EntityPlayer player, int side, ItemStack stack)
     {
-        if (stack != null && stack.getItem() instanceof IItemRelocatorModule && filters[side] == null)
+        if (stack != null && stack.getItem() instanceof IItemRelocatorModule && modules[side] == null)
         {
             IRelocatorModule filter = ((IItemRelocatorModule) stack.getItem()).getRelocatorFilter(stack);
             if (filter != null)
             {
-                filters[side] = filter;
+                modules[side] = filter;
                 stack.stackSize--;
                 return true;
             }
         }
-        else if (filters[side] != null)
+        else if (modules[side] != null)
         {
             if (player.isSneaking())
             {
-                List<ItemStack> list = filters[side].getDrops(this, side);
+                List<ItemStack> list = modules[side].getDrops(this, side);
                 if (list != null)
                 {
                     for (ItemStack stack1 : list)
@@ -193,12 +195,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                         IOHelper.spawnItemInWorld(worldObj, stack1, xCoord, yCoord, zCoord);
                     }
                 }
-                filters[side] = null;
+                modules[side] = null;
                 return true;
             }
             else
             {
-                return filters[side].onActivated(this, player, side, stack);
+                return modules[side].onActivated(this, player, side, stack);
             }
         }
         return false;
@@ -206,12 +208,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public GuiScreen getGUI(int side)
     {
-        return filters[side].getGUI(this);
+        return modules[side].getGUI(this);
     }
 
     public Container getContainer(int side)
     {
-        return filters[side].getContainer(this);
+        return modules[side].getContainer(this);
     }
 
     @Override
@@ -229,7 +231,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public boolean passesFilter(ItemStack itemStack, int side, boolean input)
     {
-        return stuffedItems[side] == null && (filters[side] == null || filters[side].passesFilter(itemStack, input));
+        return stuffedItems[side] == null && (modules[side] == null || modules[side].passesFilter(itemStack, input));
     }
 
     @Override
@@ -346,6 +348,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
+    public IRelocatorModule getRelocatorModule(int side)
+    {
+        return modules[side];
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
@@ -437,32 +445,32 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public void saveFilters(NBTTagCompound compound)
     {
         NBTTagList nbttaglist = new NBTTagList();
-        for (int i = 0; i < filters.length; i++)
+        for (int i = 0; i < modules.length; i++)
         {
-            if (filters[i] != null)
+            if (modules[i] != null)
             {
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setString("clazzIdentifier", RelocatorFilterRegistry.getIdentifier(filters[i].getClass()));
+                nbttagcompound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(modules[i].getClass()));
                 nbttagcompound1.setByte("place", (byte) i);
-                filters[i].writeToNBT(nbttagcompound1);
+                modules[i].writeToNBT(nbttagcompound1);
                 nbttaglist.appendTag(nbttagcompound1);
             }
         }
-        compound.setTag("filters", nbttaglist);
+        compound.setTag("modules", nbttaglist);
     }
 
     public void readFilters(NBTTagCompound compound)
     {
-        NBTTagList nbttaglist = compound.getTagList("filters");
+        NBTTagList nbttaglist = compound.getTagList("modules");
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
             byte place = nbttagcompound1.getByte("place");
-            IRelocatorModule filter = RelocatorFilterRegistry.getFilter(nbttagcompound1.getString("clazzIdentifier"));
+            IRelocatorModule filter = RelocatorModuleRegistry.getFilter(nbttagcompound1.getString("clazzIdentifier"));
             if (filter != null)
             {
-                filters[place] = filter;
-                filters[place].readFromNBT(nbttagcompound1);
+                modules[place] = filter;
+                modules[place].readFromNBT(nbttagcompound1);
             }
         }
     }
