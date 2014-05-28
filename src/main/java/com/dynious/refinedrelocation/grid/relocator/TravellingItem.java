@@ -121,7 +121,8 @@ public class TravellingItem
     public void writeToNBT(NBTTagCompound compound)
     {
         itemStack.writeToNBT(compound);
-        startingPoint.writeToNBT(compound);
+        if (startingPoint != null)
+            startingPoint.writeToNBT(compound);
         compound.setByteArray("path", Bytes.toArray(path));
         compound.setByte("input", input);
         compound.setByte("counter", counter);
