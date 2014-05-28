@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.EE3Helper;
+import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.renderer.*;
@@ -37,6 +38,7 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.blockExtender), new ItemRendererBlockExtender());
         MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.buffer), new ItemRendererBuffer());
         MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.sortingChest), new ItemRendererSortingChest());
+        MinecraftForgeClient.registerItemRenderer(ModBlocks.relocator != null ? ItemBlock.getItemFromBlock(ModBlocks.relocator) : FMPHelper.partRelocator, new ItemRendererRelocator());
 
         if (Mods.IS_IRON_CHEST_LOADED)
         {

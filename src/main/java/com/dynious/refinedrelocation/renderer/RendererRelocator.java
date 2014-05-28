@@ -27,11 +27,12 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     private static RenderItem renderer;
     private static EntityItem entityItem = new EntityItem(null);
 
-    private static CCModel centerModel;
-    private static CCModel[] sideModels = new CCModel[6];
+    public static final CCModel CENTER_MODEL;
+    public static final CCModel[] SIDE_MODELS = new CCModel[6];
+
     private static IconTransformation iconTransformation = new IconTransformation(Blocks.stone.getIcon(0, 0));
-    private static IIcon[] iconsCenter = new IIcon[4];
-    private static IIcon iconSide;
+    public static IIcon[] iconsCenter = new IIcon[4];
+    public static IIcon iconSide;
 
     static
     {
@@ -50,16 +51,16 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         renderer.setRenderManager(RenderManager.instance);
         entityItem.hoverStart = 0.0F;
 
-        centerModel = CCModel.quadModel(48).generateBox(0, -4.0D, -4.0D, -4.0D, 8.0D, 8.0D, 8.0D, 0.0D, 0.0D, 32.0D, 32.0D, 16.0D);
-        //centerModel = CCModel.quadModel(48).generateBlock(0, RelocatorData.middleCuboid);
-        CCModel.generateBackface(centerModel, 0, centerModel, 24, 24);
-        centerModel.computeNormals().computeLighting(LightModel.standardLightModel);
+        CENTER_MODEL = CCModel.quadModel(48).generateBox(0, -4.0D, -4.0D, -4.0D, 8.0D, 8.0D, 8.0D, 0.0D, 0.0D, 32.0D, 32.0D, 16.0D);
+        //CENTER_MODEL = CCModel.quadModel(48).generateBlock(0, RelocatorData.middleCuboid);
+        CCModel.generateBackface(CENTER_MODEL, 0, CENTER_MODEL, 24, 24);
+        CENTER_MODEL.computeNormals().computeLighting(LightModel.standardLightModel);
 
-        sideModels[1] = CCModel.quadModel(48).generateBox(0, -4.0D, 4.0D, -4.0D, 8.0D, 4.0D, 8.0D, 0.0D, 0.0D, 32.0D, 32.0D, 16.0D);
-        //sideModels[0] = CCModel.quadModel(48).generateBlock(0, RelocatorData.sideCuboids[0]);
-        CCModel.generateBackface(sideModels[1], 0, sideModels[1], 24, 24);
-        sideModels[1].computeNormals().computeLighting(LightModel.standardLightModel);
-        CCModel.generateSidedModels(sideModels, 1, new Vector3());
+        SIDE_MODELS[1] = CCModel.quadModel(48).generateBox(0, -4.0D, 4.0D, -4.0D, 8.0D, 4.0D, 8.0D, 0.0D, 0.0D, 32.0D, 32.0D, 16.0D);
+        //SIDE_MODELS[0] = CCModel.quadModel(48).generateBlock(0, RelocatorData.sideCuboids[0]);
+        CCModel.generateBackface(SIDE_MODELS[1], 0, SIDE_MODELS[1], 24, 24);
+        SIDE_MODELS[1].computeNormals().computeLighting(LightModel.standardLightModel);
+        CCModel.generateSidedModels(SIDE_MODELS, 1, new Vector3());
     }
 
     @Override
@@ -72,7 +73,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         TextureUtils.bindAtlas(0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
-        resetRenderer(tile.getWorldObj(), (int) x, (int) y, (int) z);
+        resetRenderer();
 
         GL11.glPushMatrix();
 
@@ -93,10 +94,10 @@ public class RendererRelocator extends TileEntitySpecialRenderer
                 {
                     iconTransformation.icon = iconSide;
                 }
-                sideModels[side].render(0, 4, trans, iconTransformation);
-                sideModels[side].render(8, 24, trans, iconTransformation);
-                sideModels[side].render(24, 28, trans, iconTransformation);
-                sideModels[side].render(32, 48, trans, iconTransformation);
+                SIDE_MODELS[side].render(0, 4, trans, iconTransformation);
+                SIDE_MODELS[side].render(8, 24, trans, iconTransformation);
+                SIDE_MODELS[side].render(24, 28, trans, iconTransformation);
+                SIDE_MODELS[side].render(32, 48, trans, iconTransformation);
             }
             else
             {
@@ -115,8 +116,8 @@ public class RendererRelocator extends TileEntitySpecialRenderer
                         iconTransformation.icon = iconsCenter[3];
                         break;
                 }
-                centerModel.render(side * 4, side * 4 + 4, trans, iconTransformation);
-                centerModel.render(24 + side * 4, 24 + side * 4 + 4, trans, iconTransformation);
+                CENTER_MODEL.render(side * 4, side * 4 + 4, trans, iconTransformation);
+                CENTER_MODEL.render(24 + side * 4, 24 + side * 4 + 4, trans, iconTransformation);
             }
         }
         CCRenderState.draw();
@@ -145,7 +146,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
     }
 
-    public static void resetRenderer(IBlockAccess world, int x, int y, int z)
+    public static void resetRenderer()
     {
         CCRenderState.reset();
         CCRenderState.hasNormal = true;

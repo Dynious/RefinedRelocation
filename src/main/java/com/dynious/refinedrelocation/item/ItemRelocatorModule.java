@@ -18,13 +18,14 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     public ItemRelocatorModule()
     {
         super();
+        this.setUnlocalizedName(Names.relocatorModule);
         this.setHasSubtypes(true);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        return Names.relocatorModule + stack.getItemDamage();
+        return getUnlocalizedName() + stack.getItemDamage();
     }
 
     @Override

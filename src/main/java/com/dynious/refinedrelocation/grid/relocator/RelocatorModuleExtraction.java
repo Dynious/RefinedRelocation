@@ -25,7 +25,7 @@ public class RelocatorModuleExtraction implements IRelocatorModule
 {
     private static IIcon icon;
     private byte tick = 0;
-    private int lastCheckedSlot = -1;
+    private int lastCheckedSlot = 0;
 
     @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
@@ -66,8 +66,6 @@ public class RelocatorModuleExtraction implements IRelocatorModule
         }
         else if (firstChecked != lastCheckedSlot)
         {
-            if (firstChecked < 0) firstChecked = 0;
-
             tryExtraction(relocator, inventory, side, firstChecked);
         }
     }

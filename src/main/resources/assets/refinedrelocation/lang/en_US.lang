@@ -29,11 +29,17 @@ tile.sortingPreciousChest.SilverChest.name=Sorting Silver Chest
 tile.sortingPreciousChest.GoldChest.name=Sorting Gold Chest
 tile.sortingPreciousChest.ElectrumChest.name=Sorting Electrum Chest
 tile.sortingPreciousChest.PlatinumChest.name=Sorting Platinum Chest
+tile.relocator.name=Relocator
 
 # Item localizations
 item.linker.name=Linker
 item.sortingUpgrade.name=Sorting Upgrade
 item.playerRelocator.name=Player Relocator
+item.relocator.name=Relocator
+item.relocatorModule0.name=Relocator Module Base
+item.relocatorModule1.name=Relocator Module Filter
+item.relocatorModule2.name=Relocator Module One Way
+item.relocatorModule3.name=Relocator Module Extraction
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest
@@ -95,3 +101,4 @@ itemDesc.refinedrelocation.noLongerLinked=Linker is no longer linked
 itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
 itemDesc.refinedrelocation.brokenLink=Broken link!
 itemDesc.refinedrelocation.cooldown=Cooldown: %s
+itemDesc.refinedrelocation.relContDesc=MultiBlock (%s x %s x %s)

@@ -25,7 +25,7 @@ public class PartFactory implements MultiPartRegistry.IPartFactory, MultiPartReg
 
     public static void init()
     {
-        MultiPartRegistry.registerParts(INSTANCE, new String[]{ Names.relocator });
+        MultiPartRegistry.registerParts(INSTANCE, new String[]{ "tile." + Names.relocator });
 
         MultipartGenerator.registerPassThroughInterface(IRelocator.class.getCanonicalName());
         MultipartGenerator.registerPassThroughInterface(ISidedInventory.class.getCanonicalName());
@@ -34,7 +34,7 @@ public class PartFactory implements MultiPartRegistry.IPartFactory, MultiPartReg
     @Override
     public TMultiPart createPart(String name, boolean b)
     {
-        if (name.equalsIgnoreCase(Names.relocator))
+        if (name.equalsIgnoreCase("tile." + Names.relocator))
             return new PartRelocator();
 
         return null;

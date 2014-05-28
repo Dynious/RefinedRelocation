@@ -1,10 +1,7 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.api.ModObjects;
-import com.dynious.refinedrelocation.item.ItemBlockExtender;
-import com.dynious.refinedrelocation.item.ItemBuffer;
-import com.dynious.refinedrelocation.item.ItemPowerLimiter;
-import com.dynious.refinedrelocation.item.ItemSortingConnector;
+import com.dynious.refinedrelocation.item.*;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
@@ -64,7 +61,7 @@ public class ModBlocks
         GameRegistry.registerBlock(sortingConnector, ItemSortingConnector.class, Names.sortingConnector);
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
-        GameRegistry.registerBlock(relocationController, Names.relocationController);
+        GameRegistry.registerBlock(relocationController, ItemRelocationController.class, Names.relocationController);
         GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Items.iron_ingot, 'o', Blocks.obsidian, 'g', Blocks.glass_pane, 'e', Items.ender_pearl);

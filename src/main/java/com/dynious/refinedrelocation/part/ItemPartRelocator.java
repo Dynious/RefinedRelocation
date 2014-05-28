@@ -25,6 +25,6 @@ public class ItemPartRelocator extends JItemMultiPart
     @Override
     public TMultiPart newPart(ItemStack itemStack, EntityPlayer player, World world, BlockCoord blockCoord, int i, Vector3 vector3)
     {
-        return PartFactory.INSTANCE.createPart(Names.relocator, false);
+        return PartFactory.INSTANCE.createPart("tile." + Names.relocator, false);
     }
 }
