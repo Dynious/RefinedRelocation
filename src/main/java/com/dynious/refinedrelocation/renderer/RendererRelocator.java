@@ -29,7 +29,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
 
     private static CCModel centerModel;
     private static CCModel[] sideModels = new CCModel[6];
-    private static IconTransformation iconTransformation = new IconTransformation(Block.stone.getIcon(0, 0));
+    private static IconTransformation iconTransformation = new IconTransformation(Blocks.stone.getIcon(0, 0));
     private static IIcon[] iconsCenter = new IIcon[4];
     private static IIcon iconSide;
 
@@ -94,9 +94,9 @@ public class RendererRelocator extends TileEntitySpecialRenderer
                     iconTransformation.icon = iconSide;
                 }
                 sideModels[side].render(0, 4, trans, iconTransformation);
-                sideModels[side].render(8, 16, trans, iconTransformation);
-                //sideModels[side].render(24, 4, trans, iconTransformation);
-                //sideModels[side].render(32, 16, trans, iconTransformation);
+                sideModels[side].render(8, 24, trans, iconTransformation);
+                sideModels[side].render(24, 28, trans, iconTransformation);
+                sideModels[side].render(32, 48, trans, iconTransformation);
             }
             else
             {
@@ -115,8 +115,8 @@ public class RendererRelocator extends TileEntitySpecialRenderer
                         iconTransformation.icon = iconsCenter[3];
                         break;
                 }
-                centerModel.render(side * 4, 4, trans, iconTransformation);
-                //centerModel.render(24 + side * 4, 4, trans, iconTransformation, null);
+                centerModel.render(side * 4, side * 4 + 4, trans, iconTransformation);
+                centerModel.render(24 + side * 4, 24 + side * 4 + 4, trans, iconTransformation);
             }
         }
         CCRenderState.draw();
@@ -148,6 +148,8 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     public static void resetRenderer(IBlockAccess world, int x, int y, int z)
     {
         CCRenderState.reset();
+        CCRenderState.hasNormal = true;
+        CCRenderState.hasColour = true;
     }
 
     public static void loadIcons(IIconRegister register)
