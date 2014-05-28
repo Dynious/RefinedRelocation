@@ -34,4 +34,6 @@ public interface IRelocator
     public GuiScreen getGUI(int side);
 
     public Container getContainer(int side);
+
+    public byte getRenderType();
 }

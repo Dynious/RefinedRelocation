@@ -43,6 +43,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private TravellingItem[] stuffedItems = new TravellingItem[ForgeDirection.VALID_DIRECTIONS.length];
 
     private boolean[] isConnected = new boolean[6];
+    private byte renderType = 0;
 
     private TravellingItem cachedTravellingItem;
     private int maxStackSize = 64;
@@ -439,6 +440,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             isConnected[i] = tag.hasKey("c" + i);
         }
+        calculateRenderType();
         readFilters(pkt.func_148857_g());
     }
 
@@ -473,6 +475,23 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 modules[place].readFromNBT(nbttagcompound1);
             }
         }
+    }
+
+    public void calculateRenderType()
+    {
+        if (isConnected[0] && isConnected[1] && !isConnected[2] && !isConnected[3] && !isConnected[4] && !isConnected[5])
+            renderType = 1;
+        else if (!isConnected[0] && !isConnected[1] && isConnected[2] && isConnected[3] && !isConnected[4] && !isConnected[5])
+            renderType = 2;
+        else if (!isConnected[0] && !isConnected[1] && !isConnected[2] && !isConnected[3] && isConnected[4] && isConnected[5])
+            renderType = 3;
+        else
+            renderType = 0;
+    }
+
+    public byte getRenderType()
+    {
+        return renderType;
     }
 
     /*

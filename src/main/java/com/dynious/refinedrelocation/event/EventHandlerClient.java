@@ -47,9 +47,11 @@ public class EventHandlerClient
     @SubscribeEvent
     public void onTextureStitch(TextureStitchEvent.Pre event)
     {
-        System.out.println(event.map.getTextureType());
-        RendererRelocator.loadIcons(event.map);
-        RelocatorModuleRegistry.registerIcons(event.map);
+        if (event.map.getTextureType() == 0)
+        {
+            RendererRelocator.loadIcons(event.map);
+            RelocatorModuleRegistry.registerIcons(event.map);
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
