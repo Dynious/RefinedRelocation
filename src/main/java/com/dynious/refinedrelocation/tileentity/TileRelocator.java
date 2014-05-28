@@ -6,10 +6,7 @@ import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
-import com.dynious.refinedrelocation.helper.BlockHelper;
-import com.dynious.refinedrelocation.helper.DirectionHelper;
-import com.dynious.refinedrelocation.helper.IOHelper;
-import com.dynious.refinedrelocation.helper.LogHelper;
+import com.dynious.refinedrelocation.helper.*;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketItemList;
@@ -40,7 +37,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocatorModule[] modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
-    private TravellingItem[] stuffedItems = new TravellingItem[ForgeDirection.VALID_DIRECTIONS.length];
+    private List<ItemStack>[] stuffedItems;
 
     private boolean[] isConnected = new boolean[6];
     private byte renderType = 0;
@@ -52,6 +49,16 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private List<TravellingItem> itemsToAdd = new ArrayList<TravellingItem>();
 
     private byte ticker = 0;
+
+    public TileRelocator()
+    {
+        //noinspection unchecked
+        stuffedItems = (List<ItemStack>[]) new ArrayList[ForgeDirection.VALID_DIRECTIONS.length];
+        for (int i = 0; i < stuffedItems.length; i++)
+        {
+            stuffedItems[i] = new ArrayList<ItemStack>();
+        }
+    }
 
     @Override
     public void updateEntity()
@@ -103,6 +110,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                         inventories[direction.ordinal()] = tile;
                     }
                 }
+
+                if (relocators[direction.ordinal()] == null && inventories[direction.ordinal()] == null)
+                {
+                    emptySide(direction.ordinal());
+                }
             }
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             blocksChanged = false;
@@ -125,19 +137,36 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 iterator.remove();
                 outputToSide(item, item.onOutput());
             }
+            else if (item.counter == TravellingItem.timePerRelocator / 2)
+            {
+                if (!connectsToSide(item.getOutputSide()))
+                {
+                    iterator.remove();
+                    retryOutput(item, -1);
+                }
+            }
         }
 
         ticker++;
         if (ticker >= Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION)
         {
             ticker = 0;
-            for (byte i = 0; i < stuffedItems.length; i++)
+            for (byte side = 0; side < stuffedItems.length; side++)
             {
-                TravellingItem travellingItem = stuffedItems[i];
-                if (travellingItem != null)
+                ArrayList<ItemStack> stacksUnableToAdd = new ArrayList<ItemStack>();
+                for (Iterator<ItemStack> iterator = stuffedItems[side].iterator(); iterator.hasNext();)
                 {
-                    stuffedItems[i] = null;
-                    outputToSide(travellingItem, i);
+                    ItemStack stack = iterator.next();
+                    if (!stacksUnableToAdd.contains(stack))
+                    {
+                        stacksUnableToAdd.add(stack.copy());
+                        stack = IOHelper.insert(getConnectedInventories()[side], stack.copy(), ForgeDirection.getOrientation(side).getOpposite(), false);
+                        if (stack == null)
+                        {
+                            stacksUnableToAdd.remove(stacksUnableToAdd.size() - 1);
+                            iterator.remove();
+                        }
+                    }
                 }
             }
         }
@@ -155,6 +184,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             if (item.counter > TravellingItem.timePerRelocator)
             {
                 iterator.remove();
+            }
+            else if (item.counter == TravellingItem.timePerRelocator / 2)
+            {
+                if (!connectsToSide(item.getOutputSide()))
+                {
+                    iterator.remove();
+                }
             }
         }
     }
@@ -207,11 +243,33 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return false;
     }
 
+    public void emptySide(int side)
+    {
+        if (modules[side] != null)
+        {
+            for (ItemStack stack : modules[side].getDrops(this, side))
+            {
+                IOHelper.spawnItemInWorld(worldObj, stack, xCoord, yCoord, zCoord);
+            }
+            modules[side] = null;
+        }
+        if (stuffedItems[side] != null)
+        {
+            for (ItemStack stack : stuffedItems[side])
+            {
+                IOHelper.spawnItemInWorld(worldObj, stack, xCoord, yCoord, zCoord);
+            }
+            stuffedItems[side].clear();
+        }
+    }
+
+    @Override
     public GuiScreen getGUI(int side)
     {
         return modules[side].getGUI(this);
     }
 
+    @Override
     public Container getContainer(int side)
     {
         return modules[side].getContainer(this);
@@ -232,7 +290,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public boolean passesFilter(ItemStack itemStack, int side, boolean input)
     {
-        return stuffedItems[side] == null && (modules[side] == null || modules[side].passesFilter(itemStack, input));
+        return stuffedItems[side].isEmpty() && (modules[side] == null || modules[side].passesFilter(itemStack, input));
     }
 
     @Override
@@ -297,7 +355,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
     }
 
-    public void retryOutput(TravellingItem item, byte side)
+    public void retryOutput(TravellingItem item, int side)
     {
         ItemStack stack = item.getItemStack();
         TravellingItem travellingItem = RelocatorGridLogic.findOutput(item.getItemStack(), this, side);
@@ -313,7 +371,29 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
         if (stack != null)
         {
-            stuffedItems[side] = item;
+            if (side != -1)
+            {
+                for (ItemStack stack1 : stuffedItems[side])
+                {
+                    if (stack1.stackSize != 64 && ItemStackHelper.areItemStacksEqual(stack1, stack))
+                    {
+                        int amount = Math.min(stack.stackSize, 64 - stack1.stackSize);
+                        stack1.stackSize += amount;
+                        stack.stackSize -= amount;
+                        if (stack.stackSize == 0)
+                        {
+                            stack = null;
+                            break;
+                        }
+                    }
+                }
+                if (stack != null)
+                    stuffedItems[side].add(stack);
+            }
+            else
+            {
+                IOHelper.spawnItemInWorld(worldObj, stack, xCoord, yCoord, zCoord);
+            }
         }
     }
 
@@ -441,6 +521,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             isConnected[i] = tag.hasKey("c" + i);
         }
         calculateRenderType();
+        modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
         readFilters(pkt.data);
     }
 

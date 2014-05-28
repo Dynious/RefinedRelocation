@@ -42,5 +42,10 @@ public class ModItems
         {
             GameRegistry.addShapedRecipe(new ItemStack(playerRelocator), "gbg", "ede", "gfg", 'g', Item.ingotGold, 'b', Item.blazeRod, 'e', Item.enderPearl, 'd', Item.diamond, 'f', Item.fireballCharge);
         }
+
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 4, 0), "ibi", "b b", "ibi", 'i', Item.ingotIron, 'b', Block.fenceIron);
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 1), "g g", " r ", "g g", 'g', Item.ingotGold, 'r', new ItemStack(relocatorModule, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 2), "b b", " r ", "b b", 'b', Block.fenceIron, 'r', new ItemStack(relocatorModule, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 3), "b b", " r ", "b b", 'b', Block.blockRedstone, 'r', new ItemStack(relocatorModule, 1, 0));
     }
 }
