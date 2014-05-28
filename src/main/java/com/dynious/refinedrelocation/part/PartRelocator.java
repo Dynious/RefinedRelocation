@@ -266,6 +266,12 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
         return relocator.getContainer(side);
     }
 
+    @Override
+    public byte getRenderType()
+    {
+        return relocator.getRenderType();
+    }
+
     /*
     ISidedInventory implementation
      */

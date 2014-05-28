@@ -66,8 +66,11 @@ public class EventHandlerClient
     @ForgeSubscribe
     public void onTextureStitch(TextureStitchEvent.Pre event)
     {
-        RendererRelocator.loadIcons(event.map);
-        RelocatorModuleRegistry.registerIcons(event.map);
+        if (event.map.getTextureType() == 0)
+        {
+            RendererRelocator.loadIcons(event.map);
+            RelocatorModuleRegistry.registerIcons(event.map);
+        }
     }
 
     @ForgeSubscribe(priority = EventPriority.LOWEST)

@@ -29,7 +29,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     private static CCModel centerModel;
     private static CCModel[] sideModels = new CCModel[6];
     private static IconTransformation iconTransformation = new IconTransformation(Block.stone.getIcon(0, 0));
-    private static Icon iconCenter;
+    private static Icon[] iconsCenter = new Icon[4];
     private static Icon iconSide;
 
     static
@@ -68,7 +68,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
 
         GL11.glPushMatrix();
 
-        TextureUtils.bindAtlas(1);
+        TextureUtils.bindAtlas(0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
 
         resetRenderer(tile.worldObj, (int) x, (int) y, (int) z);
@@ -99,7 +99,21 @@ public class RendererRelocator extends TileEntitySpecialRenderer
             }
             else
             {
-                iconTransformation.icon = iconCenter;
+                switch(relocator.getRenderType())
+                {
+                    case 0:
+                        iconTransformation.icon = iconsCenter[0];
+                        break;
+                    case 1:
+                        iconTransformation.icon = iconsCenter[1];
+                        break;
+                    case 2:
+                        iconTransformation.icon = iconsCenter[2];
+                        break;
+                    case 3:
+                        iconTransformation.icon = iconsCenter[3];
+                        break;
+                }
                 centerModel.render(side * 4, 4, trans, iconTransformation, null);
                 //centerModel.render(24 + side * 4, 4, trans, iconTransformation, null);
             }
@@ -140,7 +154,10 @@ public class RendererRelocator extends TileEntitySpecialRenderer
 
     public static void loadIcons(IconRegister register)
     {
-        iconCenter = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter");
+        iconsCenter[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
+        iconsCenter[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter1");
+        iconsCenter[2] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter2");
+        iconsCenter[3] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter3");
         iconSide = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSide");
     }
 }

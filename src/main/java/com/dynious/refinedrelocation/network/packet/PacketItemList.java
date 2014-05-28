@@ -73,7 +73,6 @@ public class PacketItemList extends PacketTile
         {
             for (TravellingItem item : items)
             {
-                item.counter--;
                 ((IRelocator) tile).receiveTravellingItem(item);
             }
         }
