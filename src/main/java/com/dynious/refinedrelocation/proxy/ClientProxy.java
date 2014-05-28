@@ -31,6 +31,7 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(BlockIds.BLOCK_EXTENDER, new ItemRendererBlockExtender());
         MinecraftForgeClient.registerItemRenderer(BlockIds.BUFFER, new ItemRendererBuffer());
         MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_CHEST, new ItemRendererSortingChest());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.RELOCATOR, new ItemRendererRelocator());
 
         if (Mods.IS_IRON_CHEST_LOADED)
         {
@@ -43,6 +44,11 @@ public class ClientProxy extends CommonProxy
         }
 
         if (Mods.IS_METAL_LOADED)
+        {
+            MetallurgyHelper.addMetalRenders();
+        }
+
+        if (Mods.IS_FMP_LOADED)
         {
             MetallurgyHelper.addMetalRenders();
         }

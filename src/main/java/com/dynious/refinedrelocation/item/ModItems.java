@@ -16,7 +16,7 @@ public class ModItems
     public static ItemPlayerRelocator playerRelocator;
     public static ItemRelocatorModule relocatorModule;
 
-    private static final int ID_SHIFT = 256;
+    public static final int ID_SHIFT = 256;
 
     public static void init()
     {
