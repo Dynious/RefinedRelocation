@@ -6,7 +6,6 @@ import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.*;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -118,6 +117,7 @@ public class ModBlocks
             relocator = new BlockRelocator();
             ModObjects.relocator = new ItemStack(relocator);
             GameRegistry.registerBlock(relocator, Names.relocator);
+            GameRegistry.addShapedRecipe(new ItemStack(relocator, 4, 0), "igi", "g g", "igi", 'i', Items.iron_ingot, 'g', Blocks.glass_pane);
         }
     }
 }

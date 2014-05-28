@@ -71,6 +71,7 @@ public class RefinedRelocation
         if (Mods.IS_FMP_LOADED)
         {
             FMPHelper.addFMPBlocks();
+            FMPHelper.addFMPRecipes();
         }
 
         proxy.initTileEntities();

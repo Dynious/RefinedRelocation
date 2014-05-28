@@ -17,10 +17,12 @@ public class PacketItemList extends PacketTile
 
     public PacketItemList()
     {
+        super();
     }
 
     public PacketItemList(TileEntity tile, List<TravellingItem> items)
     {
+        super(tile);
         this.items = items;
     }
 
@@ -32,10 +34,10 @@ public class PacketItemList extends PacketTile
         for (TravellingItem item : items)
         {
             ByteBufUtils.writeItemStack(bytes, item.getItemStack());
-            bytes.writeByte(item.getPath().get(0));
+            bytes.writeByte(item.getOutputSide());
             //data.writeByte(item.getPath().size());
             //data.write(Bytes.toArray(item.getPath()));
-            bytes.writeByte(item.input);
+            bytes.writeByte(item.getInputSide());
         }
     }
 
