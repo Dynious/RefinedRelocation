@@ -1,9 +1,11 @@
 package com.dynious.refinedrelocation.proxy;
 
+import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.EE3Helper;
+import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.MetallurgyHelper;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
@@ -28,10 +30,10 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.bindTileEntitySpecialRenderer(TileMultiBlockBase.class, new RendererMultiBlock());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRelocator.class, new RendererRelocator());
 
-        MinecraftForgeClient.registerItemRenderer(BlockIds.BLOCK_EXTENDER, new ItemRendererBlockExtender());
-        MinecraftForgeClient.registerItemRenderer(BlockIds.BUFFER, new ItemRendererBuffer());
-        MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_CHEST, new ItemRendererSortingChest());
-        MinecraftForgeClient.registerItemRenderer(BlockIds.RELOCATOR, new ItemRendererRelocator());
+        MinecraftForgeClient.registerItemRenderer(ModBlocks.blockExtender.blockID, new ItemRendererBlockExtender());
+        MinecraftForgeClient.registerItemRenderer(ModBlocks.buffer.blockID, new ItemRendererBuffer());
+        MinecraftForgeClient.registerItemRenderer(ModBlocks.sortingChest.blockID, new ItemRendererSortingChest());
+        MinecraftForgeClient.registerItemRenderer(ModBlocks.relocator != null ? ModBlocks.relocator.blockID : FMPHelper.partRelocator.itemID, new ItemRendererRelocator());
 
         if (Mods.IS_IRON_CHEST_LOADED)
         {
@@ -44,11 +46,6 @@ public class ClientProxy extends CommonProxy
         }
 
         if (Mods.IS_METAL_LOADED)
-        {
-            MetallurgyHelper.addMetalRenders();
-        }
-
-        if (Mods.IS_FMP_LOADED)
         {
             MetallurgyHelper.addMetalRenders();
         }

@@ -12,6 +12,7 @@ import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
+import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.client.gui.GuiScreen;
@@ -92,7 +93,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public Iterable<ItemStack> getDrops()
     {
         List<ItemStack> items = new ArrayList<ItemStack>();
-        items.add(new ItemStack(BlockIds.RELOCATOR, 1, 0));
+        items.add(new ItemStack(FMPHelper.partRelocator));
         for (TravellingItem travellingItem : relocator.getItems(true))
         {
             items.add(travellingItem.getItemStack());
@@ -103,7 +104,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public ItemStack pickItem(MovingObjectPosition hit)
     {
-        return new ItemStack(BlockIds.RELOCATOR, 1, 0);
+        return new ItemStack(FMPHelper.partRelocator);
     }
 
     @Override

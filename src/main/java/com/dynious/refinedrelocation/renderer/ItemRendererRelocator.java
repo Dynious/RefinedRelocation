@@ -73,10 +73,7 @@ public class ItemRendererRelocator implements IItemRenderer
             {
                 iconTransformation.icon = RendererRelocator.iconSide;
 
-                RendererRelocator.SIDE_MODELS[side].render(0, 8, trans, iconTransformation, null);
-                RendererRelocator.SIDE_MODELS[side].render(8, 16, trans, iconTransformation, null);
-                RendererRelocator.SIDE_MODELS[side].render(24, 8, trans, iconTransformation, null);
-                RendererRelocator.SIDE_MODELS[side].render(32, 16, trans, iconTransformation, null);
+                RendererRelocator.SIDE_MODELS[side].render(0, 48, trans, iconTransformation, null);
             }
             else
             {
