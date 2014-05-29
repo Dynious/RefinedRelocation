@@ -15,6 +15,7 @@ public class PacketTile implements IPacket
 
     public PacketTile(TileEntity tile)
     {
+        this.tile = tile;
         this.x = tile.xCoord;
         this.y = tile.yCoord;
         this.z = tile.zCoord;

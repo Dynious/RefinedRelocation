@@ -50,9 +50,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     private byte ticker = 0;
 
+    @SuppressWarnings("unchecked")
     public TileRelocator()
     {
-        //noinspection unchecked
         stuffedItems = (List<ItemStack>[]) new ArrayList[ForgeDirection.VALID_DIRECTIONS.length];
         for (int i = 0; i < stuffedItems.length; i++)
         {

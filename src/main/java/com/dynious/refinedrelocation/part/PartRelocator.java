@@ -14,6 +14,8 @@ import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -25,11 +27,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart
 {
+    private static Field nbtField = ReflectionHelper.findField(S35PacketUpdateTileEntity.class, "field_148860_e", "e");
     private TileRelocator relocator;
 
     public PartRelocator(TileRelocator tile)
@@ -189,7 +193,17 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public void writeDesc(MCDataOutput packet)
     {
-        packet.writeNBTTagCompound(((S35PacketUpdateTileEntity) relocator.getDescriptionPacket()).func_148857_g());
+        S35PacketUpdateTileEntity p = (S35PacketUpdateTileEntity) relocator.getDescriptionPacket();
+        NBTTagCompound t = null;
+        try
+        {
+            t = (NBTTagCompound) nbtField.get(p);
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        packet.writeNBTTagCompound(t);
     }
 
     @Override

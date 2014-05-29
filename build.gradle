@@ -30,7 +30,7 @@ if (env.BUILD_NUMBER != null) {
 }
 
 minecraft {
-    version = "1.7.2-10.12.1.1084"
+    version = "1.7.2-10.12.1.1099"
     assetDir = "eclipse/assets"
     
     replaceIn "lib/Reference.java"
