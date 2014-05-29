@@ -330,7 +330,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 retryOutput(item, item.input);
             }
-            itemsToAdd.add(item);
+            else
+            {
+                itemsToAdd.add(item);
+            }
         }
     }
 
