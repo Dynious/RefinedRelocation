@@ -44,7 +44,7 @@ addHgDep("ccc","https://bitbucket.org/ChickenBones/codechickencore","4bad417f4db
 addHgDep("nei","https://bitbucket.org/ChickenBones/notenoughitems","3d7c952ca8f5c669d719e553cf873ebf57da605a")
 addGitDep("fmp","https://github.com/Chicken-Bones/ForgeMultipart.git","2f2a18052ae3261ce24dcb1c6811f68d39fd54df")
 
-addGitDep("cofh","https://github.com/KingLemming/CoFHLib.git","24600c4cfda893a16316c0631972170413f3a1e3")
+addZipDepDeobf("cofh","https://dl.dropbox.com/s/iaslbzh939tltgp/CoFHLib-1.6.4-1.0.0-deobf.jar","1.0.0")
 addGitDep("bc","https://github.com/BuildCraft/BuildCraft.git","03acd96b2b5a9a3270985246cd835c0ca866def7")
 addGitDep("ue","https://github.com/Universal-Electricity/Universal-Electricity.git","719c318857427fac77d7d763d1b39ea33d760753")
 addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","5ca5edf95b07fbdc0c913ba6503cd7639b5d7c86")
@@ -93,9 +93,6 @@ sourceSets {
 
             srcDir 'build/patched/ic2'
             include 'ic2/**'
-
-            srcDir 'build/patched/cofh'
-            include 'cofh/api/**'
 			
 			srcDir 'build/patched/ue/src/main/java'
 			include 'universalelectricity/api/**'
