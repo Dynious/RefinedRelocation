@@ -2,8 +2,8 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.IGuiParent;
-import com.dynious.refinedrelocation.network.NetworkHelper;
-import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageUserFilter;
 
 public class GuiTextInputUserFilter extends GuiTextInput
 {
@@ -24,7 +24,7 @@ public class GuiTextInputUserFilter extends GuiTextInput
             return;
 
         tile.getFilter().setUserFilter(newFilter);
-        NetworkHelper.sendToServer(new PacketUserFilter(newFilter));
+        NetworkHandler.INSTANCE.sendToServer(new MessageUserFilter(newFilter));
     }
 
     @Override

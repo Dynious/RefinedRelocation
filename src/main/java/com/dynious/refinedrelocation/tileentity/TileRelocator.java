@@ -7,9 +7,9 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.*;
-import com.dynious.refinedrelocation.network.NetworkHelper;
+import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.lib.Settings;
-import com.dynious.refinedrelocation.network.packet.PacketItemList;
+import com.dynious.refinedrelocation.network.packet.MessageItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.client.gui.GuiScreen;
@@ -124,7 +124,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             items.addAll(itemsToAdd);
             //TODO: More efficient client syncing
-            NetworkHelper.sendToAllAround(new PacketItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
+            NetworkHandler.INSTANCE.sendToAllAround(new MessageItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
+            //NetworkHelper.sendToAllAround(new PacketItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
             itemsToAdd.clear();
         }
 

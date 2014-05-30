@@ -3,8 +3,8 @@ package com.dynious.refinedrelocation.gui.widget;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHelper;
-import com.dynious.refinedrelocation.network.packet.PacketPriority;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessagePriority;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class GuiButtonPriority extends GuiRefinedRelocationButton
             {
                 ISortingInventory.Priority newPriority = ISortingInventory.Priority.values()[tile.getPriority().ordinal() + amount];
                 tile.setPriority(newPriority);
-                NetworkHelper.sendToServer(new PacketPriority(newPriority.ordinal()));
+                NetworkHandler.INSTANCE.sendToServer(new MessagePriority(newPriority.ordinal()));
                 setValue(newPriority);
             }
         }

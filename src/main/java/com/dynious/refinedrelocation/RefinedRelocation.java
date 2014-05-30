@@ -12,6 +12,7 @@ import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
+import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.proxy.CommonProxy;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -56,7 +57,7 @@ public class RefinedRelocation
 
         ModMultiBlocks.init();
 
-        proxy.initNetworking();
+        NetworkHandler.init();
 
         RelocatorModuleRegistry.registerModules();
 

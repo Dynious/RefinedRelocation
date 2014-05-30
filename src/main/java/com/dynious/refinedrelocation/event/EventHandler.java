@@ -1,11 +1,12 @@
 package com.dynious.refinedrelocation.event;
 
 import com.dynious.refinedrelocation.grid.FilterStandard;
-import com.dynious.refinedrelocation.network.NetworkHelper;
-import com.dynious.refinedrelocation.network.packet.PacketTabSync;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageTabSync;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class EventHandler
 {
@@ -14,7 +15,7 @@ public class EventHandler
     {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
-            NetworkHelper.sendTo(new PacketTabSync(FilterStandard.getLabels()), event.player);
+            NetworkHandler.INSTANCE.sendTo(new MessageTabSync(FilterStandard.getLabels()), (EntityPlayerMP) event.player);
         }
     }
 }

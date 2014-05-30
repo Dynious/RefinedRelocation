@@ -4,8 +4,8 @@ import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHelper;
-import com.dynious.refinedrelocation.network.packet.PacketInsertDirection;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageInsertDirection;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBuffer;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
@@ -121,7 +121,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
             {
                 byte step = (byte) (type == 0 ? 1 : -1);
                 tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-                NetworkHelper.sendToServer(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
+                NetworkHandler.INSTANCE.sendToServer(new MessageInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
             }
             if (tile instanceof TileAdvancedBuffer)
             {
@@ -129,7 +129,7 @@ public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
                 if (isShiftKeyDown) step = (byte) (step * 6);
 
                 tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-                NetworkHelper.sendToServer(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
+                NetworkHandler.INSTANCE.sendToServer(new MessageInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
             }
         }
     }

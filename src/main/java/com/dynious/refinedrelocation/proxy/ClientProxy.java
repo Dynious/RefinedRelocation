@@ -52,25 +52,6 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public EmbeddedChannel getChannel()
-    {
-        return channels.get(Side.CLIENT);
-    }
-
-    @Override
-    public EntityPlayer getPlayerFromNetHandler (INetHandler handler)
-    {
-        if (handler instanceof NetHandlerPlayServer)
-        {
-            return ((NetHandlerPlayServer) handler).playerEntity;
-        }
-        else
-        {
-            return Minecraft.getMinecraft().thePlayer;
-        }
-    }
-
-    @Override
     public void registerEventHandlers()
     {
         super.registerEventHandlers();

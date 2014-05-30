@@ -3,8 +3,8 @@ package com.dynious.refinedrelocation.gui.widget;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHelper;
-import com.dynious.refinedrelocation.network.packet.PacketBlacklist;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageBlackList;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class GuiButtonBlacklist extends GuiButtonToggle
             return;
 
         tile.getFilter().setBlacklists(newState);
-        NetworkHelper.sendToServer(new PacketBlacklist(newState));
+        NetworkHandler.INSTANCE.sendToServer(new MessageBlackList(newState));
     }
 
     @Override

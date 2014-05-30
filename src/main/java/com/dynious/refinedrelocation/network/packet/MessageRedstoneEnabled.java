@@ -4,33 +4,46 @@ import com.dynious.refinedrelocation.gui.container.ContainerAdvanced;
 import com.dynious.refinedrelocation.gui.container.ContainerAdvancedFiltered;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 
-public class PacketRedstoneEnabled implements IPacket
+public class MessageRedstoneEnabled implements IMessage, IMessageHandler<MessageRedstoneEnabled, IMessage>
 {
     boolean redstoneEnabled = true;
 
-    public PacketRedstoneEnabled()
+    public MessageRedstoneEnabled()
     {
     }
 
-    public PacketRedstoneEnabled(boolean redstoneEnabled)
+    public MessageRedstoneEnabled(boolean redstoneEnabled)
     {
         this.redstoneEnabled = redstoneEnabled;
     }
 
     @Override
-    public void readBytes(ByteBuf bytes, EntityPlayer player)
+    public void fromBytes(ByteBuf buf)
     {
-        redstoneEnabled = bytes.readBoolean();
+        redstoneEnabled = buf.readBoolean();
+    }
 
-        Container container = player.openContainer;
+    @Override
+    public void toBytes(ByteBuf buf)
+    {
+        buf.writeBoolean(redstoneEnabled);
+    }
+
+    @Override
+    public IMessage onMessage(MessageRedstoneEnabled message, MessageContext ctx)
+    {
+        Container container = ctx.getServerHandler().playerEntity.openContainer;
 
         if (container == null)
-            return;
+            return null;
 
         // TODO: a better way to get the container tile
         TileEntity tile = null;
@@ -42,14 +55,9 @@ public class PacketRedstoneEnabled implements IPacket
             tile = (TileEntity) ((ContainerFiltered) container).tile;
 
         if (tile == null || !(tile instanceof TileBlockExtender))
-            return;
+            return null;
 
-        ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(redstoneEnabled);
-    }
-
-    @Override
-    public void writeBytes(ByteBuf bytes)
-    {
-        bytes.writeBoolean(redstoneEnabled);
+        ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(message.redstoneEnabled);
+        return null;
     }
 }
