@@ -35,11 +35,11 @@ tile.relocator.name=Relocator
 item.linker.name=Linker
 item.sortingUpgrade.name=Sorting Upgrade
 item.playerRelocator.name=Player Relocator
-item.relocator.name=Relocator
-item.relocatorModule0.name=Relocator Module Base
-item.relocatorModule1.name=Relocator Module Filter
-item.relocatorModule2.name=Relocator Module One Way
-item.relocatorModule3.name=Relocator Module Extraction
+item.relocator.name=Relocator (WIP)
+item.relocatorModule0.name=Relocator Module Base (WIP)
+item.relocatorModule1.name=Relocator Module Filter (WIP)
+item.relocatorModule2.name=Relocator Module One Way (WIP)
+item.relocatorModule3.name=Relocator Module Extraction (WIP)
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest

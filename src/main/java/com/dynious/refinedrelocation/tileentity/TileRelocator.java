@@ -592,7 +592,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public boolean canInsertItem(int slot, ItemStack itemStack, int side)
     {
-        if (passesFilter(itemStack, side, true))
+        if (connectsToSide(side) && passesFilter(itemStack, side, true))
         {
             cachedTravellingItem = RelocatorGridLogic.findOutput(itemStack, this, side);
             if (cachedTravellingItem != null)
