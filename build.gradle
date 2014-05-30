@@ -138,7 +138,7 @@ processResources {
 
 jar {
     manifest {
-        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin")
+        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin", "FMLCorePluginContainsFMLMod": "true")
     }
 }
 
@@ -147,7 +147,7 @@ task deobfJar(type: Jar) {
     classifier = 'deobf'
 	
 	manifest {
-        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin")
+        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin", "FMLCorePluginContainsFMLMod": "true")
     }
 }
 
