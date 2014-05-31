@@ -21,7 +21,7 @@ public class ConfigHandler
             Settings.DISABLE_PLAYER_RELOCATOR = configuration.get(CATEGORY_SETTINGS, "Disable Player Relocator", Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT).getBoolean(Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT);
             Settings.PLAYER_RELOCATOR_DISABLED_AGES = configuration.get(CATEGORY_SETTINGS, "Ages Player Relocator Cannot Teleport From", Settings.PLAYER_RELOCATOR_DISABLED_AGES_DEFAULT).getIntList();
             Settings.PLAYER_RELOCATOR_COOLDOWN = configuration.get(CATEGORY_SETTINGS, "Player Relocator Cooldown Time (seconds)", Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT).getInt(Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT);
-            Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION = configuration.get(CATEGORY_SETTINGS, "Minimum ticks between Relocator extractions", Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION_DEFAULT).getInt(Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION_DEFAULT);
+            Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION = configuration.get(CATEGORY_SETTINGS, "Minimum ticks between Relocator extractions", Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT).getInt(Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT);
 
         } catch (Exception ignored)
         {

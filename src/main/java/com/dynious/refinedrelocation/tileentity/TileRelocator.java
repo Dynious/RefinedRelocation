@@ -149,7 +149,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
 
         ticker++;
-        if (ticker >= Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION)
+        if (ticker >= Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION)
         {
             ticker = 0;
             for (byte side = 0; side < stuffedItems.length; side++)
@@ -218,6 +218,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 modules[side] = filter;
                 stack.stackSize--;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 return true;
             }
         }
@@ -234,6 +235,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     }
                 }
                 modules[side] = null;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 return true;
             }
             else

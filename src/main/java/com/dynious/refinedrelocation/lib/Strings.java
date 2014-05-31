@@ -49,6 +49,7 @@ public class Strings
     public static final String CHANGE_LOG = GUI_PREFIX + "changeLog";
     public static final String LATEST = GUI_PREFIX + "latest";
     public static final String TAB = GUI_PREFIX + "tab";
+    public static final String TICKS_BETWEEN_EXT = GUI_PREFIX + "ticksBetween";
 
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";

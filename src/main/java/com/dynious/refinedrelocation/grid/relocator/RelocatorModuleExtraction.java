@@ -1,7 +1,10 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
+import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.gui.GuiModuleExtraction;
+import com.dynious.refinedrelocation.gui.container.ContainerModuleExtraction;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -26,19 +29,20 @@ public class RelocatorModuleExtraction implements IRelocatorModule
     private static IIcon icon;
     private byte tick = 0;
     private int lastCheckedSlot = 0;
+    private int ticksBetweenExtraction;
 
     @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
-        //NO-OP
-        return false;
+        APIUtils.openRelocatorFilterGUI(relocator, player, side);
+        return true;
     }
 
     @Override
     public void onUpdate(IRelocator relocator, int side)
     {
         tick++;
-        if (tick >= Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION)
+        if (tick >= Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION)
         {
             TileEntity tile = relocator.getConnectedInventories()[side];
             if (tile instanceof IInventory)
@@ -101,16 +105,26 @@ public class RelocatorModuleExtraction implements IRelocatorModule
         }
     }
 
+    public void setTicksBetweenExtraction(int ticks)
+    {
+        ticksBetweenExtraction = Math.max(Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION, ticks);
+    }
+
+    public int getTicksBetweenExtraction()
+    {
+        return ticksBetweenExtraction;
+    }
+
     @Override
     public GuiScreen getGUI(IRelocator relocator)
     {
-        return null;
+        return new GuiModuleExtraction(this);
     }
 
     @Override
     public Container getContainer(IRelocator relocator)
     {
-        return null;
+        return new ContainerModuleExtraction(this);
     }
 
     @Override
