@@ -217,6 +217,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 modules[side] = filter;
                 stack.stackSize--;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 return true;
             }
         }
@@ -233,6 +234,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     }
                 }
                 modules[side] = null;
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 return true;
             }
             else
