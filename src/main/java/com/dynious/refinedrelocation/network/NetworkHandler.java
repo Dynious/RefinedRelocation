@@ -24,7 +24,8 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageRedstoneEnabled.class, MessageRedstoneEnabled.class, 9, Side.SERVER);
         INSTANCE.registerMessage(MessageSwitchPage.class, MessageSwitchPage.class, 10, Side.SERVER);
         INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 11, Side.SERVER);
-        INSTANCE.registerMessage(MessagePriority.class, MessagePriority.class, 12, Side.SERVER);
-        INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 13, Side.CLIENT);
+        INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 12, Side.CLIENT);
+        INSTANCE.registerMessage(MessagePriority.class, MessagePriority.class, 13, Side.SERVER);
+        INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 14, Side.CLIENT);
     }
 }
