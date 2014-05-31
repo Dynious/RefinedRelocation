@@ -69,6 +69,7 @@ public class RelocatorModuleRegistry
         APIUtils.registerRelocatorFilter("filter", RelocatorModuleFilter.class);
         APIUtils.registerRelocatorFilter("oneWay", RelocatorModuleOneWay.class);
         APIUtils.registerRelocatorFilter("extraction", RelocatorModuleExtraction.class);
+        APIUtils.registerRelocatorFilter("blockedExtraction", RelocatorModuleExtraction.class);
     }
 
     @SideOnly(Side.CLIENT)

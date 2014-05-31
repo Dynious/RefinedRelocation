@@ -24,7 +24,8 @@ public enum PacketTypeHandler
     SET_MAX_POWER(PacketSetMaxPower.class),
     REDSTONE_TOGGLE(PacketRedstoneToggle.class),
     PRIORITY(PacketPriority.class),
-    ITEM_LIST(PacketItemList.class);
+    ITEM_LIST(PacketItemList.class),
+    TICKS_BETWEEN_EXT(PacketTicksBetweenExtraction.class);
 
     private Class<? extends CustomPacket> clazz;
 

@@ -148,7 +148,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
 
         ticker++;
-        if (ticker >= Settings.RELOCATOR_MIN_TICKS_PER_EXTRACTION)
+        if (ticker >= Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION)
         {
             ticker = 0;
             for (byte side = 0; side < stuffedItems.length; side++)
