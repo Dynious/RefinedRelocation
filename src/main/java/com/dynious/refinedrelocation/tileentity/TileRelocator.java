@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.*;
 import com.dynious.refinedrelocation.lib.Settings;
+import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -212,7 +213,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (stack != null && stack.getItem() instanceof IItemRelocatorModule && modules[side] == null)
         {
-            IRelocatorModule filter = ((IItemRelocatorModule) stack.getItem()).getRelocatorFilter(stack);
+            IRelocatorModule filter = ((IItemRelocatorModule) stack.getItem()).getRelocatorModule(stack);
             if (filter != null)
             {
                 modules[side] = filter;
@@ -263,6 +264,25 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             }
             stuffedItems[side].clear();
         }
+    }
+
+    public List<ItemStack> getDrops()
+    {
+        List<ItemStack> items = new ArrayList<ItemStack>();
+        for (TravellingItem travellingItem : getItems(true))
+        {
+            items.add(travellingItem.getItemStack());
+        }
+        for (int i = 0; i < modules.length; i++)
+        {
+            IRelocatorModule module = modules[i];
+            items.addAll(module.getDrops(this, i));
+        }
+        for (List<ItemStack> stuffedItem : stuffedItems)
+        {
+            items.addAll(stuffedItem);
+        }
+        return items;
     }
 
     @Override

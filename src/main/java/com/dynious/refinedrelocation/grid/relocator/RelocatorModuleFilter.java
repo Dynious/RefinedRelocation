@@ -10,6 +10,8 @@ import com.dynious.refinedrelocation.gui.GuiFiltered;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,6 +41,7 @@ public class RelocatorModuleFilter extends FilterStandard implements IRelocatorM
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator)
     {
         return new GuiFiltered(getFilterTile(this, relocator));

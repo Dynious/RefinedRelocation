@@ -13,6 +13,7 @@ import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -77,9 +78,9 @@ public class BlockRelocator extends BlockContainer
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
-            for (TravellingItem item :((TileRelocator) tile).getItems(true))
+            for (ItemStack stack : ((TileRelocator)tile).getDrops())
             {
-                IOHelper.spawnItemInWorld(world, item.getItemStack(), x + item.getX(0), y + item.getY(0), z + item.getZ(0));
+                IOHelper.spawnItemInWorld(world, stack, x, y, z);
             }
         }
         super.breakBlock(world, x, y, z, id, meta);

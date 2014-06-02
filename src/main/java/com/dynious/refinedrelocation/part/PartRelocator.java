@@ -92,12 +92,8 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public Iterable<ItemStack> getDrops()
     {
-        List<ItemStack> items = new ArrayList<ItemStack>();
+        List<ItemStack> items = relocator.getDrops();
         items.add(new ItemStack(FMPHelper.partRelocator));
-        for (TravellingItem travellingItem : relocator.getItems(true))
-        {
-            items.add(travellingItem.getItemStack());
-        }
         return items;
     }
 
