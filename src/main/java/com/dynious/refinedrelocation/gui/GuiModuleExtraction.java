@@ -14,8 +14,8 @@ public class GuiModuleExtraction extends GuiRefinedRelocationContainer
     {
         super(new ContainerModuleExtraction(module));
         this.module = module;
-        this.xSize = 0;
-        this.ySize = 0;
+        this.xSize = 123;
+        this.ySize = 45;
     }
 
     @Override
