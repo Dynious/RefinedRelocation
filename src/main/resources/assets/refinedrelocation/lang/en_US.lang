@@ -40,6 +40,7 @@ item.relocatorModule0.name=Relocator Module Base (WIP)
 item.relocatorModule1.name=Relocator Module Filter (WIP)
 item.relocatorModule2.name=Relocator Module One Way (WIP)
 item.relocatorModule3.name=Relocator Module Extraction (WIP)
+item.relocatorModule3.name=Relocator Module Blocked Extraction (WIP)
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest
