@@ -13,6 +13,7 @@ public class GuiModuleExtraction extends GuiRefinedRelocationContainer
     public GuiModuleExtraction(RelocatorModuleExtraction module)
     {
         super(new ContainerModuleExtraction(module));
+        this.module = module;
         this.xSize = 0;
         this.ySize = 0;
     }
@@ -22,7 +23,7 @@ public class GuiModuleExtraction extends GuiRefinedRelocationContainer
     {
         super.initGui();
 
-        new GuiButtonTicksBetweenExtractions(this, 0, 0, module);
+        new GuiButtonTicksBetweenExtractions(this, width/2 - 12, height/2 - 10, module);
     }
 
     @Override

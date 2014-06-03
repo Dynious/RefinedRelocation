@@ -9,6 +9,8 @@ import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Settings;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +31,7 @@ public class RelocatorModuleExtraction implements IRelocatorModule
     private static IIcon icon;
     private byte tick = 0;
     private int lastCheckedSlot = 0;
-    private int ticksBetweenExtraction;
+    private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
 
     @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
@@ -42,7 +44,7 @@ public class RelocatorModuleExtraction implements IRelocatorModule
     public void onUpdate(IRelocator relocator, int side)
     {
         tick++;
-        if (tick >= Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION)
+        if (tick >= ticksBetweenExtraction)
         {
             TileEntity tile = relocator.getConnectedInventories()[side];
             if (tile instanceof IInventory)
@@ -116,6 +118,7 @@ public class RelocatorModuleExtraction implements IRelocatorModule
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator)
     {
         return new GuiModuleExtraction(this);
@@ -136,11 +139,13 @@ public class RelocatorModuleExtraction implements IRelocatorModule
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
+        ticksBetweenExtraction = compound.getInteger("ticksBetweenExt");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+        compound.setInteger("ticksBetweenExt", ticksBetweenExtraction);
     }
 
     @Override

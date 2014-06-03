@@ -63,9 +63,11 @@ public class GuiDisguise extends GuiRefinedRelocationWidgetBase
             int meta = tile.blockDisguisedMetadata;
 
             IIcon icon = disguisedAs.getIcon(tile.getConnectedDirection().ordinal(), meta);
-
-            this.mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
-            this.drawTexturedModelRectFromIcon(x, y, icon, w, h);
+            if (icon != null)
+            {
+                this.mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+                this.drawTexturedModelRectFromIcon(x, y, icon, w, h);
+            }
         }
         if (tile.getDisguise() != null && isMouseInsideBounds(mouseX, mouseY))
             return;

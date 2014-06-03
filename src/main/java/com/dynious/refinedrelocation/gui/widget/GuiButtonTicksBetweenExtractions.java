@@ -19,6 +19,7 @@ public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
     {
         super(parent, x, y, 24, 20, 0, 0, Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION, Integer.MAX_VALUE, 1, 10);
         this.module = module;
+        update();
     }
 
     @Override
