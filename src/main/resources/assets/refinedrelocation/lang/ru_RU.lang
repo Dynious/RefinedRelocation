@@ -29,11 +29,19 @@ tile.sortingPreciousChest.SilverChest.name=Сортирующий серебря
 tile.sortingPreciousChest.GoldChest.name=Сортирующий золотой сундук
 tile.sortingPreciousChest.ElectrumChest.name=Сортирующий электрумовый сундук
 tile.sortingPreciousChest.PlatinumChest.name=Сортирующий платиновый сундук
+tile.relocator.name=Переместитель
 
 # Item localizations
 item.linker.name=Соединитель
 item.sortingUpgrade.name=Сортирующее улучшение
 item.playerRelocator.name=Переместитель игрока
+item.relocator.name=Переместитель (WIP)
+item.relocatorModule0.name=Модуль переместителя «Базовый (WIP)
+item.relocatorModule1.name=Модуль переместителя «Фильтр» (WIP)
+item.relocatorModule2.name=Модуль переместителя «В один конец» (WIP)
+item.relocatorModule3.name=Модуль переместителя «Извлечение» (WIP)
+item.relocatorModule4.name=Модуль переместителя «Заблокированное извлечение» (WIP)
+item.relocatorModule5.name=Модуль переместителя «Скрытый» (WIP)
 
 # Inventory localizations
 container.sortingChest.name=Сортирующий сундук
@@ -84,6 +92,8 @@ gui.refinedrelocation.outdated=Версия %s Refined Relocation устарел
 gui.refinedrelocation.changeLog=Изменения
 gui.refinedrelocation.latest=Чтобы обновиться, используйте: '/RefinedRelocation latest'
 gui.refinedrelocation.tab=Вкладка
+gui.refinedrelocation.ticksBetween=Количество тиков между каждым извлечением
+gui.refinedrelocation.sneaky=Устанавливает сторону, где предметы будут вставляться
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Соединённая позиция: %s:%s:%s (%s)
@@ -95,3 +105,4 @@ itemDesc.refinedrelocation.noLongerLinked=Соединитель больше н
 itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
 itemDesc.refinedrelocation.brokenLink=Нарушенное соединение!
 itemDesc.refinedrelocation.cooldown=Охлаждение: %s
+itemDesc.refinedrelocation.relContDesc=Мультиблок (%s x %s x %s)
