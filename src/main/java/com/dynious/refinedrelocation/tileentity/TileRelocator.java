@@ -367,7 +367,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
         else if (getConnectedInventories()[side] != null)
         {
-            ItemStack stack = IOHelper.insert(getConnectedInventories()[side], item.getItemStack().copy(), ForgeDirection.getOrientation(side).getOpposite(), false);
+            ForgeDirection output = ForgeDirection.getOrientation(side).getOpposite();
+            if (getRelocatorModule(side) != null)
+            {
+                output = ForgeDirection.getOrientation(getRelocatorModule(side).getOutputSide(this, side));
+            }
+            ItemStack stack = IOHelper.insert(getConnectedInventories()[side], item.getItemStack().copy(), output, false);
             if (stack != null)
             {
                 item.getItemStack().stackSize = stack.stackSize;

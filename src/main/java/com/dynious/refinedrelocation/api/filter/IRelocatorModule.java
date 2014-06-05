@@ -19,6 +19,8 @@ public interface IRelocatorModule
 
     public void onUpdate(IRelocator relocator, int side);
 
+    public int getOutputSide(IRelocator relocator, int side);
+
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator);
 
@@ -32,7 +34,9 @@ public interface IRelocatorModule
 
     public List<ItemStack> getDrops(IRelocator relocator, int side);
 
+    @SideOnly(Side.CLIENT)
     public Icon getIcon(IRelocator relocator, int side);
 
+    @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister register);
 }

@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.filter.RelocatorModuleBase;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.FilterStandard;
@@ -17,15 +18,17 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelocatorModuleFilter extends FilterStandard implements IRelocatorModule
+public class RelocatorModuleFilter extends RelocatorModuleBase
 {
     private static Icon icon;
+    private FilterStandard filter = new FilterStandard();
 
     @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
@@ -35,13 +38,6 @@ public class RelocatorModuleFilter extends FilterStandard implements IRelocatorM
     }
 
     @Override
-    public void onUpdate(IRelocator relocator, int side)
-    {
-        //NO-OP
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator)
     {
         return new GuiFiltered(getFilterTile(this, relocator));
@@ -56,7 +52,7 @@ public class RelocatorModuleFilter extends FilterStandard implements IRelocatorM
     @Override
     public boolean passesFilter(ItemStack stack, boolean input)
     {
-        return passesFilter(stack);
+        return filter.passesFilter(stack);
     }
 
     @Override
@@ -67,14 +63,14 @@ public class RelocatorModuleFilter extends FilterStandard implements IRelocatorM
         return list;
     }
 
-    private IFilterTileGUI getFilterTile(final RelocatorModuleFilter filter, final IRelocator relocator)
+    private IFilterTileGUI getFilterTile(final RelocatorModuleFilter module, final IRelocator relocator)
     {
         return new IFilterTileGUI()
         {
             @Override
             public IFilterGUI getFilter()
             {
-                return filter;
+                return module.filter;
             }
 
             @Override
@@ -83,6 +79,18 @@ public class RelocatorModuleFilter extends FilterStandard implements IRelocatorM
                 return relocator.getTileEntity();
             }
         };
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound)
+    {
+        filter.readFromNBT(compound);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound compound)
+    {
+       filter.writeToNBT(compound);
     }
 
     @Override

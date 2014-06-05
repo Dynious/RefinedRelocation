@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.filter.RelocatorModuleBase;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.gui.GuiModuleExtraction;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleExtraction;
@@ -26,7 +27,7 @@ import net.minecraftforge.common.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelocatorModuleExtraction implements IRelocatorModule
+public class RelocatorModuleExtraction extends RelocatorModuleBase
 {
     private static Icon icon;
     private byte tick = 0;
@@ -118,7 +119,6 @@ public class RelocatorModuleExtraction implements IRelocatorModule
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator)
     {
         return new GuiModuleExtraction(this);
@@ -128,12 +128,6 @@ public class RelocatorModuleExtraction implements IRelocatorModule
     public Container getContainer(IRelocator relocator)
     {
         return new ContainerModuleExtraction(this);
-    }
-
-    @Override
-    public boolean passesFilter(ItemStack stack, boolean input)
-    {
-        return true;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.helper;
 
 import buildcraft.api.transport.IPipeTile;
 import cofh.api.transport.IItemConduit;
+import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.lib.Mods;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.item.EntityItem;
@@ -59,7 +60,11 @@ public class IOHelper
 
     public static ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
     {
-        if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
+        if (tile instanceof IRelocator)
+        {
+            return ((IRelocator)tile).insert(itemStack, side.ordinal(), simulate);
+        }
+        else if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
         {
             if (simulate)
             {
@@ -230,7 +235,11 @@ public class IOHelper
 
     public static boolean canInterfaceWith(TileEntity tile, ForgeDirection side)
     {
-        if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
+        if (tile instanceof IRelocator)
+        {
+            return ((IRelocator)tile).connectsToSide(side.ordinal());
+        }
+        else if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
         {
             return true;
         }

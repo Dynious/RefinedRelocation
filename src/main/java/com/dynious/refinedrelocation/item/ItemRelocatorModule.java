@@ -3,10 +3,7 @@ package com.dynious.refinedrelocation.item;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleBlockedExtraction;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleFilter;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleOneWay;
+import com.dynious.refinedrelocation.grid.relocator.*;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -20,7 +17,7 @@ import java.util.List;
 
 public class ItemRelocatorModule extends Item implements IItemRelocatorModule
 {
-    private Icon[] icons = new Icon[5];
+    private Icon[] icons = new Icon[6];
 
     public ItemRelocatorModule(int id)
     {
@@ -56,6 +53,8 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
                 return new RelocatorModuleExtraction();
             case 4:
                 return new RelocatorModuleBlockedExtraction();
+            case 5:
+                return new RelocatorModuleSneaky();
         }
         return null;
     }
@@ -64,7 +63,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     @Override
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int j = 0; j < 5; ++j)
+        for (int j = 0; j < 6; ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }

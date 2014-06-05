@@ -129,9 +129,9 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
         for (ForgeDirection outputSide : getOutputSidesForInsertDirection(ForgeDirection.getOrientation(side)))
         {
             TileEntity tile = tiles[outputSide.ordinal()];
-            if (tile != null)
+            if (tile != null && IOHelper.insert(tile, addingItemStack, outputSide.getOpposite(), true) == null)
             {
-                return IOHelper.insert(tile, itemstack, outputSide.getOpposite(), true) == null;
+                return true;
             }
         }
         return false;

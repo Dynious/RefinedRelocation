@@ -25,7 +25,8 @@ public enum PacketTypeHandler
     REDSTONE_TOGGLE(PacketRedstoneToggle.class),
     PRIORITY(PacketPriority.class),
     ITEM_LIST(PacketItemList.class),
-    TICKS_BETWEEN_EXT(PacketTicksBetweenExtraction.class);
+    TICKS_BETWEEN_EXT(PacketTicksBetweenExtraction.class),
+    SIDE(PacketSide.class);
 
     private Class<? extends CustomPacket> clazz;
 
