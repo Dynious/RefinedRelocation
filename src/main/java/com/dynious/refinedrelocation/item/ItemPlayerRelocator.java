@@ -249,9 +249,10 @@ public class ItemPlayerRelocator extends Item
         event.newfov = event.fov + inUse/110;
     }
 
+    @SuppressWarnings("deprecation")
     @SideOnly(Side.CLIENT)
     @Override
-    public int getDamage(ItemStack stack)
+    public int getDisplayDamage(ItemStack stack)
     {
         if (stack.hasTagCompound())
         {
