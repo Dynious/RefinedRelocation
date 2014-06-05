@@ -40,7 +40,8 @@ item.relocatorModule0.name=Relocator Module Base (WIP)
 item.relocatorModule1.name=Relocator Module Filter (WIP)
 item.relocatorModule2.name=Relocator Module One Way (WIP)
 item.relocatorModule3.name=Relocator Module Extraction (WIP)
-item.relocatorModule3.name=Relocator Module Blocked Extraction (WIP)
+item.relocatorModule4.name=Relocator Module Blocked Extraction (WIP)
+item.relocatorModule5.name=Relocator Module Sneaky (WIP)
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest
@@ -92,6 +93,7 @@ gui.refinedrelocation.changeLog=Change log
 gui.refinedrelocation.latest=Get latest using: '/RefinedRelocation latest'
 gui.refinedrelocation.tab=Tab
 gui.refinedrelocation.ticksBetween=Number of ticks between each extraction
+gui.refinedrelocation.sneaky=Sets the side where items will be inserted into
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: %s:%s:%s (%s)

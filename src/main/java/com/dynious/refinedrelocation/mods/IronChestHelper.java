@@ -39,11 +39,11 @@ public class IronChestHelper
 
     public static void addIronChestRecipes()
     {
-        for (int i = 0; i < IronChestType.values().length; i++)
+        for (int i = 0; i < IronChestType.values().length - 1; i++)
         {
             GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingIronChest, 1, i), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
         }
-        for (int i = 0; i < IronChestType.values().length; i++)
+        for (int i = 0; i < IronChestType.values().length - 1; i++)
         {
             GameRegistry.addShapelessRecipe(new ItemStack(IronChest.ironChestBlock, 1, i), new ItemStack(ModBlocks.sortingIronChest, 1, i));
         }
