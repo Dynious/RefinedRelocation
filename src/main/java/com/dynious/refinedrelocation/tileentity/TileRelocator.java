@@ -276,7 +276,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         for (int i = 0; i < modules.length; i++)
         {
             IRelocatorModule module = modules[i];
-            items.addAll(module.getDrops(this, i));
+            if (module != null)
+            {
+                items.addAll(module.getDrops(this, i));
+            }
         }
         for (List<ItemStack> stuffedItem : stuffedItems)
         {
