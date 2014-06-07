@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.version;
 
+import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.google.gson.Gson;
@@ -51,6 +52,7 @@ public class VersionChecker implements Runnable
                 else
                 {
                     result = CheckState.OUTDATED;
+                    RefinedRelocation.sendUpdateIMCMessage(latest);
                 }
             }
             else

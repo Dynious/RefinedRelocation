@@ -15,6 +15,7 @@ import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.proxy.CommonProxy;
 import com.dynious.refinedrelocation.version.VersionChecker;
+import com.dynious.refinedrelocation.version.VersionContainer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -23,6 +24,7 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeChunkManager;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES)
@@ -78,5 +80,17 @@ public class RefinedRelocation
         proxy.initTileEntities();
 
         FMLInterModComms.sendMessage("Waila", "register", "com.dynious.refinedrelocation.mods.WailaProvider.callbackRegister");
+    }
+
+    public static void sendUpdateIMCMessage(VersionContainer.Version newVersion)
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setString("modDisplayName", Reference.NAME);
+        tag.setString("oldVersion", Reference.VERSION);
+        tag.setString("newVersion", newVersion.getModVersion());
+        tag.setString("updateUrl", newVersion.getUpdateURL());
+        tag.setBoolean("isDirectLink", true);
+        tag.setString("changeLog", newVersion.getChangeLog());
+        FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag);
     }
 }
