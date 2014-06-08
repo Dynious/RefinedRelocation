@@ -707,7 +707,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         if (itemstack == null || itemstack.stackSize == 0)
             return;
 
-        if (side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemstack))
+        if (cachedTravellingItem != null && side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemstack))
         {
             receiveTravellingItem(cachedTravellingItem);
         }
