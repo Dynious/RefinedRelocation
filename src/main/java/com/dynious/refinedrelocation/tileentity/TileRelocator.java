@@ -124,8 +124,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             items.addAll(itemsToAdd);
             //TODO: More efficient client syncing
-            NetworkHandler.INSTANCE.sendToAllAround(new MessageItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
-            //NetworkHelper.sendToAllAround(new PacketItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 64));
+            NetworkHandler.INSTANCE.sendToAllAround(new MessageItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 16));
             itemsToAdd.clear();
         }
 
@@ -263,6 +262,25 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 IOHelper.spawnItemInWorld(worldObj, stack, xCoord, yCoord, zCoord);
             }
             stuffedItems[side].clear();
+        }
+        for (Iterator<TravellingItem> iterator = items.iterator(); iterator.hasNext(); )
+        {
+            TravellingItem item = iterator.next();
+            if ((item.getInputSide() == side && item.counter < TravellingItem.timePerRelocator / 2)
+                    || (item.getOutputSide() == side && item.counter > TravellingItem.timePerRelocator / 2))
+            {
+                IOHelper.spawnItemInWorld(worldObj, item.getItemStack(), xCoord, yCoord, zCoord);
+                iterator.remove();
+            }
+        }
+        for (Iterator<TravellingItem> iterator = itemsToAdd.iterator(); iterator.hasNext(); )
+        {
+            TravellingItem item = iterator.next();
+            if (item.getInputSide() == side)
+            {
+                IOHelper.spawnItemInWorld(worldObj, item.getItemStack(), xCoord, yCoord, zCoord);
+                iterator.remove();
+            }
         }
     }
 
@@ -558,6 +576,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         calculateRenderType();
         modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
         readFilters(pkt.func_148857_g());
+        removeFloatingItems();
     }
 
     public void saveFilters(NBTTagCompound compound)
@@ -608,6 +627,19 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public byte getRenderType()
     {
         return renderType;
+    }
+
+    public void removeFloatingItems()
+    {
+        for (Iterator<TravellingItem> iterator = items.iterator(); iterator.hasNext(); )
+        {
+            TravellingItem item = iterator.next();
+            if ((item.counter - 1 < TravellingItem.timePerRelocator / 2 && !connectsToSide(item.getInputSide()))
+                || (item.counter - 1 > TravellingItem.timePerRelocator / 2 && !connectsToSide(item.getOutputSide())))
+            {
+                iterator.remove();
+            }
+        }
     }
 
     /*
@@ -674,7 +706,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         if (itemstack == null || itemstack.stackSize == 0)
             return;
 
-        if (side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemstack))
+        if (cachedTravellingItem != null && side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemstack))
         {
             receiveTravellingItem(cachedTravellingItem);
         }
