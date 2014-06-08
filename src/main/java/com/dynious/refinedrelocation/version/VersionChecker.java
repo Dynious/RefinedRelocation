@@ -1,10 +1,11 @@
 package com.dynious.refinedrelocation.version;
 
-import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.google.gson.Gson;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.io.IOUtils;
 
 import java.net.URL;
@@ -20,6 +21,8 @@ public class VersionChecker implements Runnable
 
     private static CheckState result = CheckState.UNINITIALIZED;
     private static VersionContainer.Version remoteVersion = null;
+
+    public static boolean sentIMCMessage;
 
     public static enum CheckState
     {
@@ -52,7 +55,7 @@ public class VersionChecker implements Runnable
                 else
                 {
                     result = CheckState.OUTDATED;
-                    RefinedRelocation.sendUpdateIMCMessage(latest);
+                    sendUpdateIMCMessage(latest);
                 }
             }
             else
@@ -128,6 +131,18 @@ public class VersionChecker implements Runnable
         return remoteVersion;
     }
 
+    public static void sendUpdateIMCMessage(VersionContainer.Version newVersion)
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        tag.setString("modDisplayName", Reference.NAME);
+        tag.setString("oldVersion", Reference.VERSION);
+        tag.setString("newVersion", newVersion.getModVersion());
+        tag.setString("updateUrl", newVersion.getUpdateURL());
+        tag.setBoolean("isDirectLink", true);
+        tag.setString("changeLog", newVersion.getChangeLog());
+        sentIMCMessage = FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag);
+    }
+
     @Override
     public void run()
     {
@@ -144,7 +159,7 @@ public class VersionChecker implements Runnable
 
                 if (result == CheckState.UNINITIALIZED || result == CheckState.ERROR)
                 {
-                    Thread.sleep(10000);
+                    Thread.sleep(1000);
                 }
             }
 

@@ -17,7 +17,7 @@ public class TickEvent
     @SubscribeEvent
     public void onClientTick(cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent event)
     {
-        if (Settings.DISPLAY_VERSION_RESULT)
+        if (Settings.DISPLAY_VERSION_RESULT && !VersionChecker.sentIMCMessage)
         {
             if (!initialized)
             {

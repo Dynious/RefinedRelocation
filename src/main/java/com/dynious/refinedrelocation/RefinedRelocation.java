@@ -81,16 +81,4 @@ public class RefinedRelocation
 
         FMLInterModComms.sendMessage("Waila", "register", "com.dynious.refinedrelocation.mods.WailaProvider.callbackRegister");
     }
-
-    public static void sendUpdateIMCMessage(VersionContainer.Version newVersion)
-    {
-        NBTTagCompound tag = new NBTTagCompound();
-        tag.setString("modDisplayName", Reference.NAME);
-        tag.setString("oldVersion", Reference.VERSION);
-        tag.setString("newVersion", newVersion.getModVersion());
-        tag.setString("updateUrl", newVersion.getUpdateURL());
-        tag.setBoolean("isDirectLink", true);
-        tag.setString("changeLog", newVersion.getChangeLog());
-        FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag);
-    }
 }
