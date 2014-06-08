@@ -60,7 +60,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     {
         int slot = getNextSlot(inventory, ForgeDirection.getOrientation(side).getOpposite());
         ItemStack stack = inventory.getStackInSlot(slot);
-        if (stack != null)
+        if (stack != null && stack.stackSize != 0)
         {
             if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, ForgeDirection.OPPOSITES[side]))
             {

@@ -433,6 +433,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public ItemStack insert(ItemStack itemStack, int side, boolean simulate)
     {
+        if (itemStack == null || itemStack.stackSize == 0)
+            return null;
         if (passesFilter(itemStack, side, true))
         {
             TravellingItem item = RelocatorGridLogic.findOutput(itemStack.copy(), this, side);
@@ -621,6 +623,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public boolean canInsertItem(int slot, ItemStack itemStack, int side)
     {
+        if (itemStack == null || itemStack.stackSize == 0)
+            return false;
+
         if (connectsToSide(side) && passesFilter(itemStack, side, true))
         {
             cachedTravellingItem = RelocatorGridLogic.findOutput(itemStack, this, side);
@@ -666,6 +671,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public void setInventorySlotContents(int side, ItemStack itemstack)
     {
+        if (itemstack == null || itemstack.stackSize == 0)
+            return;
+
         if (side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemstack))
         {
             receiveTravellingItem(cachedTravellingItem);
@@ -678,7 +686,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 itemstack.stackSize -= travellingItem.getStackSize();
                 receiveTravellingItem(travellingItem);
             }
-            if (itemstack != null && itemstack.stackSize > 0)
+            if (itemstack.stackSize > 0)
             {
                 TileEntity tile = DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(side).getOpposite());
                 LogHelper.warning(String.format("%s at %s:%s:%s inserted ItemStack wrongly into Relocator!!", BlockHelper.getTileEntityDisplayName(tile), tile.xCoord, tile.yCoord, tile.zCoord));
