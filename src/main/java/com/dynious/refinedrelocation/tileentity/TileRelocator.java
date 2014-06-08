@@ -125,7 +125,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             items.addAll(itemsToAdd);
             //TODO: More efficient client syncing
-            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64, worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketItemList(this, itemsToAdd)));
+            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 16, worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketItemList(this, itemsToAdd)));
             itemsToAdd.clear();
         }
 
@@ -263,6 +263,25 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 IOHelper.spawnItemInWorld(worldObj, stack, xCoord, yCoord, zCoord);
             }
             stuffedItems[side].clear();
+        }
+        for (Iterator<TravellingItem> iterator = items.iterator(); iterator.hasNext(); )
+        {
+            TravellingItem item = iterator.next();
+            if ((item.getInputSide() == side && item.counter < TravellingItem.timePerRelocator / 2)
+                    || (item.getOutputSide() == side && item.counter > TravellingItem.timePerRelocator / 2))
+            {
+                IOHelper.spawnItemInWorld(worldObj, item.getItemStack(), xCoord, yCoord, zCoord);
+                iterator.remove();
+            }
+        }
+        for (Iterator<TravellingItem> iterator = itemsToAdd.iterator(); iterator.hasNext(); )
+        {
+            TravellingItem item = iterator.next();
+            if (item.getInputSide() == side)
+            {
+                IOHelper.spawnItemInWorld(worldObj, item.getItemStack(), xCoord, yCoord, zCoord);
+                iterator.remove();
+            }
         }
     }
 
@@ -558,6 +577,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         calculateRenderType();
         modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
         readFilters(pkt.data);
+        removeFloatingItems();
     }
 
     public void saveFilters(NBTTagCompound compound)
@@ -608,6 +628,19 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public byte getRenderType()
     {
         return renderType;
+    }
+
+    public void removeFloatingItems()
+    {
+        for (Iterator<TravellingItem> iterator = items.iterator(); iterator.hasNext(); )
+        {
+            TravellingItem item = iterator.next();
+            if ((item.counter - 1 < TravellingItem.timePerRelocator / 2 && !connectsToSide(item.getInputSide()))
+                || (item.counter - 1 > TravellingItem.timePerRelocator / 2 && !connectsToSide(item.getOutputSide())))
+            {
+                iterator.remove();
+            }
+        }
     }
 
     /*
