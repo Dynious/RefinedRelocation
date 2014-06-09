@@ -30,6 +30,7 @@ import net.minecraftforge.common.ForgeDirection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class TileRelocator extends TileEntity implements IRelocator, ISidedInventory
 {
@@ -155,17 +156,20 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             for (byte side = 0; side < stuffedItems.length; side++)
             {
                 ArrayList<ItemStack> stacksUnableToAdd = new ArrayList<ItemStack>();
-                for (Iterator<ItemStack> iterator = stuffedItems[side].iterator(); iterator.hasNext();)
+                for (ListIterator<ItemStack> iterator = stuffedItems[side].listIterator(); iterator.hasNext();)
                 {
                     ItemStack stack = iterator.next();
                     if (!stacksUnableToAdd.contains(stack))
                     {
-                        stacksUnableToAdd.add(stack.copy());
                         stack = IOHelper.insert(getConnectedInventories()[side], stack.copy(), ForgeDirection.getOrientation(side).getOpposite(), false);
                         if (stack == null)
                         {
-                            stacksUnableToAdd.remove(stacksUnableToAdd.size() - 1);
                             iterator.remove();
+                        }
+                        else
+                        {
+                            iterator.set(stack);
+                            stacksUnableToAdd.add(stack.copy());
                         }
                     }
                 }
