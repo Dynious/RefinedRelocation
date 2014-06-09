@@ -31,6 +31,12 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     private FilterStandard filter;
 
     @Override
+    public void init(IRelocator relocator, int side)
+    {
+        filter = new FilterStandard(getFilterTile(this, relocator));
+    }
+
+    @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         APIUtils.openRelocatorFilterGUI(relocator, player, side);
@@ -88,16 +94,15 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound, IRelocator relocator)
+    public void readFromNBT(NBTTagCompound compound)
     {
-        filter = new FilterStandard(getFilterTile(this, relocator));
         filter.readFromNBT(compound);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound, IRelocator relocator)
+    public void writeToNBT(NBTTagCompound compound)
     {
-       filter.writeToNBT(compound);
+        filter.writeToNBT(compound);
     }
 
     @Override

@@ -50,13 +50,13 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound, IRelocator relocator)
+    public void readFromNBT(NBTTagCompound compound)
     {
         side = compound.getByte("outputSide");
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound, IRelocator relocator)
+    public void writeToNBT(NBTTagCompound compound)
     {
         compound.setByte("outputSide", (byte) side);
     }

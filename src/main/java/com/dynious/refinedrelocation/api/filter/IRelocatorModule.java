@@ -15,6 +15,8 @@ import java.util.List;
 
 public interface IRelocatorModule
 {
+    public void init(IRelocator relocator, int side);
+
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack);
 
     public void onUpdate(IRelocator relocator, int side);
@@ -28,9 +30,9 @@ public interface IRelocatorModule
 
     public boolean passesFilter(ItemStack stack, boolean input);
 
-    public void readFromNBT(NBTTagCompound compound, IRelocator relocator);
+    public void readFromNBT(NBTTagCompound compound);
 
-    public void writeToNBT(NBTTagCompound  compound, IRelocator relocator);
+    public void writeToNBT(NBTTagCompound  compound);
 
     public List<ItemStack> getDrops(IRelocator relocator, int side);
 
