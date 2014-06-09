@@ -28,7 +28,7 @@ import java.util.List;
 public class RelocatorModuleFilter extends RelocatorModuleBase
 {
     private static IIcon icon;
-    private FilterStandard filter = new FilterStandard();
+    private FilterStandard filter;
 
     @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
@@ -78,17 +78,24 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
             {
                 return relocator.getTileEntity();
             }
+
+            @Override
+            public void onFilterChanged()
+            {
+                relocator.getTileEntity().markDirty();
+            }
         };
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public void readFromNBT(NBTTagCompound compound, IRelocator relocator)
     {
+        filter = new FilterStandard(getFilterTile(this, relocator));
         filter.readFromNBT(compound);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public void writeToNBT(NBTTagCompound compound, IRelocator relocator)
     {
        filter.writeToNBT(compound);
     }

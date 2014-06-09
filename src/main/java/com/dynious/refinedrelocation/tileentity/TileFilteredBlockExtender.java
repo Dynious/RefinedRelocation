@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileFilteredBlockExtender extends TileBlockExtender implements IFilterTileGUI
 {
-    private IFilterGUI filter = APIUtils.createStandardFilter();
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
@@ -27,6 +27,12 @@ public class TileFilteredBlockExtender extends TileBlockExtender implements IFil
     public TileEntity getTileEntity()
     {
         return this;
+    }
+
+    @Override
+    public void onFilterChanged()
+    {
+        this.markDirty();
     }
 
     @Override

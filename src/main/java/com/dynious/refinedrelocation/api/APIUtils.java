@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.api;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
@@ -41,9 +42,9 @@ public final class APIUtils
      *
      * @return a new instance of the standard IFilterGUI
      */
-    public static IFilterGUI createStandardFilter()
+    public static IFilterGUI createStandardFilter(IFilterTileGUI filterTile)
     {
-        return apiHandler.createStandardFilter();
+        return apiHandler.createStandardFilter(filterTile);
     }
 
     /**

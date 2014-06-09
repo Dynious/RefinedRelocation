@@ -7,15 +7,12 @@ import com.dynious.refinedrelocation.network.packet.MessageUserFilter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ContainerHopper;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 
 public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered
 {
-    protected final IInventory inventory;
+    protected final ISidedInventory inventory;
     protected IFilterTileGUI tile;
 
     private String lastUserFilter = "";
@@ -28,12 +25,12 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     {
         super(par1InventoryPlayer, (IInventory) filterTile);
         this.tile = filterTile;
-        this.inventory = (IInventory) filterTile;
+        this.inventory = (ISidedInventory) filterTile;
 
         for (int i = 0; i < inventory.getSizeInventory(); ++i)
         {
             Slot oldSlot = (Slot) this.inventorySlots.get(i);
-            SlotFiltered newSlot = new SlotFiltered(inventory, oldSlot.getSlotIndex(), oldSlot.xDisplayPosition, oldSlot.yDisplayPosition);
+            SlotHopper newSlot = new SlotHopper(inventory, oldSlot.getSlotIndex(), oldSlot.xDisplayPosition, oldSlot.yDisplayPosition);
             newSlot.slotNumber = oldSlot.slotNumber;
             this.inventorySlots.set(i, newSlot);
         }

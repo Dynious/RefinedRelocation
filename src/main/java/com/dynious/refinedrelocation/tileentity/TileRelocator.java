@@ -589,7 +589,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(modules[i].getClass()));
                 nbttagcompound1.setByte("place", (byte) i);
-                modules[i].writeToNBT(nbttagcompound1);
+                modules[i].writeToNBT(nbttagcompound1, this);
                 nbttaglist.appendTag(nbttagcompound1);
             }
         }
@@ -607,7 +607,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             if (filter != null)
             {
                 modules[place] = filter;
-                modules[place].readFromNBT(nbttagcompound1);
+                modules[place].readFromNBT(nbttagcompound1, this);
             }
         }
     }

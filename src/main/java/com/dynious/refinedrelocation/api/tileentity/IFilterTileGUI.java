@@ -12,4 +12,6 @@ public interface IFilterTileGUI extends IFilterTile
     public IFilterGUI getFilter();
 
     public TileEntity getTileEntity();
+
+    public void onFilterChanged();
 }

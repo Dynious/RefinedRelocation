@@ -93,7 +93,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             {
                 itemstack = this.bufferInventory[par1];
                 this.bufferInventory[par1] = null;
-                this.markDirty();
+                this.markDirty();;
                 return itemstack;
             }
             else
@@ -105,7 +105,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
                     this.bufferInventory[par1] = null;
                 }
 
-                this.markDirty();
+                this.markDirty();;
                 return itemstack;
             }
         }

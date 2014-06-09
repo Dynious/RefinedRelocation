@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.grid;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -28,11 +29,19 @@ public class FilterStandard implements IFilterGUI
     private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
 
     public static final int FILTER_SIZE = 12;
+
+    private IFilterTileGUI tile;
+
     private boolean[] customFilters = new boolean[FILTER_SIZE];
     private boolean[] creativeTabs = new boolean[tabs.length];
     private String userFilter = "";
 
     private boolean blacklists = false;
+
+    public FilterStandard(IFilterTileGUI tile)
+    {
+        this.tile = tile;
+    }
 
     public int getSize()
     {
@@ -183,6 +192,7 @@ public class FilterStandard implements IFilterGUI
         {
             creativeTabs[getCreativeTab(place)] = value;
         }
+        tile.onFilterChanged();
     }
 
     public boolean getValue(int place)
@@ -248,6 +258,7 @@ public class FilterStandard implements IFilterGUI
     public void setBlacklists(boolean blacklists)
     {
         this.blacklists = blacklists;
+        tile.onFilterChanged();
     }
 
     public String getUserFilter()
@@ -258,6 +269,7 @@ public class FilterStandard implements IFilterGUI
     public void setUserFilter(String userFilter)
     {
         this.userFilter = userFilter;
+        tile.onFilterChanged();
     }
 
     public void writeToNBT(NBTTagCompound compound)
