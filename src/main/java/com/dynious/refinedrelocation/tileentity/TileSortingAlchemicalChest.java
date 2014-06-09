@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 public class TileSortingAlchemicalChest extends TileAlchemicalChest implements ISortingInventory, IFilterTileGUI
 {
     public boolean isFirstRun = true;
-    private IFilterGUI filter = APIUtils.createStandardFilter();
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
     private Priority priority = Priority.NORMAL;
 
@@ -107,6 +107,12 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     public TileEntity getTileEntity()
     {
         return this;
+    }
+
+    @Override
+    public void onFilterChanged()
+    {
+        this.onInventoryChanged();
     }
 
     @Override

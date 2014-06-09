@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileFilteredBuffer extends TileBuffer implements IFilterTileGUI
 {
-    private IFilterGUI filter = APIUtils.createStandardFilter();
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
 
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side)
@@ -27,6 +27,12 @@ public class TileFilteredBuffer extends TileBuffer implements IFilterTileGUI
     public TileEntity getTileEntity()
     {
         return this;
+    }
+
+    @Override
+    public void onFilterChanged()
+    {
+        this.onInventoryChanged();
     }
 
     @Override

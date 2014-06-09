@@ -28,9 +28,9 @@ public interface IRelocatorModule
 
     public boolean passesFilter(ItemStack stack, boolean input);
 
-    public void readFromNBT(NBTTagCompound compound);
+    public void readFromNBT(NBTTagCompound compound, IRelocator relocator);
 
-    public void writeToNBT(NBTTagCompound  compound);
+    public void writeToNBT(NBTTagCompound  compound, IRelocator relocator);
 
     public List<ItemStack> getDrops(IRelocator relocator, int side);
 

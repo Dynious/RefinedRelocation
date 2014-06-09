@@ -17,7 +17,7 @@ import rebelkeithy.mods.metallurgy.machines.chests.TileEntityPreciousChest;
 public class TileSortingPreciousChest extends TileEntityPreciousChest implements ISortingInventory, IFilterTileGUI
 {
     public boolean isFirstRun = true;
-    private IFilterGUI filter = APIUtils.createStandardFilter();
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
     private Priority priority = Priority.NORMAL;
     private int ticksSinceSync;
@@ -101,6 +101,12 @@ public class TileSortingPreciousChest extends TileEntityPreciousChest implements
     public TileEntity getTileEntity()
     {
         return this;
+    }
+
+    @Override
+    public void onFilterChanged()
+    {
+        this.onInventoryChanged();
     }
 
     @Override

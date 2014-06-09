@@ -51,7 +51,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
 
     public ItemStack[] inventory;
 
-    private IFilterGUI filter = APIUtils.createStandardFilter();
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private boolean blacklist = true;
 
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
@@ -476,6 +476,12 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     public TileEntity getTileEntity()
     {
         return this;
+    }
+
+    @Override
+    public void onFilterChanged()
+    {
+        this.onInventoryChanged();
     }
 
     @Override

@@ -3,20 +3,43 @@ package com.dynious.refinedrelocation.tileentity;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.lib.Names;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
 
-public class TileFilteringHopper extends TileEntityHopper implements IFilterTileGUI
+public class TileFilteringHopper extends TileEntityHopper implements IFilterTileGUI, ISidedInventory
 {
-    private IFilterGUI filter = APIUtils.createStandardFilter();
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
+    private static int[] accessibleSlots = new int[]{0, 1, 2, 3};
+
+    private ItemStack checkedItemStack;
+    private boolean passedItemStackFilter;
 
     @Override
-    public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
+    public int[] getAccessibleSlotsFromSide(int var1)
     {
-        return super.isItemValidForSlot(par1, par2ItemStack) && filter.passesFilter(par2ItemStack);
+        return accessibleSlots;
+    }
+
+    @Override
+    public boolean canInsertItem(int i, ItemStack itemstack, int j)
+    {
+        if (!ItemStackHelper.areItemStacksEqual(itemstack, checkedItemStack))
+        {
+            checkedItemStack = itemstack;
+            passedItemStackFilter = filter.passesFilter(itemstack);
+        }
+        return passedItemStackFilter;
+    }
+
+    @Override
+    public boolean canExtractItem(int i, ItemStack itemstack, int j)
+    {
+        return true;
     }
 
     @Override
@@ -43,6 +66,13 @@ public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
     public TileEntity getTileEntity()
     {
         return this;
+    }
+
+    @Override
+    public void onFilterChanged()
+    {
+        checkedItemStack = null;
+        this.onInventoryChanged();
     }
 
     @Override

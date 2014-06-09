@@ -16,7 +16,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
     private ItemStack lastStack;
-    private IFilterGUI filter = APIUtils.createStandardFilter();
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private byte maxStackSize = 64;
     public boolean restrictExtraction = false;
 
@@ -170,6 +170,12 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     public TileEntity getTileEntity()
     {
         return this;
+    }
+
+    @Override
+    public void onFilterChanged()
+    {
+        this.onInventoryChanged();
     }
 
     @Override
