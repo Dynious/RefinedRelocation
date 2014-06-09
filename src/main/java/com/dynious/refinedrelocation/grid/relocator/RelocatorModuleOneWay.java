@@ -37,13 +37,13 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound, IRelocator relocator)
+    public void readFromNBT(NBTTagCompound compound)
     {
         inputAllowed = compound.getBoolean("inputAllowed");
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound, IRelocator relocator)
+    public void writeToNBT(NBTTagCompound compound)
     {
         compound.setBoolean("inputAllowed", inputAllowed);
     }

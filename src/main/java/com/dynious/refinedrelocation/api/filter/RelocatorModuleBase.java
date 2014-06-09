@@ -17,6 +17,11 @@ import java.util.List;
 public abstract class RelocatorModuleBase implements IRelocatorModule
 {
     @Override
+    public void init(IRelocator relocator, int side)
+    {
+    }
+
+    @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         return false;
@@ -53,15 +58,13 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound, IRelocator relocator)
+    public void readFromNBT(NBTTagCompound compound)
     {
-
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound, IRelocator relocator)
+    public void writeToNBT(NBTTagCompound compound)
     {
-
     }
 
     @Override

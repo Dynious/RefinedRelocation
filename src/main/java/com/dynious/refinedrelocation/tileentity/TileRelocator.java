@@ -213,10 +213,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (stack != null && stack.getItem() instanceof IItemRelocatorModule && modules[side] == null)
         {
-            IRelocatorModule filter = ((IItemRelocatorModule) stack.getItem()).getRelocatorModule(stack);
-            if (filter != null)
+            IRelocatorModule module = ((IItemRelocatorModule) stack.getItem()).getRelocatorModule(stack);
+            if (module != null)
             {
-                modules[side] = filter;
+                modules[side] = module;
+                module.init(this, side);
                 stack.stackSize--;
                 worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
                 return true;
@@ -590,7 +591,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(modules[i].getClass()));
                 nbttagcompound1.setByte("place", (byte) i);
-                modules[i].writeToNBT(nbttagcompound1, this);
+                modules[i].writeToNBT(nbttagcompound1);
                 nbttaglist.appendTag(nbttagcompound1);
             }
         }
@@ -607,8 +608,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             IRelocatorModule filter = RelocatorModuleRegistry.getFilter(nbttagcompound1.getString("clazzIdentifier"));
             if (filter != null)
             {
+                filter.init(this, place);
                 modules[place] = filter;
-                modules[place].readFromNBT(nbttagcompound1, this);
+                modules[place].readFromNBT(nbttagcompound1);
             }
         }
     }
