@@ -196,11 +196,13 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     IInventory
      */
 
+    @Override
     public ItemStack getStackInSlot(int par1)
     {
         return this.itemStacksToStock[par1];
     }
 
+    @Override
     public ItemStack decrStackSize(int par1, int par2)
     {
         if (this.itemStacksToStock[par1] != null)
@@ -233,6 +235,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
         }
     }
 
+    @Override
     public ItemStack getStackInSlotOnClosing(int par1)
     {
         if (this.itemStacksToStock[par1] != null)
@@ -247,6 +250,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
         }
     }
 
+    @Override
     public void setInventorySlotContents(int par1, ItemStack par2ItemStack)
     {
         this.itemStacksToStock[par1] = par2ItemStack;
@@ -259,16 +263,19 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
         this.onInventoryChanged();
     }
 
+    @Override
     public String getInvName()
     {
         return "relocatorModule.stock";
     }
 
+    @Override
     public boolean isInvNameLocalized()
     {
         return false;
     }
 
+    @Override
     public int getInventoryStackLimit()
     {
         return 64;
@@ -280,19 +287,23 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
 
     }
 
+    @Override
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
         return true;
     }
 
+    @Override
     public void openChest()
     {
     }
 
+    @Override
     public void closeChest()
     {
     }
 
+    @Override
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
     {
         return true;

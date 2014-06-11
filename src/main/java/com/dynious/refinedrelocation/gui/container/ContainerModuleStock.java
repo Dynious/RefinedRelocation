@@ -18,7 +18,7 @@ public class ContainerModuleStock extends ContainerPhantom
         {
             for (int x = 0; x < 3; x++)
             {
-                this.addSlotToContainer(new SlotPhantom(inventory, y * 3 + x, 80 + x * 18, 17 + y * 18));
+                this.addSlotToContainer(new SlotPhantom(inventory, y * 3 + x, 62 + x * 18, 17 + y * 18));
             }
         }
 
