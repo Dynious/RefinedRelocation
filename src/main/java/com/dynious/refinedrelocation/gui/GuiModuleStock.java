@@ -23,7 +23,7 @@ public class GuiModuleStock extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(Resources.GUI_SORTING_IMPORTER);
+        this.mc.getTextureManager().bindTexture(Resources.GUI_MODULE_STOCK);
         int xPos = (width - xSize) / 2;
         int yPos = (height - ySize) / 2;
         drawTexturedModalRect(xPos, yPos, 0, 0, xSize, ySize);

@@ -17,6 +17,7 @@ public class Resources
     public static final ResourceLocation GUI_SHARED = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "shared.png");
     public static final ResourceLocation GUI_SORTING_IMPORTER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "sortingImporter.png");
     public static final ResourceLocation GUI_POWER_LIMITER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "powerLimiter.png");
+    public static final ResourceLocation GUI_MODULE_STOCK = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleStock.png");
 
     public static final ResourceLocation MODEL_ENDERPEARL = new ResourceLocation(MOD_ID, MODEL_LOCATION + "enderPearl.obj");
 
@@ -28,7 +29,6 @@ public class Resources
     public static final ResourceLocation MODEL_TEXTURE_ENDERPEARL = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "enderPearl.png");
     public static final ResourceLocation MODEL_TEXTURE_OVERLAY_CHEST =  new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "chestFilterOverlay.png");
     public static final ResourceLocation MODEL_TEXTURE_OVERLAY_ALCHEMICAL_CHEST =  new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "chestFilterOverlayAlchemical.png");
-    public static final ResourceLocation MODEL_TEXTURE_RELOCATOR =  new ResourceLocation(MOD_ID, BLOCK_SHEET_LOCATION + "relocatorMiddle.png");
 
     public static final ResourceLocation TEXTURE_BLUR = new ResourceLocation(MOD_ID, "textures/misc/blur.png");
 }

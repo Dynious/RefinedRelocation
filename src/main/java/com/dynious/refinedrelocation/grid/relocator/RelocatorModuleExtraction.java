@@ -29,7 +29,7 @@ import java.util.List;
 
 public class RelocatorModuleExtraction extends RelocatorModuleBase
 {
-    protected static IIcon icon;
+    private static IIcon icon;
     private byte tick = 0;
     private int lastCheckedSlot = 0;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
