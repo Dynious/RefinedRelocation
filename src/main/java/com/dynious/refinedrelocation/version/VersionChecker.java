@@ -133,14 +133,18 @@ public class VersionChecker implements Runnable
 
     public static void sendUpdateIMCMessage(VersionContainer.Version newVersion)
     {
-        NBTTagCompound tag = new NBTTagCompound();
-        tag.setString("modDisplayName", Reference.NAME);
-        tag.setString("oldVersion", Reference.VERSION);
-        tag.setString("newVersion", newVersion.getModVersion());
-        tag.setString("updateUrl", newVersion.getUpdateURL());
-        tag.setBoolean("isDirectLink", true);
-        tag.setString("changeLog", newVersion.getChangeLog());
-        sentIMCMessage = FMLInterModComms.sendMessage("VersionChecker", "addUpdate", tag);
+        if (Loader.isModLoaded("VersionChecker"))
+        {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setString("modDisplayName", Reference.NAME);
+            tag.setString("oldVersion", Reference.VERSION);
+            tag.setString("newVersion", newVersion.getModVersion());
+            tag.setString("updateUrl", newVersion.getUpdateURL());
+            tag.setBoolean("isDirectLink", true);
+            tag.setString("changeLog", newVersion.getChangeLog());
+            FMLInterModComms.sendRuntimeMessage(Reference.MOD_ID, "VersionChecker", "addUpdate", tag);
+            sentIMCMessage = true;
+        }
     }
 
     @Override
