@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 
 import java.util.List;
@@ -21,14 +22,14 @@ public interface IRelocatorModule
 
     public void onUpdate(IRelocator relocator, int side);
 
-    public int getOutputSide(IRelocator relocator, int side);
+    public ItemStack outputToSide(IRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate);
 
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IRelocator relocator);
+    public GuiScreen getGUI(IRelocator relocator, EntityPlayer player);
 
-    public Container getContainer(IRelocator relocator);
+    public Container getContainer(IRelocator relocator, EntityPlayer player);
 
-    public boolean passesFilter(ItemStack stack, boolean input);
+    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input);
 
     public void readFromNBT(NBTTagCompound compound);
 

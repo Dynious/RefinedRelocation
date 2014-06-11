@@ -29,7 +29,7 @@ import java.util.List;
 
 public class RelocatorModuleExtraction extends RelocatorModuleBase
 {
-    private static Icon icon;
+    protected static Icon icon;
     private byte tick = 0;
     private int lastCheckedSlot = 0;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
@@ -119,13 +119,13 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     }
 
     @Override
-    public GuiScreen getGUI(IRelocator relocator)
+    public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
     {
         return new GuiModuleExtraction(this);
     }
 
     @Override
-    public Container getContainer(IRelocator relocator)
+    public Container getContainer(IRelocator relocator, EntityPlayer player)
     {
         return new ContainerModuleExtraction(this);
     }

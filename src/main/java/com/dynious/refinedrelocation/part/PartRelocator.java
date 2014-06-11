@@ -107,7 +107,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public void update()
     {
         super.update();
-        if (relocator.blocksChanged)
+        if (relocator.blocksChanged || relocator.shouldUpdate)
         {
             relocator.updateEntity();
             if (!world().isRemote)
@@ -224,6 +224,12 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
+    public boolean isStuffedOnSide(int side)
+    {
+        return relocator.isStuffedOnSide(side);
+    }
+
+    @Override
     public IRelocatorModule getRelocatorModule(int side)
     {
         return relocator.getRelocatorModule(side);
@@ -260,15 +266,15 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public GuiScreen getGUI(int side)
+    public GuiScreen getGUI(int side, EntityPlayer player)
     {
-        return relocator.getGUI(side);
+        return relocator.getGUI(side, player);
     }
 
     @Override
-    public Container getContainer(int side)
+    public Container getContainer(int side, EntityPlayer player)
     {
-        return relocator.getContainer(side);
+        return relocator.getContainer(side, player);
     }
 
     @Override

@@ -78,7 +78,7 @@ public class GuiHandler implements IGuiHandler
             {
                 if (tile instanceof IRelocator)
                 {
-                    return ((IRelocator) tile).getContainer(guiId - GuiIds.RELOCATOR_FILTER_BASE);
+                    return ((IRelocator) tile).getContainer(guiId - GuiIds.RELOCATOR_FILTER_BASE, player);
                 }
             }
         }
@@ -147,7 +147,7 @@ public class GuiHandler implements IGuiHandler
             {
                 if (tile instanceof IRelocator)
                 {
-                    return ((IRelocator) tile).getGUI(guiId - GuiIds.RELOCATOR_FILTER_BASE);
+                    return ((IRelocator) tile).getGUI(guiId - GuiIds.RELOCATOR_FILTER_BASE, player);
                 }
             }
         }

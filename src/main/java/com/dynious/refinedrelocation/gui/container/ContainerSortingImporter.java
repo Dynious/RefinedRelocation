@@ -12,6 +12,7 @@ public class ContainerSortingImporter extends ContainerPhantom
 
     public ContainerSortingImporter(EntityPlayer player, TileSortingImporter inventory)
     {
+        allowStackSizes = false;
         this.inventory = inventory;
         inventory.openChest();
         inventory.addCrafter(player);
