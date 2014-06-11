@@ -51,8 +51,11 @@ public class GridMemberHandler implements IGridMemberHandler
             return;
         }
         canJoinGroup = false;
-        getGrid().removeMember(this);
-        getGrid().resetMembers();
+        if (getGrid() != null)
+        {
+            getGrid().removeMember(this);
+            getGrid().resetMembers();
+        }
     }
 
     /**

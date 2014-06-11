@@ -21,7 +21,7 @@ public class RelocatorModuleBlockedExtraction extends RelocatorModuleExtraction
     {
         return icon;
     }
-    
+
     @Override
     public void registerIcons(IconRegister register)
     {
