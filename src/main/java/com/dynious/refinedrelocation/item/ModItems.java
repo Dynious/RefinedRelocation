@@ -44,5 +44,9 @@ public class ModItems
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 1), "g g", " r ", "g g", 'g', Items.gold_ingot, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 2), "b b", " r ", "b b", 'b', Blocks.iron_bars, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 3), "b b", " r ", "b b", 'b', Blocks.redstone_block, 'r', new ItemStack(relocatorModule, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 4), "b b", " r ", "b b", 'b', Blocks.redstone_block, 'r', new ItemStack(relocatorModule, 1, 2));
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 4), "b b", " r ", "b b", 'b', Blocks.iron_bars, 'r', new ItemStack(relocatorModule, 1, 3));
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 5), "l l", " r ", "l l", 'l', new ItemStack(Items.dye, 1, 4), 'r', new ItemStack(relocatorModule, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 6), "e e", " r ", "e e", 'e', Items.ender_pearl, 'r', new ItemStack(relocatorModule, 1, 0));
     }
 }

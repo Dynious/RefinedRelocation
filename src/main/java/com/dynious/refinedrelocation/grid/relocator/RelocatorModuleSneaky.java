@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.api.filter.RelocatorModuleBase;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.gui.GuiModuleSneaky;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleSneaky;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.GuiScreen;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -32,21 +34,21 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     }
 
     @Override
-    public GuiScreen getGUI(IRelocator relocator)
+    public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
     {
         return new GuiModuleSneaky(this);
     }
 
     @Override
-    public Container getContainer(IRelocator relocator)
+    public Container getContainer(IRelocator relocator, EntityPlayer player)
     {
         return new ContainerModuleSneaky(this);
     }
 
     @Override
-    public int getOutputSide(IRelocator relocator, int side)
+    public ItemStack outputToSide(IRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate)
     {
-        return this.side == -1 ? ForgeDirection.OPPOSITES[side] : this.side;
+        return IOHelper.insert(inventory, stack, this.side == -1 ? ForgeDirection.getOrientation(side).getOpposite() : ForgeDirection.getOrientation(this.side), simulate);
     }
 
     @Override
@@ -79,7 +81,6 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleSneaky");
-        System.out.println(icon);
     }
 
     public int getSide()

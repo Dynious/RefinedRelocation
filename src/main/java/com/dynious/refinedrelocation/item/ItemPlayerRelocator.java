@@ -169,9 +169,9 @@ public class ItemPlayerRelocator extends Item
                 && (block != ModBlocks.relocationPortal) && (block != null) && (!block.canPlaceBlockAt(world, posX, posY - 1, posZ))
                 && (block.getBlockHardness(world, posX, posY - 1, posZ) != -1.0F)
                 && (world.getTileEntity(posX, posY - 2, posZ) == null) && (block1 != Blocks.bedrock)
-                && (block1 != ModBlocks.relocationPortal)
+                && (block1 != ModBlocks.relocationPortal) && (block1 != ModBlocks.relocationPortal)
                 && (world.getTileEntity(posX, posY - 3, posZ) == null) && (block2 != Blocks.bedrock)
-                && (block2 != ModBlocks.relocationPortal);
+                && (block2 != ModBlocks.relocationPortal) && (block2 != ModBlocks.relocationPortal);
     }
 
     private void setBlockToPortal(World world, int x, int y, int z)

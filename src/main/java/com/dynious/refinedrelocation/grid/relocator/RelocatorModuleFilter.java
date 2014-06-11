@@ -44,19 +44,19 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     }
 
     @Override
-    public GuiScreen getGUI(IRelocator relocator)
+    public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
     {
         return new GuiFiltered(getFilterTile(this, relocator));
     }
 
     @Override
-    public Container getContainer(IRelocator relocator)
+    public Container getContainer(IRelocator relocator, EntityPlayer player)
     {
         return new ContainerFiltered(getFilterTile(this, relocator));
     }
 
     @Override
-    public boolean passesFilter(ItemStack stack, boolean input)
+    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input)
     {
         return filter.passesFilter(stack);
     }

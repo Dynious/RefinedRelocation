@@ -95,13 +95,15 @@ public class RelocatorGridLogic
                 {
                     if (path.RELOCATOR.passesFilter(itemStack, i, false))
                     {
-                        ForgeDirection output = ForgeDirection.getOrientation(i).getOpposite();
+                        ItemStack stack;
                         if (path.RELOCATOR.getRelocatorModule(i) != null)
                         {
-                            output = ForgeDirection.getOrientation(path.RELOCATOR.getRelocatorModule(i).getOutputSide(path.RELOCATOR, i));
+                            stack = path.RELOCATOR.getRelocatorModule(i).outputToSide(path.RELOCATOR, i, inventory, itemStack.copy(), true);
                         }
-                        //Try to insert
-                        ItemStack stack = IOHelper.insert(inventory, itemStack.copy(), output, true);
+                        else
+                        {
+                            stack = IOHelper.insert(inventory, itemStack.copy(), ForgeDirection.getOrientation(i).getOpposite(), true);
+                        }
                         //If we managed to output everything or a part of the stack go on
                         if (stack == null || stack.stackSize < itemStack.stackSize)
                         {

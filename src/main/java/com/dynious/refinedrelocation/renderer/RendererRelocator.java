@@ -33,6 +33,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     private static IconTransformation iconTransformation = new IconTransformation(Blocks.stone.getIcon(0, 0));
     public static IIcon[] iconsCenter = new IIcon[4];
     public static IIcon iconSide;
+    public static IIcon iconSideStuffed;
 
     static
     {
@@ -85,10 +86,21 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         {
             if (relocator.connectsToSide(side))
             {
+                //Render Module textures
                 IRelocatorModule module = relocator.getRelocatorModule(side);
                 if (module != null)
                 {
                     iconTransformation.icon = module.getIcon(relocator, side);
+                    SIDE_MODELS[side].render(0, 4, trans, iconTransformation);
+                    SIDE_MODELS[side].render(8, 24, trans, iconTransformation);
+                    SIDE_MODELS[side].render(24, 28, trans, iconTransformation);
+                    SIDE_MODELS[side].render(32, 48, trans, iconTransformation);
+                }
+
+                //Render other parts
+                if (relocator.isStuffedOnSide(side))
+                {
+                    iconTransformation.icon = iconSideStuffed;
                 }
                 else
                 {
@@ -160,5 +172,6 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         iconsCenter[2] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter2");
         iconsCenter[3] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter3");
         iconSide = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSide");
+        iconSideStuffed = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSideStuffed");
     }
 }
