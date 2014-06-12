@@ -558,6 +558,16 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 itemsToAdd.add(TravellingItem.createFromNBT(nbttagcompound1));
             }
         }
+        if (compound.hasKey("StuffedItems"))
+        {
+            NBTTagList nbttaglist = compound.getTagList("StuffedItems");
+            for (int i = 0; i < nbttaglist.tagCount(); ++i)
+            {
+                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+                byte side = nbttagcompound1.getByte("Side");
+                stuffedItems[side].add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
+            }
+        }
 
         readFilters(compound);
     }
@@ -595,6 +605,26 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             }
             compound.setTag("ItemsToAdd", nbttaglist);
         }
+
+        NBTTagList nbttaglist = new NBTTagList();
+        for (byte i = 0; i < stuffedItems.length; i++)
+        {
+            List<ItemStack> stuffedItemList = stuffedItems[i];
+            if (!stuffedItemList.isEmpty())
+            {
+                for (ItemStack item : stuffedItemList)
+                {
+                    if (item != null)
+                    {
+                        NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+                        nbttagcompound1.setByte("Side", i);
+                        item.writeToNBT(nbttagcompound1);
+                        nbttaglist.appendTag(nbttagcompound1);
+                    }
+                }
+            }
+        }
+        compound.setTag("StuffedItems", nbttaglist);
 
         saveFilters(compound);
     }
