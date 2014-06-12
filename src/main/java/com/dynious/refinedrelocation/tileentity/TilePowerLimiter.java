@@ -131,7 +131,8 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         if (value != disablePower)
         {
             disablePower = value;
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            if (worldObj != null)
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
     }
 
