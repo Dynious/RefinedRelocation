@@ -62,4 +62,5 @@ public class Strings
     public static final String BROKEN_LINK = ITEM_DESC_PREFIX + "brokenLink";
     public static final String COOLDOWN = ITEM_DESC_PREFIX + "cooldown";
     public static final String REL_CONT_DESC = ITEM_DESC_PREFIX + "relContDesc";
+    public static final String RELOCATOR_MODULE = ITEM_DESC_PREFIX + "relocatorModule";
 }

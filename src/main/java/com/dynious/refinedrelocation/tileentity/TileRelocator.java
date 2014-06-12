@@ -544,7 +544,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             NBTTagList nbttaglist = compound.getTagList("Items", 10);
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
                 items.add(TravellingItem.createFromNBT(nbttagcompound1));
             }
         }
@@ -553,8 +553,18 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             NBTTagList nbttaglist = compound.getTagList("ItemsToAdd", 10);
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
                 itemsToAdd.add(TravellingItem.createFromNBT(nbttagcompound1));
+            }
+        }
+        if (compound.hasKey("StuffedItems"))
+        {
+            NBTTagList nbttaglist = compound.getTagList("StuffedItems", 10);
+            for (int i = 0; i < nbttaglist.tagCount(); ++i)
+            {
+                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+                byte side = nbttagcompound1.getByte("Side");
+                stuffedItems[side].add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
             }
         }
 
@@ -594,6 +604,26 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             }
             compound.setTag("ItemsToAdd", nbttaglist);
         }
+
+        NBTTagList nbttaglist = new NBTTagList();
+        for (byte i = 0; i < stuffedItems.length; i++)
+        {
+            List<ItemStack> stuffedItemList = stuffedItems[i];
+            if (!stuffedItemList.isEmpty())
+            {
+                for (ItemStack item : stuffedItemList)
+                {
+                    if (item != null)
+                    {
+                        NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+                        nbttagcompound1.setByte("Side", i);
+                        item.writeToNBT(nbttagcompound1);
+                        nbttaglist.appendTag(nbttagcompound1);
+                    }
+                }
+            }
+        }
+        compound.setTag("StuffedItems", nbttaglist);
 
         saveFilters(compound);
     }

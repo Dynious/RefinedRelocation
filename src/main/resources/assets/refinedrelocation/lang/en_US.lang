@@ -36,13 +36,13 @@ item.linker.name=Linker
 item.sortingUpgrade.name=Sorting Upgrade
 item.playerRelocator.name=Player Relocator
 item.relocator.name=Relocator (WIP)
-item.relocatorModule0.name=Relocator Module Base (WIP)
-item.relocatorModule1.name=Relocator Module Filter (WIP)
-item.relocatorModule2.name=Relocator Module One Way (WIP)
-item.relocatorModule3.name=Relocator Module Extraction (WIP)
-item.relocatorModule4.name=Relocator Module Blocked Extraction (WIP)
-item.relocatorModule5.name=Relocator Module Sneaky (WIP)
-item.relocatorModule6.name=Relocator Module Stock (WIP)
+item.relocatorModule0.name=Module Base
+item.relocatorModule1.name=Module Filter
+item.relocatorModule2.name=Module One Way
+item.relocatorModule3.name=Module Extraction
+item.relocatorModule4.name=Module Blocked Extraction
+item.relocatorModule5.name=Module Sneaky
+item.relocatorModule6.name=Module Stock
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest
@@ -107,3 +107,4 @@ itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
 itemDesc.refinedrelocation.brokenLink=Broken link!
 itemDesc.refinedrelocation.cooldown=Cooldown: %s
 itemDesc.refinedrelocation.relContDesc=MultiBlock (%s x %s x %s)
+itemDesc.refinedrelocation.relocatorModule=Relocator Module
