@@ -43,6 +43,7 @@ item.relocatorModule3.name=Module Extraction
 item.relocatorModule4.name=Module Blocked Extraction
 item.relocatorModule5.name=Module Sneaky
 item.relocatorModule6.name=Module Stock
+item.relocatorModule7.name=Module Redstone Block
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest

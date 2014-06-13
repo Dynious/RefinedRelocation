@@ -72,6 +72,7 @@ public class RelocatorModuleRegistry
         APIUtils.registerRelocatorFilter("blockedExtraction", RelocatorModuleBlockedExtraction.class);
         APIUtils.registerRelocatorFilter("sneaky", RelocatorModuleSneaky.class);
         APIUtils.registerRelocatorFilter("stock", RelocatorModuleStock.class);
+        APIUtils.registerRelocatorFilter("redstoneBlock", RelocatorModuleRedstoneBlock.class);
     }
 
     @SideOnly(Side.CLIENT)

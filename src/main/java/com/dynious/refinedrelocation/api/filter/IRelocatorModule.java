@@ -24,6 +24,8 @@ public interface IRelocatorModule
 
     public ItemStack outputToSide(IRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate);
 
+    public void onRedstonePowerChange(boolean isPowered);
+
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator, EntityPlayer player);
 

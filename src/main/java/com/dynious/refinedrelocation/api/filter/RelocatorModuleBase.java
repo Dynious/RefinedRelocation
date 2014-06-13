@@ -42,6 +42,11 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
+    public void onRedstonePowerChange(boolean isPowered)
+    {
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
     {
