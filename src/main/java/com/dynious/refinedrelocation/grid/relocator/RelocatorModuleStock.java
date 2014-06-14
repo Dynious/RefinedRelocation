@@ -9,6 +9,8 @@ import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -120,6 +122,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
     {
         return new GuiModuleStock(player, this);
