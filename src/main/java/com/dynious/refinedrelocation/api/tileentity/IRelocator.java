@@ -2,6 +2,8 @@ package com.dynious.refinedrelocation.api.tileentity;
 
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -36,6 +38,7 @@ public interface IRelocator
 
     public TileEntity getTileEntity();
 
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(int side, EntityPlayer player);
 
     public Container getContainer(int side, EntityPlayer player);

@@ -119,6 +119,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
     {
         return new GuiModuleExtraction(this);
