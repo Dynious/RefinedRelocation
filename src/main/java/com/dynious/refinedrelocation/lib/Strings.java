@@ -63,4 +63,5 @@ public class Strings
     public static final String COOLDOWN = ITEM_DESC_PREFIX + "cooldown";
     public static final String REL_CONT_DESC = ITEM_DESC_PREFIX + "relContDesc";
     public static final String RELOCATOR_MODULE = ITEM_DESC_PREFIX + "relocatorModule";
+    public static final String RELOCATOR_MODULE_INFO = ITEM_DESC_PREFIX + "relocatorModuleInfo";
 }

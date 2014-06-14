@@ -37,19 +37,23 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 {
     public boolean blocksChanged = true;
     public boolean shouldUpdate = false;
+    public boolean isBeingPowered = false;
 
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocatorModule[] modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
     private List<ItemStack>[] stuffedItems;
 
-    @SideOnly(Side.CLIENT)
+    /*
+    Only used client side
+     */
     private boolean[] isConnected = new boolean[6];
-    @SideOnly(Side.CLIENT)
     private byte renderType = 0;
-    @SideOnly(Side.CLIENT)
     private boolean[] isStuffed = new boolean[6];
 
+    /*
+    Cached Paths and stack sizes
+     */
     private TravellingItem cachedTravellingItem;
     private int maxStackSize = 64;
 
@@ -129,6 +133,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     emptySide(direction.ordinal());
                 }
             }
+
+            updateRedstone();
+
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             blocksChanged = false;
         }
@@ -222,6 +229,27 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 }
             }
         }
+    }
+
+    public void updateRedstone()
+    {
+        boolean newPowerState = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+        if ((newPowerState && !isBeingPowered) || (!newPowerState && isBeingPowered))
+        {
+            isBeingPowered = newPowerState;
+            for (IRelocatorModule module : modules)
+            {
+                if (module != null)
+                {
+                    module.onRedstonePowerChange(isBeingPowered);
+                }
+            }
+        }
+    }
+
+    public boolean getRedstoneState()
+    {
+        return isBeingPowered;
     }
 
     public boolean onActivated(EntityPlayer player, MovingObjectPosition hit, ItemStack stack)
@@ -539,6 +567,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         super.readFromNBT(compound);
 
+        isBeingPowered = compound.getBoolean("redstone");
+
         if (compound.hasKey("Items"))
         {
             NBTTagList nbttaglist = compound.getTagList("Items", 10);
@@ -575,6 +605,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
+
+        compound.setBoolean("redstone", isBeingPowered);
+
         if (!items.isEmpty())
         {
             NBTTagList nbttaglist = new NBTTagList();
@@ -632,6 +665,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public Packet getDescriptionPacket()
     {
         NBTTagCompound tag = new NBTTagCompound();
+
+        tag.setBoolean("redstone", isBeingPowered);
+
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
             if (connectsToSide(i))
@@ -652,6 +688,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
         NBTTagCompound tag = pkt.func_148857_g();
+        
+        isBeingPowered = tag.getBoolean("redstone");
+        
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
             isConnected[i] = tag.hasKey("c" + i);

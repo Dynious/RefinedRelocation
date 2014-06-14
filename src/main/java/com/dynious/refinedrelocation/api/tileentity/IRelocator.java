@@ -24,6 +24,8 @@ public interface IRelocator
 
     public IRelocatorModule getRelocatorModule(int side);
 
+    public boolean getRedstoneState();
+
     public boolean passesFilter(ItemStack itemStack, int side, boolean input);
 
     public ItemStack insert(ItemStack itemStack, int side, boolean simulate);

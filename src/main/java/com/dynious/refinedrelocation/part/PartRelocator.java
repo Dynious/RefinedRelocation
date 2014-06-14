@@ -249,6 +249,12 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
+    public boolean getRedstoneState()
+    {
+        return relocator.getRedstoneState();
+    }
+
+    @Override
     public boolean passesFilter(ItemStack itemStack, int side, boolean input)
     {
         return relocator.passesFilter(itemStack, side, input);

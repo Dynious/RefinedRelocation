@@ -77,10 +77,4 @@ public class GuiDisguise extends GuiRefinedRelocationWidgetBase
         super.drawBackground(mouseX, mouseY);
         GL11.glDisable(GL11.GL_BLEND);
     }
-
-    @Override
-    public void update()
-    {
-        super.update();
-    }
 }

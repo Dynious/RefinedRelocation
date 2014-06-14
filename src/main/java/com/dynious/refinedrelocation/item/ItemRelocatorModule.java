@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ItemRelocatorModule extends Item implements IItemRelocatorModule
 {
-    private IIcon[] icons = new IIcon[7];
+    private IIcon[] icons = new IIcon[8];
 
     public ItemRelocatorModule()
     {
@@ -59,6 +59,8 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
                 return new RelocatorModuleSneaky();
             case 6:
                 return new RelocatorModuleStock();
+            case 7:
+                return new RelocatorModuleRedstoneBlock();
         }
         return null;
     }
@@ -67,7 +69,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     @Override
     public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int j = 0; j < 7; ++j)
+        for (int j = 0; j < 8; ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }
@@ -77,6 +79,12 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
     {
         list.add(StatCollector.translateToLocal(Strings.RELOCATOR_MODULE));
+
+        String[] info = StatCollector.translateToLocal(Strings.RELOCATOR_MODULE_INFO + itemStack.getItemDamage()).split("\\\\n");
+        for (String line : info)
+        {
+            list.add("\u00A7f" + line);
+        }
     }
 
     @Override
