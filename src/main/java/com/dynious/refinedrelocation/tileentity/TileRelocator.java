@@ -45,11 +45,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private IRelocatorModule[] modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
     private List<ItemStack>[] stuffedItems;
 
-    @SideOnly(Side.CLIENT)
+    /*
+    Only used client side
+     */
     private boolean[] isConnected = new boolean[6];
-    @SideOnly(Side.CLIENT)
     private byte renderType = 0;
-    @SideOnly(Side.CLIENT)
     private boolean[] isStuffed = new boolean[6];
 
     /*

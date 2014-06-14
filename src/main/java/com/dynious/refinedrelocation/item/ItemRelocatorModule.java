@@ -79,6 +79,12 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
     {
         list.add(StatCollector.translateToLocal(Strings.RELOCATOR_MODULE));
+
+        String[] info = StatCollector.translateToLocal(Strings.RELOCATOR_MODULE_INFO + itemStack.getItemDamage()).split("\\\\n");
+        for (String line : info)
+        {
+            list.add("\u00A7f" + line);
+        }
     }
 
     @Override
