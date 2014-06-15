@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.helper;
 
+import buildcraft.api.transport.IPipeConnection;
 import buildcraft.api.transport.IPipeTile;
 import cofh.api.transport.IItemConduit;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
@@ -250,6 +251,10 @@ public class IOHelper
             {
                 return true;
             }
+        }
+        else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeConnection)
+        {
+            return true;
         }
         else if (tile instanceof IInventory)
         {
