@@ -843,19 +843,24 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
         if (cachedTravellingItem != null && side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemstack))
         {
+            itemstack.stackSize -= cachedTravellingItem.getStackSize();
             receiveTravellingItem(cachedTravellingItem);
         }
-        else
+        if (itemstack.stackSize > 0)
         {
-            TravellingItem travellingItem = RelocatorGridLogic.findOutput(itemstack, this, side);
+            TravellingItem travellingItem = RelocatorGridLogic.findOutput(itemstack.copy(), this, side);
             if (travellingItem != null)
             {
                 itemstack.stackSize -= travellingItem.getStackSize();
+                if (itemstack.stackSize > 0)
+                {
+                    travellingItem.getItemStack().stackSize += itemstack.stackSize;
+                }
                 receiveTravellingItem(travellingItem);
             }
-            if (itemstack.stackSize > 0)
+            else
             {
-                TileEntity tile = DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(side).getOpposite());
+                TileEntity tile = DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(side));
                 LogHelper.warning(String.format("%s at %s:%s:%s inserted ItemStack wrongly into Relocator!!", BlockHelper.getTileEntityDisplayName(tile), tile.xCoord, tile.yCoord, tile.zCoord));
                 IOHelper.spawnItemInWorld(worldObj, itemstack, xCoord, yCoord, zCoord);
             }
