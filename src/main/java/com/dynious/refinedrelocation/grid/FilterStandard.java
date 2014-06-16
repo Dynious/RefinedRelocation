@@ -57,68 +57,45 @@ public class FilterStandard implements IFilterGUI
     {
         if (itemStack != null)
         {
-            String oreName = null;
+            String[] oreNames = null;
 
             if (getUserFilter() != null && !getUserFilter().isEmpty())
             {
                 String filter = getUserFilter().toLowerCase().replaceAll("\\s+", "");
+                String itemName = null;
                 for (String s : filter.split(","))
                 {
-                    String filterName;
                     if (s.contains("!"))
                     {
-                        int id = OreDictionary.getOreID(itemStack);
-                        if (id == -1)
+                        if (oreNames == null)
                         {
-                            oreName = "";
-                            break;
+                            oreNames = getOreNames(itemStack);
                         }
-                        filterName = oreName = OreDictionary.getOreName(id).toLowerCase().replaceAll("\\s+", "");
                         s = s.replace("!", "");
-                    }
-                    else
-                    {
-                        filterName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
-                    }
-                    if (s.startsWith("*") && s.length() > 1)
-                    {
-                        if (s.endsWith("*") && s.length() > 2)
+                        for (String oreName : oreNames)
                         {
-                            if (filterName.contains(s.substring(1, s.length() - 1)))
-                                return true;
+                            stringMatchesWildcardPattern(oreName, s);
                         }
-                        else if (filterName.endsWith(s.substring(1)))
-                            return true;
-                    }
-                    else if (s.endsWith("*") && s.length() > 1)
-                    {
-                        if (filterName.startsWith(s.substring(0, s.length() - 1)))
-                            return true;
                     }
                     else
                     {
-                        if (filterName.equalsIgnoreCase(s))
-                            return true;
+                        if (itemName == null)
+                        {
+                            itemName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
+                        }
+                        stringMatchesWildcardPattern(itemName, s);
                     }
                 }
             }
 
             if (Booleans.contains(customFilters, true))
             {
-                if (oreName == null)
+                if (oreNames == null)
                 {
-                    int id = OreDictionary.getOreID(itemStack);
-                    if (id == -1)
-                    {
-                        oreName = "";
-                    }
-                    else
-                    {
-                        oreName = OreDictionary.getOreName(id).toLowerCase().replaceAll("\\s+", "");
-                    }
+                    oreNames = getOreNames(itemStack);
                 }
 
-                if (!oreName.isEmpty())
+                for (String oreName : oreNames)
                 {
                     if (customFilters[0] && (oreName.contains("ingot") || itemStack.getItem() == Items.iron_ingot || itemStack.getItem() == Items.gold_ingot))
                         return true;
@@ -173,7 +150,8 @@ public class FilterStandard implements IFilterGUI
                             }
                         }
                     }
-                } catch (IllegalAccessException e)
+                }
+                catch (IllegalAccessException e)
                 {
                     e.printStackTrace();
                 }
@@ -298,6 +276,43 @@ public class FilterStandard implements IFilterGUI
         {
             creativeTabs[i] = compound.getBoolean("creativeTabs" + i);
         }
+    }
+
+    public static boolean stringMatchesWildcardPattern(String string, String wildcardPattern)
+    {
+        if (wildcardPattern.startsWith("*") && wildcardPattern.length() > 1)
+        {
+            if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 2)
+            {
+                if (string.contains(wildcardPattern.substring(1, wildcardPattern.length() - 1)))
+                    return true;
+            }
+            else if (string.endsWith(wildcardPattern.substring(1)))
+                return true;
+        }
+        else if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 1)
+        {
+            if (string.startsWith(wildcardPattern.substring(0, wildcardPattern.length() - 1)))
+                return true;
+        }
+        else
+        {
+            if (string.equalsIgnoreCase(wildcardPattern))
+                return true;
+        }
+        return false;
+    }
+
+    public static String[] getOreNames(ItemStack itemStack)
+    {
+        int[] ids = OreDictionary.getOreIDs(itemStack);
+
+        String[] oreNames = new String[ids.length];
+        for (int i = 0; i < ids.length; i++)
+        {
+            oreNames[i] = OreDictionary.getOreName(ids[i]).toLowerCase().replaceAll("\\s+", "");
+        }
+        return oreNames;
     }
 
     public static void syncTabs(String[] tabLabels)
