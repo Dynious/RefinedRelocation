@@ -45,8 +45,7 @@ public class ContainerModuleStock extends ContainerPhantom
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
-        Slot slot = (Slot)this.inventorySlots.get(par2);
-        return slot != null ? slot.getStack() : null;
+        return null;
     }
 
     @Override
