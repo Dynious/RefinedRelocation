@@ -1,7 +1,9 @@
 package com.dynious.refinedrelocation.api.tileentity;
 
+import buildcraft.api.transport.IPipeTile;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -12,7 +14,8 @@ import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;
 
-public interface IRelocator
+@Optional.Interface(iface = "buildcraft.api.transport.IPipeTile", modid = "BuildCraftAPI|transport")
+public interface IRelocator extends IPipeTile
 {
     public TileEntity[] getConnectedInventories();
 

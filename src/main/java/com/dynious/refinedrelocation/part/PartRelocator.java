@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.part;
 
+import buildcraft.api.transport.PipeWire;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
@@ -15,6 +16,7 @@ import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -400,5 +402,37 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
         return relocator.isItemValidForSlot(i, itemstack);
+    }
+
+    /*
+    IPipeTile functionality
+     */
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public PipeType getPipeType()
+    {
+        return relocator.getPipeType();
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public int injectItem(ItemStack stack, boolean b, ForgeDirection direction)
+    {
+        return relocator.injectItem(stack, b, direction);
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public boolean isPipeConnected(ForgeDirection direction)
+    {
+        return relocator.isPipeConnected(direction);
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public boolean isWireActive(PipeWire pipeWire)
+    {
+        return relocator.isWireActive(pipeWire);
     }
 }

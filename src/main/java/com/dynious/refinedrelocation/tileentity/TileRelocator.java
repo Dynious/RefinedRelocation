@@ -1,5 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
+import buildcraft.api.transport.IPipeTile;
+import buildcraft.api.transport.PipeWire;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
@@ -11,6 +13,7 @@ import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.network.packet.MessageItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -904,5 +907,38 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
         return true;
+    }
+
+    /*
+    IPipeTile functionality
+     */
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public PipeType getPipeType()
+    {
+        return PipeType.ITEM;
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public int injectItem(ItemStack stack, boolean b, ForgeDirection direction)
+    {
+        ItemStack returnedStack = insert(stack, direction.ordinal(), b);
+        return returnedStack == null ? 0 : returnedStack.stackSize;
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public boolean isPipeConnected(ForgeDirection direction)
+    {
+        return connectsToSide(direction.ordinal());
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public boolean isWireActive(PipeWire pipeWire)
+    {
+        return false;
     }
 }
