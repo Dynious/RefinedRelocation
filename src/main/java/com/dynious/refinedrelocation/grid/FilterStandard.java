@@ -74,7 +74,8 @@ public class FilterStandard implements IFilterGUI
                         s = s.replace("!", "");
                         for (String oreName : oreNames)
                         {
-                            stringMatchesWildcardPattern(oreName, s);
+                            if (stringMatchesWildcardPattern(oreName, s))
+                                return true;
                         }
                     }
                     else
@@ -83,7 +84,8 @@ public class FilterStandard implements IFilterGUI
                         {
                             itemName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
                         }
-                        stringMatchesWildcardPattern(itemName, s);
+                        if (stringMatchesWildcardPattern(itemName, s))
+                            return true;
                     }
                 }
             }
