@@ -254,7 +254,7 @@ public class IOHelper
         }
         else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeConnection)
         {
-            return true;
+            return ((IPipeConnection)tile).overridePipeConnection(IPipeTile.PipeType.ITEM, side) != IPipeConnection.ConnectOverride.DISCONNECT;
         }
         else if (tile instanceof IInventory)
         {
