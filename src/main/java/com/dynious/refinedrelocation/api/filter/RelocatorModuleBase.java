@@ -60,7 +60,7 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
-    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input)
+    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
         return true;
     }

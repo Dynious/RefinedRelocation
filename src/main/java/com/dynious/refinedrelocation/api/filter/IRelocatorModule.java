@@ -31,7 +31,7 @@ public interface IRelocatorModule
 
     public Container getContainer(IRelocator relocator, EntityPlayer player);
 
-    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input);
+    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate);
 
     public void readFromNBT(NBTTagCompound compound);
 

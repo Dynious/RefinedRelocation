@@ -1,9 +1,11 @@
 package com.dynious.refinedrelocation.helper;
 
+import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class BlockHelper
 {
-    public static final String nullBlockString = "<NONE>";
+    public static final String nullBlockString = StatCollector.translateToLocal(Strings.NONE);
 
     public static String getBlockDisplayName(World world, int x, int y, int z, ForgeDirection side)
     {

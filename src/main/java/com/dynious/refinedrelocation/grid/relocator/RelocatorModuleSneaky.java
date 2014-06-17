@@ -26,7 +26,13 @@ import java.util.List;
 public class RelocatorModuleSneaky extends RelocatorModuleBase
 {
     private static Icon icon;
-    private int side = -1;
+    private int outputSide = -1;
+
+    @Override
+    public void init(IRelocator relocator, int side)
+    {
+        this.outputSide = ForgeDirection.OPPOSITES[side];
+    }
 
     @Override
     public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
@@ -51,19 +57,19 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     @Override
     public ItemStack outputToSide(IRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate)
     {
-        return IOHelper.insert(inventory, stack, this.side == -1 ? ForgeDirection.getOrientation(side).getOpposite() : ForgeDirection.getOrientation(this.side), simulate);
+        return IOHelper.insert(inventory, stack, ForgeDirection.getOrientation(this.outputSide), simulate);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
-        side = compound.getByte("outputSide");
+        outputSide = compound.getByte("outputSide");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
-        compound.setByte("outputSide", (byte) side);
+        compound.setByte("outputSide", (byte) outputSide);
     }
 
     @Override
@@ -86,13 +92,13 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleSneaky");
     }
 
-    public int getSide()
+    public int getOutputSide()
     {
-        return side;
+        return outputSide;
     }
 
-    public void setSide(int side)
+    public void setOutputSide(int outputSide)
     {
-        this.side = side;
+        this.outputSide = outputSide;
     }
 }

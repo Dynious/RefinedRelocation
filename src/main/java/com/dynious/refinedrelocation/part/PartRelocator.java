@@ -242,9 +242,9 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public boolean passesFilter(ItemStack itemStack, int side, boolean input)
+    public boolean passesFilter(ItemStack itemStack, int side, boolean input, boolean simulate)
     {
-        return relocator.passesFilter(itemStack, side, input);
+        return relocator.passesFilter(itemStack, side, input, simulate);
     }
 
     @Override

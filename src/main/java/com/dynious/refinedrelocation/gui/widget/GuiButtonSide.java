@@ -15,7 +15,7 @@ public class GuiButtonSide extends GuiRefinedRelocationButton
 
     public GuiButtonSide(IGuiParent parent, int x, int y, RelocatorModuleSneaky module)
     {
-        super(parent, x, y, 34, 20, 120, 0, ForgeDirection.getOrientation(module.getSide()).toString());
+        super(parent, x, y, 34, 20, 120, 0, ForgeDirection.getOrientation(module.getOutputSide()).toString());
         this.module = module;
         this.setTooltipString(StatCollector.translateToLocal(Strings.SNEAKY));
     }
@@ -27,25 +27,25 @@ public class GuiButtonSide extends GuiRefinedRelocationButton
         {
             if (type == 0)
             {
-                onValueChangedByUser((module.getSide() + 1) % ForgeDirection.VALID_DIRECTIONS.length);
+                onValueChangedByUser((module.getOutputSide() + 1) % ForgeDirection.VALID_DIRECTIONS.length);
             }
             else if (type == -1)
             {
-                onValueChangedByUser((module.getSide() - 1) % ForgeDirection.VALID_DIRECTIONS.length);
+                onValueChangedByUser((module.getOutputSide() - 1) % ForgeDirection.VALID_DIRECTIONS.length);
             }
         }
     }
 
     protected void onValueChangedByUser(int side)
     {
-        module.setSide(side);
+        module.setOutputSide(side);
         PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketSide(side)));
     }
 
     public void update()
     {
         if (module != null)
-            label.setText(ForgeDirection.getOrientation(module.getSide()).toString());
+            label.setText(ForgeDirection.getOrientation(module.getOutputSide()).toString());
 
         super.update();
     }

@@ -29,6 +29,7 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
 {
     private static Icon icon;
     private FilterStandard filter;
+    private long lastChange = -401;
 
     @Override
     public void init(IRelocator relocator, int side)
@@ -57,9 +58,9 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     }
 
     @Override
-    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input)
+    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
-        return filter.passesFilter(stack);
+        return (!simulate && (relocator.getTileEntity().worldObj.getTotalWorldTime() - lastChange) > 400) || filter.passesFilter(stack);
     }
 
     @Override
@@ -89,6 +90,7 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
             @Override
             public void onFilterChanged()
             {
+                lastChange = relocator.getTileEntity().worldObj.getTotalWorldTime();
                 relocator.getTileEntity().onInventoryChanged();
             }
         };
