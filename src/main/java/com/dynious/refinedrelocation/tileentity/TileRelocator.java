@@ -494,7 +494,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         TravellingItem travellingItem = RelocatorGridLogic.findOutput(item.getItemStack(), this, side);
         if (travellingItem != null)
         {
-            travellingItem.setStartingPoint(item.getStartingPoint());
             receiveTravellingItem(travellingItem);
             stack.stackSize -= item.getStackSize();
             if (stack.stackSize <= 0)

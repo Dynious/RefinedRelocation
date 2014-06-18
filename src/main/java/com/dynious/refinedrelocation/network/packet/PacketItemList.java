@@ -61,7 +61,7 @@ public class PacketItemList extends PacketTile
             //data.read(path);
             list.add(data.readByte());
             byte input = data.readByte();
-            items.add(new TravellingItem(stack, null, list, input));
+            items.add(new TravellingItem(stack, list, input));
         }
     }
 
