@@ -63,7 +63,7 @@ public class IOHelper
     {
         if (tile instanceof IRelocator)
         {
-            return ((IRelocator)tile).insert(itemStack, side.ordinal(), simulate);
+            return ((IRelocator) tile).insert(itemStack, side.ordinal(), simulate);
         }
         else if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
         {

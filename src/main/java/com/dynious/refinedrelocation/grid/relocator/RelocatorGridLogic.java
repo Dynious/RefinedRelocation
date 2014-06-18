@@ -7,48 +7,54 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class RelocatorGridLogic
 {
+    private static List<TileEntity> checkedRelocators = new ArrayList<TileEntity>();
+
     public static TravellingItem findOutput(ItemStack itemStack, IRelocator relocator, int side)
     {
-        List<TileEntity> checkedRelocators = new ArrayList<TileEntity>();
         PathToRelocator path = new PathToRelocator(relocator, new ArrayList<Byte>(Arrays.asList((byte) side)));
 
         //Try to output
-        ItemOrPath itemOrPath = tryOutputAndReturnConnections(itemStack, path, checkedRelocators, side);
+        ItemOrPath itemOrPath = tryOutputAndReturnConnections(itemStack, path, side);
         //If an output was found the to-be-checked list is null, now return the travellingItem
         if (itemOrPath.ITEM != null)
         {
+            checkedRelocators.clear();
             return itemOrPath.ITEM;
         }
 
         //While to list of to-be-checked uncheckedRelocators is not empty go on
         while (!itemOrPath.PATHS.isEmpty())
         {
-            for (PathToRelocator pathToRelocator : new ArrayList<PathToRelocator>(itemOrPath.PATHS))
+            for (ListIterator<PathToRelocator> iterator = itemOrPath.PATHS.listIterator(); iterator.hasNext(); )
             {
+                PathToRelocator pathToRelocator = iterator.next();
                 //Try to output
-                ItemOrPath itemOrPath2 = tryOutputAndReturnConnections(itemStack, pathToRelocator, checkedRelocators, -1);
+                ItemOrPath itemOrPath2 = tryOutputAndReturnConnections(itemStack, pathToRelocator, -1);
                 //If an output was found the to-be-checked list is null, now return the travellingItem
                 if (itemOrPath2.ITEM != null)
                 {
+                    checkedRelocators.clear();
                     return itemOrPath2.ITEM;
                 }
-                //Add all connected Relocators and the Path to it
-                itemOrPath.PATHS.addAll(itemOrPath2.PATHS);
+
                 //Remove the current checked Relocator and Path to it
-                itemOrPath.PATHS.remove(pathToRelocator);
+                iterator.remove();
+
+                //Add all connected Relocators and the Path to it
+                for (PathToRelocator path2 : itemOrPath2.PATHS)
+                    iterator.add(path2);
             }
         }
+        checkedRelocators.clear();
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    private static ItemOrPath tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<TileEntity> checkedRelocators, int excludedOutputSide)
+    private static ItemOrPath tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, int excludedOutputSide)
     {
         //Try to output the stack to the connected Tiles
         TravellingItem item = tryToOutput(itemStack, path, excludedOutputSide);
