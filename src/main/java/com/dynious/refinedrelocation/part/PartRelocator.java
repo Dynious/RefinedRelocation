@@ -9,7 +9,6 @@ import codechicken.multipart.*;
 import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
-import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.mods.FMPHelper;
@@ -80,13 +79,13 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public void onNeighborChanged()
     {
         super.onNeighborChanged();
-        relocator.blocksChanged = true;
+        relocator.onBlocksChanged();
     }
 
     @Override
     public void onPartChanged(TMultiPart part)
     {
-        relocator.blocksChanged = true;
+        relocator.onBlocksChanged();
     }
 
     @Override
@@ -107,7 +106,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public void update()
     {
         super.update();
-        if (relocator.blocksChanged || relocator.shouldUpdate)
+        if (relocator.shouldUpdate)
         {
             relocator.updateEntity();
             if (!world().isRemote)

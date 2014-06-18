@@ -5,7 +5,6 @@ import codechicken.lib.raytracer.RayTracer;
 import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Vector3;
 import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
@@ -50,7 +49,7 @@ public class BlockRelocator extends BlockContainer
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
-            ((TileRelocator) tile).blocksChanged = true;
+            ((TileRelocator) tile).onBlocksChanged();
         }
     }
 

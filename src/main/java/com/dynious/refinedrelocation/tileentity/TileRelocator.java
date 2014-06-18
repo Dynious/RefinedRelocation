@@ -8,13 +8,10 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.*;
 import com.dynious.refinedrelocation.lib.Settings;
-import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -36,7 +33,7 @@ import java.util.ListIterator;
 
 public class TileRelocator extends TileEntity implements IRelocator, ISidedInventory
 {
-    public boolean blocksChanged = true;
+    private boolean isFirstTick = true;
     public boolean shouldUpdate = false;
     public boolean isBeingPowered = false;
 
@@ -98,47 +95,16 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     private void serverSideUpdate()
     {
+        if (isFirstTick)
+        {
+            onBlocksChanged();
+            isFirstTick = false;
+        }
+
         if (shouldUpdate)
         {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             shouldUpdate = false;
-        }
-        if (blocksChanged)
-        {
-            inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
-            relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
-
-            for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
-            {
-                if (!((IRelocator)worldObj.getBlockTileEntity(xCoord, yCoord, zCoord)).canConnectOnSide(direction.ordinal()))
-                    continue;
-
-                TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
-                if (tile != null)
-                {
-                    if (tile instanceof IRelocator)
-                    {
-                        if (((IRelocator)tile).canConnectOnSide(direction.getOpposite().ordinal()))
-                        {
-                            relocators[direction.ordinal()] = (IRelocator) tile;
-                        }
-                    }
-                    else if (IOHelper.canInterfaceWith(tile, direction.getOpposite()))
-                    {
-                        inventories[direction.ordinal()] = tile;
-                    }
-                }
-
-                if (relocators[direction.ordinal()] == null && inventories[direction.ordinal()] == null)
-                {
-                    emptySide(direction.ordinal());
-                }
-            }
-
-            updateRedstone();
-
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            blocksChanged = false;
         }
 
         if (!itemsToAdd.isEmpty())
@@ -376,6 +342,42 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             items.addAll(stuffedItem);
         }
         return items;
+    }
+
+    public void onBlocksChanged()
+    {
+        inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
+        relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
+
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+        {
+            if (!((IRelocator)worldObj.getBlockTileEntity(xCoord, yCoord, zCoord)).canConnectOnSide(direction.ordinal()))
+                continue;
+
+            TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
+            if (tile != null)
+            {
+                if (tile instanceof IRelocator)
+                {
+                    if (((IRelocator)tile).canConnectOnSide(direction.getOpposite().ordinal()))
+                    {
+                        relocators[direction.ordinal()] = (IRelocator) tile;
+                    }
+                }
+                else if (IOHelper.canInterfaceWith(tile, direction.getOpposite()))
+                {
+                    inventories[direction.ordinal()] = tile;
+                }
+            }
+
+            if (relocators[direction.ordinal()] == null && inventories[direction.ordinal()] == null)
+            {
+                emptySide(direction.ordinal());
+            }
+        }
+
+        updateRedstone();
+        shouldUpdate = true;
     }
 
     @Override
