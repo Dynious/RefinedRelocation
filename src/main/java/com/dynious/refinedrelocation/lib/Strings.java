@@ -52,6 +52,7 @@ public class Strings
     public static final String TICKS_BETWEEN_EXT = GUI_PREFIX + "ticksBetween";
     public static final String SNEAKY = GUI_PREFIX + "sneaky";
     public static final String NONE = GUI_PREFIX + "none";
+    public static final String PLAYER_RELOCATOR_LINK = GUI_PREFIX + "playerRelocatorLink";
 
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";

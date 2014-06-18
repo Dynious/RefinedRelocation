@@ -23,7 +23,7 @@ public class RelocatorModuleBlockedExtraction extends RelocatorModuleExtraction
     @Override
     public List<ItemStack> getDrops(IRelocator relocator, int side)
     {
-        return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 3));
+        return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 4));
     }
 
     @Override

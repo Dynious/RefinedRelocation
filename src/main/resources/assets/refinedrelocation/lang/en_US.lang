@@ -97,6 +97,7 @@ gui.refinedrelocation.tab=Tab
 gui.refinedrelocation.ticksBetween=Number of ticks between each extraction
 gui.refinedrelocation.sneaky=The side into which items will be inserted
 gui.refinedrelocation.none=None
+gui.refinedrelocation.playerRelocatorLink=Player Relocator is now linked to the Relocation Controller
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)

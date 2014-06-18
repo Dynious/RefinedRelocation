@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -79,6 +80,7 @@ public class ItemPlayerRelocator extends Item
                 stack.getTagCompound().setInteger("y", y);
                 stack.getTagCompound().setInteger("z", z);
                 ((TileRelocationController) tile).setLinkedUUID(stack.getTagCompound().getString(UUID_TAG));
+                player.sendChatToPlayer(new ChatMessageComponent().addText(StatCollector.translateToLocal(Strings.PLAYER_RELOCATOR_LINK)));
             }
             return true;
         }
