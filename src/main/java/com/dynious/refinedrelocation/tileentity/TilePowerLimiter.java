@@ -32,7 +32,6 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     protected IEnergySink energySink;
     protected IEnergyHandler energyHandler;
     protected IEnergyInterface energyInterface;
-    protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
     private double maxAcceptedEnergy = 10;
     private boolean disablePower = false;
@@ -107,11 +106,6 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         return energyInterface;
     }
 
-    public TileEntity[] getTiles()
-    {
-        return tiles;
-    }
-
     public double getMaxAcceptedEnergy()
     {
         return maxAcceptedEnergy;
@@ -134,7 +128,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
 
     public boolean getDisablePower()
     {
-        return disablePower || (!redstoneToggle && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
+        return disablePower;
     }
 
     public void setRedstoneToggle(boolean toggle)
@@ -149,11 +143,18 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
 
     public void newRedstoneState(boolean state)
     {
-        if (!oldState && state)
+        if (redstoneToggle)
         {
-            setDisablePower(!disablePower);
+            if (!oldState && state)
+            {
+                setDisablePower(!disablePower);
+            }
+            oldState = state;
         }
-        oldState = state;
+        else
+        {
+            setDisablePower(state);
+        }
     }
 
     @Override
@@ -180,6 +181,8 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     public void updateEntity()
     {
         super.updateEntity();
+        if (worldObj.isRemote)
+            return;
         if (canConnect())
         {
             TileEntity tile = null;
@@ -203,13 +206,6 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                     tile = getConnectedTile();
                 }
 
-                for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
-                {
-                    if (direction != connectedDirection)
-                    {
-                        tiles[direction.ordinal()] = DirectionHelper.getTileAtSide(this, direction);
-                    }
-                }
                 if (tile == null)
                 {
                     resetConnections();
@@ -220,10 +216,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                     checkConnectedDirection(tile);
                 }
 
-                if (redstoneToggle)
-                {
-                    newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
-                }
+                newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
                 blocksChanged = false;
             }
         }
