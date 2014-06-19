@@ -150,15 +150,22 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 for (ListIterator<ItemStack> iterator = stuffedItems[side].listIterator(); iterator.hasNext();)
                 {
                     ItemStack stack = iterator.next();
-                    if (!stacksUnableToAdd.contains(stack) && (modules[side] == null || modules[side].passesFilter(this, side, stack, false, false)))
+                    if (!stacksUnableToAdd.contains(stack) && (modules[side] == null || modules[side].passesFilter(this, side, stack, false, true)))
                     {
-                        if (getConnectedRelocators()[side] != null)
+                        IRelocator relocator = getConnectedRelocators()[side];
+                        if (relocator != null)
                         {
-                            TravellingItem item = RelocatorGridLogic.findOutput(stack, getConnectedRelocators()[side], ForgeDirection.OPPOSITES[side]);
-                            if (item != null)
+                            IRelocatorModule module = relocator.getRelocatorModule(ForgeDirection.OPPOSITES[side]);
+                            System.out.println(module);
+                            if (module == null || module.passesFilter(relocator, ForgeDirection.OPPOSITES[side], stack, true, true))
                             {
-                                stack.stackSize -= item.getStackSize();
-                                getConnectedRelocators()[side].receiveTravellingItem(item);
+                                System.out.println("pass");
+                                TravellingItem item = RelocatorGridLogic.findOutput(stack, relocator, ForgeDirection.OPPOSITES[side]);
+                                if (item != null)
+                                {
+                                    stack.stackSize -= item.getStackSize();
+                                    relocator.receiveTravellingItem(item);
+                                }
                             }
                         }
                         else
