@@ -98,6 +98,12 @@ gui.refinedrelocation.ticksBetween=Number of ticks between each extraction
 gui.refinedrelocation.sneaky=The side into which items will be inserted
 gui.refinedrelocation.none=None
 gui.refinedrelocation.playerRelocatorLink=Player Relocator is now linked to the Relocation Controller
+gui.refinedrelocation.tooFar=The %s is too far from the linked position (max range: %s)
+gui.refinedrelocation.linkedWith=%s is now linked with %s at (%s, %s, %s)
+gui.refinedrelocation.connectedTo=Connected to:
+gui.refinedrelocation.linkedTo=Linked to:
+gui.refinedrelocation.facing=Facing:
+gui.refinedrelocation.redstone=Redstone:
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)
@@ -105,7 +111,7 @@ itemDesc.refinedrelocation.unlinked=Unlinked
 itemDesc.refinedrelocation.disguisedAs=Disguised %s as: %s
 itemDesc.refinedrelocation.cannotDisguiseAs=Can not disguise as: %s
 itemDesc.refinedrelocation.linkerSet=Linker set to position: (%s, %s, %s) (%s)
-itemDesc.refinedrelocation.noLongerLinked=Linker is no longer linked
+itemDesc.refinedrelocation.noLongerLinked=%s is no longer linked
 itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
 itemDesc.refinedrelocation.brokenLink=Broken link!
 itemDesc.refinedrelocation.cooldown=Cooldown: %s

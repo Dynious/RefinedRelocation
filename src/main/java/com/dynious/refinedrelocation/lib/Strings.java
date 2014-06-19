@@ -53,6 +53,12 @@ public class Strings
     public static final String SNEAKY = GUI_PREFIX + "sneaky";
     public static final String NONE = GUI_PREFIX + "none";
     public static final String PLAYER_RELOCATOR_LINK = GUI_PREFIX + "playerRelocatorLink";
+    public static final String TOO_FAR = GUI_PREFIX + "tooFar";
+    public static final String LINKED_WITH = GUI_PREFIX + "linkedWith";
+    public static final String CONNECTED_TO = GUI_PREFIX + "connectedTo";
+    public static final String LINKED_TO = GUI_PREFIX + "linkedTo";
+    public static final String FACING = GUI_PREFIX + "facing";
+    public static final String REDSTONE = GUI_PREFIX + "redstone";
 
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";

@@ -164,7 +164,7 @@ public class ItemLinker extends Item
             unlink(stack);
             if (world.isRemote)
                 entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                        .addText(StatCollector.translateToLocal(Strings.NO_LONGER_LINKED)));
+                        .addText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemDisplayName(stack))));
             return stack;
         }
         return super.onItemRightClick(stack, world, entityPlayer);

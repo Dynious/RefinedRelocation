@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.common.Optional.Interface;
 import cpw.mods.fml.common.Optional.InterfaceList;
@@ -26,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -99,7 +101,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                     if (world.isRemote)
                     {
                         player.sendChatToPlayer(new ChatMessageComponent()
-                                .addText("Redstone signal transmission " + (blockExtender.isRedstoneTransmissionEnabled() ? "enabled" : "disabled")));
+                                .addText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED)));
                     }
                     return true;
                 }
@@ -128,7 +130,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                                 if (world.isRemote)
                                 {
                                     player.sendChatToPlayer(new ChatMessageComponent()
-                                            .addText(BlockHelper.getTileEntityDisplayName(tile) + " linked with " + BlockHelper.getBlockDisplayName(tile.worldObj, tileX, tileY, tileZ) + " at " + tileX + ":" + tileY + ":" + tileZ));
+                                            .addText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH, BlockHelper.getTileEntityDisplayName(tile), BlockHelper.getBlockDisplayName(tile.worldObj, tileX, tileY, tileZ), tileX, tileY, tileZ)));
                                 }
                             }
                             else
@@ -136,7 +138,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                                 if (world.isRemote)
                                 {
                                     player.sendChatToPlayer(new ChatMessageComponent()
-                                            .addText("The " + BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position (max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER + ")"));
+                                            .addText(StatCollector.translateToLocalFormatted(Strings.TOO_FAR, BlockHelper.getTileEntityDisplayName(tile), Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)));
                                 }
                             }
                         }
@@ -146,7 +148,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                             if (world.isRemote)
                             {
                                 player.sendChatToPlayer(new ChatMessageComponent()
-                                        .addText(BlockHelper.getTileEntityDisplayName(tile) + " is no longer linked"));
+                                        .addText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, BlockHelper.getTileEntityDisplayName(tile))));
                             }
                         }
                         return true;
