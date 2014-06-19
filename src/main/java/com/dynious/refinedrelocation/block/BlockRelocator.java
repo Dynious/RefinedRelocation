@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -51,6 +52,17 @@ public class BlockRelocator extends BlockContainer
         {
             ((TileRelocator) tile).onBlocksChanged();
         }
+    }
+
+    @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileRelocator)
+        {
+            return ((TileRelocator)tile).shouldConnectToRedstone();
+        }
+        return false;
     }
 
     @Override

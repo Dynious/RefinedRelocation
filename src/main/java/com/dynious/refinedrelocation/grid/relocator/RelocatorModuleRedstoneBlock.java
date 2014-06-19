@@ -22,6 +22,13 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
         return !relocator.getRedstoneState();
     }
 
+
+    @Override
+    public boolean connectsToRedstone()
+    {
+        return true;
+    }
+
     @Override
     public List<ItemStack> getDrops(IRelocator relocator, int side)
     {

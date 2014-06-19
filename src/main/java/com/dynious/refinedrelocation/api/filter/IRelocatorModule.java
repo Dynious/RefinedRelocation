@@ -26,6 +26,8 @@ public interface IRelocatorModule
 
     public void onRedstonePowerChange(boolean isPowered);
 
+    public boolean connectsToRedstone();
+
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator, EntityPlayer player);
 

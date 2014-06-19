@@ -232,6 +232,16 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return isBeingPowered;
     }
 
+    public boolean shouldConnectToRedstone()
+    {
+        for (IRelocatorModule module : modules)
+        {
+            if (module != null && module.connectsToRedstone())
+                return true;
+        }
+        return false;
+    }
+
     public boolean onActivated(EntityPlayer player, MovingObjectPosition hit, ItemStack stack)
     {
         if (hit.subHit < 6)

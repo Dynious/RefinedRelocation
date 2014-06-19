@@ -28,7 +28,7 @@ import net.minecraftforge.common.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart
+public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart, IRedstonePart
 {
     private TileRelocator relocator;
 
@@ -160,6 +160,24 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public int getSlotMask()
     {
         return 0;
+    }
+
+    @Override
+    public int strongPowerLevel(int i)
+    {
+        return 0;
+    }
+
+    @Override
+    public int weakPowerLevel(int i)
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean canConnectRedstone(int i)
+    {
+        return relocator.shouldConnectToRedstone();
     }
 
     /*
