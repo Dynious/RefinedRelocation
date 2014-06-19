@@ -246,11 +246,7 @@ public class IOHelper
         */
         else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
-            IPipeTile pipe = (IPipeTile) tile;
-            if (pipe.isPipeConnected(side))
-            {
-                return true;
-            }
+            return true;
         }
         else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeConnection)
         {

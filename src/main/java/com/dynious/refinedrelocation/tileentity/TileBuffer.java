@@ -252,6 +252,12 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     }
 
     @Override
+    public List<TileEntity> getConnectedTiles()
+    {
+        return Arrays.asList(tiles);
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
@@ -477,12 +483,6 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     public boolean canEmitPowerFrom(ForgeDirection direction)
     {
         return true;
-    }
-
-    @Override
-    public List<TileEntity> getConnectedTiles()
-    {
-        return Arrays.asList(tiles);
     }
 
     /*

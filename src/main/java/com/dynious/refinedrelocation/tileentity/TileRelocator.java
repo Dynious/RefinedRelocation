@@ -9,6 +9,8 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.*;
+import com.dynious.refinedrelocation.lib.Mods;
+import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.network.packet.MessageItemList;
@@ -28,6 +30,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraft.util.MovingObjectPosition;
 
@@ -39,7 +42,7 @@ import java.util.ListIterator;
 public class TileRelocator extends TileEntity implements IRelocator, ISidedInventory
 {
     private boolean isFirstTick = true;
-    public boolean shouldUpdate = false;
+    public boolean shouldUpdate = true;
     public boolean isBeingPowered = false;
 
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
@@ -100,16 +103,16 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     private void serverSideUpdate()
     {
-        if (shouldUpdate)
-        {
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            shouldUpdate = false;
-        }
-
         if (isFirstTick)
         {
             onBlocksChanged();
             isFirstTick = false;
+        }
+
+        if (shouldUpdate)
+        {
+            markUpdate(worldObj, xCoord, yCoord, zCoord);
+            shouldUpdate = false;
         }
 
         if (!itemsToAdd.isEmpty())
@@ -152,15 +155,20 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 for (ListIterator<ItemStack> iterator = stuffedItems[side].listIterator(); iterator.hasNext();)
                 {
                     ItemStack stack = iterator.next();
-                    if (!stacksUnableToAdd.contains(stack) && (modules[side] == null || modules[side].passesFilter(this, side, stack, false, false)))
+                    if (!stacksUnableToAdd.contains(stack) && (modules[side] == null || modules[side].passesFilter(this, side, stack, false, true)))
                     {
-                        if (getConnectedRelocators()[side] != null)
+                        IRelocator relocator = getConnectedRelocators()[side];
+                        if (relocator != null)
                         {
-                            TravellingItem item = RelocatorGridLogic.findOutput(stack, getConnectedRelocators()[side], ForgeDirection.OPPOSITES[side]);
-                            if (item != null)
+                            IRelocatorModule module = relocator.getRelocatorModule(ForgeDirection.OPPOSITES[side]);
+                            if (module == null || module.passesFilter(relocator, ForgeDirection.OPPOSITES[side], stack, true, true))
                             {
-                                stack.stackSize -= item.getStackSize();
-                                getConnectedRelocators()[side].receiveTravellingItem(item);
+                                TravellingItem item = RelocatorGridLogic.findOutput(stack, relocator, ForgeDirection.OPPOSITES[side]);
+                                if (item != null)
+                                {
+                                    stack.stackSize -= item.getStackSize();
+                                    relocator.receiveTravellingItem(item);
+                                }
                             }
                         }
                         else
@@ -270,7 +278,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 modules[side] = module;
                 module.init(this, side);
                 stack.stackSize--;
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                markUpdate(worldObj, xCoord, yCoord, zCoord);
                 return true;
             }
         }
@@ -287,7 +295,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     }
                 }
                 modules[side] = null;
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                markUpdate(worldObj, xCoord, yCoord, zCoord);
                 return true;
             }
             else
@@ -392,7 +400,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
 
         updateRedstone();
-        shouldUpdate = true;
+        markUpdate(worldObj, xCoord, yCoord, zCoord);
     }
 
     @Override
@@ -974,5 +982,19 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public boolean isWireActive(PipeWire pipeWire)
     {
         return false;
+    }
+
+    public static void markUpdate(World world, int x, int y, int z)
+    {
+        if (world.isRemote) return;
+
+        if (Mods.IS_FMP_LOADED)
+        {
+            FMPHelper.updateBlock(world, x, y, z);
+        }
+        else
+        {
+            world.markBlockForUpdate(x, y, z);
+        }
     }
 }
