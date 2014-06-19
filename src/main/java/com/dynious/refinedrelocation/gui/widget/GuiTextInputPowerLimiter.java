@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.gui.GuiPowerLimiter;
+import com.dynious.refinedrelocation.helper.EnergyType;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageSetMaxPower;
@@ -16,6 +17,7 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
     private TilePowerLimiter tile;
     private double maxAcceptedEnergy;
     protected GuiPowerLimiter parent;
+    private EnergyType currentEnergyType;
 
     public GuiTextInputPowerLimiter(GuiPowerLimiter parent, int x, int y, int w, int h, TilePowerLimiter tile)
     {
@@ -39,10 +41,18 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
     @Override
     public void update()
     {
-        if (tile != null && tile.getMaxAcceptedEnergy() != maxAcceptedEnergy)
+        if (tile != null)
         {
-            maxAcceptedEnergy = tile.getMaxAcceptedEnergy();
-            setText(maxEnergyToString(tile.getMaxAcceptedEnergy()));
+            if (currentEnergyType != parent.getCurrentEnergyType())
+            {
+                currentEnergyType = parent.getCurrentEnergyType();
+                maxAcceptedEnergy = -1.0D;
+            }
+            if (tile.getMaxAcceptedEnergy() != maxAcceptedEnergy)
+            {
+                maxAcceptedEnergy = tile.getMaxAcceptedEnergy();
+                setText(maxEnergyToString(tile.getMaxAcceptedEnergy()));
+            }
         }
 
         super.update();
@@ -79,7 +89,16 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
         {
             return 0;
         }
-        return parent.getCurrentEnergyType().convertToInternal(Double.parseDouble(string));
+        double power;
+        try
+        {
+            power = Double.parseDouble(string);
+        }
+        catch (NumberFormatException e)
+        {
+            power = 0.0D;
+        }
+        return parent.getCurrentEnergyType().convertToInternal(power);
     }
 
     @Override

@@ -17,9 +17,16 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
     private static IIcon iconOff;
 
     @Override
-    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input)
+    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
         return !relocator.getRedstoneState();
+    }
+
+
+    @Override
+    public boolean connectsToRedstone()
+    {
+        return true;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageFilterOption;
+import net.minecraft.client.Minecraft;
 
 public class GuiCheckboxFilter extends GuiCheckbox
 {
@@ -22,7 +23,7 @@ public class GuiCheckboxFilter extends GuiCheckbox
     {
         this.index = index;
         if (tile != null)
-            this.label.setText(tile.getFilter().getName(index));
+            this.label.setText(Minecraft.getMinecraft().fontRenderer.trimStringToWidth(tile.getFilter().getName(index), w));
     }
 
     @Override

@@ -93,7 +93,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             {
                 itemstack = this.bufferInventory[par1];
                 this.bufferInventory[par1] = null;
-                this.markDirty();;
+                this.markDirty();
                 return itemstack;
             }
             else
@@ -105,7 +105,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
                     this.bufferInventory[par1] = null;
                 }
 
-                this.markDirty();;
+                this.markDirty();
                 return itemstack;
             }
         }
@@ -139,12 +139,15 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             {
                 return;
             }
-            int id = OreDictionary.getOreID(itemstack);
-            if (idList.contains(id))
+            int[] ids = OreDictionary.getOreIDs(itemstack);
+            for (int id : ids)
             {
-                ItemStack stack = itemList.get(idList.indexOf(id)).copy();
-                stack.stackSize = itemstack.stackSize;
-                itemstack = stack;
+                if (idList.contains(id))
+                {
+                    ItemStack stack = itemList.get(idList.indexOf(id)).copy();
+                    stack.stackSize = itemstack.stackSize;
+                    itemstack = stack;
+                }
             }
             bufferInventory[0] = getHandler().getGrid().filterStackToGroup(itemstack, this, i);
             if (bufferInventory[0] != null)
@@ -163,8 +166,8 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             }
             else if (itemstack != null)
             {
-                int id = OreDictionary.getOreID(itemstack);
-                if (id != -1)
+                int[] ids = OreDictionary.getOreIDs(itemstack);
+                for (int id : ids)
                 {
                     if (i - 1 < itemList.size() && (!idList.contains(id) || id == idList.get(index)))
                     {

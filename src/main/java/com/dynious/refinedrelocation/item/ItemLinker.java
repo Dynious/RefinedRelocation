@@ -162,7 +162,8 @@ public class ItemLinker extends Item
             entityPlayer.swingItem();
             unlink(stack);
             if (world.isRemote)
-                entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocal(Strings.NO_LONGER_LINKED))));
+                entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemStackDisplayName(stack))));
+                entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemStackDisplayName(stack))));
             return stack;
         }
         return super.onItemRightClick(stack, world, entityPlayer);

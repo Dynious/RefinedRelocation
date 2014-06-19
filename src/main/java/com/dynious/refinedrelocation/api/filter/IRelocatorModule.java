@@ -26,12 +26,14 @@ public interface IRelocatorModule
 
     public void onRedstonePowerChange(boolean isPowered);
 
+    public boolean connectsToRedstone();
+
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator, EntityPlayer player);
 
     public Container getContainer(IRelocator relocator, EntityPlayer player);
 
-    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input);
+    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate);
 
     public void readFromNBT(NBTTagCompound compound);
 

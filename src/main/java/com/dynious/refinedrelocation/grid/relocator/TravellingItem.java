@@ -14,17 +14,27 @@ public class TravellingItem
 {
     public static final byte timePerRelocator = 10;
     private ItemStack itemStack;
-    private Vector3 startingPoint;
     private List<Byte> path;
     public byte input;
     public byte counter;
 
-    public TravellingItem(ItemStack itemStack, Vector3 startingPoint, List<Byte> path, int inputSide)
+    public TravellingItem(ItemStack itemStack, List<Byte> path, int inputSide)
     {
         this.itemStack = itemStack;
-        this.startingPoint = startingPoint;
         this.path = path;
         this.input = (byte) inputSide;
+    }
+
+    /**
+     * @param itemStack The transported ItemStack
+     * @param path The path of the item, the first entry must be the input side
+     */
+    public TravellingItem(ItemStack itemStack, List<Byte> path)
+    {
+        this.itemStack = itemStack;
+        this.path = path;
+        this.input = getPath().get(0);
+        getPath().remove(0);
     }
 
     public int getStackSize()
@@ -55,16 +65,6 @@ public class TravellingItem
     public ItemStack getItemStack()
     {
         return itemStack;
-    }
-
-    public Vector3 getStartingPoint()
-    {
-        return startingPoint;
-    }
-
-    public void setStartingPoint(Vector3 startingPoint)
-    {
-        this.startingPoint = startingPoint;
     }
 
     public byte getInputSide()
@@ -121,8 +121,6 @@ public class TravellingItem
     public void writeToNBT(NBTTagCompound compound)
     {
         itemStack.writeToNBT(compound);
-        if (startingPoint != null)
-            startingPoint.writeToNBT(compound);
         compound.setByteArray("path", Bytes.toArray(path));
         compound.setByte("input", input);
         compound.setByte("counter", counter);
@@ -131,7 +129,6 @@ public class TravellingItem
     public void readFromNBT(NBTTagCompound compound)
     {
         itemStack = ItemStack.loadItemStackFromNBT(compound);
-        startingPoint = Vector3.createFromNBT(compound);
         path = Bytes.asList(compound.getByteArray("path"));
         input = compound.getByte("input");
         counter = compound.getByte("counter");
@@ -139,7 +136,7 @@ public class TravellingItem
 
     public static TravellingItem createFromNBT(NBTTagCompound compound)
     {
-        TravellingItem t = new TravellingItem(ItemStack.loadItemStackFromNBT(compound), Vector3.createFromNBT(compound), new ArrayList<Byte>(Bytes.asList(compound.getByteArray("path"))), compound.getByte("input"));
+        TravellingItem t = new TravellingItem(ItemStack.loadItemStackFromNBT(compound), new ArrayList<Byte>(Bytes.asList(compound.getByteArray("path"))), compound.getByte("input"));
         t.counter = compound.getByte("counter");
         return t;
     }

@@ -31,7 +31,7 @@ public interface IRelocator extends IPipeTile
 
     public boolean getRedstoneState();
 
-    public boolean passesFilter(ItemStack itemStack, int side, boolean input);
+    public boolean passesFilter(ItemStack itemStack, int side, boolean input, boolean simulate);
 
     public ItemStack insert(ItemStack itemStack, int side, boolean simulate);
 

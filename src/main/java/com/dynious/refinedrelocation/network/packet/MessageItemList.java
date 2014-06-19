@@ -48,7 +48,7 @@ public class MessageItemList implements IMessage, IMessageHandler<MessageItemLis
             //data.read(path);
             list.add(buf.readByte());
             byte input = buf.readByte();
-            items.add(new TravellingItem(stack, null, list, input));
+            items.add(new TravellingItem(stack, list, input));
         }
     }
 

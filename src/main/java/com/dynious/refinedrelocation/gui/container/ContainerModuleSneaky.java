@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
@@ -28,13 +27,13 @@ public class ContainerModuleSneaky extends ContainerHierarchical
     {
         super.detectAndSendChanges();
 
-        if (module.getSide() != lastSide || initialUpdate)
+        if (module.getOutputSide() != lastSide || initialUpdate)
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 0, module.getSide());
+                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 0, module.getOutputSide());
             }
-            lastSide = module.getSide();
+            lastSide = module.getOutputSide();
         }
 
         if (initialUpdate)
@@ -54,6 +53,6 @@ public class ContainerModuleSneaky extends ContainerHierarchical
 
     public void setSide(int ticks)
     {
-        module.setSide(ticks);
+        module.setOutputSide(ticks);
     }
 }

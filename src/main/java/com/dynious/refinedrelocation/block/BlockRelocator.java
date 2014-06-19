@@ -5,7 +5,6 @@ import codechicken.lib.raytracer.RayTracer;
 import codechicken.lib.vec.BlockCoord;
 import codechicken.lib.vec.Vector3;
 import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
@@ -18,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -51,8 +51,19 @@ public class BlockRelocator extends BlockContainer
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
-            ((TileRelocator) tile).blocksChanged = true;
+            ((TileRelocator) tile).onBlocksChanged();
         }
+    }
+
+    @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
+    {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileRelocator)
+        {
+            return ((TileRelocator)tile).shouldConnectToRedstone();
+        }
+        return false;
     }
 
     @Override

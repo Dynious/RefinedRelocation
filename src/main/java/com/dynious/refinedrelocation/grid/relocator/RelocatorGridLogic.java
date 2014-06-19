@@ -7,61 +7,61 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RelocatorGridLogic
 {
-    private static TravellingItem travellingItem;
-    private static IRelocator start;
-    private static byte startSide;
+    private static List<TileEntity> checkedRelocators = new ArrayList<TileEntity>();
 
     public static TravellingItem findOutput(ItemStack itemStack, IRelocator relocator, int side)
     {
-        start = relocator;
-        startSide = (byte) side;
-        List<TileEntity> checkedRelocators = new ArrayList<TileEntity>();
-        PathToRelocator path = new PathToRelocator(relocator, new ArrayList<Byte>());
+        PathToRelocator path = new PathToRelocator(relocator, new ArrayList<Byte>(Arrays.asList((byte) side)));
 
         //Try to output
-        List<PathToRelocator> uncheckedRelocators = tryOutputAndReturnConnections(itemStack, path, checkedRelocators, side);
+        ItemOrPath itemOrPath = tryOutputAndReturnConnections(itemStack, path, side);
         //If an output was found the to-be-checked list is null, now return the travellingItem
-        if (uncheckedRelocators == null)
+        if (itemOrPath.ITEM != null)
         {
-            return travellingItem;
+            checkedRelocators.clear();
+            return itemOrPath.ITEM;
         }
 
         //While to list of to-be-checked uncheckedRelocators is not empty go on
-        while (!uncheckedRelocators.isEmpty())
+        while (!itemOrPath.PATHS.isEmpty())
         {
-            for (PathToRelocator pathToRelocator : new ArrayList<PathToRelocator>(uncheckedRelocators))
+            for (ListIterator<PathToRelocator> iterator = itemOrPath.PATHS.listIterator(); iterator.hasNext(); )
             {
+                PathToRelocator pathToRelocator = iterator.next();
                 //Try to output
-                List<PathToRelocator> pathList = tryOutputAndReturnConnections(itemStack, pathToRelocator, checkedRelocators, -1);
+                ItemOrPath itemOrPath2 = tryOutputAndReturnConnections(itemStack, pathToRelocator, -1);
                 //If an output was found the to-be-checked list is null, now return the travellingItem
-                if (pathList == null)
+                if (itemOrPath2.ITEM != null)
                 {
-                    return travellingItem;
+                    checkedRelocators.clear();
+                    return itemOrPath2.ITEM;
                 }
-                //Add all connected Relocators and the Path to it
-                uncheckedRelocators.addAll(pathList);
+
                 //Remove the current checked Relocator and Path to it
-                uncheckedRelocators.remove(pathToRelocator);
+                iterator.remove();
+
+                //Add all connected Relocators and the Path to it
+                for (PathToRelocator path2 : itemOrPath2.PATHS)
+                    iterator.add(path2);
             }
         }
+        checkedRelocators.clear();
         return null;
     }
 
     @SuppressWarnings("unchecked")
-    private static List<PathToRelocator> tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, List<TileEntity> checkedRelocators, int excludedOutputSide)
+    private static ItemOrPath tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, int excludedOutputSide)
     {
         //Try to output the stack to the connected Tiles
         TravellingItem item = tryToOutput(itemStack, path, excludedOutputSide);
         //If something could be outputted set the travellingItem to the found item and return null (stop searching)
         if (item != null)
         {
-            travellingItem = item;
-            return null;
+            return new ItemOrPath(item);
         }
         //Add the Relocator to the checked list, this Relocator will not be checked again if found
         checkedRelocators.add(path.RELOCATOR.getTileEntity());
@@ -71,7 +71,7 @@ public class RelocatorGridLogic
         for (int i = 0; i < path.RELOCATOR.getConnectedRelocators().length; i++)
         {
             IRelocator relocator1 = path.RELOCATOR.getConnectedRelocators()[i];
-            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && path.RELOCATOR.passesFilter(itemStack, i, false) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i], true))
+            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && path.RELOCATOR.passesFilter(itemStack, i, false, true) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i], true, true))
             {
                 //Clone the path to the connected Relocator and add the new side to it
                 ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
@@ -80,7 +80,7 @@ public class RelocatorGridLogic
                 uncheckedRelocators.add(new PathToRelocator(relocator1, newP));
             }
         }
-        return uncheckedRelocators;
+        return new ItemOrPath(uncheckedRelocators);
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +93,7 @@ public class RelocatorGridLogic
                 TileEntity inventory = path.RELOCATOR.getConnectedInventories()[i];
                 if (inventory != null)
                 {
-                    if (path.RELOCATOR.passesFilter(itemStack, i, false))
+                    if (path.RELOCATOR.passesFilter(itemStack, i, false, true))
                     {
                         ItemStack stack;
                         if (path.RELOCATOR.getRelocatorModule(i) != null)
@@ -119,7 +119,7 @@ public class RelocatorGridLogic
                             {
                                 stack = itemStack.copy();
                             }
-                            return new TravellingItem(stack, Vector3.getFromTile(start.getTileEntity()), newPath, startSide);
+                            return new TravellingItem(stack, newPath);
                         }
                     }
                 }

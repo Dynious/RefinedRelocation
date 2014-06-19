@@ -39,30 +39,30 @@ public class WailaProvider implements IWailaDataProvider
 
                 if (wirelessBlockExtender.isLinked())
                 {
-                    strings.add("Linked To : " /* + SpecialChars.TAB */ + BlockHelper.getBlockDisplayName(wirelessBlockExtender.getWorldObj(), wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected) + " (" + wirelessBlockExtender.xConnected + ":" + wirelessBlockExtender.yConnected + ":" + wirelessBlockExtender.zConnected + ")");
+                    strings.add(StatCollector.translateToLocal(Strings.LINKED_TO) + SpecialChars.TAB + BlockHelper.getBlockDisplayName(wirelessBlockExtender.getWorldObj(), wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected) + " (" + wirelessBlockExtender.xConnected + ", " + wirelessBlockExtender.yConnected + ", " + wirelessBlockExtender.zConnected + ")");
                 }
                 else
                 {
-                    strings.add("Unlinked");
+                    strings.add(StatCollector.translateToLocal(Strings.UNLINKED));
                 }
             }
             else
             {
                 if (blockExtender.getConnectedTile() != null)
                 {
-                    strings.add("Connected To : " /* + SpecialChars.TAB */ + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()));
+                    strings.add(StatCollector.translateToLocal(Strings.CONNECTED_TO) + SpecialChars.TAB + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()));
                 }
                 else
                 {
-                    strings.add("Not Connected");
+                    strings.add(StatCollector.translateToLocal(Strings.NOT_CONNECTED));
                 }
             }
 
             if (blockExtender.getConnectedDirection() != ForgeDirection.UNKNOWN)
-                strings.add("Facing : " /* + SpecialChars.TAB */ + blockExtender.getConnectedDirection().toString());
+                strings.add(StatCollector.translateToLocal(Strings.FACING) + SpecialChars.TAB + blockExtender.getConnectedDirection().toString());
 
             if (!(blockExtender instanceof TileWirelessBlockExtender))
-                strings.add("Redstone : " /* + SpecialChars.TAB */ + (!blockExtender.isRedstoneTransmissionEnabled() ? StatCollector.translateToLocal(Strings.DISABLED) : blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE)));
+                strings.add(StatCollector.translateToLocal(Strings.REDSTONE) + SpecialChars.TAB + (!blockExtender.isRedstoneTransmissionEnabled() ? StatCollector.translateToLocal(Strings.DISABLED) : blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE)));
         }
         return strings;
     }

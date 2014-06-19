@@ -3,6 +3,8 @@ package com.dynious.refinedrelocation.renderer;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.TextureUtils;
 import codechicken.lib.render.uv.IconTransformation;
+import codechicken.lib.vec.Scale;
+import codechicken.lib.vec.TransformationList;
 import codechicken.lib.vec.Translation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -32,22 +34,22 @@ public class ItemRendererRelocator implements IItemRenderer
         {
             case ENTITY:
             {
-                render(0.0F, 0.5F, 0.0F, item);
+                render(0.0F, 0.3F, 0.0F, 0.8F, item);
                 return;
             }
             case EQUIPPED:
             {
-                render(0.5F, 0.5F, 0.5F, item);
+                render(0.5F, 0.5F, 0.5F, 1.0F, item);
                 return;
             }
             case EQUIPPED_FIRST_PERSON:
             {
-                render(0.5F, 0.5F, 0.3F, item);
+                render(0.5F, 0.5F, 0.3F, 1.0F, item);
                 return;
             }
             case INVENTORY:
             {
-                render(0.5F, 0.4F, 0.5F, item);
+                render(0.5F, 0.4F, 0.5F, 1.0F, item);
                 return;
             }
             default:
@@ -55,7 +57,7 @@ public class ItemRendererRelocator implements IItemRenderer
         }
     }
 
-    public void render(float x, float y, float z, ItemStack itemStack)
+    public void render(float x, float y, float z, float scale, ItemStack itemStack)
     {
         GL11.glPushMatrix();
 
@@ -65,7 +67,9 @@ public class ItemRendererRelocator implements IItemRenderer
 
         CCRenderState.startDrawing();
 
-        Translation trans = new Translation(x, y, z);
+        GL11.glScalef(scale, scale, scale);
+
+        TransformationList list = new TransformationList(new Translation(x, y, z), new Scale(scale));
 
         for (int side = 0; side < 6; side++)
         {
@@ -73,14 +77,14 @@ public class ItemRendererRelocator implements IItemRenderer
             {
                 iconTransformation.icon = RendererRelocator.iconSide;
 
-                RendererRelocator.SIDE_MODELS[side].render(0, 48, trans, iconTransformation);
+                RendererRelocator.SIDE_MODELS[side].render(0, 48, list, iconTransformation);
             }
             else
             {
                 iconTransformation.icon = RendererRelocator.iconsCenter[1];
 
-                RendererRelocator.CENTER_MODEL.render(side * 4, side * 4 + 4, trans, iconTransformation);
-                RendererRelocator.CENTER_MODEL.render(24 + side * 4, 24 + side * 4 + 4, trans, iconTransformation);
+                RendererRelocator.CENTER_MODEL.render(side * 4, side * 4 + 4, list, iconTransformation);
+                RendererRelocator.CENTER_MODEL.render(24 + side * 4, 24 + side * 4 + 4, list, iconTransformation);
             }
         }
 

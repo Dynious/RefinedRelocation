@@ -33,7 +33,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart
+public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart, IRedstonePart
 {
     private static Field nbtField = ReflectionHelper.findField(S35PacketUpdateTileEntity.class, "field_148860_e", "e");
     private TileRelocator relocator;
@@ -85,13 +85,13 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public void onNeighborChanged()
     {
         super.onNeighborChanged();
-        relocator.blocksChanged = true;
+        relocator.onBlocksChanged();
     }
 
     @Override
     public void onPartChanged(TMultiPart part)
     {
-        relocator.blocksChanged = true;
+        relocator.onBlocksChanged();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public void update()
     {
         super.update();
-        if (relocator.blocksChanged || relocator.shouldUpdate)
+        if (relocator.shouldUpdate)
         {
             relocator.updateEntity();
             if (!world().isRemote)
@@ -166,6 +166,24 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public int getSlotMask()
     {
         return 0;
+    }
+
+    @Override
+    public int strongPowerLevel(int i)
+    {
+        return 0;
+    }
+
+    @Override
+    public int weakPowerLevel(int i)
+    {
+        return 0;
+    }
+
+    @Override
+    public boolean canConnectRedstone(int i)
+    {
+        return relocator.shouldConnectToRedstone();
     }
 
     /*
@@ -257,9 +275,9 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public boolean passesFilter(ItemStack itemStack, int side, boolean input)
+    public boolean passesFilter(ItemStack itemStack, int side, boolean input, boolean simulate)
     {
-        return relocator.passesFilter(itemStack, side, input);
+        return relocator.passesFilter(itemStack, side, input, simulate);
     }
 
     @Override

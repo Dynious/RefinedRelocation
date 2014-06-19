@@ -268,8 +268,8 @@ public class FilterStandard implements IFilterGUI
 
     public void readFromNBT(NBTTagCompound compound)
     {
-        setUserFilter(compound.getString("userFilter"));
-        setBlacklists(compound.getBoolean("blacklists"));
+        this.userFilter = compound.getString("userFilter");
+        this.blacklists = compound.getBoolean("blacklists");
         for (int i = 0; i < customFilters.length; i++)
         {
             customFilters[i] = compound.getBoolean("cumstomFilters" + i);

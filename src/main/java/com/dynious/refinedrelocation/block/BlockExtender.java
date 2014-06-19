@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,6 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -87,7 +89,7 @@ public class BlockExtender extends BlockContainer /*    implements IDismantleabl
                     blockExtender.setRedstoneTransmissionEnabled(!blockExtender.isRedstoneTransmissionEnabled());
                     if (world.isRemote)
                     {
-                        player.addChatComponentMessage(new ChatComponentText("Redstone signal transmission " + (blockExtender.isRedstoneTransmissionEnabled() ? "enabled" : "disabled")));
+                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED)));
                     }
                     return true;
                 }
@@ -115,14 +117,14 @@ public class BlockExtender extends BlockContainer /*    implements IDismantleabl
                                 ((TileWirelessBlockExtender) tile).setLink(tileX, tileY, tileZ);
                                 if (world.isRemote)
                                 {
-                                    player.addChatComponentMessage(new ChatComponentText(BlockHelper.getTileEntityDisplayName(tile) + " linked with " + BlockHelper.getBlockDisplayName(tile.getWorldObj(), tileX, tileY, tileZ) + " at " + tileX + ":" + tileY + ":" + tileZ));
+                                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH, BlockHelper.getTileEntityDisplayName(tile), BlockHelper.getBlockDisplayName(tile.getWorldObj(), tileX, tileY, tileZ), tileX, tileY, tileZ)));
                                 }
                             }
                             else
                             {
                                 if (world.isRemote)
                                 {
-                                    player.addChatComponentMessage(new ChatComponentText("The " + BlockHelper.getTileEntityDisplayName(tile) + " is too far from the linked position (max range: " + Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER + ")"));
+                                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.TOO_FAR, BlockHelper.getTileEntityDisplayName(tile), Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)));
                                 }
                             }
                         }
@@ -131,7 +133,7 @@ public class BlockExtender extends BlockContainer /*    implements IDismantleabl
                             ((TileWirelessBlockExtender) tile).clearLink();
                             if (world.isRemote)
                             {
-                                player.addChatComponentMessage(new ChatComponentText(BlockHelper.getTileEntityDisplayName(tile) + " is no longer linked"));
+                                player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, BlockHelper.getTileEntityDisplayName(tile))));
                             }
                         }
                         return true;

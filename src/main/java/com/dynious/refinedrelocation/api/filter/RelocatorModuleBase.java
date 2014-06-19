@@ -47,6 +47,12 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
+    public boolean connectsToRedstone()
+    {
+        return false;
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
     {
@@ -60,7 +66,7 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
-    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input)
+    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
         return true;
     }
