@@ -106,16 +106,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public void update()
     {
         super.update();
-        if (relocator.shouldUpdate)
-        {
-            relocator.updateEntity();
-            if (!world().isRemote)
-                sendDescUpdate();
-        }
-        else
-        {
-            relocator.updateEntity();
-        }
+        relocator.updateEntity();
     }
 
     public void initRelocator()
@@ -159,7 +150,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public int getSlotMask()
     {
-        return 0;
+        return PartMap.CENTER.mask;
     }
 
     @Override
