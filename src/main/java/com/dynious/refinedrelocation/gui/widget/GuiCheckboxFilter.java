@@ -24,7 +24,7 @@ public class GuiCheckboxFilter extends GuiCheckbox
     {
         this.index = index;
         if (tile != null)
-            this.label.setText(Minecraft.getMinecraft().fontRenderer.trimStringToWidth(tile.getFilter().getName(index), w));
+            this.label.setText(Minecraft.getMinecraft().fontRenderer.trimStringToWidth(tile.getFilter().getName(index), w + textureW + 6));
     }
 
     @Override
