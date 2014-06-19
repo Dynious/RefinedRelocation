@@ -156,10 +156,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                         if (relocator != null)
                         {
                             IRelocatorModule module = relocator.getRelocatorModule(ForgeDirection.OPPOSITES[side]);
-                            System.out.println(module);
                             if (module == null || module.passesFilter(relocator, ForgeDirection.OPPOSITES[side], stack, true, true))
                             {
-                                System.out.println("pass");
                                 TravellingItem item = RelocatorGridLogic.findOutput(stack, relocator, ForgeDirection.OPPOSITES[side]);
                                 if (item != null)
                                 {
