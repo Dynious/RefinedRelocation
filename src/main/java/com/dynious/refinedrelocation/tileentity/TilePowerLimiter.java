@@ -134,6 +134,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     public void setRedstoneToggle(boolean toggle)
     {
         redstoneToggle = toggle;
+        if (worldObj != null && !worldObj.isRemote) newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
     }
 
     public boolean getRedstoneToggle()
@@ -181,8 +182,6 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     public void updateEntity()
     {
         super.updateEntity();
-        if (worldObj.isRemote)
-            return;
         if (canConnect())
         {
             TileEntity tile = null;
@@ -216,7 +215,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                     checkConnectedDirection(tile);
                 }
 
-                newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
+                if (!worldObj.isRemote) newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
                 blocksChanged = false;
             }
         }
