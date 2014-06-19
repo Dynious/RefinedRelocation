@@ -95,16 +95,16 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     private void serverSideUpdate()
     {
-        if (isFirstTick)
-        {
-            onBlocksChanged();
-            isFirstTick = false;
-        }
-
         if (shouldUpdate)
         {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             shouldUpdate = false;
+        }
+        
+        if (isFirstTick)
+        {
+            onBlocksChanged();
+            isFirstTick = false;
         }
 
         if (!itemsToAdd.isEmpty())
