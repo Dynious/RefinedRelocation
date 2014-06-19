@@ -4,6 +4,7 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.EnergyType;
+import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
@@ -18,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static cpw.mods.fml.common.Optional.Method;
@@ -227,7 +229,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
 
     protected void checkConnectedDirection(TileEntity tile)
     {
-        if (tile != null && !isLooping(tile))
+        if (tile != null && !LoopHelper.isLooping(this, tile))
         {
             boolean updated = false;
             if (Mods.IS_BC_ENERGY_LOADED && tile instanceof IPowerReceptor)
@@ -309,29 +311,9 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         return DirectionHelper.getTileAtSide(this, connectedDirection);
     }
 
-    private boolean isLooping(TileEntity tile)
+    public List<TileEntity> getConnectedTiles()
     {
-        return tile != null && tile instanceof ILoopable && isTileConnectedToThis((ILoopable) tile, new ArrayList<ILoopable>());
-    }
-
-    private boolean isTileConnectedToThis(ILoopable loopable, List<ILoopable> visited)
-    {
-        boolean isLooping;
-        TileEntity tile = loopable.getConnectedTile();
-        if (tile == this || visited.contains(tile))
-        {
-            return true;
-        }
-        if (tile != null && tile instanceof ILoopable)
-        {
-            visited.add((ILoopable) tile);
-            isLooping = isTileConnectedToThis((ILoopable) tile, visited);
-        }
-        else
-        {
-            return false;
-        }
-        return isLooping;
+        return Arrays.asList(DirectionHelper.getTileAtSide(this, connectedDirection));
     }
 
     /*
