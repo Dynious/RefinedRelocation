@@ -8,6 +8,7 @@ import cofh.api.energy.IEnergyHandler;
 import cofh.api.transport.IItemConduit;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
@@ -31,10 +32,11 @@ import net.minecraftforge.fluids.IFluidHandler;
 import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy")
-public class TileBuffer extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IPowerEmitter
+public class TileBuffer extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IPowerEmitter, ILoopable
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean firstRun = true;
@@ -49,18 +51,18 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     @Override
     public void updateEntity()
     {
-        if (firstRun)
-        {
-            onBlocksChanged();
-            firstRun = false;
-            worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null ? 0 : 1);
-            if (!worldObj.isRemote && Mods.IS_IC2_LOADED)
-            {
-                IC2Helper.addToEnergyNet(this);
-            }
-        }
         if (!worldObj.isRemote)
         {
+            if (firstRun)
+            {
+                onBlocksChanged();
+                firstRun = false;
+                worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null ? 0 : 1);
+                if (Mods.IS_IC2_LOADED)
+                {
+                    IC2Helper.addToEnergyNet(this);
+                }
+            }
             if (bufferedItemStack != null)
             {
                 bufferedItemStack = outputItemStack(bufferedItemStack, bufferedSide);
@@ -74,9 +76,14 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
 
     public void onBlocksChanged()
     {
+        tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            tiles[direction.ordinal()] = DirectionHelper.getTileAtSide(this, direction);
+            TileEntity tile =  DirectionHelper.getTileAtSide(this, direction);
+            if (!LoopHelper.isLooping(this, tile))
+            {
+                tiles[direction.ordinal()] = tile;
+            }
         }
     }
 
@@ -251,6 +258,12 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
                 return true;
         }
         return super.receiveClientEvent(eventId, eventData);
+    }
+
+    @Override
+    public List<TileEntity> getConnectedTiles()
+    {
+        return Arrays.asList(tiles);
     }
 
     @Override

@@ -4,6 +4,7 @@ import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
+import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
@@ -28,6 +29,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static cpw.mods.fml.common.Optional.Method;
@@ -280,7 +282,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
 
     protected void checkConnectedDirection(TileEntity tile)
     {
-        if (tile != null && !isLooping(tile))
+        if (tile != null && !LoopHelper.isLooping(this, tile))
         {
             boolean updated = false;
             if (tile instanceof IInventory)
@@ -331,7 +333,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setEnergyInterface((IEnergyInterface) tile);
             }
-            if (updated || tile instanceof ILoopable)
+            if (updated)
             {
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
                 worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
@@ -414,6 +416,11 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return DirectionHelper.getTileAtSide(this, connectedDirection);
     }
 
+    public List<TileEntity> getConnectedTiles()
+    {
+        return Arrays.asList(DirectionHelper.getTileAtSide(this, connectedDirection));
+    }
+
     public void checkRedstonePower()
     {
         boolean wasRedstonePowered = isRedstoneTransmissionActive();
@@ -488,31 +495,6 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         }
 
         return realDirection != ForgeDirection.UNKNOWN && realDirection == connectedDirection;
-    }
-
-    private boolean isLooping(TileEntity tile)
-    {
-        return tile != null && tile instanceof ILoopable && isTileConnectedToThis((ILoopable) tile, new ArrayList<ILoopable>());
-    }
-
-    private boolean isTileConnectedToThis(ILoopable loopable, List<ILoopable> visited)
-    {
-        boolean isLooping;
-        TileEntity tile = loopable.getConnectedTile();
-        if (tile == this || visited.contains(tile))
-        {
-            return true;
-        }
-        if (tile != null && tile instanceof ILoopable)
-        {
-            visited.add((ILoopable) tile);
-            isLooping = isTileConnectedToThis((ILoopable) tile, visited);
-        }
-        else
-        {
-            return false;
-        }
-        return isLooping;
     }
 
     /*
