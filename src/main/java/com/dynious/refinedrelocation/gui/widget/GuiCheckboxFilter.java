@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketFilterOption;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import net.minecraft.client.Minecraft;
 
 public class GuiCheckboxFilter extends GuiCheckbox
 {
@@ -23,7 +24,7 @@ public class GuiCheckboxFilter extends GuiCheckbox
     {
         this.index = index;
         if (tile != null)
-            this.label.setText(tile.getFilter().getName(index));
+            this.label.setText(Minecraft.getMinecraft().fontRenderer.trimStringToWidth(tile.getFilter().getName(index), w));
     }
 
     @Override

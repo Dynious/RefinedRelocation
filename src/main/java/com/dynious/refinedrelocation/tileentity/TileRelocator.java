@@ -100,7 +100,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             shouldUpdate = false;
         }
-        
+
         if (isFirstTick)
         {
             onBlocksChanged();
