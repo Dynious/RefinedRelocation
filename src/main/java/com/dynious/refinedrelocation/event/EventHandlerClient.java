@@ -76,7 +76,7 @@ public class EventHandlerClient
     @ForgeSubscribe(priority = EventPriority.LOWEST)
     public void tooltipEvent(ItemTooltipEvent event)
     {
-        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || event.entityPlayer.openContainer instanceof IContainerFiltered)
+        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || (event.entityPlayer != null && event.entityPlayer.openContainer instanceof IContainerFiltered))
         {
             CreativeTabs tab = event.itemStack.getItem().getCreativeTab();
             if (tab != null)
