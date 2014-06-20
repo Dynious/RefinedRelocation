@@ -1,10 +1,8 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import buildcraft.api.transport.IPipeTile;
 import buildcraft.api.transport.PipeWire;
-import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
@@ -17,8 +15,6 @@ import com.dynious.refinedrelocation.network.packet.MessageItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

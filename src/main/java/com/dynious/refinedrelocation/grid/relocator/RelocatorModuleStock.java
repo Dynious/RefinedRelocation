@@ -1,8 +1,9 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.RelocatorModuleBase;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.gui.GuiModuleStock;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleStock;
 import com.dynious.refinedrelocation.helper.IOHelper;
@@ -34,7 +35,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     private ItemStack[] itemStacksToStock = new ItemStack[9];
 
     @Override
-    public ItemStack outputToSide(IRelocator relocator, int side, TileEntity tile, ItemStack stack, boolean simulate)
+    public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity tile, ItemStack stack, boolean simulate)
     {
         if (!hasToStock(stack))
             return stack;
@@ -115,7 +116,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     }
 
     @Override
-    public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
+    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         APIUtils.openRelocatorFilterGUI(relocator, player, side);
         return true;
@@ -123,25 +124,25 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
+    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
     {
         return new GuiModuleStock(player, this);
     }
 
     @Override
-    public Container getContainer(IRelocator relocator, EntityPlayer player)
+    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
     {
         return new ContainerModuleStock(player, this);
     }
 
     @Override
-    public List<ItemStack> getDrops(IRelocator relocator, int side)
+    public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 6));
     }
 
     @Override
-    public IIcon getIcon(IRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }

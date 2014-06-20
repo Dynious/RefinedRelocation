@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.network.packet;
 
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

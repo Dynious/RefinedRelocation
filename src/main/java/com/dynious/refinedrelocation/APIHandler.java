@@ -2,9 +2,10 @@ package com.dynious.refinedrelocation;
 
 import com.dynious.refinedrelocation.api.IAPIHandler;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
@@ -49,7 +50,7 @@ public class APIHandler implements IAPIHandler
         RelocatorModuleRegistry.add(identifier, clazz);
     }
 
-    public void openRelocatorFilterGUI(IRelocator relocator, EntityPlayer player, int side)
+    public void openRelocatorFilterGUI(IItemRelocator relocator, EntityPlayer player, int side)
     {
         player.openGui(RefinedRelocation.instance, GuiIds.RELOCATOR_FILTER_BASE + side, relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
     }

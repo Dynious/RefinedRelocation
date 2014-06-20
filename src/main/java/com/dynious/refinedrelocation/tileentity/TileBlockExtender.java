@@ -715,7 +715,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return new FluidTankInfo[0];
     }
 
-    @Method(modid = "BuildCraft|Energy")
+    @Method(modid = Mods.BC_API_POWER_ID)
     @Override
     public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
     {
@@ -726,7 +726,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return null;
     }
 
-    @Method(modid = "BuildCraft|Energy")
+    @Method(modid = Mods.BC_API_POWER_ID)
     @Override
     public void doWork(PowerHandler powerHandler)
     {
@@ -736,7 +736,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         }
     }
 
-    @Method(modid = "BuildCraft|Energy")
+    @Method(modid = Mods.BC_API_POWER_ID)
     @Override
     public World getWorld()
     {
@@ -747,7 +747,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return null;
     }
 
-    @Method(modid = "IC2")
+    @Method(modid = Mods.IC2_ID)
     @Override
     public double demandedEnergyUnits()
     {
@@ -758,7 +758,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "IC2")
+    @Method(modid = Mods.IC2_ID)
     @Override
     public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
     {
@@ -769,7 +769,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "IC2")
+    @Method(modid = Mods.IC2_ID)
     @Override
     public int getMaxSafeInput()
     {
@@ -780,7 +780,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "IC2")
+    @Method(modid = Mods.IC2_ID)
     @Override
     public boolean acceptsEnergyFrom(TileEntity tileEntity, ForgeDirection forgeDirection)
     {
@@ -789,7 +789,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
 
     /*
 
-    @Method(modid = "CoFHCore")
+    @Method(modid = Mods.COFH_CORE_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -800,7 +800,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "CoFHCore")
+    @Method(modid = Mods.COFH_CORE_ID)
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -811,14 +811,14 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "CoFHCore")
+    @Method(modid = Mods.COFH_CORE_ID)
     @Override
     public boolean canInterface(ForgeDirection forgeDirection)
     {
         return getEnergyHandler() != null && getEnergyHandler().canInterface(getInputSide(forgeDirection));
     }
 
-    @Method(modid = "CoFHCore")
+    @Method(modid = Mods.COFH_CORE_ID)
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
@@ -829,7 +829,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "CoFHCore")
+    @Method(modid = Mods.COFH_CORE_ID)
     @Override
     public int getMaxEnergyStored(ForgeDirection forgeDirection)
     {
@@ -840,7 +840,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "UniversalElectricity")
+    @Method(modid = Mods.UE_ID)
     @Override
     public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
     {
@@ -851,7 +851,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "UniversalElectricity")
+    @Method(modid = Mods.UE_ID)
     @Override
     public long onExtractEnergy(ForgeDirection direction, long l, boolean b)
     {
@@ -862,7 +862,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = "UniversalElectricity")
+    @Method(modid = Mods.UE_ID)
     @Override
     public boolean canConnect(ForgeDirection direction, Object o)
     {

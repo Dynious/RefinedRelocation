@@ -1,8 +1,9 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.RelocatorModuleBase;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.gui.GuiModuleSneaky;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleSneaky;
 import com.dynious.refinedrelocation.helper.IOHelper;
@@ -29,13 +30,13 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     private int outputSide = -1;
 
     @Override
-    public void init(IRelocator relocator, int side)
+    public void init(IItemRelocator relocator, int side)
     {
         this.outputSide = ForgeDirection.OPPOSITES[side];
     }
 
     @Override
-    public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
+    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         APIUtils.openRelocatorFilterGUI(relocator, player, side);
         return true;
@@ -43,19 +44,19 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
+    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
     {
         return new GuiModuleSneaky(this);
     }
 
     @Override
-    public Container getContainer(IRelocator relocator, EntityPlayer player)
+    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
     {
         return new ContainerModuleSneaky(this);
     }
 
     @Override
-    public ItemStack outputToSide(IRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate)
+    public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate)
     {
         return IOHelper.insert(inventory, stack, ForgeDirection.getOrientation(this.outputSide), simulate);
     }
@@ -73,7 +74,7 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     }
 
     @Override
-    public List<ItemStack> getDrops(IRelocator relocator, int side)
+    public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         List<ItemStack> list = new ArrayList<ItemStack>();
         list.add(new ItemStack(ModItems.relocatorModule, 1, 5));
@@ -81,7 +82,7 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     }
 
     @Override
-    public IIcon getIcon(IRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }

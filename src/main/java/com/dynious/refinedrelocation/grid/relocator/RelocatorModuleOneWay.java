@@ -1,14 +1,13 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
-import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
-import com.dynious.refinedrelocation.api.filter.RelocatorModuleBase;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
@@ -24,14 +23,14 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     private boolean inputAllowed = true;
 
     @Override
-    public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
+    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         inputAllowed = !inputAllowed;
         return true;
     }
 
     @Override
-    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
+    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
         return inputAllowed == input;
     }
@@ -49,7 +48,7 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     }
 
     @Override
-    public List<ItemStack> getDrops(IRelocator relocator, int side)
+    public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         List<ItemStack> list = new ArrayList<ItemStack>();
         list.add(new ItemStack(ModItems.relocatorModule, 1, 2));
@@ -57,7 +56,7 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     }
 
     @Override
-    public IIcon getIcon(IRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return inputAllowed ? icon1 : icon0;
     }

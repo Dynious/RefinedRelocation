@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.power.PowerHandler;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.google.common.primitives.Bytes;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.item.ItemStack;
@@ -225,7 +226,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         return inputAmount - amount;
     }
 
-    @Optional.Method(modid = "BuildCraft|Energy")
+    @Optional.Method(modid = Mods.BC_API_POWER_ID)
     @Override
     public void doWork(PowerHandler powerHandler)
     {

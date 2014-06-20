@@ -2,8 +2,8 @@ package com.dynious.refinedrelocation.helper;
 
 import buildcraft.api.transport.IPipeConnection;
 import buildcraft.api.transport.IPipeTile;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
 import com.dynious.refinedrelocation.lib.Mods;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
