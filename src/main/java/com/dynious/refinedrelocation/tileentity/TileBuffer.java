@@ -486,6 +486,58 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     }
 
     /*
+
+        @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Override
+    public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        int inputAmount = i;
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(forgeDirection))
+        {
+            i = insertRedstoneFlux(i, outputSide.ordinal(), b);
+            if (i == 0)
+            {
+                return inputAmount;
+            }
+        }
+        return inputAmount - i;
+    }
+
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    public int insertRedstoneFlux(int amount, int side, boolean simulate)
+    {
+        TileEntity tile = tiles[side];
+        if (tile != null)
+        {
+            if (tile instanceof IEnergyHandler)
+            {
+                amount -= ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
+            }
+        }
+        return amount;
+    }
+
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Override
+    public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        return 0;
+    }
+
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Override
+    public boolean canInterface(ForgeDirection forgeDirection)
+    {
+        return true;
+    }
+
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Override
+    public int getEnergyStored(ForgeDirection forgeDirection)
+    {
+        return 0;
+    }
+
     @Optional.Method(modid = Mods.UE_ID)
     @Override
     public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
