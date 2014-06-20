@@ -11,7 +11,6 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.IFluidHandler;
-import org.apache.commons.lang3.ArrayUtils;
 import universalelectricity.api.energy.IEnergyInterface;
 
 public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
