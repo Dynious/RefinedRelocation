@@ -1,9 +1,9 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
-import com.dynious.refinedrelocation.api.filter.RelocatorModuleBase;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.gui.GuiModuleExtraction;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleExtraction;
 import com.dynious.refinedrelocation.helper.IOHelper;
@@ -35,14 +35,14 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
 
     @Override
-    public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
+    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         APIUtils.openRelocatorFilterGUI(relocator, player, side);
         return true;
     }
 
     @Override
-    public void onUpdate(IRelocator relocator, int side)
+    public void onUpdate(IItemRelocator relocator, int side)
     {
         tick++;
         if (tick >= ticksBetweenExtraction)
@@ -56,7 +56,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
         }
     }
 
-    public void tryExtraction(IRelocator relocator, IInventory inventory, int side, int firstChecked)
+    public void tryExtraction(IItemRelocator relocator, IInventory inventory, int side, int firstChecked)
     {
         int slot = getNextSlot(inventory, ForgeDirection.getOrientation(side).getOpposite());
         ItemStack stack = inventory.getStackInSlot(slot);
@@ -120,13 +120,13 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
+    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
     {
         return new GuiModuleExtraction(this);
     }
 
     @Override
-    public Container getContainer(IRelocator relocator, EntityPlayer player)
+    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
     {
         return new ContainerModuleExtraction(this);
     }
@@ -144,7 +144,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     }
 
     @Override
-    public List<ItemStack> getDrops(IRelocator relocator, int side)
+    public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         List<ItemStack> list = new ArrayList<ItemStack>();
         list.add(new ItemStack(ModItems.relocatorModule, 1, 3));
@@ -152,7 +152,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     }
 
     @Override
-    public Icon getIcon(IRelocator relocator, int side)
+    public Icon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }

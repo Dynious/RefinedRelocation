@@ -1,6 +1,7 @@
-package com.dynious.refinedrelocation.api.tileentity;
+package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,31 +13,17 @@ import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;
 
-public interface IRelocator
+public interface IRelocator extends IItemRelocator
 {
-    public TileEntity[] getConnectedInventories();
-
     public IRelocator[] getConnectedRelocators();
 
     public boolean canConnectOnSide(int side);
 
-    public boolean connectsToSide(int side);
-
-    public boolean isStuffedOnSide(int side);
-
-    public IRelocatorModule getRelocatorModule(int side);
-
-    public boolean getRedstoneState();
-
     public boolean passesFilter(ItemStack itemStack, int side, boolean input, boolean simulate);
-
-    public ItemStack insert(ItemStack itemStack, int side, boolean simulate);
 
     public void receiveTravellingItem(TravellingItem item);
 
     public List<TravellingItem> getItems(boolean includeItemsToAdd);
-
-    public TileEntity getTileEntity();
 
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(int side, EntityPlayer player);

@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 
 import java.util.ArrayList;
 

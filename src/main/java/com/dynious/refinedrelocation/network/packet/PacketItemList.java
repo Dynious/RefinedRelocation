@@ -1,10 +1,8 @@
 package com.dynious.refinedrelocation.network.packet;
 
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.util.Vector3;
-import com.google.common.primitives.Bytes;
 import cpw.mods.fml.common.network.Player;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;

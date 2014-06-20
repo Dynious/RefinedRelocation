@@ -2,10 +2,10 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
-import com.dynious.refinedrelocation.api.filter.RelocatorModuleBase;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.gui.GuiFiltered;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
@@ -32,13 +32,13 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     private long lastChange = -401;
 
     @Override
-    public void init(IRelocator relocator, int side)
+    public void init(IItemRelocator relocator, int side)
     {
         filter = new FilterStandard(getFilterTile(this, relocator));
     }
 
     @Override
-    public boolean onActivated(IRelocator relocator, EntityPlayer player, int side, ItemStack stack)
+    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         APIUtils.openRelocatorFilterGUI(relocator, player, side);
         return true;
@@ -46,32 +46,32 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IRelocator relocator, EntityPlayer player)
+    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
     {
         return new GuiFiltered(getFilterTile(this, relocator));
     }
 
     @Override
-    public Container getContainer(IRelocator relocator, EntityPlayer player)
+    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
     {
         return new ContainerFiltered(getFilterTile(this, relocator));
     }
 
     @Override
-    public boolean passesFilter(IRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
+    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
         return (!simulate && (relocator.getTileEntity().worldObj.getTotalWorldTime() - lastChange) > 400) || filter.passesFilter(stack);
     }
 
     @Override
-    public List<ItemStack> getDrops(IRelocator relocator, int side)
+    public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         List<ItemStack> list = new ArrayList<ItemStack>();
         list.add(new ItemStack(ModItems.relocatorModule, 1, 1));
         return list;
     }
 
-    private IFilterTileGUI getFilterTile(final RelocatorModuleFilter module, final IRelocator relocator)
+    private IFilterTileGUI getFilterTile(final RelocatorModuleFilter module, final IItemRelocator relocator)
     {
         return new IFilterTileGUI()
         {
@@ -109,7 +109,7 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     }
 
     @Override
-    public Icon getIcon(IRelocator relocator, int side)
+    public Icon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }

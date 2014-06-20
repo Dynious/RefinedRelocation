@@ -1,9 +1,10 @@
 package com.dynious.refinedrelocation.api;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.api.tileentity.IRelocator;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -88,7 +89,7 @@ public final class APIUtils
      * @param player The Player that the GUI should open for
      * @param side The side of the filter that should open a GUI
      */
-    public static void openRelocatorFilterGUI(IRelocator relocator, EntityPlayer player, int side)
+    public static void openRelocatorFilterGUI(IItemRelocator relocator, EntityPlayer player, int side)
     {
         apiHandler.openRelocatorFilterGUI(relocator, player, side);
     }

@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.api.filter.IRelocatorModule;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.*;
 import com.dynious.refinedrelocation.lib.Names;
