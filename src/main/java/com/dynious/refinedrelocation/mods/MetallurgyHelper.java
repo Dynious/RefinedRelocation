@@ -22,6 +22,9 @@ public class MetallurgyHelper
 {
     public static void addMetalBlocks()
     {
+        if (MetallurgyMachines.chest == null)
+            return;
+
         ModBlocks.sortingPreciousChest = new BlockSortingPreciousChest(BlockIds.SORTING_PRECIOUS_CHEST);
         ModObjects.sortingPreciousChest = new ItemStack(ModBlocks.sortingPreciousChest);
         GameRegistry.registerBlock(ModBlocks.sortingPreciousChest, ItemBlockPreciousChest.class, Names.sortingPreciousChest);
@@ -29,6 +32,9 @@ public class MetallurgyHelper
 
     public static void addMetalRecipes()
     {
+        if (MetallurgyMachines.chest == null)
+            return;
+
         for (int i = 0; i < 5; i++)
         {
             GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingPreciousChest, 1, i), "g g", " c ", "g g", 'g', Item.ingotGold, 'c', new ItemStack(MetallurgyMachines.chest, 1, i));
@@ -38,6 +44,9 @@ public class MetallurgyHelper
     @SideOnly(Side.CLIENT)
     public static void addMetalRenders()
     {
+        if (MetallurgyMachines.chest == null)
+            return;
+
         ClientRegistry.bindTileEntitySpecialRenderer(TileSortingPreciousChest.class, new RendererSortingPreciousChest());
         MinecraftForgeClient.registerItemRenderer(BlockIds.SORTING_PRECIOUS_CHEST, new ItemRendererSortingPreciousChest());
     }
