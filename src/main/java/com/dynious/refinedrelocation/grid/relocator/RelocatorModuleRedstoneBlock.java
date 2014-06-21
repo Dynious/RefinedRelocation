@@ -23,7 +23,6 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
         return !relocator.getRedstoneState();
     }
 
-
     @Override
     public boolean connectsToRedstone()
     {
