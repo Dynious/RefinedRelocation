@@ -44,6 +44,7 @@ item.relocatorModule4.name=Module Blocked Extraction
 item.relocatorModule5.name=Module Sneaky
 item.relocatorModule6.name=Module Stock
 item.relocatorModule7.name=Module Redstone Block
+item.relocatorModule8.name=Module Spread
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest
@@ -125,3 +126,4 @@ itemDesc.refinedrelocation.relocatorModuleInfo4=Extracts items from the\nconnect
 itemDesc.refinedrelocation.relocatorModuleInfo5=Lets items be inserted\nfrom another side\nthan the connected side
 itemDesc.refinedrelocation.relocatorModuleInfo6=Keeps a set amount of items\nin the connected inventory
 itemDesc.refinedrelocation.relocatorModuleInfo7=Blocks items from passing on\na redstone signal
+itemDesc.refinedrelocation.relocatorModuleInfo8=Spreads items over the\nconnected inventory
