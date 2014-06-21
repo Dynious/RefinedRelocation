@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class RelocatorModuleRegistry
 {
-    private static Map<String, Class<? extends IRelocatorModule>> filters = new HashMap<String, Class<? extends IRelocatorModule>>();
+    private static Map<String, Class<? extends IRelocatorModule>> modules = new HashMap<String, Class<? extends IRelocatorModule>>();
 
     public static void add(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
     {
@@ -23,21 +23,21 @@ public class RelocatorModuleRegistry
         {
             throw new IllegalArgumentException("Identifier already registered");
         }
-        filters.put(identifier, clazz);
+        modules.put(identifier, clazz);
     }
 
     public static boolean contains(String identifier)
     {
-        return filters.containsKey(identifier);
+        return modules.containsKey(identifier);
     }
 
-    public static IRelocatorModule getFilter(String identifier)
+    public static IRelocatorModule getModule(String identifier)
     {
-        if (filters.containsKey(identifier))
+        if (modules.containsKey(identifier))
         {
             try
             {
-                return filters.get(identifier).newInstance();
+                return modules.get(identifier).newInstance();
             }
             catch (InstantiationException e)
             {
@@ -53,7 +53,7 @@ public class RelocatorModuleRegistry
 
     public static String getIdentifier(Class<? extends IRelocatorModule> clazz)
     {
-        for (Map.Entry<String, Class<? extends IRelocatorModule>> e : filters.entrySet())
+        for (Map.Entry<String, Class<? extends IRelocatorModule>> e : modules.entrySet())
         {
             if (e.getValue().equals(clazz))
             {
@@ -79,7 +79,7 @@ public class RelocatorModuleRegistry
     @SideOnly(Side.CLIENT)
     public static void registerIcons(IIconRegister register)
     {
-        for (Class clazz : filters.values())
+        for (Class clazz : modules.values())
         {
             try
             {
