@@ -6,13 +6,13 @@ import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class RelocatorModuleSpread extends RelocatorModuleBase
 {
-    private static Icon icon;
+    private static IIcon icon;
 
     @Override
     public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate)
@@ -138,13 +138,13 @@ public class RelocatorModuleSpread extends RelocatorModuleBase
     }
 
     @Override
-    public Icon getIcon(IItemRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleSpread");
     }
