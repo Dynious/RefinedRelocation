@@ -59,21 +59,24 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     public void tryExtraction(IItemRelocator relocator, IInventory inventory, int side, int firstChecked)
     {
         int slot = getNextSlot(inventory, ForgeDirection.getOrientation(side).getOpposite());
-        ItemStack stack = inventory.getStackInSlot(slot);
-        if (stack != null && stack.stackSize != 0)
+        if (slot != -1)
         {
-            if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, ForgeDirection.OPPOSITES[side]))
+            ItemStack stack = inventory.getStackInSlot(slot);
+            if (stack != null && stack.stackSize != 0)
             {
-                ItemStack returnedStack = relocator.insert(stack.copy(), side, false);
-                if (returnedStack == null || stack.stackSize != returnedStack.stackSize)
+                if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, ForgeDirection.OPPOSITES[side]))
                 {
-                    inventory.setInventorySlotContents(slot, returnedStack);
+                    ItemStack returnedStack = relocator.insert(stack.copy(), side, false);
+                    if (returnedStack == null || stack.stackSize != returnedStack.stackSize)
+                    {
+                        inventory.setInventorySlotContents(slot, returnedStack);
+                    }
                 }
             }
-        }
-        else if (firstChecked != lastCheckedSlot)
-        {
-            tryExtraction(relocator, inventory, side, firstChecked);
+            else if (firstChecked != lastCheckedSlot)
+            {
+                tryExtraction(relocator, inventory, side, firstChecked);
+            }
         }
     }
 
@@ -92,7 +95,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
             {
                 lastCheckedSlot = 0;
             }
-            return accessibleSlotsFromSide[lastCheckedSlot];
+            return lastCheckedSlot < accessibleSlotsFromSide.length ? accessibleSlotsFromSide[lastCheckedSlot] : -1;
         }
         else
         {

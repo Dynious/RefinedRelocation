@@ -246,7 +246,8 @@ public class IOHelper
         */
         else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
-            return true;
+            if (((IPipeTile)tile).getPipeType() == IPipeTile.PipeType.ITEM)
+                return true;
         }
         else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeConnection)
         {
