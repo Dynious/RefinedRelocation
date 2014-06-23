@@ -101,7 +101,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                     if (world.isRemote)
                     {
                         player.sendChatToPlayer(new ChatMessageComponent()
-                                .addText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED)));
+                                .addText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + ' ' + StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED).toLowerCase()));
                     }
                     return true;
                 }
