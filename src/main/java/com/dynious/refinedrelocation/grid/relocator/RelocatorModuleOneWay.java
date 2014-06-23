@@ -37,7 +37,10 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     @Override
     public void onRedstonePowerChange(boolean isPowered)
     {
-        inputAllowed = !inputAllowed;
+        if (isPowered)
+        {
+            inputAllowed = !inputAllowed;
+        }
     }
 
     @Override
