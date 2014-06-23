@@ -127,3 +127,17 @@ itemDesc.refinedrelocation.relocatorModuleInfo5=Lets items be inserted\nfrom ano
 itemDesc.refinedrelocation.relocatorModuleInfo6=Keeps a set amount of items\nin the connected inventory
 itemDesc.refinedrelocation.relocatorModuleInfo7=Blocks items from passing on\na redstone signal
 itemDesc.refinedrelocation.relocatorModuleInfo8=Spreads items over the\nconnected inventory
+
+#Filter Localization
+filterName.refinedrelocation.filterIngot=All Ingots
+filterName.refinedrelocation.filterOres=All Ores
+filterName.refinedrelocation.filterLogs=All Logs
+filterName.refinedrelocation.filterPlanks=All Planks
+filterName.refinedrelocation.filterDusts=All Dusts
+filterName.refinedrelocation.filterCrushedOres=All Crushed Ores
+filterName.refinedrelocation.filterPurifiedOres=All Purified Ores
+filterName.refinedrelocation.filterPlates=All Plates
+filterName.refinedrelocation.filterGems=All Gems
+filterName.refinedrelocation.filterFood=All Food
+filterName.refinedrelocation.filterDyes=All Dyes
+filterName.refinedrelocation.filterNuggets=All Nuggets
