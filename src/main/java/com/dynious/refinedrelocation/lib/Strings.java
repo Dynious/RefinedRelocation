@@ -5,6 +5,7 @@ public class Strings
     private static final String GUI_PREFIX = "gui." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String FILTER_NAME_PREFIX = "filterName." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String RELOCATOR_MODULE_PREFIX = "relocatorModule." + Reference.MOD_ID.toLowerCase() + ".";
 
     public static final String BLACKLIST = GUI_PREFIX + "blacklist";
     public static final String WHITELIST = GUI_PREFIX + "whitelist";
@@ -86,4 +87,7 @@ public class Strings
     public static final String FOOD_FILTER = FILTER_NAME_PREFIX + "filterFood";
     public static final String DYE_FILTER = FILTER_NAME_PREFIX + "filterDyes";
     public static final String NUGGET_FILTER = FILTER_NAME_PREFIX + "filterNuggets";
+
+    public static final String REDSTONE_BLOCK_ENABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabled";
+    public static final String REDSTONE_BLOCK_DISABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabled";
 }
