@@ -6,9 +6,11 @@ import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Icon;
@@ -18,8 +20,7 @@ import java.util.List;
 
 public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
 {
-    private static Icon iconOn;
-    private static Icon iconOff;
+    private static Icon[] icons = new Icon[4];
     private boolean blockOnSignal = true;
 
     @Override
@@ -40,6 +41,7 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
             blockOnSignal = !blockOnSignal;
             player.sendChatToPlayer(new ChatMessageComponent()
                 .addText(StatCollector.translateToLocal(blockOnSignal ? Strings.REDSTONE_BLOCK_ENABLED : Strings.REDSTONE_BLOCK_DISABLED)));
+            TileRelocator.markUpdate(relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
             return true;
         }
     }
@@ -54,19 +56,34 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
     public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 7));
+    }
 
+    @Override
+    public void readFromNBT(NBTTagCompound compound)
+    {
+        super.readFromNBT(compound);
+        blockOnSignal = compound.getBoolean("blockOnSignal");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound compound)
+    {
+        super.writeToNBT(compound);
+        compound.setBoolean("blockOnSignal", blockOnSignal);
     }
 
     @Override
     public Icon getIcon(IItemRelocator relocator, int side)
     {
-        return relocator.getRedstoneState() ? (blockOnSignal ? iconOn : iconOff) : (blockOnSignal ? iconOff : iconOn);
+        return relocator.getRedstoneState() ? (blockOnSignal ? icons[0] : icons[1]) : (blockOnSignal ? icons[2] : icons[3]);
     }
 
     @Override
     public void registerIcons(IconRegister register)
     {
-        iconOn = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockOn");
-        iconOff = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockOff");
+        icons[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockRSBlock");
+        icons[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockRSPass");
+        icons[2] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockPass");
+        icons[3] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockBlock");
     }
 }

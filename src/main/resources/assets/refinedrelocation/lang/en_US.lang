@@ -125,7 +125,7 @@ itemDesc.refinedrelocation.relocatorModuleInfo3=Extracts items from the\nconnect
 itemDesc.refinedrelocation.relocatorModuleInfo4=Extracts items from the\nconnected inventory and\ndoesn't let items\ninto the inventory
 itemDesc.refinedrelocation.relocatorModuleInfo5=Lets items be inserted\nfrom another side\nthan the connected side
 itemDesc.refinedrelocation.relocatorModuleInfo6=Keeps a set amount of items\nin the connected inventory
-itemDesc.refinedrelocation.relocatorModuleInfo7=Blocks items from passing on\na redstone signal
+itemDesc.refinedrelocation.relocatorModuleInfo7=Blocks items from passing on\na redstone high/low signal
 itemDesc.refinedrelocation.relocatorModuleInfo8=Spreads items over the\nconnected inventory
 
 #Filter Localization
