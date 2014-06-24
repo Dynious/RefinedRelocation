@@ -8,9 +8,11 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -148,5 +150,11 @@ public class BlockRelocator extends BlockContainer
             return rayTracer.rayTraceCuboids(new Vector3(start), new Vector3(end), cuboids, new BlockCoord(x, y, z), this);
         }
         return null;
+    }
+
+    @Override
+    public void registerIcons(IconRegister register)
+    {
+        blockIcon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
     }
 }

@@ -253,14 +253,14 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (worldObj.isRemote) return true;
 
-        if (hit.subHit < 6) // Hit side, not middle
+        int side = hit.subHit;
+        if (side < 6) // Hit side, not middle
         {
-            int side = hit.subHit;
             if (!stuffedItems[side].isEmpty())
             {
-                for (ItemStack stack1 : stuffedItems[side])
+                for (int i = 0; i < Math.min(stuffedItems[side].size(), 5); i++)
                 {
-                    IOHelper.spawnItemInWorld(worldObj, stack1, xCoord, yCoord, zCoord);
+                    IOHelper.spawnItemInWorld(worldObj, stuffedItems[side].get(i), xCoord, yCoord, zCoord);
                 }
                 markUpdate(worldObj, xCoord, yCoord, zCoord);
                 return false;

@@ -134,6 +134,16 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
+    public void click(EntityPlayer player, MovingObjectPosition hit, ItemStack item)
+    {
+        if (hit != null)
+        {
+            relocator.leftClick(player, hit, player.getHeldItem());
+        }
+        super.click(player, hit, item);
+    }
+
+    @Override
     public Iterable<Cuboid6> getOcclusionBoxes()
     {
         List<Cuboid6> list = new ArrayList<Cuboid6>();
