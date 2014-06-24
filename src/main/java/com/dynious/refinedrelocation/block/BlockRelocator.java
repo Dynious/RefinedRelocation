@@ -113,6 +113,24 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
+    public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileRelocator)
+        {
+            MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
+            if (hit != null)
+            {
+                if (!((TileRelocator)tile).leftClick(player, hit, player.getHeldItem()))
+                { // If tile.leftClick returns false, return false, otherwise return super.
+                    return false;
+                }
+            }
+        }
+        return super.removeBlockByPlayer(world, player, x, y, z);
+    }
+
+    @Override
     public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 start, Vec3 end)
     {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
