@@ -130,13 +130,24 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public void renderDynamic(Vector3 pos, float frame, int pass)
     {
-        RendererRelocator.instance.renderTileEntityAt(relocator, pos.x, pos.y, pos.z, frame);
+        if (pass == 0)
+            RendererRelocator.instance.renderTileEntityAt(relocator, pos.x, pos.y, pos.z, frame);
     }
 
     @Override
     public boolean activate(EntityPlayer player, MovingObjectPosition hit, ItemStack item)
     {
         return relocator.onActivated(player, hit, item);
+    }
+
+    @Override
+    public void click(EntityPlayer player, MovingObjectPosition hit, ItemStack item)
+    {
+        if (hit != null)
+        {
+            relocator.leftClick(player, hit, player.getHeldItem());
+        }
+        super.click(player, hit, item);
     }
 
     @Override

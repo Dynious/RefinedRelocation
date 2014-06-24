@@ -251,6 +251,26 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return false;
     }
 
+    public boolean leftClick(EntityPlayer player, MovingObjectPosition hit, ItemStack item)
+    {
+        if (worldObj.isRemote) return true;
+
+        int side = hit.subHit;
+        if (side < 6) // Hit side, not middle
+        {
+            if (!stuffedItems[side].isEmpty())
+            {
+                for (int i = 0; i < Math.min(stuffedItems[side].size(), 5); i++)
+                {
+                    IOHelper.spawnItemInWorld(worldObj, stuffedItems[side].get(i), xCoord, yCoord, zCoord);
+                }
+                markUpdate(worldObj, xCoord, yCoord, zCoord);
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean onActivated(EntityPlayer player, MovingObjectPosition hit, ItemStack stack)
     {
         if (hit.subHit < 6)

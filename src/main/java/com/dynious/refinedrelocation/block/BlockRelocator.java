@@ -8,10 +8,12 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -114,6 +116,24 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
+    public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
+    {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileRelocator)
+        {
+            MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
+            if (hit != null)
+            {
+                if (!((TileRelocator)tile).leftClick(player, hit, player.getHeldItem()))
+                { // If tile.leftClick returns false, return false, otherwise return super.
+                    return false;
+                }
+            }
+        }
+        return super.removeBlockByPlayer(world, player, x, y, z);
+    }
+
+    @Override
     public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 start, Vec3 end)
     {
         TileEntity tile = world.getTileEntity(x, y, z);
@@ -131,5 +151,11 @@ public class BlockRelocator extends BlockContainer
             return rayTracer.rayTraceCuboids(new Vector3(start), new Vector3(end), cuboids, new BlockCoord(x, y, z), this);
         }
         return null;
+    }
+
+    @Override
+    public void registerIcons(IconRegister register)
+    {
+        blockIcon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
     }
 }
