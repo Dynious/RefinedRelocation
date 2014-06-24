@@ -271,7 +271,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 modules[side] = module;
                 module.init(this, side);
-                stack.stackSize--;
+                if (!player.capabilities.isCreativeMode)
+                    stack.stackSize--;
                 markUpdate(worldObj, xCoord, yCoord, zCoord);
                 return true;
             }
@@ -281,7 +282,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             if (player.isSneaking())
             {
                 List<ItemStack> list = modules[side].getDrops(this, side);
-                if (list != null)
+                if (list != null && !player.capabilities.isCreativeMode)
                 {
                     for (ItemStack stack1 : list)
                     {
