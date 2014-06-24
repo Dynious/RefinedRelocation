@@ -13,7 +13,7 @@ import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -116,9 +116,9 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
-    public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
@@ -130,7 +130,7 @@ public class BlockRelocator extends BlockContainer
                 }
             }
         }
-        return super.removeBlockByPlayer(world, player, x, y, z);
+        return super.removedByPlayer(world, player, x, y, z);
     }
 
     @Override
@@ -154,7 +154,7 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerBlockIcons(IIconRegister register)
     {
         blockIcon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
     }

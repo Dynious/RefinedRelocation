@@ -1,18 +1,17 @@
 package com.dynious.refinedrelocation.mods;
 
-import com.dynious.refinedrelocation.api.ModObjects;
-import com.dynious.refinedrelocation.lib.BlockIds;
-import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Reference;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import net.minecraft.item.ItemStack;
 
 public class NEIConfig implements IConfigureNEI
 {
 	@Override
 	public void loadConfig()
 	{
-		API.hideItem(BlockIds.RELOCATION_PORTAL);
+		API.hideItem(new ItemStack(ModBlocks.relocationPortal));
 	}
 
 	@Override
