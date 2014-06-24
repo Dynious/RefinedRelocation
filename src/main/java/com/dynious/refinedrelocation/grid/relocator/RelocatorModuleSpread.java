@@ -37,46 +37,49 @@ public class RelocatorModuleSpread extends RelocatorModuleBase
             if (inv instanceof ISidedInventory)
             {
                 int[] accessible = ((ISidedInventory) inv).getAccessibleSlotsFromSide(oppSide);
-                for (int slot : accessible)
+                for (int slot = accessible.length - 1; slot >= 0; slot--)
                 {
-                    checkAndAddSlot(inv, slot, oppSide, stack, sortedSlotList);
+                    checkAndAddSlot(inv, accessible[slot], oppSide, stack, sortedSlotList);
                 }
             }
             else
             {
-                for (int slot = 0; slot < inv.getSizeInventory(); slot++)
+                for (int slot = inv.getSizeInventory() - 1; slot >= 0; slot--)
                 {
                     checkAndAddSlot(inv, slot, oppSide, stack, sortedSlotList);
                 }
             }
-            while (sortedSlotList.get(0).freeSpace != 0)
+            if (!sortedSlotList.isEmpty())
             {
-                for (int i = 0; i < sortedSlotList.size(); i++)
+                while (sortedSlotList.get(0).freeSpace != 0)
                 {
-                    SlotAndFreeSpace slotAndFreeSpace = sortedSlotList.get(i);
-                    for (int y = i; y >= 0; y--)
+                    for (int i = 0; i < sortedSlotList.size(); i++)
                     {
-                        SlotAndFreeSpace slotAndFreeSpace1 = sortedSlotList.get(y);
-                        if (slotAndFreeSpace == slotAndFreeSpace1)
+                        SlotAndFreeSpace slotAndFreeSpace = sortedSlotList.get(i);
+                        for (int y = i; y >= 0; y--)
                         {
-                            if (slotAndFreeSpace.freeSpace != 0)
+                            SlotAndFreeSpace slotAndFreeSpace1 = sortedSlotList.get(y);
+                            if (slotAndFreeSpace == slotAndFreeSpace1)
                             {
-                                addAmount(inv, slotAndFreeSpace1, 1, stack);
-                                if (stack.stackSize <= 0)
+                                if (slotAndFreeSpace.freeSpace != 0)
                                 {
-                                    return null;
+                                    addAmount(inv, slotAndFreeSpace1, 1, stack);
+                                    if (stack.stackSize <= 0)
+                                    {
+                                        return null;
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            if (slotAndFreeSpace1.freeSpace > slotAndFreeSpace.freeSpace)
+                            else
                             {
-                                int added = Math.min(slotAndFreeSpace1.freeSpace - slotAndFreeSpace.freeSpace, stack.stackSize);
-                                addAmount(inv, slotAndFreeSpace1, added, stack);
-                                if (stack.stackSize <= 0)
+                                if (slotAndFreeSpace1.freeSpace > slotAndFreeSpace.freeSpace)
                                 {
-                                    return null;
+                                    int added = Math.min(slotAndFreeSpace1.freeSpace - slotAndFreeSpace.freeSpace, stack.stackSize);
+                                    addAmount(inv, slotAndFreeSpace1, added, stack);
+                                    if (stack.stackSize <= 0)
+                                    {
+                                        return null;
+                                    }
                                 }
                             }
                         }

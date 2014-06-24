@@ -36,6 +36,21 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     }
 
     @Override
+    public void onRedstonePowerChange(boolean isPowered)
+    {
+        if (isPowered)
+        {
+            inputAllowed = !inputAllowed;
+        }
+    }
+
+    @Override
+    public boolean connectsToRedstone()
+    {
+        return true;
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound compound)
     {
         inputAllowed = compound.getBoolean("inputAllowed");

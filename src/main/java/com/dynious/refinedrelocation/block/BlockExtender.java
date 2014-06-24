@@ -89,7 +89,7 @@ public class BlockExtender extends BlockContainer /*    implements IDismantleabl
                     blockExtender.setRedstoneTransmissionEnabled(!blockExtender.isRedstoneTransmissionEnabled());
                     if (world.isRemote)
                     {
-                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED)));
+                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + ' ' + StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED).toLowerCase()));
                     }
                     return true;
                 }

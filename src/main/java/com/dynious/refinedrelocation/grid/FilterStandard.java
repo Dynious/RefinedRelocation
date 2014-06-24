@@ -2,9 +2,11 @@ package com.dynious.refinedrelocation.grid;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -192,29 +194,29 @@ public class FilterStandard implements IFilterGUI
         switch (place)
         {
             case 0:
-                return "All Ingots";
+                return StatCollector.translateToLocal(Strings.INGOT_FILTER);
             case 1:
-                return "All Ores";
+                return StatCollector.translateToLocal(Strings.ORE_FILTER);
             case 2:
-                return "All Logs";
+                return StatCollector.translateToLocal(Strings.LOG_FILTER);
             case 3:
-                return "All Planks";
+                return StatCollector.translateToLocal(Strings.PLANK_FILTER);
             case 4:
-                return "All Dusts";
+                return StatCollector.translateToLocal(Strings.DUST_FILTER);
             case 5:
-                return "All Crushed Ores";
+                return StatCollector.translateToLocal(Strings.CRUSHED_ORE_FILTER);
             case 6:
-                return "All Purified Ores";
+                return StatCollector.translateToLocal(Strings.PURIFIED_ORE_FILTER);
             case 7:
-                return "All Plates";
+                return StatCollector.translateToLocal(Strings.PLATE_FILTER);
             case 8:
-                return "All Gems";
+                return StatCollector.translateToLocal(Strings.GEM_FILTER);
             case 9:
-                return "All Food";
+                return StatCollector.translateToLocal(Strings.FOOD_FILTER);
             case 10:
-                return "All Dyes";
+                return StatCollector.translateToLocal(Strings.DYE_FILTER);
             case 11:
-                return "All Nuggets";
+                return StatCollector.translateToLocal(Strings.NUGGET_FILTER);
             default:
                 return I18n.format(tabs[getCreativeTab(place)].getTranslatedTabLabel());
         }

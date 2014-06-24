@@ -4,6 +4,8 @@ public class Strings
 {
     private static final String GUI_PREFIX = "gui." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String FILTER_NAME_PREFIX = "filterName." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String RELOCATOR_MODULE_PREFIX = "relocatorModule." + Reference.MOD_ID.toLowerCase() + ".";
 
     public static final String BLACKLIST = GUI_PREFIX + "blacklist";
     public static final String WHITELIST = GUI_PREFIX + "whitelist";
@@ -72,4 +74,20 @@ public class Strings
     public static final String REL_CONT_DESC = ITEM_DESC_PREFIX + "relContDesc";
     public static final String RELOCATOR_MODULE = ITEM_DESC_PREFIX + "relocatorModule";
     public static final String RELOCATOR_MODULE_INFO = ITEM_DESC_PREFIX + "relocatorModuleInfo";
+
+    public static final String INGOT_FILTER = FILTER_NAME_PREFIX + "filterIngot";
+    public static final String ORE_FILTER = FILTER_NAME_PREFIX + "filterOres";
+    public static final String LOG_FILTER = FILTER_NAME_PREFIX + "filterLogs";
+    public static final String PLANK_FILTER = FILTER_NAME_PREFIX + "filterPlanks";
+    public static final String DUST_FILTER = FILTER_NAME_PREFIX + "filterDusts";
+    public static final String CRUSHED_ORE_FILTER = FILTER_NAME_PREFIX + "filterCrushedOres";
+    public static final String PURIFIED_ORE_FILTER = FILTER_NAME_PREFIX + "filterPurifiedOres";
+    public static final String PLATE_FILTER = FILTER_NAME_PREFIX + "filterPlates";
+    public static final String GEM_FILTER = FILTER_NAME_PREFIX + "filterGems";
+    public static final String FOOD_FILTER = FILTER_NAME_PREFIX + "filterFood";
+    public static final String DYE_FILTER = FILTER_NAME_PREFIX + "filterDyes";
+    public static final String NUGGET_FILTER = FILTER_NAME_PREFIX + "filterNuggets";
+
+    public static final String REDSTONE_BLOCK_ENABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabled";
+    public static final String REDSTONE_BLOCK_DISABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabled";
 }
