@@ -30,6 +30,7 @@ import java.util.List;
 
 public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart, IRedstonePart
 {
+    public static final String RELOCATOR_TYPE = "tile." + Names.relocator;
     private TileRelocator relocator;
 
     public PartRelocator(TileRelocator tile)
@@ -72,7 +73,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public String getType()
     {
-        return "tile." + Names.relocator;
+        return RELOCATOR_TYPE;
     }
 
     @Override
@@ -246,12 +247,6 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public boolean isStuffedOnSide(int side)
     {
         return relocator.isStuffedOnSide(side);
-    }
-
-    @Override
-    public List<ItemStack>[] getStuffedItems()
-    {
-        return relocator.getStuffedItems();
     }
 
     @Override
