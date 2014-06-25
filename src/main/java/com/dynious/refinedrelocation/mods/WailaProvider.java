@@ -1,18 +1,29 @@
 package com.dynious.refinedrelocation.mods;
 
 import com.dynious.refinedrelocation.block.BlockExtender;
+import com.dynious.refinedrelocation.block.BlockRelocator;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
+import com.dynious.refinedrelocation.tileentity.TileRelocator;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
 import mcp.mobius.waila.api.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
+import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
+import com.dynious.refinedrelocation.part.*;
 
 import java.util.List;
+import java.util.ListIterator;
+import java.util.ArrayList;
 
-public class WailaProvider implements IWailaDataProvider
+public class WailaProvider implements IWailaDataProvider// IWailaFMPProvider
 {
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
@@ -29,6 +40,43 @@ public class WailaProvider implements IWailaDataProvider
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
     {
+        // System.out.println("Block@WailaProvider");
+        if (iWailaDataAccessor.getTileEntity() instanceof TileRelocator)
+        {
+            TileRelocator relocator = (TileRelocator) iWailaDataAccessor.getTileEntity();
+
+            for (int side = 0; side < ForgeDirection.VALID_DIRECTIONS.length; side++)
+            {
+                private static String orientation = ForgeDirection.getOrientation(side).toString();
+                private String[] lines = new String[2];
+
+                IRelocatorModule module = (IRelocatorModule) relocator.getRelocatorModule(side);
+                if (module != null)
+                {
+                    String moduleName = module.getDrops(relocator, side).get(0).getDisplayName();
+                    lines[0] = moduleName;
+
+                }
+
+                private final List<ItemStack>[] relocatorStuffedItems = relocator.getStuffedItems();
+                for (ListIterator<ItemStack> iterator = relocatorStuffedItems[side].listIterator(); iterator.hasNext();)
+                {
+                    if (relocatorStuffedItems[i].isEmpty())
+                        continue;
+
+                    lines[1] = relocatorStuffedItems[i].get(0).getDisplayName();
+                }
+
+                for (int i = 0; i < lines.length; i++) // Display lines
+                {
+                    String line = lines[i];
+                    if (line == "" || line == null) continue;
+                    String lineStart = (i == 0 ? orientation + ":" : "") + SpecialChars.TAB;
+                    strings.add(lineStart + line);
+                }
+            }
+        }
+
         if (iWailaDataAccessor.getTileEntity() instanceof TileBlockExtender)
         {
             TileBlockExtender blockExtender = (TileBlockExtender) iWailaDataAccessor.getTileEntity();
@@ -75,7 +123,10 @@ public class WailaProvider implements IWailaDataProvider
 
     public static void callbackRegister(IWailaRegistrar registrar)
     {
-        WailaProvider instance = new WailaProvider();
-        registrar.registerBodyProvider(instance, BlockExtender.class);
+        // WailaProvider instance = new WailaProvider();
+        registrar.registerBodyProvider(new WailaProvider(), BlockExtender.class);
+        registrar.registerBodyProvider(new WailaProvider(), BlockRelocator.class);
+        // registrar.registerBodyProvider(new WailaProvider(), TileRelocator.class);
+        // registrar.registerBodyProvider(new WailaProvider(), PartRelocator.class);
     }
 }

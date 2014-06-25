@@ -31,4 +31,6 @@ public interface IRelocator extends IItemRelocator
     public Container getContainer(int side, EntityPlayer player);
 
     public byte getRenderType();
+
+    public List<ItemStack>[] getStuffedItems();
 }

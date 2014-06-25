@@ -42,7 +42,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocatorModule[] modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
-    private List<ItemStack>[] stuffedItems;
+    private static List<ItemStack>[] stuffedItems;
 
     /*
     Only used client side
@@ -70,6 +70,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             stuffedItems[i] = new ArrayList<ItemStack>();
         }
+    }
+
+    public List<ItemStack>[] getStuffedItems() {
+        return stuffedItems;
     }
 
     @Override
