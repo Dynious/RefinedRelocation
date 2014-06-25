@@ -35,13 +35,16 @@ tile.relocator.name=Переместитель
 item.linker.name=Соединитель
 item.sortingUpgrade.name=Сортирующее улучшение
 item.playerRelocator.name=Переместитель игрока
-item.relocator.name=Переместитель (WIP)
-item.relocatorModule0.name=Модуль переместителя «Базовый» (WIP)
-item.relocatorModule1.name=Модуль переместителя «Фильтр» (WIP)
-item.relocatorModule2.name=Модуль переместителя «В один конец» (WIP)
-item.relocatorModule3.name=Модуль переместителя «Извлечение» (WIP)
-item.relocatorModule4.name=Модуль переместителя «Заблокированное извлечение» (WIP)
-item.relocatorModule5.name=Модуль переместителя «Скрытый» (WIP)
+item.relocator.name=Переместитель
+item.relocatorModule0.name=Модуль «Основа»
+item.relocatorModule1.name=Модуль «Фильтр»
+item.relocatorModule2.name=Модуль «В один конец»
+item.relocatorModule3.name=Модуль «Извлечение»
+item.relocatorModule4.name=Модуль «Заблокированное извлечение»
+item.relocatorModule5.name=Модуль «Скрытый»
+item.relocatorModule6.name=Модуль «Запас»
+item.relocatorModule7.name=Модуль «Красный блок»
+item.relocatorModule8.name=Модуль «Распространение»
 
 # Inventory localizations
 container.sortingChest.name=Сортирующий сундук
@@ -68,8 +71,8 @@ gui.refinedrelocation.disguisedInfo=Используйте несоединён�
 gui.refinedrelocation.undisguisedInfo=Используйте соединитель, чтобы замаскировать этот блок
 gui.refinedrelocation.connected=Соединён
 gui.refinedrelocation.notConnected=Не соединён
-gui.refinedrelocation.bufferInsInfo=Приоритеты выходной стороны\nПредметы, которые вставляются\nв буфер будут пытаться\nвыводится на действительную\nсторону в порядке приоритета\n(Меньшее число = Более высокий приоритет)
-gui.refinedrelocation.blockExtenderInsInfo=Вставляющие стороны\nПредметы будут вставляются\nв выбранную сторону\nсоединённого инвентаря,\nкогда они вставляются\nв соответствующую сторону\nэтого наполнителя блоков
+gui.refinedrelocation.bufferInsInfo=Приоритеты выходной стороны\nПредметы, которые входят\nв буфер, будут пытаться\nвыходить на действительную\nсторону в порядке приоритета\n(Меньшее число = Более высокий приоритет)
+gui.refinedrelocation.blockExtenderInsInfo=Вставляющие стороны\nПредметы будут входить\nв выбранную сторону\nсоединённого инвентаря,\nкогда они входят\nв соответствующую сторону\nэтого наполнителя блоков
 gui.refinedrelocation.redstoneTrans=Сигнал красного камня
 gui.refinedrelocation.enabled=Включен
 gui.refinedrelocation.disabled=Отключен
@@ -81,7 +84,7 @@ gui.refinedrelocation.wildcardChar=Wildcard character
 gui.refinedrelocation.oredictChar=Oredict lookup prefix
 gui.refinedrelocation.commaSeparation=Отделяйте фильтры запятой
 gui.refinedrelocation.wirelessLink=Беспроводное соединение
-gui.refinedrelocation.linkedToAt=Соединён с %s на: %s:%s:%s
+gui.refinedrelocation.linkedToAt=Соединён с %s на: (%s, %s, %s)
 gui.refinedrelocation.connections=Соединения
 gui.refinedrelocation.oreDictConversion=OreDict. преобразование
 gui.refinedrelocation.maxEnergy=Максимальная пропускная энергия
@@ -93,16 +96,52 @@ gui.refinedrelocation.changeLog=Изменения
 gui.refinedrelocation.latest=Чтобы обновиться, используйте: '/RefinedRelocation latest'
 gui.refinedrelocation.tab=Вкладка
 gui.refinedrelocation.ticksBetween=Количество тиков между каждым извлечением
-gui.refinedrelocation.sneaky=Устанавливает сторону, где предметы будут вставляться
+gui.refinedrelocation.sneaky=Сторона, в которую будут входить предметы
+gui.refinedrelocation.none=Нет
+gui.refinedrelocation.playerRelocatorLink=Переместитель игрока теперь связан с перемещающим контроллером
+gui.refinedrelocation.tooFar=%s слишком далеко от связанной позиции (макс. диапазон: %s)
+gui.refinedrelocation.linkedWith=%s теперь связан с %s в (%s, %s, %s)
+gui.refinedrelocation.connectedTo=Подключен к:
+gui.refinedrelocation.linkedTo=Соединён с:
+gui.refinedrelocation.facing=Facing:
+gui.refinedrelocation.redstone=Красный камень:
 
 #Item Description Localizations
-itemDesc.refinedrelocation.linkedPos=Соединённая позиция: %s:%s:%s (%s)
+itemDesc.refinedrelocation.linkedPos=Соединённая позиция: (%s, %s, %s) (%s)
 itemDesc.refinedrelocation.unlinked=Не соединён
-itemDesc.refinedrelocation.disguisedAs=Замаскирован %s как: %s
+itemDesc.refinedrelocation.disguisedAs=%s замаскирован как: %s
 itemDesc.refinedrelocation.cannotDisguiseAs=Не может быть замаскирован как: %s
-itemDesc.refinedrelocation.linkerSet=Соединитель установлен на позицию: %s:%s:%s (%s)
-itemDesc.refinedrelocation.noLongerLinked=Соединитель больше не соединён
+itemDesc.refinedrelocation.linkerSet=Соединитель установлен на позицию: (%s, %s, %s) (%s)
+itemDesc.refinedrelocation.noLongerLinked=%s больше не соединён
 itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
 itemDesc.refinedrelocation.brokenLink=Нарушенное соединение!
 itemDesc.refinedrelocation.cooldown=Охлаждение: %s
 itemDesc.refinedrelocation.relContDesc=Мультиблок (%s x %s x %s)
+itemDesc.refinedrelocation.relocatorModule=Модуль переместителя
+itemDesc.refinedrelocation.relocatorModuleInfo0=Основной модуль, используется в рецептах
+itemDesc.refinedrelocation.relocatorModuleInfo1=Фильтрует предметы с помощью\nстандартного фильтра
+itemDesc.refinedrelocation.relocatorModuleInfo2=Позволяет предметам проходить только\nв одном направлении
+itemDesc.refinedrelocation.relocatorModuleInfo3=Извлекает предметы из\nсоединённого инвентаря
+itemDesc.refinedrelocation.relocatorModuleInfo4=Извлекает предметы из\nсоединённого инвентаря и\nне позволяет предметам\nпроходить в инвентарь
+itemDesc.refinedrelocation.relocatorModuleInfo5=Позволяет предметам входить\nс другой стороны,\nвместо подключенной стороны
+itemDesc.refinedrelocation.relocatorModuleInfo6=Сохраняет определённое количество предметов\nв подключенном инвентаре
+itemDesc.refinedrelocation.relocatorModuleInfo7=Запрещает передачу предметов по\nвысокому/низкому сигналу красного камня
+itemDesc.refinedrelocation.relocatorModuleInfo8=Распространяет предметы по\nсоединённому инвентарю
+
+#Filter Localization
+filterName.refinedrelocation.filterIngot=Все слитки
+filterName.refinedrelocation.filterOres=Все руды
+filterName.refinedrelocation.filterLogs=Вся древесина
+filterName.refinedrelocation.filterPlanks=Все доски
+filterName.refinedrelocation.filterDusts=Вся пыль
+filterName.refinedrelocation.filterCrushedOres=Все измельчённые руды
+filterName.refinedrelocation.filterPurifiedOres=Все очищенные руды
+filterName.refinedrelocation.filterPlates=Все пластины
+filterName.refinedrelocation.filterGems=Все драгоценности
+filterName.refinedrelocation.filterFood=Вся еда
+filterName.refinedrelocation.filterDyes=Все красители
+filterName.refinedrelocation.filterNuggets=Все самородки
+
+#Relocator Module Localizations
+relocatorModule.refinedrelocation.redstoneBlockEnabled=Режим переключён, теперь предметы блокируются по сигналу красного камня.
+relocatorModule.refinedrelocation.redstoneBlockDisabled=Режим переключён, теперь предметы разрешаются по сигналу красного камня.
