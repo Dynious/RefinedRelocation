@@ -45,12 +45,12 @@ public class APIHandler implements IAPIHandler
         return new SortingInventoryHandler(owner);
     }
 
-    public void registerRelocatorFilter(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
+    public void registerRelocatorModule(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
     {
         RelocatorModuleRegistry.add(identifier, clazz);
     }
 
-    public void openRelocatorFilterGUI(IItemRelocator relocator, EntityPlayer player, int side)
+    public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side)
     {
         player.openGui(RefinedRelocation.instance, GuiIds.RELOCATOR_FILTER_BASE + side, relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
     }

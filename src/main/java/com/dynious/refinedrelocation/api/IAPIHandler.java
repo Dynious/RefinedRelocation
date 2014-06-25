@@ -22,7 +22,7 @@ public interface IAPIHandler
 
     public ISortingInventoryHandler createSortingInventoryHandler(TileEntity owner);
 
-    public void registerRelocatorFilter(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException;
+    public void registerRelocatorModule(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException;
 
-    public void openRelocatorFilterGUI(IItemRelocator relocator, EntityPlayer player, int side);
+    public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side);
 }
