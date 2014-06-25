@@ -37,7 +37,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     @Override
     public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
-        APIUtils.openRelocatorFilterGUI(relocator, player, side);
+        APIUtils.openRelocatorModuleGUI(relocator, player, side);
         return true;
     }
 
