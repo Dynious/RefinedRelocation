@@ -19,6 +19,8 @@ import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.part.*;
 
+import codechicken.multipart.BlockMultipart;
+
 import java.util.List;
 import java.util.ListIterator;
 import java.util.ArrayList;
@@ -123,6 +125,6 @@ public class WailaProvider implements IWailaDataProvider// IWailaFMPProvider
         // WailaProvider instance = new WailaProvider();
         registrar.registerBodyProvider(new WailaProvider(), BlockExtender.class);
         registrar.registerBodyProvider(new WailaProvider(), BlockRelocator.class);
-        // registrar.registerBodyProvider(new WailaProvider(), PartRelocator.class);
+        registrar.registerBodyProvider(new WailaProvider(), Class.forName("codechicken.multipart.BlockMultipart"));
     }
 }
