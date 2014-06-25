@@ -73,11 +73,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
-    public List<ItemStack>[] getStuffedItems() {
-        return stuffedItems;
-    }
-
-    @Override
     public void updateEntity()
     {
         super.updateEntity();
