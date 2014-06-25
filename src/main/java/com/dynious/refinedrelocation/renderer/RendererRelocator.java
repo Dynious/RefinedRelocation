@@ -91,8 +91,8 @@ public class RendererRelocator extends TileEntitySpecialRenderer
                     iconTransformation.icon = module.getIcon(relocator, side);
                     SIDE_MODELS[side].render(0, 4, trans, iconTransformation, null);
                     SIDE_MODELS[side].render(8, 16, trans, iconTransformation, null);
-                    //SIDE_MODELS[side].render(24, 4, trans, iconTransformation, null);
-                    //SIDE_MODELS[side].render(32, 16, trans, iconTransformation, null);
+                    SIDE_MODELS[side].render(24, 4, trans, iconTransformation, null);
+                    SIDE_MODELS[side].render(32, 16, trans, iconTransformation, null);
                 }
 
                 //Render other parts
@@ -106,8 +106,8 @@ public class RendererRelocator extends TileEntitySpecialRenderer
                 }
                 SIDE_MODELS[side].render(0, 4, trans, iconTransformation, null);
                 SIDE_MODELS[side].render(8, 16, trans, iconTransformation, null);
-                //SIDE_MODELS[side].render(24, 4, trans, iconTransformation, null);
-                //SIDE_MODELS[side].render(32, 16, trans, iconTransformation, null);
+                SIDE_MODELS[side].render(24, 4, trans, iconTransformation, null);
+                SIDE_MODELS[side].render(32, 16, trans, iconTransformation, null);
             }
             else
             {
@@ -127,7 +127,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
                         break;
                 }
                 CENTER_MODEL.render(side * 4, 4, trans, iconTransformation, null);
-                //CENTER_MODEL.render(24 + side * 4, 4, trans, iconTransformation, null);
+                CENTER_MODEL.render(24 + side * 4, 4, trans, iconTransformation, null);
             }
         }
         CCRenderState.draw();
