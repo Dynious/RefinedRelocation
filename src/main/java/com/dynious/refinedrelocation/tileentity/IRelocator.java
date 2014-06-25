@@ -25,10 +25,13 @@ public interface IRelocator extends IItemRelocator
 
     public List<TravellingItem> getItems(boolean includeItemsToAdd);
 
+    public List<ItemStack>[] getStuffedItems();
+
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(int side, EntityPlayer player);
 
     public Container getContainer(int side, EntityPlayer player);
 
     public byte getRenderType();
+
 }
