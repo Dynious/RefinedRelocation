@@ -249,6 +249,12 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
+    public List<ItemStack>[] getStuffedItems()
+    {
+        return relocator.getStuffedItems();
+    }
+
+    @Override
     public IRelocatorModule getRelocatorModule(int side)
     {
         return relocator.getRelocatorModule(side);

@@ -25,6 +25,8 @@ public interface IRelocator extends IItemRelocator
 
     public List<TravellingItem> getItems(boolean includeItemsToAdd);
 
+    public List<ItemStack>[] getStuffedItems();
+
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(int side, EntityPlayer player);
 
@@ -32,5 +34,4 @@ public interface IRelocator extends IItemRelocator
 
     public byte getRenderType();
 
-    public List<ItemStack>[] getStuffedItems();
 }

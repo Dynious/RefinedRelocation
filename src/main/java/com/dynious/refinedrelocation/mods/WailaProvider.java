@@ -40,15 +40,14 @@ public class WailaProvider implements IWailaDataProvider// IWailaFMPProvider
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
     {
-        // System.out.println("Block@WailaProvider");
         if (iWailaDataAccessor.getTileEntity() instanceof TileRelocator)
         {
             TileRelocator relocator = (TileRelocator) iWailaDataAccessor.getTileEntity();
 
             for (int side = 0; side < ForgeDirection.VALID_DIRECTIONS.length; side++)
             {
-                private static String orientation = ForgeDirection.getOrientation(side).toString();
-                private String[] lines = new String[2];
+                String orientation = ForgeDirection.getOrientation(side).toString();
+                String[] lines = new String[2];
 
                 IRelocatorModule module = (IRelocatorModule) relocator.getRelocatorModule(side);
                 if (module != null)
@@ -58,13 +57,11 @@ public class WailaProvider implements IWailaDataProvider// IWailaFMPProvider
 
                 }
 
-                private final List<ItemStack>[] relocatorStuffedItems = relocator.getStuffedItems();
-                for (ListIterator<ItemStack> iterator = relocatorStuffedItems[side].listIterator(); iterator.hasNext();)
+                List<ItemStack> relocatorStuffedItems = relocator.getStuffedItems()[side];
+                for (int itemStackNumber = 0; itemStackNumber < relocatorStuffedItems.size(); itemStackNumber++)
                 {
-                    if (relocatorStuffedItems[i].isEmpty())
-                        continue;
-
-                    lines[1] = relocatorStuffedItems[i].get(0).getDisplayName();
+                    ItemStack stuffedItems = relocatorStuffedItems.get(itemStackNumber);
+                    lines[1] = stuffedItems.getDisplayName();
                 }
 
                 for (int i = 0; i < lines.length; i++) // Display lines
@@ -126,7 +123,6 @@ public class WailaProvider implements IWailaDataProvider// IWailaFMPProvider
         // WailaProvider instance = new WailaProvider();
         registrar.registerBodyProvider(new WailaProvider(), BlockExtender.class);
         registrar.registerBodyProvider(new WailaProvider(), BlockRelocator.class);
-        // registrar.registerBodyProvider(new WailaProvider(), TileRelocator.class);
         // registrar.registerBodyProvider(new WailaProvider(), PartRelocator.class);
     }
 }
