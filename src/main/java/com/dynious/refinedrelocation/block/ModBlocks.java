@@ -71,6 +71,7 @@ public class ModBlocks
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 2), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(blockExtender, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(blockExtender, 1, 1));
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 2));
+        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "rgr", "gbg", "rgr", 'r', Block.blockRedstone, 'g', Item.ingotGold, 'b', new ItemStack(blockExtender, 1, 0));
 
         if (!Settings.DISABLE_WIRELESS_BLOCK_EXTENDER)
         {
