@@ -7,7 +7,7 @@ import com.dynious.refinedrelocation.part.PartRelocator;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import mcp.mobius.waila.api.*;
-import static mcp.mobius.waila.api.SpecialChars.*;
+import static mcp.mobius.waila.api.SpecialChars.*; // Staticly import to allow us to use these without SpecialChars.TAB;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -103,10 +103,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
                 for (int i = 0; i < stuffedStrings.size(); i++)
                 {
                     String finalString = "";
-                    if (i == 0)
-                        finalString += "Stuffed: ";
-                    // else
-                        // finalString += SpecialChars.ALIGNRIGHT;
+                    if (i == 0) finalString += "Stuffed: ";
 
                     strings.add(finalString + TAB + ALIGNRIGHT + stuffedStrings.get(i));
                 }
