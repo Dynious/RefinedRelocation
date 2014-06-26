@@ -74,6 +74,7 @@ public class Strings
     public static final String REL_CONT_DESC = ITEM_DESC_PREFIX + "relContDesc";
     public static final String RELOCATOR_MODULE = ITEM_DESC_PREFIX + "relocatorModule";
     public static final String RELOCATOR_MODULE_INFO = ITEM_DESC_PREFIX + "relocatorModuleInfo";
+    public static final String TOOLBOX_INFO = ITEM_DESC_PREFIX + "toolBoxInfo";
 
     public static final String INGOT_FILTER = FILTER_NAME_PREFIX + "filterIngot";
     public static final String ORE_FILTER = FILTER_NAME_PREFIX + "filterOres";

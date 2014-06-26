@@ -15,6 +15,7 @@ public class ModItems
     public static ItemSortingUpgrade sortingUpgrade;
     public static ItemPlayerRelocator playerRelocator;
     public static ItemRelocatorModule relocatorModule;
+    public static ItemToolBox toolBox;
 
     public static final int ID_SHIFT = 256;
 
@@ -24,16 +25,19 @@ public class ModItems
         sortingUpgrade = new ItemSortingUpgrade(ItemIds.SORTING_UPGRADE - ID_SHIFT);
         playerRelocator = new ItemPlayerRelocator(ItemIds.PLAYER_RELOCATOR - ID_SHIFT);
         relocatorModule = new ItemRelocatorModule(ItemIds.RELOCATOR_MODULE - ID_SHIFT);
+        toolBox = new ItemToolBox(ItemIds.TOOLBOX - ID_SHIFT);
 
         ModObjects.linker = new ItemStack(linker);
         ModObjects.sortingUpgrade = new ItemStack(sortingUpgrade);
         ModObjects.playerRelocator = new ItemStack(playerRelocator);
         ModObjects.relocatorFilter = new ItemStack(relocatorModule);
+        ModObjects.toolbox = new ItemStack(toolBox);
 
         GameRegistry.registerItem(linker, Names.linker);
         GameRegistry.registerItem(sortingUpgrade, Names.sortingUpgrade);
         GameRegistry.registerItem(playerRelocator, Names.playerRelocator);
         GameRegistry.registerItem(relocatorModule, Names.relocatorModule);
+        GameRegistry.registerItem(toolBox, Names.toolbox);
 
         GameRegistry.addShapedRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade), "g g", " p ", "g g", 'g', Item.ingotGold, 'p', Block.thinGlass);

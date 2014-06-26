@@ -28,4 +28,5 @@ public class Names
     public static final String sortingUpgrade = "sortingUpgrade";
     public static final String playerRelocator = "playerRelocator";
     public static final String relocatorModule = "relocatorModule";
+    public static final String toolbox = "toolbox";
 }
