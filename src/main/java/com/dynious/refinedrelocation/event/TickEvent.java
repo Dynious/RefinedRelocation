@@ -31,9 +31,8 @@ public class TickEvent implements ITickHandler
         {
             if (tickType == TickType.CLIENT)
             {
-                System.out.println("tick: " + RelocatorHUDHandler.tick);
                 RelocatorHUDHandler.tick++;
-                if (RelocatorHUDHandler.tick == 10)
+                if (RelocatorHUDHandler.tick == RelocatorHUDHandler.TICKS_BETWEEN_STUFFED_ITEM_UPDATE)
                 {
                     RelocatorHUDHandler.stuffedItems = null;
                 }
