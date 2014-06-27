@@ -145,6 +145,8 @@ filterName.refinedrelocation.filterFood=All Food
 filterName.refinedrelocation.filterDyes=All Dyes
 filterName.refinedrelocation.filterNuggets=All Nuggets
 
-#Relocator Module Localizations
+#Relocator Localizations
 relocatorModule.refinedrelocation.redstoneBlockEnabled=Toggled mode, now blocks items on redstone signal.
 relocatorModule.refinedrelocation.redstoneBlockDisabled=Toggled mode, now allows items through on redstone signal.
+
+relocatorStuffed.refinedrelocation.stuffed=Stuffed:

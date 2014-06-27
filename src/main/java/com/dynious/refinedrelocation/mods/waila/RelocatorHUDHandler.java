@@ -2,17 +2,19 @@ package com.dynious.refinedrelocation.mods.waila;
 
 import codechicken.multipart.TileMultipart;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.part.PartRelocator;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import mcp.mobius.waila.api.*;
-import static mcp.mobius.waila.api.SpecialChars.*; // Staticly import to allow us to use these without SpecialChars.TAB;
+import static mcp.mobius.waila.api.SpecialChars.*; // Staticly import to allow us to use these without SpecialChars.;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 
@@ -105,7 +107,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
                 for (int i = 0; i < stuffedStrings.size(); i++)
                 {
                     String finalString = "";
-                    if (i == 0) finalString += "Stuffed: ";
+                    if (i == 0) finalString += StatCollector.translateToLocal(Strings.RELOCATOR_STUFFED) + " ";
 
                     strings.add(finalString + TAB + ALIGNRIGHT + stuffedStrings.get(i));
                 }
