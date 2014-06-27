@@ -98,9 +98,6 @@ public class RelocatorHUDHandler implements IWailaDataProvider
                     modifier += EnumChatFormatting.UNDERLINE;
                 }
 
-                for (int i = 0; i < stuffedStrings.size(); i++)
-                {
-                    String finalString = "";
                 stuffedStrings.add(modifier + stack.getDisplayName() + " x " + stack.stackSize + EnumChatFormatting.RESET);
             }
 
