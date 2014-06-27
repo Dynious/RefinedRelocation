@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
@@ -93,6 +94,29 @@ public class ItemToolBox extends Item //implements IElectricItem
                 if (index >= stack.getTagCompound().getTagList("wrenches").tagCount())
                     index = 0;
                 stack.getTagCompound().setByte("index", index);
+
+                if (!world.isRemote)
+                {
+                    String wrenchText = StatCollector.translateToLocal(Strings.TOOLBOX_WRENCH_LIST_START) + " ";
+                    ArrayList<ItemStack> wrenches = getWrenches(stack);
+
+                    for (int i = 0; i < wrenches.size(); i++)
+                    {
+                        ItemStack wrench = wrenches.get(i);
+                        ItemStack currentWrench = getCurrentWrench(stack);
+                        String modifier = wrench.itemID == currentWrench.itemID ? "\u00A77" : ""; // If current wrench, print in grey
+
+                        wrenchText += modifier + wrench.getDisplayName() + "\u00A7r"; // reset after item name
+
+                        if (i < wrenches.size() - 1)
+                            wrenchText += ", ";
+                        else
+                            wrenchText += ".";
+                    }
+
+                    player.sendChatToPlayer(new ChatMessageComponent()
+                        .addText(wrenchText));
+                }
             }
         }
         return stack;
@@ -101,8 +125,11 @@ public class ItemToolBox extends Item //implements IElectricItem
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
-        NBTTagList list = stack.getTagCompound().getTagList("wrenches");
-        byte index = stack.getTagCompound().getByte("index");
+        if (!stack.hasTagCompound()) return false;
+        NBTTagCompound stackCompound = stack.getTagCompound();
+
+        NBTTagList list = stackCompound.getTagList("wrenches");
+        byte index = stackCompound.getByte("index");
         if (list.tagCount() > index)
         {
             NBTTagCompound compound = (NBTTagCompound) list.tagAt(index);
@@ -253,6 +280,23 @@ public class ItemToolBox extends Item //implements IElectricItem
                 NBTTagCompound compound = (NBTTagCompound) list.tagAt(index);
                 return ItemStack.loadItemStackFromNBT(compound);
             }
+        }
+        return null;
+    }
+
+    public static ArrayList<ItemStack> getWrenches(ItemStack stack)
+    {
+        if (stack.hasTagCompound())
+        {
+            ArrayList<ItemStack> wrenches = new ArrayList<ItemStack>();
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches");
+            // byte index = stack.getTagCompound().getByte("index");
+            for (int x = 0; x < list.tagCount(); x++)
+            {
+                NBTTagCompound nbttagcompound1 = (NBTTagCompound) list.tagAt(x);
+                wrenches.add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
+            }
+            return wrenches;
         }
         return null;
     }
