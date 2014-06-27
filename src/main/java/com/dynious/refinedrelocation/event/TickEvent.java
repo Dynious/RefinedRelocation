@@ -31,7 +31,6 @@ public class TickEvent implements ITickHandler
         {
             if (tickType == TickType.CLIENT)
             {
-                System.out.println("tick: " + RelocatorHUDHandler.tick);
                 RelocatorHUDHandler.tick++;
                 if (RelocatorHUDHandler.tick == 10)
                 {
