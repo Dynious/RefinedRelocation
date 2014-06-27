@@ -57,5 +57,6 @@ public class ModItems
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 6), "e e", " r ", "e e", 'e', Item.enderPearl, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 7), "c d", " r ", "d c", 'c', Item.comparator, 'd', Item.redstone, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 8), "g g", " r ", "g g", 'g', Item.glowstone, 'r', new ItemStack(relocatorModule, 1, 0));
+        GameRegistry.addRecipe(new RecipeToolbox());
     }
 }

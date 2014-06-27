@@ -58,6 +58,7 @@ public class ItemToolBox extends Item //implements IElectricItem
         this.setUnlocalizedName(Names.toolbox);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setMaxStackSize(1);
+        this.setContainerItem(this);
     }
 
     @Override
@@ -147,6 +148,8 @@ public class ItemToolBox extends Item //implements IElectricItem
                     {
                         list.removeTag(index);
                         index--;
+                        if (index < 0)
+                            index = 0;
                         stack.getTagCompound().setByte("index", index);
                     }
                 }
@@ -172,6 +175,26 @@ public class ItemToolBox extends Item //implements IElectricItem
         {
             list.add("\u00A7f" + line);
         }
+    }
+
+    @Override
+    public ItemStack getContainerItemStack(ItemStack itemStack)
+    {
+        ItemStack copiedStack = itemStack.copy();
+        if (copiedStack.hasTagCompound())
+        {
+            NBTTagList list = copiedStack.getTagCompound().getTagList("wrenches");
+            byte index = copiedStack.getTagCompound().getByte("index");
+            if (list.tagCount() > index)
+            {
+                list.removeTag(index);
+                index--;
+                if (index < 0)
+                    index = 0;
+                copiedStack.getTagCompound().setByte("index", index);
+            }
+        }
+        return copiedStack;
     }
 
     /*

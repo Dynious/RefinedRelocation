@@ -237,7 +237,7 @@ public class FilterStandard implements IFilterGUI
             case 11:
                 return StatCollector.translateToLocal(Strings.NUGGET_FILTER);
             default:
-                return I18n.getString(tabs[getCreativeTab(place)].getTranslatedTabLabel());
+                return I18n.getString(tabs[getCreativeTab(place)].getTranslatedTabLabel()).replace("itemGroup.", "");
         }
     }
 
