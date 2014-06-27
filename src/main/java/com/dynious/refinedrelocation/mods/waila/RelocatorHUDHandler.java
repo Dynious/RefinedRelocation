@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.part.PartRelocator;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import mcp.mobius.waila.api.*;
+import static mcp.mobius.waila.api.SpecialChars.*; // Staticly import to allow us to use these without SpecialChars.TAB;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -87,7 +88,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
 
             if (compound.hasKey("StuffedItems"))
             {
-
+                List<String> stuffedStrings = new ArrayList<String>();
                 for (ItemStack stack : getItemStacks(compound, side))
                 {
                     String modifier = "";
@@ -96,7 +97,15 @@ public class RelocatorHUDHandler implements IWailaDataProvider
                         modifier += EnumChatFormatting.UNDERLINE;
                     }
 
-                    strings.add("Stuffed: " + modifier + stack.getDisplayName() + " x " + stack.stackSize + EnumChatFormatting.RESET);
+                    stuffedStrings.add(modifier + stack.getDisplayName() + " x " + stack.stackSize + EnumChatFormatting.RESET);
+                }
+
+                for (int i = 0; i < stuffedStrings.size(); i++)
+                {
+                    String finalString = "";
+                    if (i == 0) finalString += "Stuffed: ";
+
+                    strings.add(finalString + TAB + ALIGNRIGHT + stuffedStrings.get(i));
                 }
             }
         }
