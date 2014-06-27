@@ -150,3 +150,11 @@ relocatorModule.refinedrelocation.redstoneBlockEnabled=Toggled mode, now blocks 
 relocatorModule.refinedrelocation.redstoneBlockDisabled=Toggled mode, now allows items through on redstone signal.
 
 relocatorStuffed.refinedrelocation.stuffed=Stuffed:
+
+#Direction Localizations
+direction.refinedrelocation.direction0=Down
+direction.refinedrelocation.direction1=Up
+direction.refinedrelocation.direction2=North
+direction.refinedrelocation.direction3=South
+direction.refinedrelocation.direction4=West
+direction.refinedrelocation.direction5=East

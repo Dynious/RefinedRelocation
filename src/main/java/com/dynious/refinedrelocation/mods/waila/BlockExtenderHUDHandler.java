@@ -58,7 +58,7 @@ public class BlockExtenderHUDHandler implements IWailaDataProvider
             }
 
             if (blockExtender.getConnectedDirection() != ForgeDirection.UNKNOWN)
-                strings.add(StatCollector.translateToLocal(Strings.FACING) + SpecialChars.TAB + blockExtender.getConnectedDirection().toString());
+                strings.add(StatCollector.translateToLocal(Strings.FACING) + SpecialChars.TAB + StatCollector.translateToLocal(Strings.DIRECTION + blockExtender.getConnectedDirection().ordinal()));
 
             if (!(blockExtender instanceof TileWirelessBlockExtender))
                 strings.add(StatCollector.translateToLocal(Strings.REDSTONE) + SpecialChars.TAB + (!blockExtender.isRedstoneTransmissionEnabled() ? StatCollector.translateToLocal(Strings.DISABLED) : blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE)));
