@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import static mcp.mobius.waila.api.SpecialChars.*;
 import mcp.mobius.waila.utils.ModIdentification;
@@ -144,7 +145,7 @@ public class ItemToolBox extends Item //implements IElectricItem
                 if (!wrenchStack.getItem().onItemUseFirst(wrenchStack, player, world, x, y, z, side, hitX, hitY, hitZ))
                 {
                     block.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-                    if (player.getCurrentEquippedItem() == null)
+                    if (player.getCurrentEquippedItem() == null || player.getCurrentEquippedItem().stackSize == 0)
                     {
                         list.removeTag(index);
                         index--;
@@ -212,8 +213,7 @@ public class ItemToolBox extends Item //implements IElectricItem
     public int getDisplayDamage(ItemStack stack)
     {
         ItemStack wrench = getCurrentWrench(stack);
-        return getDamage(stack);
-        //return wrench == null ? super.getDisplayDamage(stack) : wrench.getItem().getDisplayDamage(wrench);
+        return wrench == null ? super.getDisplayDamage(stack) : wrench.getItem().getDisplayDamage(wrench);
     }
 
     @Override
