@@ -21,16 +21,19 @@ import java.util.List;
 
 public class RelocatorHUDHandler implements IWailaDataProvider
 {
-    private byte tick = 0;
-    private int ticksBetweenItemChange = 100; // 5 Seconds
+    public static int tick = 0;
+    private static final int ticksBetweenItemChange = 20; // 1 Second
     private int currentStackShown = 0;
+
+    /*
+    Cached Variables
+    */
+    public static ArrayList<ItemStack> stuffedItems = null;
 
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
     {
-        tick++;
-
-        if (tick == ticksBetweenItemChange)
+        if (tick >= ticksBetweenItemChange)
         {
             ++currentStackShown;
             tick = 0;
@@ -57,7 +60,6 @@ public class RelocatorHUDHandler implements IWailaDataProvider
 
             return getItemStack(compound, side, currentStackShown);
         }
-
 
         return null;
     }
@@ -158,6 +160,11 @@ public class RelocatorHUDHandler implements IWailaDataProvider
 
     private ArrayList<ItemStack> getItemStacks(NBTTagCompound compound, int side)
     {
+        if (stuffedItems != null)
+        {
+            return stuffedItems;
+        }
+
         ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
         if (compound.hasKey("StuffedItems"))
         {
@@ -172,6 +179,8 @@ public class RelocatorHUDHandler implements IWailaDataProvider
                 }
             }
         }
+
+        stuffedItems = itemStacks;
         return itemStacks;
     }
 

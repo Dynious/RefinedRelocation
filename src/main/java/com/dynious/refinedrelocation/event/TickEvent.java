@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.version.VersionChecker;
+import com.dynious.refinedrelocation.mods.waila.RelocatorHUDHandler;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
@@ -26,28 +27,29 @@ public class TickEvent implements ITickHandler
     @Override
     public void tickEnd(EnumSet<TickType> type, Object... tickData)
     {
-        if (Settings.DISPLAY_VERSION_RESULT)
+        for (TickType tickType : type)
         {
-            if (!initialized)
+            if (tickType == TickType.CLIENT)
             {
-                for (TickType tickType : type)
+                System.out.println("tick: " + RelocatorHUDHandler.tick);
+                RelocatorHUDHandler.tick++;
+                if (RelocatorHUDHandler.tick == 10)
                 {
-                    if (tickType == TickType.CLIENT)
-                    {
-                        if (FMLClientHandler.instance().getClient().currentScreen == null)
-                        {
-                            if (VersionChecker.getResult() != VersionChecker.CheckState.UNINITIALIZED)
-                            {
-                                initialized = true;
+                    RelocatorHUDHandler.stuffedItems = null;
+                }
 
-                                if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
-                                {
-                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.OUTDATED, Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
-                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.CHANGE_LOG) + ":"));
-                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(String.format(" %s", VersionChecker.getRemoteVersion().getChangeLog())));
-                                    Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.LATEST)));
-                                }
-                            }
+                if (!initialized && Settings.DISPLAY_VERSION_RESULT && FMLClientHandler.instance().getClient().currentScreen == null)
+                {
+                    if (VersionChecker.getResult() != VersionChecker.CheckState.UNINITIALIZED)
+                    {
+                        initialized = true;
+
+                        if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
+                        {
+                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.OUTDATED, Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
+                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.CHANGE_LOG) + ":"));
+                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(String.format(" %s", VersionChecker.getRemoteVersion().getChangeLog())));
+                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.LATEST)));
                         }
                     }
                 }
