@@ -119,6 +119,7 @@ itemDesc.refinedrelocation.brokenLink=Broken link!
 itemDesc.refinedrelocation.cooldown=Cooldown: %s
 itemDesc.refinedrelocation.relContDesc=MultiBlock (%s x %s x %s)
 itemDesc.refinedrelocation.toolBoxInfo=Stores wrench type items\nShift-click to add wrench\nfrom inventory or switch\nbetween wrenches
+itemDesc.refinedrelocation.toolBoxWrenchListStart=Available Wrenches:
 itemDesc.refinedrelocation.relocatorModule=Relocator Module
 itemDesc.refinedrelocation.relocatorModuleInfo0=Base module, used in recipes
 itemDesc.refinedrelocation.relocatorModuleInfo1=Filters items using the\nStandard Filter
