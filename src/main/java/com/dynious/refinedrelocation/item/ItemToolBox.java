@@ -7,6 +7,8 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
 import cpw.mods.fml.common.Optional;
+import static mcp.mobius.waila.api.SpecialChars.*;
+import mcp.mobius.waila.utils.ModIdentification;
 import ic2.api.item.IElectricItem;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -135,12 +137,13 @@ public class ItemToolBox extends Item //implements IElectricItem
         ItemStack wrench = getCurrentWrench(stack);
         if (wrench != null)
         {
-            list.add(wrench.getDisplayName());
+            String modName = " (" + BLUE + ITALIC + ModIdentification.nameFromStack(wrench) + RESET + GRAY + ")";
+            list.add(wrench.getDisplayName() + modName);
         }
         String[] info = StatCollector.translateToLocal(Strings.TOOLBOX_INFO).split("\\\\n");
         for (String line : info)
         {
-            list.add("\u00A7f" + line);
+            list.add(WHITE + line);
         }
     }
 
