@@ -137,13 +137,13 @@ public class ItemToolBox extends Item //implements IElectricItem
         ItemStack wrench = getCurrentWrench(stack);
         if (wrench != null)
         {
-            String modName = " (" + BLUE + ITALIC + ModIdentification.nameFromStack(wrench) + RESET + GRAY + ")";
+            String modName = Mods.IS_WAILA_LOADED ? " (" + BLUE + ITALIC + ModIdentification.nameFromStack(wrench) + RESET + GRAY + ")" : "";
             list.add(wrench.getDisplayName() + modName);
         }
         String[] info = StatCollector.translateToLocal(Strings.TOOLBOX_INFO).split("\\\\n");
         for (String line : info)
         {
-            list.add(WHITE + line);
+            list.add("\u00A7f" + line);
         }
     }
 
