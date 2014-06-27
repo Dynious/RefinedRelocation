@@ -290,7 +290,6 @@ public class ItemToolBox extends Item //implements IElectricItem
         {
             ArrayList<ItemStack> wrenches = new ArrayList<ItemStack>();
             NBTTagList list = stack.getTagCompound().getTagList("wrenches");
-            // byte index = stack.getTagCompound().getByte("index");
             for (int x = 0; x < list.tagCount(); x++)
             {
                 NBTTagCompound nbttagcompound1 = (NBTTagCompound) list.tagAt(x);
