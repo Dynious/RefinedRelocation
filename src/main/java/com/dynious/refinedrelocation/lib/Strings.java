@@ -6,6 +6,8 @@ public class Strings
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String FILTER_NAME_PREFIX = "filterName." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String RELOCATOR_MODULE_PREFIX = "relocatorModule." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String RELOCATOR_STUFFED_PREFIX = "relocatorStuffed." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String DIRECTION_PREFIX = "direction." + Reference.MOD_ID.toLowerCase() + ".";
 
     public static final String BLACKLIST = GUI_PREFIX + "blacklist";
     public static final String WHITELIST = GUI_PREFIX + "whitelist";
@@ -92,4 +94,8 @@ public class Strings
 
     public static final String REDSTONE_BLOCK_ENABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabled";
     public static final String REDSTONE_BLOCK_DISABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabled";
+
+    public static final String RELOCATOR_STUFFED = RELOCATOR_STUFFED_PREFIX + "stuffed";
+
+    public static final String DIRECTION = DIRECTION_PREFIX + "direction";
 }
