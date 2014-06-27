@@ -129,7 +129,7 @@ public class ItemToolBox extends Item //implements IElectricItem
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
-        if (!stack.hasTagCompound()) return false;
+        if (!stack.hasTagCompound() || world.isRemote) return false;
         NBTTagCompound stackCompound = stack.getTagCompound();
 
         NBTTagList list = stackCompound.getTagList("wrenches");
@@ -155,7 +155,7 @@ public class ItemToolBox extends Item //implements IElectricItem
                     }
                 }
                 player.inventory.mainInventory[player.inventory.currentItem] = stack;
-                if (!world.isRemote) return true;
+                return true;
             }
         }
         return false;
