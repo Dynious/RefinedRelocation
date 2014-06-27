@@ -39,8 +39,10 @@ public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
         List<String> subTooltip = super.getTooltip(mouseX, mouseY);
         if (isMouseInsideBounds(mouseX, mouseY))
         {
+            float seconds = (float) module.getTicksBetweenExtraction() / 20;
             List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.TICKS_BETWEEN_EXT));
+            tooltip.add(seconds + " " + StatCollector.translateToLocal(Strings.SECONDS_BETWEEN_EXT));
             tooltip.addAll(subTooltip);
             return tooltip;
         }
