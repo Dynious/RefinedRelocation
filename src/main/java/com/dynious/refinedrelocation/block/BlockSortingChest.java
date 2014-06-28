@@ -306,4 +306,19 @@ public class BlockSortingChest extends BlockContainer
         }
         return false;
     }
+
+    @Override
+    public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side)
+    {
+        TileSortingChest tile = (TileSortingChest) world.getBlockTileEntity(x, y, z);
+        return tile.isProvidingStrongPower(side);
+    }
+
+    @Override
+    public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side)
+    {
+        TileSortingChest tile = (TileSortingChest) world.getBlockTileEntity(x, y, z);
+        // Minecraft thinks that strong power should only be output when there is a block on the side, we don't agree
+        return Math.max(tile.isProvidingStrongPower(side), tile.isProvidingWeakPower(side));
+    }
 }

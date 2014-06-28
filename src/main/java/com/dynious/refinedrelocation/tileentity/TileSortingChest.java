@@ -267,6 +267,16 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         this.facing = facing;
     }
 
+    public int isProvidingStrongPower(int side)
+    {
+        return Math.min(15, numUsingPlayers);
+    }
+
+    public int isProvidingWeakPower(int side)
+    {
+        return Math.min(15, numUsingPlayers);
+    }
+
     /**
      * Called when a client event is received with the event number and argument, see World.sendClientEvent
      */
