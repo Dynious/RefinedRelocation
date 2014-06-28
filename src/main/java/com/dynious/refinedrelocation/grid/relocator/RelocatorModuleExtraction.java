@@ -68,10 +68,22 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
                 if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, ForgeDirection.OPPOSITES[side]))
                 {
                     ItemStack stackCopy = stack.copy();
-                    stackCopy.stackSize = Math.min(stackCopy.stackSize, extractStackSize);
+                    int extraStackSize = 0;
+                    if (extractStackSize < stackCopy.stackSize)
+                    {
+                        extraStackSize = stackCopy.stackSize - extractStackSize;
+                        stackCopy.stackSize = extractStackSize;
+                    }
+                    else // Greater than or equal to
+                    {
+                        stackCopy.stackSize = Math.min(stackCopy.stackSize, extractStackSize);
+                    }
+
                     ItemStack returnedStack = relocator.insert(stackCopy, side, false);
+
                     if (returnedStack == null || stack.stackSize != returnedStack.stackSize)
                     {
+                        returnedStack.stackSize += extraStackSize; // Should never be greater than 64
                         inventory.setInventorySlotContents(slot, returnedStack);
                     }
                 }
