@@ -78,13 +78,12 @@ public class BlockSortingConnector extends BlockContainer
             if (tile instanceof TileSortingInterface)
             {
                 APIUtils.openFilteringGUI(player, world, x, y, z);
-                return true;
             }
             else if (tile instanceof TileSortingImporter)
             {
                 ((TileSortingImporter)tile).onRightClick(player);
-                return true;
             }
+            return true;
         }
         return false;
     }
@@ -94,9 +93,9 @@ public class BlockSortingConnector extends BlockContainer
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
-        for (int j = 0; j < 3; ++j)
+        for (int metadata = 0; metadata < 3; ++metadata)
         {
-            par3List.add(new ItemStack(par1, 1, j));
+            par3List.add(new ItemStack(par1, 1, metadata));
         }
     }
 

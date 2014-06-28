@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.block;
 import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.GuiHelper;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 @Optional.InterfaceList(value = {@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")})
 public class BlockPowerLimiter extends BlockContainer implements IDismantleable
 {
-    private Icon[] icons;
+    private Icon[] icons = new Icon[3];
 
     public BlockPowerLimiter(int id)
     {
@@ -45,11 +46,7 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
     {
-        if (world.isRemote)
-        {
-            return true;
-        }
-        else
+        if (!world.isRemote)
         {
             TilePowerLimiter tile = (TilePowerLimiter) world.getBlockTileEntity(x, y, z);
             if (player.isSneaking())
@@ -58,8 +55,8 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
                 return true;
             }
             GuiHelper.openGui(player, tile);
-            return true;
         }
+        return true;
     }
 
     @Override
@@ -83,7 +80,6 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister)
     {
-        icons = new Icon[3];
         for (int i = 0; i < icons.length; i++)
         {
             icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + i);
@@ -125,15 +121,7 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
 
         for (ItemStack item : items)
         {
-
-            EntityItem entityitem = new EntityItem(world, x + 0.5F, y + 0.5F, z + 0.5F, item);
-
-            entityitem.delayBeforeCanPickup = 10;
-
-            world.spawnEntityInWorld(entityitem);
-
-            entityitem.motionX *= 0.25F;
-            entityitem.motionZ *= 0.25F;
+            IOHelper.spawnItemInWorld(world, item, x, y, z);
         }
 
         world.setBlockToAir(x, y, z);
