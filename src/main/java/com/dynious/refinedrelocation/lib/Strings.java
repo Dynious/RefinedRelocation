@@ -54,6 +54,7 @@ public class Strings
     public static final String LATEST = GUI_PREFIX + "latest";
     public static final String TAB = GUI_PREFIX + "tab";
     public static final String TICKS_BETWEEN_EXT = GUI_PREFIX + "ticksBetween";
+    public static final String SECONDS_BETWEEN_EXT = GUI_PREFIX + "secondsBetween";
     public static final String SNEAKY = GUI_PREFIX + "sneaky";
     public static final String NONE = GUI_PREFIX + "none";
     public static final String PLAYER_RELOCATOR_LINK = GUI_PREFIX + "playerRelocatorLink";
