@@ -22,16 +22,16 @@ apply plugin: 'forge'
 ext.env = System.getenv()
 ext.cclVersion = "1.1.1.81"
 
-version = "1.0.5a"
+version = "1.0.5b"
 group = "com.dynious.refinedrelocation"
-archivesBaseName = "RefinedRelocation-1.7.2"
+archivesBaseName = "RefinedRelocation-1.7.x"
 
 if (env.BUILD_NUMBER != null) {
     version += "-snapshot-" + env.BUILD_NUMBER
 }
 
 minecraft {
-    version = "1.7.x-10.12.2.1133"
+    version = "1.7.10-10.13.0.1152"
     assetDir = "eclipse/assets"
     
     replaceIn "lib/Reference.java"
