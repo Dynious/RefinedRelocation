@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.event;
 
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -31,10 +32,13 @@ public class TickEvent implements ITickHandler
         {
             if (tickType == TickType.CLIENT)
             {
-                RelocatorHUDHandler.tick++;
-                if (RelocatorHUDHandler.tick == RelocatorHUDHandler.TICKS_BETWEEN_STUFFED_ITEM_UPDATE)
+                if (Mods.IS_WAILA_LOADED)
                 {
-                    RelocatorHUDHandler.stuffedItems = null;
+                    RelocatorHUDHandler.tick++;
+                    if (RelocatorHUDHandler.tick == RelocatorHUDHandler.TICKS_BETWEEN_STUFFED_ITEM_UPDATE)
+                    {
+                        RelocatorHUDHandler.stuffedItems = null;
+                    }
                 }
 
                 if (!initialized && Settings.DISPLAY_VERSION_RESULT && FMLClientHandler.instance().getClient().currentScreen == null)
