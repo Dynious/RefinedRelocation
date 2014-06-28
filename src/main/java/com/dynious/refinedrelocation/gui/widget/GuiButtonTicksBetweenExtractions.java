@@ -11,9 +11,11 @@ import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.text.DecimalFormat;
 
 public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
 {
+    private static final DecimalFormat decimalFormat = new DecimalFormat("##.##");
     private RelocatorModuleExtraction module;
 
     public GuiButtonTicksBetweenExtractions(IGuiParent parent, int x, int y, RelocatorModuleExtraction module)
@@ -40,9 +42,10 @@ public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             float seconds = (float) module.getTicksBetweenExtraction() / 20;
+
             List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.TICKS_BETWEEN_EXT));
-            tooltip.add(seconds + " " + StatCollector.translateToLocal(Strings.SECONDS_BETWEEN_EXT));
+            tooltip.add(decimalFormat.format(seconds) + " " + StatCollector.translateToLocal(Strings.SECONDS_BETWEEN_EXT));
             tooltip.addAll(subTooltip);
             return tooltip;
         }
