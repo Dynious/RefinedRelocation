@@ -33,6 +33,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     private byte tick = 0;
     private int lastCheckedSlot = 0;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
+    private int extractStackSize = 1;
 
     @Override
     public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
@@ -66,7 +67,9 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
             {
                 if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, ForgeDirection.OPPOSITES[side]))
                 {
-                    ItemStack returnedStack = relocator.insert(stack.copy(), side, false);
+                    ItemStack stackCopy = stack.copy();
+                    stackCopy.stackSize = Math.min(stackCopy.stackSize, extractStackSize);
+                    ItemStack returnedStack = relocator.insert(stackCopy, side, false);
                     if (returnedStack == null || stack.stackSize != returnedStack.stackSize)
                     {
                         inventory.setInventorySlotContents(slot, returnedStack);
