@@ -78,12 +78,13 @@ public class BlockSortingConnector extends BlockContainer
             if (tile instanceof TileSortingInterface)
             {
                 APIUtils.openFilteringGUI(player, world, x, y, z);
+                return true;
             }
             else if (tile instanceof TileSortingImporter)
             {
                 ((TileSortingImporter)tile).onRightClick(player);
+                return true;
             }
-            return true;
         }
         return false;
     }
