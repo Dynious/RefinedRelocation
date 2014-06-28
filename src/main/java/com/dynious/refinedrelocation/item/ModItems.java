@@ -30,7 +30,7 @@ public class ModItems
         ModObjects.linker = new ItemStack(linker);
         ModObjects.sortingUpgrade = new ItemStack(sortingUpgrade);
         ModObjects.playerRelocator = new ItemStack(playerRelocator);
-        ModObjects.relocatorFilter = new ItemStack(relocatorModule);
+        ModObjects.relocatorModule = new ItemStack(relocatorModule);
         ModObjects.toolbox = new ItemStack(toolBox);
 
         GameRegistry.registerItem(linker, Names.linker);
