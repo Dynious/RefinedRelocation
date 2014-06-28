@@ -71,8 +71,8 @@ public final class APIUtils
     }
 
     /**
-     * Registers a module for attachment to relocators. To correctly save the filter your
-     * filter MUST be registered here.
+     * Registers a module for attachment to relocators. To correctly save the module your
+     * module MUST be registered using this.
      *
      * @param identifier The identifier of this module
      * @param clazz The class of this module
