@@ -36,6 +36,7 @@ item.linker.name=Linker
 item.sortingUpgrade.name=Sorting Upgrade
 item.playerRelocator.name=Player Relocator
 item.relocator.name=Relocator
+item.toolbox.name=Toolbox
 item.relocatorModule0.name=Module Base
 item.relocatorModule1.name=Module Filter
 item.relocatorModule2.name=Module One Way
@@ -95,7 +96,8 @@ gui.refinedrelocation.outdated=Refined Relocation %s is outdated! Latest version
 gui.refinedrelocation.changeLog=Change log
 gui.refinedrelocation.latest=Get latest using: '/RefinedRelocation latest'
 gui.refinedrelocation.tab=Tab
-gui.refinedrelocation.ticksBetween=Number of ticks between each extraction
+gui.refinedrelocation.ticksBetween=Ticks between each extraction
+gui.refinedrelocation.secondsBetween=seconds between each extraction
 gui.refinedrelocation.sneaky=The side into which items will be inserted
 gui.refinedrelocation.none=None
 gui.refinedrelocation.playerRelocatorLink=Player Relocator is now linked to the Relocation Controller
@@ -117,6 +119,8 @@ itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
 itemDesc.refinedrelocation.brokenLink=Broken link!
 itemDesc.refinedrelocation.cooldown=Cooldown: %s
 itemDesc.refinedrelocation.relContDesc=MultiBlock (%s x %s x %s)
+itemDesc.refinedrelocation.toolBoxInfo=Stores wrench type items\nShift-click to add wrench\nfrom inventory or switch\nbetween wrenches
+itemDesc.refinedrelocation.toolBoxWrenchListStart=Available Wrenches:
 itemDesc.refinedrelocation.relocatorModule=Relocator Module
 itemDesc.refinedrelocation.relocatorModuleInfo0=Base module, used in recipes
 itemDesc.refinedrelocation.relocatorModuleInfo1=Filters items using the\nStandard Filter
@@ -142,6 +146,16 @@ filterName.refinedrelocation.filterFood=All Food
 filterName.refinedrelocation.filterDyes=All Dyes
 filterName.refinedrelocation.filterNuggets=All Nuggets
 
-#Relocator Module Localizations
+#Relocator Localizations
 relocatorModule.refinedrelocation.redstoneBlockEnabled=Toggled mode, now blocks items on redstone signal.
 relocatorModule.refinedrelocation.redstoneBlockDisabled=Toggled mode, now allows items through on redstone signal.
+
+relocatorStuffed.refinedrelocation.stuffed=Stuffed:
+
+#Direction Localizations
+direction.refinedrelocation.direction0=Down
+direction.refinedrelocation.direction1=Up
+direction.refinedrelocation.direction2=North
+direction.refinedrelocation.direction3=South
+direction.refinedrelocation.direction4=West
+direction.refinedrelocation.direction5=East

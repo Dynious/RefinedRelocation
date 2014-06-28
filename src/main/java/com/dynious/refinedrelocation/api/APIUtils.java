@@ -71,26 +71,26 @@ public final class APIUtils
     }
 
     /**
-     * Registers a filter for attachment to relocators. To correctly save the filter your
+     * Registers a module for attachment to relocators. To correctly save the filter your
      * filter MUST be registered here.
      *
-     * @param identifier The identifier of this filter
-     * @param clazz The class of this filter
+     * @param identifier The identifier of this module
+     * @param clazz The class of this module
      */
-    public static void registerRelocatorFilter(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
+    public static void registerRelocatorModule(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
     {
-        apiHandler.registerRelocatorFilter(identifier, clazz);
+        apiHandler.registerRelocatorModule(identifier, clazz);
     }
 
     /**
-     * Will open a GUI for the filter by calling the getGUI() and getContainer() methods in your filter.
+     * Will open a GUI for the module by calling the getGUI() and getContainer() methods in your module.
      *
-     * @param relocator The identifier of this filter
+     * @param relocator The identifier of this module
      * @param player The Player that the GUI should open for
-     * @param side The side of the filter that should open a GUI
+     * @param side The side of the module that should open a GUI
      */
-    public static void openRelocatorFilterGUI(IItemRelocator relocator, EntityPlayer player, int side)
+    public static void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side)
     {
-        apiHandler.openRelocatorFilterGUI(relocator, player, side);
+        apiHandler.openRelocatorModuleGUI(relocator, player, side);
     }
 }

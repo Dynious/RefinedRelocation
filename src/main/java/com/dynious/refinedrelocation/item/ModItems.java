@@ -14,6 +14,7 @@ public class ModItems
     public static ItemSortingUpgrade sortingUpgrade;
     public static ItemPlayerRelocator playerRelocator;
     public static ItemRelocatorModule relocatorModule;
+    public static ItemToolBox toolBox;
 
     public static void init()
     {
@@ -21,16 +22,19 @@ public class ModItems
         sortingUpgrade = new ItemSortingUpgrade();
         playerRelocator = new ItemPlayerRelocator();
         relocatorModule = new ItemRelocatorModule();
+        toolBox = new ItemToolBox();
 
         ModObjects.linker = new ItemStack(linker);
         ModObjects.sortingUpgrade = new ItemStack(sortingUpgrade);
         ModObjects.playerRelocator = new ItemStack(playerRelocator);
         ModObjects.relocatorFilter = new ItemStack(relocatorModule);
+        ModObjects.toolbox = new ItemStack(toolBox);
 
         GameRegistry.registerItem(linker, Names.linker);
         GameRegistry.registerItem(sortingUpgrade, Names.sortingUpgrade);
         GameRegistry.registerItem(playerRelocator, Names.playerRelocator);
         GameRegistry.registerItem(relocatorModule, Names.relocatorModule);
+        GameRegistry.registerItem(toolBox, Names.toolbox);
 
         GameRegistry.addShapedRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Items.iron_ingot, 'r', Items.redstone, 'e', Items.ender_pearl);
         GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade), "g g", " p ", "g g", 'g', Items.gold_ingot, 'p', Blocks.glass_pane);
@@ -50,5 +54,6 @@ public class ModItems
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 6), "e e", " r ", "e e", 'e', Items.ender_pearl, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 7), "c d", " r ", "d c", 'c', Items.comparator, 'd', Items.redstone, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 8), "g g", " r ", "g g", 'g', Items.glowstone_dust, 'r', new ItemStack(relocatorModule, 1, 0));
+        GameRegistry.addRecipe(new RecipeToolbox());
     }
 }

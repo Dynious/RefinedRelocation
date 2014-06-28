@@ -33,4 +33,5 @@ public interface IRelocator extends IItemRelocator, IPipeTile
     public Container getContainer(int side, EntityPlayer player);
 
     public byte getRenderType();
+
 }

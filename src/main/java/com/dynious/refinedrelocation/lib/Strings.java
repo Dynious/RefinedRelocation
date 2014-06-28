@@ -6,6 +6,8 @@ public class Strings
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String FILTER_NAME_PREFIX = "filterName." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String RELOCATOR_MODULE_PREFIX = "relocatorModule." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String RELOCATOR_STUFFED_PREFIX = "relocatorStuffed." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String DIRECTION_PREFIX = "direction." + Reference.MOD_ID.toLowerCase() + ".";
 
     public static final String BLACKLIST = GUI_PREFIX + "blacklist";
     public static final String WHITELIST = GUI_PREFIX + "whitelist";
@@ -52,6 +54,7 @@ public class Strings
     public static final String LATEST = GUI_PREFIX + "latest";
     public static final String TAB = GUI_PREFIX + "tab";
     public static final String TICKS_BETWEEN_EXT = GUI_PREFIX + "ticksBetween";
+    public static final String SECONDS_BETWEEN_EXT = GUI_PREFIX + "secondsBetween";
     public static final String SNEAKY = GUI_PREFIX + "sneaky";
     public static final String NONE = GUI_PREFIX + "none";
     public static final String PLAYER_RELOCATOR_LINK = GUI_PREFIX + "playerRelocatorLink";
@@ -74,6 +77,8 @@ public class Strings
     public static final String REL_CONT_DESC = ITEM_DESC_PREFIX + "relContDesc";
     public static final String RELOCATOR_MODULE = ITEM_DESC_PREFIX + "relocatorModule";
     public static final String RELOCATOR_MODULE_INFO = ITEM_DESC_PREFIX + "relocatorModuleInfo";
+    public static final String TOOLBOX_INFO = ITEM_DESC_PREFIX + "toolBoxInfo";
+    public static final String TOOLBOX_WRENCH_LIST_START = ITEM_DESC_PREFIX + "toolBoxWrenchListStart";
 
     public static final String INGOT_FILTER = FILTER_NAME_PREFIX + "filterIngot";
     public static final String ORE_FILTER = FILTER_NAME_PREFIX + "filterOres";
@@ -90,4 +95,8 @@ public class Strings
 
     public static final String REDSTONE_BLOCK_ENABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabled";
     public static final String REDSTONE_BLOCK_DISABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabled";
+
+    public static final String RELOCATOR_STUFFED = RELOCATOR_STUFFED_PREFIX + "stuffed";
+
+    public static final String DIRECTION = DIRECTION_PREFIX + "direction";
 }

@@ -66,14 +66,14 @@ public class RelocatorModuleRegistry
 
     public static void registerModules()
     {
-        APIUtils.registerRelocatorFilter("filter", RelocatorModuleFilter.class);
-        APIUtils.registerRelocatorFilter("oneWay", RelocatorModuleOneWay.class);
-        APIUtils.registerRelocatorFilter("extraction", RelocatorModuleExtraction.class);
-        APIUtils.registerRelocatorFilter("blockedExtraction", RelocatorModuleBlockedExtraction.class);
-        APIUtils.registerRelocatorFilter("sneaky", RelocatorModuleSneaky.class);
-        APIUtils.registerRelocatorFilter("stock", RelocatorModuleStock.class);
-        APIUtils.registerRelocatorFilter("redstoneBlock", RelocatorModuleRedstoneBlock.class);
-        APIUtils.registerRelocatorFilter("spread", RelocatorModuleSpread.class);
+        APIUtils.registerRelocatorModule("filter", RelocatorModuleFilter.class);
+        APIUtils.registerRelocatorModule("oneWay", RelocatorModuleOneWay.class);
+        APIUtils.registerRelocatorModule("extraction", RelocatorModuleExtraction.class);
+        APIUtils.registerRelocatorModule("blockedExtraction", RelocatorModuleBlockedExtraction.class);
+        APIUtils.registerRelocatorModule("sneaky", RelocatorModuleSneaky.class);
+        APIUtils.registerRelocatorModule("stock", RelocatorModuleStock.class);
+        APIUtils.registerRelocatorModule("redstoneBlock", RelocatorModuleRedstoneBlock.class);
+        APIUtils.registerRelocatorModule("spread", RelocatorModuleSpread.class);
     }
 
     @SideOnly(Side.CLIENT)

@@ -35,6 +35,7 @@ import java.util.List;
 
 public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart, IRedstonePart
 {
+    public static final String RELOCATOR_TYPE = "tile." + Names.relocator;
     private static Field nbtField = ReflectionHelper.findField(S35PacketUpdateTileEntity.class, "field_148860_e", "e");
     private TileRelocator relocator;
 
@@ -78,7 +79,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public String getType()
     {
-        return "tile." + Names.relocator;
+        return RELOCATOR_TYPE;
     }
 
     @Override

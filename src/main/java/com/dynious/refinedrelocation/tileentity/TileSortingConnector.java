@@ -66,7 +66,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     {
         if (isFirstTick)
         {
-            sortingHandler.onTileAdded();
+            getHandler().onTileAdded();
             isFirstTick = false;
         }
         super.updateEntity();
@@ -127,14 +127,14 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     @Override
     public void invalidate()
     {
-        sortingHandler.onTileRemoved();
+        getHandler().onTileRemoved();
         super.invalidate();
     }
 
     @Override
     public void onChunkUnload()
     {
-        sortingHandler.onTileRemoved();
+        getHandler().onTileRemoved();
         super.onChunkUnload();
     }
 }
