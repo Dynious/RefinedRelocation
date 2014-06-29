@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.command;
 
 import com.dynious.refinedrelocation.helper.MiscHelper;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.lib.Commands;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import com.dynious.refinedrelocation.version.VersionContainer;
@@ -8,6 +9,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.StatCollector;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,13 +20,13 @@ public class CommandRefinedRelocation extends CommandBase
     @Override
     public String getCommandName()
     {
-        return Commands.COMMAND_REFINED_RELOCATION;
+        return Commands.REFINED_RELOCATION;
     }
 
     @Override
     public String getCommandUsage(ICommandSender icommandsender)
     {
-        return "/" + this.getCommandName() + " " + Commands.HELP;
+        return "/" + getCommandName() + " " + Commands.HELP;
     }
 
     @Override
@@ -39,16 +41,16 @@ public class CommandRefinedRelocation extends CommandBase
         if (args.length > 0)
         {
             String commandName = args[0];
-            System.arraycopy(args, 1, args, 0, args.length - 1);
+            System.arraycopy(args, 1, args, 0, args.length - 1); // Move args array to exclude the commandName
 
             if (commandName.equalsIgnoreCase(Commands.HELP))
             {
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Format: '" + this.getCommandName() + " <command> <arguments>'"));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Available commands:"));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("- latest : Download latest"));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("- changelog : Show latest changelog"));
+                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.COMMAND_FORMAT, getCommandName())));
+                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.COMMAND_AVAILABLE)));
+                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.COMMAND_HELP_LATEST, Commands.LATEST)));
+                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.COMMAND_HELP_CHANGELOG, Commands.CHANGE_LOG)));
             }
-            if (commandName.equalsIgnoreCase(Commands.LATEST))
+            else if (commandName.equalsIgnoreCase(Commands.LATEST))
             {
                 VersionContainer.Version version = VersionChecker.getRemoteVersion();
                 if (version != null)
@@ -60,15 +62,15 @@ public class CommandRefinedRelocation extends CommandBase
                     catch (MalformedURLException e)
                     {
                         e.printStackTrace();
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("ERROR: Version URL was corrupt"));
+                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.COMMAND_CORRUPT_URL)));
                     }
                 }
                 else
                 {
-                    icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText("Version Checker has not initialized"));
+                    icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.COMMAND_VERSION_UNINTIALIZED)));
                 }
             }
-            if (commandName.equalsIgnoreCase(Commands.CHANGE_LOG))
+            else if (commandName.equalsIgnoreCase(Commands.CHANGE_LOG))
             {
                 VersionContainer.Version version = VersionChecker.getRemoteVersion();
                 if (version != null)
@@ -77,7 +79,7 @@ public class CommandRefinedRelocation extends CommandBase
                 }
                 else
                 {
-                    icommandsender.sendChatToPlayer(new ChatMessageComponent().addText("Version Checker has not initialized"));
+                    icommandsender.sendChatToPlayer(new ChatMessageComponent().addText(StatCollector.translateToLocal(Strings.COMMAND_VERSION_UNINTIALIZED)));
                 }
             }
         }
