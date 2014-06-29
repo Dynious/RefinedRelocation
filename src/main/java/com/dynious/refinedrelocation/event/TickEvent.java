@@ -17,7 +17,7 @@ import java.util.EnumSet;
 public class TickEvent implements ITickHandler
 {
 
-    private static boolean initialized = false;
+    private static boolean checkedVersion = false;
 
     @Override
     public void tickStart(EnumSet<TickType> type, Object... tickData)
@@ -37,17 +37,17 @@ public class TickEvent implements ITickHandler
                     RelocatorHUDHandler.stuffedItems = null;
                 }
 
-                if (!initialized && Settings.DISPLAY_VERSION_RESULT && FMLClientHandler.instance().getClient().currentScreen == null)
+                if (!checkedVersion && Settings.DISPLAY_VERSION_RESULT && FMLClientHandler.instance().getClient().currentScreen == null)
                 {
                     if (VersionChecker.getResult() != VersionChecker.CheckState.UNINITIALIZED)
                     {
-                        initialized = true;
+                        checkedVersion = true;
 
                         if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
                         {
                             Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.OUTDATED, Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
                             Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.CHANGE_LOG) + ":"));
-                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(String.format(" %s", VersionChecker.getRemoteVersion().getChangeLog())));
+                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(" " + VersionChecker.getRemoteVersion().getChangeLog()));
                             Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.LATEST)));
                         }
                     }
