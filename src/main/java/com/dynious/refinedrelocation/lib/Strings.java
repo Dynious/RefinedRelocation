@@ -8,6 +8,7 @@ public class Strings
     private static final String RELOCATOR_MODULE_PREFIX = "relocatorModule." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String RELOCATOR_STUFFED_PREFIX = "relocatorStuffed." + Reference.MOD_ID.toLowerCase() + ".";
     private static final String DIRECTION_PREFIX = "direction." + Reference.MOD_ID.toLowerCase() + ".";
+    private static final String COMMAND_PREFIX = "command." + Reference.MOD_ID.toLowerCase() + ".";
 
     public static final String BLACKLIST = GUI_PREFIX + "blacklist";
     public static final String WHITELIST = GUI_PREFIX + "whitelist";
@@ -98,4 +99,11 @@ public class Strings
     public static final String RELOCATOR_STUFFED = RELOCATOR_STUFFED_PREFIX + "stuffed";
 
     public static final String DIRECTION = DIRECTION_PREFIX + "direction";
+
+    public static final String COMMAND_FORMAT = COMMAND_PREFIX + "format";
+    public static final String COMMAND_AVAILABLE = COMMAND_PREFIX + "available";
+    public static final String COMMAND_HELP_LATEST = COMMAND_PREFIX + "helpLatest";
+    public static final String COMMAND_HELP_CHANGELOG = COMMAND_PREFIX + "helpChangelog";
+    public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
+    public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
 }
