@@ -28,6 +28,8 @@ public class ModBlocks
     public static BlockSortingAlchemicalChest sortingAlchemicalChest;
     public static BlockRelocator relocator;
     public static BlockSortingPreciousChest sortingPreciousChest;
+    public static BlockLiquidFreezer liquidFreezer;
+    public static BlockLiquidHeater liquidHeater;
 
     public static void init()
     {
@@ -39,6 +41,8 @@ public class ModBlocks
         relocationPortal = new BlockRelocationPortal(BlockIds.RELOCATION_PORTAL);
         relocationController = new BlockRelocationController(BlockIds.RELOCATION_CONTROLLER);
         powerLimiter = new BlockPowerLimiter(BlockIds.POWER_LIMITER);
+        liquidFreezer = new BlockLiquidFreezer(BlockIds.LIQUID_FREEZER);
+        liquidHeater = new BlockLiquidHeater(BlockIds.LIQUID_HEATER);
 
         ModObjects.blockExtender = new ItemStack(blockExtender);
         ModObjects.advancedBlockExtender = new ItemStack(blockExtender, 1, 1);
@@ -56,6 +60,8 @@ public class ModBlocks
         ModObjects.relocationPortal = new ItemStack(relocationPortal);
         ModObjects.relocationController = new ItemStack(relocationController);
         ModObjects.powerLimiter = new ItemStack(powerLimiter);
+        ModObjects.liquidFreezer = new ItemStack(liquidFreezer);
+        ModObjects.liquidHeater = new ItemStack(liquidHeater);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
         GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
@@ -65,6 +71,8 @@ public class ModBlocks
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
         GameRegistry.registerBlock(relocationController, ItemRelocationController.class, Names.relocationController);
         GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
+        GameRegistry.registerBlock(liquidFreezer, Names.liquidFreezer);
+        GameRegistry.registerBlock(liquidHeater, Names.liquidHeater);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));
