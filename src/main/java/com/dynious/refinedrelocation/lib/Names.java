@@ -24,9 +24,13 @@ public class Names
     public static final String relocator = "relocator";
     public static final String sortingPreciousChest = "sortingPreciousChest";
 
+    public static final String liquidFreezer = "liquidFreezer";
+    public static final String liquidHeater = "liquidHeater";
+
     public static final String linker = "linker";
     public static final String sortingUpgrade = "sortingUpgrade";
     public static final String playerRelocator = "playerRelocator";
     public static final String relocatorModule = "relocatorModule";
     public static final String toolbox = "toolbox";
+    public static final String frozenLiquid = "frozenLiquid";
 }

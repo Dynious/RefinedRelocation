@@ -15,6 +15,8 @@ public class BlockIds
     public static final int SORTING_ALCHEMICAL_CHEST_DEFAULT = 1570;
     public static final int RELOCATOR_DEFAULT = 1571;
     public static final int SORTING_PRECIOUS_CHEST_DEFAULT = 1572;
+    public static final int LIQUID_FREEZER_DEFAULT = 1573;
+    public static final int LIQUID_HEATER_DEFAULT = 1574;
 
     public static int BLOCK_EXTENDER;
     public static int BUFFER;
@@ -29,4 +31,6 @@ public class BlockIds
     public static int SORTING_ALCHEMICAL_CHEST;
     public static int RELOCATOR;
     public static int SORTING_PRECIOUS_CHEST;
+    public static int LIQUID_FREEZER;
+    public static int LIQUID_HEATER;
 }

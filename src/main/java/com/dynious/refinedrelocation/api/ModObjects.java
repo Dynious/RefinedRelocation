@@ -22,6 +22,8 @@ public class ModObjects
     public static ItemStack relocationController;
     public static ItemStack powerLimiter;
     public static ItemStack relocator;
+    public static ItemStack liquidFreezer;
+    public static ItemStack liquidHeater;
 
     /* Items */
     public static ItemStack linker;
@@ -29,6 +31,7 @@ public class ModObjects
     public static ItemStack playerRelocator;
     public static ItemStack relocatorFilter;
     public static ItemStack toolbox;
+    public static ItemStack frozenLiquid;
 
     /* Mod Dependant Blocks (does not include metadata variants)*/
     public static ItemStack sortingIronChest;

@@ -28,6 +28,8 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileSortingInterface.class, Names.sortingInterface);
         GameRegistry.registerTileEntity(TileSortingImporter.class, Names.sortingImporter);
         GameRegistry.registerTileEntity(TileRelocator.class, Names.relocator);
+        GameRegistry.registerTileEntity(TileFreezer.class, Names.liquidFreezer);
+        GameRegistry.registerTileEntity(TileHeater.class, Names.liquidHeater);
 
         if (Mods.IS_IRON_CHEST_LOADED)
         {
