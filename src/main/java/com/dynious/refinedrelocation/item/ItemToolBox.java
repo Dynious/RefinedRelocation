@@ -28,8 +28,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-@Optional.Interface(iface = "ic2.api.item.IElectricItem", modid = Mods.IC2_ID)
-public class ItemToolBox extends Item //implements IElectricItem
+public class ItemToolBox extends Item
 {
     private static final String[] WRENCH_CLASS_NAMES;
     private static final List<Class<?>> WRENCH_CLASSES;
@@ -143,15 +142,8 @@ public class ItemToolBox extends Item //implements IElectricItem
                 if (!wrenchStack.getItem().onItemUseFirst(wrenchStack, player, world, x, y, z, side, hitX, hitY, hitZ))
                 {
                     block.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-                    if (player.getCurrentEquippedItem() == null || player.getCurrentEquippedItem().stackSize == 0)
-                    {
-                        list.removeTag(index);
-                        index--;
-                        if (index < 0)
-                            index = 0;
-                        stack.getTagCompound().setByte("index", index);
-                    }
                 }
+                addWrenchAtIndex(stack, player.getCurrentEquippedItem(), index);
                 player.inventory.mainInventory[player.inventory.currentItem] = stack;
                 return true;
             }
@@ -324,97 +316,43 @@ public class ItemToolBox extends Item //implements IElectricItem
         return null;
     }
 
-    /*
-
-    @Override
-    @Optional.Method(modid = Mods.IC2_ID)
-    public boolean canProvideEnergy(ItemStack stack)
+    public static void addWrenchAtIndex(ItemStack stack, ItemStack wrench, byte index)
     {
-        ItemStack wrench = getCurrentWrench(stack);
-        if (wrench != null)
+        if (wrench == null || wrench.stackSize == 0)
         {
-            if (wrench.getItem() instanceof IElectricItem)
+            removeWrenchAtIndex(stack, index);
+            return;
+        }
+        if (stack.hasTagCompound())
+        {
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
+            if (list.tagCount() > index)
             {
-                return ((IElectricItem)wrench.getItem()).canProvideEnergy(wrench);
+                NBTTagCompound compound = list.getCompoundTagAt(index);
+                wrench.writeToNBT(compound);
             }
         }
-        return false;
     }
 
-    @Override
-    @Optional.Method(modid = Mods.IC2_ID)
-    public int getChargedItemId(ItemStack stack)
+    public static void removeWrenchAtIndex(ItemStack stack, byte index)
     {
-        ItemStack wrench = getCurrentWrench(stack);
-        if (wrench != null)
+        if (stack.hasTagCompound())
         {
-            if (wrench.getItem() instanceof IElectricItem)
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
+            if (list.tagCount() > index)
             {
-                return ((IElectricItem)wrench.getItem()).getChargedItemId(wrench);
+                list.removeTag(index);
+                index--;
+                if (index < 0)
+                    index = 0;
+                stack.getTagCompound().setByte("index", index);
             }
         }
-        return 0;
     }
 
-    @Override
-    @Optional.Method(modid = Mods.IC2_ID)
-    public int getEmptyItemId(ItemStack stack)
+    public static void addToolboxClass(Class clazz)
     {
-        ItemStack wrench = getCurrentWrench(stack);
-        if (wrench != null)
-        {
-            if (wrench.getItem() instanceof IElectricItem)
-            {
-                return ((IElectricItem)wrench.getItem()).getEmptyItemId(wrench);
-            }
-        }
-        return 0;
+        if (clazz != null && !WRENCH_CLASSES.contains(clazz))
+            WRENCH_CLASSES.add(clazz);
     }
-
-    @Override
-    @Optional.Method(modid = Mods.IC2_ID)
-    public int getMaxCharge(ItemStack stack)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        if (wrench != null)
-        {
-            if (wrench.getItem() instanceof IElectricItem)
-            {
-                return ((IElectricItem)wrench.getItem()).getMaxCharge(wrench);
-            }
-        }
-        return 0;
-    }
-
-    @Override
-    @Optional.Method(modid = Mods.IC2_ID)
-    public int getTier(ItemStack stack)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        if (wrench != null)
-        {
-            if (wrench.getItem() instanceof IElectricItem)
-            {
-                return ((IElectricItem)wrench.getItem()).getTier(wrench);
-            }
-        }
-        return 0;
-    }
-
-    @Override
-    @Optional.Method(modid = Mods.IC2_ID)
-    public int getTransferLimit(ItemStack stack)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        if (wrench != null)
-        {
-            if (wrench.getItem() instanceof IElectricItem)
-            {
-                return ((IElectricItem)wrench.getItem()).getTransferLimit(wrench);
-            }
-        }
-        return 0;
-    }
-
-    */
 }

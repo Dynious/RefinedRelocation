@@ -14,7 +14,8 @@ import net.minecraft.util.StatCollector;
 
 public class TickEvent
 {
-    private static boolean initialized = false;
+
+    private static boolean checkedVersion = false;
 
     @SubscribeEvent
     public void onClientTick(cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent event)
@@ -29,18 +30,18 @@ public class TickEvent
                     RelocatorHUDHandler.stuffedItems = null;
                 }
             }
-                
-            if (!VersionChecker.sentIMCMessage && !initialized && Settings.DISPLAY_VERSION_RESULT && FMLClientHandler.instance().getClient().currentScreen == null)
+
+            if (!VersionChecker.sentIMCMessage && !checkedVersion && Settings.DISPLAY_VERSION_RESULT && FMLClientHandler.instance().getClient().currentScreen == null)
             {
                 if (VersionChecker.getResult() != VersionChecker.CheckState.UNINITIALIZED)
                 {
-                    initialized = true;
+                    checkedVersion = true;
 
                     if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
                     {
                         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.OUTDATED, Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
                         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.CHANGE_LOG) + ":"));
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(String.format(" %s", VersionChecker.getRemoteVersion().getChangeLog())));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(" " + VersionChecker.getRemoteVersion().getChangeLog()));
                         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.LATEST)));
                     }
                 }

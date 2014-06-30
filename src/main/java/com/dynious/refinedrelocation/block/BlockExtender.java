@@ -68,9 +68,9 @@ public class BlockExtender extends BlockContainer /*    implements IDismantleabl
     public void getSubBlocks(Item item, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
-        for (int j = 0; j < (Settings.DISABLE_WIRELESS_BLOCK_EXTENDER ? 4 : 5); ++j)
+        for (int metadata = 0; metadata < (Settings.DISABLE_WIRELESS_BLOCK_EXTENDER ? 4 : 5); ++metadata)
         {
-            par3List.add(new ItemStack(item, 1, j));
+            par3List.add(new ItemStack(item, 1, metadata));
         }
     }
 

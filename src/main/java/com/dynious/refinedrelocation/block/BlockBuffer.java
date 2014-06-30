@@ -50,17 +50,11 @@ public class BlockBuffer extends BlockContainer /* implements IDismantleable */
     public boolean onBlockActivated(World world, int x, int y, int z,
                                     EntityPlayer player, int par6, float par7, float par8, float par9)
     {
-        if (player.isSneaking())
-        {
-            return false;
-        }
-        else
+        if (!player.isSneaking())
         {
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile != null)
-            {
                 return GuiHelper.openGui(player, tile);
-            }
         }
         return true;
     }
@@ -110,17 +104,17 @@ public class BlockBuffer extends BlockContainer /* implements IDismantleable */
     public void getSubBlocks(Item item, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
-        for (int j = 0; j < 3; ++j)
+        for (int subblockMeta = 0; subblockMeta < 3; ++subblockMeta)
         {
-            par3List.add(new ItemStack(item, 1, j));
+            par3List.add(new ItemStack(item, 1, subblockMeta));
         }
     }
 
     @Override
-    public void breakBlock(World world, int par2, int par3, int par4, Block par5, int par6)
+    public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldBlockMeta)
     {
-        IOHelper.dropInventory(world, par2, par3, par4);
-        super.breakBlock(world, par2, par3, par4, par5, par6);
+        IOHelper.dropInventory(world, x, y, z);
+        super.breakBlock(world, x, y, z, oldBlock, oldBlockMeta);
     }
 
     @Override
@@ -149,14 +143,7 @@ public class BlockBuffer extends BlockContainer /* implements IDismantleable */
 
         for (ItemStack item : items)
         {
-            EntityItem entityitem = new EntityItem(world, x + 0.5F, y + 0.5F, z + 0.5F, item);
-
-            entityitem.delayBeforeCanPickup = 10;
-
-            world.spawnEntityInWorld(entityitem);
-
-            entityitem.motionX *= 0.25F;
-            entityitem.motionZ *= 0.25F;
+            IOHelper.spawnItemInWorld(world, item, x, y, z);
         }
 
         world.setBlockToAir(x, y, z);

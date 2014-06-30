@@ -27,7 +27,7 @@ public class ModObjects
     public static ItemStack linker;
     public static ItemStack sortingUpgrade;
     public static ItemStack playerRelocator;
-    public static ItemStack relocatorFilter;
+    public static ItemStack relocatorModule;
     public static ItemStack toolbox;
 
     /* Mod Dependant Blocks (does not include metadata variants)*/

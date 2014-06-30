@@ -24,10 +24,8 @@ public class BlockSortingAlchemicalChest extends BlockAlchemicalChest
     @Override
     public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int i1, float f1, float f2, float f3)
     {
-        if (world.isRemote)
-        {
-            return true;
-        }
+        if (world.isRemote) return true;
+
         if (player.isSneaking())
         {
             APIUtils.openFilteringGUI(player, world, i, j, k);

@@ -71,8 +71,8 @@ public final class APIUtils
     }
 
     /**
-     * Registers a module for attachment to relocators. To correctly save the filter your
-     * filter MUST be registered here.
+     * Registers a module for attachment to relocators. To correctly save the module your
+     * module MUST be registered using this.
      *
      * @param identifier The identifier of this module
      * @param clazz The class of this module
@@ -92,5 +92,16 @@ public final class APIUtils
     public static void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side)
     {
         apiHandler.openRelocatorModuleGUI(relocator, player, side);
+    }
+
+    /**
+     * Will register a class of an item that will be able to inserted into the toolbox.
+     * This class can also be a parent class or interface of this item.
+     *
+     * @param clazz The class, parent class or interface of the item to be added to the toolbox
+     */
+    public static void registerToolboxClazz(Class clazz)
+    {
+        apiHandler.registerToolboxClazz(clazz);
     }
 }

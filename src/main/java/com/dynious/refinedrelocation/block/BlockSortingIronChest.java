@@ -23,18 +23,20 @@ public class BlockSortingIronChest extends BlockIronChest
     }
 
     @Override
-    public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int i1, float f1, float f2, float f3)
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i1, float f1, float f2, float f3)
     {
         if (world.isRemote)
         {
             return true;
         }
+
         if (player.isSneaking())
         {
-            APIUtils.openFilteringGUI(player, world, i, j, k);
+            APIUtils.openFilteringGUI(player, world, x, y, z);
             return true;
         }
-        return super.onBlockActivated(world, i, j, k, player, i1, f1, f2, f3);
+
+        return super.onBlockActivated(world, x, y, z, player, i1, f1, f2, f3);
     }
 
     @Override

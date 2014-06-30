@@ -27,7 +27,7 @@ public class ModItems
         ModObjects.linker = new ItemStack(linker);
         ModObjects.sortingUpgrade = new ItemStack(sortingUpgrade);
         ModObjects.playerRelocator = new ItemStack(playerRelocator);
-        ModObjects.relocatorFilter = new ItemStack(relocatorModule);
+        ModObjects.relocatorModule = new ItemStack(relocatorModule);
         ModObjects.toolbox = new ItemStack(toolBox);
 
         GameRegistry.registerItem(linker, Names.linker);
@@ -54,6 +54,8 @@ public class ModItems
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 6), "e e", " r ", "e e", 'e', Items.ender_pearl, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 7), "c d", " r ", "d c", 'c', Items.comparator, 'd', Items.redstone, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 8), "g g", " r ", "g g", 'g', Items.glowstone_dust, 'r', new ItemStack(relocatorModule, 1, 0));
+
+        GameRegistry.addShapedRecipe(new ItemStack(toolBox), "isi", "i i", "iii", 'i', Items.iron_ingot, 's', Items.stick);
         GameRegistry.addRecipe(new RecipeToolbox());
     }
 }
