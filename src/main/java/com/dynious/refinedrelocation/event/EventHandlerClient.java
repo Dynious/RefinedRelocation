@@ -22,6 +22,7 @@ import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
 
 public class EventHandlerClient
@@ -29,9 +30,10 @@ public class EventHandlerClient
     @ForgeSubscribe
     public void FOVEvent(FOVUpdateEvent event)
     {
-        if (Minecraft.getMinecraft().thePlayer.getItemInUse() != null && Minecraft.getMinecraft().thePlayer.getItemInUse().getItem().itemID == ModItems.playerRelocator.itemID)
+        ItemStack itemInUse = Minecraft.getMinecraft().thePlayer.getItemInUse();
+        if (itemInUse != null && itemInUse.getItem().itemID == ModItems.playerRelocator.itemID)
         {
-            ModItems.playerRelocator.shiftFOV(Minecraft.getMinecraft().thePlayer.getItemInUse(), event);
+            ModItems.playerRelocator.shiftFOV(itemInUse, event);
         }
     }
 
@@ -56,9 +58,10 @@ public class EventHandlerClient
     {
         if (event.type == RenderGameOverlayEvent.ElementType.HELMET)
         {
-            if (Minecraft.getMinecraft().thePlayer.getItemInUse() != null && Minecraft.getMinecraft().thePlayer.getItemInUse().getItem().itemID == ModItems.playerRelocator.itemID)
+            ItemStack itemInUse = Minecraft.getMinecraft().thePlayer.getItemInUse();
+            if (itemInUse != null && itemInUse.getItem().itemID == ModItems.playerRelocator.itemID)
             {
-                ModItems.playerRelocator.renderBlur(Minecraft.getMinecraft().thePlayer.getItemInUse(), event.resolution);
+                ModItems.playerRelocator.renderBlur(itemInUse, event.resolution);
             }
         }
     }

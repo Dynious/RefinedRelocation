@@ -159,3 +159,11 @@ direction.refinedrelocation.direction2=North
 direction.refinedrelocation.direction3=South
 direction.refinedrelocation.direction4=West
 direction.refinedrelocation.direction5=East
+
+#Command Localizations
+command.refinedrelocation.format=Format: '/%s <command> <arguments>'
+command.refinedrelocation.available=Available commands:
+command.refinedrelocation.helpLatest=- %s : Download latest version
+command.refinedrelocation.helpChangelog=- %s : Show latest changelog
+command.refinedrelocation.versionURLCorrupt=ERROR: Version URL was corrupt.
+command.refinedrelocation.notIntialized=ERROR: Version Checker has not initialized.

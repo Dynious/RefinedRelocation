@@ -20,8 +20,8 @@ public class IOHelper
     {
         if (inventory instanceof ISidedInventory)
         {
-            ISidedInventory isidedinventory = (ISidedInventory)inventory;
-            int[] accessibleSlotsFromSide = isidedinventory.getAccessibleSlotsFromSide(direction.ordinal());
+            ISidedInventory iSidedInventory = (ISidedInventory)inventory;
+            int[] accessibleSlotsFromSide = iSidedInventory.getAccessibleSlotsFromSide(direction.ordinal());
 
             for (int anAccessibleSlotsFromSide : accessibleSlotsFromSide)
             {
@@ -34,9 +34,9 @@ public class IOHelper
         {
             int j = inventory.getSizeInventory();
 
-            for (int k = 0; k < j; ++k)
+            for (int slot = 0; slot < j; ++slot)
             {
-                ItemStack stack = extract(inventory, direction, k);
+                ItemStack stack = extract(inventory, direction, slot);
                 if (stack != null)
                     return stack;
             }
