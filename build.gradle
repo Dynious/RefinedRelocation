@@ -18,7 +18,7 @@ apply plugin: 'scala'
 
 ext.env = System.getenv()
 
-version = "1.0.5b"
+version = "1.0.5c"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.6.4"
 
