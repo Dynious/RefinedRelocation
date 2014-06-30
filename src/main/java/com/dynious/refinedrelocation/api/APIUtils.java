@@ -93,4 +93,15 @@ public final class APIUtils
     {
         apiHandler.openRelocatorModuleGUI(relocator, player, side);
     }
+
+    /**
+     * Will register a class of an item that will be able to inserted into the toolbox.
+     * This class can also be a parent class or interface of this item.
+     *
+     * @param clazz The class, parent class or interface of the item to be added to the toolbox
+     */
+    public static void registerToolboxClazz(Class clazz)
+    {
+        apiHandler.registerToolboxClazz(clazz);
+    }
 }

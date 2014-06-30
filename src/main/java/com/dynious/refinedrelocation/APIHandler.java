@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.item.ItemToolBox;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
@@ -53,5 +54,10 @@ public class APIHandler implements IAPIHandler
     public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side)
     {
         player.openGui(RefinedRelocation.instance, GuiIds.RELOCATOR_FILTER_BASE + side, relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
+    }
+
+    public void registerToolboxClazz(Class clazz)
+    {
+        ItemToolBox.addToolboxClass(clazz);
     }
 }

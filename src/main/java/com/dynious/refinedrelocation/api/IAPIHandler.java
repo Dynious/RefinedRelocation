@@ -25,4 +25,6 @@ public interface IAPIHandler
     public void registerRelocatorModule(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException;
 
     public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side);
+
+    public void registerToolboxClazz(Class clazz);
 }
