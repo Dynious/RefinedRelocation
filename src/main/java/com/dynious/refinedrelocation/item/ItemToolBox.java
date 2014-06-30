@@ -14,6 +14,7 @@ import ic2.api.item.IElectricItem;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -141,12 +142,14 @@ public class ItemToolBox extends Item
             if (block != null)
             {
                 player.inventory.mainInventory[player.inventory.currentItem] = wrenchStack;
+                player.inventoryContainer.detectAndSendChanges();
                 if (!wrenchStack.getItem().onItemUseFirst(wrenchStack, player, world, x, y, z, side, hitX, hitY, hitZ))
                 {
                     block.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
                 }
                 addWrenchAtIndex(stack, player.getCurrentEquippedItem(), index);
                 player.inventory.mainInventory[player.inventory.currentItem] = stack;
+                player.inventoryContainer.detectAndSendChanges();
                 return true;
             }
         }
