@@ -25,6 +25,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     private ISortingInventoryHandler sortingHandler = APIUtils.createSortingInventoryHandler(this);
     private IFilterGUI filter = APIUtils.createStandardFilter(this);
     public ItemStack[] bufferInventory = new ItemStack[1];
+    private boolean isStuffed = false;
     private int counter;
     private ForgeDirection connectedSide = ForgeDirection.UNKNOWN;
     private Priority priority = Priority.NORMAL;
@@ -58,6 +59,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         if (itemStack != null)
         {
             bufferInventory[0] = itemStack;
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
         return true;
     }
@@ -101,11 +103,18 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
             counter++;
             if (counter % 22 == 0)
             {
-                ItemStack stack = bufferInventory[0].copy();
-                bufferInventory[0] = null;
-                sortingHandler.setInventorySlotContents(0, stack);
+                bufferInventory[0] = putInInventory(bufferInventory[0]);
+                if (bufferInventory[0] == null)
+                {
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                }
             }
         }
+    }
+
+    public boolean isStuffed()
+    {
+        return isStuffed;
     }
 
     @Override
@@ -243,6 +252,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     {
         super.onDataPacket(net, pkt);
         setConnectedSide(ForgeDirection.getOrientation(pkt.func_148857_g().getByte("side")));
+        isStuffed = pkt.func_148857_g().getBoolean("stuffed");
     }
 
     @Override
@@ -251,6 +261,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         S35PacketUpdateTileEntity pkt = (S35PacketUpdateTileEntity) super.getDescriptionPacket();
         NBTTagCompound tag = ObfuscationReflectionHelper.getPrivateValue(S35PacketUpdateTileEntity.class, pkt, "field_148860_e", "e");
         tag.setByte("side", (byte) connectedSide.ordinal());
+        tag.setBoolean("stuffed", bufferInventory[0] != null);
         return pkt;
     }
 

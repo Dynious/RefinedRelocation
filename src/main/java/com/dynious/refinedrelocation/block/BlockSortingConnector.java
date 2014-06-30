@@ -28,8 +28,8 @@ import java.util.List;
 
 public class BlockSortingConnector extends BlockContainer
 {
-    private IIcon[] icons;
-    private IIcon connectedSideInterface;
+    private IIcon[] icons = new IIcon[3];
+    private IIcon[] interfaceTextures = new IIcon[2];
 
     public BlockSortingConnector()
     {
@@ -120,9 +120,17 @@ public class BlockSortingConnector extends BlockContainer
             {
                 return blockDisguisedAs.getIcon(side, disguisedMeta);
             }
-            else if (tile instanceof TileSortingInterface && ((TileSortingInterface) tile).getConnectedSide().ordinal() == side)
+            else if (tile instanceof TileSortingInterface)
             {
-                return connectedSideInterface;
+                TileSortingInterface sortingInterface = (TileSortingInterface) tile;
+                if (sortingInterface.getConnectedSide().ordinal() == side)
+                {
+                    return interfaceTextures[0];
+                }
+                else if (sortingInterface.isStuffed())
+                {
+                    return interfaceTextures[1];
+                }
             }
         }
         return super.getIcon(world, x, y, z, side);
@@ -151,7 +159,8 @@ public class BlockSortingConnector extends BlockContainer
         {
             icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + i);
         }
-        connectedSideInterface = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 1 + "ConSide");
+        interfaceTextures[0] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 1 + "ConSide");
+        interfaceTextures[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 1 + "Stuffed");
     }
 
     @Override
