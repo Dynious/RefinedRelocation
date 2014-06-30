@@ -320,7 +320,7 @@ public class ItemToolBox extends Item
 
     public static void addWrenchAtIndex(ItemStack stack, ItemStack wrench, byte index)
     {
-        if (wrench == null)
+        if (wrench == null || wrench.stackSize == 0)
         {
             removeWrenchAtIndex(stack, index);
             return;
