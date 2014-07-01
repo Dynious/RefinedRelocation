@@ -43,12 +43,12 @@ public class ContainerModuleExtraction extends ContainerHierarchical
     @Override
     public void updateProgressBar(int id, int value)
     {
-        /*switch (id)
+        switch (id)
         {
             case 0:
                 setTicksBetweenExtraction(value);
                 break;
-        }*/
+        }
     }
 
     public void setTicksBetweenExtraction(int ticks)
