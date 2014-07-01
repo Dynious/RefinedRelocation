@@ -76,7 +76,7 @@ public class BlockRelocator extends BlockContainer
     @Override
     public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side)
     {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             return ((TileRelocator)tile).isProvidingStrongPower(side);

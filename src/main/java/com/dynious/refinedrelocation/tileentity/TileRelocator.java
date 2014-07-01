@@ -996,6 +996,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public static void markRedstoneUpdate(World world, int x, int y, int z)
     {
         markUpdate(world, x, y, z);
-        world.notifyBlocksOfNeighborChange(x, y, z, world.getBlock(x, y, z));
+        world.notifyBlocksOfNeighborChange(x, y, z, world.getBlockId(x, y, z));
     }
 }

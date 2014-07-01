@@ -14,19 +14,19 @@ import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.Icon;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class RelocatorModuleItemDetector extends RelocatorModuleBase
 {
-    private static IIcon[] icons = new IIcon[4];
+    private static Icon[] icons = new Icon[4];
     private static boolean emitRedstoneSignal = false;
     private FilterStandard filter;
     private int tick = 0;
@@ -104,13 +104,13 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     }
 
     @Override
-    public IIcon getIcon(IItemRelocator relocator, int side)
+    public Icon getIcon(IItemRelocator relocator, int side)
     {
         return icons[0];
     }
 
     @Override
-    public void registerIcons(IIconRegister register)
+    public void registerIcons(IconRegister register)
     {
         icons[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleItemDetector");
         icons[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleItemDetectorDetected");
@@ -136,7 +136,7 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
             public void onFilterChanged()
             {
                 markRedstoneUpdate(relocator.getTileEntity());
-                relocator.getTileEntity().markDirty();
+                relocator.getTileEntity().onInventoryChanged();
             }
         };
     }
