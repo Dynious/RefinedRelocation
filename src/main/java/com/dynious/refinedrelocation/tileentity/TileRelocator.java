@@ -2,15 +2,16 @@ package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.transport.PipeWire;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.*;
 import com.dynious.refinedrelocation.lib.Mods;
+import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.network.packet.MessageItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
@@ -26,9 +27,9 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraft.util.MovingObjectPosition;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -251,6 +252,18 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return false;
     }
 
+    public int isProvidingStrongPower(int side)
+    {
+        for (IRelocatorModule module : modules)
+        {
+            if (module != null)
+            {
+                return module.strongRedstonePower(side);
+            }
+        }
+        return 0;
+    }
+
     public boolean leftClick(EntityPlayer player, MovingObjectPosition hit, ItemStack item)
     {
         if (worldObj.isRemote) return true;
@@ -312,7 +325,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     }
                 }
                 modules[side] = null;
-                markUpdate(worldObj, xCoord, yCoord, zCoord);
+                markRedstoneUpdate(worldObj, xCoord, yCoord, zCoord);
                 return true;
             }
             else
@@ -1013,5 +1026,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             world.markBlockForUpdate(x, y, z);
         }
+    }
+
+    public static void markRedstoneUpdate(World world, int x, int y, int z)
+    {
+        markUpdate(world, x, y, z);
+        world.notifyBlocksOfNeighborChange(x, y, z, world.getBlock(x, y, z));
     }
 }

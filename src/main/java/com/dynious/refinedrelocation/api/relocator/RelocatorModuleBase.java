@@ -46,6 +46,12 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
+    public int strongRedstonePower(int side)
+    {
+        return 0;
+    }
+
+    @Override
     public boolean connectsToRedstone()
     {
         return false;
