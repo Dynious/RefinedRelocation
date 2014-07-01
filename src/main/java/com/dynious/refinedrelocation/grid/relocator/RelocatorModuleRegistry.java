@@ -74,6 +74,7 @@ public class RelocatorModuleRegistry
         APIUtils.registerRelocatorModule("stock", RelocatorModuleStock.class);
         APIUtils.registerRelocatorModule("redstoneBlock", RelocatorModuleRedstoneBlock.class);
         APIUtils.registerRelocatorModule("spread", RelocatorModuleSpread.class);
+        APIUtils.registerRelocatorModule("itemDetector", RelocatorModuleItemDetector.class);
     }
 
     @SideOnly(Side.CLIENT)

@@ -63,6 +63,8 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
                 return new RelocatorModuleRedstoneBlock();
             case 8:
                 return new RelocatorModuleSpread();
+            case 9:
+                return new RelocatorModuleItemDetector();
         }
         return null;
     }
@@ -71,7 +73,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     @Override
     public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int j = 0; j < 9; ++j)
+        for (int j = 0; j < 10; ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }
