@@ -58,6 +58,12 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
+    public boolean canProvidePower()
+    {
+        return true;
+    }
+
+    @Override
     public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
     {
         TileEntity tile = world.getTileEntity(x, y, z);
@@ -66,6 +72,23 @@ public class BlockRelocator extends BlockContainer
             return ((TileRelocator)tile).shouldConnectToRedstone();
         }
         return false;
+    }
+
+    @Override
+    public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side)
+    {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile != null && tile instanceof TileRelocator)
+        {
+            return ((TileRelocator)tile).isProvidingStrongPower(side);
+        }
+        return 0;
+    }
+
+    @Override
+    public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side)
+    {
+        return isProvidingStrongPower(world, x, y, z, side);
     }
 
     @Override
