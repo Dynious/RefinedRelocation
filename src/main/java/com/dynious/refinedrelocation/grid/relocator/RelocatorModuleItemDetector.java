@@ -24,58 +24,72 @@ import net.minecraft.util.IIcon;
 import java.util.Arrays;
 import java.util.List;
 
-public class RelocatorModuleItemDetector extends RelocatorModuleBase {
+public class RelocatorModuleItemDetector extends RelocatorModuleBase
+{
     private static IIcon[] icons = new IIcon[4];
     private static boolean emitRedstoneSignal = false;
     private FilterStandard filter;
     private int tick = 0;
 
     @Override
-    public void init(IItemRelocator relocator, int side) {
+    public void init(IItemRelocator relocator, int side)
+    {
         filter = new FilterStandard(getFilterTile(this, relocator));
         markRedstoneUpdate(relocator.getTileEntity());
     }
 
     @Override
-    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack) {
+    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
+    {
         APIUtils.openRelocatorModuleGUI(relocator, player, side);
         return true;
     }
 
     @Override
-    public void onUpdate(IItemRelocator relocator, int side) {
-        ++tick;
-        if (tick == 4) { // Reset signal every 4 ticks because we want one redstone tick (2 ticks) of it being on
-            tick = 0;
+    public void onUpdate(IItemRelocator relocator, int side)
+    {
+        if (tick > 0)
+        {
+            --tick;
+        }
+        else if (tick == 0)
+        {
             emitRedstoneSignal = false;
             markRedstoneUpdate(relocator.getTileEntity());
         }
     }
 
     @Override
-    public int strongRedstonePower(int side) {
+    public int strongRedstonePower(int side)
+    {
         return emitRedstoneSignal ? 15 : 0;
     }
 
     @Override
-    public boolean connectsToRedstone() {
+    public boolean connectsToRedstone()
+    {
         return true;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player) {
+    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
+    {
         return new GuiFiltered(getFilterTile(this, relocator));
     }
 
     @Override
-    public Container getContainer(IItemRelocator relocator, EntityPlayer player) {
+    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
+    {
         return new ContainerFiltered(getFilterTile(this, relocator));
     }
 
     @Override
-    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate) {
-        if (!simulate && stack != null && filter.passesFilter(stack)) {
+    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
+    {
+        if (!simulate && stack != null && filter.passesFilter(stack))
+        {
+            tick = 2;
             emitRedstoneSignal = true;
             markRedstoneUpdate(relocator.getTileEntity());
         }
@@ -84,42 +98,51 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase {
     }
 
     @Override
-    public List<ItemStack> getDrops(IItemRelocator relocator, int side) {
+    public List<ItemStack> getDrops(IItemRelocator relocator, int side)
+    {
         return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 9));
     }
 
     @Override
-    public IIcon getIcon(IItemRelocator relocator, int side) {
+    public IIcon getIcon(IItemRelocator relocator, int side)
+    {
         return icons[0];
     }
 
     @Override
-    public void registerIcons(IIconRegister register) {
+    public void registerIcons(IIconRegister register)
+    {
         icons[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleItemDetector");
         icons[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleItemDetectorDetected");
     }
 
-    private IFilterTileGUI getFilterTile(final RelocatorModuleItemDetector module, final IItemRelocator relocator) {
-        return new IFilterTileGUI() {
+    private IFilterTileGUI getFilterTile(final RelocatorModuleItemDetector module, final IItemRelocator relocator)
+    {
+        return new IFilterTileGUI()
+        {
             @Override
-            public IFilterGUI getFilter() {
+            public IFilterGUI getFilter()
+            {
                 return module.filter;
             }
 
             @Override
-            public TileEntity getTileEntity() {
+            public TileEntity getTileEntity()
+            {
                 return relocator.getTileEntity();
             }
 
             @Override
-            public void onFilterChanged() {
+            public void onFilterChanged()
+            {
                 markRedstoneUpdate(relocator.getTileEntity());
                 relocator.getTileEntity().markDirty();
             }
         };
     }
 
-    private void markRedstoneUpdate(TileEntity relocator) {
+    private void markRedstoneUpdate(TileEntity relocator)
+    {
         TileRelocator.markRedstoneUpdate(relocator.getWorldObj(), relocator.xCoord, relocator.yCoord, relocator.zCoord);
     }
 }
