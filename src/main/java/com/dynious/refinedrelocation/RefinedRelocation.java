@@ -54,6 +54,7 @@ public class RefinedRelocation
     {
         VersionChecker.execute();
 
+        FMLCommonHandler.instance().bus().register(RefinedRelocation.instance);
         ConfigHandler.init(event);
 
         FMLCommonHandler.instance().bus().register(new TickEvent());
@@ -71,6 +72,12 @@ public class RefinedRelocation
         proxy.registerEventHandlers();
         
         ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallbackHelper());
+    }
+
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+        if(eventArgs.modID.equals(Reference.MOD_ID))
+            ConfigHandler.syncConfig();
     }
 
     @Mod.EventHandler
