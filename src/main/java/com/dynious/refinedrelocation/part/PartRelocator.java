@@ -168,13 +168,13 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public int strongPowerLevel(int i)
     {
-        return 0;
+        return relocator.isProvidingStrongPower(i);
     }
 
     @Override
     public int weakPowerLevel(int i)
     {
-        return 0;
+        return strongPowerLevel(i);
     }
 
     @Override
