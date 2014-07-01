@@ -1,34 +1,47 @@
 package com.dynious.refinedrelocation.config;
 
+import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.lib.Settings;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Configuration;
 
-import java.io.File;
+public class ConfigHandler {
+    public static Configuration configFile;
 
-public class ConfigHandler
-{
-    public static Configuration configuration;
-    public static final String CATEGORY_SETTINGS = "Settings";
-
-    public static void init(File configFile)
+    public static void init(FMLPreInitializationEvent event)
     {
-        configuration = new Configuration(configFile);
-        try
-        {
-            Settings.DISABLE_WIRELESS_BLOCK_EXTENDER = configuration.get(CATEGORY_SETTINGS, "Disable Wireless Block Extender", Settings.DISABLE_WIRELESS_BLOCK_EXTENDER_DEFAULT).getBoolean(Settings.DISABLE_WIRELESS_BLOCK_EXTENDER_DEFAULT);
-            Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER = configuration.get(CATEGORY_SETTINGS, "Max Range Wireless Block Extender", Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT).getInt(Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT);
-            Settings.DISPLAY_VERSION_RESULT = configuration.get(CATEGORY_SETTINGS, "Display Version Result", Settings.DISPLAY_VERSION_RESULT_DEFAULT).getBoolean(Settings.DISPLAY_VERSION_RESULT_DEFAULT);
-            Settings.DISABLE_PLAYER_RELOCATOR = configuration.get(CATEGORY_SETTINGS, "Disable Player Relocator", Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT).getBoolean(Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT);
-            Settings.PLAYER_RELOCATOR_DISABLED_AGES = configuration.get(CATEGORY_SETTINGS, "Ages Player Relocator Cannot Teleport From", Settings.PLAYER_RELOCATOR_DISABLED_AGES_DEFAULT).getIntList();
-            Settings.PLAYER_RELOCATOR_COOLDOWN = configuration.get(CATEGORY_SETTINGS, "Player Relocator Cooldown Time (seconds)", Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT).getInt(Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT);
-            Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION = configuration.get(CATEGORY_SETTINGS, "Minimum ticks between Relocator extractions", Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT).getInt(Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT);
+        FMLCommonHandler.instance().bus().register(RefinedRelocation.instance);
+        configFile = new Configuration(event.getSuggestedConfigurationFile());
+    }
 
-        } catch (Exception ignored)
-        {
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+        if(eventArgs.modID.equals(Reference.MOD_ID))
+            syncConfig();
+    }
 
-        } finally
-        {
-            configuration.save();
-        }
+    public static void syncConfig()
+    {
+        Settings.DISABLE_WIRELESS_BLOCK_EXTENDER = configFile.get(Configuration.CATEGORY_GENERAL, "Disable WBE", Settings.DISABLE_WIRELESS_BLOCK_EXTENDER_DEFAULT,
+                "Remove crafting recipe for Wireless Block Extender.").getBoolean();
+        Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER = configFile.get(Configuration.CATEGORY_GENERAL, "Max Range WBE", Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT,
+                "The maximum distance a block can be from the wireless block extender.").getInt();
+        Settings.DISPLAY_VERSION_RESULT = configFile.get(Configuration.CATEGORY_GENERAL, "Check Version", Settings.DISPLAY_VERSION_RESULT_DEFAULT,
+                "If Refined Relocation should check if the mod is updated on startup.").getBoolean();
+        Settings.DISABLE_PLAYER_RELOCATOR = configFile.get(Configuration.CATEGORY_GENERAL, "Disable PR", Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT,
+                "Remove crafting recipe for Player Relocator.").getBoolean();
+        Settings.PLAYER_RELOCATOR_DISABLED_AGES = configFile.get(Configuration.CATEGORY_GENERAL, "Disabled Ages for PR", Settings.PLAYER_RELOCATOR_DISABLED_AGES_DEFAULT,
+                "Ages from which the Player Relocator cannot teleport.").getIntList();
+        Settings.PLAYER_RELOCATOR_COOLDOWN = configFile.get(Configuration.CATEGORY_GENERAL, "PR Cooldown Time", Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT,
+                "The Cooldown time between teleports using the Player Relocator, in seconds.").getInt();
+        Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION = configFile.get(Configuration.CATEGORY_GENERAL, "Ticks between extractions", Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT,
+                "Minimum amount of time between Relocator extractions.").getInt();
+
+        if (configFile.hasChanged())
+            configFile.save();
     }
 }
