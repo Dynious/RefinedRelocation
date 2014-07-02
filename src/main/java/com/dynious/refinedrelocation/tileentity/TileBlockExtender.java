@@ -130,19 +130,19 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         this.fluidHandler = fluidHandler;
     }
 
-    @Method(modid = "BuildCraft|Energy")
+    @Method(modid = Mods.BC_API_POWER_ID)
     public void setPowerReceptor(IPowerReceptor powerReceptor)
     {
         this.powerReceptor = powerReceptor;
     }
 
-    @Method(modid = "CoFHCore")
+    @Method(modid = Mods.COFH_CORE_ID)
     public void setEnergyHandler(IEnergyHandler energyHandler)
     {
         this.energyHandler = energyHandler;
     }
 
-    @Method(modid = "IC2")
+    @Method(modid = Mods.IC2_ID)
     public void setEnergySink(IEnergySink energySink)
     {
         if (this.energySink == null && energySink != null)
@@ -163,7 +163,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         }
     }
 
-    @Method(modid = "UniversalElectricity")
+    @Method(modid = Mods.UE_ID)
     public void setEnergyInterface(IEnergyInterface energyInterface)
     {
         this.energyInterface = energyInterface;
@@ -179,25 +179,25 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return fluidHandler;
     }
 
-    @Method(modid = "BuildCraft|Energy")
+    @Method(modid = Mods.BC_API_POWER_ID)
     public IPowerReceptor getPowerReceptor()
     {
         return powerReceptor;
     }
 
-    @Method(modid = "IC2")
+    @Method(modid = Mods.IC2_ID)
     public IEnergySink getEnergySink()
     {
         return energySink;
     }
 
-    @Method(modid = "CoFHCore")
+    @Method(modid = Mods.COFH_CORE_ID)
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
     }
 
-    @Method(modid = "UniversalElectricity")
+    @Method(modid = Mods.UE_ID)
     public IEnergyInterface getEnergyInterface()
     {
         return energyInterface;
@@ -211,7 +211,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     @Override
     public void invalidate()
     {
-        if (Loader.isModLoaded("IC2") && this.getEnergySink() != null)
+        if (Loader.isModLoaded(Mods.IC2_ID) && this.getEnergySink() != null)
         {
             IC2Helper.removeFromEnergyNet(this);
         }
@@ -221,7 +221,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     @Override
     public void onChunkUnload()
     {
-        if (Loader.isModLoaded("IC2") && this.getEnergySink() != null)
+        if (Loader.isModLoaded(Mods.IC2_ID) && this.getEnergySink() != null)
         {
             IC2Helper.removeFromEnergyNet(this);
         }
