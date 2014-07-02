@@ -190,7 +190,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         return inputAmount - resource.amount;
     }
 
-    @Optional.Method(modid = "IC2")
+    @Optional.Method(modid = Mods.IC2_ID)
     @Override
     public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
     {
@@ -262,7 +262,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 
     /*
 
-    @Optional.Method(modid = "CoFHCore")
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -298,7 +298,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         return inputAmount - i;
     }
 
-    @Optional.Method(modid = "UniversalElectricity")
+    @Optional.Method(modid = Mods.UE_ID)
     @Override
     public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
     {

@@ -48,9 +48,9 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     @Override
     public void onUpdate(IItemRelocator relocator, int side)
     {
-        if (tick >= 0)
+        if (tick > 0)
         {
-            --tick;
+            tick--;
             if (tick == 0)
             {
                 emitRedstoneSignal = false;
