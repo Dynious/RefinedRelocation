@@ -23,13 +23,13 @@ public class MessageTicksBetweenExtraction implements IMessage, IMessageHandler<
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        buf.writeInt(amount);
+        amount = buf.readInt();
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
-        amount = buf.readInt();
+        buf.writeInt(amount);
     }
 
     @Override

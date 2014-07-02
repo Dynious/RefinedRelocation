@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.gui.GuiModularTest;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.gui.GuiModuleExtraction;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleExtraction;
@@ -125,7 +126,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
     {
-        return new GuiModuleExtraction(this);
+        return new GuiModularTest(this);
     }
 
     @Override

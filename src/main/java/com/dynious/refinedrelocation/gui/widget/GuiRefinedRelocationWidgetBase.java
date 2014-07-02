@@ -22,26 +22,26 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
 
     public GuiRefinedRelocationWidgetBase(int x, int y, int w, int h)
     {
-        this.setParent(null);
         this.mc = Minecraft.getMinecraft();
         this.setPos(x, y);
         this.setSize(w, h);
+        this.setParent(null);
     }
 
     public GuiRefinedRelocationWidgetBase(IGuiParent parent)
     {
-        this.setParent(parent);
         this.mc = Minecraft.getMinecraft();
         this.setPos(0, 0);
         this.setSize(50, 50);
+        this.setParent(parent);
     }
 
     public GuiRefinedRelocationWidgetBase(IGuiParent parent, int x, int y, int w, int h)
     {
-        this.setParent(parent);
         this.mc = Minecraft.getMinecraft();
         this.setPos(x, y);
         this.setSize(w, h);
+        this.setParent(parent);
     }
 
     public boolean isMouseInsideBounds(int mouseX, int mouseY)
@@ -109,10 +109,46 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
     }
 
     @Override
+    public int getWidth()
+    {
+        return w;
+    }
+
+    @Override
+    public int getHeight()
+    {
+        return h;
+    }
+
+    @Override
+    public int getX()
+    {
+        return x;
+    }
+
+    @Override
+    public int getY()
+    {
+        return y;
+    }
+
+    @Override
     public void setPos(int x, int y)
     {
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public void moveX(int amount)
+    {
+        x += amount;
+    }
+
+    @Override
+    public void moveY(int amount)
+    {
+        y += amount;
     }
 
     @Override

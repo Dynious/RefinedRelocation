@@ -10,9 +10,21 @@ public interface IGuiRefinedRelocationWidgetBase extends IGuiParent
 
     public IGuiParent getParent();
 
+    public int getWidth();
+
+    public int getHeight();
+
     void setSize(int w, int h);
 
+    int getX();
+
+    int getY();
+
     void setPos(int x, int y);
+
+    void moveX(int amount);
+
+    void moveY(int amount);
 
     void setVisible(boolean visible);
 
