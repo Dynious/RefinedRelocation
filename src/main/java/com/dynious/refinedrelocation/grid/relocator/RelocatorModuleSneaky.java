@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.gui.container.ContainerModuleSneaky;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,10 +29,12 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
 {
     private static IIcon icon;
     private int outputSide = -1;
+    private TileRelocator tileRelocator;
 
     @Override
     public void init(IItemRelocator relocator, int side)
     {
+        this.tileRelocator = (TileRelocator) relocator.getTileEntity();
         this.outputSide = ForgeDirection.OPPOSITES[side];
     }
 
@@ -101,5 +104,20 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     public void setOutputSide(int outputSide)
     {
         this.outputSide = outputSide;
+    }
+
+    public TileRelocator getRelocator()
+    {
+        return tileRelocator;
+    }
+
+    public ForgeDirection getSide()
+    {
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+        {
+            if (tileRelocator.getRelocatorModule(direction.ordinal()) == this)
+                return direction;
+        }
+        return ForgeDirection.UNKNOWN;
     }
 }
