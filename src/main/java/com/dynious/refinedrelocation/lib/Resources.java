@@ -18,6 +18,7 @@ public class Resources
     public static final ResourceLocation GUI_SORTING_IMPORTER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "sortingImporter.png");
     public static final ResourceLocation GUI_POWER_LIMITER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "powerLimiter.png");
     public static final ResourceLocation GUI_MODULE_STOCK = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleStock.png");
+    public static final ResourceLocation GUI_MODULAR = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "modularGui.png");
 
     public static final String MODEL_ENDERPEARL = MODEL_LOCATION + "enderPearl.obj";
 

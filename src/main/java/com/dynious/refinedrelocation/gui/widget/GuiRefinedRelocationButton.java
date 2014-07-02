@@ -21,7 +21,7 @@ public class GuiRefinedRelocationButton extends GuiRefinedRelocationWidgetBase
         super(parent, x, y, w, h);
         this.textureX = textureX;
         this.textureY = textureY;
-        this.label = new GuiLabel(this, x + w / 2, y + h / 2, labelText, 0xffffff, true);
+        this.label = new GuiLabel(this, this.x + this.w / 2, this.y + this.h / 2, labelText, 0xffffff, true);
     }
 
     @Override
@@ -47,5 +47,29 @@ public class GuiRefinedRelocationButton extends GuiRefinedRelocationWidgetBase
         }
 
         super.drawBackground(mouseX, mouseY);
+    }
+
+    @Override
+    public void moveY(int amount)
+    {
+        super.moveY(amount);
+        if (label != null)
+            label.moveY(amount);
+    }
+
+    @Override
+    public void moveX(int amount)
+    {
+        super.moveX(amount);
+        if (label != null)
+            label.moveX(amount);
+    }
+
+    @Override
+    public void setPos(int x, int y)
+    {
+        super.setPos(x, y);
+        if (label != null)
+            label.setPos(x + w / 2, y + h / 2);
     }
 }

@@ -12,16 +12,14 @@ public class GuiLabel extends GuiRefinedRelocationWidgetBase
 
     public GuiLabel(IGuiParent parent, int x, int y, String text)
     {
-        super(parent);
-        this.setPos(x, y);
+        super(parent, x, y, 0, 0);
         this.text = text;
         this.setSize(mc.fontRenderer.getStringWidth(this.text), mc.fontRenderer.FONT_HEIGHT);
     }
 
     public GuiLabel(IGuiParent parent, int x, int y, String text, int color, boolean drawShadow)
     {
-        super(parent);
-        this.setPos(x, y);
+        super(parent, x, y, 0, 0);
         this.text = text;
         this.setSize(mc.fontRenderer.getStringWidth(this.text), mc.fontRenderer.FONT_HEIGHT);
         this.color = color;
