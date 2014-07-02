@@ -19,10 +19,10 @@ public class ConfigHandler {
                 "Remove crafting recipe for Wireless Block Extender.").getBoolean(Settings.DISABLE_WIRELESS_BLOCK_EXTENDER_DEFAULT);
 
         Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER = configFile.get(Configuration.CATEGORY_GENERAL, "Max Range WBE", Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT,
-                "The maximum distance a block can be from the wireless block extender.").getInt(Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT);
+                "The maximum distance the Wireless Block Extender can connect to.").getInt(Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER_DEFAULT);
 
         Settings.DISPLAY_VERSION_RESULT = configFile.get(Configuration.CATEGORY_GENERAL, "Check Version", Settings.DISPLAY_VERSION_RESULT_DEFAULT,
-                "If Refined Relocation should check if the mod is updated on startup.").getBoolean(Settings.DISPLAY_VERSION_RESULT_DEFAULT);
+                "Show the version checker result on startup.").getBoolean(Settings.DISPLAY_VERSION_RESULT_DEFAULT);
 
         Settings.DISABLE_PLAYER_RELOCATOR = configFile.get(Configuration.CATEGORY_GENERAL, "Disable PR", Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT,
                 "Remove crafting recipe for Player Relocator.").getBoolean(Settings.DISABLE_PLAYER_RELOCATOR_DEFAULT);

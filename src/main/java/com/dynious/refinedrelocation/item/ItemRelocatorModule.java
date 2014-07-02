@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ItemRelocatorModule extends Item implements IItemRelocatorModule
 {
-    private IIcon[] icons = new IIcon[9];
+    private IIcon[] icons = new IIcon[10];
 
     public ItemRelocatorModule()
     {

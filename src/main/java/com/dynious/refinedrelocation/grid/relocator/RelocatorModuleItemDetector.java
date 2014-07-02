@@ -106,7 +106,7 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     @Override
     public IIcon getIcon(IItemRelocator relocator, int side)
     {
-        return icons[0];
+        return emitRedstoneSignal? icons[1] : icons[0];
     }
 
     @Override
