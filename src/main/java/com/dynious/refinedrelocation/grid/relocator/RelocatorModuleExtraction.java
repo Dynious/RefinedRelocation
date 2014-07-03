@@ -132,13 +132,13 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
+    public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new GuiHome(new IRelocatorModule[] {new RelocatorModuleFilter(), this}, relocator, player, side);
+        return new GuiModuleExtraction(this);
     }
 
     @Override
-    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
+    public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
         return new ContainerModuleExtraction(this);
     }

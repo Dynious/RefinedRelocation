@@ -47,13 +47,13 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
+    public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
         return new GuiModuleSneaky(this);
     }
 
     @Override
-    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
+    public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
         return new ContainerModuleSneaky(this);
     }

@@ -1,11 +1,14 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
+import com.dynious.refinedrelocation.APIHandler;
+import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.gui.GuiHome;
 import com.dynious.refinedrelocation.gui.GuiModularTest;
+import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +24,19 @@ import java.util.List;
 
 public class RelocatorMultiModule extends RelocatorModuleBase
 {
-    private IRelocatorModule[] modules = new IRelocatorModule[2];
+    private static IIcon icon;
+    private List<IRelocatorModule> modules = new ArrayList<IRelocatorModule>();
+
+    public boolean addModule(IRelocatorModule module)
+    {
+        for (IRelocatorModule module1 : modules)
+        {
+            if (module1.getClass() == module.getClass())
+                return false;
+        }
+        modules.add(module);
+        return true;
+    }
 
     @Override
     public void init(IItemRelocator relocator, int side)
@@ -36,7 +51,8 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
-        return super.onActivated(relocator, player, side, stack);
+        APIUtils.openRelocatorModuleGUI(relocator, player, side);
+        return true;
     }
 
     @Override
@@ -101,15 +117,22 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
+    public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return super.getGUI(relocator, player);
+        return new GuiHome(modules, relocator, player, side);
     }
 
     @Override
-    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
+    public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return super.getContainer(relocator, player);
+        return new Container()
+        {
+            @Override
+            public boolean canInteractWith(EntityPlayer entityplayer)
+            {
+                return true;
+            }
+        };
     }
 
     @Override
@@ -133,8 +156,8 @@ public class RelocatorMultiModule extends RelocatorModuleBase
             IRelocatorModule module = RelocatorModuleRegistry.getModule(compound1.getString("clazzIdentifier"));
             if (module != null)
             {
-                modules[i] = module;
-                modules[i].readFromNBT(compound1);
+                module.readFromNBT(compound1);
+                modules.add(module);
             }
         }
     }
@@ -172,12 +195,12 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public IIcon getIcon(IItemRelocator relocator, int side)
     {
-        return null;
+        return icon;
     }
 
     @Override
     public void registerIcons(IIconRegister register)
     {
-        super.registerIcons(register);
+        icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleMulti");
     }
 }

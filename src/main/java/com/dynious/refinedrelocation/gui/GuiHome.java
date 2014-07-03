@@ -5,14 +5,16 @@ import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
+import java.util.List;
+
 public class GuiHome extends GuiModular
 {
-    private IRelocatorModule[] modules;
+    private List<IRelocatorModule> modules;
     private IItemRelocator relocator;
     private EntityPlayer player;
     private int side;
 
-    public GuiHome(IRelocatorModule[] iRelocatorModules, IItemRelocator relocator, EntityPlayer player, int side)
+    public GuiHome(List<IRelocatorModule> iRelocatorModules, IItemRelocator relocator, EntityPlayer player, int side)
     {
         super(new Container()
         {
@@ -33,9 +35,9 @@ public class GuiHome extends GuiModular
     {
         super.initGui();
 
-        for (int i = 0; i < modules.length; i++)
+        for (IRelocatorModule module : modules)
         {
-            new GuiButtonOpenModuleGUI(this, modules[i], relocator, side, player, modules[i].getDrops(relocator, side).get(0).getDisplayName());
+            new GuiButtonOpenModuleGUI(this, module, relocator, side, player, module.getDrops(relocator, side).get(0).getDisplayName());
         }
     }
 }
