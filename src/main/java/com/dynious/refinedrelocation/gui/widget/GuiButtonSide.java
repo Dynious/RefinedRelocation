@@ -2,9 +2,11 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
 import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.network.packet.PacketSide;
+import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
@@ -45,8 +47,29 @@ public class GuiButtonSide extends GuiRefinedRelocationButton
     public void update()
     {
         if (module != null)
-            label.setText(ForgeDirection.getOrientation(module.getOutputSide()).toString());
+        {
+            ForgeDirection outputDirection = ForgeDirection.getOrientation(module.getOutputSide());
+            label.setText(outputDirection.toString());
+
+            int[] blockInfo = getSneakySideBlockInfo();
+            String blockName = BlockHelper.getBlockDisplayName(module.getRelocator().getWorldObj(), blockInfo[0], blockInfo[1], blockInfo[2], ForgeDirection.getOrientation(blockInfo[3]));
+
+            this.setTooltipString(blockName + "\n" + StatCollector.translateToLocal(Strings.SNEAKY));
+        }
 
         super.update();
+    }
+
+    private int[] getSneakySideBlockInfo()
+    {
+        final TileRelocator relocator = module.getRelocator();
+        final ForgeDirection direction = module.getSide();
+        final ForgeDirection outputDirection = ForgeDirection.getOrientation(module.getOutputSide());
+        return new int[] {
+            relocator.xCoord + direction.offsetX + outputDirection.offsetX,
+            relocator.yCoord + direction.offsetY + outputDirection.offsetY,
+            relocator.zCoord + direction.offsetZ + outputDirection.offsetZ,
+            direction.ordinal()
+        };
     }
 }
