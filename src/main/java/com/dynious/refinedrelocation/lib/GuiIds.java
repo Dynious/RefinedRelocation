@@ -16,4 +16,5 @@ public class GuiIds
     public static final int POWER_LIMITER = 33;
 
     public static final int RELOCATOR_FILTER_BASE = 40;
+    public static int relocatorModuleID;
 }
