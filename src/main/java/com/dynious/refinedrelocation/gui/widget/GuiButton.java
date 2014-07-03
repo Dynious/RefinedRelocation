@@ -1,22 +1,23 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetBase;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Resources;
 import org.lwjgl.opengl.GL11;
 
-public class GuiRefinedRelocationButton extends GuiRefinedRelocationWidgetBase
+public class GuiButton extends GuiWidgetBase
 {
     protected int textureX = 0;
     protected int textureY = 0;
     protected GuiLabel label = null;
 
-    public GuiRefinedRelocationButton(IGuiParent parent, String labelText)
+    public GuiButton(IGuiParent parent, String labelText)
     {
         super(parent);
         this.label = new GuiLabel(this, x + w / 2, y + h / 2, labelText, 0xffffff, true);
     }
 
-    public GuiRefinedRelocationButton(IGuiParent parent, int x, int y, int w, int h, int textureX, int textureY, String labelText)
+    public GuiButton(IGuiParent parent, int x, int y, int w, int h, int textureX, int textureY, String labelText)
     {
         super(parent, x, y, w, h);
         this.textureX = textureX;
@@ -37,7 +38,7 @@ public class GuiRefinedRelocationButton extends GuiRefinedRelocationWidgetBase
         }
         this.drawTexturedModalRect(x, y, textureX, textureY + offsetTextureY, w, h);
 
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
         {
             if (child instanceof GuiLabel)
             {

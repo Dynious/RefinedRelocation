@@ -1,10 +1,8 @@
-package com.dynious.refinedrelocation.gui.widget;
-
-import com.dynious.refinedrelocation.gui.IGuiParent;
+package com.dynious.refinedrelocation.api.gui;
 
 import java.util.List;
 
-public interface IGuiRefinedRelocationWidgetBase extends IGuiParent
+public interface IGuiWidgetBase extends IGuiParent
 {
     public void setParent(IGuiParent parent);
 

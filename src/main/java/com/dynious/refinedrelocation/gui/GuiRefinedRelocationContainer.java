@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.gui;
 
-import com.dynious.refinedrelocation.gui.widget.IGuiRefinedRelocationWidgetBase;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,7 +14,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public abstract class GuiRefinedRelocationContainer extends GuiContainer implements IGuiParent
 {
-    protected List<IGuiRefinedRelocationWidgetBase> children = new ArrayList<IGuiRefinedRelocationWidgetBase>();
+    protected List<IGuiWidgetBase> children = new ArrayList<IGuiWidgetBase>();
 
     public GuiRefinedRelocationContainer(Container container)
     {
@@ -38,13 +39,13 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     }
 
     @Override
-    public void addChild(IGuiRefinedRelocationWidgetBase child)
+    public void addChild(IGuiWidgetBase child)
     {
         this.children.add(child);
     }
 
     @Override
-    public void addChildren(List<IGuiRefinedRelocationWidgetBase> children)
+    public void addChildren(List<IGuiWidgetBase> children)
     {
         this.children.addAll(children);
     }
@@ -56,13 +57,13 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     }
 
     @Override
-    public boolean removeChild(IGuiRefinedRelocationWidgetBase child)
+    public boolean removeChild(IGuiWidgetBase child)
     {
         return this.children.remove(child);
     }
 
     @Override
-    public void removeChildren(List<IGuiRefinedRelocationWidgetBase> children)
+    public void removeChildren(List<IGuiWidgetBase> children)
     {
         this.children.removeAll(children);
     }
@@ -72,7 +73,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     {
         GL11.glPushMatrix();
 
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
         {
             GL11.glColor4f(1, 1, 1, 1);
             child.drawBackground(mouseX, mouseY);
@@ -86,7 +87,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
         GL11.glPushMatrix();
         GL11.glTranslatef((float) -guiLeft, (float) -guiTop, 0.0F);
 
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
         {
             GL11.glColor4f(1, 1, 1, 1);
             child.drawForeground(mouseX, mouseY);
@@ -101,7 +102,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
         super.drawScreen(mouseX, mouseY, f);
 
         List<String> tooltip = new ArrayList<String>();
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
         {
             tooltip.addAll(child.getTooltip(mouseX, mouseY));
         }
@@ -114,7 +115,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     {
         super.updateScreen();
 
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
         {
             child.update();
         }
@@ -123,7 +124,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int type)
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.mouseClicked(mouseX, mouseY, type, isShiftKeyDown());
         super.mouseClicked(mouseX, mouseY, type);
     }
@@ -131,7 +132,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     @Override
     public void handleMouseInput()
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.handleMouseInput();
         super.handleMouseInput();
     }
@@ -139,7 +140,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     @Override
     protected void keyTyped(char c, int i)
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
         {
             if (child.keyTyped(c, i))
             {
@@ -152,7 +153,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     @Override
     protected void mouseMovedOrUp(int par1, int par2, int par3)
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.mouseMovedOrUp(par1, par2, par3);
         super.mouseMovedOrUp(par1, par2, par3);
     }

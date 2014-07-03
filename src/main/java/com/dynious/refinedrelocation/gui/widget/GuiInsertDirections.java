@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
@@ -9,7 +9,7 @@ import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
 
-public class GuiInsertDirections extends GuiRefinedRelocationWidgetBase
+public class GuiInsertDirections extends GuiWidgetBase
 {
     protected IAdvancedTile tile;
 
@@ -46,7 +46,7 @@ public class GuiInsertDirections extends GuiRefinedRelocationWidgetBase
         insertDirections[ForgeDirection.WEST.ordinal()] = new GuiInsertDirection(this, colX[0], colY[1], tile, ForgeDirection.WEST, ForgeDirection.getOrientation(facingRelativeSides[facingDir.ordinal()][ForgeDirection.WEST.ordinal()]));
         insertDirections[ForgeDirection.EAST.ordinal()] = new GuiInsertDirection(this, colX[2], colY[1], tile, ForgeDirection.EAST, ForgeDirection.getOrientation(facingRelativeSides[facingDir.ordinal()][ForgeDirection.EAST.ordinal()]));
 
-        GuiRefinedRelocationButton insertDirectionHelp = new GuiRefinedRelocationButton(this, x + w - 10, y, 10, 10, 0, 128, null);
+        GuiButton insertDirectionHelp = new GuiButton(this, x + w - 10, y, 10, 10, 0, 128, null);
         if (tile instanceof TileBuffer)
         {
             insertDirectionHelp.setTooltipString(StatCollector.translateToLocal(Strings.BUFFER_INSERTION_INFO).replaceAll("\\\\n", "\n\u00A77"));
