@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessagePriority;
@@ -10,7 +10,7 @@ import net.minecraft.util.StatCollector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiButtonPriority extends GuiRefinedRelocationButton
+public class GuiButtonPriority extends GuiButton
 {
     private ISortingInventory tile;
 

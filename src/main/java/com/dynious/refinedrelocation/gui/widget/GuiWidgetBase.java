@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetBase;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
@@ -8,19 +9,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGuiRefinedRelocationWidgetBase
+public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
 {
     public int x;
     public int y;
     public int w;
     public int h;
-    protected List<IGuiRefinedRelocationWidgetBase> children = new ArrayList<IGuiRefinedRelocationWidgetBase>();
+    protected List<IGuiWidgetBase> children = new ArrayList<IGuiWidgetBase>();
     protected IGuiParent parent = null;
     protected Minecraft mc;
     protected boolean visible = true;
     protected String tooltipString = null;
 
-    public GuiRefinedRelocationWidgetBase(int x, int y, int w, int h)
+    public GuiWidgetBase(int x, int y, int w, int h)
     {
         this.mc = Minecraft.getMinecraft();
         this.setPos(x, y);
@@ -28,7 +29,7 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
         this.setParent(null);
     }
 
-    public GuiRefinedRelocationWidgetBase(IGuiParent parent)
+    public GuiWidgetBase(IGuiParent parent)
     {
         this.mc = Minecraft.getMinecraft();
         this.setPos(0, 0);
@@ -36,7 +37,7 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
         this.setParent(parent);
     }
 
-    public GuiRefinedRelocationWidgetBase(IGuiParent parent, int x, int y, int w, int h)
+    public GuiWidgetBase(IGuiParent parent, int x, int y, int w, int h)
     {
         this.mc = Minecraft.getMinecraft();
         this.setPos(x, y);
@@ -79,13 +80,13 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
     }
 
     @Override
-    public void addChild(IGuiRefinedRelocationWidgetBase child)
+    public void addChild(IGuiWidgetBase child)
     {
         this.children.add(child);
     }
 
     @Override
-    public void addChildren(List<IGuiRefinedRelocationWidgetBase> children)
+    public void addChildren(List<IGuiWidgetBase> children)
     {
         this.children.addAll(children);
     }
@@ -97,13 +98,13 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
     }
 
     @Override
-    public boolean removeChild(IGuiRefinedRelocationWidgetBase child)
+    public boolean removeChild(IGuiWidgetBase child)
     {
         return this.children.remove(child);
     }
 
     @Override
-    public void removeChildren(List<IGuiRefinedRelocationWidgetBase> children)
+    public void removeChildren(List<IGuiWidgetBase> children)
     {
         this.children.removeAll(children);
     }
@@ -135,6 +136,13 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
     @Override
     public void setPos(int x, int y)
     {
+        int dX = x - this.x;
+        int dY = y - this.y;
+        for (IGuiWidgetBase child : children)
+        {
+            child.moveX(dX);
+            child.moveY(dY);
+        }
         this.x = x;
         this.y = y;
     }
@@ -143,12 +151,20 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
     public void moveX(int amount)
     {
         x += amount;
+        for (IGuiWidgetBase child : children)
+        {
+            child.moveX(amount);
+        }
     }
 
     @Override
     public void moveY(int amount)
     {
         y += amount;
+        for (IGuiWidgetBase child : children)
+        {
+            child.moveY(amount);
+        }
     }
 
     @Override
@@ -171,7 +187,7 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
         {
             tooltip.addAll(Arrays.asList(tooltipString.split("\n")));
         }
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             tooltip.addAll(child.getTooltip(mouseX, mouseY));
         return tooltip;
     }
@@ -182,7 +198,7 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
         if (!isVisible())
             return;
 
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.drawBackground(mouseX, mouseY);
     }
 
@@ -192,7 +208,7 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
         if (!isVisible())
             return;
 
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.drawForeground(mouseX, mouseY);
     }
 
@@ -209,14 +225,14 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }
 
     @Override
     public boolean keyTyped(char c, int i)
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
         {
             if (child.keyTyped(c, i))
                 return true;
@@ -227,21 +243,21 @@ public abstract class GuiRefinedRelocationWidgetBase extends Gui implements IGui
     @Override
     public void handleMouseInput()
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.handleMouseInput();
     }
 
     @Override
     public void update()
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.update();
     }
 
     @Override
     public void mouseMovedOrUp(int par1, int par2, int par3)
     {
-        for (IGuiRefinedRelocationWidgetBase child : this.children)
+        for (IGuiWidgetBase child : this.children)
             child.mouseMovedOrUp(par1, par2, par3);
     }
 }

@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui;
 
-import com.dynious.refinedrelocation.gui.widget.IGuiRefinedRelocationWidgetBase;
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetBase;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.inventory.Container;
 import org.lwjgl.opengl.GL11;
@@ -15,7 +15,7 @@ public class GuiModular extends GuiRefinedRelocationContainer
     }
 
     @Override
-    public void addChild(IGuiRefinedRelocationWidgetBase child)
+    public void addChild(IGuiWidgetBase child)
     {
         super.addChild(child);
         recalculateAndSetChildPositions();
@@ -29,7 +29,7 @@ public class GuiModular extends GuiRefinedRelocationContainer
 
         int childTotalHeight = SPACE_BETWEEN_MODULES;
 
-        for (IGuiRefinedRelocationWidgetBase widget : children) // Get total width and height
+        for (IGuiWidgetBase widget : children) // Get total width and height
         {
             int widthDelta = widget.getWidth() + SPACE_BETWEEN_MODULES;
             int heightDelta = widget.getHeight() + SPACE_BETWEEN_MODULES;
@@ -63,7 +63,7 @@ public class GuiModular extends GuiRefinedRelocationContainer
         int currentX = startX + SPACE_BETWEEN_MODULES;
         int currentY = startY + SPACE_BETWEEN_MODULES;
 
-        for (IGuiRefinedRelocationWidgetBase widget : children)
+        for (IGuiWidgetBase widget : children)
         {
             widget.setPos(currentX, currentY);
             int deltaX = widget.getWidth() + SPACE_BETWEEN_MODULES;

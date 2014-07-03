@@ -1,12 +1,12 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.EnergyType;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 
 import java.util.List;
 
-public class GuiButtonEnergyTypes extends GuiRefinedRelocationButton
+public class GuiButtonEnergyTypes extends GuiButton
 {
     private TilePowerLimiter tile;
     private EnergyType currentEnergyType;

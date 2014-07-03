@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
-public class GuiInsertDirection extends GuiRefinedRelocationWidgetBase
+public class GuiInsertDirection extends GuiWidgetBase
 {
     public ForgeDirection side;
     public ForgeDirection insertDirection;

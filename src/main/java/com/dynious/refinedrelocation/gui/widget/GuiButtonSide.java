@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.gui.widget;
 
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
-import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
@@ -10,7 +10,7 @@ import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class GuiButtonSide extends GuiRefinedRelocationButton
+public class GuiButtonSide extends GuiButton
 {
     private RelocatorModuleSneaky module;
 

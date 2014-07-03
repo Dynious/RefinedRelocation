@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
@@ -8,7 +8,7 @@ import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
-public class GuiWirelessLinkStatus extends GuiRefinedRelocationButton
+public class GuiWirelessLinkStatus extends GuiButton
 {
     public static final int linkedOffsetY = 80;
     public static final int unlinkedOffsetY = 112;

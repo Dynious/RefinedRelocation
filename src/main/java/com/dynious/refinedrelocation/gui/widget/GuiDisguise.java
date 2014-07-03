@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.block.Block;
@@ -12,16 +12,16 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
-public class GuiDisguise extends GuiRefinedRelocationWidgetBase
+public class GuiDisguise extends GuiWidgetBase
 {
-    protected GuiRefinedRelocationButton button;
+    protected GuiButton button;
     protected TileBlockExtender tile;
 
     public GuiDisguise(IGuiParent parent, int x, int y, int w, int h, TileBlockExtender tile)
     {
         super(parent, x, y, w, h);
         this.tile = tile;
-        button = new GuiRefinedRelocationButton(this, x, y, w, h, 144, 112, null);
+        button = new GuiButton(this, x, y, w, h, 144, 112, null);
     }
 
     @Override

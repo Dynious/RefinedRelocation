@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 
-public class GuiButtonToggle extends GuiRefinedRelocationButton
+public class GuiButtonToggle extends GuiButton
 {
     protected boolean state = false;
     protected GuiLabel labelTrue;

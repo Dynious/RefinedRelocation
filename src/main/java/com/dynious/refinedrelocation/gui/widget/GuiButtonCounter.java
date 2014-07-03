@@ -1,13 +1,13 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.api.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class GuiButtonCounter extends GuiRefinedRelocationButton
+public class GuiButtonCounter extends GuiButton
 {
     protected double value;
     protected double min;
