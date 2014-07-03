@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.gui;
+package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
