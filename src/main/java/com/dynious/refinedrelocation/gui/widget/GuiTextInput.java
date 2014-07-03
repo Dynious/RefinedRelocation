@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.api.gui.IGuiParent;
+import com.dynious.refinedrelocation.gui.IGuiParent;
 import net.minecraft.client.gui.GuiTextField;
 
 public class GuiTextInput extends GuiWidgetBase

@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.api.gui.IGuiParent;
+import com.dynious.refinedrelocation.gui.IGuiParent;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;

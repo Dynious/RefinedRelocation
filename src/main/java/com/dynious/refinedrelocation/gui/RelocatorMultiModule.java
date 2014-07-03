@@ -1,8 +1,9 @@
-package com.dynious.refinedrelocation.grid.relocator;
+package com.dynious.refinedrelocation.gui;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;

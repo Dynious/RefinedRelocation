@@ -1,6 +1,4 @@
-package com.dynious.refinedrelocation.api.gui;
-
-import com.dynious.refinedrelocation.api.gui.IGuiWidgetBase;
+package com.dynious.refinedrelocation.gui;
 
 import java.util.List;
 

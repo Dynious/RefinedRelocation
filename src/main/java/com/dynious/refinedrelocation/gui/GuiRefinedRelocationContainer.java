@@ -1,7 +1,5 @@
 package com.dynious.refinedrelocation.gui;
 
-import com.dynious.refinedrelocation.api.gui.IGuiParent;
-import com.dynious.refinedrelocation.api.gui.IGuiWidgetBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
