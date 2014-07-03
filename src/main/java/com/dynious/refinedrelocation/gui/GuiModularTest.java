@@ -22,5 +22,7 @@ public class GuiModularTest extends GuiModular
         new GuiButtonTicksBetweenExtractions(this, 100, 100, moduleExtraction);
 
         new GuiButtonTicksBetweenExtractions(this, 100, 100, moduleExtraction);
+
+        new GuiButtonTicksBetweenExtractions(this, 100, 100, moduleExtraction);
     }
 }

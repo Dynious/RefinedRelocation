@@ -136,6 +136,13 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
     @Override
     public void setPos(int x, int y)
     {
+        int dX = x - this.x;
+        int dY = y - this.y;
+        for (IGuiWidgetBase child : children)
+        {
+            child.moveX(dX);
+            child.moveY(dY);
+        }
         this.x = x;
         this.y = y;
     }
@@ -144,12 +151,20 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
     public void moveX(int amount)
     {
         x += amount;
+        for (IGuiWidgetBase child : children)
+        {
+            child.moveX(amount);
+        }
     }
 
     @Override
     public void moveY(int amount)
     {
         y += amount;
+        for (IGuiWidgetBase child : children)
+        {
+            child.moveY(amount);
+        }
     }
 
     @Override

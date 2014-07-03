@@ -49,28 +49,4 @@ public class GuiButton extends GuiWidgetBase
 
         super.drawBackground(mouseX, mouseY);
     }
-
-    @Override
-    public void moveY(int amount)
-    {
-        super.moveY(amount);
-        if (label != null)
-            label.moveY(amount);
-    }
-
-    @Override
-    public void moveX(int amount)
-    {
-        super.moveX(amount);
-        if (label != null)
-            label.moveX(amount);
-    }
-
-    @Override
-    public void setPos(int x, int y)
-    {
-        super.setPos(x, y);
-        if (label != null)
-            label.setPos(x + w / 2, y + h / 2);
-    }
 }
