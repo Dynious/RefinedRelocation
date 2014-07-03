@@ -2,7 +2,9 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.gui.GuiHome;
 import com.dynious.refinedrelocation.gui.GuiModuleExtraction;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleExtraction;
 import com.dynious.refinedrelocation.helper.IOHelper;
@@ -32,6 +34,14 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     private byte tick = 0;
     private int lastCheckedSlot = 0;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
+    private int side;
+
+    @Override
+    public void init(IItemRelocator relocator, int side)
+    {
+        this.side = side;
+        super.init(relocator, side);
+    }
 
     @Override
     public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
@@ -124,7 +134,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
     {
-        return new GuiModuleExtraction(this);
+        return new GuiHome(new IRelocatorModule[] {new RelocatorModuleFilter(), this}, relocator, player, side);
     }
 
     @Override
