@@ -60,59 +60,6 @@ public class GuiScalableButton extends com.dynious.refinedrelocation.gui.widget.
         }
     }
 
-    private static int[] colorCodes = new int[] { 0, 170, 43520, 43690, 11141120, 11141290, 16755200, 11184810, 5592405, 5592575, 5635925, 5636095, 16733525, 16733695, 16777045, 16777215,
-            0, 42, 10752, 10794, 2752512, 2752554, 2763264, 2763306, 1381653, 1381695, 1392405, 1392447, 4134165, 4134207, 4144917, 4144959 };
-
-    public static int getColorCode(char c, boolean isLighter)
-    {
-        return colorCodes[isLighter ? "0123456789abcdef".indexOf(c) : "0123456789abcdef".indexOf(c) + 16];
-    }
-
-    /**
-     * Draws a textured box of any size (smallest size is borderSize * 2 square) based on a fixed size textured box with continuous borders
-     * and filler. It is assumed that the desired texture ResourceLocation object has been bound using
-     * Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation).
-     *
-     * @param x x axis offset
-     * @param y y axis offset
-     * @param u bound resource location image x offset
-     * @param v bound resource location image y offset
-     * @param width the desired box width
-     * @param height the desired box height
-     * @param textureWidth the width of the box texture in the resource location image
-     * @param textureHeight the height of the box texture in the resource location image
-     * @param borderSize the size of the box's borders
-     * @param zLevel the zLevel to draw at
-     */
-    public static void drawContinuousTexturedBox(int x, int y, int u, int v, int width, int height, int textureWidth, int textureHeight,
-                                                 int borderSize, float zLevel)
-    {
-        drawContinuousTexturedBox(x, y, u, v, width, height, textureWidth, textureHeight, borderSize, borderSize, borderSize, borderSize, zLevel);
-    }
-
-    /**
-     * Draws a textured box of any size (smallest size is borderSize * 2 square) based on a fixed size textured box with continuous borders
-     * and filler. The provided ResourceLocation object will be bound using
-     * Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation).
-     *
-     * @param res the ResourceLocation object that contains the desired image
-     * @param x x axis offset
-     * @param y y axis offset
-     * @param u bound resource location image x offset
-     * @param v bound resource location image y offset
-     * @param width the desired box width
-     * @param height the desired box height
-     * @param textureWidth the width of the box texture in the resource location image
-     * @param textureHeight the height of the box texture in the resource location image
-     * @param borderSize the size of the box's borders
-     * @param zLevel the zLevel to draw at
-     */
-    public static void drawContinuousTexturedBox(ResourceLocation res, int x, int y, int u, int v, int width, int height, int textureWidth, int textureHeight,
-                                                 int borderSize, float zLevel)
-    {
-        drawContinuousTexturedBox(res, x, y, u, v, width, height, textureWidth, textureHeight, borderSize, borderSize, borderSize, borderSize, zLevel);
-    }
-
     /**
      * Draws a textured box of any size (smallest size is borderSize * 2 square) based on a fixed size textured box with continuous borders
      * and filler. The provided ResourceLocation object will be bound using
