@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiWidgetBase;
 import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.gui.IGuiWidgetBase;
 import com.dynious.refinedrelocation.lib.Resources;
 import org.lwjgl.opengl.GL11;
 
