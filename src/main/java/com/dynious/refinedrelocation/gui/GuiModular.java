@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.gui;
 
-import com.dynious.refinedrelocation.api.gui.IGuiWidgetBase;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.inventory.Container;
 import org.lwjgl.opengl.GL11;

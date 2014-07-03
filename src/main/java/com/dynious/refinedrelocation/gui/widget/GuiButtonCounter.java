@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.api.gui.IGuiParent;
+import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 

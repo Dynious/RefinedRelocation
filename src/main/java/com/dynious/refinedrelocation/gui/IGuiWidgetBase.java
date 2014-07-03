@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.api.gui;
+package com.dynious.refinedrelocation.gui;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
-import com.dynious.refinedrelocation.api.gui.IGuiParent;
+import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
