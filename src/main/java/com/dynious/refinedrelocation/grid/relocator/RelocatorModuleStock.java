@@ -124,13 +124,13 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IItemRelocator relocator, EntityPlayer player)
+    public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
         return new GuiModuleStock(player, this);
     }
 
     @Override
-    public Container getContainer(IItemRelocator relocator, EntityPlayer player)
+    public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
         return new ContainerModuleStock(player, this);
     }

@@ -2,10 +2,8 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
+import com.dynious.refinedrelocation.grid.relocator.*;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
-import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.*;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Settings;
@@ -297,13 +295,30 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public boolean sideHit(EntityPlayer player, int side, ItemStack stack)
     {
-        if (stack != null && stack.getItem() instanceof IItemRelocatorModule && modules[side] == null)
+        if (stack != null && stack.getItem() instanceof IItemRelocatorModule)
         {
             IRelocatorModule module = ((IItemRelocatorModule) stack.getItem()).getRelocatorModule(stack);
             if (module != null)
             {
-                modules[side] = module;
-                module.init(this, side);
+                if (modules[side] == null)
+                {
+                    modules[side] = module;
+                    module.init(this, side);
+                }
+                else if (modules[side] instanceof RelocatorMultiModule)
+                {
+                    if (!((RelocatorMultiModule)modules[side]).addModule(module))
+                        return false;
+                }
+                else
+                {
+                    RelocatorMultiModule multiModule = new RelocatorMultiModule();
+                    multiModule.addModule(modules[side]);
+                    if (!multiModule.addModule(module))
+                        return false;
+                    modules[side] = multiModule;
+                    modules[side].init(this, side);
+                }
                 if (!player.capabilities.isCreativeMode)
                     stack.stackSize--;
                 markUpdate(worldObj, xCoord, yCoord, zCoord);
@@ -434,13 +449,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public GuiScreen getGUI(int side, EntityPlayer player)
     {
-        return modules[side].getGUI(this, player);
+        return modules[side].getGUI(this, side, player);
     }
 
     @Override
     public Container getContainer(int side, EntityPlayer player)
     {
-        return modules[side].getContainer(this, player);
+        return modules[side].getContainer(this, side, player);
     }
 
     @Override
