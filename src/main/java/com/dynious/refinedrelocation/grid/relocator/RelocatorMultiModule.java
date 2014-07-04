@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.gui.GuiHome;
 import com.dynious.refinedrelocation.gui.GuiModularTest;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +27,29 @@ public class RelocatorMultiModule extends RelocatorModuleBase
 {
     private static IIcon icon;
     private List<IRelocatorModule> modules = new ArrayList<IRelocatorModule>();
+    private int currentModule = -1; // -1 is the multi module
+
+    public void setCurrentModule(int newModule)
+    {
+        currentModule = newModule;
+    }
+
+    public void setCurrentModule(IRelocatorModule module)
+    {
+        for (int i = 0; i < modules.size(); i++)
+        {
+            if (modules.get(i) == module)
+            {
+                currentModule = i;
+                break;
+            }
+        }
+    }
+
+    public IRelocatorModule getCurrentModule()
+    {
+        return currentModule == -1 ? this : modules.get(currentModule);
+    }
 
     public boolean addModule(IRelocatorModule module)
     {
@@ -119,7 +143,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new GuiHome(modules, relocator, player, side);
+        return new GuiHome(this, modules, relocator, player, side);
     }
 
     @Override
