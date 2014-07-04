@@ -33,9 +33,10 @@ public class GuiHome extends GuiModular
     {
         super.initGui();
 
-        for (IRelocatorModule module : modules)
+        for (int i = 0; i < modules.size(); i++)
         {
-            new GuiButtonOpenModuleGUI(this, multiModule, module, relocator, side, player, module.getDrops(relocator, side).get(0).getDisplayName());
+            IRelocatorModule module = modules.get(i);
+            new GuiButtonOpenModuleGUI(this, i, module.getDrops(relocator, side).get(0).getDisplayName());
         }
     }
 

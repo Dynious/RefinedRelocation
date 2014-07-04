@@ -137,13 +137,19 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new GuiHome(this, modules, relocator, player, side);
+        if (currentModule == -1)
+            return new GuiHome(this, modules, relocator, player, side);
+        else
+            return getCurrentModule().getGUI(relocator, side, player);
     }
 
     @Override
     public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new ContainerMultiModule(this, relocator, player, side);
+        if (currentModule == -1)
+            return new ContainerMultiModule(this, relocator, player, side);
+        else
+            return getCurrentModule().getContainer(relocator, side, player);
     }
 
     @Override
