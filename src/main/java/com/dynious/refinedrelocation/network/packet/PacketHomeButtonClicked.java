@@ -18,7 +18,7 @@ public class PacketHomeButtonClicked extends CustomPacket
 
     public PacketHomeButtonClicked()
     {
-        super(PacketTypeHandler.PRIORITY, false);
+        super(PacketTypeHandler.INDEX, false);
     }
 
     public PacketHomeButtonClicked(int index)

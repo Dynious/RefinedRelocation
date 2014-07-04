@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
 import net.minecraft.entity.player.EntityPlayer;
