@@ -35,7 +35,7 @@ public class GuiHome extends GuiModular
         for (int i = 0; i < modules.size(); i++)
         {
             IRelocatorModule module = modules.get(i);
-            new GuiButtonOpenModuleGUI(this, i, module.getDrops(relocator, side).get(0).getDisplayName());
+            new GuiButtonOpenModuleGUI(this, i, module.getDisplayName());
         }
     }
 
