@@ -68,8 +68,11 @@ public class RelocatorMultiModule extends RelocatorModuleBase
         if (stack != null && stack.getItem() instanceof IItemRelocatorModule)
         {
             IRelocatorModule module = ((IItemRelocatorModule) stack.getItem()).getRelocatorModule(stack);
-            if (module != null)
-                return addModule(module);
+            if (module != null && addModule(module))
+            {
+                module.init(relocator, side);
+                return true;
+            }
         }
         APIUtils.openRelocatorModuleGUI(relocator, player, side);
         return true;
