@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ItemRelocatorModule extends Item implements IItemRelocatorModule
 {
-    private IIcon[] icons = new IIcon[10];
+    private IIcon[] icons = new IIcon[11];
 
     public ItemRelocatorModule()
     {
@@ -65,6 +65,8 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
                 return new RelocatorModuleSpread();
             case 9:
                 return new RelocatorModuleItemDetector();
+            case 10:
+                return new RelocatorMultiModule();
         }
         return null;
     }
@@ -73,7 +75,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     @Override
     public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int j = 0; j < 10; ++j)
+        for (int j = 0; j < 11; ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }

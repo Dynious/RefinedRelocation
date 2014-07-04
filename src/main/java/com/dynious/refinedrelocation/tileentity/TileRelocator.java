@@ -300,31 +300,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public boolean sideHit(EntityPlayer player, int side, ItemStack stack)
     {
-        if (stack != null && stack.getItem() instanceof IItemRelocatorModule)
+        if (stack != null && stack.getItem() instanceof IItemRelocatorModule && modules[side] == null)
         {
             IRelocatorModule module = ((IItemRelocatorModule) stack.getItem()).getRelocatorModule(stack);
             if (module != null)
             {
-                if (modules[side] == null)
-                {
-                    modules[side] = module;
-                    module.init(this, side);
-                }
-                else if (modules[side] instanceof RelocatorMultiModule)
-                {
-                    if (!((RelocatorMultiModule)modules[side]).addModule(module))
-                        return false;
-                    module.init(this, side);
-                }
-                else
-                {
-                    RelocatorMultiModule multiModule = new RelocatorMultiModule();
-                    multiModule.addModule(modules[side]);
-                    if (!multiModule.addModule(module))
-                        return false;
-                    modules[side] = multiModule;
-                    multiModule.init(this, side);
-                }
+                modules[side] = module;
+                module.init(this, side);
                 if (!player.capabilities.isCreativeMode)
                     stack.stackSize--;
                 markUpdateAndNotify(worldObj, xCoord, yCoord, zCoord);

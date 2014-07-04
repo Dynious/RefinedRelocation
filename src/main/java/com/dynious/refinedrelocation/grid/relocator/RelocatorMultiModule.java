@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.APIHandler;
 import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
@@ -44,7 +45,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     {
         for (IRelocatorModule module1 : modules)
         {
-            if (module1.getClass() == module.getClass())
+            if (module1.getClass() == module.getClass() || module instanceof RelocatorMultiModule)
                 return false;
         }
         modules.add(module);
@@ -64,6 +65,12 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
+        if (stack != null && stack.getItem() instanceof IItemRelocatorModule)
+        {
+            IRelocatorModule module = ((IItemRelocatorModule) stack.getItem()).getRelocatorModule(stack);
+            if (module != null)
+                return addModule(module);
+        }
         APIUtils.openRelocatorModuleGUI(relocator, player, side);
         return true;
     }
@@ -132,13 +139,19 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new GuiHome(this, modules, relocator, player, side);
+        if (currentModule == -1)
+            return new GuiHome(this, modules, relocator, player, side);
+        else
+            return getCurrentModule().getGUI(relocator, side, player);
     }
 
     @Override
     public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new ContainerMultiModule(this, relocator, player, side);
+        if (currentModule == -1)
+            return new ContainerMultiModule(this, relocator, player, side);
+        else
+            return getCurrentModule().getContainer(relocator, side, player);
     }
 
     @Override
