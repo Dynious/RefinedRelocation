@@ -23,8 +23,8 @@ public class GuiModular extends GuiRefinedRelocationContainer
     public void recalculateAndSetChildPositions()
     {
         int maxWidth = (this.width / 4)*3;
+        int childTotalWidthLine = SPACE_BETWEEN_MODULES;
         int childTotalWidth = SPACE_BETWEEN_MODULES;
-        boolean useMaxWidth = false;
 
         int childTotalHeight = SPACE_BETWEEN_MODULES;
 
@@ -33,24 +33,20 @@ public class GuiModular extends GuiRefinedRelocationContainer
             int widthDelta = widget.getWidth() + SPACE_BETWEEN_MODULES;
             int heightDelta = widget.getHeight() + SPACE_BETWEEN_MODULES;
 
-            if (childTotalWidth + widthDelta > maxWidth) // If at maximum right side of GUI
+            if (childTotalWidthLine + widthDelta > maxWidth) // If at maximum right side of GUI
             {
-                useMaxWidth = true;
-                childTotalWidth = SPACE_BETWEEN_MODULES;
+                childTotalWidthLine = SPACE_BETWEEN_MODULES;
                 childTotalHeight += heightDelta;
             }
             else
             {
-                childTotalWidth += widthDelta;
+                childTotalWidthLine += widthDelta;
+                if (childTotalWidthLine > childTotalWidth)
+                    childTotalWidth = childTotalWidthLine;
 
                 if (childTotalHeight == SPACE_BETWEEN_MODULES)
                     childTotalHeight += heightDelta;
             }
-        }
-
-        if (useMaxWidth)
-        {
-            childTotalWidth = maxWidth;
         }
 
         int startX = (this.width - childTotalWidth) / 2;
@@ -64,19 +60,16 @@ public class GuiModular extends GuiRefinedRelocationContainer
 
         for (IGuiWidgetBase widget : children)
         {
-            widget.setPos(currentX, currentY);
             int deltaX = widget.getWidth() + SPACE_BETWEEN_MODULES;
             int deltaY = widget.getHeight() + SPACE_BETWEEN_MODULES;
 
-            if (currentX + deltaX > maxWidth)
+            if (currentX + deltaX > maxWidth + startX)
             {
                 currentX = startX + SPACE_BETWEEN_MODULES;
                 currentY += deltaY;
             }
-            else
-            {
-                currentX += deltaX;
-            }
+            widget.setPos(currentX, currentY);
+            currentX += deltaX;
         }
 
         this.guiLeft = startX;
