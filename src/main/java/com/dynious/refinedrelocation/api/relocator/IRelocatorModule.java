@@ -47,4 +47,6 @@ public interface IRelocatorModule
 
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register);
+
+    public String getDisplayName();
 }
