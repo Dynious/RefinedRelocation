@@ -55,11 +55,8 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
     {
         itemStack = putInInventory(itemStack);
-        if (itemStack != null)
-        {
-            bufferInventory[0] = itemStack;
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        }
+        bufferInventory[0] = itemStack;
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return true;
     }
 
