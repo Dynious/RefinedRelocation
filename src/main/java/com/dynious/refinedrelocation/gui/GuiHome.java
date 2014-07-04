@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.gui;
 
+import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
@@ -32,10 +33,9 @@ public class GuiHome extends GuiModular
     {
         super.initGui();
 
-        for (int i = 0; i < modules.size(); i++)
+        for (IRelocatorModule module : modules)
         {
-            IRelocatorModule module = modules.get(i);
-            new GuiButtonOpenModuleGUI(this, i, module.getDrops(relocator, side).get(0).getDisplayName());
+            new GuiButtonOpenModuleGUI(this, multiModule, module, relocator, side, player, module.getDrops(relocator, side).get(0).getDisplayName());
         }
     }
 

@@ -432,13 +432,29 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public GuiScreen getGUI(int side, EntityPlayer player)
     {
-        return modules[side].getGUI(this, side, player);
+        IRelocatorModule module = modules[side];
+        if (module instanceof RelocatorMultiModule)
+        {
+            return ((RelocatorMultiModule) module).getCurrentModule().getGUI(this, side, player);
+        }
+        else
+        {
+            return module.getGUI(this, side, player);
+        }
     }
 
     @Override
     public Container getContainer(int side, EntityPlayer player)
     {
-        return modules[side].getContainer(this, side, player);
+        IRelocatorModule module = modules[side];
+        if (module instanceof RelocatorMultiModule)
+        {
+            return ((RelocatorMultiModule) module).getCurrentModule().getContainer(this, side, player);
+        }
+        else
+        {
+            return module.getContainer(this, side, player);
+        }
     }
 
     @Override
