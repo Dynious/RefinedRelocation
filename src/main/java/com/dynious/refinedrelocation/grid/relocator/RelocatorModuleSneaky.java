@@ -28,6 +28,7 @@ import java.util.List;
 public class RelocatorModuleSneaky extends RelocatorModuleBase
 {
     private static Icon icon;
+    private int side;
     private int outputSide = -1;
     private TileRelocator tileRelocator;
 
@@ -36,6 +37,7 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     {
         this.tileRelocator = (TileRelocator) relocator.getTileEntity();
         this.outputSide = ForgeDirection.OPPOSITES[side];
+        this.side = side;
     }
 
     @Override
@@ -113,11 +115,6 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
 
     public ForgeDirection getSide()
     {
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
-        {
-            if (tileRelocator.getRelocatorModule(direction.ordinal()) == this)
-                return direction;
-        }
-        return ForgeDirection.UNKNOWN;
+        return ForgeDirection.getOrientation(side);
     }
 }
