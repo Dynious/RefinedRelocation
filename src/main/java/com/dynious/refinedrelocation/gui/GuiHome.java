@@ -39,12 +39,6 @@ public class GuiHome extends GuiModular
         }
     }
 
-    @Override
-    public void onGuiClosed()
-    {
-        multiModule.setCurrentModule(-1);
-    }
-
     public void onButtonClicked(int index)
     {
         ((ContainerMultiModule)inventorySlots).openOrActive(index);
