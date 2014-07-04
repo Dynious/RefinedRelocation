@@ -28,5 +28,6 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessagePriority.class, MessagePriority.class, 13, Side.SERVER);
         INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 14, Side.CLIENT);
         INSTANCE.registerMessage(MessageSide.class, MessageSide.class, 15, Side.SERVER);
+        INSTANCE.registerMessage(MessageHomeButtonClicked.class, MessageHomeButtonClicked.class, 16, Side.SERVER);
     }
 }

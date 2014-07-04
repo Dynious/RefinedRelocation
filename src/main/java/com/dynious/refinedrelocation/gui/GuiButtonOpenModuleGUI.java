@@ -11,23 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiButtonOpenModuleGUI extends GuiScalableButton
 {
-    private IRelocatorModule module;
-    private RelocatorMultiModule multiModule;
-    private IItemRelocator relocator;
-    private EntityPlayer player;
-    private int side;
-    private int moduleID;
-    private String text;
+    private int index;
 
-    public GuiButtonOpenModuleGUI(IGuiParent parent, RelocatorMultiModule multiModule, IRelocatorModule module, IItemRelocator relocator, int side, EntityPlayer player, String buttonText)
+    public GuiButtonOpenModuleGUI(GuiHome parent, int index, String buttonText)
     {
         super(parent, 0, 0, Minecraft.getMinecraft().fontRenderer.getStringWidth(buttonText) + 3*2, 20, 0, 0, buttonText);
-        this.multiModule = multiModule;
-        this.module = module;
-        this.relocator = relocator;
-        this.player = player;
-        this.side = side;
-        this.text = buttonText;
+        this.index = index;
         update();
     }
 
@@ -36,15 +25,7 @@ public class GuiButtonOpenModuleGUI extends GuiScalableButton
     {
         if (isMouseInsideBounds(mouseX, mouseY))
         {
-            multiModule.setCurrentModule(module);
-            if (module.getGUI(relocator, side, player) == null)
-            {
-                module.onActivated(relocator, player, side, player.getCurrentEquippedItem());
-            }
-            else
-            {
-                APIUtils.openRelocatorModuleGUI(relocator, player, side);
-            }
+            ((GuiHome)parent).onButtonClicked(index);
         }
     }
 }

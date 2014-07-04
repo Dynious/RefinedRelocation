@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.gui.GuiHome;
 import com.dynious.refinedrelocation.gui.GuiModularTest;
+import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.client.gui.GuiScreen;
@@ -32,18 +33,6 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     public void setCurrentModule(int newModule)
     {
         currentModule = newModule;
-    }
-
-    public void setCurrentModule(IRelocatorModule module)
-    {
-        for (int i = 0; i < modules.size(); i++)
-        {
-            if (modules.get(i) == module)
-            {
-                currentModule = i;
-                break;
-            }
-        }
     }
 
     public IRelocatorModule getCurrentModule()
@@ -149,14 +138,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new Container()
-        {
-            @Override
-            public boolean canInteractWith(EntityPlayer entityplayer)
-            {
-                return true;
-            }
-        };
+        return new ContainerMultiModule(this, relocator, player, side);
     }
 
     @Override
