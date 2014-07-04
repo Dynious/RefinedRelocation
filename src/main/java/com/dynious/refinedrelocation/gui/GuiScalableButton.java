@@ -40,7 +40,7 @@ public class GuiScalableButton extends com.dynious.refinedrelocation.gui.widget.
     {
         if (this.visible)
         {
-            int k = isMouseInsideBounds(mouseX, mouseY) ? 0 : 20;
+            int k = isMouseInsideBounds(mouseX, mouseY) ? 40 : 20;
             drawContinuousTexturedBox(buttonTextures, this.x, this.y, 0, 46 + k, this.getWidth(), this.getHeight(), 200, 20, 2, 3, 2, 2, this.zLevel);
             int color = 14737632;
 
@@ -48,15 +48,7 @@ public class GuiScalableButton extends com.dynious.refinedrelocation.gui.widget.
             {
                 color = 16777120;
             }
-
-//            String buttonText = this.label.getText();
-//            int strWidth = mc.fontRenderer.getStringWidth(buttonText);
-//            int ellipsisWidth = mc.fontRenderer.getStringWidth("...");
-//
-//            if (strWidth > this.getWidth() - 6 && strWidth > ellipsisWidth)
-//                buttonText = mc.fontRenderer.trimStringToWidth(buttonText, this.getWidth() - 6 - ellipsisWidth).trim() + "...";
-//
-//            //this.drawCenteredString(mc.fontRenderer, buttonText, this.x + this.getWidth() / 2, this.y + (this.getHeight() - 8) / 2, color);
+            label.setColor(color);
         }
     }
 
