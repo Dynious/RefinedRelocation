@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageSide;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -51,7 +52,7 @@ public class GuiButtonSide extends GuiButton
             label.setText(outputDirection.toString());
 
             int[] blockInfo = getSneakySideBlockInfo();
-            String blockName = BlockHelper.getBlockDisplayName(module.getRelocator().getWorldObj(), blockInfo[0], blockInfo[1], blockInfo[2], ForgeDirection.getOrientation(blockInfo[3]));
+            String blockName = BlockHelper.getBlockDisplayName(Minecraft.getMinecraft().theWorld, blockInfo[0], blockInfo[1], blockInfo[2], ForgeDirection.getOrientation(blockInfo[3]));
 
             this.setTooltipString(blockName + "\n" + StatCollector.translateToLocal(Strings.SNEAKY));
         }
