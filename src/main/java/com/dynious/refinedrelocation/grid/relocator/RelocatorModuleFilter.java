@@ -97,13 +97,13 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         filter.readFromNBT(compound);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         filter.writeToNBT(compound);
     }

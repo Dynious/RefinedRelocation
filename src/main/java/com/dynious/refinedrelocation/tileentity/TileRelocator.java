@@ -309,6 +309,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 {
                     if (!((RelocatorMultiModule)modules[side]).addModule(module))
                         return false;
+                    module.init(this, side);
                 }
                 else
                 {
@@ -317,11 +318,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     if (!multiModule.addModule(module))
                         return false;
                     modules[side] = multiModule;
-                    modules[side].init(this, side);
+                    multiModule.init(this, side);
                 }
                 if (!player.capabilities.isCreativeMode)
                     stack.stackSize--;
-                markUpdate(worldObj, xCoord, yCoord, zCoord);
+                markUpdateAndNotify(worldObj, xCoord, yCoord, zCoord);
                 return true;
             }
         }
@@ -338,7 +339,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     }
                 }
                 modules[side] = null;
-                markRedstoneUpdate(worldObj, xCoord, yCoord, zCoord);
+                markUpdateAndNotify(worldObj, xCoord, yCoord, zCoord);
                 return true;
             }
             else
@@ -805,7 +806,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(modules[i].getClass()));
                 nbttagcompound1.setByte("place", (byte) i);
-                modules[i].writeToNBT(nbttagcompound1);
+                modules[i].writeToNBT(this, i, nbttagcompound1);
                 nbttaglist.appendTag(nbttagcompound1);
             }
         }
@@ -824,7 +825,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 filter.init(this, place);
                 modules[place] = filter;
-                modules[place].readFromNBT(nbttagcompound1);
+                modules[place].readFromNBT(this, i, nbttagcompound1);
             }
         }
     }
@@ -1008,7 +1009,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
     }
 
-    public static void markRedstoneUpdate(World world, int x, int y, int z)
+    public static void markUpdateAndNotify(World world, int x, int y, int z)
     {
         markUpdate(world, x, y, z);
         world.notifyBlocksOfNeighborChange(x, y, z, world.getBlockId(x, y, z));

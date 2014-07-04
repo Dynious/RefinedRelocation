@@ -77,12 +77,12 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
     }
 

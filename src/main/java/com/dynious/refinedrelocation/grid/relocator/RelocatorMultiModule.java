@@ -146,7 +146,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         NBTTagList list = compound.getTagList("multiModules");
         for (int i = 0; i < list.tagCount(); i++)
@@ -155,16 +155,16 @@ public class RelocatorMultiModule extends RelocatorModuleBase
             IRelocatorModule module = RelocatorModuleRegistry.getModule(compound1.getString("clazzIdentifier"));
             if (module != null)
             {
-                module.readFromNBT(compound1);
                 modules.add(module);
+                module.init(relocator, side);
+                module.readFromNBT(relocator, side, compound1);
             }
         }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
-        super.writeToNBT(compound);
         NBTTagList list = new NBTTagList();
         for (IRelocatorModule module : modules)
         {
@@ -172,7 +172,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
             {
                 NBTTagCompound compound1 = new NBTTagCompound();
                 compound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(module.getClass()));
-                module.writeToNBT(compound1);
+                module.writeToNBT(relocator, side, compound1);
                 list.appendTag(compound1);
             }
         }
