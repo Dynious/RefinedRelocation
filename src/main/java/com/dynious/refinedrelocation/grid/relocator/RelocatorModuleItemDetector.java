@@ -35,7 +35,6 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     public void init(IItemRelocator relocator, int side)
     {
         filter = new FilterStandard(getFilterTile(this, relocator));
-        markRedstoneUpdate(relocator.getTileEntity());
     }
 
     @Override
@@ -143,6 +142,6 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
 
     private void markRedstoneUpdate(TileEntity relocator)
     {
-        TileRelocator.markRedstoneUpdate(relocator.getWorldObj(), relocator.xCoord, relocator.yCoord, relocator.zCoord);
+        TileRelocator.markUpdateAndNotify(relocator.getWorldObj(), relocator.xCoord, relocator.yCoord, relocator.zCoord);
     }
 }

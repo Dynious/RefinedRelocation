@@ -160,10 +160,8 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
-        super.readFromNBT(compound);
-
         NBTTagList nbttaglist = compound.getTagList("Items", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
@@ -178,10 +176,8 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
-        super.writeToNBT(compound);
-
         NBTTagList nbttaglist = new NBTTagList();
         for (int i = 0; i < this.itemStacksToStock.length; ++i)
         {

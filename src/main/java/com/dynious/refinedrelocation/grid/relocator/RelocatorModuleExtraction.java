@@ -144,13 +144,13 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
+    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         ticksBetweenExtraction = compound.getInteger("ticksBetweenExt");
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         compound.setInteger("ticksBetweenExt", ticksBetweenExtraction);
     }
