@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.gui.GuiHome;
+import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import net.minecraft.client.gui.GuiScreen;
@@ -25,6 +26,17 @@ public class RelocatorMultiModule extends RelocatorModuleBase
 {
     private static Icon icon;
     private List<IRelocatorModule> modules = new ArrayList<IRelocatorModule>();
+    private int currentModule = -1; // -1 is the multi module
+
+    public void setCurrentModule(int newModule)
+    {
+        currentModule = newModule;
+    }
+
+    public IRelocatorModule getCurrentModule()
+    {
+        return currentModule == -1 ? this : modules.get(currentModule);
+    }
 
     public boolean addModule(IRelocatorModule module)
     {
@@ -118,20 +130,13 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new GuiHome(modules, relocator, player, side);
+        return new GuiHome(this, modules, relocator, player, side);
     }
 
     @Override
     public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new Container()
-        {
-            @Override
-            public boolean canInteractWith(EntityPlayer entityplayer)
-            {
-                return true;
-            }
-        };
+        return new ContainerMultiModule(this, relocator, player, side);
     }
 
     @Override

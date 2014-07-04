@@ -26,7 +26,8 @@ public enum PacketTypeHandler
     PRIORITY(PacketPriority.class),
     ITEM_LIST(PacketItemList.class),
     TICKS_BETWEEN_EXT(PacketTicksBetweenExtraction.class),
-    SIDE(PacketSide.class);
+    SIDE(PacketSide.class),
+    INDEX(PacketHomeButtonClicked.class);
 
     private Class<? extends CustomPacket> clazz;
 
