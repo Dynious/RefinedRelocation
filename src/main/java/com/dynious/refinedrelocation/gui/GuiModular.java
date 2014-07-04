@@ -33,7 +33,7 @@ public class GuiModular extends GuiRefinedRelocationContainer
             int widthDelta = widget.getWidth() + SPACE_BETWEEN_MODULES;
             int heightDelta = widget.getHeight() + SPACE_BETWEEN_MODULES;
 
-            if (childTotalWidth + widthDelta >= maxWidth) // If at maximum right side of GUI
+            if (childTotalWidth + widthDelta > maxWidth) // If at maximum right side of GUI
             {
                 useMaxWidth = true;
                 childTotalWidth = SPACE_BETWEEN_MODULES;
@@ -68,7 +68,7 @@ public class GuiModular extends GuiRefinedRelocationContainer
             int deltaX = widget.getWidth() + SPACE_BETWEEN_MODULES;
             int deltaY = widget.getHeight() + SPACE_BETWEEN_MODULES;
 
-            if (currentX > maxWidth)
+            if (currentX + deltaX > maxWidth)
             {
                 currentX = startX + SPACE_BETWEEN_MODULES;
                 currentY += deltaY;
