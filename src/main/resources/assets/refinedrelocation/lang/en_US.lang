@@ -47,7 +47,6 @@ item.relocatorModule6.name=Module Stock
 item.relocatorModule7.name=Module Redstone Block
 item.relocatorModule8.name=Module Spread
 item.relocatorModule9.name=Module Item Detector
-item.relocatorModule10.name=Module Multi
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest
