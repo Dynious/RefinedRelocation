@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
 import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageHomeButtonClicked;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
@@ -36,12 +37,6 @@ public class GuiHome extends GuiModular
             IRelocatorModule module = modules.get(i);
             new GuiButtonOpenModuleGUI(this, i, module.getDrops(relocator, side).get(0).getDisplayName());
         }
-    }
-
-    @Override
-    public void onGuiClosed()
-    {
-        multiModule.setCurrentModule(-1);
     }
 
     public void onButtonClicked(int index)

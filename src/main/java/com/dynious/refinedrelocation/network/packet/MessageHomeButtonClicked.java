@@ -41,7 +41,6 @@ public class MessageHomeButtonClicked implements IMessage, IMessageHandler<Messa
         if (container == null || !(container instanceof ContainerMultiModule))
             return null;
 
-        System.out.println("call");
         ((ContainerMultiModule) container).openOrActive(message.index);
 
         return null;

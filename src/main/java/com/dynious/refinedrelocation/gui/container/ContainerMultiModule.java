@@ -29,13 +29,12 @@ public class ContainerMultiModule extends ContainerHierarchical
     public void openOrActive(int index)
     {
         multiModule.setCurrentModule(index);
-        if (multiModule.getCurrentModule().getContainer(relocator, side, player) == null)
-        {
-            multiModule.getCurrentModule().onActivated(relocator, player, side, player.getCurrentEquippedItem());
-        }
-        else
-        {
-            APIUtils.openRelocatorModuleGUI(relocator, player, side);
-        }
+        multiModule.getCurrentModule().onActivated(relocator, player, side, player.getCurrentEquippedItem());
+    }
+
+    @Override
+    public void onContainerClosed(EntityPlayer p_75134_1_)
+    {
+        multiModule.setCurrentModule(-1);
     }
 }

@@ -26,7 +26,6 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {
         inputAllowed = !inputAllowed;
-        System.out.println("inputAllowed!" + inputAllowed);
         return true;
     }
 

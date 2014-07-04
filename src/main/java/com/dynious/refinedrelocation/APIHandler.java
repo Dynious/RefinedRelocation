@@ -14,6 +14,7 @@ import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.grid.sorting.SortingInventoryHandler;
 import com.dynious.refinedrelocation.grid.sorting.SortingMemberHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -53,7 +54,8 @@ public class APIHandler implements IAPIHandler
 
     public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side)
     {
-        player.openGui(RefinedRelocation.instance, GuiIds.RELOCATOR_FILTER_BASE + side, relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer())
+            player.openGui(RefinedRelocation.instance, GuiIds.RELOCATOR_FILTER_BASE + side, relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
     }
 
     public void registerToolboxClazz(Class clazz)
