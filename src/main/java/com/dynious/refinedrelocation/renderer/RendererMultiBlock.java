@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -32,7 +33,7 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
                 if (multiBlock != null)
                 {
-                    if (tileMultiBlock.timer % 40 >= 20)
+                    if (tileMultiBlock.timer >= 20)
                     {
                         Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
                         Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
@@ -84,6 +85,8 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
         if (blockAndMeta.getBlock() != null)
         {
             GL11.glTranslatef(relativeX, relativeY, relativeZ);
+            float scale = 0.5F;
+            GL11.glScalef(scale, scale, scale);
             renderBlocks.renderBlockAsItem(blockAndMeta.getBlock(), blockAndMeta.getMeta(), 255F);
             //Minecraft.getMinecraft().renderGlobal.globalRenderBlocks.renderBlockByRenderType(Block.blocksList[blockAndMeta.getBlockId()], x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
         }
