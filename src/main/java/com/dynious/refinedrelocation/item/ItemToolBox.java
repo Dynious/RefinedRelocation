@@ -37,7 +37,7 @@ public class ItemToolBox extends Item
 
     static
     {
-        WRENCH_CLASS_NAMES = new String[] { "ic2.core.item.tool.ItemToolWrench", "buildcraft.api.tools.IToolWrench" };
+        WRENCH_CLASS_NAMES = new String[] { "ic2.core.item.tool.ItemToolWrench", "buildcraft.api.tools.IToolWrench", "appeng.api.implementations.items.IAEWrench" };
         WRENCH_CLASSES = new ArrayList<Class<?>>();
         for (String className : WRENCH_CLASS_NAMES)
         {
@@ -45,9 +45,8 @@ public class ItemToolBox extends Item
             {
                 WRENCH_CLASSES.add(Class.forName(className));
             }
-            catch (ClassNotFoundException e)
+            catch (ClassNotFoundException ignored)
             {
-                e.printStackTrace();
             }
         }
     }
