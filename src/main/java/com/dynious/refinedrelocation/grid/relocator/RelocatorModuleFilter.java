@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
 import java.util.List;

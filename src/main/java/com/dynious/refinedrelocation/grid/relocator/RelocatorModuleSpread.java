@@ -13,6 +13,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
 
 import java.util.ArrayList;
