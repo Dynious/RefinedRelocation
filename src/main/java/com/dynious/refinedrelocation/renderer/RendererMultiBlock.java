@@ -20,6 +20,7 @@ import org.lwjgl.opengl.GL11;
 public class RendererMultiBlock extends TileEntitySpecialRenderer
 {
     private static RenderBlocks renderBlocks = new RenderBlocks();
+    private static boolean isShowingDiamond = false;
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double xPos, double yPos, double zPos, float timer)
@@ -33,48 +34,45 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
                 if (multiBlock != null)
                 {
-                    if (tileMultiBlock.timer >= 20)
+                    Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
+                    Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+
+                    GL11.glPushMatrix();
+                    GL11.glTranslated(xPos + 0.5F, yPos + 0.5F, zPos + 0.5F);
+
+                    for (int x = 0; x < multiBlock.getMultiBlockMap().getSizeX(); x++)
                     {
-                        Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
-                        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-
-                        GL11.glPushMatrix();
-                        GL11.glTranslated(xPos + 0.5F, yPos + 0.5F, zPos + 0.5F);
-
-                        for (int x = 0; x < multiBlock.getMultiBlockMap().getSizeX(); x++)
+                        for (int y = 0; y < multiBlock.getMultiBlockMap().getSizeY(); y++)
                         {
-                            for (int y = 0; y < multiBlock.getMultiBlockMap().getSizeY(); y++)
+                            for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
                             {
-                                for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
+                                if (!tileMultiBlock.getWorldObj().isAirBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ()))
                                 {
-                                    if (!tileMultiBlock.getWorldObj().isAirBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ()))
-                                    {
-                                        Block block = tileMultiBlock.getWorldObj().getBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ());
-                                        if (block != null && block.getRenderType() == 0)
-                                            continue;
-                                    }
-                                    Object blockInfo = multiBlock.getMultiBlockMap().getBlockAndMetaAtPos(x, y, z);
-
-                                    GL11.glPushMatrix();
-
-                                    if (blockInfo instanceof MultiBlockAndMeta)
-                                    {
-                                        MultiBlockAndMeta multiBlockAndMeta = (MultiBlockAndMeta) blockInfo;
-                                        int timePerBlock = 20 / multiBlockAndMeta.getBlockAndMetas().size();
-                                        int blockPlace = (tileMultiBlock.timer % 20) / timePerBlock;
-                                        renderBlock(multiBlockAndMeta.getBlockAndMetas().get(blockPlace), x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
-                                    }
-                                    else if (blockInfo instanceof BlockAndMeta)
-                                    {
-                                        renderBlock((BlockAndMeta) blockInfo, x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
-                                    }
-
-                                    GL11.glPopMatrix();
+                                    Block block = tileMultiBlock.getWorldObj().getBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ());
+                                    if (block != null && block.getRenderType() == 0)
+                                        continue;
                                 }
+                                Object blockInfo = multiBlock.getMultiBlockMap().getBlockAndMetaAtPos(x, y, z);
+
+                                GL11.glPushMatrix();
+
+                                if (blockInfo instanceof MultiBlockAndMeta)
+                                {
+                                    MultiBlockAndMeta multiBlockAndMeta = (MultiBlockAndMeta) blockInfo;
+                                    int timePerBlock = 20 / multiBlockAndMeta.getBlockAndMetas().size();
+                                    int blockPlace = (tileMultiBlock.timer % 20) / timePerBlock;
+                                    renderBlock(multiBlockAndMeta.getBlockAndMetas().get(blockPlace), x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
+                                }
+                                else if (blockInfo instanceof BlockAndMeta)
+                                {
+                                    renderBlock((BlockAndMeta) blockInfo, x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
+                                }
+
+                                GL11.glPopMatrix();
                             }
                         }
-                        GL11.glPopMatrix();
                     }
+                    GL11.glPopMatrix();
                 }
             }
         }
