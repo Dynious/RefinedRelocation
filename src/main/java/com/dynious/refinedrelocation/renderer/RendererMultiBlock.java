@@ -20,7 +20,6 @@ import org.lwjgl.opengl.GL11;
 public class RendererMultiBlock extends TileEntitySpecialRenderer
 {
     private static RenderBlocks renderBlocks = new RenderBlocks();
-    private static boolean isShowingDiamond = false;
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double xPos, double yPos, double zPos, float timer)
