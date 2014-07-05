@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.inventory.IInventory;
@@ -21,6 +22,12 @@ import java.util.List;
 public class RelocatorModuleSpread extends RelocatorModuleBase
 {
     private static Icon icon;
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal(Names.relocatorModule + 8);
+    }
 
     @Override
     public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate)

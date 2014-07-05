@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.gui.GuiHome;
 import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import net.minecraft.client.gui.GuiScreen;
@@ -37,6 +38,12 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     public IRelocatorModule getCurrentModule()
     {
         return currentModule == -1 ? this : modules.get(currentModule);
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal(Names.relocatorModule + 10);
     }
 
     public boolean addModule(IRelocatorModule module)

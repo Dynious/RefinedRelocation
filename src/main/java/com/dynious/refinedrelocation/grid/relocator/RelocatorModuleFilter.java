@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.gui.GuiFiltered;
@@ -42,6 +43,12 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     {
         APIUtils.openRelocatorModuleGUI(relocator, player, side);
         return true;
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal(Names.relocatorModule + 1);
     }
 
     @Override

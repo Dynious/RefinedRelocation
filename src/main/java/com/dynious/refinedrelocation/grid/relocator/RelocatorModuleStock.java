@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.gui.GuiModuleStock;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleStock;
@@ -151,6 +152,12 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     public void registerIcons(IconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleStock");
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal(Names.relocatorModule + 6);
     }
 
     @Override

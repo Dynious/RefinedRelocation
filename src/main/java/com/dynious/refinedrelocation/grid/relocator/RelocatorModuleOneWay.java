@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -32,6 +33,12 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
         return inputAllowed == input;
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal(Names.relocatorModule + 2);
     }
 
     @Override

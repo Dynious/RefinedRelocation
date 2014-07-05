@@ -86,7 +86,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
             IRelocatorModule module = relocator.getRelocatorModule(side);
             if (module != null)
             {
-                strings.add(module.getDrops(relocator, side).get(0).getDisplayName());
+                strings.add(module.getDisplayName());
             }
 
             List<String> stuffedStrings = new ArrayList<String>();

@@ -1,6 +1,8 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -25,6 +27,12 @@ public class RelocatorModuleBlockedExtraction extends RelocatorModuleExtraction
     public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 4));
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal(Names.relocatorModule + 4);
     }
 
     @Override

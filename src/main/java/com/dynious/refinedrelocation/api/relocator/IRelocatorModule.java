@@ -48,4 +48,6 @@ public interface IRelocatorModule
 
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister register);
+
+    public String getDisplayName();
 }

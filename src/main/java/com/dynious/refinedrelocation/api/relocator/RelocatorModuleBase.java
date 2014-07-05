@@ -99,4 +99,10 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     {
 
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "";
+    }
 }
