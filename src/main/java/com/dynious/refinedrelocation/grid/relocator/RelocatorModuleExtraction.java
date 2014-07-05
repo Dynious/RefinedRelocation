@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.gui.GuiModuleExtraction;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleExtraction;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.item.ModItems;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Settings;
 import cpw.mods.fml.relauncher.Side;
@@ -23,8 +24,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.beans.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,6 +164,12 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
         List<ItemStack> list = new ArrayList<ItemStack>();
         list.add(new ItemStack(ModItems.relocatorModule, 1, 3));
         return list;
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal(Names.relocatorModule + 3);
     }
 
     @Override

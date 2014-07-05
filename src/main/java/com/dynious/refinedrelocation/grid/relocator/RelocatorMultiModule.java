@@ -10,6 +10,7 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.gui.GuiHome;
 import com.dynious.refinedrelocation.gui.GuiModularTest;
 import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.client.gui.GuiScreen;
@@ -21,6 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,12 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     public IRelocatorModule getCurrentModule()
     {
         return currentModule == -1 ? this : modules.get(currentModule);
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal(Names.relocatorModule + 10);
     }
 
     public boolean addModule(IRelocatorModule module)
