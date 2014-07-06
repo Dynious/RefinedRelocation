@@ -1,5 +1,8 @@
 package com.dynious.refinedrelocation.renderer;
 
+import codechicken.lib.render.BlockRenderer;
+import codechicken.lib.render.CCRenderState;
+import codechicken.lib.vec.Cuboid6;
 import com.dynious.refinedrelocation.multiblock.IMultiBlock;
 import com.dynious.refinedrelocation.multiblock.MultiBlockRegistry;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
@@ -7,6 +10,7 @@ import com.dynious.refinedrelocation.util.BlockAndMeta;
 import com.dynious.refinedrelocation.util.MultiBlockAndMeta;
 import com.dynious.refinedrelocation.util.Vector3;
 import com.sun.org.apache.bcel.internal.generic.IMUL;
+import com.sun.prism.util.tess.Tess;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -17,6 +21,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
@@ -91,7 +96,7 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
             }
             else
             {
-                renderIncorrectBlock(x, y, z, xOffset, yOffset, zOffset);
+                renderIncorrectBlock(x, y, z);
             }
         }
         else
@@ -127,16 +132,26 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
         if (blockAndMeta != null && blockAndMeta.getBlock() != null)
         {
-            GL11.glTranslatef(relativeX, relativeY, relativeZ);
             float scale = 0.5F;
+            renderIncorrectBlock(x, y, z);
+            GL11.glTranslatef(relativeX, relativeY, relativeZ);
             GL11.glScalef(scale, scale, scale);
             renderBlocks.renderBlockAsItem(blockAndMeta.getBlock(), blockAndMeta.getMeta(), 255F);
         }
     }
 
-    private void renderIncorrectBlock(int x, int y, int z, int xOffset, int yOffset, int zOffset)
+    private void renderIncorrectBlock(int x, int y, int z)
     {
-        //TODO: Render incorrect block
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        CCRenderState.startDrawing();
+        CCRenderState.reset();
+        BlockRenderer.renderCuboid(new Cuboid6(x, y, z, x+1, y+1, z+1), 0);
+        CCRenderState.draw();
+
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.gl
     }
 
     private BlockAndMeta getBlockAndMeta(MultiBlockAndMeta multiBlockAndMeta, TileMultiBlockBase tileMultiBlock)
