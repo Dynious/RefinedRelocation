@@ -142,16 +142,15 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
     private void renderIncorrectBlock(int x, int y, int z)
     {
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        Tessellator t = Tessellator.instance;
+        t.startDrawingQuads();
 
-        CCRenderState.startDrawing();
-        CCRenderState.reset();
-        BlockRenderer.renderCuboid(new Cuboid6(x, y, z, x+1, y+1, z+1), 0);
-        CCRenderState.draw();
+        t.addVertex(x, y, z);
+        t.addVertex(x+1, y, z);
+        t.addVertex(x+1, y+1, z);
+        t.addVertex(x, y+1, z);
 
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.gl
+        t.draw();
     }
 
     private BlockAndMeta getBlockAndMeta(MultiBlockAndMeta multiBlockAndMeta, TileMultiBlockBase tileMultiBlock)
