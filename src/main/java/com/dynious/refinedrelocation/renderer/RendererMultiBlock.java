@@ -77,9 +77,9 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
         int yOffset = tileMultiBlock.yCoord + y - leaderPos.getY();
         int zOffset = tileMultiBlock.zCoord + z - leaderPos.getZ();
 
-        if (!tileMultiBlock.getWorldObj().isAirBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ()))
+        if (!tileMultiBlock.getWorldObj().isAirBlock(xOffset, yOffset, zOffset))
         {
-            Block block = tileMultiBlock.getWorldObj().getBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ());
+            Block block = tileMultiBlock.getWorldObj().getBlock(xOffset, yOffset, tileMultiBlock.zCoord + z - leaderPos.getZ());
             BlockAndMeta blockAndMeta = null;
             if (blockInfo instanceof MultiBlockAndMeta)
             {
@@ -88,6 +88,11 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
             else if (blockInfo instanceof BlockAndMeta)
             {
                 blockAndMeta = (BlockAndMeta) blockInfo;
+            }
+
+            if (blockAndMeta != null && !tileMultiBlock.getWorldObj().getBlock(xOffset, yOffset, zOffset).isOpaqueCube())
+            {
+                renderBlock(blockInfo, multiBlock, tileMultiBlock, x, y, z);
             }
 
             if (blockAndMeta != null && blockAndMeta.getBlock() == block && blockAndMeta.getMeta() == tileMultiBlock.getWorldObj().getBlockMetadata(xOffset, yOffset, zOffset))
@@ -142,15 +147,39 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
     private void renderIncorrectBlock(int x, int y, int z)
     {
-        Tessellator t = Tessellator.instance;
-        t.startDrawingQuads();
-
-        t.addVertex(x, y, z);
-        t.addVertex(x+1, y, z);
-        t.addVertex(x+1, y+1, z);
-        t.addVertex(x, y+1, z);
-
-        t.draw();
+//        GL11.glDepthMask(false);
+//        GL11.glTranslatef(x, y, z);
+//        GL11.glScalef(10.1F, 1.1F, 1.1F);
+//        Tessellator t = Tessellator.instance;
+//        t.startDrawingQuads();
+//
+//        t.setColorOpaque(200, 0, 0);
+//        t.setBrightness(100);
+//        t.setTranslation(x, y, z);
+//
+//        t.setNormal(0, 0, 0);
+//        t.addVertex(0, 0, 0);
+//        t.addVertex(1, 0, 0);
+//        t.addVertex(1, 1, 0);
+//        t.addVertex(0, 1, 0);
+//
+//        t.addVertex(0, 0, 0);
+//        t.addVertex(0, 0, 1);
+//        t.addVertex(0, 1, 1);
+//        t.addVertex(0, 1, 0);
+//
+//        t.addVertex(0, 1, 0);
+//        t.addVertex(1, 1, 0);
+//        t.addVertex(1, 1, 1);
+//        t.addVertex(0, 1, 1);
+//
+//        t.addVertex(0, 0, 0);
+//        t.addVertex(1, 0, 0);
+//        t.addVertex(1, 0, 1);
+//        t.addVertex(0, 0, 1);
+//
+//        t.draw();
+//        t.setTranslation(-x, -y, -z);
     }
 
     private BlockAndMeta getBlockAndMeta(MultiBlockAndMeta multiBlockAndMeta, TileMultiBlockBase tileMultiBlock)
