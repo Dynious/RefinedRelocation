@@ -60,8 +60,11 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         SIDE_MODELS[1] = CCModel.quadModel(48).generateBox(0, -4.0D, 4.0D, -4.0D, 8.0D, 4.0D, 8.0D, 0.0D, 0.0D, 32.0D, 32.0D, 16.0D);
         //SIDE_MODELS[0] = CCModel.quadModel(48).generateBlock(0, RelocatorData.sideCuboids[0]);
         CCModel.generateBackface(SIDE_MODELS[1], 0, SIDE_MODELS[1], 24, 24);
-        SIDE_MODELS[1].computeNormals().computeLighting(LightModel.standardLightModel);
         CCModel.generateSidedModels(SIDE_MODELS, 1, new Vector3());
+        for (CCModel model : SIDE_MODELS)
+        {
+            model.computeNormals().computeLighting(LightModel.standardLightModel);
+        }
     }
 
     @Override
@@ -161,7 +164,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     public static void resetRenderer()
     {
         CCRenderState.reset();
-        CCRenderState.hasNormal = true;
+        CCRenderState.hasNormal = false;
         CCRenderState.hasColour = true;
     }
 
