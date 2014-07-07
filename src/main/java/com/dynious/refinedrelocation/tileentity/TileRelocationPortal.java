@@ -137,6 +137,9 @@ public class TileRelocationPortal extends TileEntity
         compound.setInteger("oldMeta", oldMeta);
         compound.setInteger("dimension", dimension);
         compound.setByte("time", time);
+        NBTTagCompound tag = new NBTTagCompound();
+        linkedPos.writeToNBT(tag);
+        compound.setTag("linkedPos", tag);
     }
 
     @Override
@@ -147,5 +150,7 @@ public class TileRelocationPortal extends TileEntity
         oldMeta = compound.getInteger("oldMeta");
         dimension = compound.getInteger("dimension");
         time = compound.getByte("time");
+        NBTTagCompound tag = compound.getCompoundTag("linkedPos");
+        linkedPos = Vector3.createFromNBT(tag);
     }
 }
