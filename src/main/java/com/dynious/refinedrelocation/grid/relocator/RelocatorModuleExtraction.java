@@ -35,14 +35,12 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
 {
     private static Icon icon;
     private byte tick = 0;
-    private int lastCheckedSlot = 0;
+    private int lastCheckedSlot = -1;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
-    private int side;
 
     @Override
     public void init(IItemRelocator relocator, int side)
     {
-        this.side = side;
         super.init(relocator, side);
     }
 
@@ -87,6 +85,8 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
             }
             else if (firstChecked != lastCheckedSlot)
             {
+                if (firstChecked == -1)
+                    firstChecked = lastCheckedSlot;
                 tryExtraction(relocator, inventory, side, firstChecked);
             }
         }
