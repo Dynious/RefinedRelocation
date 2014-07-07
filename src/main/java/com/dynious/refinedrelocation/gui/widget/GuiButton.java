@@ -49,4 +49,14 @@ public class GuiButton extends GuiWidgetBase
 
         super.drawBackground(mouseX, mouseY);
     }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
+    {
+        super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
+        if (isMouseInsideBounds(mouseX, mouseY) && visible)
+        {
+            this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+        }
+    }
 }

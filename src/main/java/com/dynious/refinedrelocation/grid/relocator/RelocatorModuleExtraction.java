@@ -169,7 +169,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 3);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 3 + ".name");
     }
 
     @Override

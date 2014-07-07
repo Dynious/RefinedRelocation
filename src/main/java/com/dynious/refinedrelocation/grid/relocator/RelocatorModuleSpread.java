@@ -27,7 +27,7 @@ public class RelocatorModuleSpread extends RelocatorModuleBase
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 8);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 8 + ".name");
     }
 
     @Override

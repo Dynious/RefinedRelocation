@@ -1,13 +1,7 @@
-package com.dynious.refinedrelocation.gui;
+package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
-import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
-import com.dynious.refinedrelocation.lib.GuiIds;
+import com.dynious.refinedrelocation.gui.GuiHome;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class GuiButtonOpenModuleGUI extends GuiScalableButton
 {
@@ -23,6 +17,8 @@ public class GuiButtonOpenModuleGUI extends GuiScalableButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
+        super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
+
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             ((GuiHome)parent).onButtonClicked(index);

@@ -120,7 +120,7 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 9);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 9 + ".name");
     }
 
     private IFilterTileGUI getFilterTile(final RelocatorModuleItemDetector module, final IItemRelocator relocator)

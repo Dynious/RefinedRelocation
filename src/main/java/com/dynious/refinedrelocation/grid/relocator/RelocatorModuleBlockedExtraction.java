@@ -33,7 +33,7 @@ public class RelocatorModuleBlockedExtraction extends RelocatorModuleExtraction
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 4);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 4 + ".name");
     }
 
     @Override

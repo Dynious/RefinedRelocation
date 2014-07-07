@@ -89,6 +89,6 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 7);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 7 + ".name");
     }
 }

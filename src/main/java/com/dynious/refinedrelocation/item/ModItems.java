@@ -58,6 +58,7 @@ public class ModItems
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 7), "c d", " r ", "d c", 'c', Item.comparator, 'd', Item.redstone, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 8), "g g", " r ", "g g", 'g', Item.glowstone, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 9), "d d", " r ", "t t", 'd', Item.redstone, 't', Block.torchRedstoneActive, 'r', new ItemStack(relocatorModule, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 10), "d d", " r ", "g g", 'd', Item.diamond, 'g', Item.ingotGold, 'r', new ItemStack(relocatorModule, 1, 0));
 
         GameRegistry.addShapedRecipe(new ItemStack(toolBox), "isi", "i i", "iii", 'i', Item.ingotIron, 's', Item.stick);
         GameRegistry.addRecipe(new RecipeToolbox());

@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.lib.Strings;
 import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Field;
@@ -29,7 +31,7 @@ public class FilterStandard implements IFilterGUI
 
     private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
 
-    public static final int FILTER_SIZE = 12;
+    public static final int FILTER_SIZE = 14;
 
     private IFilterTileGUI tile;
 
@@ -119,33 +121,34 @@ public class FilterStandard implements IFilterGUI
                     }
                 }
 
-                if (!oreName.isEmpty())
-                {
-                    if (customFilters[0] && (oreName.contains("ingot") || itemStack.itemID == Item.ingotIron.itemID || itemStack.itemID == Item.ingotGold.itemID))
+                if (customFilters[0] && (oreName.contains("ingot") || itemStack.itemID == Item.ingotIron.itemID || itemStack.itemID == Item.ingotGold.itemID))
+                    return true;
+                if (customFilters[1] && oreName.contains("ore"))
+                    return true;
+                if (customFilters[2] && oreName.contains("log"))
+                    return true;
+                if (customFilters[3] && oreName.contains("plank"))
+                    return true;
+                if (customFilters[4] && oreName.contains("dust"))
+                    return true;
+                if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
+                    return true;
+                if (customFilters[6] && oreName.contains("purified"))
+                    return true;
+                if (customFilters[7] && oreName.contains("plate"))
+                    return true;
+                if (customFilters[8] && oreName.contains("gem"))
+                    return true;
+                if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
+                    return true;
+                if (customFilters[10] && oreName.contains("dye"))
+                    return true;
+                if (customFilters[11] && oreName.contains("nugget"))
+                    return true;
+                if (customFilters[12] && itemStack.getItem() instanceof ItemBlock && Block.blocksList[itemStack.itemID] instanceof IPlantable)
                         return true;
-                    if (customFilters[1] && oreName.contains("ore"))
-                        return true;
-                    if (customFilters[2] && oreName.contains("log"))
-                        return true;
-                    if (customFilters[3] && oreName.contains("plank"))
-                        return true;
-                    if (customFilters[4] && oreName.contains("dust"))
-                        return true;
-                    if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
-                        return true;
-                    if (customFilters[6] && oreName.contains("purified"))
-                        return true;
-                    if (customFilters[7] && oreName.contains("plate"))
-                        return true;
-                    if (customFilters[8] && oreName.contains("gem"))
-                        return true;
-                    if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
-                        return true;
-                    if (customFilters[10] && oreName.contains("dye"))
-                        return true;
-                    if (customFilters[11] && oreName.contains("nugget"))
-                        return true;
-                }
+                if (customFilters[13] && TileEntityFurnace.getItemBurnTime(itemStack) > 0)
+                    return true;
             }
 
             if (Booleans.contains(creativeTabs, true))
@@ -236,6 +239,10 @@ public class FilterStandard implements IFilterGUI
                 return StatCollector.translateToLocal(Strings.DYE_FILTER);
             case 11:
                 return StatCollector.translateToLocal(Strings.NUGGET_FILTER);
+            case 12:
+                return StatCollector.translateToLocal(Strings.PLANT_FILTER);
+            case 13:
+                return StatCollector.translateToLocal(Strings.FUEL_FILTER);
             default:
                 return I18n.getString(tabs[getCreativeTab(place)].getTranslatedTabLabel()).replace("itemGroup.", "");
         }

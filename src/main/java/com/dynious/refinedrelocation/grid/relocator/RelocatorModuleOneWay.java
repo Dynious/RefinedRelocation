@@ -39,7 +39,7 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 2);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 2 + ".name");
     }
 
     @Override
