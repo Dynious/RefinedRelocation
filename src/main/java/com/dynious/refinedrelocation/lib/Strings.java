@@ -93,6 +93,8 @@ public class Strings
     public static final String FOOD_FILTER = FILTER_NAME_PREFIX + "filterFood";
     public static final String DYE_FILTER = FILTER_NAME_PREFIX + "filterDyes";
     public static final String NUGGET_FILTER = FILTER_NAME_PREFIX + "filterNuggets";
+    public static final String PLANT_FILTER = FILTER_NAME_PREFIX + "filterPlants";
+    public static final String FUEL_FILTER = FILTER_NAME_PREFIX + "filterFuel";
 
     public static final String REDSTONE_BLOCK_ENABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabled";
     public static final String REDSTONE_BLOCK_DISABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabled";

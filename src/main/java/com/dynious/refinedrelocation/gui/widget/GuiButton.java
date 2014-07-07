@@ -3,6 +3,8 @@ package com.dynious.refinedrelocation.gui.widget;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.gui.IGuiWidgetBase;
 import com.dynious.refinedrelocation.lib.Resources;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GuiButton extends GuiWidgetBase
@@ -51,26 +53,12 @@ public class GuiButton extends GuiWidgetBase
     }
 
     @Override
-    public void moveY(int amount)
+    public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        super.moveY(amount);
-        if (label != null)
-            label.moveY(amount);
-    }
-
-    @Override
-    public void moveX(int amount)
-    {
-        super.moveX(amount);
-        if (label != null)
-            label.moveX(amount);
-    }
-
-    @Override
-    public void setPos(int x, int y)
-    {
-        super.setPos(x, y);
-        if (label != null)
-            label.setPos(x + w / 2, y + h / 2);
+        super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
+        if (isMouseInsideBounds(mouseX, mouseY) && visible)
+        {
+            this.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+        }
     }
 }

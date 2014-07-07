@@ -43,10 +43,20 @@ public class RelocatorMultiModule extends RelocatorModuleBase
         return currentModule == -1 ? this : modules.get(currentModule);
     }
 
+    public List<String> getModuleNames()
+    {
+        List<String> names = new ArrayList<String>();
+        for (IRelocatorModule module : modules)
+        {
+            names.add(module.getDisplayName());
+        }
+        return names;
+    }
+
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 10);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 10 + ".name");
     }
 
     public boolean addModule(IRelocatorModule module)

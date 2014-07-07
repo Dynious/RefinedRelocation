@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.lib.Strings;
 import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
@@ -16,6 +17,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Field;
@@ -30,7 +32,7 @@ public class FilterStandard implements IFilterGUI
 
     private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
 
-    public static final int FILTER_SIZE = 12;
+    public static final int FILTER_SIZE = 14;
 
     private IFilterTileGUI tile;
 
@@ -125,6 +127,10 @@ public class FilterStandard implements IFilterGUI
                         return true;
                     if (customFilters[11] && oreName.contains("nugget"))
                         return true;
+                    if (customFilters[12] && itemStack.getItem() instanceof ItemBlock && Block.getBlockFromItem(itemStack.getItem()) instanceof IPlantable)
+                        return true;
+                    if (customFilters[13] && TileEntityFurnace.getItemBurnTime(itemStack) > 0)
+                        return true;
                 }
             }
 
@@ -217,6 +223,10 @@ public class FilterStandard implements IFilterGUI
                 return StatCollector.translateToLocal(Strings.DYE_FILTER);
             case 11:
                 return StatCollector.translateToLocal(Strings.NUGGET_FILTER);
+            case 12:
+                return StatCollector.translateToLocal(Strings.PLANT_FILTER);
+            case 13:
+                return StatCollector.translateToLocal(Strings.FUEL_FILTER);
             default:
                 return I18n.format(tabs[getCreativeTab(place)].getTranslatedTabLabel()).replace("itemGroup.", "");
         }

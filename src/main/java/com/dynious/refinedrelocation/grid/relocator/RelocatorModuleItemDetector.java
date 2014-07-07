@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.gui.GuiFiltered;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
 import com.dynious.refinedrelocation.item.ModItems;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.relauncher.Side;
@@ -20,6 +21,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 
 import java.util.Arrays;
 import java.util.List;
@@ -113,6 +115,12 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     {
         icons[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleItemDetector");
         icons[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleItemDetectorDetected");
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 9 + ".name");
     }
 
     private IFilterTileGUI getFilterTile(final RelocatorModuleItemDetector module, final IItemRelocator relocator)

@@ -20,7 +20,7 @@ buildscript {
 apply plugin: 'forge'
 
 ext.env = System.getenv()
-ext.cclVersion = "1.1.1.81"
+ext.cclVersion = "1.1.1.93"
 
 version = "1.0.5c"
 group = "com.dynious.refinedrelocation"
@@ -31,7 +31,7 @@ if (env.BUILD_NUMBER != null) {
 }
 
 minecraft {
-    version = "1.7.2-10.12.2.1147"
+    version = "1.7.10-10.13.0.1170"
     assetDir = "eclipse/assets"
     
     replaceIn "lib/Reference.java"

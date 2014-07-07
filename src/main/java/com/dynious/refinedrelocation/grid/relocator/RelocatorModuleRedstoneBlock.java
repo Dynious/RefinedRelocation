@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
@@ -82,5 +83,11 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
         icons[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockRSPass");
         icons[2] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockPass");
         icons[3] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockBlock");
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 7 + ".name");
     }
 }

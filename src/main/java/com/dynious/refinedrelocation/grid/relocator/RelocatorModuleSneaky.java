@@ -91,7 +91,7 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 5);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 5 + ".name");
     }
 
     @Override

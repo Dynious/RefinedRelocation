@@ -1,6 +1,8 @@
 package com.dynious.refinedrelocation.mods.waila;
 
 import codechicken.multipart.TileMultipart;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.lib.Mods;
@@ -84,7 +86,14 @@ public class RelocatorHUDHandler implements IWailaDataProvider
             IRelocatorModule module = relocator.getRelocatorModule(side);
             if (module != null)
             {
-                strings.add(module.getDisplayName());
+                if (module instanceof RelocatorMultiModule)
+                {
+                    strings.addAll(((RelocatorMultiModule)module).getModuleNames());
+                }
+                else
+                {
+                    strings.add(module.getDisplayName());
+                }
             }
 
             List<String> stuffedStrings = new ArrayList<String>();

@@ -46,6 +46,8 @@ item.relocatorModule5.name=Модуль «Скрытый»
 item.relocatorModule6.name=Модуль «Запас»
 item.relocatorModule7.name=Модуль «Красный блок»
 item.relocatorModule8.name=Модуль «Распространение»
+item.relocatorModule9.name=Модуль «Детектор предметов»
+item.relocatorModule10.name=Мульти-модуль
 
 # Inventory localizations
 container.sortingChest.name=Сортирующий сундук
@@ -96,7 +98,8 @@ gui.refinedrelocation.outdated=Версия %s Refined Relocation устарел
 gui.refinedrelocation.changeLog=Изменения
 gui.refinedrelocation.latest=Чтобы обновиться, используйте: '/RefinedRelocation latest'
 gui.refinedrelocation.tab=Вкладка
-gui.refinedrelocation.ticksBetween=Количество тиков между каждым извлечением
+gui.refinedrelocation.ticksBetween=Тиков между каждым извлечением
+gui.refinedrelocation.secondsBetween=секунд между каждым извлечением
 gui.refinedrelocation.sneaky=Сторона, в которую будут входить предметы
 gui.refinedrelocation.none=Нет
 gui.refinedrelocation.playerRelocatorLink=Переместитель игрока теперь связан с перемещающим контроллером
@@ -130,6 +133,8 @@ itemDesc.refinedrelocation.relocatorModuleInfo5=Позволяет предме�
 itemDesc.refinedrelocation.relocatorModuleInfo6=Сохраняет определённое количество предметов\nв подключенном инвентаре
 itemDesc.refinedrelocation.relocatorModuleInfo7=Запрещает передачу предметов по\nвысокому/низкому сигналу красного камня
 itemDesc.refinedrelocation.relocatorModuleInfo8=Распространяет предметы по\nсоединённому инвентарю
+itemDesc.refinedrelocation.relocatorModuleInfo9=Пульсирует, когда предмет проходит\nчерез фильтр
+itemDesc.refinedrelocation.relocatorModuleInfo10=Позволяет нескольким модулям\nустанавливаться в одном месте
 
 #Filter Localization
 filterName.refinedrelocation.filterIngot=Все слитки
@@ -144,6 +149,8 @@ filterName.refinedrelocation.filterGems=Все драгоценности
 filterName.refinedrelocation.filterFood=Вся еда
 filterName.refinedrelocation.filterDyes=Все красители
 filterName.refinedrelocation.filterNuggets=Все самородки
+filterName.refinedrelocation.filterPlants=Все растения
+filterName.refinedrelocation.filterFuel=Всё топливо
 
 #Relocator Localizations
 relocatorModule.refinedrelocation.redstoneBlockEnabled=Режим переключён, теперь предметы блокируются по сигналу красного камня.
@@ -158,3 +165,11 @@ direction.refinedrelocation.direction2=Север
 direction.refinedrelocation.direction3=Юг
 direction.refinedrelocation.direction4=Запад
 direction.refinedrelocation.direction5=Восток
+
+#Command Localizations
+command.refinedrelocation.format=Формат: '/%s <команда> <аргументы>'
+command.refinedrelocation.available=Доступные команды:
+command.refinedrelocation.helpLatest=- %s : Загружает последнюю версию
+command.refinedrelocation.helpChangelog=- %s : Показывает последний список изменений
+command.refinedrelocation.versionURLCorrupt=ОШИБКА: Ссылка версии была повреждена.
+command.refinedrelocation.notIntialized=ОШИБКА: Version Checker не запустился.

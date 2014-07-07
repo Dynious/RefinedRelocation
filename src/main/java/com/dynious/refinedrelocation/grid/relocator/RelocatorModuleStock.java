@@ -158,7 +158,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     @Override
     public String getDisplayName()
     {
-        return StatCollector.translateToLocal(Names.relocatorModule + 6);
+        return StatCollector.translateToLocal("item." + Names.relocatorModule + 6 + ".name");
     }
 
     @Override
