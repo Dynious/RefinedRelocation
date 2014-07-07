@@ -11,6 +11,8 @@ import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -156,6 +158,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
         if (currentModule == -1)
