@@ -22,7 +22,7 @@ apply plugin: 'forge'
 ext.env = System.getenv()
 ext.cclVersion = "1.1.1.93"
 
-version = "1.0.5c"
+version = "1.0.5d"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.7.x"
 
@@ -67,7 +67,7 @@ addGitDep("cofh","https://github.com/CoFH/CoFHLib.git","9e3f3445d33a03b82a4deb00
 addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","8c7c4ed9c6fd0b1809d70351bdb7f14e1d451494")
 addGitDep("ic","https://github.com/progwml6/ironchest.git","9a87528223250caa19651b64f7bab0f225c58564")
 addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/116/artifact/build/libs/InventoryTweaks-api-1.57-116.jar","157")
-addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","0ca5fc6ff9d390ee205a7d6ec8fb80b6306c95d6")
+//addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","0ca5fc6ff9d390ee205a7d6ec8fb80b6306c95d6")
 
 compileApiJava.dependsOn(getDeps)
 
