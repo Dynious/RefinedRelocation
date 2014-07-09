@@ -3,11 +3,14 @@ package com.dynious.refinedrelocation.command;
 import com.dynious.refinedrelocation.helper.MiscHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.lib.Commands;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageKonga;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import com.dynious.refinedrelocation.version.VersionContainer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
@@ -41,7 +44,6 @@ public class CommandRefinedRelocation extends CommandBase
         if (args.length > 0)
         {
             String commandName = args[0];
-            System.arraycopy(args, 1, args, 0, args.length - 1); // Move args array to exclude the commandName
 
             if (commandName.equalsIgnoreCase(Commands.HELP))
             {
@@ -80,6 +82,20 @@ public class CommandRefinedRelocation extends CommandBase
                 else
                 {
                     icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.COMMAND_VERSION_UNINTIALIZED)));
+                }
+            }
+            else if (commandName.equalsIgnoreCase(Commands.KONGA))
+            {
+                if (args.length > 1 && args[1].equalsIgnoreCase(Commands.ALL))
+                {
+                    if (icommandsender.getCommandSenderName().equalsIgnoreCase("Dynious"))
+                    {
+                        NetworkHandler.INSTANCE.sendToAll(new MessageKonga());
+                    }
+                }
+                else
+                {
+                    NetworkHandler.INSTANCE.sendTo(new MessageKonga(), (EntityPlayerMP) icommandsender);
                 }
             }
         }

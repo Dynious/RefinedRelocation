@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.event;
 
+import com.dynious.refinedrelocation.command.KongaHandler;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.lib.Settings;
@@ -46,6 +47,7 @@ public class TickEvent
                     }
                 }
             }
+            KongaHandler.checkDownloadedAndPlay();
         }
     }
 }
