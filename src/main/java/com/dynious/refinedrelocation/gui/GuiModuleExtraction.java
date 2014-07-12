@@ -6,7 +6,7 @@ import com.dynious.refinedrelocation.gui.widget.GuiButtonTicksBetweenExtractions
 import com.dynious.refinedrelocation.lib.Resources;
 import org.lwjgl.opengl.GL11;
 
-public class GuiModuleExtraction extends GuiRefinedRelocationContainer
+public class GuiModuleExtraction extends GuiModular
 {
     private RelocatorModuleExtraction module;
 
@@ -14,8 +14,6 @@ public class GuiModuleExtraction extends GuiRefinedRelocationContainer
     {
         super(new ContainerModuleExtraction(module));
         this.module = module;
-        this.xSize = 123;
-        this.ySize = 45;
     }
 
     @Override
@@ -24,17 +22,5 @@ public class GuiModuleExtraction extends GuiRefinedRelocationContainer
         super.initGui();
 
         new GuiButtonTicksBetweenExtractions(this, width/2 - 12, height/2 - 10, module);
-    }
-
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
-    {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(Resources.GUI_POWER_LIMITER);
-        int xPos = (width - xSize) / 2;
-        int yPos = (height - ySize) / 2;
-        drawTexturedModalRect(xPos, yPos, 0, 0, xSize, ySize);
-
-        super.drawGuiContainerBackgroundLayer(f, i, j);
     }
 }

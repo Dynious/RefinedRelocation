@@ -7,7 +7,7 @@ import net.minecraft.inventory.ICrafting;
 public class ContainerModuleExtraction extends ContainerHierarchical
 {
     public RelocatorModuleExtraction module;
-    private boolean initialUpdate = true;
+    protected boolean initialUpdate = true;
 
     private int lastTicks = 0;
 

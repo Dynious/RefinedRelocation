@@ -92,7 +92,8 @@ public class RelocatorMultiModule extends RelocatorModuleBase
                 return true;
             }
         }
-        APIUtils.openRelocatorModuleGUI(relocator, player, side);
+        if (!modules.isEmpty())
+            APIUtils.openRelocatorModuleGUI(relocator, player, side);
         return true;
     }
 

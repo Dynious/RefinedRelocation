@@ -76,6 +76,7 @@ public class RelocatorModuleRegistry
         APIUtils.registerRelocatorModule("spread", RelocatorModuleSpread.class);
         APIUtils.registerRelocatorModule("itemDetector", RelocatorModuleItemDetector.class);
         APIUtils.registerRelocatorModule("multiModule", RelocatorMultiModule.class);
+        APIUtils.registerRelocatorModule("sneakyExtraction", RelocatorModuleSneakyExtraction.class);
     }
 
     @SideOnly(Side.CLIENT)

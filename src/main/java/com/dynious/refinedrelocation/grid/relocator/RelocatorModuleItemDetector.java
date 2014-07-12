@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.StatCollector;
@@ -102,6 +103,18 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 9));
+    }
+
+    @Override
+    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        filter.readFromNBT(compound);
+    }
+
+    @Override
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        filter.writeToNBT(compound);
     }
 
     @Override
