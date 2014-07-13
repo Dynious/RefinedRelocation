@@ -268,7 +268,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         int side = hit.subHit;
         if (side < 6) // Hit side, not middle
         {
-            if (!stuffedItems[side].isEmpty())
+            if (isStuffedOnSide(side))
             {
                 for (int i = 0; i < Math.min(stuffedItems[side].size(), 5); i++)
                 {
