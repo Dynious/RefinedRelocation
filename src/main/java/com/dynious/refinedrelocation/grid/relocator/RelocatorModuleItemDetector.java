@@ -91,7 +91,7 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     {
         if (!simulate && stack != null && filter.passesFilter(stack))
         {
-            tick = 2;
+            tick = 6;
             emitRedstoneSignal = true;
             markRedstoneUpdate(relocator.getTileEntity());
         }
@@ -109,12 +109,14 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         filter.readFromNBT(compound);
+        emitRedstoneSignal = compound.getBoolean("emit");
     }
 
     @Override
     public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         filter.writeToNBT(compound);
+        compound.setBoolean("emit", emitRedstoneSignal);
     }
 
     @Override
