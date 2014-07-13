@@ -397,15 +397,13 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
-        if (getEnergyHandler() != null  && !getDisablePower())
+        if (getEnergyHandler() != null && !getDisablePower())
         {
-            int storedEnergy = 0;
             if (i > EnergyType.RF.fromInternal(maxAcceptedEnergy))
             {
-                storedEnergy = i - (int) EnergyType.RF.fromInternal(maxAcceptedEnergy);
                 i = (int) EnergyType.RF.fromInternal(maxAcceptedEnergy);
             }
-            return getEnergyHandler().receiveEnergy(connectedDirection.getOpposite(), i, b) + storedEnergy;
+            return getEnergyHandler().receiveEnergy(connectedDirection.getOpposite(), i, b);
         }
         return 0;
     }
