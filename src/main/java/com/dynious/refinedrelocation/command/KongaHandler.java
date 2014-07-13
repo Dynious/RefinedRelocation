@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.command;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.google.gson.JsonSyntaxException;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -16,10 +15,12 @@ import paulscode.sound.SoundSystem;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class KongaHandler
 {

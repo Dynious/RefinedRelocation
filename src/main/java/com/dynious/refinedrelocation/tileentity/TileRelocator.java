@@ -2,7 +2,6 @@ package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.transport.PipeWire;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
-import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;

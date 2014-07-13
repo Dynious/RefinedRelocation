@@ -8,9 +8,9 @@ import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageTicksBetweenExtraction;
 import net.minecraft.util.StatCollector;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.DecimalFormat;
 
 public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
 {

@@ -1,12 +1,15 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
-import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 
 public class RelocatorGridLogic
 {

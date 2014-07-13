@@ -3,8 +3,6 @@ package com.dynious.refinedrelocation.gui;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleSneaky;
 import com.dynious.refinedrelocation.gui.widget.GuiButtonSide;
-import com.dynious.refinedrelocation.lib.Resources;
-import org.lwjgl.opengl.GL11;
 
 public class GuiModuleSneaky extends GuiModular
 {

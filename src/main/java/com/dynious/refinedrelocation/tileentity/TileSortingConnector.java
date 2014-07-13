@@ -2,7 +2,6 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
-import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;

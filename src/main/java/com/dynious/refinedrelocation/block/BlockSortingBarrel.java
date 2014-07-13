@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;
 import mcp.mobius.betterbarrels.common.blocks.BlockBarrel;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.gui.IGuiWidgetBase;
 import com.dynious.refinedrelocation.gui.IGuiParent;
+import com.dynious.refinedrelocation.gui.IGuiWidgetBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 

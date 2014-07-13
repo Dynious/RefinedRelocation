@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.grid.sorting;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
-import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.api.tileentity.grid.ISortingGrid;
+import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.grid.Grid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

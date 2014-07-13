@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.grid;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import com.dynious.refinedrelocation.api.tileentity.grid.IGrid;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
-import com.dynious.refinedrelocation.grid.Grid;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 

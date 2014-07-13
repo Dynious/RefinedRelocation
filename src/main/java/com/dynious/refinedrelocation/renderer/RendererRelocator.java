@@ -1,14 +1,16 @@
 package com.dynious.refinedrelocation.renderer;
 
 import codechicken.lib.lighting.LightModel;
-import codechicken.lib.render.*;
+import codechicken.lib.render.CCModel;
+import codechicken.lib.render.CCRenderState;
+import codechicken.lib.render.TextureUtils;
 import codechicken.lib.render.uv.IconTransformation;
 import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,7 +19,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import org.lwjgl.opengl.GL11;
 
 public class RendererRelocator extends TileEntitySpecialRenderer

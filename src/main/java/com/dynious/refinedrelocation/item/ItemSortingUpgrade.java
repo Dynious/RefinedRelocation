@@ -10,7 +10,6 @@ import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.JabbaHelper;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;

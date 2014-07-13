@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.api.relocator;
 
-import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

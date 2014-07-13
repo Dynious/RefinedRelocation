@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.command;
 
 import com.dynious.refinedrelocation.helper.MiscHelper;
-import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.lib.Commands;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageKonga;
 import com.dynious.refinedrelocation.version.VersionChecker;
