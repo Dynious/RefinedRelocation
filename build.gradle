@@ -20,18 +20,18 @@ buildscript {
 apply plugin: 'forge'
 
 ext.env = System.getenv()
-ext.cclVersion = "1.1.1.93"
+ext.cclVersion = "1.1.1.92"
 
-version = "1.0.5a"
+version = "1.0.5e"
 group = "com.dynious.refinedrelocation"
-archivesBaseName = "RefinedRelocation-1.7.x"
+archivesBaseName = "RefinedRelocation-1.7.2"
 
 if (env.BUILD_NUMBER != null) {
     version += "-snapshot-" + env.BUILD_NUMBER
 }
 
 minecraft {
-    version = "1.7.10-10.13.0.1170"
+    version = "1.7.2-10.12.2.1147"
     assetDir = "eclipse/assets"
     
     replaceIn "lib/Reference.java"

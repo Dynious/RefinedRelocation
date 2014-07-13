@@ -350,19 +350,19 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
 
     @Optional.Method(modid = "IC2")
     @Override
-    public double demandedEnergyUnits()
+    public double getDemandedEnergy()
     {
         return Double.MAX_VALUE;
     }
 
     @Optional.Method(modid = Mods.IC2_ID)
     @Override
-    public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
+    public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage)
     {
         double inputAmount = amount;
         for (ForgeDirection outputSide : getOutputSidesForInsertDirection(directionFrom))
         {
-            amount = insertEnergyUnits(amount, outputSide.ordinal());
+            amount = insertEnergyUnits(amount, voltage, outputSide.ordinal());
             if (amount == 0)
             {
                 return inputAmount;
@@ -372,14 +372,14 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     }
 
     @Optional.Method(modid = Mods.IC2_ID)
-    public double insertEnergyUnits(double amount, int side)
+    public double insertEnergyUnits(double amount, double voltage, int side)
     {
         TileEntity tile = tiles[side];
         if (tile != null)
         {
             if (tile instanceof IEnergySink)
             {
-                amount -= ((IEnergySink)tile).injectEnergyUnits(ForgeDirection.getOrientation(side).getOpposite(), Math.min(amount, ((IEnergySink)tile).getMaxSafeInput()));
+                amount -= ((IEnergySink)tile).injectEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, voltage);
             }
         }
         return amount;
@@ -387,7 +387,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
 
     @Optional.Method(modid = Mods.IC2_ID)
     @Override
-    public int getMaxSafeInput()
+    public int getSinkTier()
     {
         return Integer.MAX_VALUE;
     }

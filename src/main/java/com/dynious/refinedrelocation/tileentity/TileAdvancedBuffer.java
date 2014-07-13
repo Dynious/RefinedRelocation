@@ -192,7 +192,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 
     @Optional.Method(modid = Mods.IC2_ID)
     @Override
-    public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
+    public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage)
     {
         double inputAmount = amount;
         if (spreadItems)
@@ -207,7 +207,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
                 for (ForgeDirection outputSide : outputSides)
                 {
                     lastIC2EnergyOutputSide = outputSide;
-                    double amountLeft = insertEnergyUnits(amountPerStack, outputSide.ordinal());
+                    double amountLeft = insertEnergyUnits(amountPerStack, voltage, outputSide.ordinal());
                     if (amountLeft != amountPerStack)
                     {
                         amount -= Math.min(amount, amountPerStack - amountLeft);
@@ -221,7 +221,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
         else
         {
-            return super.injectEnergyUnits(directionFrom, amount);
+            return super.injectEnergy(directionFrom, amount, voltage);
         }
         return inputAmount - amount;
     }

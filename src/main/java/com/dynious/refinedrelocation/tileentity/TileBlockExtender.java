@@ -749,33 +749,33 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public double demandedEnergyUnits()
+    public double getDemandedEnergy()
     {
         if (getEnergySink() != null)
         {
-            return getEnergySink().demandedEnergyUnits();
+            return getEnergySink().getDemandedEnergy();
         }
         return 0;
     }
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
+    public double injectEnergy(ForgeDirection forgeDirection, double v, double v1)
     {
         if (getEnergySink() != null)
         {
-            return getEnergySink().injectEnergyUnits(getInputSide(forgeDirection), v);
+            return getEnergySink().injectEnergy(getInputSide(forgeDirection), v, v1);
         }
         return 0;
     }
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public int getMaxSafeInput()
+    public int getSinkTier()
     {
         if (getEnergySink() != null)
         {
-            return getEnergySink().getMaxSafeInput();
+            return getEnergySink().getSinkTier();
         }
         return 0;
     }

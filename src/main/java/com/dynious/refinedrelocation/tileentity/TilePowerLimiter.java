@@ -354,11 +354,11 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public double demandedEnergyUnits()
+    public double getDemandedEnergy()
     {
         if (getEnergySink() != null && !getDisablePower())
         {
-            double demanded =  getEnergySink().demandedEnergyUnits();
+            double demanded =  getEnergySink().getDemandedEnergy();
             if (demanded > EnergyType.EU.fromInternal(maxAcceptedEnergy))
             {
                 demanded = EnergyType.EU.fromInternal(maxAcceptedEnergy);
@@ -370,7 +370,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
+    public double injectEnergy(ForgeDirection forgeDirection, double v, double v2)
     {
         if (getEnergySink() != null && !getDisablePower())
         {
@@ -380,18 +380,18 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 storedEnergy = v - EnergyType.EU.fromInternal(maxAcceptedEnergy);
                 v = EnergyType.EU.fromInternal(maxAcceptedEnergy);
             }
-            return getEnergySink().injectEnergyUnits(connectedDirection.getOpposite(), v) + storedEnergy;
+            return getEnergySink().injectEnergy(connectedDirection.getOpposite(), v, v2) + storedEnergy;
         }
         return v;
     }
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public int getMaxSafeInput()
+    public int getSinkTier()
     {
         if (getEnergySink() != null)
         {
-            return getEnergySink().getMaxSafeInput();
+            return getEnergySink().getSinkTier();
         }
         return 0;
     }
