@@ -20,18 +20,18 @@ buildscript {
 apply plugin: 'forge'
 
 ext.env = System.getenv()
-ext.cclVersion = "1.1.1.92"
+ext.cclVersion = "1.1.1.95"
 
 version = "1.0.5e"
 group = "com.dynious.refinedrelocation"
-archivesBaseName = "RefinedRelocation-1.7.2"
+archivesBaseName = "RefinedRelocation-1.7.10"
 
 if (env.BUILD_NUMBER != null) {
     version += "-snapshot-" + env.BUILD_NUMBER
 }
 
 minecraft {
-    version = "1.7.2-10.12.2.1147"
+    version = "1.7.10-10.13.0.1180"
     assetDir = "eclipse/assets"
     
     replaceIn "lib/Reference.java"
@@ -57,7 +57,7 @@ repositories {
 dependencies {
     compile "codechicken:ForgeMultipart:1.7.2-1.1.0.275:dev"
     compile "com.mod-buildcraft:buildcraft:6.0.8:dev"
-    compile "net.industrial-craft:industrialcraft-2:2.1.470-experimental:api"
+    compile "net.industrial-craft:industrialcraft-2:2.2.508-experimental:api"
     compile "mcp.mobius.waila:Waila:1.5.2a"
 }
 
