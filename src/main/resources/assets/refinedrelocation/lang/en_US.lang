@@ -76,7 +76,7 @@ gui.refinedrelocation.undisguisedInfo=Use a linker to disguise this block
 gui.refinedrelocation.connected=Connected
 gui.refinedrelocation.notConnected=Not Connected
 gui.refinedrelocation.bufferInsInfo=Output side priorities\nItems that get inserted\ninto the buffer will attempt\nto be outputted to a valid\nside in order of priority\n(lower number = higher priority)
-gui.refinedrelocation.blockExtenderInsInfo=Insert directions\nItems will get inserted\ninto the chosen side\nof the connected inventory\nwhenever they are inserted\ninto the relevant side of\nthis block extender
+gui.refinedrelocation.blockExtenderInsInfo=Insert/extract directions\nItems will get inserted/extracted\ninto the chosen side of the\nconnected inventory whenever they\nare inserted/extracted into the\nrelevant side of this Block Extender
 gui.refinedrelocation.redstoneTrans=Redstone signal transmission
 gui.refinedrelocation.enabled=Enabled
 gui.refinedrelocation.disabled=Disabled

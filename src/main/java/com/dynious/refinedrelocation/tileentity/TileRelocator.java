@@ -23,6 +23,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
@@ -969,6 +970,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public void closeChest()
     {
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return super.getRenderBoundingBox().expand(0.5, 0.5, 0.5);
     }
 
     @Override
