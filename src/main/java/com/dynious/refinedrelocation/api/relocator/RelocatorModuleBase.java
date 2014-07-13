@@ -5,14 +5,14 @@ import com.dynious.refinedrelocation.helper.IOHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -91,12 +91,18 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
 
     @Override
     @SideOnly(Side.CLIENT)
-    public abstract Icon getIcon(IItemRelocator relocator, int side);
+    public abstract IIcon getIcon(IItemRelocator relocator, int side);
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
 
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "";
     }
 }

@@ -4,16 +4,15 @@ import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketInsertDirection;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageInsertDirection;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBuffer;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class GuiInsertDirection extends GuiWidgetBase
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             TileEntity tile = (TileEntity) this.tile;
-            tooltip.add(BlockHelper.getBlockDisplayName(tile.worldObj, tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
+            tooltip.add(BlockHelper.getBlockDisplayName(tile.getWorldObj(), tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
 
             if (tile instanceof TileBlockExtender)
             {
@@ -82,7 +81,7 @@ public class GuiInsertDirection extends GuiWidgetBase
     {
         mc.getTextureManager().bindTexture(Resources.GUI_SHARED);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        FontRenderer fontRenderer = mc.fontRenderer;
+        FontRenderer fontRendererObj = mc.fontRenderer;
 
         boolean hasTile = true;
         boolean isHovered = isMouseInsideBounds(mouseX, mouseY);
@@ -100,7 +99,7 @@ public class GuiInsertDirection extends GuiWidgetBase
             {
                 this.insertDirection = ForgeDirection.getOrientation(tile.getInsertDirection()[side.ordinal()]);
                 char letter = insertDirection.toString().charAt(0);
-                fontRenderer.drawString(Character.toString(letter), x + w / 2 - fontRenderer.getCharWidth(letter) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, hasTile || isHovered ? 0xFFFFFF : 0xAAAAAA, true);
+                fontRendererObj.drawString(Character.toString(letter), x + w / 2 - fontRendererObj.getCharWidth(letter) / 2, y + h / 2 - fontRendererObj.FONT_HEIGHT / 2, hasTile || isHovered ? 0xFFFFFF : 0xAAAAAA, true);
             }
         }
         else if (tile instanceof TileAdvancedBuffer)
@@ -110,7 +109,7 @@ public class GuiInsertDirection extends GuiWidgetBase
             TileAdvancedBuffer buffer = (TileAdvancedBuffer) tile;
             byte p = buffer.getPriority(side.ordinal());
             String priority = p == TileAdvancedBuffer.NULL_PRIORITY ? "--" : Byte.toString((byte) (p + 1));
-            fontRenderer.drawString(priority, x + w / 2 - fontRenderer.getStringWidth(priority) / 2, y + h / 2 - fontRenderer.FONT_HEIGHT / 2, isHovered ? 0xFFFFFF : 0xAAAAAA, true);
+            fontRendererObj.drawString(priority, x + w / 2 - fontRendererObj.getStringWidth(priority) / 2, y + h / 2 - fontRendererObj.FONT_HEIGHT / 2, isHovered ? 0xFFFFFF : 0xAAAAAA, true);
         }
     }
 
@@ -122,7 +121,7 @@ public class GuiInsertDirection extends GuiWidgetBase
             {
                 byte step = (byte) (type == 0 ? 1 : -1);
                 tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()])));
+                NetworkHandler.INSTANCE.sendToServer(new MessageInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
             }
             if (tile instanceof TileAdvancedBuffer)
             {
@@ -130,7 +129,7 @@ public class GuiInsertDirection extends GuiWidgetBase
                 if (isShiftKeyDown) step = (byte) (step * 6);
 
                 tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-                PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()])));
+                NetworkHandler.INSTANCE.sendToServer(new MessageInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
             }
         }
     }

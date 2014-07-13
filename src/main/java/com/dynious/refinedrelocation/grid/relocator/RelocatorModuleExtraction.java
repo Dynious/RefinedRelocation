@@ -15,7 +15,7 @@ import com.dynious.refinedrelocation.lib.Settings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -23,9 +23,9 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.beans.Statement;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import java.util.List;
 
 public class RelocatorModuleExtraction extends RelocatorModuleBase
 {
-    private static Icon icon;
+    private static IIcon icon;
     private byte tick = 0;
     protected int lastCheckedSlot = -1;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
@@ -178,13 +178,13 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     }
 
     @Override
-    public Icon getIcon(IItemRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleExtraction");
     }

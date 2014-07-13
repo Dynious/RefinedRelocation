@@ -23,9 +23,9 @@ public class RendererRelocationPortal extends TileEntitySpecialRenderer
 
     public void renderEndPortalTileEntity(TileEntity tileEntity, double par2, double par4, double par6)
     {
-        float f1 = (float)this.tileEntityRenderer.playerX;
-        float f2 = (float)this.tileEntityRenderer.playerY;
-        float f3 = (float)this.tileEntityRenderer.playerZ;
+        float f1 = (float)this.field_147501_a.field_147560_j;
+        float f2 = (float)this.field_147501_a.field_147561_k;
+        float f3 = (float)this.field_147501_a.field_147558_l;
         GL11.glDisable(GL11.GL_LIGHTING);
         float f4 = 0.99F;
 
@@ -88,7 +88,7 @@ public class RendererRelocationPortal extends TileEntitySpecialRenderer
 
             float f12;
             float f13;
-            TileEntity tile = tileEntity.getWorldObj().getBlockTileEntity(tileEntity.xCoord, tileEntity.yCoord - 1, tileEntity.zCoord);
+            TileEntity tile = tileEntity.getWorldObj().getTileEntity(tileEntity.xCoord, tileEntity.yCoord - 1, tileEntity.zCoord);
             if (tile == null || !(tile instanceof TileRelocationPortal))
             {
                 //Draw lower

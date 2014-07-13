@@ -6,7 +6,7 @@ import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileAdvancedFilteredBlockExtender extends TileBlockExtender implements IAdvancedFilteredTile
 {
@@ -175,7 +175,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     @Override
     public void onFilterChanged()
     {
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override

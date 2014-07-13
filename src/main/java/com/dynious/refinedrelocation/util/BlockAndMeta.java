@@ -1,23 +1,27 @@
 package com.dynious.refinedrelocation.util;
 
+import net.minecraft.block.Block;
+
 public class BlockAndMeta
 {
-    private int blockId, meta;
+    private Block block;
+    private int meta;
 
-    public BlockAndMeta(int blockId)
+    public BlockAndMeta(Block block, int meta)
     {
-        this(blockId, -1);
-    }
-
-    public BlockAndMeta(int blockId, int meta)
-    {
-        this.blockId = blockId;
+        this.block = block;
         this.meta = meta;
     }
-
-    public int getBlockId()
+    public BlockAndMeta(Block block)
     {
-        return blockId;
+        this.block = block;
+        this.meta = -1;
+    }
+
+
+    public Block getBlock()
+    {
+        return block;
     }
 
     public int getMeta()

@@ -1,14 +1,22 @@
 package com.dynious.refinedrelocation.proxy;
 
+import com.dynious.refinedrelocation.event.EventHandler;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.network.GuiHandler;
 import com.dynious.refinedrelocation.tileentity.*;
-import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.common.MinecraftForge;
+
+import java.util.EnumMap;
 
 public class CommonProxy
 {
+    protected EnumMap<Side,FMLEmbeddedChannel> channels;
+
     public void initTileEntities()
     {
         GameRegistry.registerTileEntity(TileBlockExtender.class, Names.blockExtender);
@@ -43,15 +51,13 @@ public class CommonProxy
             GameRegistry.registerTileEntity(TileSortingAlchemicalChest.class, Names.sortingAlchemicalChest);
         }
 
-        if (Mods.IS_METAL_LOADED)
-        {
-            GameRegistry.registerTileEntity(TileSortingPreciousChest.class, Names.sortingPreciousChest);
-        }
-
         new GuiHandler();
     }
 
     public void registerEventHandlers()
     {
+        EventHandler ev = new EventHandler();
+        FMLCommonHandler.instance().bus().register(ev);
+        MinecraftForge.EVENT_BUS.register(ev);
     }
 }

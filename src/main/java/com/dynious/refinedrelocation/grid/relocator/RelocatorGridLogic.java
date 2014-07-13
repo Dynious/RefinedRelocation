@@ -4,7 +4,7 @@ import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.*;
 

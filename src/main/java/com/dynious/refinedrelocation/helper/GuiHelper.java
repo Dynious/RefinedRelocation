@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.network.FMLNetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -55,7 +54,7 @@ public class GuiHelper
 
             if (guiId != -1)
             {
-                FMLNetworkHandler.openGui(player, RefinedRelocation.instance, guiId, tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
+                player.openGui(RefinedRelocation.instance, guiId, tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
                 return true;
             }
             else

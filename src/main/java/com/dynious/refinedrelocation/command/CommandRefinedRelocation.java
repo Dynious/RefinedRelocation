@@ -3,12 +3,15 @@ package com.dynious.refinedrelocation.command;
 import com.dynious.refinedrelocation.helper.MiscHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.lib.Commands;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageKonga;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import com.dynious.refinedrelocation.version.VersionContainer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
 import java.net.MalformedURLException;
@@ -41,14 +44,13 @@ public class CommandRefinedRelocation extends CommandBase
         if (args.length > 0)
         {
             String commandName = args[0];
-            System.arraycopy(args, 1, args, 0, args.length - 1); // Move args array to exclude the commandName
 
             if (commandName.equalsIgnoreCase(Commands.HELP))
             {
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.COMMAND_FORMAT, getCommandName())));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.COMMAND_AVAILABLE)));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.COMMAND_HELP_LATEST, Commands.LATEST)));
-                icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.COMMAND_HELP_CHANGELOG, Commands.CHANGE_LOG)));
+                icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.COMMAND_FORMAT, getCommandName())));
+                icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.COMMAND_AVAILABLE)));
+                icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.COMMAND_HELP_LATEST, Commands.LATEST)));
+                icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.COMMAND_HELP_CHANGELOG, Commands.CHANGE_LOG)));
             }
             else if (commandName.equalsIgnoreCase(Commands.LATEST))
             {
@@ -62,12 +64,12 @@ public class CommandRefinedRelocation extends CommandBase
                     catch (MalformedURLException e)
                     {
                         e.printStackTrace();
-                        icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.COMMAND_CORRUPT_URL)));
+                        icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.COMMAND_CORRUPT_URL)));
                     }
                 }
                 else
                 {
-                    icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.COMMAND_VERSION_UNINTIALIZED)));
+                    icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.COMMAND_VERSION_UNINTIALIZED)));
                 }
             }
             else if (commandName.equalsIgnoreCase(Commands.CHANGE_LOG))
@@ -75,11 +77,25 @@ public class CommandRefinedRelocation extends CommandBase
                 VersionContainer.Version version = VersionChecker.getRemoteVersion();
                 if (version != null)
                 {
-                    icommandsender.sendChatToPlayer(new ChatMessageComponent().addText(version.getChangeLog()));
+                    icommandsender.addChatMessage(new ChatComponentText(version.getChangeLog()));
                 }
                 else
                 {
-                    icommandsender.sendChatToPlayer(new ChatMessageComponent().addText(StatCollector.translateToLocal(Strings.COMMAND_VERSION_UNINTIALIZED)));
+                    icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.COMMAND_VERSION_UNINTIALIZED)));
+                }
+            }
+            else if (commandName.equalsIgnoreCase(Commands.KONGA))
+            {
+                if (args.length > 1 && args[1].equalsIgnoreCase(Commands.ALL))
+                {
+                    if (icommandsender.getCommandSenderName().equalsIgnoreCase("Dynious"))
+                    {
+                        NetworkHandler.INSTANCE.sendToAll(new MessageKonga());
+                    }
+                }
+                else
+                {
+                    NetworkHandler.INSTANCE.sendTo(new MessageKonga(), (EntityPlayerMP) icommandsender);
                 }
             }
         }

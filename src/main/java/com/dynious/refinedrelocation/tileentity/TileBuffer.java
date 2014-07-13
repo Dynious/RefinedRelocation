@@ -4,8 +4,6 @@ import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import buildcraft.api.transport.IPipeTile;
-import cofh.api.energy.IEnergyHandler;
-import cofh.api.transport.IItemConduit;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.helper.LoopHelper;
@@ -24,12 +22,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,7 +54,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
             {
                 onBlocksChanged();
                 firstRun = false;
-                worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, bufferedItemStack == null ? 0 : 1);
+                worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, bufferedItemStack == null ? 0 : 1);
                 if (Mods.IS_IC2_LOADED)
                 {
                     IC2Helper.addToEnergyNet(this);
@@ -68,7 +65,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
                 bufferedItemStack = outputItemStack(bufferedItemStack, bufferedSide);
                 if (bufferedItemStack == null)
                 {
-                    worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, 0);
+                    worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, 0);
                 }
             }
         }
@@ -93,7 +90,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
         {
             bufferedItemStack = itemStack;
             bufferedSide = side;
-            worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, 1);
+            worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, 1);
             return null;
         }
         else
@@ -202,13 +199,13 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return "buffer";
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return false;
     }
@@ -226,16 +223,10 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     }
 
     @Override
-    public void openChest()
-    {
-
-    }
+    public void openInventory() {}
 
     @Override
-    public void closeChest()
-    {
-
-    }
+    public void closeInventory() {}
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
@@ -274,8 +265,8 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
         if (compound.hasKey("bufferedSide"))
         {
             bufferedSide = compound.getByte("bufferedSide");
-            NBTTagList tagList = compound.getTagList("Items");
-            bufferedItemStack = ItemStack.loadItemStackFromNBT((NBTTagCompound) tagList.tagAt(0));
+            NBTTagList tagList = compound.getTagList("Items", 10);
+            bufferedItemStack = ItemStack.loadItemStackFromNBT(tagList.getCompoundTagAt(0));
         }
     }
 
@@ -357,79 +348,21 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
         return new FluidTankInfo[]{new FluidTankInfo(null, Integer.MAX_VALUE)};
     }
 
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Optional.Method(modid = "IC2")
     @Override
-    public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
-    {
-        int inputAmount = i;
-        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(forgeDirection))
-        {
-            i = insertRedstoneFlux(i, outputSide.ordinal(), b);
-            if (i == 0)
-            {
-                return inputAmount;
-            }
-        }
-        return inputAmount - i;
-    }
-
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
-    public int insertRedstoneFlux(int amount, int side, boolean simulate)
-    {
-        TileEntity tile = tiles[side];
-        if (tile != null)
-        {
-            if (tile instanceof IEnergyHandler)
-            {
-                amount -= ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
-            }
-        }
-        return amount;
-    }
-
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
-    @Override
-    public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
-    {
-        return 0;
-    }
-
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
-    @Override
-    public boolean canInterface(ForgeDirection forgeDirection)
-    {
-        return true;
-    }
-
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
-    @Override
-    public int getEnergyStored(ForgeDirection forgeDirection)
-    {
-        return 0;
-    }
-
-    @Optional.Method(modid = Mods.IC2_ID)
-    @Override
-    public int getMaxEnergyStored(ForgeDirection forgeDirection)
-    {
-        return Integer.MAX_VALUE;
-    }
-
-    @Optional.Method(modid = Mods.IC2_ID)
-    @Override
-    public double demandedEnergyUnits()
+    public double getDemandedEnergy()
     {
         return Double.MAX_VALUE;
     }
 
     @Optional.Method(modid = Mods.IC2_ID)
     @Override
-    public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
+    public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage)
     {
         double inputAmount = amount;
         for (ForgeDirection outputSide : getOutputSidesForInsertDirection(directionFrom))
         {
-            amount = insertEnergyUnits(amount, outputSide.ordinal());
+            amount = insertEnergyUnits(amount, voltage, outputSide.ordinal());
             if (amount == 0)
             {
                 return inputAmount;
@@ -439,14 +372,14 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     }
 
     @Optional.Method(modid = Mods.IC2_ID)
-    public double insertEnergyUnits(double amount, int side)
+    public double insertEnergyUnits(double amount, double voltage, int side)
     {
         TileEntity tile = tiles[side];
         if (tile != null)
         {
             if (tile instanceof IEnergySink)
             {
-                amount -= ((IEnergySink)tile).injectEnergyUnits(ForgeDirection.getOrientation(side).getOpposite(), Math.min(amount, ((IEnergySink)tile).getMaxSafeInput()));
+                amount -= ((IEnergySink)tile).injectEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, voltage);
             }
         }
         return amount;
@@ -454,7 +387,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
 
     @Optional.Method(modid = Mods.IC2_ID)
     @Override
-    public int getMaxSafeInput()
+    public int getSinkTier()
     {
         return Integer.MAX_VALUE;
     }
@@ -511,7 +444,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     {
         for (ForgeDirection outputSide : getOutputSidesForInsertDirection(ForgeDirection.UNKNOWN))
         {
-            float usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(powerHandler.getEnergyStored(), outputSide.ordinal());
+            double usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(powerHandler.getEnergyStored(), outputSide.ordinal());
             powerHandler.useEnergy(usedEnergy, usedEnergy, true);
             if (powerHandler.getEnergyStored() == 0)
             {
@@ -521,7 +454,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     }
 
     @Optional.Method(modid = Mods.BC_API_POWER_ID)
-    public float insertMinecraftJoules(float amount, int side)
+    public double insertMinecraftJoules(double amount, int side)
     {
         TileEntity tile = tiles[side];
         if (tile != null)
@@ -550,6 +483,59 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     public boolean canEmitPowerFrom(ForgeDirection direction)
     {
         return true;
+    }
+
+    /*
+
+        @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Override
+    public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        int inputAmount = i;
+        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(forgeDirection))
+        {
+            i = insertRedstoneFlux(i, outputSide.ordinal(), b);
+            if (i == 0)
+            {
+                return inputAmount;
+            }
+        }
+        return inputAmount - i;
+    }
+
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    public int insertRedstoneFlux(int amount, int side, boolean simulate)
+    {
+        TileEntity tile = tiles[side];
+        if (tile != null)
+        {
+            if (tile instanceof IEnergyHandler)
+            {
+                amount -= ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
+            }
+        }
+        return amount;
+    }
+
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Override
+    public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
+    {
+        return 0;
+    }
+
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Override
+    public boolean canInterface(ForgeDirection forgeDirection)
+    {
+        return true;
+    }
+
+    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Override
+    public int getEnergyStored(ForgeDirection forgeDirection)
+    {
+        return 0;
     }
 
     @Optional.Method(modid = Mods.UE_ID)
@@ -595,4 +581,5 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
     {
         return false;
     }
+    */
 }

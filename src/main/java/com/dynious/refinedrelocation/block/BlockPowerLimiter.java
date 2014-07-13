@@ -1,44 +1,41 @@
 package com.dynious.refinedrelocation.block;
 
-import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 
-@Optional.InterfaceList(value = {@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")})
-public class BlockPowerLimiter extends BlockContainer implements IDismantleable
+/* @Optional.InterfaceList(value = {@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")}) */
+public class BlockPowerLimiter extends BlockContainer /* implements IDismantleable */
 {
-    private Icon[] icons = new Icon[3];
+    private IIcon[] icons = new IIcon[3];
 
-    public BlockPowerLimiter(int id)
+    public BlockPowerLimiter()
     {
-        super(id, Material.rock);
-        this.setUnlocalizedName(Names.powerLimiter);
+        super(Material.rock);
+        this.setBlockName(Names.powerLimiter);
         this.setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
         return new TilePowerLimiter();
     }
@@ -48,7 +45,7 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     {
         if (!world.isRemote)
         {
-            TilePowerLimiter tile = (TilePowerLimiter) world.getBlockTileEntity(x, y, z);
+            TilePowerLimiter tile = (TilePowerLimiter) world.getTileEntity(x, y, z);
             if (player.isSneaking())
             {
                 tile.setDisablePower(!tile.getDisablePower());
@@ -66,10 +63,10 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int par5)
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block par5)
     {
         super.onNeighborBlockChange(world, x, y, z, par5);
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TilePowerLimiter)
         {
             ((TilePowerLimiter) tile).blocksChanged = true;
@@ -78,7 +75,7 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
         for (int i = 0; i < icons.length; i++)
         {
@@ -87,15 +84,16 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public Icon getIcon(int par1, int par2)
+    public IIcon getIcon(int par1, int par2)
     {
         return icons[0];
     }
 
+
     @Override
-    public Icon getBlockTexture(IBlockAccess worldObj, int x, int y, int z, int side)
+    public IIcon getIcon(IBlockAccess worldObj, int x, int y, int z, int side)
     {
-        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getBlockTileEntity(x, y, z);
+        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getTileEntity(x, y, z);
         if (tile.getConnectedDirection().ordinal() == side)
         {
             return icons[2];
@@ -110,6 +108,7 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
         }
     }
 
+    /*
     @Optional.Method(modid = "CoFHCore")
     @Override
     public ItemStack dismantleBlock(EntityPlayer player, World world, int x,
@@ -134,11 +133,12 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     {
         return true;
     }
+    */
 
     @Override
     public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)
     {
-        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getBlockTileEntity(x, y, z);
+        TilePowerLimiter tile = (TilePowerLimiter) worldObj.getTileEntity(x, y, z);
         return tile.rotateBlock();
     }
 }

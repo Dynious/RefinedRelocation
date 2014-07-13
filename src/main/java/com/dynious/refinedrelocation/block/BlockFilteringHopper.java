@@ -8,12 +8,11 @@ import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockHopper;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -29,23 +28,23 @@ public class BlockFilteringHopper extends BlockHopper
     @SideOnly(Side.CLIENT)
     public Field iconFieldInside;
 
-    protected BlockFilteringHopper(int id)
+    protected BlockFilteringHopper()
     {
-        super(id);
-        this.setUnlocalizedName(Names.filteringHopper);
+        super();
+        this.setBlockName(Names.filteringHopper);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
-        this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundWoodFootstep);
+        this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundTypeWood);
 
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
         {
-            iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon", "field_94455_b", "b"));
-            iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon", "field_94456_c", "c"));
-            iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon", "field_94454_cO", "d"));
+            iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon", "field_149921_b", "b"));
+            iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon", "field_149923_M", "M"));
+            iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon", "field_149924_N", "N"));
         }
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
         return new TileFilteringHopper();
     }
@@ -58,14 +57,14 @@ public class BlockFilteringHopper extends BlockHopper
             if (player.isSneaking())
                 APIUtils.openFilteringGUI(player, world, x, y, z);
             else
-                FMLNetworkHandler.openGui(player, RefinedRelocation.instance, GuiIds.FILTERING_HOPPER, world, x, y, z);
+                player.openGui(RefinedRelocation.instance, GuiIds.FILTERING_HOPPER, world, x, y, z);
             return true;
         }
         return super.onBlockActivated(world, x, y, z, player, par6, par7, par8, par9);
     }
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerBlockIcons(IIconRegister par1IconRegister)
     {
         try
         {

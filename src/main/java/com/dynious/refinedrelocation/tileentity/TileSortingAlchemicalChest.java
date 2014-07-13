@@ -7,8 +7,7 @@ import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
-import com.pahimar.ee3.inventory.ContainerAlchemicalChest;
-import com.pahimar.ee3.tileentity.TileAlchemicalChest;
+import com.pahimar.ee3.tileentity.TileEntityAlchemicalChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -17,7 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 
 import java.lang.reflect.Field;
 
-public class TileSortingAlchemicalChest extends TileAlchemicalChest implements ISortingInventory, IFilterTileGUI
+public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implements ISortingInventory, IFilterTileGUI
 {
     public boolean isFirstRun = true;
     private IFilterGUI filter = APIUtils.createStandardFilter(this);
@@ -74,7 +73,7 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
                     {
                         super.setInventorySlotContents(slot, itemStack);
 
-                        onInventoryChanged();
+                        markDirty();
                         itemStack = null;
                     }
                     else
@@ -112,7 +111,7 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
     @Override
     public void onFilterChanged()
     {
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override
@@ -133,7 +132,7 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
         return sortingInventoryHandler;
     }
 
-    @Override
+    //@Override
     public boolean upgradeChest(int upgradeMetadata)
     {
         if (upgradeMetadata > getBlockMetadata())
@@ -163,7 +162,7 @@ public class TileSortingAlchemicalChest extends TileAlchemicalChest implements I
 
             //Set our new metadata and TileEntity instead
             worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, upgradeMetadata, 3);
-            worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, newChest);
+            worldObj.setTileEntity(xCoord, yCoord, zCoord, newChest);
 
             return true;
         }

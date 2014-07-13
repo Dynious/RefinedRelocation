@@ -93,7 +93,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             {
                 itemstack = this.bufferInventory[par1];
                 this.bufferInventory[par1] = null;
-                this.onInventoryChanged();
+                this.markDirty();
                 return itemstack;
             }
             else
@@ -105,7 +105,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
                     this.bufferInventory[par1] = null;
                 }
 
-                this.onInventoryChanged();
+                this.markDirty();
                 return itemstack;
             }
         }
@@ -139,12 +139,15 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             {
                 return;
             }
-            int id = OreDictionary.getOreID(itemstack);
-            if (idList.contains(id))
+            int[] ids = OreDictionary.getOreIDs(itemstack);
+            for (int id : ids)
             {
-                ItemStack stack = itemList.get(idList.indexOf(id)).copy();
-                stack.stackSize = itemstack.stackSize;
-                itemstack = stack;
+                if (idList.contains(id))
+                {
+                    ItemStack stack = itemList.get(idList.indexOf(id)).copy();
+                    stack.stackSize = itemstack.stackSize;
+                    itemstack = stack;
+                }
             }
             bufferInventory[0] = getHandler().getGrid().filterStackToGroup(itemstack, this, i);
             if (bufferInventory[0] != null)
@@ -163,8 +166,8 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             }
             else if (itemstack != null)
             {
-                int id = OreDictionary.getOreID(itemstack);
-                if (id != -1)
+                int[] ids = OreDictionary.getOreIDs(itemstack);
+                for (int id : ids)
                 {
                     if (i - 1 < itemList.size() && (!idList.contains(id) || id == idList.get(index)))
                     {
@@ -182,13 +185,13 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return Names.sortingImporter;
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return false;
     }
@@ -206,12 +209,12 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
     }
 
@@ -248,10 +251,10 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        NBTTagList nbttaglist = compound.getTagList("Items");
+        NBTTagList nbttaglist = compound.getTagList("Items", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound tag = (NBTTagCompound) nbttaglist.tagAt(i);
+            NBTTagCompound tag = nbttaglist.getCompoundTagAt(i);
             itemList.add(ItemStack.loadItemStackFromNBT(tag));
             idList.add(tag.getInteger("oreId"));
         }

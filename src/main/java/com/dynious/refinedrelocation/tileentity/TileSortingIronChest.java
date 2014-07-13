@@ -78,7 +78,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         newEntity.filter.readFromNBT(filterTag);
 
         //Set facing, sort and reset syncTick
-        newEntity.setFacing((Byte) ReflectionHelper.getPrivateValue(TileEntityIronChest.class, this, "facing"));
+        newEntity.setFacing(getFacing());
         newEntity.sortTopStacks();
         ReflectionHelper.setPrivateValue(TileEntityIronChest.class, this, -1, "ticksSinceSync");
         return newEntity;
@@ -111,7 +111,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
                     {
                         chestContents[slot] = itemStack;
 
-                        onInventoryChanged();
+                        markDirty();
                         itemStack = null;
                     }
                     else
@@ -149,7 +149,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     @Override
     public void onFilterChanged()
     {
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override
@@ -184,8 +184,8 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         {
             if (l != getType().ordinal())
             {
-                worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, new TileSortingIronChest(IronChestType.values()[l]));
-                return (TileEntityIronChest) worldObj.getBlockTileEntity(xCoord, yCoord, zCoord);
+                worldObj.setTileEntity(xCoord, yCoord, zCoord, new TileSortingIronChest(IronChestType.values()[l]));
+                return (TileEntityIronChest) worldObj.getTileEntity(xCoord, yCoord, zCoord);
             }
         }
         return this;

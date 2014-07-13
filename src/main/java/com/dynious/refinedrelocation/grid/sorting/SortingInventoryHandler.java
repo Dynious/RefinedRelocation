@@ -27,9 +27,9 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
     public final void setInventorySlotContents(int par1, ItemStack itemStack)
     {
         inventory.putStackInSlot(itemStack, par1);
-        inventory.onInventoryChanged();
+        inventory.markDirty();
 
-        if (itemStack == null || owner.worldObj.isRemote || getGrid() == null)
+        if (itemStack == null || owner.getWorldObj().isRemote || getGrid() == null)
             return;
 
         itemStack = getGrid().filterStackToGroup(itemStack.copy(), this.owner, par1);
@@ -44,7 +44,7 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
     private void syncInventory(int slot)
     {
         float checkSize = 5.0F;
-        List list = this.owner.getWorldObj().getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB((float) this.owner.xCoord - checkSize, (float) this.owner.yCoord - checkSize, (float) this.owner.zCoord - checkSize, (float) this.owner.xCoord + 1 + checkSize, (float) this.owner.yCoord + 1 + checkSize, (float) this.owner.zCoord + 1 + checkSize));
+        List list = this.owner.getWorldObj().getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((float) this.owner.xCoord - checkSize, (float) this.owner.yCoord - checkSize, (float) this.owner.zCoord - checkSize, (float) this.owner.xCoord + 1 + checkSize, (float) this.owner.yCoord + 1 + checkSize, (float) this.owner.zCoord + 1 + checkSize));
 
         for (Object aList : list)
         {

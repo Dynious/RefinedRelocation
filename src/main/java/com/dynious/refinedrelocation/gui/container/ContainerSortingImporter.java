@@ -14,7 +14,7 @@ public class ContainerSortingImporter extends ContainerPhantom
     {
         allowStackSizes = false;
         this.inventory = inventory;
-        inventory.openChest();
+        inventory.openInventory();
         inventory.addCrafter(player);
 
         this.addSlotToContainer(new Slot(inventory, 0, 26, 35));
@@ -51,7 +51,7 @@ public class ContainerSortingImporter extends ContainerPhantom
     public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
         super.onContainerClosed(par1EntityPlayer);
-        this.inventory.closeChest();
+        this.inventory.closeInventory();
         this.inventory.removeCrafter(par1EntityPlayer);
     }
 

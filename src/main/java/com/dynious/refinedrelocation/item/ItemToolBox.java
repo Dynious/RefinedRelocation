@@ -12,17 +12,16 @@ import static mcp.mobius.waila.api.SpecialChars.*;
 import mcp.mobius.waila.utils.ModIdentification;
 import ic2.api.item.IElectricItem;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.Icon;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
@@ -34,7 +33,7 @@ public class ItemToolBox extends Item
 {
     private static final String[] WRENCH_CLASS_NAMES;
     private static final List<Class<?>> WRENCH_CLASSES;
-    private static Icon transparent;
+    private static IIcon transparent;
 
     static
     {
@@ -52,9 +51,9 @@ public class ItemToolBox extends Item
         }
     }
 
-    public ItemToolBox(int id)
+    public ItemToolBox()
     {
-        super(id);
+        super();
         this.setUnlocalizedName(Names.toolbox);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setMaxStackSize(1);
@@ -65,7 +64,7 @@ public class ItemToolBox extends Item
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         MovingObjectPosition mop = RayTracer.reTrace(world, player);
-        if (mop == null || mop.typeOfHit != EnumMovingObjectType.TILE)
+        if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
         {
             if (!stack.hasTagCompound())
             {
@@ -82,7 +81,7 @@ public class ItemToolBox extends Item
                     ItemStack invStack = mainInventory[i];
                     if (invStack != null && isItemWrench(invStack.getItem()) && !doesToolBoxContainWrench(stack.getTagCompound(), invStack.getItem()))
                     {
-                        NBTTagList list = stack.getTagCompound().getTagList("wrenches");
+                        NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
                         NBTTagCompound newTag = new NBTTagCompound();
                         ItemStack wrenchStack = invStack.splitStack(1);
                         wrenchStack.writeToNBT(newTag);
@@ -94,7 +93,7 @@ public class ItemToolBox extends Item
 
                 byte index = stack.getTagCompound().getByte("index");
                 index++;
-                if (index >= stack.getTagCompound().getTagList("wrenches").tagCount())
+                if (index >= stack.getTagCompound().getTagList("wrenches", 10).tagCount())
                     index = 0;
                 stack.getTagCompound().setByte("index", index);
 
@@ -109,7 +108,7 @@ public class ItemToolBox extends Item
                         {
                             ItemStack wrench = wrenches.get(i);
                             ItemStack currentWrench = getCurrentWrench(stack);
-                            String modifier = wrench.itemID == currentWrench.itemID ? "\u00A77" : ""; // If current wrench, print in grey
+                            String modifier = wrench == currentWrench ? "\u00A77" : ""; // If current wrench, print in grey
 
                             wrenchText += modifier + wrench.getDisplayName() + "\u00A7r"; // reset after item name
 
@@ -119,8 +118,7 @@ public class ItemToolBox extends Item
                                 wrenchText += ".";
                         }
 
-                        player.sendChatToPlayer(new ChatMessageComponent()
-                                .addText(wrenchText));
+                        player.addChatMessage(new ChatComponentText(wrenchText));
                     }
                 }
             }
@@ -134,13 +132,13 @@ public class ItemToolBox extends Item
         if (!stack.hasTagCompound() || world.isRemote) return false;
         NBTTagCompound stackCompound = stack.getTagCompound();
 
-        NBTTagList list = stackCompound.getTagList("wrenches");
+        NBTTagList list = stackCompound.getTagList("wrenches", 10);
         byte index = stackCompound.getByte("index");
         if (list.tagCount() > index)
         {
-            NBTTagCompound compound = (NBTTagCompound) list.tagAt(index);
+            NBTTagCompound compound = list.getCompoundTagAt(index);
             ItemStack wrenchStack = ItemStack.loadItemStackFromNBT(compound);
-            Block block = Block.blocksList[world.getBlockId(x, y, z)];
+            Block block = world.getBlock(x, y, z);
             if (block != null)
             {
                 player.inventory.mainInventory[player.inventory.currentItem] = wrenchStack;
@@ -176,12 +174,12 @@ public class ItemToolBox extends Item
     }
 
     @Override
-    public ItemStack getContainerItemStack(ItemStack itemStack)
+    public ItemStack getContainerItem(ItemStack itemStack)
     {
         ItemStack copiedStack = itemStack.copy();
         if (copiedStack.hasTagCompound())
         {
-            NBTTagList list = copiedStack.getTagCompound().getTagList("wrenches");
+            NBTTagList list = copiedStack.getTagCompound().getTagList("wrenches", 10);
             byte index = copiedStack.getTagCompound().getByte("index");
             if (list.tagCount() > index)
             {
@@ -245,7 +243,7 @@ public class ItemToolBox extends Item
     }
 
     @Override
-    public Icon getIcon(ItemStack stack, int pass)
+    public IIcon getIcon(ItemStack stack, int pass)
     {
         if (pass == 0)
         {
@@ -263,7 +261,7 @@ public class ItemToolBox extends Item
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
         itemIcon = register.registerIcon(Resources.MOD_ID + ":" + Names.toolbox);
         transparent = register.registerIcon(Resources.MOD_ID + ":" + "transparent");
@@ -281,10 +279,10 @@ public class ItemToolBox extends Item
 
     public static boolean doesToolBoxContainWrench(NBTTagCompound toolBoxCompound, Item wrench)
     {
-        NBTTagList list = toolBoxCompound.getTagList("wrenches");
+        NBTTagList list = toolBoxCompound.getTagList("wrenches", 10);
         for (int i = 0; i < list.tagCount(); i++)
         {
-            NBTTagCompound compound = (NBTTagCompound) list.tagAt(i);
+            NBTTagCompound compound = list.getCompoundTagAt(i);
             ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
             if (stack.getItem() == wrench)
                 return true;
@@ -296,11 +294,11 @@ public class ItemToolBox extends Item
     {
         if (stack.hasTagCompound())
         {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches");
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
             byte index = stack.getTagCompound().getByte("index");
             if (list.tagCount() > index)
             {
-                NBTTagCompound compound = (NBTTagCompound) list.tagAt(index);
+                NBTTagCompound compound = list.getCompoundTagAt(index);
                 return ItemStack.loadItemStackFromNBT(compound);
             }
         }
@@ -312,10 +310,10 @@ public class ItemToolBox extends Item
         if (stack.hasTagCompound())
         {
             ArrayList<ItemStack> wrenches = new ArrayList<ItemStack>();
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches");
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
             for (int x = 0; x < list.tagCount(); x++)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) list.tagAt(x);
+                NBTTagCompound nbttagcompound1 = list.getCompoundTagAt(x);
                 wrenches.add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
             }
             return wrenches;
@@ -332,10 +330,10 @@ public class ItemToolBox extends Item
         }
         if (stack.hasTagCompound())
         {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches");
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
             if (list.tagCount() > index)
             {
-                NBTTagCompound compound = (NBTTagCompound) list.tagAt(index);
+                NBTTagCompound compound = list.getCompoundTagAt(index);
                 wrench.writeToNBT(compound);
             }
         }
@@ -345,7 +343,7 @@ public class ItemToolBox extends Item
     {
         if (stack.hasTagCompound())
         {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches");
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
             if (list.tagCount() > index)
             {
                 list.removeTag(index);

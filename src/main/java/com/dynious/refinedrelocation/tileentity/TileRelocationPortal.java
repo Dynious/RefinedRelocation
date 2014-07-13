@@ -5,8 +5,10 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.helper.TeleportHelper;
 import com.dynious.refinedrelocation.util.Vector3;
+import net.minecraft.block.Block;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,28 +22,28 @@ import java.util.List;
 
 public class TileRelocationPortal extends TileEntity
 {
-    public int oldId = 0;
+    public Block oldBlock = Blocks.air;
     public int oldMeta = 0;
     private Vector3 linkedPos;
     private int dimension = Integer.MAX_VALUE;
     private byte time = 0;
 
-    public void init(int oldId, int oldMeta)
+    public void init(Block oldBlock, int oldMeta)
     {
-        this.oldId = oldId;
+        this.oldBlock = oldBlock;
         this.oldMeta = oldMeta;
     }
 
-    public void init(int oldId, int oldMeta, Vector3 linkedPos)
+    public void init(Block oldBlock, int oldMeta, Vector3 linkedPos)
     {
-        this.oldId = oldId;
+        this.oldBlock = oldBlock;
         this.oldMeta = oldMeta;
         this.linkedPos = linkedPos;
     }
 
-    public void init(int oldId, int oldMeta, Vector3 linkedPos, int dimension)
+    public void init(Block oldBlock, int oldMeta, Vector3 linkedPos, int dimension)
     {
-        this.oldId = oldId;
+        this.oldBlock = oldBlock;
         this.oldMeta = oldMeta;
         this.linkedPos = linkedPos;
         this.dimension = dimension;
@@ -69,12 +71,12 @@ public class TileRelocationPortal extends TileEntity
                 LogHelper.info("Stopped force-load for: " + linkedWorld.provider.getDimensionName());
             }
         }
-        if (oldId == ModBlocks.relocationPortal.blockID)
+        if (oldBlock == ModBlocks.relocationPortal)
         {
-            oldId = 0;
+            oldBlock = Blocks.air;
             oldMeta = 0;
         }
-        worldObj.setBlock(xCoord, yCoord, zCoord, oldId, oldMeta, 3);
+        worldObj.setBlock(xCoord, yCoord, zCoord, oldBlock, oldMeta, 3);
     }
 
     @SuppressWarnings("unchecked")
@@ -109,12 +111,12 @@ public class TileRelocationPortal extends TileEntity
                     TeleportHelper.travelToPosition(entity, linkedPos.getX(), linkedPos.getY() + 1, linkedPos.getZ());
                 }
 
-                TileEntity upperTile = worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord);
+                TileEntity upperTile = worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
                 if (upperTile != null && upperTile instanceof TileRelocationPortal)
                 {
                     ((TileRelocationPortal) upperTile).returnToOldBlock();
                 }
-                upperTile = worldObj.getBlockTileEntity(xCoord, yCoord + 2, zCoord);
+                upperTile = worldObj.getTileEntity(xCoord, yCoord + 2, zCoord);
                 if (upperTile != null && upperTile instanceof TileRelocationPortal)
                 {
                     ((TileRelocationPortal) upperTile).returnToOldBlock();
@@ -133,7 +135,7 @@ public class TileRelocationPortal extends TileEntity
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setInteger("oldId", oldId);
+        compound.setInteger("oldBlock", Block.getIdFromBlock(oldBlock));
         compound.setInteger("oldMeta", oldMeta);
         compound.setInteger("dimension", dimension);
         compound.setByte("time", time);
@@ -146,7 +148,7 @@ public class TileRelocationPortal extends TileEntity
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        oldId = compound.getInteger("oldId");
+        oldBlock = Block.getBlockById(compound.getInteger("oldBlock"));
         oldMeta = compound.getInteger("oldMeta");
         dimension = compound.getInteger("dimension");
         time = compound.getByte("time");

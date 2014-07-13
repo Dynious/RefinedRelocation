@@ -72,12 +72,12 @@ public class TileFilteringHopper extends TileEntityHopper implements IFilterTile
     public void onFilterChanged()
     {
         checkedItemStack = null;
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
-        return this.isInvNameLocalized() ? super.getInvName() : "tile." + Names.filteringHopper + ".name";
+        return this.hasCustomInventoryName() ? super.getInventoryName() : "tile." + Names.filteringHopper + ".name";
     }
 }

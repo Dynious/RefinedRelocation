@@ -1,19 +1,21 @@
 package com.dynious.refinedrelocation.tileentity;
 
+import buildcraft.api.transport.IPipeTile;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
-import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
+import com.dynious.refinedrelocation.lib.Mods;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;
 
-public interface IRelocator extends IItemRelocator
+@Optional.Interface(iface = "buildcraft.api.transport.IPipeTile", modid = Mods.BC_API_TRANS_ID)
+public interface IRelocator extends IItemRelocator, IPipeTile
 {
     public IRelocator[] getConnectedRelocators();
 

@@ -6,9 +6,9 @@ import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class RelocatorModuleBlockedExtraction extends RelocatorModuleExtraction
 {
-    private static Icon icon;
+    private static IIcon icon;
 
     @Override
     public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
@@ -37,13 +37,13 @@ public class RelocatorModuleBlockedExtraction extends RelocatorModuleExtraction
     }
 
     @Override
-    public Icon getIcon(IItemRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleBlockedExtraction");
     }

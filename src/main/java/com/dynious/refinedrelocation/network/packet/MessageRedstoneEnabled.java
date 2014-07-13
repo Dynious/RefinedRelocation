@@ -3,56 +3,47 @@ package com.dynious.refinedrelocation.network.packet;
 import com.dynious.refinedrelocation.gui.container.ContainerAdvanced;
 import com.dynious.refinedrelocation.gui.container.ContainerAdvancedFiltered;
 import com.dynious.refinedrelocation.gui.container.ContainerFiltered;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
-import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
-public class PacketRedstoneEnabled extends CustomPacket
+public class MessageRedstoneEnabled implements IMessage, IMessageHandler<MessageRedstoneEnabled, IMessage>
 {
     boolean redstoneEnabled = true;
 
-    public PacketRedstoneEnabled()
+    public MessageRedstoneEnabled()
     {
-        super(PacketTypeHandler.REDSTONE_ENABLED, false);
     }
 
-    public PacketRedstoneEnabled(boolean redstoneEnabled)
+    public MessageRedstoneEnabled(boolean redstoneEnabled)
     {
-        super(PacketTypeHandler.REDSTONE_ENABLED, false);
         this.redstoneEnabled = redstoneEnabled;
     }
 
     @Override
-    public void writeData(DataOutputStream data) throws IOException
+    public void fromBytes(ByteBuf buf)
     {
-        super.writeData(data);
-        data.writeBoolean(redstoneEnabled);
+        redstoneEnabled = buf.readBoolean();
     }
 
     @Override
-    public void readData(DataInputStream data) throws IOException
+    public void toBytes(ByteBuf buf)
     {
-        super.readData(data);
-        redstoneEnabled = data.readBoolean();
+        buf.writeBoolean(redstoneEnabled);
     }
 
     @Override
-    public void execute(INetworkManager manager, Player player)
+    public IMessage onMessage(MessageRedstoneEnabled message, MessageContext ctx)
     {
-        super.execute(manager, player);
-
-        Container container = ((EntityPlayer) player).openContainer;
+        Container container = ctx.getServerHandler().playerEntity.openContainer;
 
         if (container == null)
-            return;
+            return null;
 
         // TODO: a better way to get the container tile
         TileEntity tile = null;
@@ -64,8 +55,9 @@ public class PacketRedstoneEnabled extends CustomPacket
             tile = (TileEntity) ((ContainerFiltered) container).tile;
 
         if (tile == null || !(tile instanceof TileBlockExtender))
-            return;
+            return null;
 
-        ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(redstoneEnabled);
+        ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(message.redstoneEnabled);
+        return null;
     }
 }

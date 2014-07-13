@@ -1,14 +1,15 @@
 package com.dynious.refinedrelocation.helper;
 
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class DirectionHelper
 {
     public static TileEntity getTileAtSide(IBlockAccess world, int x, int y, int z, ForgeDirection direction)
     {
-        return world.getBlockTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
+        return world.getTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
     }
 
     public static TileEntity getTileAtSide(TileEntity tileEntity, ForgeDirection direction)
@@ -16,13 +17,13 @@ public class DirectionHelper
         return getTileAtSide(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, direction);
     }
 
-    public static int getBlockIdAtSide(IBlockAccess world, int x, int y, int z, ForgeDirection direction)
+    public static Block getBlockAtSide(IBlockAccess world, int x, int y, int z, ForgeDirection direction)
     {
-        return world.getBlockId(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
+        return world.getBlock(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
     }
 
-    public static int getBlockIdAtSide(TileEntity tileEntity, ForgeDirection direction)
+    public static Block getBlockAtSide(TileEntity tileEntity, ForgeDirection direction)
     {
-        return getBlockIdAtSide(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, direction);
+        return getBlockAtSide(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, direction);
     }
 }

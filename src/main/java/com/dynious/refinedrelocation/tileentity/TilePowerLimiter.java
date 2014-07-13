@@ -2,7 +2,6 @@ package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
-import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.EnergyType;
 import com.dynious.refinedrelocation.helper.LoopHelper;
@@ -12,13 +11,12 @@ import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
 import cpw.mods.fml.common.Loader;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.api.energy.IEnergyInterface;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +30,10 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
+    /*
     protected IEnergyHandler energyHandler;
     protected IEnergyInterface energyInterface;
+    */
     public boolean blocksChanged = true;
     private double maxAcceptedEnergy = 10;
     private boolean disablePower = false;
@@ -45,7 +45,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         this.connectedDirection = ForgeDirection.getOrientation(connectedSide);
         this.blocksChanged = true;
         if (worldObj != null)
-            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
     }
 
     public ForgeDirection getConnectedDirection()
@@ -56,11 +56,6 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     public void setPowerReceptor(IPowerReceptor powerReceptor)
     {
         this.powerReceptor = powerReceptor;
-    }
-
-    public void setEnergyHandler(IEnergyHandler energyHandler)
-    {
-        this.energyHandler = energyHandler;
     }
 
     public void setEnergySink(IEnergySink energySink)
@@ -83,10 +78,17 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         }
     }
 
+    /*
+    public void setEnergyHandler(IEnergyHandler energyHandler)
+    {
+        this.energyHandler = energyHandler;
+    }
+
     public void setEnergyInterface(IEnergyInterface energyInterface)
     {
         this.energyInterface = energyInterface;
     }
+    */
 
     public IPowerReceptor getPowerReceptor()
     {
@@ -98,6 +100,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         return energySink;
     }
 
+    /*
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
@@ -107,6 +110,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     {
         return energyInterface;
     }
+    */
 
     public double getMaxAcceptedEnergy()
     {
@@ -210,7 +214,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 if (tile == null)
                 {
                     resetConnections();
-                    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
                 }
                 else
                 {
@@ -244,6 +248,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 }
                 setEnergySink((IEnergySink) tile);
             }
+            /*
             if (Mods.IS_COFH_CORE_LOADED && tile instanceof IEnergyHandler)
             {
                 if (getEnergyHandler() == null)
@@ -260,9 +265,10 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 }
                 setEnergyInterface((IEnergyInterface) tile);
             }
+            */
             if (updated)
             {
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
         }
     }
@@ -271,8 +277,10 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     {
         setPowerReceptor(null);
         setEnergySink(null);
+        /*
         setEnergyHandler(null);
         setEnergyInterface(null);
+        */
     }
 
     public List<EnergyType> getConnectionTypes()
@@ -283,10 +291,12 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
             connections.add(EnergyType.MJ);
         if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add(EnergyType.EU);
+        /*
         if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
             connections.add(EnergyType.RF);
         if (Mods.IS_UE_LOADED && getEnergyInterface() != null)
             connections.add(EnergyType.KJ);
+        */
 
         return connections;
     }
@@ -344,11 +354,11 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public double demandedEnergyUnits()
+    public double getDemandedEnergy()
     {
         if (getEnergySink() != null && !getDisablePower())
         {
-            double demanded =  getEnergySink().demandedEnergyUnits();
+            double demanded =  getEnergySink().getDemandedEnergy();
             if (demanded > EnergyType.EU.fromInternal(maxAcceptedEnergy))
             {
                 demanded = EnergyType.EU.fromInternal(maxAcceptedEnergy);
@@ -360,7 +370,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
+    public double injectEnergy(ForgeDirection forgeDirection, double v, double v2)
     {
         if (getEnergySink() != null && !getDisablePower())
         {
@@ -370,18 +380,18 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 storedEnergy = v - EnergyType.EU.fromInternal(maxAcceptedEnergy);
                 v = EnergyType.EU.fromInternal(maxAcceptedEnergy);
             }
-            return getEnergySink().injectEnergyUnits(connectedDirection.getOpposite(), v) + storedEnergy;
+            return getEnergySink().injectEnergy(connectedDirection.getOpposite(), v, v2) + storedEnergy;
         }
         return v;
     }
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public int getMaxSafeInput()
+    public int getSinkTier()
     {
         if (getEnergySink() != null)
         {
-            return getEnergySink().getMaxSafeInput();
+            return getEnergySink().getSinkTier();
         }
         return 0;
     }
@@ -393,6 +403,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         return getEnergySink() != null && getEnergySink().acceptsEnergyFrom(tileEntity, connectedDirection.getOpposite());
     }
 
+    /*
     @Method(modid = Mods.COFH_CORE_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
@@ -486,6 +497,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         }
         return false;
     }
+    */
 
     /*
     NBT stuffs
@@ -512,11 +524,11 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        setConnectedSide(pkt.data.getByte("side"));
-        setDisablePower(pkt.data.getBoolean("disablePower"));
-        worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
+        setConnectedSide(pkt.func_148857_g().getByte("side"));
+        setDisablePower(pkt.func_148857_g().getBoolean("disablePower"));
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
@@ -525,7 +537,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
         NBTTagCompound compound = new NBTTagCompound();
         compound.setByte("side", (byte) connectedDirection.ordinal());
         compound.setBoolean("disablePower", getDisablePower());
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
     }
 
     public boolean rotateBlock()

@@ -36,4 +36,10 @@ public class LoadingPlugin implements IFMLLoadingPlugin
     {
 
     }
+
+    @Override
+    public String getAccessTransformerClass()
+    {
+        return null;
+    }
 }

@@ -4,7 +4,7 @@ import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +80,7 @@ public class RelocatorModuleRegistry
     }
 
     @SideOnly(Side.CLIENT)
-    public static void registerIcons(IconRegister register)
+    public static void registerIcons(IIconRegister register)
     {
         for (Class clazz : modules.values())
         {

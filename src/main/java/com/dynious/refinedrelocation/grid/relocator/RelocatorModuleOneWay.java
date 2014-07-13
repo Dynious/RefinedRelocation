@@ -6,11 +6,12 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Resources;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import java.util.List;
 
 public class RelocatorModuleOneWay extends RelocatorModuleBase
 {
-    private static Icon icon0;
-    private static Icon icon1;
+    private static IIcon icon0;
+    private static IIcon icon1;
 
     private boolean inputAllowed = true;
 
@@ -78,13 +79,13 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     }
 
     @Override
-    public Icon getIcon(IItemRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return inputAllowed ? icon1 : icon0;
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
         icon0 = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleOneWay0");
         icon1 = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleOneWay1");

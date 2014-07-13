@@ -2,10 +2,9 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketRedstoneEnabled;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageRedstoneEnabled;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
@@ -62,7 +61,7 @@ public class GuiRedstoneSignalStatus extends GuiButtonToggle
             return;
 
         tile.setRedstoneTransmissionEnabled(newState);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRedstoneEnabled(newState)));
+        NetworkHandler.INSTANCE.sendToServer(new MessageRedstoneEnabled(newState));
     }
 
     @Override

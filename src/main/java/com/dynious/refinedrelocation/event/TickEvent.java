@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.event;
 
+import com.dynious.refinedrelocation.command.KongaHandler;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.lib.Settings;
@@ -7,68 +8,46 @@ import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import com.dynious.refinedrelocation.mods.waila.RelocatorHUDHandler;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 
-import java.util.EnumSet;
-
-public class TickEvent implements ITickHandler
+public class TickEvent
 {
 
     private static boolean checkedVersion = false;
 
-    @Override
-    public void tickStart(EnumSet<TickType> type, Object... tickData)
+    @SubscribeEvent
+    public void onClientTick(cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent event)
     {
-    }
-
-    @Override
-    public void tickEnd(EnumSet<TickType> type, Object... tickData)
-    {
-        for (TickType tickType : type)
+        if (event.phase == cpw.mods.fml.common.gameevent.TickEvent.Phase.END)
         {
-            if (tickType == TickType.CLIENT)
+            if (Mods.IS_WAILA_LOADED)
             {
-                if (Mods.IS_WAILA_LOADED)
+                RelocatorHUDHandler.tick++;
+                if (RelocatorHUDHandler.tick == RelocatorHUDHandler.TICKS_BETWEEN_STUFFED_ITEM_UPDATE)
                 {
-                    RelocatorHUDHandler.tick++;
-                    if (RelocatorHUDHandler.tick == RelocatorHUDHandler.TICKS_BETWEEN_STUFFED_ITEM_UPDATE)
-                    {
-                        RelocatorHUDHandler.stuffedItems = null;
-                    }
+                    RelocatorHUDHandler.stuffedItems = null;
                 }
+            }
 
-                if (!checkedVersion && Settings.DISPLAY_VERSION_RESULT && FMLClientHandler.instance().getClient().currentScreen == null)
+            if (!VersionChecker.sentIMCMessage && !checkedVersion && Settings.DISPLAY_VERSION_RESULT && FMLClientHandler.instance().getClient().currentScreen == null)
+            {
+                if (VersionChecker.getResult() != VersionChecker.CheckState.UNINITIALIZED)
                 {
-                    if (VersionChecker.getResult() != VersionChecker.CheckState.UNINITIALIZED)
-                    {
-                        checkedVersion = true;
+                    checkedVersion = true;
 
-                        if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
-                        {
-                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocalFormatted(Strings.OUTDATED, Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
-                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.CHANGE_LOG) + ":"));
-                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(" " + VersionChecker.getRemoteVersion().getChangeLog()));
-                            Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(StatCollector.translateToLocal(Strings.LATEST)));
-                        }
+                    if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
+                    {
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.OUTDATED, Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.CHANGE_LOG) + ":"));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(" " + VersionChecker.getRemoteVersion().getChangeLog()));
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.LATEST)));
                     }
                 }
             }
+            KongaHandler.checkDownloadedAndPlay();
         }
-    }
-
-    @Override
-    public EnumSet<TickType> ticks()
-    {
-        return EnumSet.of(TickType.CLIENT);
-    }
-
-    @Override
-    public String getLabel()
-    {
-        return Reference.NAME + ": " + this.getClass().getSimpleName();
     }
 }

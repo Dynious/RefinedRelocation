@@ -6,33 +6,35 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 import java.util.Random;
 
 public class BlockRelocationPortal extends BlockContainer
 {
-    protected BlockRelocationPortal(int id)
+    protected BlockRelocationPortal()
     {
-        super(id, Material.rock);
-        this.setUnlocalizedName(Names.relocationPortal);
+        super(Material.rock);
+        this.setBlockName(Names.relocationPortal);
         this.setBlockUnbreakable();
         this.setResistance(60000F);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
         return new TileRelocationPortal();
     }
 
-    public boolean isBlockSolidOnSide(World world, int i, int j, int k, ForgeDirection o)
+
+    public boolean isBlockSolid(IBlockAccess world, int i, int j, int k, int o)
     {
         return false;
     }
@@ -61,19 +63,19 @@ public class BlockRelocationPortal extends BlockContainer
         return false;
     }
 
-    public int idDropped(int par1, Random par2Random, int par3)
+    public Item getItemDropped(int par1, Random par2Random, int par3)
     {
-        return 0;
+        return null;
     }
 
     @Override
     public int colorMultiplier(IBlockAccess world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity != null && tileEntity instanceof TileRelocationPortal)
         {
             TileRelocationPortal tile = (TileRelocationPortal) tileEntity;
-            Block blockDisguisedAs = Block.blocksList[tile.oldId];
+            Block blockDisguisedAs = tile.oldBlock;
             if (blockDisguisedAs != null)
                 return blockDisguisedAs.colorMultiplier(world, x, y, z);
         }
@@ -81,18 +83,18 @@ public class BlockRelocationPortal extends BlockContainer
     }
 
     @Override
-    public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity != null && tileEntity instanceof TileRelocationPortal)
         {
             TileRelocationPortal tile = (TileRelocationPortal) tileEntity;
-            Block blockDisguisedAs = Block.blocksList[tile.oldId];
+            Block blockDisguisedAs = tile.oldBlock;
             int disguisedMeta = tile.oldMeta;
             if (blockDisguisedAs != null)
                 return blockDisguisedAs.getIcon(side, disguisedMeta);
         }
-        return super.getBlockTexture(world, x, y, z, side);
+        return super.getIcon(world, x, y, z, side);
     }
 
     @Override
@@ -100,7 +102,7 @@ public class BlockRelocationPortal extends BlockContainer
     {
         ForgeDirection dir = ForgeDirection.getOrientation(side);
 
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (tileEntity != null && tileEntity instanceof TileRelocationPortal)
         {
             TileRelocationPortal tile = (TileRelocationPortal) tileEntity;

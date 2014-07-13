@@ -32,7 +32,7 @@ public class TileFilteredBlockExtender extends TileBlockExtender implements IFil
     @Override
     public void onFilterChanged()
     {
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override

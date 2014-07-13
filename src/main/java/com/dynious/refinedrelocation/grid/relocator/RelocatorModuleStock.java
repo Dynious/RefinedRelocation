@@ -14,7 +14,7 @@ import com.dynious.refinedrelocation.lib.Resources;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -23,16 +23,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class RelocatorModuleStock extends RelocatorModuleBase implements IInventory
 {
-    private static Icon icon;
+    private static IIcon icon;
 
     private ItemStack[] itemStacksToStock = new ItemStack[9];
 
@@ -144,13 +144,13 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     }
 
     @Override
-    public Icon getIcon(IItemRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleStock");
     }
@@ -170,10 +170,10 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     @Override
     public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
-        NBTTagList nbttaglist = compound.getTagList("Items");
+        NBTTagList nbttaglist = compound.getTagList("Items", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.tagAt(i);
+            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 255;
 
             if (j >= 0 && j < this.itemStacksToStock.length)
@@ -221,7 +221,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
             {
                 itemstack = this.itemStacksToStock[par1];
                 this.itemStacksToStock[par1] = null;
-                this.onInventoryChanged();
+                this.markDirty();
                 return itemstack;
             }
             else
@@ -233,7 +233,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
                     this.itemStacksToStock[par1] = null;
                 }
 
-                this.onInventoryChanged();
+                this.markDirty();
                 return itemstack;
             }
         }
@@ -268,17 +268,17 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
             par2ItemStack.stackSize = this.getInventoryStackLimit();
         }
 
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return "relocatorModule.stock";
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return false;
     }
@@ -290,7 +290,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     }
 
     @Override
-    public void onInventoryChanged()
+    public void markDirty()
     {
 
     }
@@ -302,13 +302,15 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
+
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
+
     }
 
     @Override

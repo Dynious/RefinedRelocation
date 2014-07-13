@@ -78,7 +78,7 @@ public class GuiTextInput extends GuiWidgetBase
 
     public String getSelectedtext()
     {
-        return textField.getSelectedtext();
+        return textField.getSelectedText();
     }
 
     public void writeText(String par1Str)
@@ -96,9 +96,9 @@ public class GuiTextInput extends GuiWidgetBase
         return textField.getNthWordFromPos(par1, par2);
     }
 
-    public int func_73798_a(int par1, int par2, boolean par3)
+    public int func_146197_a(int par1, int par2, boolean par3)
     {
-        return textField.func_73798_a(par1, par2, par3);
+        return textField.func_146197_a(par1, par2, par3);
     }
 
     public void moveCursorBy(int par1)

@@ -11,6 +11,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
@@ -60,47 +61,34 @@ public class FilterStandard implements IFilterGUI
     {
         if (itemStack != null)
         {
-            String oreName = null;
+            String[] oreNames = null;
 
             if (getUserFilter() != null && !getUserFilter().isEmpty())
             {
                 String filter = getUserFilter().toLowerCase().replaceAll("\\s+", "");
+                String itemName = null;
                 for (String s : filter.split(","))
                 {
-                    String filterName;
                     if (s.contains("!"))
                     {
-                        int id = OreDictionary.getOreID(itemStack);
-                        if (id == -1)
+                        if (oreNames == null)
                         {
-                            oreName = "";
-                            break;
+                            oreNames = getOreNames(itemStack);
                         }
-                        filterName = oreName = OreDictionary.getOreName(id).toLowerCase().replaceAll("\\s+", "");
                         s = s.replace("!", "");
-                    }
-                    else
-                    {
-                        filterName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
-                    }
-                    if (s.startsWith("*") && s.length() > 1)
-                    {
-                        if (s.endsWith("*") && s.length() > 2)
+                        for (String oreName : oreNames)
                         {
-                            if (filterName.contains(s.substring(1, s.length() - 1)))
+                            if (stringMatchesWildcardPattern(oreName, s))
                                 return true;
                         }
-                        else if (filterName.endsWith(s.substring(1)))
-                            return true;
-                    }
-                    else if (s.endsWith("*") && s.length() > 1)
-                    {
-                        if (filterName.startsWith(s.substring(0, s.length() - 1)))
-                            return true;
                     }
                     else
                     {
-                        if (filterName.equalsIgnoreCase(s))
+                        if (itemName == null)
+                        {
+                            itemName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
+                        }
+                        if (stringMatchesWildcardPattern(itemName, s))
                             return true;
                     }
                 }
@@ -108,45 +96,40 @@ public class FilterStandard implements IFilterGUI
 
             if (Booleans.contains(customFilters, true))
             {
-                if (oreName == null)
+                if (oreNames == null)
                 {
-                    int id = OreDictionary.getOreID(itemStack);
-                    if (id == -1)
-                    {
-                        oreName = "";
-                    }
-                    else
-                    {
-                        oreName = OreDictionary.getOreName(id).toLowerCase().replaceAll("\\s+", "");
-                    }
+                    oreNames = getOreNames(itemStack);
                 }
 
-                if (customFilters[0] && (oreName.contains("ingot") || itemStack.itemID == Item.ingotIron.itemID || itemStack.itemID == Item.ingotGold.itemID))
-                    return true;
-                if (customFilters[1] && oreName.contains("ore"))
-                    return true;
-                if (customFilters[2] && oreName.contains("log"))
-                    return true;
-                if (customFilters[3] && oreName.contains("plank"))
-                    return true;
-                if (customFilters[4] && oreName.contains("dust"))
-                    return true;
-                if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
-                    return true;
-                if (customFilters[6] && oreName.contains("purified"))
-                    return true;
-                if (customFilters[7] && oreName.contains("plate"))
-                    return true;
-                if (customFilters[8] && oreName.contains("gem"))
-                    return true;
+                for (String oreName : oreNames)
+                {
+                    if (customFilters[0] && (oreName.contains("ingot") || itemStack.getItem() == Items.iron_ingot || itemStack.getItem() == Items.gold_ingot))
+                        return true;
+                    if (customFilters[1] && oreName.contains("ore"))
+                        return true;
+                    if (customFilters[2] && oreName.contains("log"))
+                        return true;
+                    if (customFilters[3] && oreName.contains("plank"))
+                        return true;
+                    if (customFilters[4] && oreName.contains("dust"))
+                        return true;
+                    if (customFilters[5] && oreName.contains("crushed") && !oreName.contains("purified"))
+                        return true;
+                    if (customFilters[6] && oreName.contains("purified"))
+                        return true;
+                    if (customFilters[7] && oreName.contains("plate"))
+                        return true;
+                    if (customFilters[8] && oreName.contains("gem"))
+                        return true;
+                    if (customFilters[10] && oreName.contains("dye"))
+                        return true;
+                    if (customFilters[11] && oreName.contains("nugget"))
+                        return true;
+                }
                 if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
                     return true;
-                if (customFilters[10] && oreName.contains("dye"))
+                if (customFilters[12] && itemStack.getItem() instanceof ItemBlock && Block.getBlockFromItem(itemStack.getItem()) instanceof IPlantable)
                     return true;
-                if (customFilters[11] && oreName.contains("nugget"))
-                    return true;
-                if (customFilters[12] && itemStack.getItem() instanceof ItemBlock && Block.blocksList[itemStack.itemID] instanceof IPlantable)
-                        return true;
                 if (customFilters[13] && TileEntityFurnace.getItemBurnTime(itemStack) > 0)
                     return true;
             }
@@ -159,11 +142,11 @@ public class FilterStandard implements IFilterGUI
 
                     if (itemStack.getItem() instanceof ItemBlock)
                     {
-                        tab = (CreativeTabs) displayOnCreativeTab.get(Block.blocksList[itemStack.itemID]);
+                        tab = (CreativeTabs) displayOnCreativeTab.get(Block.getBlockById(ItemBlock.getIdFromItem(itemStack.getItem())));
                     }
                     else
                     {
-                        tab = (CreativeTabs) tabToDisplayOn.get(Item.itemsList[itemStack.itemID]);
+                        tab = (CreativeTabs) tabToDisplayOn.get(itemStack.getItem());
                     }
                     if (tab != null)
                     {
@@ -177,7 +160,8 @@ public class FilterStandard implements IFilterGUI
                             }
                         }
                     }
-                } catch (IllegalAccessException e)
+                }
+                catch (IllegalAccessException e)
                 {
                     e.printStackTrace();
                 }
@@ -244,7 +228,7 @@ public class FilterStandard implements IFilterGUI
             case 13:
                 return StatCollector.translateToLocal(Strings.FUEL_FILTER);
             default:
-                return I18n.getString(tabs[getCreativeTab(place)].getTranslatedTabLabel()).replace("itemGroup.", "");
+                return I18n.format(tabs[getCreativeTab(place)].getTranslatedTabLabel()).replace("itemGroup.", "");
         }
     }
 
@@ -308,6 +292,43 @@ public class FilterStandard implements IFilterGUI
         }
     }
 
+    public static boolean stringMatchesWildcardPattern(String string, String wildcardPattern)
+    {
+        if (wildcardPattern.startsWith("*") && wildcardPattern.length() > 1)
+        {
+            if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 2)
+            {
+                if (string.contains(wildcardPattern.substring(1, wildcardPattern.length() - 1)))
+                    return true;
+            }
+            else if (string.endsWith(wildcardPattern.substring(1)))
+                return true;
+        }
+        else if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 1)
+        {
+            if (string.startsWith(wildcardPattern.substring(0, wildcardPattern.length() - 1)))
+                return true;
+        }
+        else
+        {
+            if (string.equalsIgnoreCase(wildcardPattern))
+                return true;
+        }
+        return false;
+    }
+
+    public static String[] getOreNames(ItemStack itemStack)
+    {
+        int[] ids = OreDictionary.getOreIDs(itemStack);
+
+        String[] oreNames = new String[ids.length];
+        for (int i = 0; i < ids.length; i++)
+        {
+            oreNames[i] = OreDictionary.getOreName(ids[i]).toLowerCase().replaceAll("\\s+", "");
+        }
+        return oreNames;
+    }
+
     public static void syncTabs(String[] tabLabels)
     {
         tabs = new CreativeTabs[tabLabels.length];
@@ -347,7 +368,14 @@ public class FilterStandard implements IFilterGUI
     public static CreativeTabs createNewFakeTab(String tabName)
     {
         CreativeTabs oldTab = CreativeTabs.creativeTabArray[0];
-        CreativeTabs tab = new CreativeTabs(0, tabName);
+        CreativeTabs tab = new CreativeTabs(0, tabName)
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return null;
+            }
+        };
         CreativeTabs.creativeTabArray[0] = oldTab;
         return tab;
     }

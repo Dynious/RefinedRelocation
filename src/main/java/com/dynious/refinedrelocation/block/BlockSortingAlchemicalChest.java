@@ -7,17 +7,17 @@ import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
 import com.pahimar.ee3.block.BlockAlchemicalChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class BlockSortingAlchemicalChest extends BlockAlchemicalChest
 {
-    public BlockSortingAlchemicalChest(int id)
+    public BlockSortingAlchemicalChest()
     {
-        super(id);
-        this.setUnlocalizedName(Names.sortingAlchemicalChest);
+        super();
+        this.setBlockName(Names.sortingAlchemicalChest);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
@@ -75,7 +75,7 @@ public class BlockSortingAlchemicalChest extends BlockAlchemicalChest
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
         blockIcon = iconRegister.registerIcon("EE3:alchemicalChest");
     }

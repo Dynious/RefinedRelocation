@@ -2,15 +2,13 @@ package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.item.*;
-import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.*;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class ModBlocks
@@ -27,18 +25,17 @@ public class ModBlocks
     public static BlockPowerLimiter powerLimiter;
     public static BlockSortingAlchemicalChest sortingAlchemicalChest;
     public static BlockRelocator relocator;
-    public static BlockSortingPreciousChest sortingPreciousChest;
 
     public static void init()
     {
-        blockExtender = new BlockExtender(BlockIds.BLOCK_EXTENDER);
-        buffer = new BlockBuffer(BlockIds.BUFFER);
-        sortingChest = new BlockSortingChest(BlockIds.SORTING_CHEST);
-        sortingConnector = new BlockSortingConnector(BlockIds.SORTING_CONNECTOR);
-        filteringHopper = new BlockFilteringHopper(BlockIds.FILTERING_HOPPER);
-        relocationPortal = new BlockRelocationPortal(BlockIds.RELOCATION_PORTAL);
-        relocationController = new BlockRelocationController(BlockIds.RELOCATION_CONTROLLER);
-        powerLimiter = new BlockPowerLimiter(BlockIds.POWER_LIMITER);
+        blockExtender = new BlockExtender();
+        buffer = new BlockBuffer();
+        sortingChest = new BlockSortingChest();
+        sortingConnector = new BlockSortingConnector();
+        filteringHopper = new BlockFilteringHopper();
+        relocationPortal = new BlockRelocationPortal();
+        relocationController = new BlockRelocationController();
+        powerLimiter = new BlockPowerLimiter();
 
         ModObjects.blockExtender = new ItemStack(blockExtender);
         ModObjects.advancedBlockExtender = new ItemStack(blockExtender, 1, 1);
@@ -66,34 +63,35 @@ public class ModBlocks
         GameRegistry.registerBlock(relocationController, ItemRelocationController.class, Names.relocationController);
         GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
 
-        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Item.ingotIron, 'o', Block.obsidian, 'g', Block.thinGlass, 'e', Item.enderPearl);
-        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 0));
-        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 2), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(blockExtender, 1, 0));
-        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(blockExtender, 1, 1));
-        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(blockExtender, 1, 2));
+        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Items.iron_ingot, 'o', Blocks.obsidian, 'g', Blocks.glass_pane, 'e', Items.ender_pearl);
+        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Blocks.redstone_block, 'b', new ItemStack(blockExtender, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 2), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(blockExtender, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(blockExtender, 1, 1));
+        GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 3), "r r", " b ", "r r", 'r', Blocks.redstone_block, 'b', new ItemStack(blockExtender, 1, 2));
 
         if (!Settings.DISABLE_WIRELESS_BLOCK_EXTENDER)
         {
-            GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 4), "d d", " b ", "d d", 'd', Item.diamond, 'b', new ItemStack(blockExtender, 1, 3));
+            GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 4), "d d", " b ", "d d", 'd', Items.diamond, 'b', new ItemStack(blockExtender, 1, 3));
         }
 
-        GameRegistry.addShapedRecipe(new ItemStack(buffer, 4, 0), "igi", "geg", "igi", 'i', Item.ingotIron, 'g', Block.thinGlass, 'e', Item.enderPearl);
-        GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 1), "r r", " b ", "r r", 'r', Block.blockRedstone, 'b', new ItemStack(buffer, 1, 0));
-        GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 2), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(buffer, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(buffer, 4, 0), "igi", "geg", "igi", 'i', Items.iron_ingot, 'g', Blocks.glass_pane, 'e', Items.ender_pearl);
+        GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 1), "r r", " b ", "r r", 'r', Blocks.redstone_block, 'b', new ItemStack(buffer, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 2), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(buffer, 1, 0));
 
-        GameRegistry.addShapedRecipe(new ItemStack(sortingChest, 1, 0), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(Block.chest));
-        GameRegistry.addShapelessRecipe(new ItemStack(Block.chest), new ItemStack(sortingChest, 1, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(sortingChest, 1, 0), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(Blocks.chest));
+        GameRegistry.addShapelessRecipe(new ItemStack(Blocks.chest), new ItemStack(sortingChest, 1, 0));
+        
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 0), "gsg", "sis", "gsg", 'g', Items.gold_nugget, 's', Blocks.stone, 'i', Items.iron_ingot);
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 1), "g g", " i ", "g g", 'g', Items.gold_ingot, 'i', new ItemStack(sortingConnector, 4, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 2), "rgr", "sis", "rgr", 'g', Items.gold_ingot, 's', Items.redstone, 'r', Items.iron_ingot, 'i', new ItemStack(sortingConnector, 4, 0));
 
-        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 0), "gsg", "sis", "gsg", 'g', Item.goldNugget, 's', Block.stone, 'i', Item.ingotIron);
-        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 1), "g g", " i ", "g g", 'g', Item.ingotGold, 'i', new ItemStack(sortingConnector, 4, 0));
-        GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 2), "rgr", "sis", "rgr", 'g', Item.ingotGold, 's', Item.redstone, 'r', Item.ingotIron, 'i', new ItemStack(sortingConnector, 4, 0));
+        GameRegistry.addShapedRecipe(new ItemStack(filteringHopper), "g g", " h ", "g g", 'g', Items.gold_ingot, 'h', new ItemStack(Blocks.hopper));
+        GameRegistry.addShapedRecipe(new ItemStack(powerLimiter), "iri", "rbr", "iri", 'i', Items.iron_ingot, 'r', Items.redstone, 'b', Blocks.redstone_block);
 
-        GameRegistry.addShapedRecipe(new ItemStack(filteringHopper), "g g", " h ", "g g", 'g', Item.ingotGold, 'h', new ItemStack(Block.hopperBlock));
-        GameRegistry.addShapedRecipe(new ItemStack(powerLimiter), "iri", "rbr", "iri", 'i', Item.ingotIron, 'r', Item.redstone, 'b', Block.blockRedstone);
 
         if (!Settings.DISABLE_PLAYER_RELOCATOR)
         {
-            GameRegistry.addShapedRecipe(new ItemStack(relocationController), "ded", "ece", "ded", 'd', Item.diamond, 'e', Item.eyeOfEnder, 'c', Item.compass);
+            GameRegistry.addShapedRecipe(new ItemStack(relocationController), "ded", "ece", "ded", 'd', Items.diamond, 'e', Items.ender_eye, 'c', Items.compass);
         }
 
         if (Mods.IS_IRON_CHEST_LOADED)
@@ -114,18 +112,12 @@ public class ModBlocks
             EE3Helper.addEE3Recipes();
         }
 
-        if (Mods.IS_METAL_LOADED)
-        {
-            MetallurgyHelper.addMetalBlocks();
-            MetallurgyHelper.addMetalRecipes();
-        }
-
         if (!Mods.IS_FMP_LOADED)
         {
-            relocator = new BlockRelocator(BlockIds.RELOCATOR);
+            relocator = new BlockRelocator();
             ModObjects.relocator = new ItemStack(relocator);
             GameRegistry.registerBlock(relocator, Names.relocator);
-            GameRegistry.addShapedRecipe(new ItemStack(relocator, 4, 0), "igi", "g g", "igi", 'i', Item.ingotIron, 'g', Block.thinGlass);
+            GameRegistry.addShapedRecipe(new ItemStack(relocator, 4, 0), "igi", "g g", "igi", 'i', Items.iron_ingot, 'g', Blocks.glass_pane);
         }
     }
 }

@@ -2,10 +2,9 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketRedstoneToggle;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageRedstoneToggle;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class GuiButtonRedstoneToggle extends GuiButtonToggle
             return;
 
         tile.setRedstoneToggle(newState);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRedstoneToggle(newState)));
+        NetworkHandler.INSTANCE.sendToServer(new MessageRedstoneToggle(newState));
     }
 
     @Override

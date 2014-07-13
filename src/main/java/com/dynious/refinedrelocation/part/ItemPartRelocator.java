@@ -8,17 +8,16 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class ItemPartRelocator extends JItemMultiPart
 {
-    public ItemPartRelocator(int id)
+    public ItemPartRelocator()
     {
-        super(id);
+        super();
         this.setUnlocalizedName(Names.relocator);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }

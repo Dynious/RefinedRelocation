@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.part;
 
+import buildcraft.api.transport.PipeWire;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
@@ -14,23 +15,28 @@ import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart, IRedstonePart
 {
     public static final String RELOCATOR_TYPE = "tile." + Names.relocator;
+    private static Field nbtField = ReflectionHelper.findField(S35PacketUpdateTileEntity.class, "field_148860_e", "e");
     private TileRelocator relocator;
 
     public PartRelocator(TileRelocator tile)
@@ -112,7 +118,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
 
     public void initRelocator()
     {
-        if (relocator.worldObj == null)
+        if (relocator.getWorldObj() == null)
         {
             relocator.setWorldObj(world());
             relocator.xCoord = x();
@@ -193,7 +199,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
         super.save(tag);
         NBTTagCompound compound = new NBTTagCompound();
         relocator.writeToNBT(compound);
-        tag.setCompoundTag("relocator", compound);
+        tag.setTag("relocator", compound);
     }
 
     @Override
@@ -206,13 +212,23 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public void writeDesc(MCDataOutput packet)
     {
-        packet.writeNBTTagCompound(((Packet132TileEntityData) relocator.getDescriptionPacket()).data);
+        S35PacketUpdateTileEntity p = (S35PacketUpdateTileEntity) relocator.getDescriptionPacket();
+        NBTTagCompound t = null;
+        try
+        {
+            t = (NBTTagCompound) nbtField.get(p);
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        packet.writeNBTTagCompound(t);
     }
 
     @Override
     public void readDesc(MCDataInput packet)
     {
-        relocator.onDataPacket(null, new Packet132TileEntityData(0, 0, 0, 0, packet.readNBTTagCompound()));
+        relocator.onDataPacket(null, new S35PacketUpdateTileEntity(0, 0, 0, 0, packet.readNBTTagCompound()));
     }
 
     /*
@@ -362,15 +378,15 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
-        return relocator.getInvName();
+        return relocator.getInventoryName();
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
-        return relocator.isInvNameLocalized();
+        return relocator.hasCustomInventoryName();
     }
 
     @Override
@@ -380,9 +396,9 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public void onInventoryChanged()
+    public void markDirty()
     {
-        relocator.onInventoryChanged();
+        relocator.markDirty();
     }
 
     @Override
@@ -392,20 +408,52 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
-        relocator.openChest();
+        relocator.openInventory();
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
-        relocator.closeChest();
+        relocator.closeInventory();
     }
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
     {
         return relocator.isItemValidForSlot(i, itemstack);
+    }
+
+    /*
+    IPipeTile functionality
+     */
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public PipeType getPipeType()
+    {
+        return relocator.getPipeType();
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public int injectItem(ItemStack stack, boolean b, ForgeDirection direction)
+    {
+        return relocator.injectItem(stack, b, direction);
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public boolean isPipeConnected(ForgeDirection direction)
+    {
+        return relocator.isPipeConnected(direction);
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public boolean isWireActive(PipeWire pipeWire)
+    {
+        return relocator.isWireActive(pipeWire);
     }
 }

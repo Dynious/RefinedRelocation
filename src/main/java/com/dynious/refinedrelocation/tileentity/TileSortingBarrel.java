@@ -5,9 +5,9 @@ import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.mods.BarrelFilter;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import mcp.mobius.betterbarrels.common.blocks.TileEntityBarrel;
-import mcp.mobius.betterbarrels.network.Packet0x01ContentUpdate;
+import mcp.mobius.betterbarrels.network.BarrelPacketHandler;
+import mcp.mobius.betterbarrels.network.Message0x01ContentUpdate;
 import net.minecraft.item.ItemStack;
 
 public class TileSortingBarrel extends TileEntityBarrel implements ISortingInventory
@@ -49,7 +49,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
         if (added != 0)
         {
             itemStack.stackSize -= added;
-            PacketDispatcher.sendPacketToAllInDimension(Packet0x01ContentUpdate.create(this), worldObj.provider.dimensionId);
+            BarrelPacketHandler.INSTANCE.sendToDimension(new Message0x01ContentUpdate(this), getWorldObj().provider.dimensionId);
             if (itemStack.stackSize == 0)
                 return null;
         }

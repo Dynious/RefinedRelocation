@@ -1,5 +1,7 @@
 package com.dynious.refinedrelocation.util;
 
+import net.minecraft.block.Block;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +9,10 @@ public class MultiBlockAndMeta
 {
     private List<BlockAndMeta> blockAndMetas;
 
-    public MultiBlockAndMeta(int blockId, int meta)
+    public MultiBlockAndMeta(Block block, int meta)
     {
         blockAndMetas = new ArrayList<BlockAndMeta>();
-        blockAndMetas.add(new BlockAndMeta(blockId, meta));
+        blockAndMetas.add(new BlockAndMeta(block, meta));
     }
 
     public MultiBlockAndMeta(BlockAndMeta blockAndMeta)
@@ -24,9 +26,9 @@ public class MultiBlockAndMeta
         blockAndMetas = new ArrayList<BlockAndMeta>(blockAndMeta);
     }
 
-    public void add(int blockId, int meta)
+    public void add(Block block, int meta)
     {
-        blockAndMetas.add(new BlockAndMeta(blockId, meta));
+        blockAndMetas.add(new BlockAndMeta(block, meta));
     }
 
     public void add(BlockAndMeta blockAndMeta)

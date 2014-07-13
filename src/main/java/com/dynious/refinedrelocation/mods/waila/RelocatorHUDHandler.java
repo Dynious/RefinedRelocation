@@ -17,7 +17,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 
 import java.util.ArrayList;
@@ -162,10 +161,10 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
         if (compound.hasKey("StuffedItems"))
         {
-            NBTTagList nbttaglist = compound.getTagList("StuffedItems");
+            NBTTagList nbttaglist = compound.getTagList("StuffedItems", 10);
             for (int x = 0; x < nbttaglist.tagCount(); x++)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(x);
+                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(x);
                 byte stackSide = nbttagcompound1.getByte("Side");
                 if (stackSide == side)
                 {
@@ -193,10 +192,10 @@ public class RelocatorHUDHandler implements IWailaDataProvider
 
             if (side < 6)
             {
-                NBTTagList parts = iWailaDataAccessor.getNBTData().getTagList("parts");
+                NBTTagList parts = iWailaDataAccessor.getNBTData().getTagList("parts", 10);
                 for (int i = 0; i < parts.tagCount(); i++)
                 {
-                    NBTTagCompound subtag = (NBTTagCompound) parts.tagAt(i);
+                    NBTTagCompound subtag = parts.getCompoundTagAt(i);
                     String id = subtag.getString("id");
 
                     if (id.contains(PartRelocator.RELOCATOR_TYPE))

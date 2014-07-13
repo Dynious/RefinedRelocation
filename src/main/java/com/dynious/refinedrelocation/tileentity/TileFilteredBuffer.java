@@ -32,7 +32,7 @@ public class TileFilteredBuffer extends TileBuffer implements IFilterTileGUI
     @Override
     public void onFilterChanged()
     {
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override

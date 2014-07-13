@@ -2,7 +2,6 @@ package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
-import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
@@ -16,17 +15,16 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import universalelectricity.api.energy.IEnergyInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +41,10 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     protected IFluidHandler fluidHandler;
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
+    /*
     protected IEnergyHandler energyHandler;
     protected IEnergyInterface energyInterface;
+    */
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
     protected boolean isRedstonePowered = false;
@@ -104,7 +104,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         this.connectedDirection = ForgeDirection.getOrientation(connectedSide);
         this.blocksChanged = true;
         if (worldObj != null)
-            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
     }
 
     public ForgeDirection getConnectedDirection()
@@ -136,12 +136,6 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         this.powerReceptor = powerReceptor;
     }
 
-    @Method(modid = Mods.COFH_CORE_ID)
-    public void setEnergyHandler(IEnergyHandler energyHandler)
-    {
-        this.energyHandler = energyHandler;
-    }
-
     @Method(modid = Mods.IC2_ID)
     public void setEnergySink(IEnergySink energySink)
     {
@@ -163,11 +157,21 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         }
     }
 
+    /*
+    
+    @Method(modid = Mods.COFH_CORE_ID)
+    public void setEnergyHandler(IEnergyHandler energyHandler)
+    {
+        this.energyHandler = energyHandler;
+    }
+
     @Method(modid = Mods.UE_ID)
     public void setEnergyInterface(IEnergyInterface energyInterface)
     {
         this.energyInterface = energyInterface;
     }
+
+    */
 
     public IInventory getInventory()
     {
@@ -191,6 +195,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return energySink;
     }
 
+    /*
     @Method(modid = Mods.COFH_CORE_ID)
     public IEnergyHandler getEnergyHandler()
     {
@@ -202,6 +207,8 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     {
         return energyInterface;
     }
+
+    */
 
     public TileEntity[] getTiles()
     {
@@ -267,7 +274,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 if (tile == null)
                 {
                     resetConnections();
-                    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
                     worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
                 }
                 else
@@ -317,6 +324,9 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setEnergySink((IEnergySink) tile);
             }
+
+            /*
+
             if (Mods.IS_COFH_CORE_LOADED && tile instanceof IEnergyHandler)
             {
                 if (getEnergyHandler() == null)
@@ -333,9 +343,12 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setEnergyInterface((IEnergyInterface) tile);
             }
+
+            */
+            
             if (updated)
             {
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
                 worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
             }
         }
@@ -350,10 +363,12 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
             setPowerReceptor(null);
         if (Mods.IS_IC2_LOADED)
             setEnergySink(null);
+        /*
         if (Mods.IS_COFH_CORE_LOADED)
             setEnergyHandler(null);
         if (Mods.IS_UE_LOADED)
             setEnergyInterface(null);
+        */
     }
 
     public boolean hasConnection()
@@ -370,14 +385,14 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         {
             return true;
         }
-        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
+/*        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
         {
             return true;
         }
         if (Mods.IS_UE_LOADED && getEnergyInterface() != null)
         {
             return true;
-        }
+        }*/
         return false;
     }
 
@@ -393,10 +408,10 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
             connections.add("Buildcraft Energy");
         if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add("IC2 Energy");
-        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
+/*        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
             connections.add("Thermal Expansion Energy");
         if (Mods.IS_UE_LOADED && getEnergyInterface() != null)
-            connections.add("Universal Electricity Energy");
+            connections.add("Universal Electricity Energy");*/
 
         return connections;
     }
@@ -446,7 +461,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         if (isRedstoneTransmissionActive() != wasRedstonePowered)
         {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            worldObj.notifyBlockOfNeighborChange(xCoord + connectedDirection.offsetX, yCoord + connectedDirection.offsetY, zCoord + connectedDirection.offsetZ, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
+            worldObj.notifyBlockOfNeighborChange(xCoord + connectedDirection.offsetX, yCoord + connectedDirection.offsetY, zCoord + connectedDirection.offsetZ, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
         }
     }
 
@@ -593,19 +608,19 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         if (getInventory() != null)
         {
-            return getInventory().getInvName();
+            return getInventory().getInventoryName();
         }
         return null;
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
-        return getInventory() != null && getInventory().isInvNameLocalized();
+        return getInventory() != null && getInventory().hasCustomInventoryName();
     }
 
     @Override
@@ -625,20 +640,20 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
         if (getInventory() != null)
         {
-            getInventory().openChest();
+            getInventory().openInventory();
         }
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
         if (getInventory() != null)
         {
-            getInventory().closeChest();
+            getInventory().closeInventory();
         }
     }
 
@@ -734,33 +749,33 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public double demandedEnergyUnits()
+    public double getDemandedEnergy()
     {
         if (getEnergySink() != null)
         {
-            return getEnergySink().demandedEnergyUnits();
+            return getEnergySink().getDemandedEnergy();
         }
         return 0;
     }
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public double injectEnergyUnits(ForgeDirection forgeDirection, double v)
+    public double injectEnergy(ForgeDirection forgeDirection, double v, double v1)
     {
         if (getEnergySink() != null)
         {
-            return getEnergySink().injectEnergyUnits(getInputSide(forgeDirection), v);
+            return getEnergySink().injectEnergy(getInputSide(forgeDirection), v, v1);
         }
         return 0;
     }
 
     @Method(modid = Mods.IC2_ID)
     @Override
-    public int getMaxSafeInput()
+    public int getSinkTier()
     {
         if (getEnergySink() != null)
         {
-            return getEnergySink().getMaxSafeInput();
+            return getEnergySink().getSinkTier();
         }
         return 0;
     }
@@ -771,6 +786,8 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     {
         return getEnergySink() != null && getEnergySink().acceptsEnergyFrom(tileEntity, getInputSide(forgeDirection));
     }
+
+    /*
 
     @Method(modid = Mods.COFH_CORE_ID)
     @Override
@@ -856,6 +873,8 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return false;
     }
 
+    */
+
     /*
     NBT stuffs
      */
@@ -870,7 +889,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         if (disguiseBlockId != 0)
         {
             int disguisedMeta = compound.getInteger("disguisedMeta");
-            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+            setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }
 
@@ -882,24 +901,26 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         compound.setBoolean("redstoneEnabled", this.isRedstoneTransmissionEnabled());
         if (blockDisguisedAs != null)
         {
-            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedId", Block.getIdFromBlock(blockDisguisedAs));
             compound.setInteger("disguisedMeta", blockDisguisedMetadata);
         }
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        setConnectedSide(pkt.data.getByte("side"));
-        setRedstoneTransmissionActive(pkt.data.getBoolean("redstone"));
-        setRedstoneTransmissionEnabled(pkt.data.getBoolean("redstoneEnabled"));
-        int disguiseBlockId = pkt.data.getInteger("disguisedId");
+        setConnectedSide(pkt.func_148857_g().getByte("side"));
+        setRedstoneTransmissionActive(pkt.func_148857_g().getBoolean("redstone"));
+        setRedstoneTransmissionEnabled(pkt.func_148857_g().getBoolean("redstoneEnabled"));
+        int disguiseBlockId = pkt.func_148857_g().getInteger("disguisedId");
         if (disguiseBlockId != 0)
         {
-            int disguisedMeta = pkt.data.getInteger("disguisedMeta");
-            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+            int disguisedMeta = pkt.func_148857_g().getInteger("disguisedMeta");
+            setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }
+
+
 
     @Override
     public Packet getDescriptionPacket()
@@ -910,10 +931,10 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         compound.setBoolean("redstoneEnabled", this.isRedstoneTransmissionEnabled());
         if (blockDisguisedAs != null)
         {
-            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedId", Block.getIdFromBlock(blockDisguisedAs));
             compound.setInteger("disguisedMeta", blockDisguisedMetadata);
         }
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
     }
 
     public boolean rotateBlock()

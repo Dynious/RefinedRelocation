@@ -15,13 +15,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     /**
      * Returns the name of the inventory.
      */
-    public String getInvName()
+    public String getInventoryName()
     {
         return "container.sortingChest.name";
     }
@@ -83,7 +82,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
      * If this returns false, the inventory name will be used as an unlocalized name, and translated into the player's
      * language. Otherwise it will be used directly.
      */
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return false;
     }
@@ -110,7 +109,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
             {
                 itemstack = this.inventory[par1];
                 this.inventory[par1] = null;
-                this.onInventoryChanged();
+                this.markDirty();;
                 return itemstack;
             }
             else
@@ -122,7 +121,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
                     this.inventory[par1] = null;
                 }
 
-                this.onInventoryChanged();
+                this.markDirty();;
                 return itemstack;
             }
         }
@@ -170,7 +169,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
      */
     public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer)
     {
-        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && par1EntityPlayer.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
     }
 
     /**
@@ -192,7 +191,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         {
             this.numUsingPlayers = 0;
             f = 5.0F;
-            List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB((double) ((float) this.xCoord - f), (double) ((float) this.yCoord - f), (double) ((float) this.zCoord - f), (double) ((float) (this.xCoord + 1) + f), (double) ((float) (this.yCoord + 1) + f), (double) ((float) (this.zCoord + 1) + f)));
+            List list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox((double) ((float) this.xCoord - f), (double) ((float) this.yCoord - f), (double) ((float) this.zCoord - f), (double) ((float) (this.xCoord + 1) + f), (double) ((float) (this.yCoord + 1) + f), (double) ((float) (this.zCoord + 1) + f)));
 
             for (Object aList : list)
             {
@@ -289,9 +288,9 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        facing = pkt.data.getByte("facing");
+        facing = pkt.func_148857_g().getByte("facing");
     }
 
     @Override
@@ -299,10 +298,10 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     {
         NBTTagCompound nbt = new NBTTagCompound();
         nbt.setByte("facing", (byte) facing);
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, nbt);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
     }
 
-    public void openChest()
+    public void openInventory()
     {
         if (this.numUsingPlayers < 0)
         {
@@ -310,19 +309,19 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         }
 
         ++this.numUsingPlayers;
-        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, this.numUsingPlayers);
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType().blockID);
+        this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numUsingPlayers);
+        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
+        this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType());
     }
 
-    public void closeChest()
+    public void closeInventory()
     {
         if (this.getBlockType() != null && this.getBlockType() instanceof BlockSortingChest)
         {
             --this.numUsingPlayers;
-            this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID, 1, this.numUsingPlayers);
-            this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType().blockID);
-            this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType().blockID);
+            this.worldObj.addBlockEvent(this.xCoord, this.yCoord, this.zCoord, this.getBlockType(), 1, this.numUsingPlayers);
+            this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.getBlockType());
+            this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord - 1, this.zCoord, this.getBlockType());
         }
     }
 
@@ -347,12 +346,12 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        NBTTagList nbttaglist = compound.getTagList("Items");
+        NBTTagList nbttaglist = compound.getTagList("Items", 10);
         this.inventory = new ItemStack[this.getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 255;
 
             if (j >= 0 && j < this.inventory.length)
@@ -443,7 +442,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
                     {
                         inventory[slot] = itemStack;
 
-                        onInventoryChanged();
+                        markDirty();
                         itemStack = null;
                     }
                     else
@@ -481,7 +480,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     @Override
     public void onFilterChanged()
     {
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override

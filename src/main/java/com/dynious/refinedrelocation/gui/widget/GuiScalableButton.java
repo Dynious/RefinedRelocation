@@ -104,6 +104,7 @@ public class GuiScalableButton extends com.dynious.refinedrelocation.gui.widget.
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnable(GL11.GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
         int fillerWidth = textureWidth - leftBorder - rightBorder;

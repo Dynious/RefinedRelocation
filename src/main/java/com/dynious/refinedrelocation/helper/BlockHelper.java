@@ -8,7 +8,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,16 +20,15 @@ public class BlockHelper
 
     public static String getBlockDisplayName(World world, int x, int y, int z, ForgeDirection side)
     {
-        int blockID = world.getBlockId(x, y, z);
-        Block block = Block.blocksList[blockID];
+        Block block = world.getBlock(x, y, z);
         if (block != null)
         {
             // trace from the middle of the given side to the opposite side
-            Vec3 midpos = world.getWorldVec3Pool().getVecFromPool(x+0.5D, y+0.5D, z+0.5D);
+            Vec3 midpos = Vec3.createVectorHelper(x+0.5D, y+0.5D, z+0.5D);
             ForgeDirection opposite = side.getOpposite();
             Vec3 startpos = midpos.addVector(opposite.offsetX*.5, opposite.offsetY*.5, opposite.offsetZ*.5);
             Vec3 endpos = midpos.addVector(side.offsetX*.5, side.offsetY*.5, side.offsetZ*.5);
-            MovingObjectPosition hit = world.clip(startpos, endpos);
+            MovingObjectPosition hit = world.rayTraceBlocks(startpos, endpos);
             if (hit != null)
             {
                 try
@@ -50,15 +49,14 @@ public class BlockHelper
 
     public static String getBlockDisplayName(World world, int x, int y, int z)
     {
-        int blockID = world.getBlockId(x, y, z);
-        Block block = Block.blocksList[blockID];
+        Block block = world.getBlock(x, y, z);
         if (block != null)
         {
             // trace from one corner to the other so that we can be fairly certain we at least hit something
             // note that this may ignore tiny multiparts (nooks/corners)
-            Vec3 startpos = world.getWorldVec3Pool().getVecFromPool(x, y, z);
-            Vec3 endpos = world.getWorldVec3Pool().getVecFromPool(x+1, y+1, z+1);
-            MovingObjectPosition hit = world.clip(startpos, endpos);
+            Vec3 startpos = Vec3.createVectorHelper(x, y, z);
+            Vec3 endpos = Vec3.createVectorHelper(x+1, y+1, z+1);
+            MovingObjectPosition hit = world.rayTraceBlocks(startpos, endpos);
             if (hit != null)
             {
                 try
@@ -73,7 +71,7 @@ public class BlockHelper
                 }
             }
 
-            List<ItemStack> dropped = block.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+            List<ItemStack> dropped = block.getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
             if (dropped != null && !dropped.isEmpty())
             {
                 Collections.sort(dropped, new Comparator<ItemStack>()
@@ -97,7 +95,7 @@ public class BlockHelper
     {
         if (tile != null)
         {
-            return getBlockDisplayName(tile.worldObj, tile.xCoord, tile.yCoord, tile.zCoord);
+            return getBlockDisplayName(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
         }
 
         return nullBlockString;

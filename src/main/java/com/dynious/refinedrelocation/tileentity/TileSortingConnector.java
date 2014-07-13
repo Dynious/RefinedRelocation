@@ -6,9 +6,9 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileSortingConnector extends TileEntity implements ISortingMember, IDisguisable
@@ -86,7 +86,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
         if (disguiseBlockId != 0)
         {
             int disguisedMeta = compound.getInteger("disguisedMeta");
-            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+            setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }
 
@@ -96,19 +96,19 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
         super.writeToNBT(compound);
         if (blockDisguisedAs != null)
         {
-            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedId", Block.getIdFromBlock(blockDisguisedAs));
             compound.setInteger("disguisedMeta", blockDisguisedMetadata);
         }
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        int disguiseBlockId = pkt.data.getInteger("disguisedId");
+        int disguiseBlockId = pkt.func_148857_g().getInteger("disguisedId");
         if (disguiseBlockId != 0)
         {
-            int disguisedMeta = pkt.data.getInteger("disguisedMeta");
-            setDisguise(Block.blocksList[disguiseBlockId], disguisedMeta);
+            int disguisedMeta = pkt.func_148857_g().getInteger("disguisedMeta");
+            setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }
 
@@ -118,10 +118,10 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
         NBTTagCompound compound = new NBTTagCompound();
         if (blockDisguisedAs != null)
         {
-            compound.setInteger("disguisedId", blockDisguisedAs.blockID);
+            compound.setInteger("disguisedId", Block.getIdFromBlock(blockDisguisedAs));
             compound.setInteger("disguisedMeta", blockDisguisedMetadata);
         }
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, compound);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, compound);
     }
 
     @Override

@@ -1,19 +1,20 @@
 package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
+import net.minecraft.block.Block;
 import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemSortingConnector extends ItemBlock
 {
-    public ItemSortingConnector(int id)
+    public ItemSortingConnector(Block block)
     {
-        super(id);
+        super(block);
         this.setHasSubtypes(true);
     }
 
@@ -36,7 +37,7 @@ public class ItemSortingConnector extends ItemBlock
         {
             return false;
         }
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileSortingInterface)
         {
             ((TileSortingInterface) tile).setConnectedSide(ForgeDirection.getOrientation(side).getOpposite());

@@ -14,21 +14,21 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraftforge.client.event.FOVUpdateEvent;
-import net.minecraftforge.common.DimensionManager;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
@@ -43,9 +43,9 @@ public class ItemPlayerRelocator extends Item
     public static final String INTER_LINK_TAG = "interLink";
     public static final String TIME = "time";
 
-    public ItemPlayerRelocator(int id)
+    public ItemPlayerRelocator()
     {
-        super(id);
+        super();
         this.setUnlocalizedName(Names.playerRelocator);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setMaxStackSize(1);
@@ -57,7 +57,7 @@ public class ItemPlayerRelocator extends Item
         if (world.isRemote)
             return false;
 
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationController)
         {
             if (((TileRelocationController) tile).isFormed(true))
@@ -80,7 +80,7 @@ public class ItemPlayerRelocator extends Item
                 stack.getTagCompound().setInteger("y", y);
                 stack.getTagCompound().setInteger("z", z);
                 ((TileRelocationController) tile).setLinkedUUID(stack.getTagCompound().getString(UUID_TAG));
-                player.sendChatToPlayer(new ChatMessageComponent().addText(StatCollector.translateToLocal(Strings.PLAYER_RELOCATOR_LINK)));
+                player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.PLAYER_RELOCATOR_LINK)));
             }
             return true;
         }
@@ -123,7 +123,7 @@ public class ItemPlayerRelocator extends Item
             World world2 = MinecraftServer.getServer().worldServerForDimension(stack.getTagCompound().getInteger(DIMENSION_TAG));
             if (world2 != null && (world == world2 || stack.getTagCompound().getBoolean(INTER_LINK_TAG)))
             {
-                TileEntity connectedTile = world2.getBlockTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
+                TileEntity connectedTile = world2.getTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
                 if (connectedTile != null && connectedTile instanceof TileRelocationController && ((TileRelocationController) connectedTile).isFormed(true))
                 {
                     if ((world != world2 && !((TileRelocationController) connectedTile).isIntraLinker()) || ArrayUtils.contains(Settings.PLAYER_RELOCATOR_DISABLED_AGES, world.provider.dimensionId))
@@ -162,52 +162,52 @@ public class ItemPlayerRelocator extends Item
 
     private boolean checkBlocks(World world, int posX, int posY, int posZ)
     {
-        int blockID = world.getBlockId(posX, posY - 1, posZ);
-        int blockID2 = world.getBlockId(posX, posY - 2, posZ);
-        int blockID3 = world.getBlockId(posX, posY - 3, posZ);
+        Block block = world.getBlock(posX, posY - 1, posZ);
+        Block block1 = world.getBlock(posX, posY - 2, posZ);
+        Block block2 = world.getBlock(posX, posY - 3, posZ);
 
-        return (world.getBlockTileEntity(posX, posY - 1, posZ) == null) && (blockID != Block.bedrock.blockID)
-                && (blockID != ModBlocks.relocationPortal.blockID) && (Block.blocksList[blockID] != null) && (!Block.blocksList[blockID].canPlaceBlockAt(world, posX, posY - 1, posZ))
-                && (Block.blocksList[blockID].getBlockHardness(world, posX, posY - 1, posZ) != -1.0F)
-                && (world.getBlockTileEntity(posX, posY - 2, posZ) == null) && (blockID2 != Block.bedrock.blockID)
-                && (blockID2 != Block.pistonExtension.blockID) && (blockID2 != ModBlocks.relocationPortal.blockID)
-                && (world.getBlockTileEntity(posX, posY - 3, posZ) == null) && (blockID3 != Block.bedrock.blockID)
-                && (blockID3 != Block.pistonExtension.blockID) && (blockID3 != ModBlocks.relocationPortal.blockID);
+        return (world.getTileEntity(posX, posY - 1, posZ) == null) && (block != Blocks.bedrock)
+                && (block != ModBlocks.relocationPortal) && (block != null) && (!block.canPlaceBlockAt(world, posX, posY - 1, posZ))
+                && (block.getBlockHardness(world, posX, posY - 1, posZ) != -1.0F)
+                && (world.getTileEntity(posX, posY - 2, posZ) == null) && (block1 != Blocks.bedrock)
+                && (block1 != ModBlocks.relocationPortal) && (block1 != ModBlocks.relocationPortal)
+                && (world.getTileEntity(posX, posY - 3, posZ) == null) && (block2 != Blocks.bedrock)
+                && (block2 != ModBlocks.relocationPortal) && (block2 != ModBlocks.relocationPortal);
     }
 
     private void setBlockToPortal(World world, int x, int y, int z)
     {
-        int blockID = world.getBlockId(x, y, z);
+        Block block = world.getBlock(x, y, z);
         int blockMeta = world.getBlockMetadata(x, y, z);
-        world.setBlock(x, y, z, ModBlocks.relocationPortal.blockID);
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        world.setBlock(x, y, z, ModBlocks.relocationPortal);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationPortal)
         {
-            ((TileRelocationPortal)tile).init(blockID, blockMeta);
+            ((TileRelocationPortal)tile).init(block, blockMeta);
         }
     }
 
     private void setLowerBlockToPortal(World world, int x, int y, int z, Vector3 linkedPos)
     {
-        int blockID = world.getBlockId(x, y, z);
+        Block block = world.getBlock(x, y, z);
         int blockMeta = world.getBlockMetadata(x, y, z);
-        world.setBlock(x, y, z, ModBlocks.relocationPortal.blockID);
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        world.setBlock(x, y, z, ModBlocks.relocationPortal);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationPortal)
         {
-            ((TileRelocationPortal)tile).init(blockID, blockMeta, linkedPos);
+            ((TileRelocationPortal)tile).init(block, blockMeta, linkedPos);
         }
     }
 
     private void setLowerBlockToDimensionalPortal(World world, int x, int y, int z, Vector3 linkedPos, int dimensionId)
     {
-        int blockID = world.getBlockId(x, y, z);
+        Block block = world.getBlock(x, y, z);
         int blockMeta = world.getBlockMetadata(x, y, z);
-        world.setBlock(x, y, z, ModBlocks.relocationPortal.blockID);
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        world.setBlock(x, y, z, ModBlocks.relocationPortal);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationPortal)
         {
-            ((TileRelocationPortal)tile).init(blockID, blockMeta, linkedPos, dimensionId);
+            ((TileRelocationPortal)tile).init(block, blockMeta, linkedPos, dimensionId);
         }
     }
 
@@ -237,7 +237,7 @@ public class ItemPlayerRelocator extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerIcons(IIconRegister par1IconRegister)
     {
         itemIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
                 + Names.playerRelocator);
@@ -250,6 +250,7 @@ public class ItemPlayerRelocator extends Item
         event.newfov = event.fov + inUse/110;
     }
 
+    @SuppressWarnings("deprecation")
     @SideOnly(Side.CLIENT)
     @Override
     public int getDisplayDamage(ItemStack stack)

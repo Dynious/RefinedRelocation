@@ -2,9 +2,8 @@ package com.dynious.refinedrelocation.helper;
 
 import buildcraft.api.transport.IPipeConnection;
 import buildcraft.api.transport.IPipeTile;
-import cofh.api.transport.IItemConduit;
-import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.lib.Mods;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -12,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class IOHelper
 {
@@ -62,6 +61,7 @@ public class IOHelper
         {
             return ((IRelocator) tile).insert(itemStack, side.ordinal(), simulate);
         }
+        /*
         else if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
         {
             if (simulate)
@@ -70,7 +70,8 @@ public class IOHelper
             }
             return ((IItemConduit) tile).insertItem(side, itemStack);
         }
-        else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
+        */
+        if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
             IPipeTile pipe = (IPipeTile) tile;
             if (pipe.isPipeConnected(side))
@@ -170,7 +171,7 @@ public class IOHelper
             }
             if (flag)
             {
-                inventory.onInventoryChanged();
+                inventory.markDirty();
             }
         }
 
@@ -189,7 +190,7 @@ public class IOHelper
 
     public static void dropInventory(World world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (!(tileEntity instanceof IInventory))
         {
@@ -216,7 +217,7 @@ public class IOHelper
         float dY = world.rand.nextFloat() * 0.8F + 0.1F;
         float dZ = world.rand.nextFloat() * 0.8F + 0.1F;
 
-        EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, new ItemStack(itemStack.itemID, itemStack.stackSize, itemStack.getItemDamage()));
+        EntityItem entityItem = new EntityItem(world, x + dX, y + dY, z + dZ, new ItemStack(itemStack.getItem(), itemStack.stackSize, itemStack.getItemDamage()));
 
         if (itemStack.hasTagCompound())
         {
@@ -237,10 +238,12 @@ public class IOHelper
         {
             return ((IRelocator)tile).connectsToSide(side.ordinal());
         }
+        /*
         else if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
         {
             return true;
         }
+        */
         else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
             if (((IPipeTile)tile).getPipeType() == IPipeTile.PipeType.ITEM)

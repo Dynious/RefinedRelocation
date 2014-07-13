@@ -7,23 +7,23 @@ import com.dynious.refinedrelocation.grid.relocator.*;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
 public class ItemRelocatorModule extends Item implements IItemRelocatorModule
 {
-    private Icon[] icons = new Icon[12];
+    private IIcon[] icons = new IIcon[12];
 
-    public ItemRelocatorModule(int id)
+    public ItemRelocatorModule()
     {
-        super(id);
+        super();
         this.setUnlocalizedName(Names.relocatorModule);
         this.setHasSubtypes(true);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
@@ -75,7 +75,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
 
     @SuppressWarnings("unchecked")
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
         for (int j = 0; j < 12; ++j)
         {
@@ -96,7 +96,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     }
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerIcons(IIconRegister par1IconRegister)
     {
         for (int i = 0; i < icons.length; i++)
         {
@@ -105,7 +105,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     }
 
     @Override
-    public Icon getIconFromDamage(int meta)
+    public IIcon getIconFromDamage(int meta)
     {
         return meta < icons.length ? icons[meta] : null;
     }

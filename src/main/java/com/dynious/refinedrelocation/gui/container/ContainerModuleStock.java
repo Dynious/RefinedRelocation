@@ -12,7 +12,7 @@ public class ContainerModuleStock extends ContainerPhantom
     public ContainerModuleStock(EntityPlayer player, RelocatorModuleStock inventory)
     {
         this.inventory = inventory;
-        inventory.openChest();
+        inventory.openInventory();
 
         for (int y = 0; y < 3; y++)
         {
@@ -52,6 +52,6 @@ public class ContainerModuleStock extends ContainerPhantom
     public void onContainerClosed(EntityPlayer player)
     {
         super.onContainerClosed(player);
-        this.inventory.closeChest();
+        this.inventory.closeInventory();
     }
 }

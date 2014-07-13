@@ -9,28 +9,28 @@ import com.dynious.refinedrelocation.tileentity.TileRelocationController;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.world.World;
 
 public class BlockRelocationController extends BlockMultiBlockBase
 {
-    protected BlockRelocationController(int id)
+    protected BlockRelocationController()
     {
-        super(id, Material.rock);
-        this.setUnlocalizedName(Names.relocationController);
+        super(Material.rock);
+        this.setBlockName(Names.relocationController);
         this.setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
 
     @Override
-    public TileMultiBlockBase createNewTileEntity(World world)
+    public TileMultiBlockBase createNewTileEntity(World world, int meta)
     {
         return new TileRelocationController();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister iconRegister)
+    public void registerBlockIcons(IIconRegister iconRegister)
     {
         blockIcon = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.relocationController);
     }

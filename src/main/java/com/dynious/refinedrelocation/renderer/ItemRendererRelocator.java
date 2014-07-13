@@ -1,19 +1,19 @@
 package com.dynious.refinedrelocation.renderer;
 
 import codechicken.lib.render.CCRenderState;
-import codechicken.lib.render.IconTransformation;
 import codechicken.lib.render.TextureUtils;
+import codechicken.lib.render.uv.IconTransformation;
 import codechicken.lib.vec.Scale;
 import codechicken.lib.vec.TransformationList;
 import codechicken.lib.vec.Translation;
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 public class ItemRendererRelocator implements IItemRenderer
 {
-    public static IconTransformation iconTransformation = new IconTransformation(Block.stone.getIcon(0, 0));
+    public static IconTransformation iconTransformation = new IconTransformation(Blocks.stone.getIcon(0, 0));
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
@@ -65,7 +65,7 @@ public class ItemRendererRelocator implements IItemRenderer
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
         RendererRelocator.resetRenderer();
 
-        CCRenderState.startDrawing(7);
+        CCRenderState.startDrawing();
 
         GL11.glScalef(scale, scale, scale);
 
@@ -77,14 +77,14 @@ public class ItemRendererRelocator implements IItemRenderer
             {
                 iconTransformation.icon = RendererRelocator.iconSide;
 
-                RendererRelocator.SIDE_MODELS[side].render(0, 48, list, iconTransformation, null);
+                RendererRelocator.SIDE_MODELS[side].render(0, 48, list, iconTransformation);
             }
             else
             {
                 iconTransformation.icon = RendererRelocator.iconsCenter[1];
 
-                RendererRelocator.CENTER_MODEL.render(side * 4, 4, list, iconTransformation, null);
-                RendererRelocator.CENTER_MODEL.render(24 + side * 4, 4, list, iconTransformation, null);
+                RendererRelocator.CENTER_MODEL.render(side * 4, side * 4 + 4, list, iconTransformation);
+                RendererRelocator.CENTER_MODEL.render(24 + side * 4, 24 + side * 4 + 4, list, iconTransformation);
             }
         }
 

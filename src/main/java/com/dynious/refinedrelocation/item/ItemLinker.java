@@ -10,14 +10,14 @@ import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraft.util.Icon;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -25,12 +25,12 @@ import java.util.List;
 
 public class ItemLinker extends Item
 {
-    private Icon unlinkedIcon;
-    private Icon linkedIcon;
+    private IIcon unlinkedIcon;
+    private IIcon linkedIcon;
 
-    public ItemLinker(int id)
+    public ItemLinker()
     {
-        super(id);
+        super();
         this.setUnlocalizedName(Names.linker);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setMaxStackSize(1);
@@ -60,7 +60,7 @@ public class ItemLinker extends Item
         if (entityPlayer.isSneaking())
             return false;
 
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof IDisguisable)
         {
             IDisguisable disguisable = (IDisguisable) tile;
@@ -75,10 +75,9 @@ public class ItemLinker extends Item
                 int linkedX = itemStack.getTagCompound().getInteger("tileX");
                 int linkedY = itemStack.getTagCompound().getInteger("tileY");
                 int linkedZ = itemStack.getTagCompound().getInteger("tileZ");
-                int linkedBlockId = world.getBlockId(linkedX, linkedY, linkedZ);
                 int linkedBlockMetadata = world.getBlockMetadata(linkedX, linkedY, linkedZ);
-                Block linkedBlock = Block.blocksList[linkedBlockId];
-                TileEntity linkedTile = world.getBlockTileEntity(linkedX, linkedY, linkedZ);
+                Block linkedBlock = world.getBlock(linkedX, linkedY, linkedZ);
+                TileEntity linkedTile = world.getTileEntity(linkedX, linkedY, linkedZ);
                 if (linkedTile != null && linkedTile instanceof IDisguisable)
                 {
                     linkedBlock = ((IDisguisable)linkedTile).getDisguise();
@@ -88,22 +87,22 @@ public class ItemLinker extends Item
                 {
                     disguisable.setDisguise(linkedBlock, linkedBlockMetadata);
                     if (world.isRemote)
-                        entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                                .addText(StatCollector.translateToLocalFormatted(Strings.DISGUISED_AS, BlockHelper.getBlockDisplayName(world, x, y, z), BlockHelper.getBlockDisplayName(linkedBlock, linkedBlockMetadata))));
+                        entityPlayer.addChatComponentMessage(new ChatComponentText(
+                                (StatCollector.translateToLocalFormatted(Strings.DISGUISED_AS, BlockHelper.getBlockDisplayName(world, x, y, z), BlockHelper.getBlockDisplayName(linkedBlock, linkedBlockMetadata)))));
                 }
                 else
                 {
                     if (world.isRemote)
-                        entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                                .addText(StatCollector.translateToLocalFormatted(Strings.CANNOT_DISGUISE_AS, BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ))));
+                        entityPlayer.addChatComponentMessage(new ChatComponentText(
+                                (StatCollector.translateToLocalFormatted(Strings.CANNOT_DISGUISE_AS, BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)))));
                 }
             }
             else if (disguisable.getDisguise() != null)
             {
                 disguisable.clearDisguise();
                 if (world.isRemote)
-                    entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                            .addText(StatCollector.translateToLocal(Strings.UNDISGUISED) + " " + BlockHelper.getBlockDisplayName(world, x, y, z)));
+                    entityPlayer.addChatComponentMessage(new ChatComponentText(
+                            (StatCollector.translateToLocal(Strings.UNDISGUISED) + " " + BlockHelper.getBlockDisplayName(world, x, y, z))));
             }
             else
             {
@@ -120,13 +119,13 @@ public class ItemLinker extends Item
     @Override
     public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile == null || (!(tile instanceof TileWirelessBlockExtender) && (!(tile instanceof IDisguisable) || entityPlayer.isSneaking())))
         {
             linkTileAtPosition(itemStack, x, y, z);
             if (world.isRemote)
-                entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                        .addText(StatCollector.translateToLocalFormatted(Strings.LINKER_SET, x, y, z, BlockHelper.getBlockDisplayName(world, x, y, z))));
+                entityPlayer.addChatComponentMessage(new ChatComponentText(
+                        (StatCollector.translateToLocalFormatted(Strings.LINKER_SET, x, y, z, BlockHelper.getBlockDisplayName(world, x, y, z)))));
         }
         return true;
     }
@@ -163,8 +162,8 @@ public class ItemLinker extends Item
             entityPlayer.swingItem();
             unlink(stack);
             if (world.isRemote)
-                entityPlayer.sendChatToPlayer(new ChatMessageComponent()
-                        .addText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemDisplayName(stack))));
+                entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemStackDisplayName(stack))));
+                entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemStackDisplayName(stack))));
             return stack;
         }
         return super.onItemRightClick(stack, world, entityPlayer);
@@ -172,7 +171,7 @@ public class ItemLinker extends Item
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
+    public void registerIcons(IIconRegister par1IconRegister)
     {
         itemIcon = linkedIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
                 + Names.linker);
@@ -181,13 +180,13 @@ public class ItemLinker extends Item
     }
 
     @Override
-    public Icon getIcon(ItemStack stack, int pass)
+    public IIcon getIcon(ItemStack stack, int pass)
     {
         return getIconIndex(stack);
     }
 
     @Override
-    public Icon getIconIndex(ItemStack stack)
+    public IIcon getIconIndex(ItemStack stack)
     {
         return isLinked(stack) ? linkedIcon : unlinkedIcon;
     }

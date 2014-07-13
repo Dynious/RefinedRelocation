@@ -15,13 +15,13 @@ import com.dynious.refinedrelocation.lib.Resources;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
 
 public class RelocatorModuleFilter extends RelocatorModuleBase
 {
-    private static Icon icon;
+    private static IIcon icon;
     private FilterStandard filter;
     private long lastChange = -401;
 
@@ -68,7 +68,7 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     @Override
     public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
-        return (!simulate && (relocator.getTileEntity().worldObj.getTotalWorldTime() - lastChange) > 400) || filter.passesFilter(stack);
+        return (!simulate && (relocator.getTileEntity().getWorldObj().getTotalWorldTime() - lastChange) > 400) || filter.passesFilter(stack);
     }
 
     @Override
@@ -98,8 +98,8 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
             @Override
             public void onFilterChanged()
             {
-                lastChange = relocator.getTileEntity().worldObj.getTotalWorldTime();
-                relocator.getTileEntity().onInventoryChanged();
+                lastChange = relocator.getTileEntity().getWorldObj().getTotalWorldTime();
+                relocator.getTileEntity().markDirty();
             }
         };
     }
@@ -117,13 +117,13 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     }
 
     @Override
-    public Icon getIcon(IItemRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleFilter");
     }

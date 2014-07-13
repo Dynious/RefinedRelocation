@@ -9,15 +9,16 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHa
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileSortingInterface extends TileSortingConnector implements ISortingInventory, IFilterTileGUI
 {
@@ -81,7 +82,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public void onFilterChanged()
     {
-        this.onInventoryChanged();
+        this.markDirty();
     }
 
     @Override
@@ -166,13 +167,13 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return Names.sortingInterface;
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return false;
     }
@@ -190,12 +191,12 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
     }
 
@@ -221,8 +222,8 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         }
         if (compound.hasKey("Items"))
         {
-            NBTTagList tagList = compound.getTagList("Items");
-            this.bufferInventory[0] = ItemStack.loadItemStackFromNBT((NBTTagCompound) tagList.tagAt(0));
+            NBTTagList tagList = compound.getTagList("Items", 10);
+            this.bufferInventory[0] = ItemStack.loadItemStackFromNBT(tagList.getCompoundTagAt(0));
         }
     }
 
@@ -244,19 +245,20 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
         super.onDataPacket(net, pkt);
-        setConnectedSide(ForgeDirection.getOrientation(pkt.data.getByte("side")));
-        isStuffed = pkt.data.getBoolean("stuffed");
+        setConnectedSide(ForgeDirection.getOrientation(pkt.func_148857_g().getByte("side")));
+        isStuffed = pkt.func_148857_g().getBoolean("stuffed");
     }
 
     @Override
     public Packet getDescriptionPacket()
     {
-        Packet132TileEntityData pkt = (Packet132TileEntityData) super.getDescriptionPacket();
-        pkt.data.setByte("side", (byte) connectedSide.ordinal());
-        pkt.data.setBoolean("stuffed", bufferInventory[0] != null);
+        S35PacketUpdateTileEntity pkt = (S35PacketUpdateTileEntity) super.getDescriptionPacket();
+        NBTTagCompound tag = ObfuscationReflectionHelper.getPrivateValue(S35PacketUpdateTileEntity.class, pkt, "field_148860_e", "e");
+        tag.setByte("side", (byte) connectedSide.ordinal());
+        tag.setBoolean("stuffed", bufferInventory[0] != null);
         return pkt;
     }
 

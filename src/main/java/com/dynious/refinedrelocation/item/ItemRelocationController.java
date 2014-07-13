@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Strings;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -11,9 +12,9 @@ import java.util.List;
 
 public class ItemRelocationController extends ItemBlock
 {
-    public ItemRelocationController(int id)
+    public ItemRelocationController(Block block)
     {
-        super(id);
+        super(block);
     }
 
     @SuppressWarnings("unchecked")

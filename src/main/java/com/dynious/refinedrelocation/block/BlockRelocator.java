@@ -10,9 +10,10 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +21,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,27 +30,27 @@ public class BlockRelocator extends BlockContainer
 {
     private RayTracer rayTracer = new RayTracer();
 
-    protected BlockRelocator(int par1)
+    protected BlockRelocator()
     {
-        super(par1, Material.rock);
+        super(Material.rock);
         setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
-        this.setUnlocalizedName(Names.relocator);
+        this.setBlockName(Names.relocator);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
         return new TileRelocator();
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int par5)
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block par5)
     {
         if (world.isRemote)
             return;
 
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             ((TileRelocator) tile).onBlocksChanged();
@@ -65,7 +66,7 @@ public class BlockRelocator extends BlockContainer
     @Override
     public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             return ((TileRelocator)tile).shouldConnectToRedstone();
@@ -76,7 +77,7 @@ public class BlockRelocator extends BlockContainer
     @Override
     public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             return ((TileRelocator)tile).isProvidingStrongPower(side);
@@ -109,9 +110,9 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, int id, int meta)
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             for (ItemStack stack : ((TileRelocator)tile).getDrops())
@@ -119,13 +120,13 @@ public class BlockRelocator extends BlockContainer
                 IOHelper.spawnItemInWorld(world, stack, x, y, z);
             }
         }
-        super.breakBlock(world, x, y, z, id, meta);
+        super.breakBlock(world, x, y, z, block, meta);
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
@@ -140,7 +141,7 @@ public class BlockRelocator extends BlockContainer
     @Override
     public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
@@ -156,9 +157,9 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
-    public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
@@ -170,13 +171,13 @@ public class BlockRelocator extends BlockContainer
                 }
             }
         }
-        return super.removeBlockByPlayer(world, player, x, y, z);
+        return super.removedByPlayer(world, player, x, y, z);
     }
 
     @Override
     public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 start, Vec3 end)
     {
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
             List<IndexedCuboid6> cuboids = new ArrayList<IndexedCuboid6>();
@@ -194,7 +195,7 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerBlockIcons(IIconRegister register)
     {
         blockIcon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
     }

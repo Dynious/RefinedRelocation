@@ -1,17 +1,22 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
+import buildcraft.api.transport.PipeWire;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
-import com.dynious.refinedrelocation.grid.relocator.*;
+import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
+import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.*;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.FMPHelper;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketItemList;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -19,14 +24,14 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -62,9 +67,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     private byte ticker = 0;
 
+    @SuppressWarnings("unchecked")
     public TileRelocator()
     {
-        //noinspection unchecked
         stuffedItems = (List<ItemStack>[]) new ArrayList[ForgeDirection.VALID_DIRECTIONS.length];
         for (int i = 0; i < stuffedItems.length; i++)
         {
@@ -113,7 +118,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             items.addAll(itemsToAdd);
             //TODO: More efficient client syncing
-            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 16, worldObj.provider.dimensionId, PacketTypeHandler.populatePacket(new PacketItemList(this, itemsToAdd)));
+            NetworkHandler.INSTANCE.sendToAllAround(new MessageItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 16));
             itemsToAdd.clear();
         }
 
@@ -401,7 +406,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            if (!((IRelocator)worldObj.getBlockTileEntity(xCoord, yCoord, zCoord)).canConnectOnSide(direction.ordinal()))
+            if (!((IRelocator)worldObj.getTileEntity(xCoord, yCoord, zCoord)).canConnectOnSide(direction.ordinal()))
                 continue;
 
             TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
@@ -433,13 +438,29 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public GuiScreen getGUI(int side, EntityPlayer player)
     {
-        return modules[side].getGUI(this, side, player);
+        IRelocatorModule module = modules[side];
+        if (module instanceof RelocatorMultiModule)
+        {
+            return ((RelocatorMultiModule) module).getCurrentModule().getGUI(this, side, player);
+        }
+        else
+        {
+            return module.getGUI(this, side, player);
+        }
     }
 
     @Override
     public Container getContainer(int side, EntityPlayer player)
     {
-        return modules[side].getContainer(this, side, player);
+        IRelocatorModule module = modules[side];
+        if (module instanceof RelocatorMultiModule)
+        {
+            return ((RelocatorMultiModule) module).getCurrentModule().getContainer(this, side, player);
+        }
+        else
+        {
+            return module.getContainer(this, side, player);
+        }
     }
 
     @Override
@@ -643,28 +664,28 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
         if (compound.hasKey("Items"))
         {
-            NBTTagList nbttaglist = compound.getTagList("Items");
+            NBTTagList nbttaglist = compound.getTagList("Items", 10);
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
                 items.add(TravellingItem.createFromNBT(nbttagcompound1));
             }
         }
         if (compound.hasKey("ItemsToAdd"))
         {
-            NBTTagList nbttaglist = compound.getTagList("ItemsToAdd");
+            NBTTagList nbttaglist = compound.getTagList("ItemsToAdd", 10);
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
                 itemsToAdd.add(TravellingItem.createFromNBT(nbttagcompound1));
             }
         }
         if (compound.hasKey("StuffedItems"))
         {
-            NBTTagList nbttaglist = compound.getTagList("StuffedItems");
+            NBTTagList nbttaglist = compound.getTagList("StuffedItems", 10);
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
                 byte side = nbttagcompound1.getByte("Side");
                 stuffedItems[side].add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
             }
@@ -753,23 +774,23 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 tag.setBoolean("s" + i, true);
         }
 
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, tag);
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        NBTTagCompound tag = pkt.data;
-
+        NBTTagCompound tag = pkt.func_148857_g();
+        
         isBeingPowered = tag.getBoolean("redstone");
-
+        
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
             isConnected[i] = tag.hasKey("c" + i);
         }
         calculateRenderType();
         modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
-        readModules(pkt.data);
+        readModules(pkt.func_148857_g());
 
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
@@ -798,10 +819,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void readModules(NBTTagCompound compound)
     {
-        NBTTagList nbttaglist = compound.getTagList("modules");
+        NBTTagList nbttaglist = compound.getTagList("modules", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
             byte place = nbttagcompound1.getByte("place");
             IRelocatorModule filter = RelocatorModuleRegistry.getModule(nbttagcompound1.getString("clazzIdentifier"));
             if (filter != null)
@@ -939,13 +960,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
-    public String getInvName()
+    public String getInventoryName()
     {
         return "tile.relocator.name";
     }
 
     @Override
-    public boolean isInvNameLocalized()
+    public boolean hasCustomInventoryName()
     {
         return false;
     }
@@ -963,12 +984,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
-    public void openChest()
+    public void openInventory()
     {
     }
 
     @Override
-    public void closeChest()
+    public void closeInventory()
     {
     }
 
@@ -982,6 +1003,39 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
         return true;
+    }
+
+    /*
+    IPipeTile functionality
+     */
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public PipeType getPipeType()
+    {
+        return PipeType.ITEM;
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public int injectItem(ItemStack stack, boolean b, ForgeDirection direction)
+    {
+        ItemStack returnedStack = insert(stack, direction.ordinal(), b);
+        return returnedStack == null ? 0 : returnedStack.stackSize;
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public boolean isPipeConnected(ForgeDirection direction)
+    {
+        return connectsToSide(direction.ordinal());
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public boolean isWireActive(PipeWire pipeWire)
+    {
+        return false;
     }
 
     public static void markUpdate(World world, int x, int y, int z)
@@ -1001,6 +1055,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public static void markUpdateAndNotify(World world, int x, int y, int z)
     {
         markUpdate(world, x, y, z);
-        world.notifyBlocksOfNeighborChange(x, y, z, world.getBlockId(x, y, z));
+        world.notifyBlocksOfNeighborChange(x, y, z, world.getBlock(x, y, z));
     }
 }

@@ -4,7 +4,7 @@ import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdvancedTile
 {

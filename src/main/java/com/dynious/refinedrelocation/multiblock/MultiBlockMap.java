@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.multiblock;
 
 import com.dynious.refinedrelocation.util.BlockAndMeta;
 import com.dynious.refinedrelocation.util.MultiBlockAndMeta;
+import net.minecraft.block.Block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,9 +36,9 @@ public class MultiBlockMap
         }
     }
 
-    public void addBlockAtPos(int x, int y, int z, int blockID)
+    public void addBlockAtPos(int x, int y, int z, Block block)
     {
-        addBlockAtPos(x, y, z, new BlockAndMeta(blockID));
+        addBlockAtPos(x, y, z, new BlockAndMeta(block));
     }
 
     public void addBlocksAtPos(int x, int y, int z, BlockAndMeta... blockAndMeta)

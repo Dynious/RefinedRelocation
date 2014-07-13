@@ -4,9 +4,8 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketTicksBetweenExtraction;
-import cpw.mods.fml.common.network.PacketDispatcher;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageTicksBetweenExtraction;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
             return;
 
         module.setTicksBetweenExtraction((int) newValue);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketTicksBetweenExtraction((int) newValue)));
+        NetworkHandler.INSTANCE.sendToServer(new MessageTicksBetweenExtraction((int) newValue));
     }
 
     @Override

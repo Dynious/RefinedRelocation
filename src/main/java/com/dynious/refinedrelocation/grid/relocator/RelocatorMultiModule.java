@@ -6,22 +6,24 @@ import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.gui.GuiHome;
+import com.dynious.refinedrelocation.gui.GuiModularTest;
 import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.renderer.RendererRelocator;
+import com.dynious.refinedrelocation.tileentity.IRelocator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ import java.util.List;
 
 public class RelocatorMultiModule extends RelocatorModuleBase
 {
-    private static Icon icon;
+    private static IIcon icon;
     private List<IRelocatorModule> modules = new ArrayList<IRelocatorModule>();
     private int currentModule = -1; // -1 is the multi module
 
@@ -191,10 +193,10 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     @Override
     public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
-        NBTTagList list = compound.getTagList("multiModules");
+        NBTTagList list = compound.getTagList("multiModules", 10);
         for (int i = 0; i < list.tagCount(); i++)
         {
-            NBTTagCompound compound1 = (NBTTagCompound) list.tagAt(i);
+            NBTTagCompound compound1 = list.getCompoundTagAt(i);
             IRelocatorModule module = RelocatorModuleRegistry.getModule(compound1.getString("clazzIdentifier"));
             if (module != null)
             {
@@ -235,13 +237,13 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public Icon getIcon(IItemRelocator relocator, int side)
+    public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return icon;
     }
 
     @Override
-    public void registerIcons(IconRegister register)
+    public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleMulti");
     }

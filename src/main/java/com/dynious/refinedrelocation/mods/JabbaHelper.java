@@ -3,13 +3,12 @@ package com.dynious.refinedrelocation.mods;
 import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.block.BlockSortingBarrel;
 import com.dynious.refinedrelocation.block.ModBlocks;
-import com.dynious.refinedrelocation.lib.BlockIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mcp.mobius.betterbarrels.BetterBarrels;
 import mcp.mobius.betterbarrels.common.blocks.TileEntityBarrel;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -19,14 +18,14 @@ public class JabbaHelper
 {
     public static void addBarrelBlock()
     {
-        ModBlocks.sortingBarrel = new BlockSortingBarrel(BlockIds.SORTING_BARREL);
+        ModBlocks.sortingBarrel = new BlockSortingBarrel();
         ModObjects.sortingBarrel = new ItemStack(ModBlocks.sortingBarrel);
         GameRegistry.registerBlock(ModBlocks.sortingBarrel, Names.sortingBarrel);
     }
 
     public static void addBarrelRecipes()
     {
-        GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingBarrel), "g g", " b ", "g g", 'g', Item.ingotGold, 'b', new ItemStack(BetterBarrels.blockBarrel));
+        GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingBarrel), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(BetterBarrels.blockBarrel));
     }
 
     public static boolean upgradeToSortingBarrel(TileEntity tile)
@@ -44,9 +43,9 @@ public class JabbaHelper
             // Clear the old block out
             world.setBlockToAir(tile.xCoord, tile.yCoord, tile.zCoord);
             // And put in our block instead
-            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingBarrel.blockID, meta, 3);
+            world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingBarrel, meta, 3);
 
-            world.setBlockTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, newBarrel);
+            world.setTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, newBarrel);
             return true;
         }
         return false;

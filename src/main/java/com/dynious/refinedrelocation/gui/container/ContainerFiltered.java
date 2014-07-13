@@ -3,11 +3,10 @@ package com.dynious.refinedrelocation.gui.container;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketUserFilter;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageUserFilter;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered
@@ -46,9 +45,9 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         {
             for (Object crafter : crafters)
             {
-                if (crafter instanceof EntityPlayer)
+                if (crafter instanceof EntityPlayerMP)
                 {
-                    PacketDispatcher.sendPacketToPlayer(PacketTypeHandler.populatePacket(new PacketUserFilter(tile.getFilter().getUserFilter())), ((Player) crafter));
+                    NetworkHandler.INSTANCE.sendTo(new MessageUserFilter(tile.getFilter().getUserFilter()), (EntityPlayerMP) crafter);
                 }
             }
             lastUserFilter = tile.getFilter().getUserFilter();

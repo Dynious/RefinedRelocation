@@ -3,10 +3,13 @@ package com.dynious.refinedrelocation.multiblock;
 import com.dynious.refinedrelocation.util.BlockAndMeta;
 import com.dynious.refinedrelocation.util.MultiBlockAndMeta;
 import com.dynious.refinedrelocation.util.Vector3;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S1CPacketEntityMetadata;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlockLeader
@@ -96,7 +99,7 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
 
     private boolean checkFormation(BlockAndMeta blockInfo, int x, int y, int z)
     {
-        if (blockInfo.getBlockId() == 0)
+        if (blockInfo.getBlock() == Blocks.air)
         {
             if (!worldObj.isAirBlock(x, y, z))
             {
@@ -105,17 +108,17 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
         }
         else if (blockInfo.getMeta() == -1)
         {
-            int id = worldObj.getBlockId(x, y, z);
-            if (id != blockInfo.getBlockId())
+            Block block = worldObj.getBlock(x, y, z);
+            if (block != blockInfo.getBlock())
             {
                 return false;
             }
         }
         else
         {
-            int id = worldObj.getBlockId(x, y, z);
+            Block block = worldObj.getBlock(x, y, z);
             int meta = worldObj.getBlockMetadata(x, y, z);
-            if (id != blockInfo.getBlockId() || meta != blockInfo.getMeta())
+            if (block != blockInfo.getBlock() || meta != blockInfo.getMeta())
             {
                 return false;
             }
@@ -152,12 +155,12 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
     {
         NBTTagCompound tag = new NBTTagCompound();
         tag.setBoolean("isFormed", isFormed);
-        return new Packet132TileEntityData(xCoord, yCoord, zCoord, 0, tag);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, tag);
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData packet)
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        isFormed = packet.data.getBoolean("isFormed");
+        isFormed = pkt.func_148857_g().getBoolean("isFormed");
     }
 }

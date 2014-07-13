@@ -1,18 +1,15 @@
 package com.dynious.refinedrelocation.gui.widget;
 
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketExtractionSide;
-import com.dynious.refinedrelocation.network.packet.PacketSide;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageExtractionSide;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class GuiButtonExtractionSide extends GuiButton
 {
@@ -46,7 +43,7 @@ public class GuiButtonExtractionSide extends GuiButton
     protected void onValueChangedByUser(int side)
     {
         module.setExtractionSide(side);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketExtractionSide(side)));
+        NetworkHandler.INSTANCE.sendToServer(new MessageExtractionSide(side));
     }
 
     public void update()

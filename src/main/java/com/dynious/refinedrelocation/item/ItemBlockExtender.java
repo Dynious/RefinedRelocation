@@ -2,18 +2,19 @@ package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemBlockExtender extends ItemBlock
 {
-    public ItemBlockExtender(int id)
+    public ItemBlockExtender(Block block)
     {
-        super(id);
+        super(block);
         this.setHasSubtypes(true);
     }
 
@@ -24,7 +25,7 @@ public class ItemBlockExtender extends ItemBlock
         {
             return false;
         }
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileBlockExtender)
         {
             ((TileBlockExtender) tile).setConnectedSide(ForgeDirection.OPPOSITES[side]);

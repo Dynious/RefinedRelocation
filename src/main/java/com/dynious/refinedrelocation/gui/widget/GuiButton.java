@@ -3,6 +3,8 @@ package com.dynious.refinedrelocation.gui.widget;
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.gui.IGuiWidgetBase;
 import com.dynious.refinedrelocation.lib.Resources;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GuiButton extends GuiWidgetBase
@@ -56,7 +58,7 @@ public class GuiButton extends GuiWidgetBase
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
         if (isMouseInsideBounds(mouseX, mouseY) && visible)
         {
-            this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+            this.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
         }
     }
 }

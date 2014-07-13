@@ -2,10 +2,9 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketRestrictExtraction;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageRestrictExtraction;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class GuiButtonFilterExtraction extends GuiButtonToggle
             return;
 
         tile.setRestrictionExtraction(newState);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketRestrictExtraction(newState)));
+        NetworkHandler.INSTANCE.sendToServer(new MessageRestrictExtraction(newState));
     }
 
     @Override

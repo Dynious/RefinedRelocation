@@ -105,7 +105,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
             tooltip.addAll(child.getTooltip(mouseX, mouseY));
         }
         if (!tooltip.isEmpty())
-            this.drawHoveringText(tooltip, mouseX, mouseY, fontRenderer);
+            this.drawHoveringText(tooltip, mouseX, mouseY, fontRendererObj);
     }
 
     @Override

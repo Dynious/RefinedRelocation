@@ -2,10 +2,9 @@ package com.dynious.refinedrelocation.gui.widget;
 
 import com.dynious.refinedrelocation.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.PacketTypeHandler;
-import com.dynious.refinedrelocation.network.packet.PacketMaxStackSize;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageMaxStackSize;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class GuiButtonMaxStackSize extends GuiButtonCounter
             return;
 
         tile.setMaxStackSize((byte) newValue);
-        PacketDispatcher.sendPacketToServer(PacketTypeHandler.populatePacket(new PacketMaxStackSize((byte) newValue)));
+        NetworkHandler.INSTANCE.sendToServer(new MessageMaxStackSize((byte) newValue));
     }
 
     @Override

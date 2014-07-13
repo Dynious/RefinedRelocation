@@ -1,16 +1,15 @@
 package com.dynious.refinedrelocation.api.relocator;
 
-import com.dynious.refinedrelocation.tileentity.IRelocator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 
 import java.util.List;
 
@@ -44,10 +43,10 @@ public interface IRelocatorModule
     public List<ItemStack> getDrops(IItemRelocator relocator, int side);
 
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(IItemRelocator relocator, int side);
+    public IIcon getIcon(IItemRelocator relocator, int side);
 
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister register);
+    public void registerIcons(IIconRegister register);
 
     public String getDisplayName();
 }

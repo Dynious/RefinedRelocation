@@ -6,7 +6,7 @@ import com.google.common.primitives.Bytes;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
@@ -20,9 +20,12 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     private ForgeDirection lastItemOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastFluidOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastBCEnergyOutputSide = ForgeDirection.UNKNOWN;
-    private ForgeDirection lastCoFHEnergyOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastIC2EnergyOutputSide = ForgeDirection.UNKNOWN;
+
+    /*
+    private ForgeDirection lastCoFHEnergyOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastUEEnergyOutputSide = ForgeDirection.UNKNOWN;
+    */
 
     public static final byte NULL_PRIORITY = (byte) (ForgeDirection.VALID_DIRECTIONS.length);
 
@@ -187,6 +190,78 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         return inputAmount - resource.amount;
     }
 
+    @Optional.Method(modid = Mods.IC2_ID)
+    @Override
+    public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage)
+    {
+        double inputAmount = amount;
+        if (spreadItems)
+        {
+            boolean didInject;
+            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(directionFrom, lastIC2EnergyOutputSide);
+            double amountPerStack = outputSides.isEmpty() ? 0 : amount / outputSides.size();
+
+            do
+            {
+                didInject = false;
+                for (ForgeDirection outputSide : outputSides)
+                {
+                    lastIC2EnergyOutputSide = outputSide;
+                    double amountLeft = insertEnergyUnits(amountPerStack, voltage, outputSide.ordinal());
+                    if (amountLeft != amountPerStack)
+                    {
+                        amount -= Math.min(amount, amountPerStack - amountLeft);
+                        didInject = true;
+
+                        if (amount == 0)
+                            return inputAmount;
+                    }
+                }
+            } while (didInject);
+        }
+        else
+        {
+            return super.injectEnergy(directionFrom, amount, voltage);
+        }
+        return inputAmount - amount;
+    }
+
+    @Optional.Method(modid = Mods.BC_API_POWER_ID)
+    @Override
+    public void doWork(PowerHandler powerHandler)
+    {
+        if (spreadItems)
+        {
+            boolean didUseEnergy;
+            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(ForgeDirection.UNKNOWN, lastBCEnergyOutputSide);
+            double amountPerStack = outputSides.isEmpty() ? 0 : powerHandler.getEnergyStored() / outputSides.size();
+
+            do
+            {
+                didUseEnergy = false;
+                for (ForgeDirection outputSide : outputSides)
+                {
+                    lastBCEnergyOutputSide = outputSide;
+                    double usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(amountPerStack, outputSide.ordinal());
+                    if (usedEnergy > 0)
+                    {
+                        powerHandler.useEnergy(usedEnergy, usedEnergy, true);
+                        didUseEnergy = true;
+
+                        if (powerHandler.getEnergyStored() == 0)
+                            return;
+                    }
+                }
+            } while (didUseEnergy);
+        }
+        else
+        {
+            super.doWork(powerHandler);
+        }
+    }
+
+    /*
+
     @Optional.Method(modid = Mods.COFH_CORE_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
@@ -221,76 +296,6 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
             return super.receiveEnergy(forgeDirection, i, b);
         }
         return inputAmount - i;
-    }
-
-    @Optional.Method(modid = Mods.IC2_ID)
-    @Override
-    public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
-    {
-        double inputAmount = amount;
-        if (spreadItems)
-        {
-            boolean didInject;
-            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(directionFrom, lastIC2EnergyOutputSide);
-            double amountPerStack = outputSides.isEmpty() ? 0 : amount / outputSides.size();
-
-            do
-            {
-                didInject = false;
-                for (ForgeDirection outputSide : outputSides)
-                {
-                    lastIC2EnergyOutputSide = outputSide;
-                    double amountLeft = insertEnergyUnits(amountPerStack, outputSide.ordinal());
-                    if (amountLeft != amountPerStack)
-                    {
-                        amount -= Math.min(amount, amountPerStack - amountLeft);
-                        didInject = true;
-
-                        if (amount == 0)
-                            return inputAmount;
-                    }
-                }
-            } while (didInject);
-        }
-        else
-        {
-            return super.injectEnergyUnits(directionFrom, amount);
-        }
-        return inputAmount - amount;
-    }
-
-    @Optional.Method(modid = Mods.BC_API_POWER_ID)
-    @Override
-    public void doWork(PowerHandler powerHandler)
-    {
-        if (spreadItems)
-        {
-            boolean didUseEnergy;
-            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(ForgeDirection.UNKNOWN, lastBCEnergyOutputSide);
-            float amountPerStack = outputSides.isEmpty() ? 0 : powerHandler.getEnergyStored() / outputSides.size();
-
-            do
-            {
-                didUseEnergy = false;
-                for (ForgeDirection outputSide : outputSides)
-                {
-                    lastBCEnergyOutputSide = outputSide;
-                    float usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(amountPerStack, outputSide.ordinal());
-                    if (usedEnergy > 0)
-                    {
-                        powerHandler.useEnergy(usedEnergy, usedEnergy, true);
-                        didUseEnergy = true;
-
-                        if (powerHandler.getEnergyStored() == 0)
-                            return;
-                    }
-                }
-            } while (didUseEnergy);
-        }
-        else
-        {
-            super.doWork(powerHandler);
-        }
     }
 
     @Optional.Method(modid = Mods.UE_ID)
@@ -328,6 +333,8 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
         return inputAmount - l;
     }
+
+    */
 
     @Override
     public void readFromNBT(NBTTagCompound compound)

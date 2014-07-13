@@ -6,8 +6,11 @@ import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.util.BlockAndMeta;
 import com.dynious.refinedrelocation.util.MultiBlockAndMeta;
 import com.dynious.refinedrelocation.util.Vector3;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -15,6 +18,8 @@ import org.lwjgl.opengl.GL11;
 
 public class RendererMultiBlock extends TileEntitySpecialRenderer
 {
+    private static RenderBlocks renderBlocks = new RenderBlocks();
+
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double xPos, double yPos, double zPos, float timer)
     {
@@ -43,8 +48,7 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
                                 {
                                     if (!tileMultiBlock.getWorldObj().isAirBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ()))
                                     {
-                                        int blockId = tileMultiBlock.getWorldObj().getBlockId(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ());
-                                        Block block = Block.blocksList[blockId];
+                                        Block block = tileMultiBlock.getWorldObj().getBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ());
                                         if (block != null && block.getRenderType() == 0)
                                             continue;
                                     }
@@ -77,10 +81,10 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
     private void renderBlock(BlockAndMeta blockAndMeta, int relativeX, int relativeY, int relativeZ)
     {
-        if (blockAndMeta.getBlockId() > 0 && Block.blocksList[blockAndMeta.getBlockId()] != null)
+        if (blockAndMeta.getBlock() != null)
         {
             GL11.glTranslatef(relativeX, relativeY, relativeZ);
-            Minecraft.getMinecraft().renderGlobal.globalRenderBlocks.renderBlockAsItem(Block.blocksList[blockAndMeta.getBlockId()], blockAndMeta.getMeta(), 255F);
+            renderBlocks.renderBlockAsItem(blockAndMeta.getBlock(), blockAndMeta.getMeta(), 255F);
             //Minecraft.getMinecraft().renderGlobal.globalRenderBlocks.renderBlockByRenderType(Block.blocksList[blockAndMeta.getBlockId()], x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
         }
     }
