@@ -121,17 +121,17 @@ public class FilterStandard implements IFilterGUI
                         return true;
                     if (customFilters[8] && oreName.contains("gem"))
                         return true;
-                    if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
-                        return true;
                     if (customFilters[10] && oreName.contains("dye"))
                         return true;
                     if (customFilters[11] && oreName.contains("nugget"))
                         return true;
-                    if (customFilters[12] && itemStack.getItem() instanceof ItemBlock && Block.getBlockFromItem(itemStack.getItem()) instanceof IPlantable)
-                        return true;
-                    if (customFilters[13] && TileEntityFurnace.getItemBurnTime(itemStack) > 0)
-                        return true;
                 }
+                if (customFilters[9] && itemStack.getItem() instanceof ItemFood)
+                    return true;
+                if (customFilters[12] && itemStack.getItem() instanceof ItemBlock && Block.getBlockFromItem(itemStack.getItem()) instanceof IPlantable)
+                    return true;
+                if (customFilters[13] && TileEntityFurnace.getItemBurnTime(itemStack) > 0)
+                    return true;
             }
 
             if (Booleans.contains(creativeTabs, true))
