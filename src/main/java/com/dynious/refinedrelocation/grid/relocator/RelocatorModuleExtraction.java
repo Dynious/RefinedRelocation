@@ -35,7 +35,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
 {
     private static IIcon icon;
     private byte tick = 0;
-    private int lastCheckedSlot = -1;
+    protected int lastCheckedSlot = -1;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
 
     @Override
@@ -60,23 +60,28 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
             TileEntity tile = relocator.getConnectedInventories()[side];
             if (tile instanceof IInventory)
             {
-                tryExtraction(relocator, (IInventory) tile, side, lastCheckedSlot);
+                tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
             }
             tick = 0;
         }
     }
 
-    public void tryExtraction(IItemRelocator relocator, IInventory inventory, int side, int firstChecked)
+    protected int getExtractionSide(int side)
     {
-        int slot = getNextSlot(inventory, ForgeDirection.getOrientation(side).getOpposite());
+        return ForgeDirection.OPPOSITES[side];
+    }
+
+    public void tryExtraction(IItemRelocator relocator, IInventory inventory, int extractionSide, int connectedSide, int firstChecked)
+    {
+        int slot = getNextSlot(inventory, ForgeDirection.getOrientation(extractionSide));
         if (slot != -1)
         {
             ItemStack stack = inventory.getStackInSlot(slot);
             if (stack != null && stack.stackSize != 0)
             {
-                if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, ForgeDirection.OPPOSITES[side]))
+                if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, extractionSide))
                 {
-                    ItemStack returnedStack = relocator.insert(stack.copy(), side, false);
+                    ItemStack returnedStack = relocator.insert(stack.copy(), connectedSide, false);
                     if (returnedStack == null || stack.stackSize != returnedStack.stackSize)
                     {
                         inventory.setInventorySlotContents(slot, returnedStack);
@@ -87,7 +92,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
             {
                 if (firstChecked == -1)
                     firstChecked = lastCheckedSlot;
-                tryExtraction(relocator, inventory, side, firstChecked);
+                tryExtraction(relocator, inventory, extractionSide, connectedSide, firstChecked);
             }
         }
     }

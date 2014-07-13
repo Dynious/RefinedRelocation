@@ -11,6 +11,8 @@ public class GuiModular extends GuiRefinedRelocationContainer
     public GuiModular(Container container)
     {
         super(container);
+        this.xSize = 0;
+        this.ySize = 0;
     }
 
     @Override
