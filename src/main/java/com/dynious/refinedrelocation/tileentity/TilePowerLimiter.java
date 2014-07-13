@@ -266,7 +266,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 setEnergyInterface((IEnergyInterface) tile);
             }
             */
-            if (updated || tile instanceof ILoopable)
+            if (updated)
             {
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
@@ -326,7 +326,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     {
         if (getPowerReceptor() != null && !getDisablePower())
         {
-            return getPowerReceptor().getPowerReceiver(forgeDirection.getOpposite());
+            return getPowerReceptor().getPowerReceiver(connectedDirection.getOpposite());
         }
         return null;
     }
@@ -380,7 +380,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 storedEnergy = v - EnergyType.EU.fromInternal(maxAcceptedEnergy);
                 v = EnergyType.EU.fromInternal(maxAcceptedEnergy);
             }
-            return getEnergySink().injectEnergyUnits(forgeDirection.getOpposite(), v) + storedEnergy;
+            return getEnergySink().injectEnergyUnits(connectedDirection.getOpposite(), v) + storedEnergy;
         }
         return v;
     }
@@ -400,7 +400,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     @Override
     public boolean acceptsEnergyFrom(TileEntity tileEntity, ForgeDirection forgeDirection)
     {
-        return getEnergySink() != null && getEnergySink().acceptsEnergyFrom(tileEntity, forgeDirection.getOpposite());
+        return getEnergySink() != null && getEnergySink().acceptsEnergyFrom(tileEntity, connectedDirection.getOpposite());
     }
 
     /*
@@ -408,15 +408,13 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
-        if (getEnergyHandler() != null  && !getDisablePower())
+        if (getEnergyHandler() != null && !getDisablePower())
         {
-            int storedEnergy = 0;
             if (i > EnergyType.RF.fromInternal(maxAcceptedEnergy))
             {
-                storedEnergy = i - (int) EnergyType.RF.fromInternal(maxAcceptedEnergy);
                 i = (int) EnergyType.RF.fromInternal(maxAcceptedEnergy);
             }
-            return getEnergyHandler().receiveEnergy(forgeDirection.getOpposite(), i, b) + storedEnergy;
+            return getEnergyHandler().receiveEnergy(connectedDirection.getOpposite(), i, b);
         }
         return 0;
     }
@@ -427,7 +425,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     {
         if (getEnergyHandler() != null)
         {
-            return getEnergyHandler().extractEnergy(forgeDirection.getOpposite(), i, b);
+            return getEnergyHandler().extractEnergy(connectedDirection.getOpposite(), i, b);
         }
         return 0;
     }
@@ -436,7 +434,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     @Override
     public boolean canInterface(ForgeDirection forgeDirection)
     {
-        return getEnergyHandler() != null && getEnergyHandler().canInterface(forgeDirection.getOpposite());
+        return getEnergyHandler() != null && getEnergyHandler().canInterface(connectedDirection.getOpposite());
     }
 
     @Method(modid = Mods.COFH_CORE_ID)
@@ -445,7 +443,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     {
         if (getEnergyHandler() != null)
         {
-            return getEnergyHandler().getEnergyStored(forgeDirection.getOpposite());
+            return getEnergyHandler().getEnergyStored(connectedDirection.getOpposite());
         }
         return 0;
     }
@@ -456,7 +454,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     {
         if (getEnergyHandler() != null)
         {
-            return getEnergyHandler().getMaxEnergyStored(forgeDirection.getOpposite());
+            return getEnergyHandler().getMaxEnergyStored(connectedDirection.getOpposite());
         }
         return 0;
     }
@@ -473,7 +471,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
                 storedEnergy = l - (long) EnergyType.KJ.fromInternal(maxAcceptedEnergy);
                 l = (long) EnergyType.KJ.fromInternal(maxAcceptedEnergy);
             }
-            return getEnergyInterface().onReceiveEnergy(direction.getOpposite(), l, b) + storedEnergy;
+            return getEnergyInterface().onReceiveEnergy(connectedDirection.getOpposite(), l, b) + storedEnergy;
         }
         return 0;
     }
@@ -484,7 +482,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     {
         if (getEnergyInterface() != null)
         {
-            return getEnergyInterface().onExtractEnergy(direction.getOpposite(), l, b);
+            return getEnergyInterface().onExtractEnergy(connectedDirection.getOpposite(), l, b);
         }
         return 0;
     }
@@ -495,7 +493,7 @@ public class TilePowerLimiter extends TileUniversalElectricity implements ILoopa
     {
         if (getEnergyInterface() != null)
         {
-            return getEnergyInterface().canConnect(direction.getOpposite(), o);
+            return getEnergyInterface().canConnect(connectedDirection.getOpposite(), o);
         }
         return false;
     }

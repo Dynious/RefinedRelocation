@@ -99,24 +99,27 @@ public class ItemToolBox extends Item
 
                 if (!world.isRemote)
                 {
-                    String wrenchText = StatCollector.translateToLocal(Strings.TOOLBOX_WRENCH_LIST_START) + " ";
                     ArrayList<ItemStack> wrenches = getWrenches(stack);
 
-                    for (int i = 0; i < wrenches.size(); i++)
+                    if (!wrenches.isEmpty())
                     {
-                        ItemStack wrench = wrenches.get(i);
-                        ItemStack currentWrench = getCurrentWrench(stack);
-                        String modifier = wrench == currentWrench ? "\u00A77" : ""; // If current wrench, print in grey
+                        String wrenchText = StatCollector.translateToLocal(Strings.TOOLBOX_WRENCH_LIST_START) + " ";
+                        for (int i = 0; i < wrenches.size(); i++)
+                        {
+                            ItemStack wrench = wrenches.get(i);
+                            ItemStack currentWrench = getCurrentWrench(stack);
+                            String modifier = wrench == currentWrench ? "\u00A77" : ""; // If current wrench, print in grey
 
-                        wrenchText += modifier + wrench.getDisplayName() + "\u00A7r"; // reset after item name
+                            wrenchText += modifier + wrench.getDisplayName() + "\u00A7r"; // reset after item name
 
-                        if (i < wrenches.size() - 1)
-                            wrenchText += ", ";
-                        else
-                            wrenchText += ".";
+                            if (i < wrenches.size() - 1)
+                                wrenchText += ", ";
+                            else
+                                wrenchText += ".";
+                        }
+
+                        player.addChatMessage(new ChatComponentText(wrenchText));
                     }
-
-                    player.addChatMessage(new ChatComponentText(wrenchText));
                 }
             }
         }
