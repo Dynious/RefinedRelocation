@@ -7,6 +7,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.RecipeSorter;
 
 public class ModItems
 {
@@ -59,5 +60,6 @@ public class ModItems
 
         GameRegistry.addShapedRecipe(new ItemStack(toolBox), "isi", "i i", "iii", 'i', Items.iron_ingot, 's', Items.stick);
         GameRegistry.addRecipe(new RecipeToolbox());
+        RecipeSorter.register("toolBoxRecipe", RecipeToolbox.class, RecipeSorter.Category.SHAPELESS, "");
     }
 }
