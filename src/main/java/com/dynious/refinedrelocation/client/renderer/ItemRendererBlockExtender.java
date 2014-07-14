@@ -1,9 +1,9 @@
 package com.dynious.refinedrelocation.client.renderer;
 
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.model.ModelBlockExtender;
-import com.dynious.refinedrelocation.model.ModelBuffer;
-import com.dynious.refinedrelocation.model.ModelEnderPearl;
+import com.dynious.refinedrelocation.client.model.ModelBlockExtender;
+import com.dynious.refinedrelocation.client.model.ModelBuffer;
+import com.dynious.refinedrelocation.client.model.ModelEnderPearl;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;

@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.part;
+package com.dynious.refinedrelocation.mods.part;
 
 import codechicken.lib.vec.BlockCoord;
 import codechicken.multipart.MultiPartRegistry;

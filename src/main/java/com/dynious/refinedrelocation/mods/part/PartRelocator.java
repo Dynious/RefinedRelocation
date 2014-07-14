@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.part;
+package com.dynious.refinedrelocation.mods.part;
 
 import buildcraft.api.transport.PipeWire;
 import codechicken.lib.data.MCDataInput;

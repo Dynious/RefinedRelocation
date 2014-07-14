@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.model;
+package com.dynious.refinedrelocation.client.model;
 
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraftforge.client.model.AdvancedModelLoader;

@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.client.renderer;
 
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.model.ModelBuffer;
+import com.dynious.refinedrelocation.client.model.ModelBuffer;
 import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.tileentity.TileEntity;
