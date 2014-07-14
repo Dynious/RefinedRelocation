@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.tileentity;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileRelocationController extends TileMultiBlockBase
 {
@@ -48,5 +49,11 @@ public class TileRelocationController extends TileMultiBlockBase
         super.writeToNBT(compound);
         if (linkedUUID != null && !linkedUUID.isEmpty())
             compound.setString("UUID", linkedUUID);
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return super.getRenderBoundingBox().expand(1D, 3D, 1D);
     }
 }
