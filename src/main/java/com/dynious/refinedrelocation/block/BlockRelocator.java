@@ -14,9 +14,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
@@ -172,6 +174,26 @@ public class BlockRelocator extends BlockContainer
             }
         }
         return super.removedByPlayer(world, player, x, y, z);
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB axisAlignedBB, List collisionList, Entity entity)
+    {
+        RelocatorData.middleCuboid.setBlockBounds(this);
+        super.addCollisionBoxesToList(world, x, y, z, axisAlignedBB, collisionList, entity);
+
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof TileRelocator)
+        {
+            TileRelocator relocator = (TileRelocator) tile;
+            for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
+            {
+                if (((TileRelocator)tile).connectsToSide(i))
+                {
+                    RelocatorData.sideCuboids[i].setBlockBounds(this);
+                }
+            }
+        }
     }
 
     @Override
