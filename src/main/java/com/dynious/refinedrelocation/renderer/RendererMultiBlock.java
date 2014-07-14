@@ -6,11 +6,9 @@ import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.util.BlockAndMeta;
 import com.dynious.refinedrelocation.util.MultiBlockAndMeta;
 import com.dynious.refinedrelocation.util.Vector3;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -32,60 +30,117 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
                 if (multiBlock != null)
                 {
-                    if (tileMultiBlock.timer % 40 >= 20)
+                    Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
+                    Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+
+                    GL11.glPushMatrix();
+                    GL11.glTranslated(xPos + 0.5F, yPos + 0.5F, zPos + 0.5F);
+
+                    for (int x = 0; x < multiBlock.getMultiBlockMap().getSizeX(); x++)
                     {
-                        Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
-                        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-
-                        GL11.glPushMatrix();
-                        GL11.glTranslated(xPos + 0.5F, yPos + 0.5F, zPos + 0.5F);
-
-                        for (int x = 0; x < multiBlock.getMultiBlockMap().getSizeX(); x++)
+                        for (int y = 0; y < multiBlock.getMultiBlockMap().getSizeY(); y++)
                         {
-                            for (int y = 0; y < multiBlock.getMultiBlockMap().getSizeY(); y++)
+                            for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
                             {
-                                for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
-                                {
-                                    if (!tileMultiBlock.getWorldObj().isAirBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ()))
-                                    {
-                                        Block block = tileMultiBlock.getWorldObj().getBlock(tileMultiBlock.xCoord + x - leaderPos.getX(), tileMultiBlock.yCoord + y - leaderPos.getY(), tileMultiBlock.zCoord + z - leaderPos.getZ());
-                                        if (block != null && block.getRenderType() == 0)
-                                            continue;
-                                    }
-                                    Object blockInfo = multiBlock.getMultiBlockMap().getBlockAndMetaAtPos(x, y, z);
+                                Object blockInfo = multiBlock.getMultiBlockMap().getBlockAndMetaAtPos(x, y, z);
 
-                                    GL11.glPushMatrix();
+                                GL11.glPushMatrix();
+                                
+                                renderBlocks(multiBlock, tileMultiBlock, x, y, z);
 
-                                    if (blockInfo instanceof MultiBlockAndMeta)
-                                    {
-                                        MultiBlockAndMeta multiBlockAndMeta = (MultiBlockAndMeta) blockInfo;
-                                        int timePerBlock = 20 / multiBlockAndMeta.getBlockAndMetas().size();
-                                        int blockPlace = (tileMultiBlock.timer % 20) / timePerBlock;
-                                        renderBlock(multiBlockAndMeta.getBlockAndMetas().get(blockPlace), x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
-                                    }
-                                    else if (blockInfo instanceof BlockAndMeta)
-                                    {
-                                        renderBlock((BlockAndMeta) blockInfo, x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
-                                    }
-
-                                    GL11.glPopMatrix();
-                                }
+                                GL11.glPopMatrix();
                             }
                         }
-                        GL11.glPopMatrix();
                     }
+                    GL11.glPopMatrix();
                 }
             }
         }
     }
 
-    private void renderBlock(BlockAndMeta blockAndMeta, int relativeX, int relativeY, int relativeZ)
+    private void renderBlocks(IMultiBlock multiBlock, TileMultiBlockBase tileMultiBlock, int x, int y, int z)
     {
-        if (blockAndMeta.getBlock() != null)
+        Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
+        Object blockInfo = multiBlock.getMultiBlockMap().getBlockAndMetaAtPos(x, y, z);
+        int xOffset = tileMultiBlock.xCoord + x - leaderPos.getX();
+        int yOffset = tileMultiBlock.yCoord + y - leaderPos.getY();
+        int zOffset = tileMultiBlock.zCoord + z - leaderPos.getZ();
+
+        if (!tileMultiBlock.getWorldObj().isAirBlock(xOffset, yOffset, zOffset))
         {
-            GL11.glTranslatef(relativeX, relativeY, relativeZ);
-            renderBlocks.renderBlockAsItem(blockAndMeta.getBlock(), blockAndMeta.getMeta(), 255F);
-            //Minecraft.getMinecraft().renderGlobal.globalRenderBlocks.renderBlockByRenderType(Block.blocksList[blockAndMeta.getBlockId()], x - leaderPos.getX(), y - leaderPos.getY(), z - leaderPos.getZ());
+            Block block = tileMultiBlock.getWorldObj().getBlock(xOffset, yOffset, tileMultiBlock.zCoord + z - leaderPos.getZ());
+            BlockAndMeta blockAndMeta = null;
+            if (blockInfo instanceof MultiBlockAndMeta)
+            {
+                blockAndMeta = getBlockAndMeta((MultiBlockAndMeta) blockInfo, tileMultiBlock);
+            }
+            else if (blockInfo instanceof BlockAndMeta)
+            {
+                blockAndMeta = (BlockAndMeta) blockInfo;
+            }
+
+            if (blockAndMeta != null && !tileMultiBlock.getWorldObj().getBlock(xOffset, yOffset, zOffset).isOpaqueCube())
+            {
+                renderBlock(blockInfo, multiBlock, tileMultiBlock, x, y, z);
+            }
+
+            if (blockAndMeta != null && blockAndMeta.getBlock() == block && blockAndMeta.getMeta() == tileMultiBlock.getWorldObj().getBlockMetadata(xOffset, yOffset, zOffset))
+            {
+                // No need for any rendering, the right block is at these coordinates
+            }
+            else
+            {
+                renderIncorrectBlock(x, y, z);
+            }
         }
+        else
+        {
+            renderBlock(blockInfo, multiBlock, tileMultiBlock, x, y, z);
+        }
+    }
+
+    private void renderBlock(Object blockInfo, IMultiBlock multiBlock, TileMultiBlockBase tileMultiBlock, int x, int y, int z)
+    {
+        Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
+        BlockAndMeta blockAndMeta = null;
+        int relativeX = 0;
+        int relativeY = 0;
+        int relativeZ = 0;
+
+        if (blockInfo instanceof MultiBlockAndMeta)
+        {
+            MultiBlockAndMeta multiBlockAndMeta = (MultiBlockAndMeta) blockInfo;
+
+            blockAndMeta = getBlockAndMeta(multiBlockAndMeta, tileMultiBlock);
+            relativeX = x - leaderPos.getX();
+            relativeY = y - leaderPos.getY();
+            relativeZ = z - leaderPos.getZ();
+        }
+        else if (blockInfo instanceof BlockAndMeta)
+        {
+            blockAndMeta = (BlockAndMeta) blockInfo;
+            relativeX = x - leaderPos.getX();
+            relativeY = y - leaderPos.getY();
+            relativeZ = z - leaderPos.getZ();
+        }
+
+        if (blockAndMeta != null && blockAndMeta.getBlock() != null)
+        {
+            float scale = 0.5F;
+            GL11.glTranslatef(relativeX, relativeY, relativeZ);
+            GL11.glScalef(scale, scale, scale);
+            renderBlocks.renderBlockAsItem(blockAndMeta.getBlock(), blockAndMeta.getMeta(), 255F);
+        }
+    }
+
+    private void renderIncorrectBlock(int x, int y, int z)
+    {
+        // TODO: Add incorrect block rendering
+    }
+
+    private BlockAndMeta getBlockAndMeta(MultiBlockAndMeta multiBlockAndMeta, TileMultiBlockBase tileMultiBlock)
+    {
+        int timePerBlock = 20 / multiBlockAndMeta.getBlockAndMetas().size();
+        return multiBlockAndMeta.getBlockAndMetas().get((tileMultiBlock.timer % 20) / timePerBlock);
     }
 }
