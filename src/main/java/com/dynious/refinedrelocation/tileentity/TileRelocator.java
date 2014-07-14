@@ -401,6 +401,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void onBlocksChanged()
     {
+        if (worldObj == null)
+            return;
+        
         inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
         relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
 
