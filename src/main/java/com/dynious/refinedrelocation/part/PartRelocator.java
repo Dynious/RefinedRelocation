@@ -86,6 +86,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public void onNeighborChanged()
     {
         super.onNeighborChanged();
+        initRelocator();
         relocator.onBlocksChanged();
     }
 
