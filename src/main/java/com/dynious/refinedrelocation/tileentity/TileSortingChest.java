@@ -6,7 +6,7 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.block.BlockSortingChest;
-import com.dynious.refinedrelocation.gui.container.ContainerSortingChest;
+import com.dynious.refinedrelocation.container.ContainerSortingChest;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -109,7 +109,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
             {
                 itemstack = this.inventory[par1];
                 this.inventory[par1] = null;
-                this.markDirty();;
+                this.markDirty();
                 return itemstack;
             }
             else
@@ -121,7 +121,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
                     this.inventory[par1] = null;
                 }
 
-                this.markDirty();;
+                this.markDirty();
                 return itemstack;
             }
         }

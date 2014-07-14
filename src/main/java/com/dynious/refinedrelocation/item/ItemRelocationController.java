@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.item;
 
-import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

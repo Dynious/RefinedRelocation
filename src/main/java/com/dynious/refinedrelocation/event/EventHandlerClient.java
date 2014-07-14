@@ -3,15 +3,16 @@ package com.dynious.refinedrelocation.event;
 import codechicken.lib.raytracer.RayTracer;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
-import com.dynious.refinedrelocation.gui.container.IContainerFiltered;
+import com.dynious.refinedrelocation.container.IContainerFiltered;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.renderer.RendererRelocator;
+import com.dynious.refinedrelocation.client.renderer.RendererRelocator;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
@@ -19,7 +20,6 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Keyboard;
 
 public class EventHandlerClient

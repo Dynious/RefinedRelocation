@@ -2,7 +2,6 @@ package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.transport.PipeWire;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
-import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
@@ -822,7 +821,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         NBTTagList nbttaglist = compound.getTagList("modules", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
+            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             byte place = nbttagcompound1.getByte("place");
             IRelocatorModule filter = RelocatorModuleRegistry.getModule(nbttagcompound1.getString("clazzIdentifier"));
             if (filter != null)

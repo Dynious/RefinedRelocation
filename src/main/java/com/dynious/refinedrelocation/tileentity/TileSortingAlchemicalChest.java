@@ -14,8 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-import java.lang.reflect.Field;
-
 public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implements ISortingInventory, IFilterTileGUI
 {
     public boolean isFirstRun = true;

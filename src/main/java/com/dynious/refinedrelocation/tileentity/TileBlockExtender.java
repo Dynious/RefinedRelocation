@@ -953,7 +953,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         boolean wasRedstoneEnabled = isRedstoneTransmissionEnabled();
         isRedstoneEnabled = state;
 
-        if (worldObj != null && isRedstoneTransmissionEnabled() != wasRedstoneEnabled)
+        if (worldObj != null && isRedstoneEnabled != wasRedstoneEnabled)
         {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             this.checkRedstonePower();

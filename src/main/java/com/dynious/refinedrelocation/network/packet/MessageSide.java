@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.network.packet;
 
-import com.dynious.refinedrelocation.gui.container.ContainerModuleSneaky;
+import com.dynious.refinedrelocation.container.ContainerModuleSneaky;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

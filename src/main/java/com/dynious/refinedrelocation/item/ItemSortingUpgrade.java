@@ -10,7 +10,6 @@ import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.JabbaHelper;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -91,7 +90,7 @@ public class ItemSortingUpgrade extends Item
 
                 world.setTileEntity(X, Y, Z, newHopper);
                 world.setBlockMetadataWithNotify(X, Y, Z, meta, 3);
-                System.arraycopy(chestContents, 0, (ItemStack[]) ObfuscationReflectionHelper.getPrivateValue(TileEntityHopper.class, newHopper, 0), 0, newHopper.getSizeInventory());
+                System.arraycopy(chestContents, 0, ObfuscationReflectionHelper.getPrivateValue(TileEntityHopper.class, newHopper, 0), 0, newHopper.getSizeInventory());
                 stack.stackSize--;
                 return true;
             }

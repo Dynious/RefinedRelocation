@@ -81,9 +81,8 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
         int bestSize = Integer.MAX_VALUE;
         int[] invAccessibleSlots = getAccessibleSlotsFromSide(side);
 
-        for (int j = 0; j < invAccessibleSlots.length; ++j)
+        for (int slot : invAccessibleSlots)
         {
-            int slot = invAccessibleSlots[j];
             ItemStack stack = getStackInSlot(slot);
             if (!super.canInsertItem(slot, itemStack, side))
             {

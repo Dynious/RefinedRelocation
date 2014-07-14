@@ -188,7 +188,7 @@ public class BlockRelocator extends BlockContainer
             TileRelocator relocator = (TileRelocator) tile;
             for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
             {
-                if (((TileRelocator)tile).connectsToSide(i))
+                if (relocator.connectsToSide(i))
                 {
                     RelocatorData.sideCuboids[i].setBlockBounds(this);
                 }

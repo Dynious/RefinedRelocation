@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.helper;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.tileentity.*;
-import cpw.mods.fml.common.Loader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 

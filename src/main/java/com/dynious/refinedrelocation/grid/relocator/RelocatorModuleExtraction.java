@@ -2,11 +2,9 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
-import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
-import com.dynious.refinedrelocation.gui.GuiHome;
-import com.dynious.refinedrelocation.gui.GuiModuleExtraction;
-import com.dynious.refinedrelocation.gui.container.ContainerModuleExtraction;
+import com.dynious.refinedrelocation.client.gui.GuiModuleExtraction;
+import com.dynious.refinedrelocation.container.ContainerModuleExtraction;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
@@ -27,7 +25,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.beans.Statement;
 import java.util.ArrayList;
 import java.util.List;
 

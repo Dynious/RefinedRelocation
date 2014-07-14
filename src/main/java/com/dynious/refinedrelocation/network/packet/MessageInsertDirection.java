@@ -1,11 +1,10 @@
 package com.dynious.refinedrelocation.network.packet;
 
-import com.dynious.refinedrelocation.gui.container.IContainerAdvanced;
+import com.dynious.refinedrelocation.container.IContainerAdvanced;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
 public class MessageInsertDirection implements IMessage, IMessageHandler<MessageInsertDirection, IMessage>
@@ -18,7 +17,7 @@ public class MessageInsertDirection implements IMessage, IMessageHandler<Message
 
     public MessageInsertDirection(byte side, byte direction)
     {
-        this.sideAndDirection = (byte) ((byte) (side << 4) | (byte) (direction));
+        this.sideAndDirection = (byte) ((byte) (side << 4) | direction);
     }
 
     @Override

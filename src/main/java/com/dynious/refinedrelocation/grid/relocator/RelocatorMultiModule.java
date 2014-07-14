@@ -1,18 +1,14 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
-import com.dynious.refinedrelocation.APIHandler;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
-import com.dynious.refinedrelocation.gui.GuiHome;
-import com.dynious.refinedrelocation.gui.GuiModularTest;
-import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
+import com.dynious.refinedrelocation.client.gui.GuiHome;
+import com.dynious.refinedrelocation.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.tileentity.IRelocator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;

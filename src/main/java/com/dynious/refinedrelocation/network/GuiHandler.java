@@ -2,9 +2,8 @@ package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.tileentity.IRelocator;
-import com.dynious.refinedrelocation.gui.*;
-import com.dynious.refinedrelocation.gui.container.*;
+import com.dynious.refinedrelocation.client.gui.*;
+import com.dynious.refinedrelocation.container.*;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.common.network.IGuiHandler;
