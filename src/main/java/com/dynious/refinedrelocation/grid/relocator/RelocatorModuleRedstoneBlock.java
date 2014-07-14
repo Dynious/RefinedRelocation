@@ -2,11 +2,10 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
-import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.item.ModItems;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;

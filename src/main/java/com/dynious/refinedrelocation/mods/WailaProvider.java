@@ -1,12 +1,12 @@
 package com.dynious.refinedrelocation.mods;
 
+import codechicken.multipart.BlockMultipart;
 import com.dynious.refinedrelocation.block.BlockExtender;
 import com.dynious.refinedrelocation.block.BlockRelocator;
-
 import com.dynious.refinedrelocation.lib.Mods;
-import com.dynious.refinedrelocation.mods.waila.*;
-import codechicken.multipart.BlockMultipart;
-import mcp.mobius.waila.api.*;
+import com.dynious.refinedrelocation.mods.waila.BlockExtenderHUDHandler;
+import com.dynious.refinedrelocation.mods.waila.RelocatorHUDHandler;
+import mcp.mobius.waila.api.IWailaRegistrar;
 
 public class WailaProvider
 {

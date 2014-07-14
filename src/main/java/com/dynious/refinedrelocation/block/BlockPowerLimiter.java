@@ -2,7 +2,6 @@ package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.GuiHelper;
-import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
@@ -18,8 +17,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import java.util.ArrayList;
 
 /* @Optional.InterfaceList(value = {@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")}) */
 public class BlockPowerLimiter extends BlockContainer /* implements IDismantleable */

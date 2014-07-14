@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.gui.container;
 
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
 import net.minecraft.inventory.ICrafting;
 

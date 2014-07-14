@@ -1,26 +1,29 @@
 package com.dynious.refinedrelocation.mods.waila;
 
 import codechicken.multipart.TileMultipart;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
-import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.lib.Mods;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.part.PartRelocator;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
-import mcp.mobius.waila.api.*;
-import static mcp.mobius.waila.api.SpecialChars.*; // Staticly import to allow us to use these without SpecialChars.;
-import net.minecraft.tileentity.TileEntity;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
-import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
+import static mcp.mobius.waila.api.SpecialChars.TAB;
 
 public class RelocatorHUDHandler implements IWailaDataProvider
 {

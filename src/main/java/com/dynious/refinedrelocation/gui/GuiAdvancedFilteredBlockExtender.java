@@ -6,7 +6,6 @@ import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedFilteredBlockExtender;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 public class GuiAdvancedFilteredBlockExtender extends GuiRefinedRelocationContainer

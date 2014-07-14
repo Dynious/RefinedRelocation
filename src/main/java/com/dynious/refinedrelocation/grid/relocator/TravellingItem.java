@@ -1,7 +1,6 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
-import com.dynious.refinedrelocation.util.Vector3;
 import com.google.common.primitives.Bytes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.entity.player.EntityPlayer;

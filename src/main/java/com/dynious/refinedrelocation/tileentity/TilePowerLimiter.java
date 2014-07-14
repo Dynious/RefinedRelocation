@@ -8,7 +8,6 @@ import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
-import cpw.mods.fml.common.Loader;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

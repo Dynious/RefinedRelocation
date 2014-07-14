@@ -1,7 +1,5 @@
 package com.dynious.refinedrelocation.renderer;
 
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 

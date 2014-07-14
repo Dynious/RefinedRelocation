@@ -3,8 +3,6 @@ package com.dynious.refinedrelocation.gui;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleExtraction;
 import com.dynious.refinedrelocation.gui.widget.GuiButtonTicksBetweenExtractions;
-import com.dynious.refinedrelocation.lib.Resources;
-import org.lwjgl.opengl.GL11;
 
 public class GuiModuleExtraction extends GuiModular
 {

@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.multiblock;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.util.BlockAndMeta;
 import com.dynious.refinedrelocation.util.Vector3;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
 public class MultiBlockPlayerRelocator implements IMultiBlock

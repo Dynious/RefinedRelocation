@@ -1,7 +1,6 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
-import com.dynious.refinedrelocation.gui.GuiModuleSneaky;
 import com.dynious.refinedrelocation.gui.GuiModuleSneakyExtraction;
 import com.dynious.refinedrelocation.gui.container.ContainerModuleSneakyExtraction;
 import com.dynious.refinedrelocation.item.ModItems;

@@ -7,7 +7,6 @@ import com.dynious.refinedrelocation.gui.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.gui.widget.GuiButtonOpenModuleGUI;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageHomeButtonClicked;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
