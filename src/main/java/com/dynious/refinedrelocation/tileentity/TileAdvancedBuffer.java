@@ -21,11 +21,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     private ForgeDirection lastFluidOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastBCEnergyOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastIC2EnergyOutputSide = ForgeDirection.UNKNOWN;
-
-    /*
     private ForgeDirection lastCoFHEnergyOutputSide = ForgeDirection.UNKNOWN;
-    private ForgeDirection lastUEEnergyOutputSide = ForgeDirection.UNKNOWN;
-    */
 
     public static final byte NULL_PRIORITY = (byte) (ForgeDirection.VALID_DIRECTIONS.length);
 
@@ -260,9 +256,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
     }
 
-    /*
-
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -297,44 +291,6 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
         return inputAmount - i;
     }
-
-    @Optional.Method(modid = Mods.UE_ID)
-    @Override
-    public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
-    {
-        long inputAmount = l;
-        if (spreadItems)
-        {
-            boolean didReceive;
-            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(direction, lastUEEnergyOutputSide);
-            long amountPerStack = outputSides.isEmpty() ? 0 : (long) Math.ceil(l / outputSides.size());
-
-            do
-            {
-                didReceive = false;
-                for (ForgeDirection outputSide : outputSides)
-                {
-                    lastUEEnergyOutputSide = outputSide;
-                    long amountLeft = insertUEEnergy(amountPerStack, outputSide.ordinal(), b);
-                    if (amountLeft != amountPerStack)
-                    {
-                        l -= Math.min(l, amountPerStack - amountLeft);
-                        didReceive = true;
-
-                        if (l == 0)
-                            return inputAmount;
-                    }
-                }
-            } while (didReceive);
-        }
-        else
-        {
-            return super.onReceiveEnergy(direction, l, b);
-        }
-        return inputAmount - l;
-    }
-
-    */
 
     @Override
     public void readFromNBT(NBTTagCompound compound)

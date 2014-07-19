@@ -2,11 +2,12 @@ package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
+import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
-import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
+import com.dynious.refinedrelocation.tileentity.energy.TileIndustrialCraft;
 import cpw.mods.fml.common.Loader;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.block.Block;
@@ -32,7 +33,7 @@ import java.util.List;
 
 import static cpw.mods.fml.common.Optional.Method;
 
-public class TileBlockExtender extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IDisguisable, ILoopable
+public class TileBlockExtender extends TileIndustrialCraft implements ISidedInventory, IFluidHandler, IDisguisable, ILoopable
 {
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
@@ -41,10 +42,8 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
     protected IFluidHandler fluidHandler;
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
-    /*
     protected IEnergyHandler energyHandler;
-    protected IEnergyInterface energyInterface;
-    */
+
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     public boolean blocksChanged = true;
     protected boolean isRedstonePowered = false;
@@ -157,21 +156,11 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         }
     }
 
-    /*
-    
-    @Method(modid = Mods.COFH_CORE_ID)
+    @Method(modid = Mods.COFH_API_ID)
     public void setEnergyHandler(IEnergyHandler energyHandler)
     {
         this.energyHandler = energyHandler;
     }
-
-    @Method(modid = Mods.UE_ID)
-    public void setEnergyInterface(IEnergyInterface energyInterface)
-    {
-        this.energyInterface = energyInterface;
-    }
-
-    */
 
     public IInventory getInventory()
     {
@@ -195,20 +184,11 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return energySink;
     }
 
-    /*
-    @Method(modid = Mods.COFH_CORE_ID)
+    @Method(modid = Mods.COFH_API_ID)
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
     }
-
-    @Method(modid = Mods.UE_ID)
-    public IEnergyInterface getEnergyInterface()
-    {
-        return energyInterface;
-    }
-
-    */
 
     public TileEntity[] getTiles()
     {
@@ -324,10 +304,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setEnergySink((IEnergySink) tile);
             }
-
-            /*
-
-            if (Mods.IS_COFH_CORE_LOADED && tile instanceof IEnergyHandler)
+            if (Mods.IS_COFH_API_LOADED && tile instanceof IEnergyHandler)
             {
                 if (getEnergyHandler() == null)
                 {
@@ -335,16 +312,6 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
                 }
                 setEnergyHandler((IEnergyHandler) tile);
             }
-            if (Mods.IS_UE_LOADED && tile instanceof IEnergyInterface)
-            {
-                if (getEnergyInterface() == null)
-                {
-                    updated = true;
-                }
-                setEnergyInterface((IEnergyInterface) tile);
-            }
-
-            */
             
             if (updated)
             {
@@ -363,12 +330,8 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
             setPowerReceptor(null);
         if (Mods.IS_IC2_LOADED)
             setEnergySink(null);
-        /*
-        if (Mods.IS_COFH_CORE_LOADED)
+        if (Mods.IS_COFH_API_LOADED)
             setEnergyHandler(null);
-        if (Mods.IS_UE_LOADED)
-            setEnergyInterface(null);
-        */
     }
 
     public boolean hasConnection()
@@ -385,14 +348,10 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         {
             return true;
         }
-/*        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
+        if (Mods.IS_COFH_API_LOADED && getEnergyHandler() != null)
         {
             return true;
         }
-        if (Mods.IS_UE_LOADED && getEnergyInterface() != null)
-        {
-            return true;
-        }*/
         return false;
     }
 
@@ -408,10 +367,8 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
             connections.add("Buildcraft Energy");
         if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add("IC2 Energy");
-/*        if (Mods.IS_COFH_CORE_LOADED && getEnergyHandler() != null)
+        if (Mods.IS_COFH_API_LOADED && getEnergyHandler() != null)
             connections.add("Thermal Expansion Energy");
-        if (Mods.IS_UE_LOADED && getEnergyInterface() != null)
-            connections.add("Universal Electricity Energy");*/
 
         return connections;
     }
@@ -787,9 +744,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return getEnergySink() != null && getEnergySink().acceptsEnergyFrom(tileEntity, getInputSide(forgeDirection));
     }
 
-    /*
-
-    @Method(modid = Mods.COFH_CORE_ID)
+    @Method(modid = Mods.COFH_API_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -800,7 +755,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = Mods.COFH_CORE_ID)
+    @Method(modid = Mods.COFH_API_ID)
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -811,14 +766,14 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = Mods.COFH_CORE_ID)
+    @Method(modid = Mods.COFH_API_ID)
     @Override
-    public boolean canInterface(ForgeDirection forgeDirection)
+    public boolean canConnectEnergy(ForgeDirection forgeDirection)
     {
-        return getEnergyHandler() != null && getEnergyHandler().canInterface(getInputSide(forgeDirection));
+        return getEnergyHandler() != null && getEnergyHandler().canConnectEnergy(getInputSide(forgeDirection));
     }
 
-    @Method(modid = Mods.COFH_CORE_ID)
+    @Method(modid = Mods.COFH_API_ID)
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
@@ -829,7 +784,7 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         return 0;
     }
 
-    @Method(modid = Mods.COFH_CORE_ID)
+    @Method(modid = Mods.COFH_API_ID)
     @Override
     public int getMaxEnergyStored(ForgeDirection forgeDirection)
     {
@@ -839,41 +794,6 @@ public class TileBlockExtender extends TileUniversalElectricity implements ISide
         }
         return 0;
     }
-
-    @Method(modid = Mods.UE_ID)
-    @Override
-    public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
-    {
-        if (getEnergyInterface() != null)
-        {
-            return getEnergyInterface().onReceiveEnergy(getInputSide(direction), l, b);
-        }
-        return 0;
-    }
-
-    @Method(modid = Mods.UE_ID)
-    @Override
-    public long onExtractEnergy(ForgeDirection direction, long l, boolean b)
-    {
-        if (getEnergyInterface() != null)
-        {
-            return getEnergyInterface().onExtractEnergy(getInputSide(direction), l, b);
-        }
-        return 0;
-    }
-
-    @Method(modid = Mods.UE_ID)
-    @Override
-    public boolean canConnect(ForgeDirection direction, Object o)
-    {
-        if (getEnergyInterface() != null)
-        {
-            return getEnergyInterface().canConnect(getInputSide(direction), o);
-        }
-        return false;
-    }
-
-    */
 
     /*
     NBT stuffs

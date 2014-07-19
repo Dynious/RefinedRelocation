@@ -1,12 +1,15 @@
 package com.dynious.refinedrelocation.block;
 
+import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBuffer;
 import com.dynious.refinedrelocation.tileentity.TileBuffer;
 import com.dynious.refinedrelocation.tileentity.TileFilteredBuffer;
+import cpw.mods.fml.common.Optional;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -18,10 +21,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/* @InterfaceList(value = {@Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")}) */
-public class BlockBuffer extends BlockContainer /* implements IDismantleable */
+@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = Mods.COFH_API_ID)
+public class BlockBuffer extends BlockContainer implements IDismantleable
 {
     protected BlockBuffer()
     {
@@ -124,17 +128,16 @@ public class BlockBuffer extends BlockContainer /* implements IDismantleable */
         return metadata;
     }
 
-    /*
 
-    @Method(modid = "CoFHCore")
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
-    public ItemStack dismantleBlock(EntityPlayer player, World world, int x,
+    public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x,
                                     int y, int z, boolean returnBlock)
     {
         int meta = world.getBlockMetadata(x, y, z);
 
         IOHelper.dropInventory(world, x, y, z);
-        ArrayList<ItemStack> items = this.getBlockDropped(world, x, y, z, meta, 0);
+        ArrayList<ItemStack> items = this.getDrops(world, x, y, z, meta, 0);
 
         for (ItemStack item : items)
         {
@@ -145,14 +148,12 @@ public class BlockBuffer extends BlockContainer /* implements IDismantleable */
         return null;
     }
 
-    @Method(modid = "CoFHCore")
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
     public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z)
     {
         return true;
     }
-
-    */
 
     @Override
     public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)

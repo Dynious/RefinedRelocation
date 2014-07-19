@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.helper;
 
 import buildcraft.api.transport.IPipeConnection;
 import buildcraft.api.transport.IPipeTile;
+import cofh.api.transport.IItemDuct;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.entity.item.EntityItem;
@@ -61,16 +62,14 @@ public class IOHelper
         {
             return ((IRelocator) tile).insert(itemStack, side.ordinal(), simulate);
         }
-        /*
-        else if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
+        else if (Mods.IS_COFH_API_LOADED && tile instanceof IItemDuct)
         {
             if (simulate)
             {
                 return null;
             }
-            return ((IItemConduit) tile).insertItem(side, itemStack);
+            return ((IItemDuct) tile).insertItem(side, itemStack);
         }
-        */
         if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
             IPipeTile pipe = (IPipeTile) tile;
@@ -238,12 +237,10 @@ public class IOHelper
         {
             return ((IRelocator)tile).connectsToSide(side.ordinal());
         }
-        /*
-        else if (Mods.IS_COFH_CORE_LOADED && tile instanceof IItemConduit)
+        else if (Mods.IS_COFH_API_LOADED && tile instanceof IItemDuct)
         {
             return true;
         }
-        */
         else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
         {
             if (((IPipeTile)tile).getPipeType() == IPipeTile.PipeType.ITEM)

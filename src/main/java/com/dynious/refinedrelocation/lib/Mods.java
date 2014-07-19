@@ -10,9 +10,8 @@ public class Mods
     public static final String EE3_ID = "EE3";
     public static final String BC_API_TRANS_ID = "BuildCraftAPI|transport";
     public static final String BC_API_POWER_ID = "BuildCraftAPI|power";
-    public static final String COFH_CORE_ID = "CoFHCore";
+    public static final String COFH_API_ID = "CoFHAPI";
     public static final String IC2_ID = "IC2";
-    public static final String UE_ID = "UniversalElectricity";
     public static final String FMP_IS = "McMultipart";
     public static final String WAILA_ID = "Waila";
 
@@ -22,9 +21,8 @@ public class Mods
     public static final boolean IS_EE3_LOADED = Loader.isModLoaded(EE3_ID);
     public static final boolean IS_BC_TRANS_LOADED = ModAPIManager.INSTANCE.hasAPI(BC_API_TRANS_ID);
     public static final boolean IS_BC_ENERGY_LOADED = ModAPIManager.INSTANCE.hasAPI(BC_API_POWER_ID);
-    public static final boolean IS_COFH_CORE_LOADED = Loader.isModLoaded(COFH_CORE_ID);
+    public static final boolean IS_COFH_API_LOADED =ModAPIManager.INSTANCE.hasAPI(COFH_API_ID);
     public static final boolean IS_IC2_LOADED = Loader.isModLoaded(IC2_ID);
-    public static final boolean IS_UE_LOADED = Loader.isModLoaded(UE_ID);
     public static final boolean IS_FMP_LOADED = Loader.isModLoaded(FMP_IS);
     public static final boolean IS_WAILA_LOADED = Loader.isModLoaded(WAILA_ID);
 }

@@ -3,12 +3,13 @@ package com.dynious.refinedrelocation.tileentity;
 import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
+import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
-import com.dynious.refinedrelocation.tileentity.energy.TileUniversalElectricity;
+import com.dynious.refinedrelocation.tileentity.energy.TileIndustrialCraft;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.entity.item.EntityItem;
@@ -30,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = Mods.BC_API_POWER_ID)
-public class TileBuffer extends TileUniversalElectricity implements ISidedInventory, IFluidHandler, IPowerEmitter, ILoopable
+public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, IFluidHandler, IPowerEmitter, ILoopable
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean firstRun = true;
@@ -482,9 +483,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
         return true;
     }
 
-    /*
-
-        @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -500,7 +499,7 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
         return inputAmount - i;
     }
 
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Optional.Method(modid = Mods.COFH_API_ID)
     public int insertRedstoneFlux(int amount, int side, boolean simulate)
     {
         TileEntity tile = tiles[side];
@@ -514,69 +513,31 @@ public class TileBuffer extends TileUniversalElectricity implements ISidedInvent
         return amount;
     }
 
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
         return 0;
     }
 
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
-    public boolean canInterface(ForgeDirection forgeDirection)
+    public boolean canConnectEnergy(ForgeDirection forgeDirection)
     {
         return true;
     }
 
-    @Optional.Method(modid = Mods.COFH_CORE_ID)
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
         return 0;
     }
 
-    @Optional.Method(modid = Mods.UE_ID)
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
-    public long onReceiveEnergy(ForgeDirection direction, long l, boolean b)
+    public int getMaxEnergyStored(ForgeDirection direction)
     {
-        long inputAmount = l;
-        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(direction))
-        {
-            l = insertUEEnergy(l, outputSide.ordinal(), b);
-            if (l == 0)
-            {
-                return inputAmount;
-            }
-        }
-        return inputAmount - l;
+        return Integer.MAX_VALUE;
     }
-
-    @Optional.Method(modid = Mods.UE_ID)
-    public long insertUEEnergy(long amount, int side, boolean simulate)
-    {
-        TileEntity tile = tiles[side];
-        if (tile != null)
-        {
-            if (tile instanceof IEnergyInterface)
-            {
-                amount -= ((IEnergyInterface)tile).onReceiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
-            }
-        }
-        return amount;
-    }
-
-    @Optional.Method(modid = Mods.UE_ID)
-    @Override
-    public long onExtractEnergy(ForgeDirection direction, long l, boolean b)
-    {
-        return 0;
-    }
-
-    @Optional.Method(modid = Mods.UE_ID)
-    @Override
-    public boolean canConnect(ForgeDirection direction, Object o)
-    {
-        return false;
-    }
-    */
 }

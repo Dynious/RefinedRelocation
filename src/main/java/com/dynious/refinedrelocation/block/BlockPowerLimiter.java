@@ -1,10 +1,14 @@
 package com.dynious.refinedrelocation.block;
 
+import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.GuiHelper;
+import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -12,14 +16,17 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-/* @Optional.InterfaceList(value = {@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = "CoFHCore")}) */
-public class BlockPowerLimiter extends BlockContainer /* implements IDismantleable */
+import java.util.ArrayList;
+
+@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = Mods.COFH_API_ID)
+public class BlockPowerLimiter extends BlockContainer implements IDismantleable
 {
     private IIcon[] icons = new IIcon[3];
 
@@ -105,15 +112,14 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
         }
     }
 
-    /*
-    @Optional.Method(modid = "CoFHCore")
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
-    public ItemStack dismantleBlock(EntityPlayer player, World world, int x,
+    public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x,
                                     int y, int z, boolean returnBlock)
     {
         int meta = world.getBlockMetadata(x, y, z);
 
-        ArrayList<ItemStack> items = this.getBlockDropped(world, x, y, z, meta, 0);
+        ArrayList<ItemStack> items = this.getDrops(world, x, y, z, meta, 0);
 
         for (ItemStack item : items)
         {
@@ -124,13 +130,12 @@ public class BlockPowerLimiter extends BlockContainer /* implements IDismantleab
         return null;
     }
 
-    @Optional.Method(modid = "CoFHCore")
+    @Optional.Method(modid = Mods.COFH_API_ID)
     @Override
     public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z)
     {
         return true;
     }
-    */
 
     @Override
     public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)
