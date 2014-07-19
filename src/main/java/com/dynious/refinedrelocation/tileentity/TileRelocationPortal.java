@@ -71,7 +71,7 @@ public class TileRelocationPortal extends TileEntity
                 LogHelper.info("Stopped force-load for: " + linkedWorld.provider.getDimensionName());
             }
         }
-        if (oldBlock == ModBlocks.relocationPortal)
+        if (oldBlock == ModBlocks.relocationPortal || oldBlock == null)
         {
             oldBlock = Blocks.air;
             oldMeta = 0;

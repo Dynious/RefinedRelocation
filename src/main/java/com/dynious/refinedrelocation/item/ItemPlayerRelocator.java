@@ -120,13 +120,13 @@ public class ItemPlayerRelocator extends Item
         }
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x"))
         {
-            World world2 = MinecraftServer.getServer().worldServerForDimension(stack.getTagCompound().getInteger(DIMENSION_TAG));
-            if (world2 != null && (world == world2 || stack.getTagCompound().getBoolean(INTER_LINK_TAG)))
+            World linkedWorld = MinecraftServer.getServer().worldServerForDimension(stack.getTagCompound().getInteger(DIMENSION_TAG));
+            if (linkedWorld != null && (world == linkedWorld || stack.getTagCompound().getBoolean(INTER_LINK_TAG)))
             {
-                TileEntity connectedTile = world2.getTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
+                TileEntity connectedTile = linkedWorld.getTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
                 if (connectedTile != null && connectedTile instanceof TileRelocationController && ((TileRelocationController) connectedTile).isFormed(true))
                 {
-                    if ((world != world2 && !((TileRelocationController) connectedTile).isIntraLinker()) || ArrayUtils.contains(Settings.PLAYER_RELOCATOR_DISABLED_AGES, world.provider.dimensionId))
+                    if ((world != linkedWorld && !((TileRelocationController) connectedTile).isIntraLinker()) || ArrayUtils.contains(Settings.PLAYER_RELOCATOR_DISABLED_AGES, world.provider.dimensionId))
                     {
                         return stack;
                     }
@@ -149,7 +149,10 @@ public class ItemPlayerRelocator extends Item
                         {
                             setLowerBlockToDimensionalPortal(world, xPos, yPos - 3, zPos, new Vector3(connectedTile.xCoord, connectedTile.yCoord, connectedTile.zCoord), stack.getTagCompound().getInteger(DIMENSION_TAG));
                         }
-                        setLowerBlockToPortal(world, xPos, yPos - 3, zPos, new Vector3(connectedTile.xCoord, connectedTile.yCoord, connectedTile.zCoord));
+                        else
+                        {
+                            setLowerBlockToPortal(world, xPos, yPos - 3, zPos, new Vector3(connectedTile.xCoord, connectedTile.yCoord, connectedTile.zCoord));
+                        }
 
                         world.playSoundAtEntity(player, Sounds.explosion, 1F, 1F);
                         stack.getTagCompound().setLong(TIME, System.currentTimeMillis());
@@ -160,19 +163,21 @@ public class ItemPlayerRelocator extends Item
         return stack;
     }
 
-    private boolean checkBlocks(World world, int posX, int posY, int posZ)
+    private boolean checkBlocks(World world, int x, int y, int z)
     {
-        Block block = world.getBlock(posX, posY - 1, posZ);
-        Block block1 = world.getBlock(posX, posY - 2, posZ);
-        Block block2 = world.getBlock(posX, posY - 3, posZ);
+        return isBlockReplaceable(world, x, y - 1, z)
+                && isBlockReplaceable(world, x, y - 2, z)
+                && isBlockReplaceable(world, x, y - 3, z);
+    }
 
-        return (world.getTileEntity(posX, posY - 1, posZ) == null) && (block != Blocks.bedrock)
-                && (block != ModBlocks.relocationPortal) && (block != null) && (!block.canPlaceBlockAt(world, posX, posY - 1, posZ))
-                && (block.getBlockHardness(world, posX, posY - 1, posZ) != -1.0F)
-                && (world.getTileEntity(posX, posY - 2, posZ) == null) && (block1 != Blocks.bedrock)
-                && (block1 != ModBlocks.relocationPortal) && (block1 != ModBlocks.relocationPortal)
-                && (world.getTileEntity(posX, posY - 3, posZ) == null) && (block2 != Blocks.bedrock)
-                && (block2 != ModBlocks.relocationPortal) && (block2 != ModBlocks.relocationPortal);
+    private boolean isBlockReplaceable(World world, int x, int y, int z)
+    {
+        Block block = world.getBlock(x, y, z);
+        return world.getTileEntity(x, y, z) == null
+                && (block != Blocks.bedrock)
+                && (block != ModBlocks.relocationPortal)
+                && (!block.canPlaceBlockAt(world, x, y, z))
+                && (block.getBlockHardness(world, x, y, z) != -1.0F);
     }
 
     private void setBlockToPortal(World world, int x, int y, int z)
