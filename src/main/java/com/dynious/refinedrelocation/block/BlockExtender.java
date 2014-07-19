@@ -78,18 +78,20 @@ public class BlockExtender extends BlockContainer /*    implements IDismantleabl
     public boolean onBlockActivated(World world, int x, int y, int z,
                                     EntityPlayer player, int par6, float par7, float par8, float par9)
     {
+        TileEntity tile = world.getTileEntity(x, y, z);
         if (player.isSneaking())
         {
             if (player.getCurrentEquippedItem() == null)
             {
-                TileEntity tile = world.getTileEntity(x, y, z);
                 if (tile != null && tile instanceof TileBlockExtender && !(tile instanceof TileWirelessBlockExtender))
                 {
                     TileBlockExtender blockExtender = (TileBlockExtender) tile;
                     blockExtender.setRedstoneTransmissionEnabled(!blockExtender.isRedstoneTransmissionEnabled());
                     if (world.isRemote)
                     {
-                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + ' ' + StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED).toLowerCase()));
+                        player.addChatComponentMessage(
+                                new ChatComponentText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + ' ' +
+                                StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED).toLowerCase()));
                     }
                     return true;
                 }
@@ -98,42 +100,47 @@ public class BlockExtender extends BlockContainer /*    implements IDismantleabl
         }
         else
         {
-            TileEntity tile = world.getTileEntity(x, y, z);
             if (tile != null)
             {
                 if (tile instanceof TileWirelessBlockExtender)
                 {
+                    TileWirelessBlockExtender wirelessTile = (TileWirelessBlockExtender) tile;
                     if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker)
                     {
+                        final String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
                         if (player.getCurrentEquippedItem().hasTagCompound())
                         {
                             NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
                             int tileX = tag.getInteger("tileX");
                             int tileY = tag.getInteger("tileY");
                             int tileZ = tag.getInteger("tileZ");
+                            final String blockDisplayName = BlockHelper.getBlockDisplayName(tile.getWorldObj(), tileX, tileY, tileZ);
 
-                            if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER * Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)
+                            if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Math.pow(Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER, 2))
                             {
-                                ((TileWirelessBlockExtender) tile).setLink(tileX, tileY, tileZ);
+                                wirelessTile.setLink(tileX, tileY, tileZ);
                                 if (world.isRemote)
                                 {
-                                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH, BlockHelper.getTileEntityDisplayName(tile), BlockHelper.getBlockDisplayName(tile.getWorldObj(), tileX, tileY, tileZ), tileX, tileY, tileZ)));
+                                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH,
+                                            tileDisplayName, blockDisplayName, tileX, tileY, tileZ)));
                                 }
                             }
                             else
                             {
                                 if (world.isRemote)
                                 {
-                                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.TOO_FAR, BlockHelper.getTileEntityDisplayName(tile), Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)));
+                                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.TOO_FAR,
+                                            tileDisplayName, Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)));
                                 }
                             }
                         }
-                        else if (((TileWirelessBlockExtender) tile).isLinked())
+                        else if (wirelessTile.isLinked())
                         {
-                            ((TileWirelessBlockExtender) tile).clearLink();
+                            wirelessTile.clearLink();
                             if (world.isRemote)
                             {
-                                player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, BlockHelper.getTileEntityDisplayName(tile))));
+                                player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED,
+                                        tileDisplayName)));
                             }
                         }
                         return true;

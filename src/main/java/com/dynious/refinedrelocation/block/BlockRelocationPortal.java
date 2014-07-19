@@ -33,36 +33,42 @@ public class BlockRelocationPortal extends BlockContainer
         return new TileRelocationPortal();
     }
 
-
+    @Override
     public boolean isBlockSolid(IBlockAccess world, int i, int j, int k, int o)
     {
         return false;
     }
 
+    @Override
     public void addCollisionBoxesToList(World world, int i, int j, int k, AxisAlignedBB axisalignedbb, List arraylist, Entity par7Entity)
     {
     }
 
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int i, int j, int k)
     {
         setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
 
+    @Override
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World w, int i, int j, int k)
     {
         return AxisAlignedBB.getBoundingBox(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
     }
 
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
     }
 
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
 
+    @Override
     public Item getItemDropped(int par1, Random par2Random, int par3)
     {
         return null;

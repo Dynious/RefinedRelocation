@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.block;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.helper.GuiHelper;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.mods.EE3Helper;
@@ -15,12 +16,10 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -48,6 +47,7 @@ public class BlockSortingChest extends BlockContainer
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
      * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
      */
+    @Override
     public boolean isOpaqueCube()
     {
         return false;
@@ -56,6 +56,7 @@ public class BlockSortingChest extends BlockContainer
     /**
      * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
      */
+    @Override
     public boolean renderAsNormalBlock()
     {
         return false;
@@ -64,6 +65,7 @@ public class BlockSortingChest extends BlockContainer
     /**
      * The type of render function that is called for this block
      */
+    @Override
     public int getRenderType()
     {
         return 22;
@@ -86,6 +88,7 @@ public class BlockSortingChest extends BlockContainer
     /**
      * Updates the blocks bounds based on its current state. Args: world, x, y, z
      */
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
@@ -94,6 +97,7 @@ public class BlockSortingChest extends BlockContainer
     /**
      * Called when the block is placed in the world.
      */
+    @Override
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
         byte chestFacing = 0;
@@ -130,49 +134,17 @@ public class BlockSortingChest extends BlockContainer
      * metadata
      */
     @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6)
+    public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMetadata)
     {
-        TileSortingChest tileentitychest = (TileSortingChest) par1World.getTileEntity(par2, par3, par4);
+        TileSortingChest tileEntityChest = (TileSortingChest) world.getTileEntity(x, y, z);
 
-        if (tileentitychest != null)
+        if (tileEntityChest != null)
         {
-            for (int j1 = 0; j1 < tileentitychest.getSizeInventory(); ++j1)
-            {
-                ItemStack itemstack = tileentitychest.getStackInSlot(j1);
+            IOHelper.dropInventory(world, x, y, z);
 
-                if (itemstack != null)
-                {
-                    float f = this.random.nextFloat() * 0.8F + 0.1F;
-                    float f1 = this.random.nextFloat() * 0.8F + 0.1F;
-                    EntityItem entityitem;
-
-                    for (float f2 = this.random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; par1World.spawnEntityInWorld(entityitem))
-                    {
-                        int k1 = this.random.nextInt(21) + 10;
-
-                        if (k1 > itemstack.stackSize)
-                        {
-                            k1 = itemstack.stackSize;
-                        }
-
-                        itemstack.stackSize -= k1;
-                        entityitem = new EntityItem(par1World, (double) ((float) par2 + f), (double) ((float) par3 + f1), (double) ((float) par4 + f2), new ItemStack(itemstack.getItem(), k1, itemstack.getItemDamage()));
-                        float f3 = 0.05F;
-                        entityitem.motionX = (double) ((float) this.random.nextGaussian() * f3);
-                        entityitem.motionY = (double) ((float) this.random.nextGaussian() * f3 + 0.2F);
-                        entityitem.motionZ = (double) ((float) this.random.nextGaussian() * f3);
-
-                        if (itemstack.hasTagCompound())
-                        {
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-                        }
-                    }
-                }
-            }
-
-            par1World.func_147453_f(par2, par3, par4, par5);
+            world.func_147453_f(x, y, z, oldBlock);
         }
-        super.breakBlock(par1World, par2, par3, par4, par5, par6);
+        super.breakBlock(world, x, y, z, oldBlock, oldMetadata);
     }
 
 
@@ -196,11 +168,7 @@ public class BlockSortingChest extends BlockContainer
             }
         }
 
-        if (world.isRemote)
-        {
-            return true;
-        }
-        else
+        if (!world.isRemote)
         {
             IInventory iinventory = this.getInventory(world, x, y, z);
 
@@ -215,9 +183,8 @@ public class BlockSortingChest extends BlockContainer
                     APIUtils.openFilteringGUI(player, world, x, y, z);
                 }
             }
-
-            return true;
         }
+        return true;
     }
 
 
@@ -225,19 +192,19 @@ public class BlockSortingChest extends BlockContainer
      * Gets the inventory of the chest at the specified coords, accounting for blocks or ocelots on top of the chest,
      * and double chests.
      */
-    public IInventory getInventory(World par1World, int par2, int par3, int par4)
+    public IInventory getInventory(World world, int x, int y, int z)
     {
-        Object object = par1World.getTileEntity(par2, par3, par4);
+        Object object = world.getTileEntity(x, y, z);
 
         if (object == null)
         {
             return null;
         }
-        else if (par1World.isSideSolid(par2, par3 + 1, par4, ForgeDirection.DOWN))
+        else if (world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN))
         {
             return null;
         }
-        else if (isOcelotBlockingChest(par1World, par2, par3, par4))
+        else if (isOcelotBlockingChest(world, x, y, z))
         {
             return null;
         }

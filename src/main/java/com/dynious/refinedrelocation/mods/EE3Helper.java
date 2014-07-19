@@ -3,9 +3,9 @@ package com.dynious.refinedrelocation.mods;
 import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.block.BlockSortingAlchemicalChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
-import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.client.renderer.ItemRendererSortingAlchemicalChest;
 import com.dynious.refinedrelocation.client.renderer.RendererSortingAlchemicalChest;
+import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.pahimar.ee3.item.ItemAlchemicalInventoryUpgrade;
@@ -99,10 +99,12 @@ public class EE3Helper
             int meta = oldChest.getBlockMetadata();
 
             int numUsers = ObfuscationReflectionHelper.getPrivateValue(TileEntityAlchemicalChest.class, oldChest, "numUsingPlayers");
+
             if (numUsers > 0)
             {
                 return false;
             }
+
             TileSortingAlchemicalChest chest = new TileSortingAlchemicalChest(tile.blockMetadata);
             for (int i = 0; i < oldChest.getSizeInventory(); i++)
             {

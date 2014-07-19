@@ -2,11 +2,11 @@ package com.dynious.refinedrelocation.event;
 
 import codechicken.lib.raytracer.RayTracer;
 import com.dynious.refinedrelocation.block.ModBlocks;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
+import com.dynious.refinedrelocation.client.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.container.IContainerFiltered;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.client.renderer.RendererRelocator;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;

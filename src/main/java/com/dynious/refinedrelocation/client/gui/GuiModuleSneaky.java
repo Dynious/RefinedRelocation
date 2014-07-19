@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
-import com.dynious.refinedrelocation.container.ContainerModuleSneaky;
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonSide;
+import com.dynious.refinedrelocation.container.ContainerModuleSneaky;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
 
 public class GuiModuleSneaky extends GuiModular
 {

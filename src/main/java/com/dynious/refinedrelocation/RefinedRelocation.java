@@ -15,7 +15,6 @@ import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.proxy.CommonProxy;
 import com.dynious.refinedrelocation.version.VersionChecker;
-import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -23,7 +22,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.ForgeChunkManager;
 
@@ -49,7 +47,6 @@ public class RefinedRelocation
     {
         VersionChecker.execute();
 
-        FMLCommonHandler.instance().bus().register(RefinedRelocation.instance);
         ConfigHandler.init(event);
 
         FMLCommonHandler.instance().bus().register(new TickEvent());
@@ -67,12 +64,6 @@ public class RefinedRelocation
         proxy.registerEventHandlers();
         
         ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallbackHelper());
-    }
-
-    @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if(eventArgs.modID.equals(Reference.MOD_ID))
-            ConfigHandler.syncConfig();
     }
 
     @Mod.EventHandler

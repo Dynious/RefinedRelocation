@@ -77,11 +77,6 @@ public class BlockBuffer extends BlockContainer /* implements IDismantleable */
         return false;
     }
 
-    public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side)
-    {
-        return true;
-    }
-
     @Override
     public int getRenderBlockPass()
     {

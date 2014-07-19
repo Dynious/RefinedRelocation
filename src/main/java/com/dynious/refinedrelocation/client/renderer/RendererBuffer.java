@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.client.renderer;
 
-import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.client.model.ModelBuffer;
 import com.dynious.refinedrelocation.client.model.ModelEnderPearl;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBuffer;
 import com.dynious.refinedrelocation.tileentity.TileBuffer;
 import com.dynious.refinedrelocation.tileentity.TileFilteredBuffer;
