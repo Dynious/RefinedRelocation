@@ -31,5 +31,6 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageHomeButtonClicked.class, MessageHomeButtonClicked.class, 16, Side.SERVER);
         INSTANCE.registerMessage(MessageKonga.class, MessageKonga.class, 17, Side.CLIENT);
         INSTANCE.registerMessage(MessageExtractionSide.class, MessageExtractionSide.class, 18, Side.SERVER);
+        INSTANCE.registerMessage(MessageTicksBetweenExtraction.class, MessageTicksBetweenExtraction.class, 19, Side.SERVER);
     }
 }
