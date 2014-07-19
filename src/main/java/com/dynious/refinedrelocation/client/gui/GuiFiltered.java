@@ -2,8 +2,8 @@ package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
-import com.dynious.refinedrelocation.container.ContainerFiltered;
 import com.dynious.refinedrelocation.client.gui.widget.*;
+import com.dynious.refinedrelocation.container.ContainerFiltered;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;

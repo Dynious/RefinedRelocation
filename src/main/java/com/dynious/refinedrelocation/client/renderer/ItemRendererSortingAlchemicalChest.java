@@ -1,13 +1,14 @@
 package com.dynious.refinedrelocation.client.renderer;
 
 import com.dynious.refinedrelocation.lib.Resources;
-import com.pahimar.ee3.client.renderer.item.ItemAlchemicalChestRenderer;
+import com.pahimar.ee3.client.renderer.item.ItemRendererAlchemicalChest;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
-public class ItemRendererSortingAlchemicalChest extends ItemAlchemicalChestRenderer
+public class ItemRendererSortingAlchemicalChest extends ItemRendererAlchemicalChest
 {
     private final ModelChest modelChest;
 
@@ -18,7 +19,7 @@ public class ItemRendererSortingAlchemicalChest extends ItemAlchemicalChestRende
     }
 
     @Override
-    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
+    public void renderItem(IItemRenderer.ItemRenderType type, ItemStack item, Object... data)
     {
         super.renderItem(type, item, data);
         switch (type)

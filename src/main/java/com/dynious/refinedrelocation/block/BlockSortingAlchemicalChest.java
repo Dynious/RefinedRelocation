@@ -35,7 +35,7 @@ public class BlockSortingAlchemicalChest extends BlockAlchemicalChest
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metaData)
+    public TileEntity createNewTileEntity(World world, int metaData)
     {
         if (metaData == 0)
         {

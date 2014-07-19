@@ -1,9 +1,9 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
-import com.dynious.refinedrelocation.container.ContainerModuleSneakyExtraction;
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonExtractionSide;
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonTicksBetweenExtractions;
+import com.dynious.refinedrelocation.container.ContainerModuleSneakyExtraction;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
 
 public class GuiModuleSneakyExtraction extends GuiModular
 {

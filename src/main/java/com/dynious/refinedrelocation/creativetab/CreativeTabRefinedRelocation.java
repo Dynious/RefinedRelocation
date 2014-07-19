@@ -16,7 +16,7 @@ public class CreativeTabRefinedRelocation extends CreativeTabs
     @Override
     public Item getTabIconItem()
     {
-        return null;
+        return new ItemStack(ModBlocks.blockExtender).getItem();
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.dynious.refinedrelocation.client.renderer;
 
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
-import com.pahimar.ee3.client.renderer.tileentity.TileEntityAlchemicalChestRenderer;
+import com.pahimar.ee3.client.renderer.tileentity.TileEntityRendererAlchemicalChest;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.tileentity.TileEntity;
@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class RendererSortingAlchemicalChest extends TileEntityAlchemicalChestRenderer
+public class RendererSortingAlchemicalChest extends TileEntityRendererAlchemicalChest
 {
     private final ModelChest modelChest = new ModelChest();
 

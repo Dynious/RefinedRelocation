@@ -1,15 +1,14 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.container.ContainerAdvanced;
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonMaxStackSize;
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonSpread;
 import com.dynious.refinedrelocation.client.gui.widget.GuiInsertDirections;
 import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
+import com.dynious.refinedrelocation.container.ContainerAdvanced;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBlockExtender;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 public class GuiAdvancedBlockExtender extends GuiRefinedRelocationContainer

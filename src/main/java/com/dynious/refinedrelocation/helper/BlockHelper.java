@@ -47,6 +47,11 @@ public class BlockHelper
         return getBlockDisplayName(world, x, y, z);
     }
 
+    public static String getBlockDisplayName(TileEntity tile)
+    {
+        return getBlockDisplayName(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
+    }
+
     public static String getBlockDisplayName(World world, int x, int y, int z)
     {
         Block block = world.getBlock(x, y, z);

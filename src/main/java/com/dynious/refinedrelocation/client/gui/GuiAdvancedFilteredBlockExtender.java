@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.container.ContainerAdvancedFiltered;
 import com.dynious.refinedrelocation.client.gui.widget.*;
+import com.dynious.refinedrelocation.container.ContainerAdvancedFiltered;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedFilteredBlockExtender;

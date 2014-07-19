@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.client.renderer;
 
-import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.client.model.ModelBlockExtender;
 import com.dynious.refinedrelocation.client.model.ModelEnderPearl;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedFilteredBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
