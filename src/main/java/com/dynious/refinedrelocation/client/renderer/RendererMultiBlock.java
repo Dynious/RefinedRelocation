@@ -1,5 +1,7 @@
 package com.dynious.refinedrelocation.client.renderer;
 
+import codechicken.lib.render.BlockRenderer;
+import codechicken.lib.vec.Cuboid6;
 import com.dynious.refinedrelocation.multiblock.IMultiBlock;
 import com.dynious.refinedrelocation.multiblock.MultiBlockRegistry;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
@@ -9,6 +11,7 @@ import com.dynious.refinedrelocation.util.Vector3;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -65,8 +68,8 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
         if (!tileMultiBlock.getWorldObj().isAirBlock(xOffset, yOffset, zOffset))
         {
-            Block block = tileMultiBlock.getWorldObj().getBlock(xOffset, yOffset, tileMultiBlock.zCoord + z - leaderPos.getZ());
-            BlockAndMeta blockAndMeta = null;
+            Block block = tileMultiBlock.getWorldObj().getBlock(xOffset, yOffset, zOffset);
+            BlockAndMeta blockAndMeta;
             if (blockInfo instanceof MultiBlockAndMeta)
             {
                 blockAndMeta = getBlockAndMeta((MultiBlockAndMeta) blockInfo, tileMultiBlock);
@@ -75,17 +78,12 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
             {
                 blockAndMeta = (BlockAndMeta) blockInfo;
             }
-
-            if (blockAndMeta != null && !tileMultiBlock.getWorldObj().getBlock(xOffset, yOffset, zOffset).isOpaqueCube())
-            {
-                renderBlock(blockInfo, multiBlock, tileMultiBlock, x, y, z);
-            }
-
-            if (blockAndMeta != null && blockAndMeta.getBlock() == block && blockAndMeta.getMeta() == tileMultiBlock.getWorldObj().getBlockMetadata(xOffset, yOffset, zOffset))
-            {
-                // No need for any rendering, the right block is at these coordinates
-            }
             else
+            {
+                return;
+            }
+
+            if (blockAndMeta.getBlock() != block || (blockAndMeta.getMeta() != -1 && blockAndMeta.getMeta() != tileMultiBlock.getWorldObj().getBlockMetadata(xOffset, yOffset, zOffset)))
             {
                 renderIncorrectBlock(x, y, z);
             }
@@ -132,7 +130,73 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
     private void renderIncorrectBlock(int x, int y, int z)
     {
-        // TODO: Add incorrect block rendering
+        GL11.glPushMatrix();
+        GL11.glTranslatef(x - 1, y, z - 1);
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+
+        Tessellator t = Tessellator.instance;
+
+        t.startDrawingQuads();
+        t.setColorRGBA(255, 0, 0, 126);
+        
+        Cuboid6 vector = new Cuboid6(-0.501, -0.501, -0.501, 0.501, 0.501, 0.501);
+
+        // Top side
+        t.setNormal(0, 1, 0);
+        t.addVertex(vector.min.x, vector.max.y, vector.max.z);
+        t.addVertex(vector.max.x, vector.max.y, vector.max.z);
+        t.addVertex(vector.max.x, vector.max.y, vector.min.z);
+        t.addVertex(vector.min.x, vector.max.y, vector.min.z);
+
+        // Bottom side
+        t.setNormal(0, -1, 0);
+        t.addVertex(vector.max.x, vector.min.y, vector.max.z);
+        t.addVertex(vector.min.x, vector.min.y, vector.max.z);
+        t.addVertex(vector.min.x, vector.min.y, vector.min.z);
+        t.addVertex(vector.max.x, vector.min.y, vector.min.z);
+
+        // West side:
+        t.setNormal(-1, 0, 0);
+        t.addVertex(vector.min.x, vector.min.y, vector.max.z);
+        t.addVertex(vector.min.x, vector.max.y, vector.max.z);
+        t.addVertex(vector.min.x, vector.max.y, vector.min.z);
+        t.addVertex(vector.min.x, vector.min.y, vector.min.z);
+
+        // East side:
+        t.setNormal(1, 0, 0);
+        t.addVertex(vector.max.x, vector.min.y, vector.min.z);
+        t.addVertex(vector.max.x, vector.max.y, vector.min.z);
+        t.addVertex(vector.max.x, vector.max.y, vector.max.z);
+        t.addVertex(vector.max.x, vector.min.y, vector.max.z);
+
+        // North side
+        t.setNormal(0, 0, -1);
+        t.addVertex(vector.min.x, vector.min.y, vector.min.z);
+        t.addVertex(vector.min.x, vector.max.y, vector.min.z);
+        t.addVertex(vector.max.x, vector.max.y, vector.min.z);
+        t.addVertex(vector.max.x, vector.min.y, vector.min.z);
+
+        // South side
+        t.setNormal(0, 0, 1);
+        t.addVertex(vector.min.x, vector.min.y, vector.max.z);
+        t.addVertex(vector.max.x, vector.min.y, vector.max.z);
+        t.addVertex(vector.max.x, vector.max.y, vector.max.z);
+        t.addVertex(vector.min.x, vector.max.y, vector.max.z);
+
+        GL11.glColor4d(1, 1, 1, 1);
+
+        t.draw();
+
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
     }
 
     private BlockAndMeta getBlockAndMeta(MultiBlockAndMeta multiBlockAndMeta, TileMultiBlockBase tileMultiBlock)

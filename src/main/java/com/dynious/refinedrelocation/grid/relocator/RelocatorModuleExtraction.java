@@ -34,6 +34,9 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     private byte tick = 0;
     protected int lastCheckedSlot = -1;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
+    private boolean isPowered = false;
+    public int redstoneControlState = 0;
+    public int maxExtractionStackSize = 64; // By default extract a whole stack
 
     @Override
     public void init(IItemRelocator relocator, int side)
@@ -57,10 +60,41 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
             TileEntity tile = relocator.getConnectedInventories()[side];
             if (tile instanceof IInventory)
             {
-                tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
+                switch (redstoneControlState)
+                {
+                    case 0:
+                        tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
+                        break;
+                    case 1:
+                        if (!isPowered)
+                        {
+                            tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
+                        }
+                        break;
+                    case 2:
+                        if (isPowered)
+                        {
+                            tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
+                        }
+                        break;
+                    case 3:
+                        if (isPowered)
+                        {
+                            tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
+                            isPowered = false;
+                        }
+                        break;
+                }
             }
             tick = 0;
         }
+    }
+
+    @Override
+    public void onRedstonePowerChange(boolean isPowered)
+    {
+        this.isPowered = isPowered;
+        super.onRedstonePowerChange(isPowered);
     }
 
     protected int getExtractionSide(int side)
@@ -78,9 +112,22 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
             {
                 if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, extractionSide))
                 {
-                    ItemStack returnedStack = relocator.insert(stack.copy(), connectedSide, false);
+                    ItemStack stackCopy = stack.copy();
+                    int returnedStackExtra = stackCopy.stackSize - maxExtractionStackSize;
+                    stackCopy.stackSize = Math.min(maxExtractionStackSize, stackCopy.stackSize);
+
+                    ItemStack returnedStack = relocator.insert(stackCopy, connectedSide, false);
+
                     if (returnedStack == null || stack.stackSize != returnedStack.stackSize)
                     {
+                        if (returnedStack != null)
+                        {
+                            returnedStack.stackSize = Math.min(returnedStack.stackSize + returnedStackExtra, returnedStack.getMaxStackSize()); // Should never be greater than 64
+                        }
+                        else if (returnedStackExtra > 0)
+                        {
+                            returnedStack = new ItemStack(stackCopy.getItem(), returnedStackExtra);
+                        }
                         inventory.setInventorySlotContents(slot, returnedStack);
                     }
                 }
@@ -88,7 +135,9 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
             else if (firstChecked != lastCheckedSlot)
             {
                 if (firstChecked == -1)
+                {
                     firstChecked = lastCheckedSlot;
+                }
                 tryExtraction(relocator, inventory, extractionSide, connectedSide, firstChecked);
             }
         }
@@ -98,7 +147,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     {
         if (inventory instanceof ISidedInventory)
         {
-            ISidedInventory isidedinventory = (ISidedInventory)inventory;
+            ISidedInventory isidedinventory = (ISidedInventory) inventory;
             int[] accessibleSlotsFromSide = isidedinventory.getAccessibleSlotsFromSide(direction.ordinal());
 
             if (lastCheckedSlot < accessibleSlotsFromSide.length - 1)
@@ -152,12 +201,16 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         ticksBetweenExtraction = compound.getInteger("ticksBetweenExt");
+        redstoneControlState = compound.getInteger("redstoneControlState");
+        maxExtractionStackSize = compound.getInteger("maxExtractionStackSize");
     }
 
     @Override
     public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
         compound.setInteger("ticksBetweenExt", ticksBetweenExtraction);
+        compound.setInteger("redstoneControlState", redstoneControlState);
+        compound.setInteger("maxExtractionStackSize", maxExtractionStackSize);
     }
 
     @Override

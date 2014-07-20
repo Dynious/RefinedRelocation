@@ -19,7 +19,7 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 1, ((RelocatorModuleSneakyExtraction)module).getExtractionSide());
+                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 3, ((RelocatorModuleSneakyExtraction)module).getExtractionSide());
             }
             extractionSide = ((RelocatorModuleSneakyExtraction)module).getExtractionSide();
         }
@@ -33,7 +33,7 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
 
         switch (id)
         {
-            case 1:
+            case 3:
                 setExtractionSide(value);
                 break;
         }
