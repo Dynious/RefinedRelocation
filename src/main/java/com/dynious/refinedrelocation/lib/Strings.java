@@ -66,6 +66,7 @@ public class Strings
     public static final String FACING = GUI_PREFIX + "facing";
     public static final String REDSTONE = GUI_PREFIX + "redstone";
     public static final String SNEAKY_EXTRACTION = GUI_PREFIX + "sneakyExtraction";
+    public static final String CONTROLLER_LOCKED = GUI_PREFIX + "controllerLocked";
 
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";

@@ -111,6 +111,7 @@ gui.refinedrelocation.linkedTo=Linked to:
 gui.refinedrelocation.facing=Facing:
 gui.refinedrelocation.redstone=Redstone:
 gui.refinedrelocation.sneakyExtraction=The side from which items will be extracted
+gui.refinedrelocation.controllerLocked=Relocator Controller is locked. Shift right click to unlock while having the linked player relocator in your inventory.
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)

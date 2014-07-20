@@ -60,26 +60,27 @@ public class ItemPlayerRelocator extends Item
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationController)
         {
-            if (((TileRelocationController) tile).isFormed(true))
+            TileRelocationController tileController = (TileRelocationController) tile;
+            if (tileController.isFormed(true))
             {
+                if (tileController.isLocked)
+                {
+                    player.addChatComponentMessage(new ChatComponentText(Strings.CONTROLLER_LOCKED));
+                    return false;
+                }
+
                 if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(UUID_TAG))
                 {
                     stack.setTagCompound(new NBTTagCompound());
                     stack.getTagCompound().setString(UUID_TAG, UUID.randomUUID().toString());
                 }
-                if (((TileRelocationController) tile).isIntraLinker())
-                {
-                    stack.getTagCompound().setBoolean(INTER_LINK_TAG, true);
-                }
-                else
-                {
-                    stack.getTagCompound().setBoolean(INTER_LINK_TAG, false);
-                }
+
+                stack.getTagCompound().setBoolean(INTER_LINK_TAG, tileController.isIntraLinker());
                 stack.getTagCompound().setInteger(DIMENSION_TAG, tile.getWorldObj().provider.dimensionId);
                 stack.getTagCompound().setInteger("x", x);
                 stack.getTagCompound().setInteger("y", y);
                 stack.getTagCompound().setInteger("z", z);
-                ((TileRelocationController) tile).setLinkedUUID(stack.getTagCompound().getString(UUID_TAG));
+                tileController.setLinkedUUID(stack.getTagCompound().getString(UUID_TAG));
                 player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.PLAYER_RELOCATOR_LINK)));
             }
             return true;
@@ -102,7 +103,7 @@ public class ItemPlayerRelocator extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && getTimeDifference(stack)/1000 > (player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN))
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("x") && getTimeDifference(stack) / 1000 > (player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN))
         {
             player.setItemInUse(stack, getMaxItemUseDuration(stack));
             world.playSoundAtEntity(player, Sounds.ambiance, 1F, 1F);
@@ -188,7 +189,7 @@ public class ItemPlayerRelocator extends Item
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationPortal)
         {
-            ((TileRelocationPortal)tile).init(block, blockMeta);
+            ((TileRelocationPortal) tile).init(block, blockMeta);
         }
     }
 
@@ -200,7 +201,7 @@ public class ItemPlayerRelocator extends Item
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationPortal)
         {
-            ((TileRelocationPortal)tile).init(block, blockMeta, linkedPos);
+            ((TileRelocationPortal) tile).init(block, blockMeta, linkedPos);
         }
     }
 
@@ -212,7 +213,7 @@ public class ItemPlayerRelocator extends Item
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocationPortal)
         {
-            ((TileRelocationPortal)tile).init(block, blockMeta, linkedPos, dimensionId);
+            ((TileRelocationPortal) tile).init(block, blockMeta, linkedPos, dimensionId);
         }
     }
 
@@ -252,7 +253,7 @@ public class ItemPlayerRelocator extends Item
     public void shiftFOV(ItemStack stack, FOVUpdateEvent event)
     {
         float inUse = stack.getMaxItemUseDuration() - Minecraft.getMinecraft().thePlayer.getItemInUseCount();
-        event.newfov = event.fov + inUse/110;
+        event.newfov = event.fov + inUse / 110;
     }
 
     @SuppressWarnings("deprecation")
@@ -313,10 +314,10 @@ public class ItemPlayerRelocator extends Item
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
-        float scale = 2/inUse;
+        float scale = 2 / inUse;
 
-        Vector2f sourceCenter = new Vector2f(resolution.getScaledWidth()/2, resolution.getScaledHeight()/2);
-        Vector2f destCenter = new Vector2f(resolution.getScaledWidth()/2, resolution.getScaledHeight()/2);
+        Vector2f sourceCenter = new Vector2f(resolution.getScaledWidth() / 2, resolution.getScaledHeight() / 2);
+        Vector2f destCenter = new Vector2f(resolution.getScaledWidth() / 2, resolution.getScaledHeight() / 2);
         GL11.glTranslatef(destCenter.getX(), destCenter.getY(), 0.0F);
         GL11.glScalef(scale, scale, 0.0F);
         GL11.glTranslatef(sourceCenter.getX() * -1.0F, sourceCenter.getY() * -1.0F, 0.0F);
@@ -344,6 +345,6 @@ public class ItemPlayerRelocator extends Item
     public static int getTimeLeft(ItemStack stack, EntityPlayer player)
     {
         int cooldown = player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
-        return (int) (cooldown - (getTimeDifference(stack)/1000));
+        return (int) (cooldown - (getTimeDifference(stack) / 1000));
     }
 }
