@@ -1,6 +1,8 @@
 package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonExtractionSide;
+import com.dynious.refinedrelocation.client.gui.widget.GuiButtonModuleMaxStackSize;
+import com.dynious.refinedrelocation.client.gui.widget.GuiButtonPulseExtractionToggle;
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonTicksBetweenExtractions;
 import com.dynious.refinedrelocation.container.ContainerModuleSneakyExtraction;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
@@ -23,5 +25,9 @@ public class GuiModuleSneakyExtraction extends GuiModular
         new GuiButtonTicksBetweenExtractions(this, 0, 0, module);
 
         new GuiButtonExtractionSide(this, 0, 0, module);
+
+        new GuiButtonPulseExtractionToggle(this, 0, 0, module);
+
+        new GuiButtonModuleMaxStackSize(this, 0, 0, module);
     }
 }

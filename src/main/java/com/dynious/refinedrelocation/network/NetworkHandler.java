@@ -32,5 +32,7 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageKonga.class, MessageKonga.class, 17, Side.CLIENT);
         INSTANCE.registerMessage(MessageExtractionSide.class, MessageExtractionSide.class, 18, Side.SERVER);
         INSTANCE.registerMessage(MessageTicksBetweenExtraction.class, MessageTicksBetweenExtraction.class, 19, Side.SERVER);
+        INSTANCE.registerMessage(MessageExtractOnRedstoneSignal.class, MessageExtractOnRedstoneSignal.class, 20, Side.SERVER);
+        INSTANCE.registerMessage(MessageModuleMaxStackSize.class, MessageModuleMaxStackSize.class, 21, Side.SERVER);
     }
 }

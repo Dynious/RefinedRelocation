@@ -10,6 +10,8 @@ public class ContainerModuleExtraction extends ContainerHierarchical
     protected boolean initialUpdate = true;
 
     private int lastTicks = 0;
+    private int lastRedstoneControlState = 0;
+    private int lastMaxExtractionStackSize = 0;
 
     public ContainerModuleExtraction(RelocatorModuleExtraction module)
     {
@@ -36,6 +38,24 @@ public class ContainerModuleExtraction extends ContainerHierarchical
             lastTicks = module.getTicksBetweenExtraction();
         }
 
+        if (module.redstoneControlState != lastRedstoneControlState || initialUpdate)
+        {
+            for (Object crafter : crafters)
+            {
+                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 1, module.redstoneControlState);
+            }
+            lastRedstoneControlState = module.redstoneControlState;
+        }
+
+        if (module.maxExtractionStackSize != lastMaxExtractionStackSize || initialUpdate)
+        {
+            for (Object crafter : crafters)
+            {
+                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 2, module.maxExtractionStackSize);
+            }
+            lastMaxExtractionStackSize = module.maxExtractionStackSize;
+        }
+
         if (initialUpdate)
             initialUpdate = false;
     }
@@ -48,11 +68,28 @@ public class ContainerModuleExtraction extends ContainerHierarchical
             case 0:
                 setTicksBetweenExtraction(value);
                 break;
+            case 1:
+                setRedstoneControlState(value);
+                break;
+            case 2:
+                setMaxStackSize(value);
+                break;
+
         }
     }
 
     public void setTicksBetweenExtraction(int ticks)
     {
         module.setTicksBetweenExtraction(ticks);
+    }
+
+    public void setRedstoneControlState(int state)
+    {
+        module.redstoneControlState = state;
+    }
+
+    public void setMaxStackSize(int maxStackSize)
+    {
+        module.maxExtractionStackSize = maxStackSize;
     }
 }
