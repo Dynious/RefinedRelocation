@@ -35,6 +35,7 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     protected int lastCheckedSlot = -1;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
     private boolean isPowered = false;
+    private boolean hasHadPulse = false;
     public int redstoneControlState = 0;
     public int maxExtractionStackSize = 64; // By default extract a whole stack
 
@@ -64,29 +65,32 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
                 {
                     case 0:
                         tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
+                        tick = 0;
                         break;
                     case 1:
                         if (!isPowered)
                         {
                             tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
+                            tick = 0;
                         }
                         break;
                     case 2:
                         if (isPowered)
                         {
                             tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
+                            tick = 0;
                         }
                         break;
                     case 3:
-                        if (isPowered)
+                        if (hasHadPulse)
                         {
                             tryExtraction(relocator, (IInventory) tile, getExtractionSide(side), side, lastCheckedSlot);
-                            isPowered = false;
+                            tick = 0;
+                            hasHadPulse = false;
                         }
                         break;
                 }
             }
-            tick = 0;
         }
     }
 
@@ -94,7 +98,14 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     public void onRedstonePowerChange(boolean isPowered)
     {
         this.isPowered = isPowered;
+        if (isPowered) hasHadPulse = true;
         super.onRedstonePowerChange(isPowered);
+    }
+
+    @Override
+    public boolean connectsToRedstone()
+    {
+        return true;
     }
 
     protected int getExtractionSide(int side)

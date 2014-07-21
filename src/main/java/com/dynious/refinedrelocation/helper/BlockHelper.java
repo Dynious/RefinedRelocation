@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.helper;
 
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -125,5 +126,19 @@ public class BlockHelper
         }
 
         return nullBlockString;
+    }
+
+    public static boolean isDirectlyPowered(World world, int x, int y, int z)
+    {
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+        {
+            if (world.isBlockProvidingPowerTo(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ, direction.getOpposite().ordinal()) > 0)
+                return true;
+            if (direction == ForgeDirection.DOWN)
+                continue;
+            if (world.getBlock(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ) == Blocks.redstone_wire && world.getBlockMetadata(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ) > 0)
+                return true;
+        }
+        return false;
     }
 }

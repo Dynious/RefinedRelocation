@@ -224,7 +224,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void updateRedstone()
     {
-        boolean newPowerState = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+        boolean newPowerState = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || BlockHelper.isDirectlyPowered(worldObj, xCoord, yCoord, zCoord);
         if ((newPowerState && !isBeingPowered) || (!newPowerState && isBeingPowered))
         {
             isBeingPowered = newPowerState;
