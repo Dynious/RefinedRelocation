@@ -22,7 +22,7 @@ apply plugin: 'forge'
 ext.env = System.getenv()
 ext.cclVersion = "1.1.1.95"
 
-version = "1.0.5e"
+version = "1.0.6"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.7.10"
 
@@ -63,8 +63,8 @@ dependencies {
 
 apply from: 'downloader.gradle'
 
-addGitDep("cofh","https://github.com/CoFH/CoFHLib.git","9e3f3445d33a03b82a4deb007db6d6e35d609762")
-addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","8c7c4ed9c6fd0b1809d70351bdb7f14e1d451494")
+addGitDep("cofh","https://github.com/CoFH/CoFHLib.git","a9aa00d6742317ff1453ee6ac6053d488eb12dc1")
+addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","ad8f6d5a3d02efdd5ac49b03fd29c3922b7dc72c")
 addGitDep("ic","https://github.com/progwml6/ironchest.git","9a87528223250caa19651b64f7bab0f225c58564")
 addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/116/artifact/build/libs/InventoryTweaks-api-1.57-116.jar","157")
 addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","3dda9540ae34fc1c7fefab627579d2bba80a14ce")
