@@ -65,7 +65,7 @@ public class ItemPlayerRelocator extends Item
             {
                 if (tileController.isLocked)
                 {
-                    player.addChatComponentMessage(new ChatComponentText(Strings.CONTROLLER_LOCKED));
+                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.CONTROLLER_LOCKED)));
                     return false;
                 }
 

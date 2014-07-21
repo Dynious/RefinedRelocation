@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.item.ItemPlayerRelocator;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,6 +11,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class TileRelocationController extends TileMultiBlockBase
@@ -55,11 +58,6 @@ public class TileRelocationController extends TileMultiBlockBase
         super.readFromNBT(compound);
         linkedUUID = compound.getString("UUID");
         isLocked = compound.getBoolean("isLocked");
-
-        if (getWorldObj() != null)
-        {
-            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
-        }
     }
 
     @Override
@@ -85,6 +83,10 @@ public class TileRelocationController extends TileMultiBlockBase
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
         readFromNBT(pkt.func_148857_g());
+        if (getWorldObj() != null)
+        {
+            getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+        }
     }
 
     @Override
@@ -101,9 +103,16 @@ public class TileRelocationController extends TileMultiBlockBase
             return true;
         }
 
-        if (player.isSneaking() && this.canPlayerToggleLock(player))
+        if (player.isSneaking())
         {
-            isLocked = !isLocked;
+            if (this.canPlayerToggleLock(player))
+            {
+                isLocked = !isLocked;
+            }
+            else
+            {
+                player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.TOGGLE_LOCK)));
+            }
         }
 
         markDirty(); // save to NBT
@@ -126,13 +135,11 @@ public class TileRelocationController extends TileMultiBlockBase
                 {
                     if (this.getLinkedUUID().equals(itemStack.getTagCompound().getString(ItemPlayerRelocator.UUID_TAG)))
                     {
-                        System.out.println("canToggle");
                         return true;
                     }
                 }
             }
         }
-        System.out.println("canNOT Toggle");
         return false;
     }
 }

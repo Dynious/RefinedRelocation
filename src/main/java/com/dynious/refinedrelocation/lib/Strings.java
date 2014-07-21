@@ -67,6 +67,7 @@ public class Strings
     public static final String REDSTONE = GUI_PREFIX + "redstone";
     public static final String SNEAKY_EXTRACTION = GUI_PREFIX + "sneakyExtraction";
     public static final String CONTROLLER_LOCKED = GUI_PREFIX + "controllerLocked";
+    public static final String TOGGLE_LOCK = GUI_PREFIX + "toggleLock";
     public static final String MODULE_MAX_STACK_SIZE = GUI_PREFIX + "moduleMaxStackSize";
     public static final String MODULE_REDSTONE_CONTROL = GUI_PREFIX + "moduleRedstoneControl";
 
