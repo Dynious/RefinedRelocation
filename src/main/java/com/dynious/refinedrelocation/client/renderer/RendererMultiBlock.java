@@ -17,6 +17,9 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RendererMultiBlock extends TileEntitySpecialRenderer
 {
     private static RenderBlocks renderBlocks = new RenderBlocks();
@@ -69,21 +72,21 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
         if (!tileMultiBlock.getWorldObj().isAirBlock(xOffset, yOffset, zOffset))
         {
             Block block = tileMultiBlock.getWorldObj().getBlock(xOffset, yOffset, zOffset);
-            BlockAndMeta blockAndMeta;
+            ArrayList<BlockAndMeta> blockAndMeta = new ArrayList<BlockAndMeta>();
             if (blockInfo instanceof MultiBlockAndMeta)
             {
-                blockAndMeta = getBlockAndMeta((MultiBlockAndMeta) blockInfo, tileMultiBlock);
+                blockAndMeta.addAll(((MultiBlockAndMeta) blockInfo).getBlockAndMetas());
             }
             else if (blockInfo instanceof BlockAndMeta)
             {
-                blockAndMeta = (BlockAndMeta) blockInfo;
+                blockAndMeta.add((BlockAndMeta) blockInfo);
             }
             else
             {
                 return;
             }
 
-            if (blockAndMeta.getBlock() != block || (blockAndMeta.getMeta() != -1 && blockAndMeta.getMeta() != tileMultiBlock.getWorldObj().getBlockMetadata(xOffset, yOffset, zOffset)))
+            if (!isCorrectBlock(blockAndMeta, block, tileMultiBlock, xOffset, yOffset, zOffset))
             {
                 renderIncorrectBlock(x, y, z);
             }
@@ -94,29 +97,35 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
         }
     }
 
+    private boolean isCorrectBlock(ArrayList<BlockAndMeta> blockAndMetas, Block block, TileMultiBlockBase tileMultiBlock, int xOffset, int yOffset, int zOffset)
+    {
+        for (BlockAndMeta blockAndMeta : blockAndMetas)
+        {
+            if (blockAndMeta.getBlock() == block || (blockAndMeta.getMeta() != -1 && blockAndMeta.getMeta() != tileMultiBlock.getWorldObj().getBlockMetadata(xOffset, yOffset, zOffset)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void renderBlock(Object blockInfo, IMultiBlock multiBlock, TileMultiBlockBase tileMultiBlock, int x, int y, int z)
     {
         Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
         BlockAndMeta blockAndMeta = null;
-        int relativeX = 0;
-        int relativeY = 0;
-        int relativeZ = 0;
+        int relativeX = x - leaderPos.getX();
+        int relativeY = y - leaderPos.getY();
+        int relativeZ = z - leaderPos.getZ();
 
         if (blockInfo instanceof MultiBlockAndMeta)
         {
             MultiBlockAndMeta multiBlockAndMeta = (MultiBlockAndMeta) blockInfo;
 
             blockAndMeta = getBlockAndMeta(multiBlockAndMeta, tileMultiBlock);
-            relativeX = x - leaderPos.getX();
-            relativeY = y - leaderPos.getY();
-            relativeZ = z - leaderPos.getZ();
         }
         else if (blockInfo instanceof BlockAndMeta)
         {
             blockAndMeta = (BlockAndMeta) blockInfo;
-            relativeX = x - leaderPos.getX();
-            relativeY = y - leaderPos.getY();
-            relativeZ = z - leaderPos.getZ();
         }
 
         if (blockAndMeta != null && blockAndMeta.getBlock() != null)
