@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.0.5e",
-			"changeLog":"Added Sneaky Extraction module and fixed some nasty bugs!",
-			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2208004/download"
+			"modVersion":"1.0.6",
+			"changeLog":"Major refactoring, fixed a lot of bugs, added some things and enhanced things!",
+			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2209120/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
