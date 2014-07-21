@@ -213,7 +213,8 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     {
         ticksBetweenExtraction = compound.getInteger("ticksBetweenExt");
         redstoneControlState = compound.getInteger("redstoneControlState");
-        maxExtractionStackSize = compound.getInteger("maxExtractionStackSize");
+        if (compound.hasKey("maxExtractionStackSize"))
+            maxExtractionStackSize = compound.getInteger("maxExtractionStackSize");
     }
 
     @Override
