@@ -59,6 +59,7 @@ public class ItemRendererRelocator implements IItemRenderer
     public void render(float x, float y, float z, float scale, ItemStack itemStack)
     {
         GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
 
         TextureUtils.bindAtlas(0);
         GL11.glColor3f(1.0F, 1.0F, 1.0F);
@@ -89,6 +90,7 @@ public class ItemRendererRelocator implements IItemRenderer
 
         CCRenderState.draw();
 
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
 }

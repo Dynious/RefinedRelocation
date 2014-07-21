@@ -8,6 +8,7 @@ import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -58,6 +59,7 @@ public class ItemRendererSortingChest implements IItemRenderer
 
         glPushMatrix();
         glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
+        GL11.glEnable(GL11.GL_BLEND);
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         glTranslatef(0.0F, 1.0F, 1.0F);
         glScalef(1.0F, -1F, -1F);
@@ -69,6 +71,7 @@ public class ItemRendererSortingChest implements IItemRenderer
 
         // Render the chest itself
         model.renderAll();
+        GL11.glDisable(GL11.GL_BLEND);
         glPopMatrix();
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }

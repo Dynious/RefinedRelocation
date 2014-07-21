@@ -54,10 +54,12 @@ public class ItemRendererSortingAlchemicalChest extends ItemRendererAlchemicalCh
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Resources.MODEL_TEXTURE_OVERLAY_ALCHEMICAL_CHEST);
 
         GL11.glPushMatrix(); //start
+        GL11.glEnable(GL11.GL_BLEND);
         GL11.glTranslatef(x, y, z); //size
         GL11.glRotatef(180, 1, 0, 0);
         GL11.glRotatef(-90, 0, 1, 0);
         modelChest.renderAll();
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix(); //end
     }
 }
