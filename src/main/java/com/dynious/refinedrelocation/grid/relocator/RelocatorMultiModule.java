@@ -87,6 +87,8 @@ public class RelocatorMultiModule extends RelocatorModuleBase
             if (module != null && addModule(module))
             {
                 module.init(relocator, side);
+                if (!player.capabilities.isCreativeMode)
+                    stack.stackSize--;
                 return true;
             }
         }
