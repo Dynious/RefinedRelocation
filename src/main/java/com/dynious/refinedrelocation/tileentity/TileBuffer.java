@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = Mods.BC_API_POWER_ID)
+@Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = Mods.BC_POWER_API_ID)
 public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, IFluidHandler, IPowerEmitter, ILoopable
 {
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
@@ -417,14 +417,14 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         return true;
     }
 
-    @Optional.Method(modid = Mods.BC_API_POWER_ID)
+    @Optional.Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
     {
         return getPowerReceiver();
     }
 
-    @Optional.Method(modid = Mods.BC_API_POWER_ID)
+    @Optional.Method(modid = Mods.BC_POWER_API_ID)
     public PowerHandler.PowerReceiver getPowerReceiver()
     {
         if (powerHandler == null)
@@ -436,7 +436,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         return powerHandler.getPowerReceiver();
     }
 
-    @Optional.Method(modid = Mods.BC_API_POWER_ID)
+    @Optional.Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public void doWork(PowerHandler powerHandler)
     {
@@ -451,7 +451,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         }
     }
 
-    @Optional.Method(modid = Mods.BC_API_POWER_ID)
+    @Optional.Method(modid = Mods.BC_POWER_API_ID)
     public double insertMinecraftJoules(double amount, int side)
     {
         TileEntity tile = tiles[side];
@@ -469,21 +469,21 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         return amount;
     }
 
-    @Optional.Method(modid = Mods.BC_API_POWER_ID)
+    @Optional.Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public World getWorld()
     {
         return this.getWorldObj();
     }
 
-    @Optional.Method(modid = Mods.BC_API_POWER_ID)
+    @Optional.Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public boolean canEmitPowerFrom(ForgeDirection direction)
     {
         return true;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -499,7 +499,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         return inputAmount - i;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     public int insertRedstoneFlux(int amount, int side, boolean simulate)
     {
         TileEntity tile = tiles[side];
@@ -513,28 +513,28 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         return amount;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
         return 0;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public boolean canConnectEnergy(ForgeDirection forgeDirection)
     {
         return true;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
         return 0;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int getMaxEnergyStored(ForgeDirection direction)
     {

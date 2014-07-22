@@ -24,7 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = Mods.COFH_API_ID)
+@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = Mods.COFH_BLOCK_API_ID)
 public class BlockBuffer extends BlockContainer implements IDismantleable
 {
     protected BlockBuffer()
@@ -129,7 +129,7 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
     }
 
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_BLOCK_API_ID)
     @Override
     public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x,
                                     int y, int z, boolean returnBlock)
@@ -148,7 +148,7 @@ public class BlockBuffer extends BlockContainer implements IDismantleable
         return null;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_BLOCK_API_ID)
     @Override
     public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z)
     {

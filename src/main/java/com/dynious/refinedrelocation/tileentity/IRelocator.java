@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-@Optional.Interface(iface = "buildcraft.api.transport.IPipeTile", modid = Mods.BC_API_TRANS_ID)
+@Optional.Interface(iface = "buildcraft.api.transport.IPipeTile", modid = Mods.BC_TRANS_API_ID)
 public interface IRelocator extends IItemRelocator, IPipeTile
 {
     public IRelocator[] getConnectedRelocators();

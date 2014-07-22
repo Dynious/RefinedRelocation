@@ -129,7 +129,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         this.fluidHandler = fluidHandler;
     }
 
-    @Method(modid = Mods.BC_API_POWER_ID)
+    @Method(modid = Mods.BC_POWER_API_ID)
     public void setPowerReceptor(IPowerReceptor powerReceptor)
     {
         this.powerReceptor = powerReceptor;
@@ -156,7 +156,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         }
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     public void setEnergyHandler(IEnergyHandler energyHandler)
     {
         this.energyHandler = energyHandler;
@@ -172,7 +172,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return fluidHandler;
     }
 
-    @Method(modid = Mods.BC_API_POWER_ID)
+    @Method(modid = Mods.BC_POWER_API_ID)
     public IPowerReceptor getPowerReceptor()
     {
         return powerReceptor;
@@ -184,7 +184,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return energySink;
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
@@ -288,7 +288,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
                 }
                 setFluidHandler((IFluidHandler) tile);
             }
-            if (Mods.IS_BC_ENERGY_LOADED && tile instanceof IPowerReceptor)
+            if (Mods.IS_BC_ENERGY_API_LOADED && tile instanceof IPowerReceptor)
             {
                 if (getPowerReceptor() == null)
                 {
@@ -304,7 +304,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
                 }
                 setEnergySink((IEnergySink) tile);
             }
-            if (Mods.IS_COFH_API_LOADED && tile instanceof IEnergyHandler)
+            if (Mods.IS_COFH_ENERGY_API_LOADED && tile instanceof IEnergyHandler)
             {
                 if (getEnergyHandler() == null)
                 {
@@ -326,11 +326,11 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         setInventory(null);
         setFluidHandler(null);
 
-        if (Mods.IS_BC_ENERGY_LOADED)
+        if (Mods.IS_BC_ENERGY_API_LOADED)
             setPowerReceptor(null);
         if (Mods.IS_IC2_LOADED)
             setEnergySink(null);
-        if (Mods.IS_COFH_API_LOADED)
+        if (Mods.IS_COFH_ENERGY_API_LOADED)
             setEnergyHandler(null);
     }
 
@@ -340,7 +340,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         {
             return true;
         }
-        if (Mods.IS_BC_ENERGY_LOADED && getPowerReceptor() != null)
+        if (Mods.IS_BC_ENERGY_API_LOADED && getPowerReceptor() != null)
         {
             return true;
         }
@@ -348,7 +348,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         {
             return true;
         }
-        if (Mods.IS_COFH_API_LOADED && getEnergyHandler() != null)
+        if (Mods.IS_COFH_ENERGY_API_LOADED && getEnergyHandler() != null)
         {
             return true;
         }
@@ -363,11 +363,11 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
             connections.add("Inventory");
         if (getFluidHandler() != null)
             connections.add("Fluid Transmission");
-        if (Mods.IS_BC_ENERGY_LOADED && getPowerReceptor() != null)
+        if (Mods.IS_BC_ENERGY_API_LOADED && getPowerReceptor() != null)
             connections.add("Buildcraft Energy");
         if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add("IC2 Energy");
-        if (Mods.IS_COFH_API_LOADED && getEnergyHandler() != null)
+        if (Mods.IS_COFH_ENERGY_API_LOADED && getEnergyHandler() != null)
             connections.add("Thermal Expansion Energy");
 
         return connections;
@@ -672,7 +672,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return new FluidTankInfo[0];
     }
 
-    @Method(modid = Mods.BC_API_POWER_ID)
+    @Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
     {
@@ -683,7 +683,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return null;
     }
 
-    @Method(modid = Mods.BC_API_POWER_ID)
+    @Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public void doWork(PowerHandler powerHandler)
     {
@@ -693,7 +693,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         }
     }
 
-    @Method(modid = Mods.BC_API_POWER_ID)
+    @Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public World getWorld()
     {
@@ -744,7 +744,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return getEnergySink() != null && getEnergySink().acceptsEnergyFrom(tileEntity, getInputSide(forgeDirection));
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -755,7 +755,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return 0;
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -766,14 +766,14 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return 0;
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public boolean canConnectEnergy(ForgeDirection forgeDirection)
     {
         return getEnergyHandler() != null && getEnergyHandler().canConnectEnergy(getInputSide(forgeDirection));
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
@@ -784,7 +784,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return 0;
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int getMaxEnergyStored(ForgeDirection forgeDirection)
     {

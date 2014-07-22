@@ -222,7 +222,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         return inputAmount - amount;
     }
 
-    @Optional.Method(modid = Mods.BC_API_POWER_ID)
+    @Optional.Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public void doWork(PowerHandler powerHandler)
     {
@@ -256,7 +256,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         }
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
