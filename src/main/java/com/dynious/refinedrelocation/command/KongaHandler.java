@@ -127,14 +127,9 @@ public class KongaHandler
                 renderer.theShaderGroup = new ShaderGroup(Minecraft.getMinecraft().getTextureManager(), Minecraft.getMinecraft().getResourceManager(), Minecraft.getMinecraft().getFramebuffer(), shader);
                 renderer.theShaderGroup.createBindFramebuffers(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
             }
-            catch (JsonException jsonexception)
+            catch (Exception e)
             {
-                jsonexception.printStackTrace();
-                LogHelper.warning("Failed to load shader: " + shader);
-            }
-            catch (JsonSyntaxException jsonsyntaxexception)
-            {
-                jsonsyntaxexception.printStackTrace();
+                e.printStackTrace();
                 LogHelper.warning("Failed to load shader: " + shader);
             }
         }
