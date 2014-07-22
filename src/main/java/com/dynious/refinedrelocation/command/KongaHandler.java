@@ -8,6 +8,7 @@ import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.ShaderGroup;
+import net.minecraft.client.util.JsonException;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.FileUtils;
@@ -126,9 +127,9 @@ public class KongaHandler
                 renderer.theShaderGroup = new ShaderGroup(Minecraft.getMinecraft().getTextureManager(), Minecraft.getMinecraft().getResourceManager(), Minecraft.getMinecraft().getFramebuffer(), shader);
                 renderer.theShaderGroup.createBindFramebuffers(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
             }
-            catch (IOException ioexception)
+            catch (JsonException jsonexception)
             {
-                ioexception.printStackTrace();
+                jsonexception.printStackTrace();
                 LogHelper.warning("Failed to load shader: " + shader);
             }
             catch (JsonSyntaxException jsonsyntaxexception)
