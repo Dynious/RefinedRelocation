@@ -165,8 +165,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     public static void resetRenderer()
     {
         CCRenderState.reset();
-        CCRenderState.hasNormal = false;
-        CCRenderState.hasColour = true;
+        CCRenderState.setDynamic();
     }
 
     public static void loadIcons(IIconRegister register)
