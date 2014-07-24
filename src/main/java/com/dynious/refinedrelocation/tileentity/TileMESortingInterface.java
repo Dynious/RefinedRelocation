@@ -13,8 +13,6 @@ import appeng.api.storage.data.IItemList;
 import appeng.api.util.AECableType;
 import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
-import appeng.util.item.AEItemStack;
-import appeng.util.item.ItemList;
 import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
@@ -30,7 +28,7 @@ import java.util.List;
 public class TileMESortingInterface extends TileSortingConnector implements ICellContainer, IGridBlock
 {
     private IGridNode node = null;
-    private IMEInventoryHandler<AEItemStack> handler;
+    private IMEInventoryHandler<IAEItemStack> handler;
     private BaseActionSource mySrc = new MachineSource(this);
     private NBTTagCompound data;
     private boolean isReady = false;
@@ -61,13 +59,13 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     private void updateStorage()
     {
         IStorageGrid storage = getGridNode(null).getGrid().getCache(IStorageGrid.class);
-        for (IAEItemStack stack : getInternalHandler().getAvailableItems(new ItemList<AEItemStack>(AEItemStack.class)))
+        for (IAEItemStack stack : getInternalHandler().getAvailableItems(AEApi.instance().storage().createItemList()))
         {
             storage.postAlterationOfStoredItems(StorageChannel.ITEMS, stack, mySrc);
         }
     }
 
-    public IMEInventoryHandler<AEItemStack> getInternalHandler()
+    public IMEInventoryHandler<IAEItemStack> getInternalHandler()
     {
         if (handler == null)
         {
@@ -76,7 +74,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         return handler;
     }
 
-    public AEItemStack injectItems(AEItemStack aeItemStack, Actionable actionable, BaseActionSource baseActionSource)
+    public IAEItemStack injectItems(IAEItemStack aeItemStack, Actionable actionable, BaseActionSource baseActionSource)
     {
         ItemStack stack = aeItemStack.getItemStack();
         ItemStack returnedStack = null;
@@ -100,7 +98,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         return aeItemStack;
     }
 
-    public AEItemStack extractItems(AEItemStack aeItemStack, Actionable actionable, BaseActionSource baseActionSource)
+    public IAEItemStack extractItems(IAEItemStack aeItemStack, Actionable actionable, BaseActionSource baseActionSource)
     {
         ItemStack stackToExtract = aeItemStack.getItemStack();
         int extracted = 0;
@@ -128,11 +126,11 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         return aeItemStack;
     }
 
-    public IItemList<AEItemStack> getAvailableItems(IItemList<AEItemStack> aeItemStacks)
+    public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> aeItemStacks)
     {
         for (LocalizedStack stack : getHandler().getGrid().getItemsInGrid())
         {
-            aeItemStacks.add(AEItemStack.create(stack.STACK));
+            aeItemStacks.add(AEApi.instance().storage().createItemStack(stack.STACK));
         }
         return aeItemStacks;
     }
@@ -298,7 +296,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         return node;
     }
 
-    private static class SortingInventoryHandler implements IMEInventoryHandler<AEItemStack>
+    private static class SortingInventoryHandler implements IMEInventoryHandler<IAEItemStack>
     {
         private TileMESortingInterface tile;
 
@@ -314,13 +312,13 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         }
 
         @Override
-        public boolean isPrioritized(AEItemStack iaeStack)
+        public boolean isPrioritized(IAEItemStack iaeStack)
         {
             return false;
         }
 
         @Override
-        public boolean canAccept(AEItemStack iaeStack)
+        public boolean canAccept(IAEItemStack iaeStack)
         {
             return true;
         }
@@ -338,19 +336,19 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         }
 
         @Override
-        public AEItemStack injectItems(AEItemStack iaeStack, Actionable actionable, BaseActionSource baseActionSource)
+        public IAEItemStack injectItems(IAEItemStack iaeStack, Actionable actionable, BaseActionSource baseActionSource)
         {
             return tile.injectItems(iaeStack, actionable, baseActionSource);
         }
 
         @Override
-        public AEItemStack extractItems(AEItemStack iaeStack, Actionable actionable, BaseActionSource baseActionSource)
+        public IAEItemStack extractItems(IAEItemStack iaeStack, Actionable actionable, BaseActionSource baseActionSource)
         {
             return tile.extractItems(iaeStack, actionable, baseActionSource);
         }
 
         @Override
-        public IItemList<AEItemStack> getAvailableItems(IItemList<AEItemStack> iItemList)
+        public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> iItemList)
         {
             return tile.getAvailableItems(iItemList);
         }

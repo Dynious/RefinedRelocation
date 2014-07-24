@@ -68,6 +68,7 @@ addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","ad8f6d5a
 addGitDep("ic","https://github.com/progwml6/ironchest.git","9a87528223250caa19651b64f7bab0f225c58564")
 addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/116/artifact/build/libs/InventoryTweaks-api-1.57-116.jar","157")
 addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","3dda9540ae34fc1c7fefab627579d2bba80a14ce")
+addZipDep("ae2","http://ae2.ae-mod.info/builds/appliedenergistics2-rv0-stable-10-api.jar","rv0-stable-10-api")
 
 compileApiJava.dependsOn(getDeps)
 
@@ -93,6 +94,9 @@ sourceSets {
             
             srcDir 'build/deps/it'
             include 'invtweaks/**'
+			
+			srcDir 'build/deps/ae2'
+			include 'appeng/**'
         }
     }
 }
