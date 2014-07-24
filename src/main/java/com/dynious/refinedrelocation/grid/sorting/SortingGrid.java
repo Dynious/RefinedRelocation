@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid.sorting;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.grid.ISortingGrid;
+import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.grid.Grid;
 import net.minecraft.item.ItemStack;
@@ -19,7 +20,7 @@ public class SortingGrid extends Grid implements ISortingGrid
      * @param itemStack The ItemStack to be filtered to all childs and this SortingMember
      * @return The ItemStack that was not able to fit in any ISortingInventory
      */
-    public ItemStack filterStackToGroup(ItemStack itemStack, TileEntity requester, int slot)
+    public ItemStack filterStackToGroup(ItemStack itemStack, TileEntity requester, int slot, boolean simulate)
     {
         if (members != null && !members.isEmpty())
         {
@@ -36,7 +37,7 @@ public class SortingGrid extends Grid implements ISortingGrid
                         }
                         else
                         {
-                            itemStack = inventory.putInInventory(itemStack);
+                            itemStack = inventory.putInInventory(itemStack, simulate);
                             if (itemStack == null || itemStack.stackSize == 0)
                             {
                                 return null;
@@ -76,6 +77,28 @@ public class SortingGrid extends Grid implements ISortingGrid
                 else
                 {
                     list.get(filteringInventory.getPriority().ordinal()).add(filteringInventory);
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<LocalizedStack> getItemsInGrid()
+    {
+        List<LocalizedStack> list = new ArrayList<LocalizedStack>();
+        for (IGridMemberHandler member : members)
+        {
+            if (member.getOwner() instanceof ISortingInventory)
+            {
+                ISortingInventory inventory = (ISortingInventory) member.getOwner();
+                for (int slot = 0; slot < inventory.getSizeInventory(); slot++)
+                {
+                    ItemStack stack = inventory.getStackInSlot(slot);
+                    if (stack != null)
+                    {
+                        list.add(new LocalizedStack(stack, inventory, slot));
+                    }
                 }
             }
         }

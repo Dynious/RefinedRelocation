@@ -1021,7 +1021,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (stack == null)
             return 0;
-        
+
         int startAmount = stack.stackSize;
         ItemStack returnedStack = insert(stack, direction.ordinal(), b);
         return returnedStack == null ? startAmount : startAmount - returnedStack.stackSize;

@@ -43,13 +43,17 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
-    public ItemStack putInInventory(ItemStack itemStack)
+    public ItemStack putInInventory(ItemStack itemStack, boolean simulate)
     {
-        int added = getStorage().addStack(itemStack.copy());
-        if (added != 0)
+        if (getStorage().sameItem(itemStack.copy()))
         {
+            int added = Math.min(getStorage().getMaxStoredCount() - getStorage().getAmount(), itemStack.stackSize);
+            if (!simulate)
+            {
+                getStorage().setAmount(getStorage().getAmount() + added);
+                BarrelPacketHandler.INSTANCE.sendToDimension(new Message0x01ContentUpdate(this), getWorldObj().provider.dimensionId);
+            }
             itemStack.stackSize -= added;
-            BarrelPacketHandler.INSTANCE.sendToDimension(new Message0x01ContentUpdate(this), getWorldObj().provider.dimensionId);
             if (itemStack.stackSize == 0)
                 return null;
         }

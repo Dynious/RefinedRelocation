@@ -50,6 +50,10 @@ public class CommonProxy
         {
             GameRegistry.registerTileEntity(TileSortingAlchemicalChest.class, Names.sortingAlchemicalChest);
         }
+        if (Mods.IS_AE2_LOADED)
+        {
+            GameRegistry.registerTileEntity(TileMESortingInterface.class, Names.MESortingInterface);
+        }
 
         new GuiHandler();
     }

@@ -16,7 +16,7 @@ public class Mods
     public static final String IC2_ID = "IC2";
     public static final String FMP_IS = "McMultipart";
     public static final String WAILA_ID = "Waila";
-
+    public static final String AE2_ID = "appliedenergistics2";
 
     public static final boolean IS_IRON_CHEST_LOADED = Loader.isModLoaded(IRON_CHEST_ID);
     public static final boolean IS_JABBA_LOADED = Loader.isModLoaded(JABBA_ID);
@@ -29,4 +29,5 @@ public class Mods
     public static final boolean IS_IC2_LOADED = Loader.isModLoaded(IC2_ID);
     public static final boolean IS_FMP_LOADED = Loader.isModLoaded(FMP_IS);
     public static final boolean IS_WAILA_LOADED = Loader.isModLoaded(WAILA_ID);
+    public static final boolean IS_AE2_LOADED = Loader.isModLoaded(AE2_ID);
 }

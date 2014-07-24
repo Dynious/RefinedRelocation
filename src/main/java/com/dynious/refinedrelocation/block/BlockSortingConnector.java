@@ -3,11 +3,14 @@ package com.dynious.refinedrelocation.block;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.tileentity.TileMESortingInterface;
 import com.dynious.refinedrelocation.tileentity.TileSortingConnector;
 import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
 import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -56,8 +59,18 @@ public class BlockSortingConnector extends BlockContainer
                 return new TileSortingInterface();
             case 2:
                 return new TileSortingImporter();
+            case 3:
+                if (Mods.IS_AE2_LOADED)
+                    return getNewTileMESortingInterface();
+                break;
         }
         return null;
+    }
+
+    @Optional.Method(modid = Mods.AE2_ID)
+    public TileEntity getNewTileMESortingInterface()
+    {
+        return new TileMESortingInterface();
     }
 
     @Override
@@ -94,7 +107,7 @@ public class BlockSortingConnector extends BlockContainer
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs,
                              List par3List)
     {
-        for (int metadata = 0; metadata < 3; ++metadata)
+        for (int metadata = 0; metadata < (Mods.IS_AE2_LOADED ? 4 : 3); ++metadata)
         {
             par3List.add(new ItemStack(par1, 1, metadata));
         }

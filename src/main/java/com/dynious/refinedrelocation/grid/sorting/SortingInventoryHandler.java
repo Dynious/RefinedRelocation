@@ -32,7 +32,7 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
         if (itemStack == null || owner.getWorldObj().isRemote || getGrid() == null)
             return;
 
-        itemStack = getGrid().filterStackToGroup(itemStack.copy(), this.owner, par1);
+        itemStack = getGrid().filterStackToGroup(itemStack.copy(), this.owner, par1, false);
 
         if (itemStack == null || itemStack.stackSize == 0)
         {

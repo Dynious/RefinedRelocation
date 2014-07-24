@@ -22,7 +22,7 @@ public class Names
     public static final String sortingImporter = "sortingImporter";
     public static final String sortingAlchemicalChest = "sortingAlchemicalChest";
     public static final String relocator = "relocator";
-    public static final String sortingPreciousChest = "sortingPreciousChest";
+    public static final String MESortingInterface = "MESortingInterface";
 
     public static final String linker = "linker";
     public static final String sortingUpgrade = "sortingUpgrade";

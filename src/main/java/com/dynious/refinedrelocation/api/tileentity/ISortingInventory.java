@@ -40,9 +40,10 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
      * This should try to add the ItemStack to the inventory of this TileEntity
      *
      * @param itemStack The stack that should be put in the inventory
+     * @param simulate Simulate the insertion of items (only return result, no action)
      * @return The remaining ItemStack after trying to put the ItemStack in the Inventory
      */
-    public ItemStack putInInventory(ItemStack itemStack);
+    public ItemStack putInInventory(ItemStack itemStack, boolean simulate);
 
     /**
      * The Sorting System will try to put items in the highest priority inventory.

@@ -37,14 +37,14 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public ItemStack putInInventory(ItemStack itemStack)
+    public ItemStack putInInventory(ItemStack itemStack, boolean simulate)
     {
         if (connectedSide != ForgeDirection.UNKNOWN)
         {
             TileEntity tile = DirectionHelper.getTileAtSide(worldObj, xCoord, yCoord, zCoord, connectedSide);
             if (tile != null && !(tile instanceof ISortingMember))
             {
-                itemStack = IOHelper.insert(tile, itemStack, connectedSide.getOpposite(), false);
+                itemStack = IOHelper.insert(tile, itemStack, connectedSide.getOpposite(), simulate);
                 if (itemStack == null || itemStack.stackSize == 0)
                     return null;
             }
@@ -55,7 +55,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     @Override
     public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
     {
-        itemStack = putInInventory(itemStack);
+        itemStack = putInInventory(itemStack, false);
         bufferInventory[0] = itemStack;
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         return true;
@@ -100,7 +100,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
             counter++;
             if (counter % 22 == 0)
             {
-                bufferInventory[0] = putInInventory(bufferInventory[0]);
+                bufferInventory[0] = putInInventory(bufferInventory[0], false);
                 if (bufferInventory[0] == null)
                 {
                     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
