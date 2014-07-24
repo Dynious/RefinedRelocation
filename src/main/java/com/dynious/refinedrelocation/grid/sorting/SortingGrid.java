@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.grid.sorting;
 
+import com.dynious.refinedrelocation.api.tileentity.IInventoryChangeListener;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.grid.ISortingGrid;
 import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
@@ -103,5 +104,16 @@ public class SortingGrid extends Grid implements ISortingGrid
             }
         }
         return list;
+    }
+
+    public void onInventoryChange()
+    {
+        for (IGridMemberHandler member : members)
+        {
+            if (member.getOwner() instanceof IInventoryChangeListener)
+            {
+                ((IInventoryChangeListener)member.getOwner()).onInventoryChanged();
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.api.tileentity.grid;
 
 
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -23,4 +24,10 @@ public interface ISortingGrid extends IGrid
      * @return List of all ItemStacks in the Grid
      */
     public List<LocalizedStack> getItemsInGrid();
+
+    /**
+     * Should be called when a change is made in one of the members on the Sorting System.
+     *
+     */
+    public void onInventoryChange();
 }

@@ -75,6 +75,13 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
+    public void markDirty()
+    {
+        super.markDirty();
+        getHandler().onInventoryChange();
+    }
+
+    @Override
     public IFilter getFilter()
     {
         return filter;

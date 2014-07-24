@@ -416,6 +416,13 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     }
 
     @Override
+    public void markDirty()
+    {
+        super.markDirty();
+        getHandler().onInventoryChange();
+    }
+
+    @Override
     public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
     {
         if (slotIndex >= 0 && slotIndex < inventory.length)
@@ -454,6 +461,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
                         if (!simulate)
                         {
                             inventory[slot] = newStack;
+                            markDirty();
                         }
                     }
                 }
@@ -465,7 +473,10 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
                         int l = Math.min(itemStack.stackSize, max - itemstack1.stackSize);
                         itemStack.stackSize -= l;
                         if (!simulate)
+                        {
                             itemstack1.stackSize += l;
+                            markDirty();
+                        }
                     }
                 }
             }

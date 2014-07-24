@@ -123,6 +123,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
                         if (!simulate)
                         {
                             chestContents[slot] = newStack;
+                            markDirty();
                         }
                     }
                 }
@@ -134,7 +135,10 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
                         int l = Math.min(itemStack.stackSize, max - itemstack1.stackSize);
                         itemStack.stackSize -= l;
                         if (!simulate)
+                        {
                             itemstack1.stackSize += l;
+                            markDirty();
+                        }
                     }
                 }
             }
@@ -176,6 +180,13 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     public ISortingInventoryHandler getHandler()
     {
         return sortingInventoryHandler;
+    }
+
+    @Override
+    public void markDirty()
+    {
+        super.markDirty();
+        getHandler().onInventoryChange();
     }
 
     @SideOnly(Side.CLIENT)

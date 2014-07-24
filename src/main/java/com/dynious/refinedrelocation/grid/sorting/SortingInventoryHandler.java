@@ -27,18 +27,22 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
     public final void setInventorySlotContents(int par1, ItemStack itemStack)
     {
         inventory.putStackInSlot(itemStack, par1);
-        inventory.markDirty();
 
         if (itemStack == null || owner.getWorldObj().isRemote || getGrid() == null)
+        {
+            inventory.markDirty();
             return;
+        }
 
         itemStack = getGrid().filterStackToGroup(itemStack.copy(), this.owner, par1, false);
 
-        if (itemStack == null || itemStack.stackSize == 0)
+        inventory.putStackInSlot(itemStack, par1);
+
+        if (itemStack == null)
         {
-            inventory.putStackInSlot(null, par1);
             syncInventory(par1);
         }
+        inventory.markDirty();
     }
 
     private void syncInventory(int slot)
@@ -52,5 +56,12 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
             if (!(player.openContainer instanceof ContainerPlayer) && slot < player.openContainer.inventoryItemStacks.size() && player.openContainer.inventoryItemStacks.get(slot) == null)
                 ((EntityPlayerMP) player).sendSlotContents(player.openContainer, slot, null);
         }
+    }
+
+    @Override
+    public void onInventoryChange()
+    {
+        if (!getOwner().getWorldObj().isRemote)
+            getGrid().onInventoryChange();
     }
 }

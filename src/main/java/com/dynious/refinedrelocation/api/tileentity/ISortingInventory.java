@@ -13,6 +13,10 @@ import net.minecraft.item.ItemStack;
  * Make sure you call all required methods of {@link ISortingMember} as well as
  * setInventorySlotContents(...) when this is called in your tile.
  *
+ * Override markDirty() in your tile and call getHandler().onInventoryChange()!
+ * This will make sure the Sorting System knows there have been changes in your inventory.
+ * Only call
+ *
  * To open the Filtering GUI for this TileEntity also implement {@link IFilterTileGUI}).
  *
  * Automatically syncs the inventory to all players in a 5 block radius.

@@ -13,6 +13,7 @@ import appeng.api.storage.data.IItemList;
 import appeng.api.util.AECableType;
 import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
+import com.dynious.refinedrelocation.api.tileentity.IInventoryChangeListener;
 import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
@@ -25,14 +26,13 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
-public class TileMESortingInterface extends TileSortingConnector implements ICellContainer, IGridBlock
+public class TileMESortingInterface extends TileSortingConnector implements ICellContainer, IGridBlock, IInventoryChangeListener
 {
     private IGridNode node = null;
     private IMEInventoryHandler<IAEItemStack> handler;
     private BaseActionSource mySrc = new MachineSource(this);
     private NBTTagCompound data;
     private boolean isReady = false;
-    private int tick = 0;
 
     @Override
     public void updateEntity()
@@ -47,22 +47,14 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
                 updateStorage();
                 getGridNode(null).getGrid().postEvent(new MENetworkCellArrayUpdate());
             }
-            tick++;
-            if (tick > 20)
-            {
-                tick = 0;
-                updateStorage();
-            }
         }
     }
 
     private void updateStorage()
     {
         IStorageGrid storage = getGridNode(null).getGrid().getCache(IStorageGrid.class);
-        for (IAEItemStack stack : getInternalHandler().getAvailableItems(AEApi.instance().storage().createItemList()))
-        {
-            storage.postAlterationOfStoredItems(StorageChannel.ITEMS, stack, mySrc);
-        }
+        //TODO: Improve? This is not the way to do this, but it works (we don't know what has changed!)
+        storage.postAlterationOfStoredItems(StorageChannel.ITEMS, null, mySrc);
     }
 
     public IMEInventoryHandler<IAEItemStack> getInternalHandler()
@@ -294,6 +286,12 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     public IGridNode getActionableNode()
     {
         return node;
+    }
+
+    @Override
+    public void onInventoryChanged()
+    {
+        updateStorage();
     }
 
     private static class SortingInventoryHandler implements IMEInventoryHandler<IAEItemStack>
