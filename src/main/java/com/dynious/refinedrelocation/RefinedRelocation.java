@@ -10,6 +10,7 @@ import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Reference;
+import com.dynious.refinedrelocation.mods.BuildcraftIntegration;
 import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
 import com.dynious.refinedrelocation.network.NetworkHandler;
@@ -75,8 +76,14 @@ public class RefinedRelocation
             FMPHelper.addFMPRecipes();
         }
 
+        if (Mods.IS_BC_TRANSPORT_LOADED)
+        {
+            BuildcraftIntegration.init();
+        }
+
         proxy.initTileEntities();
 
         FMLInterModComms.sendMessage("Waila", "register", "com.dynious.refinedrelocation.mods.WailaProvider.callbackRegister");
+
     }
 }
