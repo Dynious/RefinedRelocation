@@ -56,7 +56,7 @@ public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implem
     }
 
     @Override
-    public ItemStack putInInventory(ItemStack itemStack)
+    public ItemStack putInInventory(ItemStack itemStack, boolean simulate)
     {
         for (int slot = 0; slot < getSizeInventory() && itemStack != null && itemStack.stackSize > 0; ++slot)
         {
@@ -69,14 +69,22 @@ public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implem
                     int max = Math.min(itemStack.getMaxStackSize(), getInventoryStackLimit());
                     if (max >= itemStack.stackSize)
                     {
-                        super.setInventorySlotContents(slot, itemStack);
+                        if (!simulate)
+                        {
+                            super.setInventorySlotContents(slot, itemStack);
 
-                        markDirty();
+                            markDirty();
+                        }
                         itemStack = null;
                     }
                     else
                     {
-                        super.setInventorySlotContents(slot, itemStack.splitStack(max));
+                        ItemStack newStack = itemStack.splitStack(max);
+                        if (!simulate)
+                        {
+                            super.setInventorySlotContents(slot, newStack);
+                            markDirty();
+                        }
                     }
                 }
                 else if (ItemStackHelper.areItemStacksEqual(itemstack1, itemStack))
@@ -86,7 +94,11 @@ public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implem
                     {
                         int l = Math.min(itemStack.stackSize, max - itemstack1.stackSize);
                         itemStack.stackSize -= l;
-                        itemstack1.stackSize += l;
+                        if (!simulate)
+                        {
+                            itemstack1.stackSize += l;
+                            markDirty();
+                        }
                     }
                 }
             }
@@ -122,6 +134,13 @@ public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implem
     public void setPriority(Priority priority)
     {
         this.priority = priority;
+    }
+
+    @Override
+    public void markDirty()
+    {
+        super.markDirty();
+        getHandler().onInventoryChange();
     }
 
     @Override
