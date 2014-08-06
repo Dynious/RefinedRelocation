@@ -7,8 +7,10 @@ import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.client.gui.GuiHome;
 import com.dynious.refinedrelocation.container.ContainerMultiModule;
+import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Strings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -21,6 +23,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +44,38 @@ public class RelocatorMultiModule extends RelocatorModuleBase
         return currentModule == -1 ? this : modules.get(currentModule);
     }
 
-    public List<String> getModuleNames()
+    public List<List<String>> getModuleInformation(NBTTagCompound compound)
     {
-        List<String> names = new ArrayList<String>();
-        for (IRelocatorModule module : modules)
+        List<List<String>> moduleInformation = new ArrayList<List<String>>();
+
+        NBTTagList list = compound.getTagList("multiModules", 10);
+        for (int i = 0; i < list.tagCount() && i <= 3; i++)
         {
-            names.add(module.getDisplayName());
+            NBTTagCompound moduleCompound = list.getCompoundTagAt(i);
+            IRelocatorModule module = RelocatorModuleRegistry.getModule(moduleCompound.getString("clazzIdentifier"));
+            if (module != null)
+            {
+                List<String> wailaInfo = module.getWailaInformation(moduleCompound);
+                if (!wailaInfo.isEmpty())
+                {
+                    for (int j = 0 ; j < wailaInfo.size() ; j++)
+                    {
+                        wailaInfo.set(j, StringUtils.repeat(" ", 3) + wailaInfo.get(j));
+                    }
+                    wailaInfo.add(0, module.getDisplayName());
+                    moduleInformation.add(wailaInfo);
+                }
+            }
         }
-        return names;
+
+        if (list.tagCount() >= 4)
+        {
+            List<String> ellipse = new ArrayList<String>();
+            ellipse.add(StringHelper.getLocalizedString(Strings.ELLIPSE));
+            moduleInformation.add(ellipse);
+        }
+
+        return moduleInformation;
     }
 
     @Override
@@ -87,6 +114,8 @@ public class RelocatorMultiModule extends RelocatorModuleBase
             if (module != null && addModule(module))
             {
                 module.init(relocator, side);
+                if (!player.capabilities.isCreativeMode)
+                    stack.stackSize--;
                 return true;
             }
         }

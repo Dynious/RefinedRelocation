@@ -149,7 +149,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
                     itemstack = stack;
                 }
             }
-            bufferInventory[0] = getHandler().getGrid().filterStackToGroup(itemstack, this, i);
+            bufferInventory[0] = getHandler().getGrid().filterStackToGroup(itemstack, this, i, false);
             if (bufferInventory[0] != null)
             {
                 syncInventory();

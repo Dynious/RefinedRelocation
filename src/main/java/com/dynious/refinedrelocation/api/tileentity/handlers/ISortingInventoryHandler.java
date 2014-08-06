@@ -9,4 +9,10 @@ public interface ISortingInventoryHandler extends ISortingMemberHandler
      * (Should be called by setInventorySlotContents(...) in the TileEntity class)
      */
     public void setInventorySlotContents(int par1, ItemStack itemStack);
+
+    /**
+     * Should be called when a change is made in one of the members on the Sorting System.
+     *
+     */
+    public void onInventoryChange();
 }

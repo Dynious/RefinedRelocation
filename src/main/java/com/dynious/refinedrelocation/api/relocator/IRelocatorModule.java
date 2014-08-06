@@ -49,4 +49,6 @@ public interface IRelocatorModule
     public void registerIcons(IIconRegister register);
 
     public String getDisplayName();
+
+    public List<String> getWailaInformation(NBTTagCompound nbtData);
 }

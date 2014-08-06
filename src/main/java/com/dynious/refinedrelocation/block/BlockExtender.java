@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = Mods.COFH_API_ID)
+@Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = Mods.COFH_BLOCK_API_ID)
 public class BlockExtender extends BlockContainer implements IDismantleable
 {
     public BlockExtender()
@@ -251,7 +251,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
         return metadata;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_BLOCK_API_ID)
     @Override
     public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x,
                                     int y, int z, boolean returnBlock)
@@ -269,7 +269,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
         return null;
     }
 
-    @Optional.Method(modid = Mods.COFH_API_ID)
+    @Optional.Method(modid = Mods.COFH_BLOCK_API_ID)
     @Override
     public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z)
     {

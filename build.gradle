@@ -22,7 +22,7 @@ apply plugin: 'forge'
 ext.env = System.getenv()
 ext.cclVersion = "1.1.1.95"
 
-version = "1.0.6"
+version = "1.0.6a"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.7.10"
 
@@ -32,7 +32,6 @@ if (env.BUILD_NUMBER != null) {
 
 minecraft {
     version = "1.7.10-10.13.0.1180"
-    assetDir = "eclipse/assets"
     
     replaceIn "lib/Reference.java"
     replace "@VERSION@", project.version
@@ -55,10 +54,12 @@ repositories {
 }
 
 dependencies {
-    compile "codechicken:ForgeMultipart:1.7.2-1.1.0.275:dev"
-    compile "com.mod-buildcraft:buildcraft:6.0.8:dev"
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.1.95:dev"
+    compile "codechicken:ForgeMultipart:1.7.10-1.1.0.299:dev"
+    compile "com.mod-buildcraft:buildcraft:6.0.17:dev"
     compile "net.industrial-craft:industrialcraft-2:2.2.508-experimental:api"
     compile "mcp.mobius.waila:Waila:1.5.2a"
+	compile "appeng:appliedenergistics2:rv0-stable-10:dev"
 }
 
 apply from: 'downloader.gradle'

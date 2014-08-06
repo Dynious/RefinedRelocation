@@ -2,6 +2,8 @@ package com.dynious.refinedrelocation.api.filter;
 
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.List;
+
 public interface IFilterGUI extends IFilter
 {
     public int getSize();
@@ -15,6 +17,8 @@ public interface IFilterGUI extends IFilter
     public boolean isBlacklisting();
 
     public void setBlacklists(boolean blacklists);
+
+    public List<String> getWAILAInformation(NBTTagCompound compound);
 
     public String getUserFilter();
 

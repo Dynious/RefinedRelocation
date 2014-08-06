@@ -97,6 +97,8 @@ public class TileRelocationController extends TileMultiBlockBase
 
     public boolean onActivated(World world, EntityPlayer player, int side)
     {
+        if (!isFormed(true))
+            return false;
         if (world.isRemote)
         {
             world.markBlockForUpdate(xCoord, yCoord, zCoord);

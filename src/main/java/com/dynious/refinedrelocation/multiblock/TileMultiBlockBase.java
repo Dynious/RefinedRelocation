@@ -32,10 +32,6 @@ public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlo
 
     private void checkMultiBlock()
     {
-        if (worldObj.isRemote)
-        {
-            return;
-        }
         IMultiBlock multiBlock = MultiBlockRegistry.getMultiBlock(getMultiBlockIdentifier());
         Vector3 leaderPos = multiBlock.getRelativeLeaderPos();
 

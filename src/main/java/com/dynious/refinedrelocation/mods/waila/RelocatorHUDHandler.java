@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.mods.waila;
 
 import codechicken.multipart.TileMultipart;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
+import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.lib.Mods;
@@ -12,14 +13,17 @@ import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.SpecialChars;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
@@ -52,14 +56,20 @@ public class RelocatorHUDHandler implements IWailaDataProvider
             int side = iWailaDataAccessor.getPosition().subHit;
 
             if (side >= 6 || relocator == null)
+            {
                 return null;
+            }
 
             int stackAmount = getItemStacks(iWailaDataAccessor, side).size();
             if (currentStackShown > stackAmount)
+            {
                 currentStackShown = 0;
+            }
 
             if (currentStackShown == stackAmount)
+            {
                 return null;
+            }
 
             return getItemStacks(iWailaDataAccessor, side).get(currentStackShown);
         }
@@ -84,20 +94,33 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         }
         else
         {
-            IRelocator relocator = getTileEntity(iWailaDataAccessor);
+            NBTTagList moduleList = getModuleTagList(iWailaDataAccessor);
 
-            IRelocatorModule module = relocator.getRelocatorModule(side);
-            if (module != null)
+            ArrayList<String> allModuleInformation = new ArrayList<String>();
+            for (int i = 0 ; i < moduleList.tagCount() ; i++)
             {
-                if (module instanceof RelocatorMultiModule)
+                NBTTagCompound moduleCompound = moduleList.getCompoundTagAt(i);
+                if (moduleCompound.getByte("place") == side)
                 {
-                    strings.addAll(((RelocatorMultiModule)module).getModuleNames());
-                }
-                else
-                {
-                    strings.add(module.getDisplayName());
+                    IRelocatorModule module = RelocatorModuleRegistry.getModule(moduleCompound.getString("clazzIdentifier"));
+                    if (module instanceof RelocatorMultiModule)
+                    {
+                        allModuleInformation.add(module.getDisplayName());
+                        List<List<String>> moduleInformationList = ((RelocatorMultiModule) module).getModuleInformation(moduleCompound);
+                        for (List<String> moduleInformation : moduleInformationList)
+                        {
+                            addModuleInformation(allModuleInformation, moduleInformation);
+                        }
+                    }
+                    else
+                    {
+                        List<String> moduleInformation = module.getWailaInformation(moduleList.getCompoundTagAt(i));
+                        allModuleInformation.add(module.getDisplayName());
+                        addModuleInformation(allModuleInformation, moduleInformation);
+                    }
                 }
             }
+            strings.addAll(allModuleInformation);
 
             List<String> stuffedStrings = new ArrayList<String>();
             for (ItemStack stack : getItemStacks(iWailaDataAccessor, side))
@@ -111,7 +134,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
                 stuffedStrings.add(modifier + stack.getDisplayName() + " x " + stack.stackSize + EnumChatFormatting.RESET);
             }
 
-            for (int i = 0; i < stuffedStrings.size(); i++)
+            for (int i = 0 ; i < stuffedStrings.size() ; i++)
             {
                 String finalString = "";
                 if (i == 0) finalString += StatCollector.translateToLocal(Strings.RELOCATOR_STUFFED) + " ";
@@ -123,28 +146,26 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         return strings;
     }
 
+    private void addModuleInformation(List<String> strings, List<String> moduleInformation)
+    {
+        for (String wailaLine : moduleInformation)
+        {
+            if (!wailaLine.isEmpty())
+            {
+                String[] indentedLines = WordUtils.wrap(wailaLine, 40).split("\\n");
+                for (int j = 0 ; j < indentedLines.length ; j++)
+                {
+                    indentedLines[j] = SpecialChars.TAB + indentedLines[j];
+                }
+                Collections.addAll(strings, indentedLines);
+            }
+        }
+    }
+
     @Override
     public List<String> getWailaTail(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
     {
         return strings;
-    }
-
-    private void addStack(ArrayList<ItemStack> stacks, ItemStack stack)
-    {
-        boolean stacksContains = false;
-        for (ItemStack needleStack : stacks)
-        {
-            if (ItemStackHelper.areItemStacksEqual(needleStack, stack))
-            {
-                needleStack.stackSize += stack.stackSize;
-                stacksContains = true;
-            }
-        }
-
-        if (!stacksContains)
-        {
-            stacks.add(stack);
-        }
     }
 
     private ArrayList<ItemStack> getItemStacks(IWailaDataAccessor iWailaDataAccessor, int side)
@@ -165,7 +186,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         if (compound.hasKey("StuffedItems"))
         {
             NBTTagList nbttaglist = compound.getTagList("StuffedItems", 10);
-            for (int x = 0; x < nbttaglist.tagCount(); x++)
+            for (int x = 0 ; x < nbttaglist.tagCount() ; x++)
             {
                 NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(x);
                 byte stackSide = nbttagcompound1.getByte("Side");
@@ -196,7 +217,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
             if (side < 6)
             {
                 NBTTagList parts = iWailaDataAccessor.getNBTData().getTagList("parts", 10);
-                for (int i = 0; i < parts.tagCount(); i++)
+                for (int i = 0 ; i < parts.tagCount() ; i++)
                 {
                     NBTTagCompound subtag = parts.getCompoundTagAt(i);
                     String id = subtag.getString("id");
@@ -211,7 +232,14 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         return null;
     }
 
-    private IRelocator getTileEntity(IWailaDataAccessor iWailaDataAccessor)
+    private NBTTagList getModuleTagList(IWailaDataAccessor iWailaDataAccessor)
+    {
+        NBTTagCompound relocatorCompound = getCompound(iWailaDataAccessor);
+        NBTTagList modules = relocatorCompound.getTagList("modules", 10);
+        return modules;
+    }
+
+    IRelocator getTileEntity(IWailaDataAccessor iWailaDataAccessor)
     {
         TileEntity tileentity = iWailaDataAccessor.getTileEntity();
         if (tileentity instanceof IRelocator)
@@ -221,6 +249,24 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         else
         {
             return null;
+        }
+    }
+
+    public static void addStack(ArrayList<ItemStack> stacks, ItemStack stack)
+    {
+        boolean stacksContains = false;
+        for (ItemStack needleStack : stacks)
+        {
+            if (ItemStackHelper.areItemStacksEqual(needleStack, stack))
+            {
+                needleStack.stackSize += stack.stackSize;
+                stacksContains = true;
+            }
+        }
+
+        if (!stacksContains)
+        {
+            stacks.add(stack);
         }
     }
 }

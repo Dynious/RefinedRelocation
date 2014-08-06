@@ -216,7 +216,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         if (tile != null && !LoopHelper.isLooping(this, tile))
         {
             boolean updated = false;
-            if (Mods.IS_BC_ENERGY_LOADED && tile instanceof IPowerReceptor)
+            if (Mods.IS_BC_ENERGY_API_LOADED && tile instanceof IPowerReceptor)
             {
                 if (getPowerReceptor() == null)
                 {
@@ -232,7 +232,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
                 }
                 setEnergySink((IEnergySink) tile);
             }
-            if (Mods.IS_COFH_API_LOADED && tile instanceof IEnergyHandler)
+            if (Mods.IS_COFH_ENERGY_API_LOADED && tile instanceof IEnergyHandler)
             {
                 if (getEnergyHandler() == null)
                 {
@@ -258,11 +258,11 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
     {
         List<EnergyType> connections = new ArrayList<EnergyType>();
 
-        if (Mods.IS_BC_ENERGY_LOADED && getPowerReceptor() != null)
+        if (Mods.IS_BC_ENERGY_API_LOADED && getPowerReceptor() != null)
             connections.add(EnergyType.MJ);
         if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add(EnergyType.EU);
-        if (Mods.IS_COFH_API_LOADED && getEnergyHandler() != null)
+        if (Mods.IS_COFH_ENERGY_API_LOADED && getEnergyHandler() != null)
             connections.add(EnergyType.RF);
 
         return connections;
@@ -287,7 +287,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
     Power interaction
      */
 
-    @Method(modid = Mods.BC_API_POWER_ID)
+    @Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
     {
@@ -298,7 +298,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         return null;
     }
 
-    @Method(modid = Mods.BC_API_POWER_ID)
+    @Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public void doWork(PowerHandler powerHandler)
     {
@@ -308,7 +308,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         }
     }
 
-    @Method(modid = Mods.BC_API_POWER_ID)
+    @Method(modid = Mods.BC_POWER_API_ID)
     @Override
     public World getWorld()
     {
@@ -370,7 +370,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         return getEnergySink() != null && getEnergySink().acceptsEnergyFrom(tileEntity, connectedDirection.getOpposite());
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -385,7 +385,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         return 0;
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
@@ -396,14 +396,14 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         return 0;
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public boolean canConnectEnergy(ForgeDirection forgeDirection)
     {
         return getEnergyHandler() != null && getEnergyHandler().canConnectEnergy(connectedDirection.getOpposite());
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
@@ -414,7 +414,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         return 0;
     }
 
-    @Method(modid = Mods.COFH_API_ID)
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int getMaxEnergyStored(ForgeDirection forgeDirection)
     {

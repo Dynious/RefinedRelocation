@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -116,5 +117,11 @@ public class BlockRelocationPortal extends BlockContainer
             return dir != ForgeDirection.UP && (tile.isLower() || dir != ForgeDirection.DOWN);
         }
         return false;
+    }
+
+    @Override
+    public void registerBlockIcons(IIconRegister p_149651_1_)
+    {
+        //NOOP
     }
 }

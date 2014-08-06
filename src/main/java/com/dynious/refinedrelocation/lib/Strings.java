@@ -72,6 +72,7 @@ public class Strings
     public static final String MODULE_REDSTONE_CONTROL = GUI_PREFIX + "moduleRedstoneControl";
 
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
+    public static final String LINKED = ITEM_DESC_PREFIX + "linked";
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";
     public static final String DISGUISED_AS = ITEM_DESC_PREFIX + "disguisedAs";
     public static final String CANNOT_DISGUISE_AS = ITEM_DESC_PREFIX + "cannotDisguiseAs";
@@ -103,6 +104,8 @@ public class Strings
 
     public static final String REDSTONE_BLOCK_ENABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabled";
     public static final String REDSTONE_BLOCK_DISABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabled";
+    public static final String REDSTONE_BLOCK_ENABLED_CHAT = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabledChat";
+    public static final String REDSTONE_BLOCK_DISABLED_CHAT = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabledChat";
 
     public static final String RELOCATOR_STUFFED = RELOCATOR_STUFFED_PREFIX + "stuffed";
 
@@ -114,4 +117,20 @@ public class Strings
     public static final String COMMAND_HELP_CHANGELOG = COMMAND_PREFIX + "helpChangelog";
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
+
+    public static final String LOCKED = GUI_PREFIX + "locked";
+    public static final String OUTPUT_SIDE = GUI_PREFIX + "outputSide";
+    public static final String WAILA_MAX_STACK_SIZE = GUI_PREFIX + "wailaMaxStackSize";
+    public static final String WAILA_REDSTONE_CONTROL = GUI_PREFIX + "wailaRedstoneControl";
+    public static final String WAILA_USER_FILTER = GUI_PREFIX + "wailaUserFilter";
+    public static final String WAILA_PRESETS = GUI_PREFIX + "wailaPresets";
+    public static final String WAILA_ENABLED = GUI_PREFIX + "wailaEnabled";
+    public static final String CONNECTED_DIRECTION = GUI_PREFIX + "wailaConnectedDirection";
+    public static final String ELLIPSE = GUI_PREFIX + "ellipse";
+
+    public static final String TRUE = GUI_PREFIX + "true";
+    public static final String FALSE = GUI_PREFIX + "false";
+    public static final String YES = GUI_PREFIX + "yes";
+    public static final String NO = GUI_PREFIX + "no";
+    public static final String FORMED = GUI_PREFIX + "formed";
 }

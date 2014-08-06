@@ -27,25 +27,11 @@ import net.minecraft.util.StatCollector;
 import java.util.Arrays;
 import java.util.List;
 
-public class RelocatorModuleItemDetector extends RelocatorModuleBase
+public class RelocatorModuleItemDetector extends RelocatorModuleFilter
 {
     private static IIcon[] icons = new IIcon[4];
     private static boolean emitRedstoneSignal = false;
-    private FilterStandard filter;
     private int tick = 0;
-
-    @Override
-    public void init(IItemRelocator relocator, int side)
-    {
-        filter = new FilterStandard(getFilterTile(this, relocator));
-    }
-
-    @Override
-    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
-    {
-        APIUtils.openRelocatorModuleGUI(relocator, player, side);
-        return true;
-    }
 
     @Override
     public void onUpdate(IItemRelocator relocator, int side)
@@ -59,6 +45,8 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
                 markRedstoneUpdate(relocator.getTileEntity());
             }
         }
+
+        super.onUpdate(relocator, side);
     }
 
     @Override
@@ -73,23 +61,9 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
         return true;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
-    {
-        return new GuiFiltered(getFilterTile(this, relocator));
-    }
-
-    @Override
-    public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
-    {
-        return new ContainerFiltered(getFilterTile(this, relocator));
-    }
-
-    @Override
     public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
-        if (!simulate && stack != null && filter.passesFilter(stack))
+        if (!simulate && stack != null && super.passesFilter(relocator, side, stack, input, simulate))
         {
             tick = 6;
             emitRedstoneSignal = true;
@@ -103,20 +77,6 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 9));
-    }
-
-    @Override
-    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
-        filter.readFromNBT(compound);
-        emitRedstoneSignal = compound.getBoolean("emit");
-    }
-
-    @Override
-    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
-        filter.writeToNBT(compound);
-        compound.setBoolean("emit", emitRedstoneSignal);
     }
 
     @Override
@@ -136,31 +96,6 @@ public class RelocatorModuleItemDetector extends RelocatorModuleBase
     public String getDisplayName()
     {
         return StatCollector.translateToLocal("item." + Names.relocatorModule + 9 + ".name");
-    }
-
-    private IFilterTileGUI getFilterTile(final RelocatorModuleItemDetector module, final IItemRelocator relocator)
-    {
-        return new IFilterTileGUI()
-        {
-            @Override
-            public IFilterGUI getFilter()
-            {
-                return module.filter;
-            }
-
-            @Override
-            public TileEntity getTileEntity()
-            {
-                return relocator.getTileEntity();
-            }
-
-            @Override
-            public void onFilterChanged()
-            {
-                markRedstoneUpdate(relocator.getTileEntity());
-                relocator.getTileEntity().markDirty();
-            }
-        };
     }
 
     private void markRedstoneUpdate(TileEntity relocator)

@@ -62,7 +62,7 @@ public class IOHelper
         {
             return ((IRelocator) tile).insert(itemStack, side.ordinal(), simulate);
         }
-        else if (Mods.IS_COFH_API_LOADED && tile instanceof IItemDuct)
+        else if (Mods.IS_COFH_TRANSPORT_API_LOADED && tile instanceof IItemDuct)
         {
             if (simulate)
             {
@@ -70,7 +70,7 @@ public class IOHelper
             }
             return ((IItemDuct) tile).insertItem(side, itemStack);
         }
-        if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
+        if (Mods.IS_BC_TRANSPORT_API_LOADED && tile instanceof IPipeTile)
         {
             IPipeTile pipe = (IPipeTile) tile;
             if (pipe.isPipeConnected(side))
@@ -237,16 +237,16 @@ public class IOHelper
         {
             return ((IRelocator)tile).connectsToSide(side.ordinal());
         }
-        else if (Mods.IS_COFH_API_LOADED && tile instanceof IItemDuct)
+        else if (Mods.IS_COFH_TRANSPORT_API_LOADED && tile instanceof IItemDuct)
         {
             return true;
         }
-        else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeTile)
+        else if (Mods.IS_BC_TRANSPORT_API_LOADED && tile instanceof IPipeTile)
         {
             if (((IPipeTile)tile).getPipeType() == IPipeTile.PipeType.ITEM)
                 return true;
         }
-        else if (Mods.IS_BC_TRANS_LOADED && tile instanceof IPipeConnection)
+        else if (Mods.IS_BC_TRANSPORT_API_LOADED && tile instanceof IPipeConnection)
         {
             return ((IPipeConnection)tile).overridePipeConnection(IPipeTile.PipeType.ITEM, side) != IPipeConnection.ConnectOverride.DISCONNECT;
         }
