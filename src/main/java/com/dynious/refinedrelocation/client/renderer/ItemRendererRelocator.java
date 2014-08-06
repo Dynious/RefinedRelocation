@@ -34,7 +34,7 @@ public class ItemRendererRelocator implements IItemRenderer
         {
             case ENTITY:
             {
-                render(0.0F, 0.3F, 0.0F, 0.8F, item);
+                render(0.0F, 0.3F, 0.0F, 1.0F, item);
                 return;
             }
             case EQUIPPED:
@@ -59,6 +59,7 @@ public class ItemRendererRelocator implements IItemRenderer
     public void render(float x, float y, float z, float scale, ItemStack itemStack)
     {
         GL11.glPushMatrix();
+        GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
 
         TextureUtils.bindAtlas(0);
@@ -91,6 +92,7 @@ public class ItemRendererRelocator implements IItemRenderer
         CCRenderState.draw();
 
         GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glPopAttrib();
         GL11.glPopMatrix();
     }
 }
