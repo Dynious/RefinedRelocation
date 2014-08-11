@@ -34,7 +34,7 @@ public class ItemRendererRelocator implements IItemRenderer
         {
             case ENTITY:
             {
-                render(0.0F, 0.3F, 0.0F, 1.0F, item);
+                render(0.0F, 0.3F, 0.0F, 0.8F, item);
                 return;
             }
             case EQUIPPED:
