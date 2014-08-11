@@ -149,7 +149,12 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
                     itemstack = stack;
                 }
             }
-            bufferInventory[0] = getHandler().getGrid().filterStackToGroup(itemstack, this, i, false);
+
+            if (getHandler() != null && getHandler().getGrid() != null)
+                bufferInventory[0] = getHandler().getGrid().filterStackToGroup(itemstack, this, i, false);
+            else
+                bufferInventory[0] = itemstack;
+
             if (bufferInventory[0] != null)
             {
                 syncInventory();
@@ -258,6 +263,13 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             itemList.add(ItemStack.loadItemStackFromNBT(tag));
             idList.add(tag.getInteger("oreId"));
         }
+
+        NBTTagList list = compound.getTagList("buffer", 10);
+        if (list.tagCount() > 0)
+        {
+            NBTTagCompound tag = list.getCompoundTagAt(0);
+            bufferInventory[0] = ItemStack.loadItemStackFromNBT(tag);
+        }
     }
 
     @Override
@@ -275,5 +287,14 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             nbttaglist.appendTag(tag);
         }
         compound.setTag("Items", nbttaglist);
+
+        NBTTagList list = new NBTTagList();
+        NBTTagCompound tag = new NBTTagCompound();
+        if (bufferInventory[0] != null)
+        {
+            bufferInventory[0].writeToNBT(tag);
+            list.appendTag(tag);
+        }
+        compound.setTag("buffer", list);
     }
 }

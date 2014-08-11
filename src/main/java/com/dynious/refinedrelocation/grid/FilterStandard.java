@@ -334,11 +334,14 @@ public class FilterStandard implements IFilterGUI
         for (int i = 0; i < tabLabels.length; i++)
         {
             String label = tabLabels[i];
-            for (CreativeTabs tab : CreativeTabs.creativeTabArray)
+            if (label != null)
             {
-                if (label.equalsIgnoreCase(tab.getTabLabel()))
+                for (CreativeTabs tab : CreativeTabs.creativeTabArray)
                 {
-                    tabs[i] = tab;
+                    if (label.equalsIgnoreCase(tab.getTabLabel()))
+                    {
+                        tabs[i] = tab;
+                    }
                 }
             }
             if (tabs[i] == null)
