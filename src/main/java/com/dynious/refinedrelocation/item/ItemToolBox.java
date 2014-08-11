@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
+import ic2.api.item.ElectricItem;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -20,6 +21,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,25 @@ public class ItemToolBox extends Item
 
     static
     {
-        WRENCH_CLASS_NAMES = new String[] { "ic2.core.item.tool.ItemToolWrench", "buildcraft.api.tools.IToolWrench", "appeng.api.implementations.items.IAEWrench" };
+        WRENCH_CLASS_NAMES = new String[]
+                {
+                        "ic2.core.item.tool.ItemToolWrench",
+                        "ic2.core.item.tool.ItemToolMeter",
+                        "buildcraft.api.tools.IToolWrench",
+                        "appeng.api.implementations.items.IAEWrench",
+                        "thermalexpansion.item.tool.ItemWrench",
+                        "carpentersblocks.api.ICarpentersChisel",
+                        "carpentersblocks.api.ICarpentersHammer",
+                        "com.iconmaster.aec.item.ItemAetometer",
+                        "factorization.charge.ItemChargeMeter",
+                        "mekanism.common.item.ItemConfigurator",
+                        "mekanism.common.item.ItemNetworkReader",
+                        "mrtjp.projectred.api.IScrewdriver",
+                        "com.yogpc.qp.ItemTool",
+                        "redstonearsenal.item.tool.ItemWrenchRF",
+                        "redstonearsenal.item.tool.ItemWrenchBattleRF",
+                        "aroma1997.core.items.wrench.ItemWrench"
+                };
         WRENCH_CLASSES = new ArrayList<Class<?>>();
         for (String className : WRENCH_CLASS_NAMES)
         {
@@ -105,9 +125,9 @@ public class ItemToolBox extends Item
                         {
                             ItemStack wrench = wrenches.get(i);
                             ItemStack currentWrench = getCurrentWrench(stack);
-                            String modifier = wrench == currentWrench ? "\u00A77" : ""; // If current wrench, print in grey
+                            String modifier = wrench.getUnlocalizedName().equals(currentWrench.getUnlocalizedName()) ? "\u00A7a" : ""; // If current wrench, print in grey
 
-                            wrenchText += modifier + wrench.getDisplayName() + "\u00A7r"; // reset after item name
+                            wrenchText += modifier + StringUtils.join(wrench.getDisplayName().split(" "), " " + modifier) + "\u00A7r"; // reset after item name
 
                             if (i < wrenches.size() - 1)
                                 wrenchText += ", ";
@@ -162,6 +182,16 @@ public class ItemToolBox extends Item
         {
             String modName = Mods.IS_WAILA_LOADED ? " (" + BLUE + ITALIC + ModIdentification.nameFromStack(wrench) + RESET + GRAY + ")" : "";
             list.add(wrench.getDisplayName() + modName);
+
+            wrench.getItem().addInformation(wrench, player, list, bool); // Add information from currently held wrench
+
+            if (Mods.IS_IC2_LOADED) // Add IC2 Charge meter
+            {
+                String charge = ElectricItem.manager.getToolTip(wrench);
+                if (charge != null) {
+                    list.add(charge);
+                }
+            }
         }
         String[] info = StatCollector.translateToLocal(Strings.TOOLBOX_INFO).split("\\\\n");
         for (String line : info)
