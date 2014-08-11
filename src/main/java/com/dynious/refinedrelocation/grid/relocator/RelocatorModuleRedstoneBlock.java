@@ -39,7 +39,7 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
         else
         {
             blockOnSignal = !blockOnSignal;
-            player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(blockOnSignal ? Strings.REDSTONE_BLOCK_ENABLED : Strings.REDSTONE_BLOCK_DISABLED)));
+            player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(blockOnSignal ? Strings.REDSTONE_BLOCK_ENABLED_CHAT : Strings.REDSTONE_BLOCK_DISABLED_CHAT)));
             TileRelocator.markUpdate(relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
             return true;
         }
@@ -88,5 +88,13 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
     public String getDisplayName()
     {
         return StatCollector.translateToLocal("item." + Names.relocatorModule + 7 + ".name");
+    }
+
+    @Override
+    public List<String> getWailaInformation(NBTTagCompound nbtData)
+    {
+        List<String> information = super.getWailaInformation(nbtData);
+        information.add(StatCollector.translateToLocal(nbtData.getBoolean("blockOnSignal") ? Strings.REDSTONE_BLOCK_ENABLED : Strings.REDSTONE_BLOCK_DISABLED));
+        return information;
     }
 }

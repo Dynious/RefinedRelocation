@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class RelocatorModuleBase implements IRelocatorModule
@@ -103,5 +104,12 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     public String getDisplayName()
     {
         return "";
+    }
+
+    @Override
+    public List<String> getWailaInformation(NBTTagCompound nbtData)
+    {
+        List<String> information = new ArrayList<String>();
+        return information;
     }
 }

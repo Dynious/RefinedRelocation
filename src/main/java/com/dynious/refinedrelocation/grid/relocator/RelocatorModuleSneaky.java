@@ -6,9 +6,11 @@ import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.client.gui.GuiModuleSneaky;
 import com.dynious.refinedrelocation.container.ContainerModuleSneaky;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -123,5 +125,13 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     public ForgeDirection getSide()
     {
         return ForgeDirection.getOrientation(side);
+    }
+
+    @Override
+    public List<String> getWailaInformation(NBTTagCompound nbtData)
+    {
+        List<String> information = super.getWailaInformation(nbtData);
+        information.add(StringHelper.getLocalizedString(Strings.OUTPUT_SIDE) + " " + StringHelper.getLocalizedDirection(nbtData.getByte("outputSide")));
+        return information;
     }
 }

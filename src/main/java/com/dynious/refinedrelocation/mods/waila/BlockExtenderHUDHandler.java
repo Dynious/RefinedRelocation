@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.mods.waila;
 
 import com.dynious.refinedrelocation.helper.BlockHelper;
+import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
@@ -41,7 +42,9 @@ public class BlockExtenderHUDHandler implements IWailaDataProvider
 
                 if (wirelessBlockExtender.isLinked())
                 {
-                    strings.add(StatCollector.translateToLocal(Strings.LINKED_TO) + SpecialChars.TAB + BlockHelper.getBlockDisplayName(wirelessBlockExtender.getWorldObj(), wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected) + " (" + wirelessBlockExtender.xConnected + ", " + wirelessBlockExtender.yConnected + ", " + wirelessBlockExtender.zConnected + ")");
+                    strings.add(StatCollector.translateToLocal(Strings.LINKED_TO) + SpecialChars.TAB +
+                            BlockHelper.getBlockDisplayName(wirelessBlockExtender.getWorldObj(), wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected) +
+                            " " + StringHelper.formatCoordinates(wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected));
                 }
                 else
                 {
@@ -50,7 +53,7 @@ public class BlockExtenderHUDHandler implements IWailaDataProvider
             }
             else
             {
-                if (blockExtender.getConnectedTile() != null)
+                if (blockExtender.hasConnection())
                 {
                     strings.add(StatCollector.translateToLocal(Strings.CONNECTED_TO) + SpecialChars.TAB + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()));
                 }
@@ -58,15 +61,27 @@ public class BlockExtenderHUDHandler implements IWailaDataProvider
                 {
                     strings.add(StatCollector.translateToLocal(Strings.NOT_CONNECTED));
                 }
+
+                if (blockExtender.getConnectedDirection() != ForgeDirection.UNKNOWN)
+                    strings.add(StatCollector.translateToLocal(Strings.FACING) + SpecialChars.TAB + StringHelper.getLocalizedDirection(blockExtender.getConnectedDirection()));
+
+                strings.add(StatCollector.translateToLocal(Strings.REDSTONE) + SpecialChars.TAB + getLocalizedRedstoneState(blockExtender));
             }
 
-            if (blockExtender.getConnectedDirection() != ForgeDirection.UNKNOWN)
-                strings.add(StatCollector.translateToLocal(Strings.FACING) + SpecialChars.TAB + StatCollector.translateToLocal(Strings.DIRECTION + blockExtender.getConnectedDirection().ordinal()));
-
-            if (!(blockExtender instanceof TileWirelessBlockExtender))
-                strings.add(StatCollector.translateToLocal(Strings.REDSTONE) + SpecialChars.TAB + (!blockExtender.isRedstoneTransmissionEnabled() ? StatCollector.translateToLocal(Strings.DISABLED) : blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE)));
         }
         return strings;
+    }
+
+    private static String getLocalizedRedstoneState(TileBlockExtender blockExtender)
+    {
+        if (blockExtender.isRedstoneTransmissionEnabled())
+        {
+            return blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE);
+        }
+        else
+        {
+            return StatCollector.translateToLocal(Strings.DISABLED);
+        }
     }
 
     @Override

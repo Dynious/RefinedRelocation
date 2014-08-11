@@ -10,6 +10,7 @@ import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.mods.waila.RelocatorHUDHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -26,6 +27,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -316,5 +318,27 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
     public boolean isItemValidForSlot(int par1, ItemStack par2ItemStack)
     {
         return true;
+    }
+
+    @Override
+    public List<String> getWailaInformation(NBTTagCompound nbtData)
+    {
+        List<String> information = super.getWailaInformation(nbtData);
+        List<ItemStack> stockedItemStacks = new ArrayList<ItemStack>();
+        NBTTagList nbttaglist = nbtData.getTagList("Items", 10);
+        for (int i = 0; i < nbttaglist.tagCount(); ++i)
+        {
+            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+
+            ItemStack itemStack = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+            RelocatorHUDHandler.addStack((ArrayList<ItemStack>) stockedItemStacks, itemStack);
+        }
+
+        for (ItemStack itemStack : stockedItemStacks)
+        {
+            information.add(itemStack.getDisplayName() + " x " + itemStack.stackSize);
+        }
+
+        return information;
     }
 }

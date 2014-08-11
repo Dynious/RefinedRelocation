@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.mods.waila.RelocationControllerHUDHandler;
 import com.dynious.refinedrelocation.mods.waila.RelocatorHUDHandler;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -26,6 +27,7 @@ public class TickEvent
             if (Mods.IS_WAILA_LOADED)
             {
                 RelocatorHUDHandler.tick++;
+                RelocationControllerHUDHandler.tick++;
                 if (RelocatorHUDHandler.tick == RelocatorHUDHandler.TICKS_BETWEEN_STUFFED_ITEM_UPDATE)
                 {
                     RelocatorHUDHandler.stuffedItems = null;

@@ -30,12 +30,16 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
 {
     private static IIcon icon;
     private FilterStandard filter;
+    private FilterStandard filterWaila;
     private long lastChange = -401;
+    private IItemRelocator relocator;
 
     @Override
     public void init(IItemRelocator relocator, int side)
     {
         filter = new FilterStandard(getFilterTile(this, relocator));
+        filterWaila = filter;
+        this.relocator = relocator;
     }
 
     @Override
@@ -125,5 +129,14 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleFilter");
+    }
+
+    @Override
+    public List<String> getWailaInformation(NBTTagCompound nbtData)
+    {
+        List<String> information = new ArrayList<String>();
+        filterWaila.readFromNBT(nbtData);
+        information.addAll(filterWaila.getWAILAInformation(nbtData));
+        return information;
     }
 }

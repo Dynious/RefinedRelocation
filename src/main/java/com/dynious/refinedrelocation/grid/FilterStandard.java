@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.google.common.primitives.Booleans;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
@@ -19,8 +20,11 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FilterStandard implements IFilterGUI
 {
@@ -261,6 +265,45 @@ public class FilterStandard implements IFilterGUI
     {
         this.userFilter = userFilter;
         tile.onFilterChanged();
+    }
+
+    public List<String> getWAILAInformation(NBTTagCompound nbtData)
+    {
+        List<String> filter = new ArrayList<String>();
+
+        filter.add(StringHelper.getLocalizedString(Strings.MODE) + ": " + (nbtData.getBoolean("blacklists") ? StringHelper.getLocalizedString(Strings.BLACKLIST) : StringHelper.getLocalizedString(Strings.WHITELIST)));
+
+        if (nbtData.hasKey("userFilter") && StringUtils.isNotBlank(nbtData.getString("userFilter")))
+        {
+            filter.add(StatCollector.translateToLocalFormatted(Strings.WAILA_USER_FILTER, StringUtils.abbreviate(nbtData.getString("userFilter"), 40)));
+        }
+
+        List<String> presets = new ArrayList<String>(2);
+
+        int usedPresets = 0;
+        for (int i = 0 ; i < getSize() ; i++)
+        {
+            if (usedPresets < 2) // Only show a maximum of 2 presets
+            {
+                if (getValue(i))
+                {
+                    presets.add(" " + getName(i) + (i == 1 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
+                    ++usedPresets;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (!presets.isEmpty())
+        {
+            presets.add(0, StringHelper.getLocalizedString(Strings.WAILA_PRESETS));
+            filter.addAll(presets);
+        }
+
+        return filter;
     }
 
     public void writeToNBT(NBTTagCompound compound)

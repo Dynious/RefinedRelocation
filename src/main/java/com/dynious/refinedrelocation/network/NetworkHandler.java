@@ -34,5 +34,6 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageTicksBetweenExtraction.class, MessageTicksBetweenExtraction.class, 19, Side.SERVER);
         INSTANCE.registerMessage(MessageExtractOnRedstoneSignal.class, MessageExtractOnRedstoneSignal.class, 20, Side.SERVER);
         INSTANCE.registerMessage(MessageModuleMaxStackSize.class, MessageModuleMaxStackSize.class, 21, Side.SERVER);
+        INSTANCE.registerMessage(MessageRedstoneToggle.class, MessageRedstoneToggle.class, 22, Side.SERVER);
     }
 }

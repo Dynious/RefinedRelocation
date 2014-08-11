@@ -6,10 +6,12 @@ import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.client.gui.GuiModuleExtraction;
 import com.dynious.refinedrelocation.container.ContainerModuleExtraction;
 import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Settings;
+import com.dynious.refinedrelocation.lib.Strings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -249,5 +251,14 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     public void registerIcons(IIconRegister register)
     {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleExtraction");
+    }
+
+    @Override
+    public List<String> getWailaInformation(NBTTagCompound nbtData)
+    {
+        List<String> information = new ArrayList<String>();
+        information.add(StatCollector.translateToLocalFormatted(Strings.WAILA_MAX_STACK_SIZE, nbtData.getInteger("maxExtractionStackSize")));
+        information.add(StatCollector.translateToLocalFormatted(Strings.WAILA_REDSTONE_CONTROL, StringHelper.getLocalizedString(Strings.MODULE_REDSTONE_CONTROL + nbtData.getInteger("redstoneControlState"))));
+        return information;
     }
 }

@@ -118,9 +118,27 @@ gui.refinedrelocation.moduleRedstoneControl0=Always Active
 gui.refinedrelocation.moduleRedstoneControl1=Active without a redstone signal
 gui.refinedrelocation.moduleRedstoneControl2=Active with a redstone signal
 gui.refinedrelocation.moduleRedstoneControl3=Active on redstone pulse
+gui.refinedrelocation.formed=Multiblock Correctly Built
+gui.refinedrelocation.notFormed=Multiblock Not Correctly Built
+gui.refinedrelocation.locked=Locked: %s
+gui.refinedrelocation.formed=Formed: %s
+gui.refinedrelocation.outputSide=Output Side:
+gui.refinedrelocation.wailaRedstoneControl=Redstone Control: %s
+gui.refinedrelocation.wailaUserFilter=User Filter: %s
+gui.refinedrelocation.wailaPresets=Presets:
+gui.refinedrelocation.wailaConnectedDirection=Direction Connected: %s
+gui.refinedrelocation.wailaPowerThroughput=Maximum Power Throughput: %d (%s)
+gui.refinedrelocation.wailaEnabled=Enabled: %s
+gui.refinedrelocation.wailaMaxStackSize=Max Stack Size: %d
+gui.refinedrelocation.ellipse=...
+gui.refinedrelocation.true=True
+gui.refinedrelocation.false=False
+gui.refinedrelocation.yes=Yes
+gui.refinedrelocation.no=No
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)
+itemDesc.refinedrelocation.linked=Linked: %s
 itemDesc.refinedrelocation.unlinked=Unlinked
 itemDesc.refinedrelocation.disguisedAs=Disguised %s as: %s
 itemDesc.refinedrelocation.cannotDisguiseAs=Can not disguise as: %s
@@ -163,8 +181,10 @@ filterName.refinedrelocation.filterPlants=All Plants
 filterName.refinedrelocation.filterFuel=All Fuel
 
 #Relocator Localizations
-relocatorModule.refinedrelocation.redstoneBlockEnabled=Toggled mode, now blocks items on redstone signal.
-relocatorModule.refinedrelocation.redstoneBlockDisabled=Toggled mode, now allows items through on redstone signal.
+relocatorModule.refinedrelocation.redstoneBlockEnabled=Blocking items on signal
+relocatorModule.refinedrelocation.redstoneBlockDisabled=Allowing items through on signal
+relocatorModule.refinedrelocation.redstoneBlockEnabledChat=Toggled mode, now blocks items on redstone signal.
+relocatorModule.refinedrelocation.redstoneBlockDisabledChat=Toggled mode, now allows items through on redstone signal.
 
 relocatorStuffed.refinedrelocation.stuffed=Stuffed:
 
