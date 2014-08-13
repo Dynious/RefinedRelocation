@@ -15,6 +15,7 @@ import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.gui.GuiScreen;
@@ -92,7 +93,8 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public void onPartChanged(TMultiPart part)
     {
-        relocator.onBlocksChanged();
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer())
+            relocator.onBlocksChanged();
     }
 
     @Override

@@ -400,6 +400,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void onBlocksChanged()
     {
+        if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+            return;
+        
         inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
         relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
 
@@ -789,7 +792,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
         calculateRenderType();
         modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
-        readModules(pkt.func_148857_g());
+        readModules(tag);
 
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
@@ -823,11 +826,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             byte place = nbttagcompound1.getByte("place");
-            IRelocatorModule filter = RelocatorModuleRegistry.getModule(nbttagcompound1.getString("clazzIdentifier"));
-            if (filter != null)
+            IRelocatorModule module = RelocatorModuleRegistry.getModule(nbttagcompound1.getString("clazzIdentifier"));
+            if (module != null)
             {
-                filter.init(this, place);
-                modules[place] = filter;
+                module.init(this, place);
+                modules[place] = module;
                 modules[place].readFromNBT(this, i, nbttagcompound1);
             }
         }
