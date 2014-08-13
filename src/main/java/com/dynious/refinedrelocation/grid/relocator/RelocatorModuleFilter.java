@@ -38,7 +38,6 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     public void init(IItemRelocator relocator, int side)
     {
         filter = new FilterStandard(getFilterTile(this, relocator));
-        filterWaila = filter;
         this.relocator = relocator;
     }
 
@@ -134,6 +133,10 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     @Override
     public List<String> getWailaInformation(NBTTagCompound nbtData)
     {
+        if (filterWaila == null)
+        {
+            filterWaila = new FilterStandard(getFilterTile(this, relocator));
+        }
         List<String> information = new ArrayList<String>();
         filterWaila.readFromNBT(nbtData);
         information.addAll(filterWaila.getWAILAInformation(nbtData));

@@ -278,8 +278,6 @@ public class FilterStandard implements IFilterGUI
             filter.add(StatCollector.translateToLocalFormatted(Strings.WAILA_USER_FILTER, StringUtils.abbreviate(nbtData.getString("userFilter"), 40)));
         }
 
-        List<String> presets = new ArrayList<String>(2);
-
         int usedPresets = 0;
         for (int i = 0 ; i < getSize() ; i++)
         {
@@ -287,7 +285,7 @@ public class FilterStandard implements IFilterGUI
             {
                 if (getValue(i))
                 {
-                    presets.add(" " + getName(i) + (i == 1 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
+                    filter.add(" " + getName(i) + (i == 1 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
                     ++usedPresets;
                 }
             }
@@ -296,13 +294,6 @@ public class FilterStandard implements IFilterGUI
                 break;
             }
         }
-
-        if (!presets.isEmpty())
-        {
-            presets.add(0, StringHelper.getLocalizedString(Strings.WAILA_PRESETS));
-            filter.addAll(presets);
-        }
-
         return filter;
     }
 

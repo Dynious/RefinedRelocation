@@ -152,7 +152,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         {
             if (!wailaLine.isEmpty())
             {
-                String[] indentedLines = WordUtils.wrap(wailaLine, 40).split("\\n");
+                String[] indentedLines = WordUtils.wrap(wailaLine, 40, "\n", true).split("\\n");
                 for (int j = 0 ; j < indentedLines.length ; j++)
                 {
                     indentedLines[j] = SpecialChars.TAB + indentedLines[j];
