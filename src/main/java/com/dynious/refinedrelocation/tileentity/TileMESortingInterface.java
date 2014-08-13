@@ -4,6 +4,9 @@ import appeng.api.AEApi;
 import appeng.api.config.*;
 import appeng.api.networking.*;
 import appeng.api.networking.events.MENetworkCellArrayUpdate;
+import appeng.api.networking.events.MENetworkChannelsChanged;
+import appeng.api.networking.events.MENetworkEventSubscribe;
+import appeng.api.networking.events.MENetworkPowerStatusChange;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.networking.storage.IStorageGrid;
@@ -33,6 +36,8 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     private BaseActionSource mySrc = new MachineSource(this);
     private NBTTagCompound data;
     private boolean isReady = false;
+    private boolean wasReady = false;
+    private IItemList<IAEItemStack> cachedItemList = AEApi.instance().storage().createItemList();
 
     @Override
     public void updateEntity()
@@ -43,9 +48,8 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
             if (!isReady)
             {
                 isReady = true;
-                getGridNode(null);
-                updateStorage();
                 getGridNode(null).getGrid().postEvent(new MENetworkCellArrayUpdate());
+                updateStorage();
             }
         }
     }
@@ -71,12 +75,10 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         ItemStack stack = aeItemStack.getItemStack();
         ItemStack returnedStack = null;
         int amount;
-        System.out.println(aeItemStack.getStackSize());
         while(aeItemStack.getStackSize() > 0 && returnedStack == null)
         {
             amount = (int) Math.min(64, aeItemStack.getStackSize());
             stack.stackSize = amount;
-            System.out.println(actionable);
             returnedStack = getHandler().getGrid().filterStackToGroup(stack, this, 0, actionable != Actionable.MODULATE);
             if (returnedStack != null)
             {
@@ -120,6 +122,8 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
 
     public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> aeItemStacks)
     {
+        //TODO: Check with cache!!
+
         for (LocalizedStack stack : getHandler().getGrid().getItemsInGrid())
         {
             aeItemStacks.add(AEApi.instance().storage().createItemStack(stack.STACK));
@@ -294,6 +298,27 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         updateStorage();
     }
 
+    @MENetworkEventSubscribe
+    public void powerRender(MENetworkPowerStatusChange c)
+    {
+        updateStatus();
+    }
+
+    @MENetworkEventSubscribe
+    public void updateChannels(MENetworkChannelsChanged chann)
+    {
+        updateStatus();
+    }
+
+    private void updateStatus()
+    {
+        if (node.isActive() && !wasReady)
+        {
+            wasReady = true;
+            getGridNode(null).getGrid().postEvent(new MENetworkCellArrayUpdate());
+        }
+    }
+
     private static class SortingInventoryHandler implements IMEInventoryHandler<IAEItemStack>
     {
         private TileMESortingInterface tile;
@@ -348,6 +373,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         @Override
         public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> iItemList)
         {
+            System.out.println("Getting Available Items!");
             return tile.getAvailableItems(iItemList);
         }
 
