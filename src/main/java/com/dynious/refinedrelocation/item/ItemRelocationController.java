@@ -20,6 +20,6 @@ public class ItemRelocationController extends ItemBlock
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
     {
-        list.add(StatCollector.translateToLocalFormatted(Strings.REL_CONT_DESC, 3, 4, 3));
+        list.add(StatCollector.translateToLocal(Strings.REL_CONT_DESC));
     }
 }

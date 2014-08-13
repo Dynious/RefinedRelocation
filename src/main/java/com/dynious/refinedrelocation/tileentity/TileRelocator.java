@@ -402,7 +402,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if(FMLCommonHandler.instance().getEffectiveSide().isClient())
             return;
-        
+
         inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
         relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
 
