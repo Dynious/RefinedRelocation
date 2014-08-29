@@ -126,8 +126,8 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
                 if (IOHelper.canExtractItemFromInventory(inventory, stack, slot, extractionSide))
                 {
                     ItemStack stackCopy = stack.copy();
-                    int returnedStackExtra = stackCopy.stackSize - maxExtractionStackSize;
                     stackCopy.stackSize = Math.min(maxExtractionStackSize, stackCopy.stackSize);
+                    int returnedStackExtra = stack.stackSize - stackCopy.stackSize;
 
                     ItemStack returnedStack = relocator.insert(stackCopy, connectedSide, false);
 
