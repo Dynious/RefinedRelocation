@@ -139,7 +139,8 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
                         }
                         else if (returnedStackExtra > 0)
                         {
-                            returnedStack = new ItemStack(stackCopy.getItem(), returnedStackExtra);
+                            returnedStack = stackCopy;
+                            returnedStack.stackSize = returnedStackExtra;
                         }
                         inventory.setInventorySlotContents(slot, returnedStack);
                     }
