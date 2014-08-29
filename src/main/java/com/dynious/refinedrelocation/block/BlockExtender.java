@@ -108,7 +108,6 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                     TileWirelessBlockExtender wirelessTile = (TileWirelessBlockExtender) tile;
                     if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker)
                     {
-                        final String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
                         if (player.getCurrentEquippedItem().hasTagCompound())
                         {
                             NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
@@ -122,6 +121,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                                 wirelessTile.setLink(tileX, tileY, tileZ);
                                 if (world.isRemote)
                                 {
+                                    String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
                                     player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH,
                                             tileDisplayName, blockDisplayName, tileX, tileY, tileZ)));
                                 }
@@ -130,6 +130,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                             {
                                 if (world.isRemote)
                                 {
+                                    String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
                                     player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.TOO_FAR,
                                             tileDisplayName, Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)));
                                 }
@@ -140,6 +141,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                             wirelessTile.clearLink();
                             if (world.isRemote)
                             {
+                                String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
                                 player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED,
                                         tileDisplayName)));
                             }
