@@ -38,7 +38,8 @@ public class ModItems
         GameRegistry.registerItem(toolBox, Names.toolbox);
 
         GameRegistry.addShapedRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Items.iron_ingot, 'r', Items.redstone, 'e', Items.ender_pearl);
-        GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade), "g g", " p ", "g g", 'g', Items.gold_ingot, 'p', Blocks.glass_pane);
+        GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade, 1, 0), "g g", " p ", "g g", 'g', Items.gold_ingot, 'p', Blocks.glass_pane);
+        GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade, 1, 1), "g g", " p ", "g g", 'g', Items.gold_nugget, 'p', Blocks.glass_pane);
 
         if (!Settings.DISABLE_PLAYER_RELOCATOR)
         {
