@@ -16,17 +16,21 @@ import appeng.api.storage.data.IItemList;
 import appeng.api.util.AECableType;
 import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
+import appeng.core.sync.GuiBridge;
+import appeng.helpers.IPriorityHost;
+import appeng.util.Platform;
 import com.dynious.refinedrelocation.api.tileentity.IInventoryChangeListener;
 import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.*;
 
-public class TileMESortingInterface extends TileSortingConnector implements ICellContainer, IGridBlock, IInventoryChangeListener
+public class TileMESortingInterface extends TileSortingConnector implements ICellContainer, IGridBlock, IInventoryChangeListener, IPriorityHost
 {
     private IGridNode node = null;
     private IMEInventoryHandler<IAEItemStack> handler;
@@ -36,6 +40,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     private boolean wasActive = false;
     private boolean shouldUpdateStorage = true;
     private IItemList<IAEItemStack> cachedItemList = AEApi.instance().storage().createItemList();
+    private int priority = 0;
 
     @Override
     public void updateEntity()
@@ -56,15 +61,24 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         }
     }
 
+    @Override
+    public boolean onActivated(EntityPlayer player, int side)
+    {
+        if (!worldObj.isRemote)
+        {
+            Platform.openGUI(player, this, ForgeDirection.getOrientation(side), GuiBridge.GUI_PRIORITY);
+            return true;
+        }
+        return false;
+    }
+
     private void updateStorage()
     {
-        System.out.println("Update!");
         List<LocalizedStack> currentStacks = getHandler().getGrid().getItemsInGrid();
         IItemList<IAEItemStack> tempItemList = AEApi.instance().storage().createItemList();
 
         for (IAEItemStack stack : cachedItemList)
         {
-            System.out.println("Cache: " + stack.getItemStack());
             tempItemList.add(stack.copy());
         }
 
@@ -95,7 +109,6 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
 
         for (IAEItemStack stack : tempItemList)
         {
-            System.out.println("TempList: " + stack.getItemStack());
             stack.setStackSize(-stack.getStackSize());
             if (stack.getStackSize() < 0)
                 removeStackFromCache(stack);
@@ -106,7 +119,6 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
 
         for (LocalizedStack stack : currentStacks)
         {
-            System.out.println("New: " + stack.STACK);
             IAEItemStack aeStack = AEApi.instance().storage().createItemStack(stack.STACK);
             cachedItemList.add(aeStack);
             storage.postAlterationOfStoredItems(StorageChannel.ITEMS, aeStack, mySrc);
@@ -139,6 +151,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
 
     public IAEItemStack injectItems(IAEItemStack aeItemStack, Actionable actionable, BaseActionSource baseActionSource)
     {
+        System.out.println(aeItemStack.getStackSize());
         ItemStack stack = aeItemStack.getItemStack();
         ItemStack returnedStack = null;
         int amount;
@@ -302,6 +315,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
+        priority = compound.getInteger("priority");
         data = compound;
     }
 
@@ -309,6 +323,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
+        compound.setInteger("priority", priority);
         node.saveToNBT("node", compound);
     }
 
@@ -349,7 +364,13 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     @Override
     public int getPriority()
     {
-        return 0;
+        return priority;
+    }
+
+    @Override
+    public void setPriority(int priority)
+    {
+        this.priority = priority;
     }
 
     @Override
@@ -409,7 +430,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         @Override
         public boolean isPrioritized(IAEItemStack iaeStack)
         {
-            return false;
+            return true;
         }
 
         @Override

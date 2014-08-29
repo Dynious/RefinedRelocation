@@ -31,7 +31,7 @@ import java.util.List;
 
 public class BlockSortingConnector extends BlockContainer
 {
-    private IIcon[] icons = new IIcon[3];
+    private IIcon[] icons = new IIcon[4];
     private IIcon[] interfaceTextures = new IIcon[2];
 
     public BlockSortingConnector()
@@ -88,15 +88,9 @@ public class BlockSortingConnector extends BlockContainer
         else
         {
             TileEntity tile = world.getTileEntity(x, y, z);
-            if (tile instanceof TileSortingInterface)
+            if (tile instanceof TileSortingConnector)
             {
-                APIUtils.openFilteringGUI(player, world, x, y, z);
-                return true;
-            }
-            else if (tile instanceof TileSortingImporter)
-            {
-                ((TileSortingImporter)tile).onRightClick(player);
-                return true;
+                return ((TileSortingConnector)tile).onActivated(player, par6);
             }
         }
         return false;
@@ -167,7 +161,6 @@ public class BlockSortingConnector extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        icons = new IIcon[3];
         for (int i = 0; i < icons.length; i++)
         {
             icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + i);

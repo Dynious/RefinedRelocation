@@ -31,6 +31,17 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     private Priority priority = Priority.NORMAL;
 
     @Override
+    public boolean onActivated(EntityPlayer player, int side)
+    {
+        if (!worldObj.isRemote)
+        {
+            APIUtils.openFilteringGUI(player, worldObj, xCoord, yCoord, zCoord);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public ISortingInventoryHandler getHandler()
     {
         return sortingHandler;

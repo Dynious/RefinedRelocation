@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -17,6 +18,11 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
 
     public Block blockDisguisedAs = null;
     public int blockDisguisedMetadata = 0;
+
+    public boolean onActivated(EntityPlayer player, int side)
+    {
+        return false;
+    }
 
     @Override
     public boolean canDisguise()

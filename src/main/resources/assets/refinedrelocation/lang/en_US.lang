@@ -19,6 +19,7 @@ tile.sortingIronChest7.name=DirtChest 9001!
 tile.sortingConnector0.name=Sorting Connector
 tile.sortingConnector1.name=Sorting Interface
 tile.sortingConnector2.name=Sorting Importer
+tile.sortingConnector3.name=ME Sorting Interface
 tile.filteringHopper.name=Filtering Hopper
 tile.sortingBarrel.name=Sorting Barrel
 tile.relocationController.name=Relocation Controller

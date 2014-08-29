@@ -22,11 +22,16 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     private ItemStack lastAddedStack;
     protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
 
-    public void onRightClick(EntityPlayer player)
+    @Override
+    public boolean onActivated(EntityPlayer player, int side)
     {
+        if (worldObj.isRemote)
+            return true;
+
         if (player.isSneaking() || player.getHeldItem() == null)
         {
             GuiHelper.openGui(player, this);
+            return true;
         }
         else if (bufferInventory[0] == null)
         {
@@ -53,7 +58,9 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             }
             lastClickTime = worldObj.getWorldTime();
             */
+            return true;
         }
+        return false;
     }
 
     @Override
