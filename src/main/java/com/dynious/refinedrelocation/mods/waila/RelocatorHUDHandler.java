@@ -96,31 +96,34 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         {
             NBTTagList moduleList = getModuleTagList(iWailaDataAccessor);
 
-            ArrayList<String> allModuleInformation = new ArrayList<String>();
-            for (int i = 0 ; i < moduleList.tagCount() ; i++)
+            if (moduleList != null)
             {
-                NBTTagCompound moduleCompound = moduleList.getCompoundTagAt(i);
-                if (moduleCompound.getByte("place") == side)
+                ArrayList<String> allModuleInformation = new ArrayList<String>();
+                for (int i = 0; i < moduleList.tagCount(); i++)
                 {
-                    IRelocatorModule module = RelocatorModuleRegistry.getModule(moduleCompound.getString("clazzIdentifier"));
-                    if (module instanceof RelocatorMultiModule)
+                    NBTTagCompound moduleCompound = moduleList.getCompoundTagAt(i);
+                    if (moduleCompound.getByte("place") == side)
                     {
-                        allModuleInformation.add(module.getDisplayName());
-                        List<List<String>> moduleInformationList = ((RelocatorMultiModule) module).getModuleInformation(moduleCompound);
-                        for (List<String> moduleInformation : moduleInformationList)
+                        IRelocatorModule module = RelocatorModuleRegistry.getModule(moduleCompound.getString("clazzIdentifier"));
+                        if (module instanceof RelocatorMultiModule)
                         {
+                            allModuleInformation.add(module.getDisplayName());
+                            List<List<String>> moduleInformationList = ((RelocatorMultiModule) module).getModuleInformation(moduleCompound);
+                            for (List<String> moduleInformation : moduleInformationList)
+                            {
+                                addModuleInformation(allModuleInformation, moduleInformation);
+                            }
+                        }
+                        else
+                        {
+                            List<String> moduleInformation = module.getWailaInformation(moduleList.getCompoundTagAt(i));
+                            allModuleInformation.add(module.getDisplayName());
                             addModuleInformation(allModuleInformation, moduleInformation);
                         }
                     }
-                    else
-                    {
-                        List<String> moduleInformation = module.getWailaInformation(moduleList.getCompoundTagAt(i));
-                        allModuleInformation.add(module.getDisplayName());
-                        addModuleInformation(allModuleInformation, moduleInformation);
-                    }
                 }
+                strings.addAll(allModuleInformation);
             }
-            strings.addAll(allModuleInformation);
 
             List<String> stuffedStrings = new ArrayList<String>();
             for (ItemStack stack : getItemStacks(iWailaDataAccessor, side))
@@ -182,23 +185,28 @@ public class RelocatorHUDHandler implements IWailaDataProvider
 
         NBTTagCompound compound = getCompound(iWailaDataAccessor);
 
-        ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
-        if (compound.hasKey("StuffedItems"))
+        if (compound != null)
         {
-            NBTTagList nbttaglist = compound.getTagList("StuffedItems", 10);
-            for (int x = 0 ; x < nbttaglist.tagCount() ; x++)
+            ArrayList<ItemStack> itemStacks = new ArrayList<ItemStack>();
+            if (compound.hasKey("StuffedItems"))
             {
-                NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(x);
-                byte stackSide = nbttagcompound1.getByte("Side");
-                if (stackSide == side)
+                NBTTagList nbttaglist = compound.getTagList("StuffedItems", 10);
+                for (int x = 0; x < nbttaglist.tagCount(); x++)
                 {
-                    addStack(itemStacks, ItemStack.loadItemStackFromNBT(nbttagcompound1));
+                    NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(x);
+                    byte stackSide = nbttagcompound1.getByte("Side");
+                    if (stackSide == side)
+                    {
+                        addStack(itemStacks, ItemStack.loadItemStackFromNBT(nbttagcompound1));
+                    }
                 }
             }
-        }
 
-        stuffedItems = itemStacks;
-        return itemStacks;
+
+            stuffedItems = itemStacks;
+            return itemStacks;
+        }
+        return new ArrayList<ItemStack>();
     }
 
     private NBTTagCompound getCompound(IWailaDataAccessor iWailaDataAccessor)
@@ -235,8 +243,11 @@ public class RelocatorHUDHandler implements IWailaDataProvider
     private NBTTagList getModuleTagList(IWailaDataAccessor iWailaDataAccessor)
     {
         NBTTagCompound relocatorCompound = getCompound(iWailaDataAccessor);
-        NBTTagList modules = relocatorCompound.getTagList("modules", 10);
-        return modules;
+        if (relocatorCompound != null)
+        {
+            return relocatorCompound.getTagList("modules", 10);
+        }
+        return null;
     }
 
     IRelocator getTileEntity(IWailaDataAccessor iWailaDataAccessor)
