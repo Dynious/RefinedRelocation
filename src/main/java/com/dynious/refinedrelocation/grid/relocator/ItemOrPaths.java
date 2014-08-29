@@ -2,17 +2,17 @@ package com.dynious.refinedrelocation.grid.relocator;
 
 import java.util.List;
 
-public class ItemOrPath
+public class ItemOrPaths
 {
     public List<PathToRelocator> PATHS;
     public TravellingItem ITEM;
 
-    public ItemOrPath(List<PathToRelocator> paths)
+    public ItemOrPaths(List<PathToRelocator> paths)
     {
         this.PATHS = paths;
     }
 
-    public ItemOrPath(TravellingItem item)
+    public ItemOrPaths(TravellingItem item)
     {
         this.ITEM = item;
     }

@@ -20,34 +20,34 @@ public class RelocatorGridLogic
         PathToRelocator path = new PathToRelocator(relocator, new ArrayList<Byte>(Arrays.asList((byte) side)));
 
         //Try to output
-        ItemOrPath itemOrPath = tryOutputAndReturnConnections(itemStack, path, side);
+        ItemOrPaths itemOrPaths = tryOutputAndReturnConnections(itemStack, path, null, side);
         //If an output was found the to-be-checked list is null, now return the travellingItem
-        if (itemOrPath.ITEM != null)
+        if (itemOrPaths.ITEM != null)
         {
             checkedRelocators.clear();
-            return itemOrPath.ITEM;
+            return itemOrPaths.ITEM;
         }
 
         //While to list of to-be-checked uncheckedRelocators is not empty go on
-        while (!itemOrPath.PATHS.isEmpty())
+        while (!itemOrPaths.PATHS.isEmpty())
         {
-            for (ListIterator<PathToRelocator> iterator = itemOrPath.PATHS.listIterator(); iterator.hasNext(); )
+            for (ListIterator<PathToRelocator> iterator = itemOrPaths.PATHS.listIterator(); iterator.hasNext(); )
             {
                 PathToRelocator pathToRelocator = iterator.next();
                 //Try to output
-                ItemOrPath itemOrPath2 = tryOutputAndReturnConnections(itemStack, pathToRelocator, -1);
+                ItemOrPaths itemOrPaths2 = tryOutputAndReturnConnections(itemStack, pathToRelocator, itemOrPaths, -1);
                 //If an output was found the to-be-checked list is null, now return the travellingItem
-                if (itemOrPath2.ITEM != null)
+                if (itemOrPaths2.ITEM != null)
                 {
                     checkedRelocators.clear();
-                    return itemOrPath2.ITEM;
+                    return itemOrPaths2.ITEM;
                 }
 
                 //Remove the current checked Relocator and Path to it
                 iterator.remove();
 
                 //Add all connected Relocators and the Path to it
-                for (PathToRelocator path2 : itemOrPath2.PATHS)
+                for (PathToRelocator path2 : itemOrPaths2.PATHS)
                     iterator.add(path2);
             }
         }
@@ -56,24 +56,24 @@ public class RelocatorGridLogic
     }
 
     @SuppressWarnings("unchecked")
-    private static ItemOrPath tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, int excludedOutputSide)
+    private static ItemOrPaths tryOutputAndReturnConnections(ItemStack itemStack, PathToRelocator path, ItemOrPaths currentPaths, int excludedOutputSide)
     {
         //Try to output the stack to the connected Tiles
         TravellingItem item = tryToOutput(itemStack, path, excludedOutputSide);
         //If something could be outputted set the travellingItem to the found item and return null (stop searching)
         if (item != null)
         {
-            return new ItemOrPath(item);
+            return new ItemOrPaths(item);
         }
         //Add the Relocator to the checked list, this Relocator will not be checked again if found
         checkedRelocators.add(path.RELOCATOR.getTileEntity());
 
         //Make a new list of the connected Relocators
-        List<PathToRelocator> uncheckedRelocators =  new ArrayList<PathToRelocator>();
+        List<PathToRelocator> uncheckedRelocators = new ArrayList<PathToRelocator>();
         for (int i = 0; i < path.RELOCATOR.getConnectedRelocators().length; i++)
         {
             IRelocator relocator1 = path.RELOCATOR.getConnectedRelocators()[i];
-            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && path.RELOCATOR.passesFilter(itemStack, i, false, true) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i], true, true))
+            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && (currentPaths == null || !doesListContainTile(currentPaths.PATHS, relocator1.getTileEntity())) && path.RELOCATOR.passesFilter(itemStack, i, false, true) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i], true, true))
             {
                 //Clone the path to the connected Relocator and add the new side to it
                 ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
@@ -82,7 +82,7 @@ public class RelocatorGridLogic
                 uncheckedRelocators.add(new PathToRelocator(relocator1, newP));
             }
         }
-        return new ItemOrPath(uncheckedRelocators);
+        return new ItemOrPaths(uncheckedRelocators);
     }
 
     @SuppressWarnings("unchecked")
@@ -128,5 +128,15 @@ public class RelocatorGridLogic
             }
         }
         return null;
+    }
+
+    public static boolean doesListContainTile(List<PathToRelocator> uncheckedRelocators, TileEntity tile)
+    {
+        for (PathToRelocator path : uncheckedRelocators)
+        {
+            if (path.RELOCATOR.getTileEntity() == tile)
+                return true;
+        }
+        return false;
     }
 }
