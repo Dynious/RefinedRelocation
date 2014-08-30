@@ -151,25 +151,25 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
 
     public IAEItemStack injectItems(IAEItemStack aeItemStack, Actionable actionable, BaseActionSource baseActionSource)
     {
-        System.out.println(aeItemStack.getStackSize());
-        ItemStack stack = aeItemStack.getItemStack();
+        IAEItemStack aeItemStack1 = aeItemStack.copy();
+        ItemStack stack = aeItemStack1.getItemStack();
         ItemStack returnedStack = null;
         int amount;
-        while(aeItemStack.getStackSize() > 0 && returnedStack == null)
+        while(aeItemStack1.getStackSize() > 0 && returnedStack == null)
         {
-            amount = (int) Math.min(64, aeItemStack.getStackSize());
+            amount = (int) Math.min(64, aeItemStack1.getStackSize());
             stack.stackSize = amount;
             returnedStack = getHandler().getGrid().filterStackToGroup(stack, this, 0, actionable != Actionable.MODULATE);
             if (returnedStack != null)
             {
                 amount -= returnedStack.stackSize;
             }
-            aeItemStack.setStackSize(aeItemStack.getStackSize() - amount);
+            aeItemStack1.setStackSize(aeItemStack1.getStackSize() - amount);
         }
-        if (aeItemStack.getStackSize() == 0)
+        if (aeItemStack1.getStackSize() == 0)
             return null;
 
-        return aeItemStack;
+        return aeItemStack1;
     }
 
     public IAEItemStack extractItems(IAEItemStack aeItemStack, Actionable actionable, BaseActionSource baseActionSource)
@@ -203,8 +203,17 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
                 }
             }
         }
-        aeItemStack.setStackSize(extracted);
-        return aeItemStack;
+
+        if (extracted == 0)
+        {
+            return null;
+        }
+        else
+        {
+            IAEItemStack aeItemStack1 = aeItemStack.copy();
+            aeItemStack1.setStackSize(extracted);
+            return aeItemStack1;
+        }
     }
 
     public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> aeItemStacks)
