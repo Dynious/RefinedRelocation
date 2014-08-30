@@ -53,7 +53,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
                 isReady = true;
                 getGridNode(null).getGrid().postEvent(new MENetworkCellArrayUpdate());
             }
-            if (shouldUpdateStorage)
+            if (node.isActive() && shouldUpdateStorage)
             {
                 shouldUpdateStorage = false;
                 updateStorage();

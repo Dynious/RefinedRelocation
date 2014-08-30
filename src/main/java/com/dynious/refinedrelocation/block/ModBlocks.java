@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.item.*;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Settings;
+import com.dynious.refinedrelocation.mods.AE2Helper;
 import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.JabbaHelper;
@@ -120,6 +121,11 @@ public class ModBlocks
             ModObjects.relocator = new ItemStack(relocator);
             GameRegistry.registerBlock(relocator, Names.relocator);
             GameRegistry.addShapedRecipe(new ItemStack(relocator, 4, 0), "igi", "g g", "igi", 'i', Items.iron_ingot, 'g', Blocks.glass_pane);
+        }
+
+        if (Mods.IS_AE2_LOADED)
+        {
+            AE2Helper.addAERecipes();
         }
     }
 }
