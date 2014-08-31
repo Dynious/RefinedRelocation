@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.0.6b",
-			"changeLog":"Added more WAILA integration, upgraded toolbox and fixed bugs",
-			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2211521/download"
+			"modVersion":"1.0.6c",
+			"changeLog":"Added ME Sorting Interface; AE2 integration! Fixed bugs, lowered cost Barrel upgrade.",
+			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2213150/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
