@@ -159,7 +159,7 @@ public class BlockRelocator extends BlockContainer
     }
 
     @Override
-    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest)
     {
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
@@ -173,7 +173,7 @@ public class BlockRelocator extends BlockContainer
                 }
             }
         }
-        return super.removedByPlayer(world, player, x, y, z);
+        return super.removedByPlayer(world, player, x, y, z, willHarvest);
     }
 
     @Override
