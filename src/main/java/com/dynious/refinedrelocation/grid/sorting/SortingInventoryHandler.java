@@ -61,7 +61,7 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
     @Override
     public void onInventoryChange()
     {
-        if (!getOwner().getWorldObj().isRemote)
+        if (getGrid() != null && !getOwner().getWorldObj().isRemote)
             getGrid().onInventoryChange();
     }
 }
