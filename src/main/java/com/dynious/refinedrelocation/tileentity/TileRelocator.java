@@ -889,7 +889,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
         if (connectsToSide(side) && passesFilter(itemStack, side, true, true))
         {
-            cachedTravellingItem = RelocatorGridLogic.findOutput(itemStack, this, side);
+            cachedTravellingItem = RelocatorGridLogic.findOutput(itemStack.copy(), this, side);
             if (cachedTravellingItem != null)
             {
                 maxStackSize = cachedTravellingItem.getStackSize();
@@ -935,20 +935,26 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         if (itemstack == null || itemstack.stackSize == 0)
             return;
 
-        if (cachedTravellingItem != null && side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemstack))
+        ItemStack itemStackCopy = itemstack.copy();
+
+        if (cachedTravellingItem != null && side == cachedTravellingItem.input && cachedTravellingItem.isItemSameAs(itemStackCopy))
         {
-            itemstack.stackSize -= cachedTravellingItem.getStackSize();
+            if (cachedTravellingItem.getStackSize() > itemStackCopy.stackSize)
+            {
+                cachedTravellingItem.getItemStack().stackSize = itemStackCopy.stackSize;
+            }
+            itemStackCopy.stackSize -= cachedTravellingItem.getStackSize();
             receiveTravellingItem(cachedTravellingItem);
         }
-        if (itemstack.stackSize > 0)
+        if (itemStackCopy.stackSize > 0)
         {
-            TravellingItem travellingItem = RelocatorGridLogic.findOutput(itemstack.copy(), this, side);
+            TravellingItem travellingItem = RelocatorGridLogic.findOutput(itemStackCopy.copy(), this, side);
             if (travellingItem != null)
             {
-                itemstack.stackSize -= travellingItem.getStackSize();
-                if (itemstack.stackSize > 0)
+                itemStackCopy.stackSize -= travellingItem.getStackSize();
+                if (itemStackCopy.stackSize > 0)
                 {
-                    travellingItem.getItemStack().stackSize += itemstack.stackSize;
+                    travellingItem.getItemStack().stackSize += itemStackCopy.stackSize;
                 }
                 receiveTravellingItem(travellingItem);
             }
@@ -956,7 +962,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 TileEntity tile = DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(side));
                 LogHelper.warning(String.format("%s at %s:%s:%s inserted ItemStack wrongly into Relocator!!", BlockHelper.getTileEntityDisplayName(tile), tile.xCoord, tile.yCoord, tile.zCoord));
-                IOHelper.spawnItemInWorld(worldObj, itemstack, xCoord, yCoord, zCoord);
+                IOHelper.spawnItemInWorld(worldObj, itemStackCopy, xCoord, yCoord, zCoord);
             }
         }
     }
