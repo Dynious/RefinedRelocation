@@ -120,7 +120,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                                 wirelessTile.setLink(tileX, tileY, tileZ);
                                 if (world.isRemote)
                                 {
-                                    final String blockDisplayName = world.isBlockHelper.getBlockDisplayName(tile.getWorldObj(), tileX, tileY, tileZ);
+                                    final String blockDisplayName = BlockHelper.getBlockDisplayName(tile.getWorldObj(), tileX, tileY, tileZ);
                                     String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
                                     player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH,
                                             tileDisplayName, blockDisplayName, tileX, tileY, tileZ)));
