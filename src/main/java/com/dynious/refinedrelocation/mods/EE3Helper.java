@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.client.renderer.RendererSortingAlchemicalCh
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
+import com.pahimar.ee3.init.ModItems;
 import com.pahimar.ee3.item.ItemAlchemicalInventoryUpgrade;
 import com.pahimar.ee3.item.ItemBlockAlchemicalChest;
 import com.pahimar.ee3.tileentity.TileEntityAlchemicalChest;
@@ -38,7 +39,8 @@ public class EE3Helper
     {
         for (int i = 0; i < 3; i++)
         {
-            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingAlchemicalChest, 1, i), "g g", " c ", "g g", 'g', Items.gold_ingot, 'c', new ItemStack(com.pahimar.ee3.init.ModBlocks.alchemicalChest, 1, i));
+            ItemStack material = new ItemStack(ModItems.alchemicalDust, 8, i + 1);
+            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingAlchemicalChest, 1, i), "g g", " c ", "m m", 'g', Items.gold_ingot, 'c', new ItemStack(com.pahimar.ee3.init.ModBlocks.alchemicalChest, 1, i), 'm', material);
         }
     }
 

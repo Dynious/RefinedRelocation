@@ -26,6 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class IronChestHelper
 {
@@ -38,9 +39,19 @@ public class IronChestHelper
 
     public static void addIronChestRecipes()
     {
+        Object mainMaterial;
         for (int i = 0; i < IronChestType.values().length - 1; i++)
         {
-            GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingIronChest, 1, i), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(IronChest.ironChestBlock, 1, i));
+            for (String mat : IronChestType.values()[i].getMatList())
+            {
+                if (mat.equals("blockGlass"))
+                    mainMaterial = Items.diamond;
+                else
+                    mainMaterial = IronChestType.translateOreName(mat);
+
+                ShapedOreRecipe oreRecipe = new ShapedOreRecipe(new ItemStack(ModBlocks.sortingIronChest, 1, i), "g g", " b ", "m m", 'g', Items.gold_ingot, 'b', new ItemStack(IronChest.ironChestBlock, 1, i), 'm', mainMaterial);
+                GameRegistry.addRecipe(oreRecipe);
+            }
         }
         for (int i = 0; i < IronChestType.values().length - 1; i++)
         {
