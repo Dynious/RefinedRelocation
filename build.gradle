@@ -22,7 +22,7 @@ apply plugin: 'forge'
 ext.env = System.getenv()
 ext.cclVersion = "1.1.1.95"
 
-version = "1.0.6d"
+version = "1.0.6e"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.7.10"
 
@@ -59,7 +59,7 @@ dependencies {
     compile "com.mod-buildcraft:buildcraft:6.0.17:dev"
     compile "net.industrial-craft:industrialcraft-2:2.2.508-experimental:api"
     compile "mcp.mobius.waila:Waila:1.5.2a"
-	compile "appeng:appliedenergistics2:rv0-stable-10:dev"
+	compile "appeng:appliedenergistics2:rv1-stable-1:dev"
 }
 
 apply from: 'downloader.gradle'

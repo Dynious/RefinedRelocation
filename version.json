@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.0.6d",
-			"changeLog":"A lot of much needed fixes! Crashes be gone!",
-			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2214205/download"
+			"modVersion":"1.0.e",
+			"changeLog":"Fixed compatibility with AE2 rv1-beta-28+ and reblanced recipes!",
+			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2215362/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
