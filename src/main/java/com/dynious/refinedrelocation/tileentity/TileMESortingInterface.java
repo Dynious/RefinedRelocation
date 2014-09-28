@@ -111,18 +111,20 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         {
             stack.setStackSize(-stack.getStackSize());
             if (stack.getStackSize() < 0)
-                removeStackFromCache(stack);
+                removeStackFromCache(stack.copy());
             else
                 cachedItemList.add(stack);
-            storage.postAlterationOfStoredItems(StorageChannel.ITEMS, stack, mySrc);
         }
+        storage.postAlterationOfStoredItems(StorageChannel.ITEMS, tempItemList, mySrc);
 
+        IItemList<IAEItemStack> list = AEApi.instance().storage().createItemList();
         for (LocalizedStack stack : currentStacks)
         {
             IAEItemStack aeStack = AEApi.instance().storage().createItemStack(stack.STACK);
+            list.add(aeStack);
             cachedItemList.add(aeStack);
-            storage.postAlterationOfStoredItems(StorageChannel.ITEMS, aeStack, mySrc);
         }
+        storage.postAlterationOfStoredItems(StorageChannel.ITEMS, list, mySrc);
     }
 
     private void removeStackFromCache(IAEItemStack stack)
@@ -176,6 +178,10 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     {
         ItemStack stackToExtract = aeItemStack.getItemStack();
         int extracted = 0;
+
+        IStorageGrid storage = getGridNode(null).getGrid().getCache(IStorageGrid.class);
+        IItemList<IAEItemStack> list = AEApi.instance().storage().createItemList();
+
         for (LocalizedStack stack : getHandler().getGrid().getItemsInGrid())
         {
             if (ItemStackHelper.areItemStacksEqual(stack.STACK, stackToExtract))
@@ -187,9 +193,8 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
                     //Post update
                     IAEItemStack aeStack = AEApi.instance().storage().createItemStack(stack.STACK);
                     aeStack.setStackSize(-amount);
-                    removeStackFromCache(aeStack);
-                    IStorageGrid storage = getGridNode(null).getGrid().getCache(IStorageGrid.class);
-                    storage.postAlterationOfStoredItems(StorageChannel.ITEMS, aeStack, mySrc);
+                    removeStackFromCache(aeStack.copy());
+                    list.add(aeItemStack);
 
                     stack.STACK.stackSize -= amount;
                     if (stack.STACK.stackSize == 0)
@@ -199,10 +204,13 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
                 }
                 if (extracted >= stackToExtract.stackSize)
                 {
+                    storage.postAlterationOfStoredItems(StorageChannel.ITEMS, list, mySrc);
                     return aeItemStack;
                 }
             }
         }
+
+        storage.postAlterationOfStoredItems(StorageChannel.ITEMS, list, mySrc);
 
         if (extracted == 0)
         {
@@ -421,6 +429,12 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         }
     }
 
+    @Override
+    public void saveChanges(IMEInventory imeInventory)
+    {
+        this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+    }
+
     private static class SortingInventoryHandler implements IMEInventoryHandler<IAEItemStack>
     {
         private TileMESortingInterface tile;
@@ -458,6 +472,12 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         public int getSlot()
         {
             return 0;
+        }
+
+        @Override
+        public boolean validForPass(int i)
+        {
+            return false;
         }
 
         @Override
