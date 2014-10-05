@@ -194,7 +194,6 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
                     IAEItemStack aeStack = AEApi.instance().storage().createItemStack(stack.STACK);
                     aeStack.setStackSize(-amount);
                     removeStackFromCache(aeStack.copy());
-                    list.add(aeItemStack);
 
                     stack.STACK.stackSize -= amount;
                     if (stack.STACK.stackSize == 0)
@@ -204,13 +203,17 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
                 }
                 if (extracted >= stackToExtract.stackSize)
                 {
-                    storage.postAlterationOfStoredItems(StorageChannel.ITEMS, list, mySrc);
+                    if (actionable == Actionable.MODULATE)
+                    {
+                        IAEItemStack removedStack = aeItemStack.copy();
+                        removedStack.setStackSize(-extracted);
+                        list.add(removedStack);
+                        storage.postAlterationOfStoredItems(StorageChannel.ITEMS, list, mySrc);
+                    }
                     return aeItemStack;
                 }
             }
         }
-
-        storage.postAlterationOfStoredItems(StorageChannel.ITEMS, list, mySrc);
 
         if (extracted == 0)
         {
@@ -218,6 +221,11 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         }
         else
         {
+            IAEItemStack removedStack = aeItemStack.copy();
+            removedStack.setStackSize(-extracted);
+            list.add(removedStack);
+            storage.postAlterationOfStoredItems(StorageChannel.ITEMS, list, mySrc);
+
             IAEItemStack aeItemStack1 = aeItemStack.copy();
             aeItemStack1.setStackSize(extracted);
             return aeItemStack1;
@@ -477,7 +485,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         @Override
         public boolean validForPass(int i)
         {
-            return false;
+            return true;
         }
 
         @Override
