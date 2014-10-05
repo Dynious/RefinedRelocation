@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.block.BlockSortingAlchemicalChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.renderer.ItemRendererSortingAlchemicalChest;
 import com.dynious.refinedrelocation.client.renderer.RendererSortingAlchemicalChest;
+import com.dynious.refinedrelocation.item.ItemSortingUpgrade;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
@@ -25,6 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class EE3Helper
 {
@@ -99,6 +101,7 @@ public class EE3Helper
 
             TileEntityAlchemicalChest oldChest = (TileEntityAlchemicalChest) tile;
             int meta = oldChest.getBlockMetadata();
+            ForgeDirection dir = oldChest.getOrientation();
 
             int numUsers = ObfuscationReflectionHelper.getPrivateValue(TileEntityAlchemicalChest.class, oldChest, "numUsingPlayers");
 
@@ -113,6 +116,7 @@ public class EE3Helper
                 chest.putStackInSlot(oldChest.getStackInSlot(i), i);
                 oldChest.setInventorySlotContents(i, null);
             }
+            chest.setOrientation(dir);
 
             // Clear the old block out
             world.setBlockToAir(tile.xCoord, tile.yCoord, tile.zCoord);
@@ -124,5 +128,16 @@ public class EE3Helper
             return true;
         }
         return false;
+    }
+
+    public static ItemStack getUpgradeItemStack(TileEntity tile)
+    {
+        int meta = tile.getBlockMetadata();
+        return new ItemStack(ModItems.alchemicalDust, 1, meta + 1);
+    }
+
+    public static boolean isAlchemicalChest(TileEntity tile)
+    {
+        return tile instanceof TileEntityAlchemicalChest;
     }
 }

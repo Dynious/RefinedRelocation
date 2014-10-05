@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.renderer.ItemRendererSortingIronChest;
 import com.dynious.refinedrelocation.client.renderer.RendererSortingIronChest;
 import com.dynious.refinedrelocation.item.ItemSortingIronChest;
+import com.dynious.refinedrelocation.item.ItemSortingUpgrade;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
@@ -18,14 +19,17 @@ import cpw.mods.ironchest.IronChest;
 import cpw.mods.ironchest.IronChestType;
 import cpw.mods.ironchest.ItemChestChanger;
 import cpw.mods.ironchest.TileEntityIronChest;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class IronChestHelper
@@ -142,5 +146,32 @@ public class IronChestHelper
             return true;
         }
         return false;
+    }
+
+    public static ItemStack getUpgradeItemStack(TileEntity tile)
+    {
+        if (tile instanceof TileEntityIronChest)
+        {
+            TileEntityIronChest chest = (TileEntityIronChest) tile;
+            Object mat = IronChestType.translateOreName(chest.getType().getMatList().get(0));
+            if (mat instanceof Item)
+            {
+                return new ItemStack((Item) mat);
+            }
+            else if (mat instanceof Block)
+            {
+                return new ItemStack((Block) mat);
+            }
+            else if (mat instanceof String)
+            {
+                return OreDictionary.getOres((String) mat).get(0);
+            }
+        }
+        return null;
+    }
+
+    public static boolean isIronChest(TileEntity tile)
+    {
+        return tile instanceof TileEntityIronChest;
     }
 }

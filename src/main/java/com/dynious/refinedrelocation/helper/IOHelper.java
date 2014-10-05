@@ -16,6 +16,85 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class IOHelper
 {
+    public static ItemStack extract(IInventory inventory, ItemStack itemStack, ForgeDirection direction, boolean oreDict, boolean simulate)
+    {
+        ItemStack toExtract = itemStack.copy();
+
+        if (inventory instanceof ISidedInventory)
+        {
+            ISidedInventory iSidedInventory = (ISidedInventory)inventory;
+            int[] accessibleSlotsFromSide = iSidedInventory.getAccessibleSlotsFromSide(direction.ordinal());
+
+            for (int anAccessibleSlotsFromSide : accessibleSlotsFromSide)
+            {
+                ItemStack stack = extract(inventory, toExtract, direction, anAccessibleSlotsFromSide, oreDict, simulate);
+                if (stack != null)
+                {
+                    if (stack.stackSize >= toExtract.stackSize)
+                    {
+                        return itemStack;
+                    }
+                    else
+                    {
+                        toExtract.stackSize -= stack.stackSize;
+                    }
+                }
+            }
+        }
+        else
+        {
+            int j = inventory.getSizeInventory();
+
+            for (int slot = 0; slot < j; ++slot)
+            {
+                ItemStack stack = extract(inventory, toExtract, direction, slot, oreDict, simulate);
+                if (stack != null)
+                {
+                    if (stack.stackSize >= toExtract.stackSize)
+                    {
+                        return itemStack;
+                    }
+                    else
+                    {
+                        toExtract.stackSize -= stack.stackSize;
+                    }
+                }
+            }
+        }
+        if (itemStack.stackSize == toExtract.stackSize)
+        {
+            return null;
+        }
+        else
+        {
+            inventory.markDirty();
+            itemStack.stackSize -= toExtract.stackSize;
+            return itemStack;
+        }
+    }
+
+    public static ItemStack extract(IInventory inventory, ItemStack stack, ForgeDirection direction, int slot, boolean oreDict, boolean simulate)
+    {
+        ItemStack itemstack = inventory.getStackInSlot(slot);
+
+        if (itemstack != null && canExtractItemFromInventory(inventory, itemstack, slot, direction.ordinal()) && ((oreDict && ItemStackHelper.areOreDictEntriesSame(itemstack, stack)) || ItemStackHelper.areItemStacksEqual(itemstack, stack)))
+        {
+            if (itemstack.stackSize > stack.stackSize)
+            {
+                if (!simulate)
+                    inventory.decrStackSize(slot, stack.stackSize);
+                return stack;
+            }
+            else
+            {
+                if (!simulate)
+                    inventory.setInventorySlotContents(slot, null);
+                return itemstack;
+            }
+        }
+        return null;
+    }
+
     public static ItemStack extract(IInventory inventory, ForgeDirection direction)
     {
         if (inventory instanceof ISidedInventory)

@@ -166,6 +166,9 @@ itemDesc.refinedrelocation.relocatorModuleInfo10=Allows multiple modules\nto be 
 itemDesc.refinedrelocation.relocatorModuleInfo11=Can extract items\nfrom another side\nthan the connected side
 itemDesc.refinedrelocation.sortingUpgrade0=Upgrades Chests to their Sorting version
 itemDesc.refinedrelocation.sortingUpgrade1=Upgrades Barrels to their Sorting version
+itemDesc.refinedrelocation.sortingUpgradeMats=Needs 2 items of the Chest material
+itemDesc.refinedrelocation.sortingUpgradeNoMat=Needs 2 %s to upgrade!
+itemDesc.refinedrelocation.planks=Planks
 
 #Filter Localization
 filterName.refinedrelocation.filterIngot=All Ingots
