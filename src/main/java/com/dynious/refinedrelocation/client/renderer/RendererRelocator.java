@@ -29,6 +29,10 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     public static IIcon[] iconsCenter = new IIcon[4];
     public static IIcon iconSide;
     public static IIcon iconSideStuffed;
+    private static RenderItem renderer;
+    private static EntityItem entityItem = new EntityItem(null);
+    private static IconTransformation iconTransformation = new IconTransformation(Blocks.stone.getIcon(0, 0));
+
     static
     {
         renderer = new RenderItem()
@@ -60,9 +64,6 @@ public class RendererRelocator extends TileEntitySpecialRenderer
             model.computeNormals().computeLighting(LightModel.standardLightModel);
         }
     }
-    private static RenderItem renderer;
-    private static EntityItem entityItem = new EntityItem(null);
-    private static IconTransformation iconTransformation = new IconTransformation(Blocks.stone.getIcon(0, 0));
 
     public static void resetRenderer()
     {
