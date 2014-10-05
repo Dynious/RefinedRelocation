@@ -13,9 +13,8 @@ import net.minecraft.tileentity.TileEntityHopper;
 
 public class TileFilteringHopper extends TileEntityHopper implements IFilterTileGUI, ISidedInventory
 {
-    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private static int[] accessibleSlots = new int[]{0, 1, 2, 3};
-
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private ItemStack checkedItemStack;
     private boolean passedItemStackFilter;
 

@@ -22,7 +22,7 @@ public class IOHelper
 
         if (inventory instanceof ISidedInventory)
         {
-            ISidedInventory iSidedInventory = (ISidedInventory)inventory;
+            ISidedInventory iSidedInventory = (ISidedInventory) inventory;
             int[] accessibleSlotsFromSide = iSidedInventory.getAccessibleSlotsFromSide(direction.ordinal());
 
             for (int anAccessibleSlotsFromSide : accessibleSlotsFromSide)
@@ -99,7 +99,7 @@ public class IOHelper
     {
         if (inventory instanceof ISidedInventory)
         {
-            ISidedInventory iSidedInventory = (ISidedInventory)inventory;
+            ISidedInventory iSidedInventory = (ISidedInventory) inventory;
             int[] accessibleSlotsFromSide = iSidedInventory.getAccessibleSlotsFromSide(direction.ordinal());
 
             for (int anAccessibleSlotsFromSide : accessibleSlotsFromSide)
@@ -177,7 +177,7 @@ public class IOHelper
 
         if (inventory instanceof ISidedInventory && side > -1)
         {
-            ISidedInventory isidedinventory = (ISidedInventory)inventory;
+            ISidedInventory isidedinventory = (ISidedInventory) inventory;
             int[] aint = isidedinventory.getAccessibleSlotsFromSide(side);
 
             for (int j = 0; j < aint.length && itemStack != null && itemStack.stackSize > 0; ++j)
@@ -293,7 +293,7 @@ public class IOHelper
 
     public static boolean canExtractItemFromInventory(IInventory inventory, ItemStack itemStack, int slot, int side)
     {
-        return !(inventory instanceof ISidedInventory) || ((ISidedInventory)inventory).canExtractItem(slot, itemStack, side);
+        return !(inventory instanceof ISidedInventory) || ((ISidedInventory) inventory).canExtractItem(slot, itemStack, side);
     }
 
     public static void dropInventory(World world, int x, int y, int z)
@@ -344,7 +344,7 @@ public class IOHelper
     {
         if (tile instanceof IRelocator)
         {
-            return ((IRelocator)tile).connectsToSide(side.ordinal());
+            return ((IRelocator) tile).connectsToSide(side.ordinal());
         }
         else if (Mods.IS_COFH_TRANSPORT_API_LOADED && tile instanceof IItemDuct)
         {
@@ -352,12 +352,12 @@ public class IOHelper
         }
         else if (Mods.IS_BC_TRANSPORT_API_LOADED && tile instanceof IPipeTile)
         {
-            if (((IPipeTile)tile).getPipeType() == IPipeTile.PipeType.ITEM)
+            if (((IPipeTile) tile).getPipeType() == IPipeTile.PipeType.ITEM)
                 return true;
         }
         else if (Mods.IS_BC_TRANSPORT_API_LOADED && tile instanceof IPipeConnection)
         {
-            return ((IPipeConnection)tile).overridePipeConnection(IPipeTile.PipeType.ITEM, side) != IPipeConnection.ConnectOverride.DISCONNECT;
+            return ((IPipeConnection) tile).overridePipeConnection(IPipeTile.PipeType.ITEM, side) != IPipeConnection.ConnectOverride.DISCONNECT;
         }
         else if (tile instanceof IInventory)
         {

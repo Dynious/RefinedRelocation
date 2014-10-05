@@ -9,10 +9,10 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiScalableButton extends com.dynious.refinedrelocation.client.gui.widget.GuiButton
 {
+    protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
     protected int textureX = 0;
     protected int textureY = 0;
     protected GuiLabel label = null;
-    protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
 
     public GuiScalableButton(IGuiParent parent, String labelText)
     {
@@ -33,44 +33,24 @@ public class GuiScalableButton extends com.dynious.refinedrelocation.client.gui.
      */
 
     /**
-     * Draws this button to the screen.
-     */
-    @Override
-    public void drawBackground(int mouseX, int mouseY)
-    {
-        if (this.visible)
-        {
-            int k = isMouseInsideBounds(mouseX, mouseY) ? 40 : 20;
-            drawContinuousTexturedBox(buttonTextures, this.x, this.y, 0, 46 + k, this.getWidth(), this.getHeight(), 200, 20, 2, 3, 2, 2, this.zLevel);
-            int color = 14737632;
-
-            if (isMouseInsideBounds(mouseX, mouseY))
-            {
-                color = 16777120;
-            }
-            label.setColor(color);
-        }
-    }
-
-    /**
      * Draws a textured box of any size (smallest size is borderSize * 2 square) based on a fixed size textured box with continuous borders
      * and filler. The provided ResourceLocation object will be bound using
      * Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation).
      *
-     * @param res the ResourceLocation object that contains the desired image
-     * @param x x axis offset
-     * @param y y axis offset
-     * @param u bound resource location image x offset
-     * @param v bound resource location image y offset
-     * @param width the desired box width
-     * @param height the desired box height
-     * @param textureWidth the width of the box texture in the resource location image
+     * @param res           the ResourceLocation object that contains the desired image
+     * @param x             x axis offset
+     * @param y             y axis offset
+     * @param u             bound resource location image x offset
+     * @param v             bound resource location image y offset
+     * @param width         the desired box width
+     * @param height        the desired box height
+     * @param textureWidth  the width of the box texture in the resource location image
      * @param textureHeight the height of the box texture in the resource location image
-     * @param topBorder the size of the box's top border
-     * @param bottomBorder the size of the box's bottom border
-     * @param leftBorder the size of the box's left border
-     * @param rightBorder the size of the box's right border
-     * @param zLevel the zLevel to draw at
+     * @param topBorder     the size of the box's top border
+     * @param bottomBorder  the size of the box's bottom border
+     * @param leftBorder    the size of the box's left border
+     * @param rightBorder   the size of the box's right border
+     * @param zLevel        the zLevel to draw at
      */
     public static void drawContinuousTexturedBox(ResourceLocation res, int x, int y, int u, int v, int width, int height, int textureWidth, int textureHeight,
                                                  int topBorder, int bottomBorder, int leftBorder, int rightBorder, float zLevel)
@@ -84,19 +64,19 @@ public class GuiScalableButton extends com.dynious.refinedrelocation.client.gui.
      * and filler. It is assumed that the desired texture ResourceLocation object has been bound using
      * Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation).
      *
-     * @param x x axis offset
-     * @param y y axis offset
-     * @param u bound resource location image x offset
-     * @param v bound resource location image y offset
-     * @param width the desired box width
-     * @param height the desired box height
-     * @param textureWidth the width of the box texture in the resource location image
+     * @param x             x axis offset
+     * @param y             y axis offset
+     * @param u             bound resource location image x offset
+     * @param v             bound resource location image y offset
+     * @param width         the desired box width
+     * @param height        the desired box height
+     * @param textureWidth  the width of the box texture in the resource location image
      * @param textureHeight the height of the box texture in the resource location image
-     * @param topBorder the size of the box's top border
-     * @param bottomBorder the size of the box's bottom border
-     * @param leftBorder the size of the box's left border
-     * @param rightBorder the size of the box's right border
-     * @param zLevel the zLevel to draw at
+     * @param topBorder     the size of the box's top border
+     * @param bottomBorder  the size of the box's bottom border
+     * @param leftBorder    the size of the box's left border
+     * @param rightBorder   the size of the box's right border
+     * @param zLevel        the zLevel to draw at
      */
     public static void drawContinuousTexturedBox(int x, int y, int u, int v, int width, int height, int textureWidth, int textureHeight,
                                                  int topBorder, int bottomBorder, int leftBorder, int rightBorder, float zLevel)
@@ -158,5 +138,25 @@ public class GuiScalableButton extends com.dynious.refinedrelocation.client.gui.
         tessellator.addVertexWithUV((x + width), (y), zLevel, ((u + width) * var7), ((v) * var8));
         tessellator.addVertexWithUV((x), (y), zLevel, ((u) * var7), ((v) * var8));
         tessellator.draw();
+    }
+
+    /**
+     * Draws this button to the screen.
+     */
+    @Override
+    public void drawBackground(int mouseX, int mouseY)
+    {
+        if (this.visible)
+        {
+            int k = isMouseInsideBounds(mouseX, mouseY) ? 40 : 20;
+            drawContinuousTexturedBox(buttonTextures, this.x, this.y, 0, 46 + k, this.getWidth(), this.getHeight(), 200, 20, 2, 3, 2, 2, this.zLevel);
+            int color = 14737632;
+
+            if (isMouseInsideBounds(mouseX, mouseY))
+            {
+                color = 16777120;
+            }
+            label.setColor(color);
+        }
     }
 }

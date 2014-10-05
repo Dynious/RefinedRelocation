@@ -24,7 +24,7 @@ public class GuiModular extends GuiRefinedRelocationContainer
 
     public void recalculateAndSetChildPositions()
     {
-        int maxWidth = (this.width / 4)*3;
+        int maxWidth = (this.width / 4) * 3;
         int childTotalWidthLine = SPACE_BETWEEN_MODULES;
         int childTotalWidth = SPACE_BETWEEN_MODULES;
 
@@ -92,8 +92,8 @@ public class GuiModular extends GuiRefinedRelocationContainer
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(Resources.GUI_MODULAR);
         drawTexturedModalRect(xPos, yPos - barWidth, 0, 0, xSize, barWidth); // top
-        drawTexturedModalRect(xPos - barWidth, yPos - barWidth, 0, barWidth*2, barWidth, ySize + barWidth*2); // left
-        drawTexturedModalRect(xPos + xSize, yPos - barWidth, barWidth, barWidth*2, barWidth, ySize + barWidth); // right
+        drawTexturedModalRect(xPos - barWidth, yPos - barWidth, 0, barWidth * 2, barWidth, ySize + barWidth * 2); // left
+        drawTexturedModalRect(xPos + xSize, yPos - barWidth, barWidth, barWidth * 2, barWidth, ySize + barWidth); // right
         drawTexturedModalRect(xPos - barWidth, yPos + ySize, 0, barWidth, xSize + barWidth, barWidth); // bottom
 
         super.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);

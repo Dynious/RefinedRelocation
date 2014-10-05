@@ -1,7 +1,6 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
@@ -90,7 +89,7 @@ public class BlockSortingConnector extends BlockContainer
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileSortingConnector)
             {
-                return ((TileSortingConnector)tile).onActivated(player, par6);
+                return ((TileSortingConnector) tile).onActivated(player, par6);
             }
         }
         return false;
@@ -106,7 +105,7 @@ public class BlockSortingConnector extends BlockContainer
             par3List.add(new ItemStack(par1, 1, metadata));
         }
     }
-    
+
     @Override
     public void breakBlock(World world, int par2, int par3, int par4, Block par5, int par6)
     {

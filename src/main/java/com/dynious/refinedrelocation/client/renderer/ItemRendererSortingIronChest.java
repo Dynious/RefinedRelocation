@@ -21,6 +21,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class ItemRendererSortingIronChest implements IItemRenderer
 {
     private static Map<IronChestType, ResourceLocation> locations;
+    private ModelChest model;
 
     public ItemRendererSortingIronChest()
     {
@@ -88,6 +89,4 @@ public class ItemRendererSortingIronChest implements IItemRenderer
         glPopMatrix();
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
-
-    private ModelChest model;
 }

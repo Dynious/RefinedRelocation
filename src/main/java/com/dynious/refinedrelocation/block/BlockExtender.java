@@ -92,7 +92,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
                     {
                         player.addChatComponentMessage(
                                 new ChatComponentText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + ' ' +
-                                StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED).toLowerCase()));
+                                        StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED).toLowerCase()));
                     }
                     return true;
                 }
@@ -256,7 +256,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     @Optional.Method(modid = Mods.COFH_BLOCK_API_ID)
     @Override
     public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x,
-                                    int y, int z, boolean returnBlock)
+                                               int y, int z, boolean returnBlock)
     {
         int meta = world.getBlockMetadata(x, y, z);
 

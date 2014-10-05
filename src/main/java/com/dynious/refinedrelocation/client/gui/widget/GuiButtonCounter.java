@@ -9,12 +9,12 @@ import java.util.List;
 
 public class GuiButtonCounter extends GuiButton
 {
+    public DecimalFormat numberFormat = new DecimalFormat("##.##");
     protected double value;
     protected double min;
     protected double max;
     protected double step;
     protected double shiftStep;
-    public DecimalFormat numberFormat = new DecimalFormat("##.##");
 
     public GuiButtonCounter(IGuiParent parent, double min, double max, double step, double shiftStep)
     {

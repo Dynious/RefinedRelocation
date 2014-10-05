@@ -1,25 +1,12 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
-import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
-import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.client.gui.GuiFiltered;
-import com.dynious.refinedrelocation.container.ContainerFiltered;
-import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
@@ -82,7 +69,7 @@ public class RelocatorModuleItemDetector extends RelocatorModuleFilter
     @Override
     public IIcon getIcon(IItemRelocator relocator, int side)
     {
-        return emitRedstoneSignal? icons[1] : icons[0];
+        return emitRedstoneSignal ? icons[1] : icons[0];
     }
 
     @Override

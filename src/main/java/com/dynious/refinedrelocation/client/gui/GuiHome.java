@@ -35,7 +35,7 @@ public class GuiHome extends GuiModular
 
     public void onButtonClicked(int index)
     {
-        ((ContainerMultiModule)inventorySlots).openOrActive(index);
+        ((ContainerMultiModule) inventorySlots).openOrActive(index);
         NetworkHandler.INSTANCE.sendToServer(new MessageHomeButtonClicked(index));
     }
 }

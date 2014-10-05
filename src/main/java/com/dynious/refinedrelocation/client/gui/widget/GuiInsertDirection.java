@@ -19,12 +19,12 @@ import java.util.List;
 
 public class GuiInsertDirection extends GuiWidgetBase
 {
+    public static final int defaultSizeW = 16;
+    public static final int defaultSizeH = 16;
     public ForgeDirection side;
     public ForgeDirection insertDirection;
     public ForgeDirection rotation;
     public ForgeDirection relativeSide;
-    public static final int defaultSizeW = 16;
-    public static final int defaultSizeH = 16;
     public boolean isConnected = false;
     protected IAdvancedTile tile;
 

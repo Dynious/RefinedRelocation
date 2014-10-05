@@ -25,7 +25,7 @@ public class PartFactory implements MultiPartRegistry.IPartFactory, MultiPartReg
 
     public static void init()
     {
-        MultiPartRegistry.registerParts(INSTANCE, new String[]{ "tile." + Names.relocator });
+        MultiPartRegistry.registerParts(INSTANCE, new String[]{"tile." + Names.relocator});
 
         MultipartGenerator.registerPassThroughInterface(IRelocator.class.getCanonicalName());
         MultipartGenerator.registerPassThroughInterface(ISidedInventory.class.getCanonicalName());

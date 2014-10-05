@@ -13,11 +13,10 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileSortingConnector extends TileEntity implements ISortingMember, IDisguisable
 {
-    private ISortingMemberHandler sortingHandler = APIUtils.createSortingMemberHandler(this);
-    private boolean isFirstTick = true;
-
     public Block blockDisguisedAs = null;
     public int blockDisguisedMetadata = 0;
+    private ISortingMemberHandler sortingHandler = APIUtils.createSortingMemberHandler(this);
+    private boolean isFirstTick = true;
 
     public boolean onActivated(EntityPlayer player, int side)
     {
@@ -29,7 +28,7 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     {
         return true;
     }
-    
+
     @Override
     public boolean canDisguiseAs(Block block, int metadata)
     {

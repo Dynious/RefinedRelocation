@@ -24,7 +24,7 @@ public class ColorHelper
     public static final String OBFUSACTED = MINCRAFT_STYLE + "k";
     public static final String BOLD = MINCRAFT_STYLE + "l";
     public static final String STRIKE = MINCRAFT_STYLE + "m";
-    public static final String UNDERLINED  = MINCRAFT_STYLE + "n";
+    public static final String UNDERLINED = MINCRAFT_STYLE + "n";
     public static final String ITALIC = MINCRAFT_STYLE + "o";
     public static final String RESET = MINCRAFT_STYLE + "r";
 }

@@ -16,11 +16,11 @@ import java.util.List;
 public class TileSortingImporter extends TileSortingConnector implements IInventory
 {
     public ItemStack[] bufferInventory = new ItemStack[1];
+    protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
     private List<ItemStack> itemList = new ArrayList<ItemStack>();
     private List<Integer> idList = new ArrayList<Integer>();
     private long lastClickTime;
     private ItemStack lastAddedStack;
-    protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
 
     @Override
     public boolean onActivated(EntityPlayer player, int side)
@@ -72,7 +72,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     @Override
     public ItemStack getStackInSlot(int i)
     {
-        if (i == 0 )
+        if (i == 0)
         {
             return bufferInventory[0];
         }
@@ -244,7 +244,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     {
         for (EntityPlayer crafter : crafters)
         {
-            ((ICrafting)crafter).sendSlotContents(crafter.openContainer, 0, bufferInventory[0]);
+            ((ICrafting) crafter).sendSlotContents(crafter.openContainer, 0, bufferInventory[0]);
         }
     }
 

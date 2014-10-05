@@ -34,14 +34,14 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     private List<IRelocatorModule> modules = new ArrayList<IRelocatorModule>();
     private int currentModule = -1; // -1 is the multi module
 
-    public void setCurrentModule(int newModule)
-    {
-        currentModule = newModule;
-    }
-
     public IRelocatorModule getCurrentModule()
     {
         return currentModule == -1 ? this : modules.get(currentModule);
+    }
+
+    public void setCurrentModule(int newModule)
+    {
+        currentModule = newModule;
     }
 
     public List<List<String>> getModuleInformation(NBTTagCompound compound)
@@ -58,7 +58,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
                 List<String> wailaInfo = module.getWailaInformation(moduleCompound);
                 if (!wailaInfo.isEmpty())
                 {
-                    for (int j = 0 ; j < wailaInfo.size() ; j++)
+                    for (int j = 0; j < wailaInfo.size(); j++)
                     {
                         wailaInfo.set(j, StringUtils.repeat(" ", 3) + wailaInfo.get(j));
                     }

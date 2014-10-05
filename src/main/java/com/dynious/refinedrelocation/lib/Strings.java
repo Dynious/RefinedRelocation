@@ -3,13 +3,6 @@ package com.dynious.refinedrelocation.lib;
 public class Strings
 {
     private static final String GUI_PREFIX = "gui." + Reference.MOD_ID.toLowerCase() + ".";
-    private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
-    private static final String FILTER_NAME_PREFIX = "filterName." + Reference.MOD_ID.toLowerCase() + ".";
-    private static final String RELOCATOR_MODULE_PREFIX = "relocatorModule." + Reference.MOD_ID.toLowerCase() + ".";
-    private static final String RELOCATOR_STUFFED_PREFIX = "relocatorStuffed." + Reference.MOD_ID.toLowerCase() + ".";
-    private static final String DIRECTION_PREFIX = "direction." + Reference.MOD_ID.toLowerCase() + ".";
-    private static final String COMMAND_PREFIX = "command." + Reference.MOD_ID.toLowerCase() + ".";
-
     public static final String BLACKLIST = GUI_PREFIX + "blacklist";
     public static final String WHITELIST = GUI_PREFIX + "whitelist";
     public static final String CLICK = GUI_PREFIX + "click";
@@ -70,7 +63,21 @@ public class Strings
     public static final String TOGGLE_LOCK = GUI_PREFIX + "toggleLock";
     public static final String MODULE_MAX_STACK_SIZE = GUI_PREFIX + "moduleMaxStackSize";
     public static final String MODULE_REDSTONE_CONTROL = GUI_PREFIX + "moduleRedstoneControl";
-
+    public static final String LOCKED = GUI_PREFIX + "locked";
+    public static final String OUTPUT_SIDE = GUI_PREFIX + "outputSide";
+    public static final String WAILA_MAX_STACK_SIZE = GUI_PREFIX + "wailaMaxStackSize";
+    public static final String WAILA_REDSTONE_CONTROL = GUI_PREFIX + "wailaRedstoneControl";
+    public static final String WAILA_USER_FILTER = GUI_PREFIX + "wailaUserFilter";
+    public static final String WAILA_PRESETS = GUI_PREFIX + "wailaPresets";
+    public static final String WAILA_ENABLED = GUI_PREFIX + "wailaEnabled";
+    public static final String CONNECTED_DIRECTION = GUI_PREFIX + "wailaConnectedDirection";
+    public static final String ELLIPSE = GUI_PREFIX + "ellipse";
+    public static final String TRUE = GUI_PREFIX + "true";
+    public static final String FALSE = GUI_PREFIX + "false";
+    public static final String YES = GUI_PREFIX + "yes";
+    public static final String NO = GUI_PREFIX + "no";
+    public static final String FORMED = GUI_PREFIX + "formed";
+    private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String LINKED = ITEM_DESC_PREFIX + "linked";
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";
@@ -90,7 +97,7 @@ public class Strings
     public static final String SORTING_UPGRADE_MATS = ITEM_DESC_PREFIX + "sortingUpgradeMats";
     public static final String SORTING_UPGRADE_NO_MAT = ITEM_DESC_PREFIX + "sortingUpgradeNoMat";
     public static final String PLANKS = ITEM_DESC_PREFIX + "planks";
-
+    private static final String FILTER_NAME_PREFIX = "filterName." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String INGOT_FILTER = FILTER_NAME_PREFIX + "filterIngot";
     public static final String ORE_FILTER = FILTER_NAME_PREFIX + "filterOres";
     public static final String LOG_FILTER = FILTER_NAME_PREFIX + "filterLogs";
@@ -105,36 +112,20 @@ public class Strings
     public static final String NUGGET_FILTER = FILTER_NAME_PREFIX + "filterNuggets";
     public static final String PLANT_FILTER = FILTER_NAME_PREFIX + "filterPlants";
     public static final String FUEL_FILTER = FILTER_NAME_PREFIX + "filterFuel";
-
+    private static final String RELOCATOR_MODULE_PREFIX = "relocatorModule." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String REDSTONE_BLOCK_ENABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabled";
     public static final String REDSTONE_BLOCK_DISABLED = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabled";
     public static final String REDSTONE_BLOCK_ENABLED_CHAT = RELOCATOR_MODULE_PREFIX + "redstoneBlockEnabledChat";
     public static final String REDSTONE_BLOCK_DISABLED_CHAT = RELOCATOR_MODULE_PREFIX + "redstoneBlockDisabledChat";
-
+    private static final String RELOCATOR_STUFFED_PREFIX = "relocatorStuffed." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String RELOCATOR_STUFFED = RELOCATOR_STUFFED_PREFIX + "stuffed";
-
+    private static final String DIRECTION_PREFIX = "direction." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String DIRECTION = DIRECTION_PREFIX + "direction";
-
+    private static final String COMMAND_PREFIX = "command." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String COMMAND_FORMAT = COMMAND_PREFIX + "format";
     public static final String COMMAND_AVAILABLE = COMMAND_PREFIX + "available";
     public static final String COMMAND_HELP_LATEST = COMMAND_PREFIX + "helpLatest";
     public static final String COMMAND_HELP_CHANGELOG = COMMAND_PREFIX + "helpChangelog";
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
-
-    public static final String LOCKED = GUI_PREFIX + "locked";
-    public static final String OUTPUT_SIDE = GUI_PREFIX + "outputSide";
-    public static final String WAILA_MAX_STACK_SIZE = GUI_PREFIX + "wailaMaxStackSize";
-    public static final String WAILA_REDSTONE_CONTROL = GUI_PREFIX + "wailaRedstoneControl";
-    public static final String WAILA_USER_FILTER = GUI_PREFIX + "wailaUserFilter";
-    public static final String WAILA_PRESETS = GUI_PREFIX + "wailaPresets";
-    public static final String WAILA_ENABLED = GUI_PREFIX + "wailaEnabled";
-    public static final String CONNECTED_DIRECTION = GUI_PREFIX + "wailaConnectedDirection";
-    public static final String ELLIPSE = GUI_PREFIX + "ellipse";
-
-    public static final String TRUE = GUI_PREFIX + "true";
-    public static final String FALSE = GUI_PREFIX + "false";
-    public static final String YES = GUI_PREFIX + "yes";
-    public static final String NO = GUI_PREFIX + "no";
-    public static final String FORMED = GUI_PREFIX + "formed";
 }

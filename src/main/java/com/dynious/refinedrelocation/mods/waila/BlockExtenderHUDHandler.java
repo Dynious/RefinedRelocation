@@ -17,6 +17,18 @@ import java.util.List;
 
 public class BlockExtenderHUDHandler implements IWailaDataProvider
 {
+    private static String getLocalizedRedstoneState(TileBlockExtender blockExtender)
+    {
+        if (blockExtender.isRedstoneTransmissionEnabled())
+        {
+            return blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE);
+        }
+        else
+        {
+            return StatCollector.translateToLocal(Strings.DISABLED);
+        }
+    }
+
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
     {
@@ -70,18 +82,6 @@ public class BlockExtenderHUDHandler implements IWailaDataProvider
 
         }
         return strings;
-    }
-
-    private static String getLocalizedRedstoneState(TileBlockExtender blockExtender)
-    {
-        if (blockExtender.isRedstoneTransmissionEnabled())
-        {
-            return blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE);
-        }
-        else
-        {
-            return StatCollector.translateToLocal(Strings.DISABLED);
-        }
     }
 
     @Override

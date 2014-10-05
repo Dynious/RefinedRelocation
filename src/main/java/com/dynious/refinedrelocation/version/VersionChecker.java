@@ -12,27 +12,13 @@ import java.net.URL;
 
 public class VersionChecker implements Runnable
 {
-    private static VersionChecker instance = new VersionChecker();
-
-    private static Gson gson = new Gson();
-
     private static final int VERSION_CHECK_ATTEMPTS = 3;
     private static final String REMOTE_VERSION_FILE = "https://raw.github.com/Dynious/RefinedRelocation/master/version.json";
-
+    public static boolean sentIMCMessage;
+    private static VersionChecker instance = new VersionChecker();
+    private static Gson gson = new Gson();
     private static CheckState result = CheckState.UNINITIALIZED;
     private static VersionContainer.Version remoteVersion = null;
-
-    public static boolean sentIMCMessage;
-
-    public static enum CheckState
-    {
-        UNINITIALIZED,
-        CURRENT,
-        OUTDATED,
-        ERROR,
-        FINAL_ERROR,
-        MC_VERSION_NOT_FOUND
-    }
 
     public static void checkVersion()
     {
@@ -62,12 +48,10 @@ public class VersionChecker implements Runnable
             {
                 result = CheckState.MC_VERSION_NOT_FOUND;
             }
-        }
-        catch (Exception ignored)
+        } catch (Exception ignored)
         {
             ignored.printStackTrace();
-        }
-        finally
+        } finally
         {
             if (result == CheckState.UNINITIALIZED)
             {
@@ -147,6 +131,11 @@ public class VersionChecker implements Runnable
         }
     }
 
+    public static void execute()
+    {
+        new Thread(instance).start();
+    }
+
     @Override
     public void run()
     {
@@ -172,15 +161,19 @@ public class VersionChecker implements Runnable
                 result = CheckState.FINAL_ERROR;
                 logResult();
             }
-        }
-        catch (InterruptedException e)
+        } catch (InterruptedException e)
         {
             e.printStackTrace();
         }
     }
 
-    public static void execute()
+    public static enum CheckState
     {
-        new Thread(instance).start();
+        UNINITIALIZED,
+        CURRENT,
+        OUTDATED,
+        ERROR,
+        FINAL_ERROR,
+        MC_VERSION_NOT_FOUND
     }
 }

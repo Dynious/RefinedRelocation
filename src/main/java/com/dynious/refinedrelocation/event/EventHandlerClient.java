@@ -71,7 +71,7 @@ public class EventHandlerClient
     @SubscribeEvent
     public void onBlockHighlight(DrawBlockHighlightEvent event)
     {
-        if(ModBlocks.relocator != null && event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && event.player.worldObj.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ) == ModBlocks.relocator)
+        if (ModBlocks.relocator != null && event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && event.player.worldObj.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ) == ModBlocks.relocator)
         {
             RayTracer.retraceBlock(event.player.worldObj, event.player, event.target.blockX, event.target.blockY, event.target.blockZ);
         }

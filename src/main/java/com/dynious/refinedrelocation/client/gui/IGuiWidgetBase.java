@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface IGuiWidgetBase extends IGuiParent
 {
-    public void setParent(IGuiParent parent);
-
     public IGuiParent getParent();
+
+    public void setParent(IGuiParent parent);
 
     public int getWidth();
 
@@ -24,9 +24,9 @@ public interface IGuiWidgetBase extends IGuiParent
 
     void moveY(int amount);
 
-    void setVisible(boolean visible);
-
     boolean isVisible();
+
+    void setVisible(boolean visible);
 
     public List<String> getTooltip(int mouseX, int mouseY);
 

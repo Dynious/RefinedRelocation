@@ -14,6 +14,7 @@ import java.util.List;
 
 public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
 {
+    public static final byte NULL_PRIORITY = (byte) (ForgeDirection.VALID_DIRECTIONS.length);
     private byte[] outputPrioritiesArrayProxy = {0, 1, 2, 3, 4, 5};
     private List<Byte> outputPriorities = new ArrayList<Byte>(Bytes.asList(outputPrioritiesArrayProxy));
     private boolean spreadItems = false;
@@ -22,8 +23,6 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     private ForgeDirection lastBCEnergyOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastIC2EnergyOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastCoFHEnergyOutputSide = ForgeDirection.UNKNOWN;
-
-    public static final byte NULL_PRIORITY = (byte) (ForgeDirection.VALID_DIRECTIONS.length);
 
     public byte[] getInsertDirection()
     {
@@ -84,7 +83,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     }
 
     @Override
-    public List<ForgeDirection> getOutputSidesForInsertDirection(ForgeDirection insertDirection) 
+    public List<ForgeDirection> getOutputSidesForInsertDirection(ForgeDirection insertDirection)
     {
         List<ForgeDirection> outputSides = new ArrayList<ForgeDirection>();
         for (Byte prioritySide : outputPriorities)
@@ -104,7 +103,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
         {
             // indexOf will return -1 for any value not found, which will then get bumped up to 0
             int startPriorityIndex = (outputPriorities.indexOf((byte) lastOutputSide.ordinal()) + 1) % outputPriorities.size();
-            for (int i=0, priorityIndexOfSide=startPriorityIndex; i<outputPriorities.size(); i++, priorityIndexOfSide = (priorityIndexOfSide + 1) % outputPriorities.size())
+            for (int i = 0, priorityIndexOfSide = startPriorityIndex; i < outputPriorities.size(); i++, priorityIndexOfSide = (priorityIndexOfSide + 1) % outputPriorities.size())
             {
                 ForgeDirection side = ForgeDirection.getOrientation(outputPriorities.get(priorityIndexOfSide));
                 if (side != insertDirection)
@@ -135,7 +134,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
                     {
                         itemstack.stackSize--;
                         didInsert = true;
-                        
+
                         if (itemstack == null || itemstack.stackSize == 0)
                             return null;
                     }

@@ -5,10 +5,10 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiLabel extends GuiWidgetBase
 {
+    public boolean drawCentered = true;
     protected String text;
     protected int color = 0x404040;
     protected boolean drawShadow = false;
-    public boolean drawCentered = true;
 
     public GuiLabel(IGuiParent parent, int x, int y, String text)
     {
@@ -44,24 +44,14 @@ public class GuiLabel extends GuiWidgetBase
         super.drawForeground(mouseX, mouseY);
     }
 
-    public void setText(String text)
-    {
-        this.text = text;
-    }
-
-    public void setColor(int color)
-    {
-        this.color = color;
-    }
-
-    public void setDrawShadow(boolean drawShadow)
-    {
-        this.drawShadow = drawShadow;
-    }
-
     public String getText()
     {
         return text;
+    }
+
+    public void setText(String text)
+    {
+        this.text = text;
     }
 
     public int getColor()
@@ -69,8 +59,18 @@ public class GuiLabel extends GuiWidgetBase
         return color;
     }
 
+    public void setColor(int color)
+    {
+        this.color = color;
+    }
+
     public boolean getDrawShadow()
     {
         return drawShadow;
+    }
+
+    public void setDrawShadow(boolean drawShadow)
+    {
+        this.drawShadow = drawShadow;
     }
 }

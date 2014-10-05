@@ -14,9 +14,9 @@ import java.util.List;
 
 public class GuiTextInputPowerLimiter extends GuiTextInput
 {
+    protected GuiPowerLimiter parent;
     private TilePowerLimiter tile;
     private double maxAcceptedEnergy;
-    protected GuiPowerLimiter parent;
     private EnergyType currentEnergyType;
 
     public GuiTextInputPowerLimiter(GuiPowerLimiter parent, int x, int y, int w, int h, TilePowerLimiter tile)
@@ -93,8 +93,7 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
         try
         {
             power = Double.parseDouble(string);
-        }
-        catch (NumberFormatException e)
+        } catch (NumberFormatException e)
         {
             power = 0.0D;
         }

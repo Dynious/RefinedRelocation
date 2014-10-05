@@ -15,7 +15,6 @@ import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -40,6 +39,34 @@ public class ItemSortingUpgrade extends Item
         setUnlocalizedName(Names.sortingUpgrade);
         setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         setHasSubtypes(true);
+    }
+
+    public static boolean hasNeededItem(EntityPlayer player, ItemStack stack)
+    {
+        stack.stackSize = 2;
+
+        ItemStack returnedStack = IOHelper.extract(player.inventory, stack.copy(), ForgeDirection.UNKNOWN, true, true);
+        if (returnedStack != null && returnedStack.stackSize >= stack.stackSize)
+        {
+            return true;
+        }
+        else
+        {
+            String name;
+            //Fix name -.-
+            if (stack.getItem() == ItemBlock.getItemFromBlock(Blocks.planks))
+                name = StatCollector.translateToLocal(Strings.PLANKS);
+            else
+                name = stack.getDisplayName();
+            player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.SORTING_UPGRADE_NO_MAT, name)));
+            return false;
+        }
+    }
+
+    public static void removeNeededItem(EntityPlayer player, ItemStack itemStack)
+    {
+        IOHelper.extract(player.inventory, itemStack, ForgeDirection.UNKNOWN, true, false);
+        player.inventoryContainer.detectAndSendChanges();
     }
 
     @Override
@@ -110,34 +137,6 @@ public class ItemSortingUpgrade extends Item
             }
         }
         return false;
-    }
-
-    public static boolean hasNeededItem(EntityPlayer player, ItemStack stack)
-    {
-        stack.stackSize = 2;
-
-        ItemStack returnedStack = IOHelper.extract(player.inventory, stack.copy(), ForgeDirection.UNKNOWN, true, true);
-        if (returnedStack != null && returnedStack.stackSize >= stack.stackSize)
-        {
-            return true;
-        }
-        else
-        {
-            String name;
-            //Fix name -.-
-            if (stack.getItem() == ItemBlock.getItemFromBlock(Blocks.planks))
-                name = StatCollector.translateToLocal(Strings.PLANKS);
-            else
-                name = stack.getDisplayName();
-            player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.SORTING_UPGRADE_NO_MAT, name)));
-            return false;
-        }
-    }
-
-    public static void removeNeededItem(EntityPlayer player, ItemStack itemStack)
-    {
-        IOHelper.extract(player.inventory, itemStack, ForgeDirection.UNKNOWN, true, false);
-        player.inventoryContainer.detectAndSendChanges();
     }
 
     public boolean upgradeNormalChest(TileEntity te)

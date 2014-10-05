@@ -11,8 +11,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class GuiInsertDirections extends GuiWidgetBase
 {
-    protected IAdvancedTile tile;
-
     public static int[][] facingRelativeSides = {
             {0, 1, 2, 3, 4, 5},  // down
             {1, 0, 3, 2, 4, 5},  // up
@@ -22,7 +20,7 @@ public class GuiInsertDirections extends GuiWidgetBase
             {5, 4, 3, 2, 1, 0},  // east
             {0, 1, 2, 3, 4, 5}   // unknown
     };
-
+    protected IAdvancedTile tile;
     protected GuiInsertDirection insertDirections[] = new GuiInsertDirection[ForgeDirection.VALID_DIRECTIONS.length];
 
     public GuiInsertDirections(IGuiParent parent, int x, int y, int w, int h, IAdvancedTile tile)

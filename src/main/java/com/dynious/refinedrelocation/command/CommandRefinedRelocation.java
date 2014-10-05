@@ -60,8 +60,7 @@ public class CommandRefinedRelocation extends CommandBase
                     try
                     {
                         MiscHelper.openWebpage(new URL(version.getUpdateURL()));
-                    }
-                    catch (MalformedURLException e)
+                    } catch (MalformedURLException e)
                     {
                         e.printStackTrace();
                         icommandsender.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.COMMAND_CORRUPT_URL)));

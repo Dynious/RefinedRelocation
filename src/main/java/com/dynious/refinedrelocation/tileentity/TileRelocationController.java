@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 
 public class TileRelocationController extends TileMultiBlockBase
 {
-    private String linkedUUID;
     public boolean isLocked = false;
+    private String linkedUUID;
 
     @Override
     public String getMultiBlockIdentifier()
@@ -121,7 +121,6 @@ public class TileRelocationController extends TileMultiBlockBase
         world.markBlockForUpdate(xCoord, yCoord, zCoord); // render update
         return true;
     }
-
 
 
     public boolean canPlayerToggleLock(EntityPlayer player)

@@ -12,6 +12,7 @@ public class BlockAndMeta
         this.block = block;
         this.meta = meta;
     }
+
     public BlockAndMeta(Block block)
     {
         this.block = block;

@@ -31,15 +31,32 @@ import static mcp.mobius.waila.api.SpecialChars.TAB;
 
 public class RelocatorHUDHandler implements IWailaDataProvider
 {
-    public static int tick = 0;
-    private static final int TICKS_BETWEEN_ITEM_CHANGE = 20; // 1 Second
     public static final int TICKS_BETWEEN_STUFFED_ITEM_UPDATE = 5; // 1 Second
-    private int currentStackShown = 0;
-
+    private static final int TICKS_BETWEEN_ITEM_CHANGE = 20; // 1 Second
+    public static int tick = 0;
     /*
     Cached Variables
     */
     public static ArrayList<ItemStack> stuffedItems = null;
+    private int currentStackShown = 0;
+
+    public static void addStack(ArrayList<ItemStack> stacks, ItemStack stack)
+    {
+        boolean stacksContains = false;
+        for (ItemStack needleStack : stacks)
+        {
+            if (ItemStackHelper.areItemStacksEqual(needleStack, stack))
+            {
+                needleStack.stackSize += stack.stackSize;
+                stacksContains = true;
+            }
+        }
+
+        if (!stacksContains)
+        {
+            stacks.add(stack);
+        }
+    }
 
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
@@ -137,7 +154,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
                 stuffedStrings.add(modifier + stack.getDisplayName() + " x " + stack.stackSize + EnumChatFormatting.RESET);
             }
 
-            for (int i = 0 ; i < stuffedStrings.size() ; i++)
+            for (int i = 0; i < stuffedStrings.size(); i++)
             {
                 String finalString = "";
                 if (i == 0) finalString += StatCollector.translateToLocal(Strings.RELOCATOR_STUFFED) + " ";
@@ -156,7 +173,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
             if (!wailaLine.isEmpty())
             {
                 String[] indentedLines = WordUtils.wrap(wailaLine, 40, "\n", true).split("\\n");
-                for (int j = 0 ; j < indentedLines.length ; j++)
+                for (int j = 0; j < indentedLines.length; j++)
                 {
                     indentedLines[j] = SpecialChars.TAB + indentedLines[j];
                 }
@@ -225,7 +242,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
             if (side < 6)
             {
                 NBTTagList parts = iWailaDataAccessor.getNBTData().getTagList("parts", 10);
-                for (int i = 0 ; i < parts.tagCount() ; i++)
+                for (int i = 0; i < parts.tagCount(); i++)
                 {
                     NBTTagCompound subtag = parts.getCompoundTagAt(i);
                     String id = subtag.getString("id");
@@ -260,24 +277,6 @@ public class RelocatorHUDHandler implements IWailaDataProvider
         else
         {
             return null;
-        }
-    }
-
-    public static void addStack(ArrayList<ItemStack> stacks, ItemStack stack)
-    {
-        boolean stacksContains = false;
-        for (ItemStack needleStack : stacks)
-        {
-            if (ItemStackHelper.areItemStacksEqual(needleStack, stack))
-            {
-                needleStack.stackSize += stack.stackSize;
-                stacksContains = true;
-            }
-        }
-
-        if (!stacksContains)
-        {
-            stacks.add(stack);
         }
     }
 }

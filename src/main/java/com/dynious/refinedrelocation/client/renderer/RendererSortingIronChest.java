@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 public class RendererSortingIronChest extends TileEntityIronChestRenderer
 {
     private Field model;
+
     public RendererSortingIronChest()
     {
         model = ReflectionHelper.findField(TileEntityIronChestRenderer.class, "model");
@@ -27,7 +28,8 @@ public class RendererSortingIronChest extends TileEntityIronChestRenderer
         }
         else
         {
-            if (tile == null) {
+            if (tile == null)
+            {
                 return;
             }
             int facing = tile.getFacing();
@@ -40,16 +42,20 @@ public class RendererSortingIronChest extends TileEntityIronChestRenderer
             GL11.glScalef(1.0F, -1F, -1F);
             GL11.glTranslatef(0.5F, 0.5F, 0.5F);
             int k = 0;
-            if (facing == 2) {
+            if (facing == 2)
+            {
                 k = 180;
             }
-            if (facing == 3) {
+            if (facing == 3)
+            {
                 k = 0;
             }
-            if (facing == 4) {
+            if (facing == 4)
+            {
                 k = 90;
             }
-            if (facing == 5) {
+            if (facing == 5)
+            {
                 k = -90;
             }
             GL11.glRotatef(k, 0.0F, 1.0F, 0.0F);
@@ -59,7 +65,7 @@ public class RendererSortingIronChest extends TileEntityIronChestRenderer
             lidangle = 1.0F - lidangle * lidangle * lidangle;
             try
             {
-                ModelChest chest = (ModelChest)model.get(this);
+                ModelChest chest = (ModelChest) model.get(this);
                 chest.chestLid.rotateAngleX = -((lidangle * 3.141593F) / 2.0F);
                 chest.renderAll();
             } catch (IllegalAccessException e)

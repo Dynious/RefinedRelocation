@@ -1,21 +1,18 @@
 package com.dynious.refinedrelocation.command;
 
 import com.dynious.refinedrelocation.helper.LogHelper;
-import com.google.gson.JsonSyntaxException;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.ShaderGroup;
-import net.minecraft.client.util.JsonException;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.FileUtils;
 import paulscode.sound.SoundSystem;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.Callable;
@@ -97,8 +94,7 @@ public class KongaHandler
         {
             soundSystem.newStreamingSource(false, kongaIdentifier, sound.toURI().toURL(), sound.getName(), true, 0, 0, 0, 0, 16);
             soundSystem.play(kongaIdentifier);
-        }
-        catch (MalformedURLException e)
+        } catch (MalformedURLException e)
         {
             e.printStackTrace();
         }
@@ -126,8 +122,7 @@ public class KongaHandler
                 LogHelper.info("Selecting effect " + shader);
                 renderer.theShaderGroup = new ShaderGroup(Minecraft.getMinecraft().getTextureManager(), Minecraft.getMinecraft().getResourceManager(), Minecraft.getMinecraft().getFramebuffer(), shader);
                 renderer.theShaderGroup.createBindFramebuffers(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
                 LogHelper.warning("Failed to load shader: " + shader);

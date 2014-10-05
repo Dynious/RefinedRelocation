@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 
 /**
  * Base class, DO NOT USE THIS!
- *
  */
 public interface IGridMember
 {

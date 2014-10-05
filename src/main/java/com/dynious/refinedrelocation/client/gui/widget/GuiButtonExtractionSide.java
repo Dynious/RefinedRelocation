@@ -67,11 +67,11 @@ public class GuiButtonExtractionSide extends GuiButton
         final TileRelocator relocator = module.getRelocator();
         final ForgeDirection direction = module.getSide();
         final ForgeDirection outputDirection = ForgeDirection.getOrientation(module.getExtractionSide());
-        return new int[] {
-            relocator.xCoord + direction.offsetX + outputDirection.offsetX,
-            relocator.yCoord + direction.offsetY + outputDirection.offsetY,
-            relocator.zCoord + direction.offsetZ + outputDirection.offsetZ,
-            direction.ordinal()
+        return new int[]{
+                relocator.xCoord + direction.offsetX + outputDirection.offsetX,
+                relocator.yCoord + direction.offsetY + outputDirection.offsetY,
+                relocator.zCoord + direction.offsetZ + outputDirection.offsetZ,
+                direction.ordinal()
         };
     }
 }

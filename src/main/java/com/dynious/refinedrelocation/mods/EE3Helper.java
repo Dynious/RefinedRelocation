@@ -5,7 +5,6 @@ import com.dynious.refinedrelocation.block.BlockSortingAlchemicalChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.renderer.ItemRendererSortingAlchemicalChest;
 import com.dynious.refinedrelocation.client.renderer.RendererSortingAlchemicalChest;
-import com.dynious.refinedrelocation.item.ItemSortingUpgrade;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingAlchemicalChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;

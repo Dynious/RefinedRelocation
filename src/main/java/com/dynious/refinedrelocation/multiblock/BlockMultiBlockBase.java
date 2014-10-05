@@ -28,7 +28,7 @@ public abstract class BlockMultiBlockBase extends BlockContainer
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile != null && tile instanceof TileMultiBlockBase)
             {
-                ((TileMultiBlockBase)tile).forceCheck();
+                ((TileMultiBlockBase) tile).forceCheck();
                 return true;
             }
         }

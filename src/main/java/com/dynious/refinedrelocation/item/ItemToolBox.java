@@ -61,8 +61,7 @@ public class ItemToolBox extends Item
             try
             {
                 WRENCH_CLASSES.add(Class.forName(className));
-            }
-            catch (ClassNotFoundException ignored)
+            } catch (ClassNotFoundException ignored)
             {
             }
         }
@@ -75,6 +74,104 @@ public class ItemToolBox extends Item
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setMaxStackSize(1);
         this.setContainerItem(this);
+    }
+
+    public static boolean isItemWrench(Item item)
+    {
+        for (Class<?> clazz : WRENCH_CLASSES)
+        {
+            if (clazz.isAssignableFrom(item.getClass()) || ArrayUtils.contains(item.getClass().getInterfaces(), clazz))
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean doesToolBoxContainWrench(NBTTagCompound toolBoxCompound, Item wrench)
+    {
+        NBTTagList list = toolBoxCompound.getTagList("wrenches", 10);
+        for (int i = 0; i < list.tagCount(); i++)
+        {
+            NBTTagCompound compound = list.getCompoundTagAt(i);
+            ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
+            if (stack.getItem() == wrench)
+                return true;
+        }
+        return false;
+    }
+
+    public static ItemStack getCurrentWrench(ItemStack stack)
+    {
+        if (stack.hasTagCompound())
+        {
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
+            byte index = stack.getTagCompound().getByte("index");
+            if (list.tagCount() > index)
+            {
+                NBTTagCompound compound = list.getCompoundTagAt(index);
+                return ItemStack.loadItemStackFromNBT(compound);
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<ItemStack> getWrenches(ItemStack stack)
+    {
+        if (stack.hasTagCompound())
+        {
+            ArrayList<ItemStack> wrenches = new ArrayList<ItemStack>();
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
+            for (int x = 0; x < list.tagCount(); x++)
+            {
+                NBTTagCompound nbttagcompound1 = list.getCompoundTagAt(x);
+                wrenches.add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
+            }
+            return wrenches;
+        }
+        return null;
+    }
+
+    /*
+    Damage Stuffs
+     */
+
+    public static void addWrenchAtIndex(ItemStack stack, ItemStack wrench, byte index)
+    {
+        if (wrench == null || wrench.stackSize == 0)
+        {
+            removeWrenchAtIndex(stack, index);
+            return;
+        }
+        if (stack.hasTagCompound())
+        {
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
+            if (list.tagCount() > index)
+            {
+                NBTTagCompound compound = list.getCompoundTagAt(index);
+                wrench.writeToNBT(compound);
+            }
+        }
+    }
+
+    public static void removeWrenchAtIndex(ItemStack stack, byte index)
+    {
+        if (stack.hasTagCompound())
+        {
+            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
+            if (list.tagCount() > index)
+            {
+                list.removeTag(index);
+                index--;
+                if (index < 0)
+                    index = 0;
+                stack.getTagCompound().setByte("index", index);
+            }
+        }
+    }
+
+    public static void addToolboxClass(Class clazz)
+    {
+        if (clazz != null && !WRENCH_CLASSES.contains(clazz))
+            WRENCH_CLASSES.add(clazz);
     }
 
     @Override
@@ -173,6 +270,10 @@ public class ItemToolBox extends Item
         return false;
     }
 
+    /*
+    Icon stuffs
+     */
+
     @SuppressWarnings("unchecked")
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
@@ -188,7 +289,8 @@ public class ItemToolBox extends Item
             if (Mods.IS_IC2_LOADED) // Add IC2 Charge meter
             {
                 String charge = ElectricItem.manager.getToolTip(wrench);
-                if (charge != null) {
+                if (charge != null)
+                {
                     list.add(charge);
                 }
             }
@@ -219,10 +321,6 @@ public class ItemToolBox extends Item
         }
         return copiedStack;
     }
-
-    /*
-    Damage Stuffs
-     */
 
     @Override
     public int getDamage(ItemStack stack)
@@ -259,10 +357,6 @@ public class ItemToolBox extends Item
         if (wrench != null) wrench.getItem().setDamage(wrench, damage);
     }
 
-    /*
-    Icon stuffs
-     */
-
     @Override
     public boolean requiresMultipleRenderPasses()
     {
@@ -292,99 +386,5 @@ public class ItemToolBox extends Item
     {
         itemIcon = register.registerIcon(Resources.MOD_ID + ":" + Names.toolbox);
         transparent = register.registerIcon(Resources.MOD_ID + ":" + "transparent");
-    }
-
-    public static boolean isItemWrench(Item item)
-    {
-        for (Class<?> clazz : WRENCH_CLASSES)
-        {
-            if (clazz.isAssignableFrom(item.getClass()) || ArrayUtils.contains(item.getClass().getInterfaces(), clazz))
-                return true;
-        }
-        return false;
-    }
-
-    public static boolean doesToolBoxContainWrench(NBTTagCompound toolBoxCompound, Item wrench)
-    {
-        NBTTagList list = toolBoxCompound.getTagList("wrenches", 10);
-        for (int i = 0; i < list.tagCount(); i++)
-        {
-            NBTTagCompound compound = list.getCompoundTagAt(i);
-            ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
-            if (stack.getItem() == wrench)
-                return true;
-        }
-        return false;
-    }
-
-    public static ItemStack getCurrentWrench(ItemStack stack)
-    {
-        if (stack.hasTagCompound())
-        {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-            byte index = stack.getTagCompound().getByte("index");
-            if (list.tagCount() > index)
-            {
-                NBTTagCompound compound = list.getCompoundTagAt(index);
-                return ItemStack.loadItemStackFromNBT(compound);
-            }
-        }
-        return null;
-    }
-
-    public static ArrayList<ItemStack> getWrenches(ItemStack stack)
-    {
-        if (stack.hasTagCompound())
-        {
-            ArrayList<ItemStack> wrenches = new ArrayList<ItemStack>();
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-            for (int x = 0; x < list.tagCount(); x++)
-            {
-                NBTTagCompound nbttagcompound1 = list.getCompoundTagAt(x);
-                wrenches.add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
-            }
-            return wrenches;
-        }
-        return null;
-    }
-
-    public static void addWrenchAtIndex(ItemStack stack, ItemStack wrench, byte index)
-    {
-        if (wrench == null || wrench.stackSize == 0)
-        {
-            removeWrenchAtIndex(stack, index);
-            return;
-        }
-        if (stack.hasTagCompound())
-        {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-            if (list.tagCount() > index)
-            {
-                NBTTagCompound compound = list.getCompoundTagAt(index);
-                wrench.writeToNBT(compound);
-            }
-        }
-    }
-
-    public static void removeWrenchAtIndex(ItemStack stack, byte index)
-    {
-        if (stack.hasTagCompound())
-        {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-            if (list.tagCount() > index)
-            {
-                list.removeTag(index);
-                index--;
-                if (index < 0)
-                    index = 0;
-                stack.getTagCompound().setByte("index", index);
-            }
-        }
-    }
-
-    public static void addToolboxClass(Class clazz)
-    {
-        if (clazz != null && !WRENCH_CLASSES.contains(clazz))
-            WRENCH_CLASSES.add(clazz);
     }
 }

@@ -63,7 +63,7 @@ public class RefinedRelocation
         RelocatorModuleRegistry.registerModules();
 
         proxy.registerEventHandlers();
-        
+
         ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallbackHelper());
     }
 

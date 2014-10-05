@@ -1,7 +1,8 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import appeng.api.AEApi;
-import appeng.api.config.*;
+import appeng.api.config.AccessRestriction;
+import appeng.api.config.Actionable;
 import appeng.api.networking.*;
 import appeng.api.networking.events.MENetworkCellArrayUpdate;
 import appeng.api.networking.events.MENetworkChannelsChanged;
@@ -10,7 +11,10 @@ import appeng.api.networking.events.MENetworkPowerStatusChange;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.networking.storage.IStorageGrid;
-import appeng.api.storage.*;
+import appeng.api.storage.ICellContainer;
+import appeng.api.storage.IMEInventory;
+import appeng.api.storage.IMEInventoryHandler;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.api.util.AECableType;
@@ -129,7 +133,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
 
     private void removeStackFromCache(IAEItemStack stack)
     {
-        for (IAEItemStack stack1: cachedItemList)
+        for (IAEItemStack stack1 : cachedItemList)
         {
             if (stack1.equals(stack))
             {
@@ -157,7 +161,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         ItemStack stack = aeItemStack1.getItemStack();
         ItemStack returnedStack = null;
         int amount;
-        while(aeItemStack1.getStackSize() > 0 && returnedStack == null)
+        while (aeItemStack1.getStackSize() > 0 && returnedStack == null)
         {
             amount = (int) Math.min(64, aeItemStack1.getStackSize());
             stack.stackSize = amount;

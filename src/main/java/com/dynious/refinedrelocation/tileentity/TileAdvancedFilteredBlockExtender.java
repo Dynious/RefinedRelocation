@@ -10,6 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileAdvancedFilteredBlockExtender extends TileBlockExtender implements IAdvancedFilteredTile
 {
+    public boolean restrictExtraction = false;
     private boolean spreadItems = false;
     private byte[] insertDirection = {1, 1, 1, 1, 1, 1, 1};
     private int bestSlot;
@@ -18,7 +19,6 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     private ItemStack lastStack;
     private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private byte maxStackSize = 64;
-    public boolean restrictExtraction = false;
 
     @Override
     public boolean getRestrictExtraction()

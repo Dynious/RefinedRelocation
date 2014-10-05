@@ -15,8 +15,7 @@ public class MiscHelper
             try
             {
                 desktop.browse(uri);
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -28,8 +27,7 @@ public class MiscHelper
         try
         {
             openWebpage(url.toURI());
-        }
-        catch (URISyntaxException e)
+        } catch (URISyntaxException e)
         {
             e.printStackTrace();
         }

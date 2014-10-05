@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.client.renderer;
 
-import codechicken.lib.render.BlockRenderer;
 import codechicken.lib.vec.Cuboid6;
 import com.dynious.refinedrelocation.multiblock.IMultiBlock;
 import com.dynious.refinedrelocation.multiblock.MultiBlockRegistry;
@@ -18,7 +17,6 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RendererMultiBlock extends TileEntitySpecialRenderer
 {
@@ -48,7 +46,7 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
                             for (int z = 0; z < multiBlock.getMultiBlockMap().getSizeZ(); z++)
                             {
                                 GL11.glPushMatrix();
-                                
+
                                 renderBlocks(multiBlock, tileMultiBlock, x, y, z);
 
                                 GL11.glPopMatrix();
@@ -152,7 +150,7 @@ public class RendererMultiBlock extends TileEntitySpecialRenderer
 
         t.startDrawingQuads();
         t.setColorRGBA(255, 0, 0, 126);
-        
+
         Cuboid6 vector = new Cuboid6(-0.501, -0.501, -0.501, 0.501, 0.501, 0.501);
 
         // Top side

@@ -39,10 +39,9 @@ import java.util.ListIterator;
 
 public class TileRelocator extends TileEntity implements IRelocator, ISidedInventory
 {
-    private boolean isFirstTick = true;
     public boolean shouldUpdate = true;
     public boolean isBeingPowered = false;
-
+    private boolean isFirstTick = true;
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocatorModule[] modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
@@ -74,6 +73,26 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             stuffedItems[i] = new ArrayList<ItemStack>();
         }
+    }
+
+    public static void markUpdate(World world, int x, int y, int z)
+    {
+        if (world.isRemote) return;
+
+        if (Mods.IS_FMP_LOADED)
+        {
+            FMPHelper.updateBlock(world, x, y, z);
+        }
+        else
+        {
+            world.markBlockForUpdate(x, y, z);
+        }
+    }
+
+    public static void markUpdateAndNotify(World world, int x, int y, int z)
+    {
+        markUpdate(world, x, y, z);
+        world.notifyBlocksOfNeighborChange(x, y, z, world.getBlock(x, y, z));
     }
 
     @Override
@@ -150,7 +169,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     continue;
 
                 ArrayList<ItemStack> stacksUnableToAdd = new ArrayList<ItemStack>();
-                for (ListIterator<ItemStack> iterator = stuffedItems[side].listIterator(); iterator.hasNext();)
+                for (ListIterator<ItemStack> iterator = stuffedItems[side].listIterator(); iterator.hasNext(); )
                 {
                     ItemStack stack = iterator.next();
                     if (!stacksUnableToAdd.contains(stack) && (modules[side] == null || modules[side].passesFilter(this, side, stack, false, true)))
@@ -400,7 +419,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void onBlocksChanged()
     {
-        if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
             return;
 
         inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
@@ -408,7 +427,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            if (!((IRelocator)worldObj.getTileEntity(xCoord, yCoord, zCoord)).canConnectOnSide(direction.ordinal()))
+            if (!((IRelocator) worldObj.getTileEntity(xCoord, yCoord, zCoord)).canConnectOnSide(direction.ordinal()))
                 continue;
 
             TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
@@ -416,7 +435,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 if (tile instanceof IRelocator)
                 {
-                    if (((IRelocator)tile).canConnectOnSide(direction.getOpposite().ordinal()))
+                    if (((IRelocator) tile).canConnectOnSide(direction.getOpposite().ordinal()))
                     {
                         relocators[direction.ordinal()] = (IRelocator) tile;
                     }
@@ -783,9 +802,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
         NBTTagCompound tag = pkt.func_148857_g();
-        
+
         isBeingPowered = tag.getBoolean("redstone");
-        
+
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
             isConnected[i] = tag.hasKey("c" + i);
@@ -848,6 +867,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             renderType = 0;
     }
 
+    /*
+    ISidedInventory implementation
+     */
+
     public byte getRenderType()
     {
         return renderType;
@@ -859,7 +882,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             TravellingItem item = iterator.next();
             if ((item.counter - 1 < TravellingItem.timePerRelocator / 2 && !connectsToSide(item.getInputSide() < 0 ? 0 : item.getInputSide()))
-                || (item.counter - 1 > TravellingItem.timePerRelocator / 2 && !connectsToSide(item.getOutputSide())))
+                    || (item.counter - 1 > TravellingItem.timePerRelocator / 2 && !connectsToSide(item.getOutputSide())))
             {
                 iterator.remove();
             }
@@ -871,14 +894,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
     }
 
-    /*
-    ISidedInventory implementation
-     */
-
     @Override
     public int[] getAccessibleSlotsFromSide(int side)
     {
-        return new int[] { side };
+        return new int[]{side};
     }
 
     @Override
@@ -1001,6 +1020,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
     }
 
+    /*
+    IPipeTile functionality
+     */
+
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
@@ -1012,10 +1035,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         return true;
     }
-
-    /*
-    IPipeTile functionality
-     */
 
     @Override
     @Optional.Method(modid = "BuildCraftAPI|transport")
@@ -1048,25 +1067,5 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public boolean isWireActive(PipeWire pipeWire)
     {
         return false;
-    }
-
-    public static void markUpdate(World world, int x, int y, int z)
-    {
-        if (world.isRemote) return;
-
-        if (Mods.IS_FMP_LOADED)
-        {
-            FMPHelper.updateBlock(world, x, y, z);
-        }
-        else
-        {
-            world.markBlockForUpdate(x, y, z);
-        }
-    }
-
-    public static void markUpdateAndNotify(World world, int x, int y, int z)
-    {
-        markUpdate(world, x, y, z);
-        world.notifyBlocksOfNeighborChange(x, y, z, world.getBlock(x, y, z));
     }
 }

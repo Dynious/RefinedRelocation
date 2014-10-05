@@ -45,11 +45,8 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
      * Server sync counter (once per 20 ticks)
      */
     public int ticksSinceSync;
-
-    private int facing;
-
     public ItemStack[] inventory;
-
+    private int facing;
     private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private boolean blacklist = true;
 

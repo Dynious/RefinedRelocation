@@ -16,6 +16,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class ItemRendererSortingChest implements IItemRenderer
 {
     private static final ResourceLocation RES_NORMAL_SINGLE = new ResourceLocation("textures/entity/chest/normal.png");
+    private ModelChest model;
 
     public ItemRendererSortingChest()
     {
@@ -75,6 +76,4 @@ public class ItemRendererSortingChest implements IItemRenderer
         glPopMatrix();
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
-
-    private ModelChest model;
 }

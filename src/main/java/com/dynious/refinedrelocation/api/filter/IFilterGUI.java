@@ -25,5 +25,6 @@ public interface IFilterGUI extends IFilter
     public void setUserFilter(String userFilter);
 
     public void writeToNBT(NBTTagCompound compound);
+
     public void readFromNBT(NBTTagCompound compound);
 }

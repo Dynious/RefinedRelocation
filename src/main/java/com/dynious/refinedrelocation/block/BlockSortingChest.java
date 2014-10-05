@@ -44,6 +44,29 @@ public class BlockSortingChest extends BlockContainer
     }
 
     /**
+     * Looks for a sitting ocelot within certain bounds. Such an ocelot is considered to be blocking access to the
+     * chest.
+     */
+    public static boolean isOcelotBlockingChest(World par0World, int par1, int par2, int par3)
+    {
+        Iterator iterator = par0World.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getBoundingBox((double) par1, (double) (par2 + 1), (double) par3, (double) (par1 + 1), (double) (par2 + 2), (double) (par3 + 1))).iterator();
+        EntityOcelot entityocelot;
+
+        do
+        {
+            if (!iterator.hasNext())
+            {
+                return false;
+            }
+
+            entityocelot = (EntityOcelot) iterator.next();
+        }
+        while (!entityocelot.isSitting());
+
+        return true;
+    }
+
+    /**
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
      * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
      */
@@ -147,7 +170,6 @@ public class BlockSortingChest extends BlockContainer
         super.breakBlock(world, x, y, z, oldBlock, oldMetadata);
     }
 
-
     /**
      * Called upon block activation (right click on the block.)
      */
@@ -187,7 +209,6 @@ public class BlockSortingChest extends BlockContainer
         return true;
     }
 
-
     /**
      * Gets the inventory of the chest at the specified coords, accounting for blocks or ocelots on top of the chest,
      * and double chests.
@@ -223,29 +244,6 @@ public class BlockSortingChest extends BlockContainer
         return new TileSortingChest();
     }
 
-    /**
-     * Looks for a sitting ocelot within certain bounds. Such an ocelot is considered to be blocking access to the
-     * chest.
-     */
-    public static boolean isOcelotBlockingChest(World par0World, int par1, int par2, int par3)
-    {
-        Iterator iterator = par0World.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getBoundingBox((double) par1, (double) (par2 + 1), (double) par3, (double) (par1 + 1), (double) (par2 + 2), (double) (par3 + 1))).iterator();
-        EntityOcelot entityocelot;
-
-        do
-        {
-            if (!iterator.hasNext())
-            {
-                return false;
-            }
-
-            entityocelot = (EntityOcelot) iterator.next();
-        }
-        while (!entityocelot.isSitting());
-
-        return true;
-    }
-
     @SideOnly(Side.CLIENT)
     /**
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
@@ -266,7 +264,8 @@ public class BlockSortingChest extends BlockContainer
         if (axis == ForgeDirection.UP || axis == ForgeDirection.DOWN)
         {
             TileEntity tileEntity = worldObj.getTileEntity(x, y, z);
-            if (tileEntity instanceof TileSortingChest) {
+            if (tileEntity instanceof TileSortingChest)
+            {
                 TileSortingChest sortingChest = (TileSortingChest) tileEntity;
                 sortingChest.rotateAround(axis);
             }

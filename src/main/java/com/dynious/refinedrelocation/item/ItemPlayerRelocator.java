@@ -51,6 +51,17 @@ public class ItemPlayerRelocator extends Item
         this.setMaxStackSize(1);
     }
 
+    public static long getTimeDifference(ItemStack stack)
+    {
+        return System.currentTimeMillis() - stack.getTagCompound().getLong(TIME);
+    }
+
+    public static int getTimeLeft(ItemStack stack, EntityPlayer player)
+    {
+        int cooldown = player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
+        return (int) (cooldown - (getTimeDifference(stack) / 1000));
+    }
+
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
@@ -335,16 +346,5 @@ public class ItemPlayerRelocator extends Item
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
-    }
-
-    public static long getTimeDifference(ItemStack stack)
-    {
-        return System.currentTimeMillis() - stack.getTagCompound().getLong(TIME);
-    }
-
-    public static int getTimeLeft(ItemStack stack, EntityPlayer player)
-    {
-        int cooldown = player.capabilities.isCreativeMode ? 1 : Settings.PLAYER_RELOCATOR_COOLDOWN;
-        return (int) (cooldown - (getTimeDifference(stack) / 1000));
     }
 }

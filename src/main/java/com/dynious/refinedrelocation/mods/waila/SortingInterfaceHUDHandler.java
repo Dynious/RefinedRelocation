@@ -2,8 +2,6 @@ package com.dynious.refinedrelocation.mods.waila;
 
 import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.tileentity.TileSortingConnector;
-import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
 import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

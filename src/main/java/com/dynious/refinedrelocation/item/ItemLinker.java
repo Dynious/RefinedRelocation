@@ -80,8 +80,8 @@ public class ItemLinker extends Item
                 TileEntity linkedTile = world.getTileEntity(linkedX, linkedY, linkedZ);
                 if (linkedTile != null && linkedTile instanceof IDisguisable)
                 {
-                    linkedBlock = ((IDisguisable)linkedTile).getDisguise();
-                    linkedBlockMetadata = ((IDisguisable)linkedTile).getDisguiseMeta();
+                    linkedBlock = ((IDisguisable) linkedTile).getDisguise();
+                    linkedBlockMetadata = ((IDisguisable) linkedTile).getDisguiseMeta();
                 }
                 if (linkedBlock != null && disguisable.canDisguiseAs(linkedBlock, linkedBlockMetadata))
                 {
@@ -163,7 +163,7 @@ public class ItemLinker extends Item
             unlink(stack);
             if (world.isRemote)
                 entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemStackDisplayName(stack))));
-                entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemStackDisplayName(stack))));
+            entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED, this.getItemStackDisplayName(stack))));
             return stack;
         }
         return super.onItemRightClick(stack, world, entityPlayer);

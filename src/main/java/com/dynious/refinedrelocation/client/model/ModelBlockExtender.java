@@ -45,7 +45,7 @@ public class ModelBlockExtender extends ModelBase
         BaseDisguised.setRotationPoint(-8F, 22F, -8F);
         BaseDisguised.setTextureSize(128, 128);
         BaseDisguised.mirror = true;
-        
+
         setRotation(Base, 0F, 0F, 0F);
         Pilar1 = new ModelRenderer(this, 0, 0);
         Pilar1.addBox(0F, 0F, 0F, 2, 14, 2);
@@ -117,7 +117,7 @@ public class ModelBlockExtender extends ModelBase
     {
         Base.render(size);
     }
-    
+
     public void renderBaseDisguised()
     {
         BaseDisguised.render(size);

@@ -66,14 +66,14 @@ public class GuiTextInput extends GuiWidgetBase
         textField.deleteFromCursor(par1);
     }
 
-    public void setText(String par1Str)
-    {
-        textField.setText(par1Str);
-    }
-
     public String getText()
     {
         return textField.getText();
+    }
+
+    public void setText(String par1Str)
+    {
+        textField.setText(par1Str);
     }
 
     public String getSelectedtext()
@@ -106,11 +106,6 @@ public class GuiTextInput extends GuiWidgetBase
         textField.moveCursorBy(par1);
     }
 
-    public void setCursorPosition(int par1)
-    {
-        textField.setCursorPosition(par1);
-    }
-
     public void setCursorPositionZero()
     {
         textField.setCursorPositionZero();
@@ -121,19 +116,24 @@ public class GuiTextInput extends GuiWidgetBase
         textField.setCursorPositionEnd();
     }
 
-    public void setMaxStringLength(int par1)
-    {
-        textField.setMaxStringLength(par1);
-    }
-
     public int getMaxStringLength()
     {
         return textField.getMaxStringLength();
     }
 
+    public void setMaxStringLength(int par1)
+    {
+        textField.setMaxStringLength(par1);
+    }
+
     public int getCursorPosition()
     {
         return textField.getCursorPosition();
+    }
+
+    public void setCursorPosition(int par1)
+    {
+        textField.setCursorPosition(par1);
     }
 
     public boolean getEnableBackgroundDrawing()
@@ -156,14 +156,14 @@ public class GuiTextInput extends GuiWidgetBase
         textField.setDisabledTextColour(par1);
     }
 
-    public void setFocused(boolean par1)
-    {
-        textField.setFocused(par1);
-    }
-
     public boolean isFocused()
     {
         return textField.isFocused();
+    }
+
+    public void setFocused(boolean par1)
+    {
+        textField.setFocused(par1);
     }
 
     public void setEnabled(boolean par1)

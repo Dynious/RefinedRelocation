@@ -25,10 +25,10 @@ public class BlockHelper
         if (block != null)
         {
             // trace from the middle of the given side to the opposite side
-            Vec3 midpos = Vec3.createVectorHelper(x+0.5D, y+0.5D, z+0.5D);
+            Vec3 midpos = Vec3.createVectorHelper(x + 0.5D, y + 0.5D, z + 0.5D);
             ForgeDirection opposite = side.getOpposite();
-            Vec3 startpos = midpos.addVector(opposite.offsetX*.5, opposite.offsetY*.5, opposite.offsetZ*.5);
-            Vec3 endpos = midpos.addVector(side.offsetX*.5, side.offsetY*.5, side.offsetZ*.5);
+            Vec3 startpos = midpos.addVector(opposite.offsetX * .5, opposite.offsetY * .5, opposite.offsetZ * .5);
+            Vec3 endpos = midpos.addVector(side.offsetX * .5, side.offsetY * .5, side.offsetZ * .5);
             MovingObjectPosition hit = world.rayTraceBlocks(startpos, endpos);
             if (hit != null)
             {
@@ -37,8 +37,7 @@ public class BlockHelper
                     ItemStack pickedItemStack = block.getPickBlock(hit, world, x, y, z);
                     if (pickedItemStack != null)
                         return getItemStackDisplayName(pickedItemStack);
-                }
-                catch(Exception e)
+                } catch (Exception e)
                 {
                     // safety for multipart reduceMOP exceptions
                 }
@@ -61,7 +60,7 @@ public class BlockHelper
             // trace from one corner to the other so that we can be fairly certain we at least hit something
             // note that this may ignore tiny multiparts (nooks/corners)
             Vec3 startpos = Vec3.createVectorHelper(x, y, z);
-            Vec3 endpos = Vec3.createVectorHelper(x+1, y+1, z+1);
+            Vec3 endpos = Vec3.createVectorHelper(x + 1, y + 1, z + 1);
             MovingObjectPosition hit = world.rayTraceBlocks(startpos, endpos);
             if (hit != null)
             {
@@ -70,8 +69,7 @@ public class BlockHelper
                     ItemStack pickedItemStack = block.getPickBlock(hit, world, x, y, z);
                     if (pickedItemStack != null)
                         return getItemStackDisplayName(pickedItemStack);
-                }
-                catch(Exception e)
+                } catch (Exception e)
                 {
                     // safety for multipart reduceMOP exceptions
                 }

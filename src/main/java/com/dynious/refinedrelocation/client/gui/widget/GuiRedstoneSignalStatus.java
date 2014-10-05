@@ -11,11 +11,11 @@ import java.util.List;
 
 public class GuiRedstoneSignalStatus extends GuiButtonToggle
 {
+    protected static final int textureXBase = 128;
     protected TileBlockExtender tile;
     protected boolean lastEnabled = false;
     protected boolean lastPowered = true;
     protected String tooltipText;
-    protected static final int textureXBase = 128;
 
     public GuiRedstoneSignalStatus(IGuiParent parent, int x, int y, TileBlockExtender tile)
     {

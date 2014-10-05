@@ -219,8 +219,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
         try
         {
             t = (NBTTagCompound) nbtField.get(p);
-        }
-        catch (IllegalAccessException e)
+        } catch (IllegalAccessException e)
         {
             e.printStackTrace();
         }

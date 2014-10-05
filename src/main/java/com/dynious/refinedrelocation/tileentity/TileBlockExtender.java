@@ -35,6 +35,9 @@ import static cpw.mods.fml.common.Optional.Method;
 
 public class TileBlockExtender extends TileIndustrialCraft implements ISidedInventory, IFluidHandler, IDisguisable, ILoopable
 {
+    public boolean blocksChanged = true;
+    public Block blockDisguisedAs = null;
+    public int blockDisguisedMetadata = 0;
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
     protected IInventory inventory;
@@ -43,13 +46,9 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
     protected IEnergyHandler energyHandler;
-
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
-    public boolean blocksChanged = true;
     protected boolean isRedstonePowered = false;
     protected boolean isRedstoneEnabled = true;
-    public Block blockDisguisedAs = null;
-    public int blockDisguisedMetadata = 0;
 
     public TileBlockExtender()
     {
@@ -61,7 +60,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     {
         return true;
     }
-    
+
     @Override
     public boolean canDisguiseAs(Block block, int metadata)
     {
@@ -111,6 +110,11 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         return connectedDirection;
     }
 
+    public IInventory getInventory()
+    {
+        return inventory;
+    }
+
     public void setInventory(IInventory inventory)
     {
         this.inventory = inventory;
@@ -124,15 +128,32 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         }
     }
 
+    public IFluidHandler getFluidHandler()
+    {
+        return fluidHandler;
+    }
+
     public void setFluidHandler(IFluidHandler fluidHandler)
     {
         this.fluidHandler = fluidHandler;
     }
 
     @Method(modid = Mods.BC_POWER_API_ID)
+    public IPowerReceptor getPowerReceptor()
+    {
+        return powerReceptor;
+    }
+
+    @Method(modid = Mods.BC_POWER_API_ID)
     public void setPowerReceptor(IPowerReceptor powerReceptor)
     {
         this.powerReceptor = powerReceptor;
+    }
+
+    @Method(modid = Mods.IC2_ID)
+    public IEnergySink getEnergySink()
+    {
+        return energySink;
     }
 
     @Method(modid = Mods.IC2_ID)
@@ -157,37 +178,15 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     }
 
     @Method(modid = Mods.COFH_ENERGY_API_ID)
-    public void setEnergyHandler(IEnergyHandler energyHandler)
-    {
-        this.energyHandler = energyHandler;
-    }
-
-    public IInventory getInventory()
-    {
-        return inventory;
-    }
-
-    public IFluidHandler getFluidHandler()
-    {
-        return fluidHandler;
-    }
-
-    @Method(modid = Mods.BC_POWER_API_ID)
-    public IPowerReceptor getPowerReceptor()
-    {
-        return powerReceptor;
-    }
-
-    @Method(modid = Mods.IC2_ID)
-    public IEnergySink getEnergySink()
-    {
-        return energySink;
-    }
-
-    @Method(modid = Mods.COFH_ENERGY_API_ID)
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
+    }
+
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
+    public void setEnergyHandler(IEnergyHandler energyHandler)
+    {
+        this.energyHandler = energyHandler;
     }
 
     public TileEntity[] getTiles()
@@ -312,7 +311,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
                 }
                 setEnergyHandler((IEnergyHandler) tile);
             }
-            
+
             if (updated)
             {
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
@@ -839,7 +838,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
             setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }
-
 
 
     @Override

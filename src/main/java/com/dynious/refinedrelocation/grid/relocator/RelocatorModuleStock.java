@@ -193,7 +193,7 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
             if (this.itemStacksToStock[i] != null)
             {
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setByte("Slot", (byte)i);
+                nbttagcompound1.setByte("Slot", (byte) i);
                 this.itemStacksToStock[i].writeToNBT(nbttagcompound1);
                 nbttaglist.appendTag(nbttagcompound1);
             }

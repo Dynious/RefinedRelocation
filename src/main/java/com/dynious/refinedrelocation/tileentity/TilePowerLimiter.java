@@ -26,13 +26,12 @@ import static cpw.mods.fml.common.Optional.Method;
 
 public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
 {
+    public boolean blocksChanged = true;
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;
     protected ForgeDirection previousConnectedDirection = ForgeDirection.UNKNOWN;
     protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
     protected IEnergyHandler energyHandler;
-
-    public boolean blocksChanged = true;
     private double maxAcceptedEnergy = 10;
     private boolean disablePower = false;
     private boolean redstoneToggle = false;
@@ -51,9 +50,19 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         return connectedDirection;
     }
 
+    public IPowerReceptor getPowerReceptor()
+    {
+        return powerReceptor;
+    }
+
     public void setPowerReceptor(IPowerReceptor powerReceptor)
     {
         this.powerReceptor = powerReceptor;
+    }
+
+    public IEnergySink getEnergySink()
+    {
+        return energySink;
     }
 
     public void setEnergySink(IEnergySink energySink)
@@ -76,24 +85,14 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         }
     }
 
-    public void setEnergyHandler(IEnergyHandler energyHandler)
-    {
-        this.energyHandler = energyHandler;
-    }
-
-    public IPowerReceptor getPowerReceptor()
-    {
-        return powerReceptor;
-    }
-
-    public IEnergySink getEnergySink()
-    {
-        return energySink;
-    }
-
     public IEnergyHandler getEnergyHandler()
     {
         return energyHandler;
+    }
+
+    public void setEnergyHandler(IEnergyHandler energyHandler)
+    {
+        this.energyHandler = energyHandler;
     }
 
     public double getMaxAcceptedEnergy()
@@ -106,6 +105,11 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         maxAcceptedEnergy = value;
     }
 
+    public boolean getDisablePower()
+    {
+        return disablePower;
+    }
+
     public void setDisablePower(boolean value)
     {
         if (value != disablePower)
@@ -116,20 +120,16 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
         }
     }
 
-    public boolean getDisablePower()
+    public boolean getRedstoneToggle()
     {
-        return disablePower;
+        return redstoneToggle;
     }
 
     public void setRedstoneToggle(boolean toggle)
     {
         redstoneToggle = toggle;
-        if (worldObj != null && !worldObj.isRemote) newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
-    }
-
-    public boolean getRedstoneToggle()
-    {
-        return redstoneToggle;
+        if (worldObj != null && !worldObj.isRemote)
+            newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
     }
 
     public void newRedstoneState(boolean state)
@@ -205,7 +205,8 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
                     checkConnectedDirection(tile);
                 }
 
-                if (!worldObj.isRemote) newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
+                if (!worldObj.isRemote)
+                    newRedstoneState(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord));
                 blocksChanged = false;
             }
         }
@@ -325,7 +326,7 @@ public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
     {
         if (getEnergySink() != null && !getDisablePower())
         {
-            double demanded =  getEnergySink().getDemandedEnergy();
+            double demanded = getEnergySink().getDemandedEnergy();
             if (demanded > EnergyType.EU.fromInternal(maxAcceptedEnergy))
             {
                 demanded = EnergyType.EU.fromInternal(maxAcceptedEnergy);

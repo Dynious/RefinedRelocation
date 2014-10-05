@@ -38,7 +38,7 @@ public interface IRelocatorModule
 
     public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound);
 
-    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound  compound);
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound);
 
     public List<ItemStack> getDrops(IItemRelocator relocator, int side);
 

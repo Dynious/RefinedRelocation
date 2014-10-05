@@ -12,7 +12,6 @@ public interface ISortingInventoryHandler extends ISortingMemberHandler
 
     /**
      * Should be called when a change is made in one of the members on the Sorting System.
-     *
      */
     public void onInventoryChange();
 }

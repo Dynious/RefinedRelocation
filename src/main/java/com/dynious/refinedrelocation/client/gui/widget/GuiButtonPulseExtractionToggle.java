@@ -60,7 +60,7 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
         module.redstoneControlState = newState;
         NetworkHandler.INSTANCE.sendToServer(new MessageExtractOnRedstoneSignal(newState));
 
-        switch(module.redstoneControlState)
+        switch (module.redstoneControlState)
         {
             case 0:
                 this.textureX = 178;

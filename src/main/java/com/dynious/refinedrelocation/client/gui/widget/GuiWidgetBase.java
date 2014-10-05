@@ -51,15 +51,21 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
     }
 
     @Override
+    public boolean isVisible()
+    {
+        return this.visible;
+    }
+
+    @Override
     public void setVisible(boolean visible)
     {
         this.visible = visible;
     }
 
     @Override
-    public boolean isVisible()
+    public IGuiParent getParent()
     {
-        return this.visible;
+        return this.parent;
     }
 
     @Override
@@ -71,12 +77,6 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
             parent.addChild(this);
 
         this.parent = parent;
-    }
-
-    @Override
-    public IGuiParent getParent()
-    {
-        return this.parent;
     }
 
     @Override

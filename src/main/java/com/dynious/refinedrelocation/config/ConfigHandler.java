@@ -8,7 +8,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Configuration;
 
-public class ConfigHandler {
+public class ConfigHandler
+{
     public static Configuration configFile;
 
     public static void init(FMLPreInitializationEvent event)
@@ -16,12 +17,6 @@ public class ConfigHandler {
         FMLCommonHandler.instance().bus().register(new ConfigHandler());
         configFile = new Configuration(event.getSuggestedConfigurationFile());
         syncConfig();
-    }
-
-    @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if(eventArgs.modID.equals(Reference.MOD_ID))
-            ConfigHandler.syncConfig();
     }
 
     public static void syncConfig()
@@ -44,7 +39,7 @@ public class ConfigHandler {
         Settings.PLAYER_RELOCATOR_COOLDOWN = getConfiguration("PR Cooldown Time", Settings.PLAYER_RELOCATOR_COOLDOWN_DEFAULT,
                 "The Cooldown time between teleports using the Player Relocator, in seconds.");
 
-        Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION = getConfiguration( "Ticks between extractions", Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT,
+        Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION = getConfiguration("Ticks between extractions", Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT,
                 "Minimum amount of time between Relocator extractions.");
 
         if (configFile.hasChanged())
@@ -59,5 +54,12 @@ public class ConfigHandler {
     private static boolean getConfiguration(String setting, boolean defaultSetting, String comment)
     {
         return configFile.get(Configuration.CATEGORY_GENERAL, setting, defaultSetting, comment).getBoolean(defaultSetting);
+    }
+
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs)
+    {
+        if (eventArgs.modID.equals(Reference.MOD_ID))
+            ConfigHandler.syncConfig();
     }
 }

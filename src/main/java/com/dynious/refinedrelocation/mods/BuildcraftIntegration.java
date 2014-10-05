@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.mods;
 
-import buildcraft.transport.ItemFacade;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Mods;

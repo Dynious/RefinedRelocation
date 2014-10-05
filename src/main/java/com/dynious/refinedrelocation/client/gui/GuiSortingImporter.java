@@ -68,7 +68,7 @@ public class GuiSortingImporter extends GuiContainer
         int yPos = (height - ySize) / 2;
         drawTexturedModalRect(xPos, yPos, 0, 0, xSize, ySize);
 
-        int validSlots = tile.getItemListSize() + 1 - ((ContainerSortingImporter) inventorySlots).getPage()*9;
+        int validSlots = tile.getItemListSize() + 1 - ((ContainerSortingImporter) inventorySlots).getPage() * 9;
         int x = validSlots % 3;
         for (int y = validSlots / 3; y < 3; y++)
         {

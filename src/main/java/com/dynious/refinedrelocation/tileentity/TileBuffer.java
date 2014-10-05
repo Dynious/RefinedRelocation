@@ -33,14 +33,11 @@ import java.util.List;
 @Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = Mods.BC_POWER_API_ID)
 public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, IFluidHandler, IPowerEmitter, ILoopable
 {
+    public ItemStack bufferedItemStack = null;
+    public boolean containsItemStack = false;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean firstRun = true;
-
     protected int bufferedSide = -1;
-    public ItemStack bufferedItemStack = null;
-
-    public boolean containsItemStack = false;
-
     private PowerHandler powerHandler;
 
     @Override
@@ -74,7 +71,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity tile =  DirectionHelper.getTileAtSide(this, direction);
+            TileEntity tile = DirectionHelper.getTileAtSide(this, direction);
             if (!LoopHelper.isLooping(this, tile))
             {
                 tiles[direction.ordinal()] = tile;
@@ -96,7 +93,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
             return itemStack;
         }
     }
-    
+
     public List<ForgeDirection> getOutputSidesForInsertDirection(ForgeDirection insertDirection)
     {
         List<ForgeDirection> outputSides = new ArrayList<ForgeDirection>();
@@ -221,10 +218,14 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
     }
 
     @Override
-    public void openInventory() {}
+    public void openInventory()
+    {
+    }
 
     @Override
-    public void closeInventory() {}
+    public void closeInventory()
+    {
+    }
 
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack)
@@ -306,7 +307,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         {
             if (tile instanceof IFluidHandler)
             {
-                fluidStack.amount -= ((IFluidHandler)tile).fill(ForgeDirection.getOrientation(side).getOpposite(), fluidStack, true);
+                fluidStack.amount -= ((IFluidHandler) tile).fill(ForgeDirection.getOrientation(side).getOpposite(), fluidStack, true);
             }
         }
         if (fluidStack.amount == 0)
@@ -377,7 +378,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         {
             if (tile instanceof IEnergySink)
             {
-                amount -= ((IEnergySink)tile).injectEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, voltage);
+                amount -= ((IEnergySink) tile).injectEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, voltage);
             }
         }
         return amount;
@@ -459,7 +460,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         {
             if (tile instanceof IPowerReceptor)
             {
-                PowerHandler.PowerReceiver powerReceiver = ((IPowerReceptor)tile).getPowerReceiver(ForgeDirection.getOrientation(side).getOpposite());
+                PowerHandler.PowerReceiver powerReceiver = ((IPowerReceptor) tile).getPowerReceiver(ForgeDirection.getOrientation(side).getOpposite());
                 if (powerReceiver != null)
                 {
                     amount -= powerReceiver.receiveEnergy(PowerHandler.Type.PIPE, amount, ForgeDirection.getOrientation(side).getOpposite());
@@ -507,7 +508,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         {
             if (tile instanceof IEnergyHandler)
             {
-                amount -= ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
+                amount -= ((IEnergyHandler) tile).receiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
             }
         }
         return amount;

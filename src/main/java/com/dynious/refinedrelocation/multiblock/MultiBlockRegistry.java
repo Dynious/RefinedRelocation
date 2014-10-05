@@ -11,7 +11,7 @@ public class MultiBlockRegistry
     {
         assert multiBlock != null : "registerMultiBlock: MultiBlock cannot be null";
         assert (identifier != null && !identifier.isEmpty()) : "registerMultiBlock: identifier cannot be null";
-        assert(!multiBlockList.containsKey(identifier)) : "registerMultiBlock: Identifier already registered";
+        assert (!multiBlockList.containsKey(identifier)) : "registerMultiBlock: Identifier already registered";
 
         multiBlockList.put(identifier, multiBlock);
     }

@@ -28,18 +28,14 @@ import java.util.List;
 
 public class FilterStandard implements IFilterGUI
 {
+    public static final int FILTER_SIZE = 14;
+    private boolean[] customFilters = new boolean[FILTER_SIZE];
     private static Field displayOnCreativeTab = ReflectionHelper.findField(Block.class, ObfuscationReflectionHelper.remapFieldNames(Block.class.getName(), "displayOnCreativeTab", "field_149772_a", "a"));
     private static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
     private static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
     private static Field tabLabel = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabLabel", "field_78034_o", "o"));
-
     private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
-
-    public static final int FILTER_SIZE = 14;
-
     private IFilterTileGUI tile;
-
-    private boolean[] customFilters = new boolean[FILTER_SIZE];
     private boolean[] creativeTabs = new boolean[tabs.length];
     private String userFilter = "";
 
@@ -48,6 +44,96 @@ public class FilterStandard implements IFilterGUI
     public FilterStandard(IFilterTileGUI tile)
     {
         this.tile = tile;
+    }
+
+    public static boolean stringMatchesWildcardPattern(String string, String wildcardPattern)
+    {
+        if (wildcardPattern.startsWith("*") && wildcardPattern.length() > 1)
+        {
+            if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 2)
+            {
+                if (string.contains(wildcardPattern.substring(1, wildcardPattern.length() - 1)))
+                    return true;
+            }
+            else if (string.endsWith(wildcardPattern.substring(1)))
+                return true;
+        }
+        else if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 1)
+        {
+            if (string.startsWith(wildcardPattern.substring(0, wildcardPattern.length() - 1)))
+                return true;
+        }
+        else
+        {
+            if (string.equalsIgnoreCase(wildcardPattern))
+                return true;
+        }
+        return false;
+    }
+
+    public static String[] getOreNames(ItemStack itemStack)
+    {
+        int[] ids = OreDictionary.getOreIDs(itemStack);
+
+        String[] oreNames = new String[ids.length];
+        for (int i = 0; i < ids.length; i++)
+        {
+            oreNames[i] = OreDictionary.getOreName(ids[i]).toLowerCase().replaceAll("\\s+", "");
+        }
+        return oreNames;
+    }
+
+    public static void syncTabs(String[] tabLabels)
+    {
+        tabs = new CreativeTabs[tabLabels.length];
+        for (int i = 0; i < tabLabels.length; i++)
+        {
+            String label = tabLabels[i];
+            if (label != null)
+            {
+                for (CreativeTabs tab : CreativeTabs.creativeTabArray)
+                {
+                    if (label.equalsIgnoreCase(tab.getTabLabel()))
+                    {
+                        tabs[i] = tab;
+                    }
+                }
+            }
+            if (tabs[i] == null)
+                tabs[i] = createNewFakeTab(label);
+        }
+    }
+
+    public static String[] getLabels()
+    {
+        String[] labels = new String[CreativeTabs.creativeTabArray.length];
+        CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
+        for (int i = 0; i < creativeTabArray.length; i++)
+        {
+            try
+            {
+                labels[i] = (String) tabLabel.get(creativeTabArray[i]);
+            } catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return labels;
+    }
+
+    public static CreativeTabs createNewFakeTab(String tabName)
+    {
+        CreativeTabs oldTab = CreativeTabs.creativeTabArray[0];
+        CreativeTabs tab = new CreativeTabs(0, tabName)
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return null;
+            }
+        };
+        CreativeTabs.creativeTabArray[0] = oldTab;
+        return tab;
     }
 
     public int getSize()
@@ -163,8 +249,7 @@ public class FilterStandard implements IFilterGUI
                             }
                         }
                     }
-                }
-                catch (IllegalAccessException e)
+                } catch (IllegalAccessException e)
                 {
                     e.printStackTrace();
                 }
@@ -279,7 +364,7 @@ public class FilterStandard implements IFilterGUI
         }
 
         int usedPresets = 0;
-        for (int i = 0 ; i < getSize() ; i++)
+        for (int i = 0; i < getSize(); i++)
         {
             if (usedPresets < 2) // Only show a maximum of 2 presets
             {
@@ -323,96 +408,5 @@ public class FilterStandard implements IFilterGUI
         {
             creativeTabs[i] = compound.getBoolean("creativeTabs" + i);
         }
-    }
-
-    public static boolean stringMatchesWildcardPattern(String string, String wildcardPattern)
-    {
-        if (wildcardPattern.startsWith("*") && wildcardPattern.length() > 1)
-        {
-            if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 2)
-            {
-                if (string.contains(wildcardPattern.substring(1, wildcardPattern.length() - 1)))
-                    return true;
-            }
-            else if (string.endsWith(wildcardPattern.substring(1)))
-                return true;
-        }
-        else if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 1)
-        {
-            if (string.startsWith(wildcardPattern.substring(0, wildcardPattern.length() - 1)))
-                return true;
-        }
-        else
-        {
-            if (string.equalsIgnoreCase(wildcardPattern))
-                return true;
-        }
-        return false;
-    }
-
-    public static String[] getOreNames(ItemStack itemStack)
-    {
-        int[] ids = OreDictionary.getOreIDs(itemStack);
-
-        String[] oreNames = new String[ids.length];
-        for (int i = 0; i < ids.length; i++)
-        {
-            oreNames[i] = OreDictionary.getOreName(ids[i]).toLowerCase().replaceAll("\\s+", "");
-        }
-        return oreNames;
-    }
-
-    public static void syncTabs(String[] tabLabels)
-    {
-        tabs = new CreativeTabs[tabLabels.length];
-        for (int i = 0; i < tabLabels.length; i++)
-        {
-            String label = tabLabels[i];
-            if (label != null)
-            {
-                for (CreativeTabs tab : CreativeTabs.creativeTabArray)
-                {
-                    if (label.equalsIgnoreCase(tab.getTabLabel()))
-                    {
-                        tabs[i] = tab;
-                    }
-                }
-            }
-            if (tabs[i] == null)
-                tabs[i] = createNewFakeTab(label);
-        }
-    }
-
-    public static String[] getLabels()
-    {
-        String[] labels = new String[CreativeTabs.creativeTabArray.length];
-        CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
-        for (int i = 0; i < creativeTabArray.length; i++)
-        {
-            try
-            {
-                labels[i] = (String) tabLabel.get(creativeTabArray[i]);
-            }
-            catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return labels;
-    }
-
-    public static CreativeTabs createNewFakeTab(String tabName)
-    {
-        CreativeTabs oldTab = CreativeTabs.creativeTabArray[0];
-        CreativeTabs tab = new CreativeTabs(0, tabName)
-        {
-            @Override
-            public Item getTabIconItem()
-            {
-                return null;
-            }
-        };
-        CreativeTabs.creativeTabArray[0] = oldTab;
-        return tab;
     }
 }

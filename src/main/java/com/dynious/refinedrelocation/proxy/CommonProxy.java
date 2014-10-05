@@ -15,7 +15,7 @@ import java.util.EnumMap;
 
 public class CommonProxy
 {
-    protected EnumMap<Side,FMLEmbeddedChannel> channels;
+    protected EnumMap<Side, FMLEmbeddedChannel> channels;
 
     public void initTileEntities()
     {

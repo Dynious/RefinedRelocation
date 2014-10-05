@@ -8,24 +8,21 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiFilterList extends GuiWidgetBase
 {
-    protected IFilterTileGUI tile;
     public int numFiltersPerScreen;
     public int filterRowHeight = 10;
-    protected int currentIndex = 0;
     public int rowSpacing = 1;
-
-    protected GuiCheckboxFilter filters[];
-
     public int scrollBarAreaWidth = 10;
     public int scrollBarWidth = 7;
     public int scrollBarScaledHeight;
     public int scrollBarYPos;
     public int scrollBarXPos;
     public int scrollBarColor = 0xFFAAAAAA;
-
     public int mouseClickY = -1;
     public int indexWhenClicked;
     public int lastNumberOfMoves;
+    protected IFilterTileGUI tile;
+    protected int currentIndex = 0;
+    protected GuiCheckboxFilter filters[];
 
     public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile)
     {

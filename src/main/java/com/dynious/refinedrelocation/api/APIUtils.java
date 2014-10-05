@@ -20,8 +20,7 @@ public final class APIUtils
         {
             Class c = Class.forName("com.dynious.refinedrelocation.APIHandler");
             apiHandler = (IAPIHandler) c.getField("instance").get(c);
-        }
-        catch (Throwable e)
+        } catch (Throwable e)
         {
             e.printStackTrace();
         }
@@ -74,7 +73,7 @@ public final class APIUtils
      * module MUST be registered using this.
      *
      * @param identifier The identifier of this module
-     * @param clazz The class of this module
+     * @param clazz      The class of this module
      */
     public static void registerRelocatorModule(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
     {
@@ -85,8 +84,8 @@ public final class APIUtils
      * Will open a GUI for the module by calling the getGUI() and getContainer() methods in your module.
      *
      * @param relocator The identifier of this module
-     * @param player The Player that the GUI should open for
-     * @param side The side of the module that should open a GUI
+     * @param player    The Player that the GUI should open for
+     * @param side      The side of the module that should open a GUI
      */
     public static void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side)
     {

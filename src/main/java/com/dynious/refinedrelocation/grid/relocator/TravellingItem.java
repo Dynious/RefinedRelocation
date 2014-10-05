@@ -12,10 +12,10 @@ import java.util.List;
 public class TravellingItem
 {
     public static final byte timePerRelocator = 10;
-    private ItemStack itemStack;
-    private List<Byte> path;
     public byte input;
     public byte counter;
+    private ItemStack itemStack;
+    private List<Byte> path;
 
     public TravellingItem(ItemStack itemStack, List<Byte> path, int inputSide)
     {
@@ -26,7 +26,7 @@ public class TravellingItem
 
     /**
      * @param itemStack The transported ItemStack
-     * @param path The path of the item, the first entry must be the input side
+     * @param path      The path of the item, the first entry must be the input side
      */
     public TravellingItem(ItemStack itemStack, List<Byte> path)
     {
@@ -34,6 +34,13 @@ public class TravellingItem
         this.path = path;
         this.input = getPath().get(0);
         getPath().remove(0);
+    }
+
+    public static TravellingItem createFromNBT(NBTTagCompound compound)
+    {
+        TravellingItem t = new TravellingItem(ItemStack.loadItemStackFromNBT(compound), new ArrayList<Byte>(Bytes.asList(compound.getByteArray("path"))), compound.getByte("input"));
+        t.counter = compound.getByte("counter");
+        return t;
     }
 
     public int getStackSize()
@@ -131,12 +138,5 @@ public class TravellingItem
         path = Bytes.asList(compound.getByteArray("path"));
         input = compound.getByte("input");
         counter = compound.getByte("counter");
-    }
-
-    public static TravellingItem createFromNBT(NBTTagCompound compound)
-    {
-        TravellingItem t = new TravellingItem(ItemStack.loadItemStackFromNBT(compound), new ArrayList<Byte>(Bytes.asList(compound.getByteArray("path"))), compound.getByte("input"));
-        t.counter = compound.getByte("counter");
-        return t;
     }
 }

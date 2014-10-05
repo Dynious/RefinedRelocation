@@ -21,8 +21,8 @@ public class GuiModuleExtraction extends GuiModular
     {
         super.initGui();
 
-        new GuiButtonTicksBetweenExtractions(this, width/2 - 12, height/2 - 10, module);
-        new GuiButtonPulseExtractionToggle(this, width/2 - 30, height/2 - 20, module);
+        new GuiButtonTicksBetweenExtractions(this, width / 2 - 12, height / 2 - 10, module);
+        new GuiButtonPulseExtractionToggle(this, width / 2 - 30, height / 2 - 20, module);
         new GuiButtonModuleMaxStackSize(this, 0, 0, module);
     }
 }

@@ -22,9 +22,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileSortingInterface extends TileSortingConnector implements ISortingInventory, IFilterTileGUI
 {
+    public ItemStack[] bufferInventory = new ItemStack[1];
     private ISortingInventoryHandler sortingHandler = APIUtils.createSortingInventoryHandler(this);
     private IFilterGUI filter = APIUtils.createStandardFilter(this);
-    public ItemStack[] bufferInventory = new ItemStack[1];
     private boolean isStuffed = false;
     private int counter;
     private ForgeDirection connectedSide = ForgeDirection.UNKNOWN;
@@ -279,15 +279,15 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         return true;
     }
 
+    public ForgeDirection getConnectedSide()
+    {
+        return connectedSide;
+    }
+
     public void setConnectedSide(ForgeDirection direction)
     {
         this.connectedSide = direction;
         if (worldObj != null)
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-    }
-
-    public ForgeDirection getConnectedSide()
-    {
-        return connectedSide;
     }
 }

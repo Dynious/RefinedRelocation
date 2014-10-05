@@ -15,13 +15,13 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     @Override
     public void detectAndSendChanges()
     {
-        if (((RelocatorModuleSneakyExtraction)module).getExtractionSide() != extractionSide || initialUpdate)
+        if (((RelocatorModuleSneakyExtraction) module).getExtractionSide() != extractionSide || initialUpdate)
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 3, ((RelocatorModuleSneakyExtraction)module).getExtractionSide());
+                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 3, ((RelocatorModuleSneakyExtraction) module).getExtractionSide());
             }
-            extractionSide = ((RelocatorModuleSneakyExtraction)module).getExtractionSide();
+            extractionSide = ((RelocatorModuleSneakyExtraction) module).getExtractionSide();
         }
         super.detectAndSendChanges();
     }
@@ -41,6 +41,6 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
 
     public void setExtractionSide(int side)
     {
-        ((RelocatorModuleSneakyExtraction)module).setExtractionSide(side);
+        ((RelocatorModuleSneakyExtraction) module).setExtractionSide(side);
     }
 }

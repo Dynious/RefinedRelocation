@@ -6,7 +6,6 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.renderer.ItemRendererSortingIronChest;
 import com.dynious.refinedrelocation.client.renderer.RendererSortingIronChest;
 import com.dynious.refinedrelocation.item.ItemSortingIronChest;
-import com.dynious.refinedrelocation.item.ItemSortingUpgrade;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;

@@ -20,8 +20,7 @@ public class SlotPhantom extends Slot
         try
         {
             slotIndex.set(this, index);
-        }
-        catch (IllegalAccessException e)
+        } catch (IllegalAccessException e)
         {
             e.printStackTrace();
         }

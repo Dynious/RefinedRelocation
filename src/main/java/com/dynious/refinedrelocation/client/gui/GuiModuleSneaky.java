@@ -19,6 +19,6 @@ public class GuiModuleSneaky extends GuiModular
     {
         super.initGui();
 
-        new GuiButtonSide(this, width/2 - 17, height/2 - 10, module);
+        new GuiButtonSide(this, width / 2 - 17, height / 2 - 10, module);
     }
 }

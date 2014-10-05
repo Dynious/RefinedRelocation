@@ -14,8 +14,8 @@ import net.minecraft.tileentity.TileEntity;
 public abstract class TileMultiBlockBase extends TileEntity implements IMultiBlockLeader
 {
     public int timer = 0;
-    private boolean isFormed = false;
     protected int type = -1;
+    private boolean isFormed = false;
 
     @Override
     public void updateEntity()

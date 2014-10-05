@@ -33,13 +33,13 @@ import java.util.List;
 public class RelocatorModuleExtraction extends RelocatorModuleBase
 {
     private static IIcon icon;
-    private byte tick = 0;
+    public int redstoneControlState = 0;
+    public int maxExtractionStackSize = 64; // By default extract a whole stack
     protected int lastCheckedSlot = -1;
+    private byte tick = 0;
     private int ticksBetweenExtraction = Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
     private boolean isPowered = false;
     private boolean hasHadPulse = false;
-    public int redstoneControlState = 0;
-    public int maxExtractionStackSize = 64; // By default extract a whole stack
 
     @Override
     public void init(IItemRelocator relocator, int side)
@@ -188,14 +188,14 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
         }
     }
 
-    public void setTicksBetweenExtraction(int ticks)
-    {
-        ticksBetweenExtraction = Math.max(Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION, ticks);
-    }
-
     public int getTicksBetweenExtraction()
     {
         return ticksBetweenExtraction;
+    }
+
+    public void setTicksBetweenExtraction(int ticks)
+    {
+        ticksBetweenExtraction = Math.max(Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION, ticks);
     }
 
     @Override

@@ -23,16 +23,16 @@ public class RendererRelocationPortal extends TileEntitySpecialRenderer
 
     public void renderEndPortalTileEntity(TileEntity tileEntity, double par2, double par4, double par6)
     {
-        float f1 = (float)this.field_147501_a.field_147560_j;
-        float f2 = (float)this.field_147501_a.field_147561_k;
-        float f3 = (float)this.field_147501_a.field_147558_l;
+        float f1 = (float) this.field_147501_a.field_147560_j;
+        float f2 = (float) this.field_147501_a.field_147561_k;
+        float f3 = (float) this.field_147501_a.field_147558_l;
         GL11.glDisable(GL11.GL_LIGHTING);
         float f4 = 0.99F;
 
         for (int i = 0; i < 16; ++i)
         {
             GL11.glPushMatrix();
-            float f5 = (float)(16 - i);
+            float f5 = (float) (16 - i);
             float f6 = 0.0625F;
             float f7 = 1.0F / (f5 + 1.0F);
 
@@ -54,11 +54,11 @@ public class RendererRelocationPortal extends TileEntitySpecialRenderer
                 f6 = 0.5F;
             }
 
-            float f8 = (float)(-(par4 + (double)f4));
+            float f8 = (float) (-(par4 + (double) f4));
             float f9 = f8 + ActiveRenderInfo.objectY;
             float f10 = f8 + f5 + ActiveRenderInfo.objectY;
             float f11 = f9 / f10;
-            f11 += (float)(par4 + (double)f4);
+            f11 += (float) (par4 + (double) f4);
             GL11.glTranslatef(f1, f11, f3);
             GL11.glTexGeni(GL11.GL_S, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
             GL11.glTexGeni(GL11.GL_T, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
@@ -76,10 +76,10 @@ public class RendererRelocationPortal extends TileEntitySpecialRenderer
             GL11.glMatrixMode(GL11.GL_TEXTURE);
             GL11.glPushMatrix();
             GL11.glLoadIdentity();
-            GL11.glTranslatef(0.0F, (float)(Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
+            GL11.glTranslatef(0.0F, (float) (Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
             GL11.glScalef(f6, f6, f6);
             GL11.glTranslatef(0.5F, 0.5F, 0.0F);
-            GL11.glRotatef((float)(i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
+            GL11.glRotatef((float) (i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
             GL11.glTranslatef(-0.5F, -0.5F, 0.0F);
             GL11.glTranslatef(-f1, -f3, -f2);
             f9 = f8 + ActiveRenderInfo.objectY;

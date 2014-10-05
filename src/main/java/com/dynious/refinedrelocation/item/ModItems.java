@@ -43,7 +43,7 @@ public class ModItems
 
         if (!Settings.DISABLE_PLAYER_RELOCATOR)
         {
-        	GameRegistry.addShapedRecipe(new ItemStack(playerRelocator), "gbg", "ede", "gfg", 'g', Items.gold_ingot, 'b', Items.blaze_rod, 'e', Items.ender_pearl, 'd', Items.diamond, 'f', Items.fire_charge);
+            GameRegistry.addShapedRecipe(new ItemStack(playerRelocator), "gbg", "ede", "gfg", 'g', Items.gold_ingot, 'b', Items.blaze_rod, 'e', Items.ender_pearl, 'd', Items.diamond, 'f', Items.fire_charge);
         }
 
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 4, 0), "ibi", "b b", "ibi", 'i', Items.iron_ingot, 'b', Blocks.iron_bars);

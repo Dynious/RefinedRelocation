@@ -112,7 +112,7 @@ public class SortingGrid extends Grid implements ISortingGrid
         {
             if (member.getOwner() instanceof IInventoryChangeListener)
             {
-                ((IInventoryChangeListener)member.getOwner()).onInventoryChanged();
+                ((IInventoryChangeListener) member.getOwner()).onInventoryChanged();
             }
         }
     }

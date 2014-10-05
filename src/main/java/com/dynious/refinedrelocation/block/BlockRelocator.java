@@ -71,7 +71,7 @@ public class BlockRelocator extends BlockContainer
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
-            return ((TileRelocator)tile).shouldConnectToRedstone();
+            return ((TileRelocator) tile).shouldConnectToRedstone();
         }
         return false;
     }
@@ -82,7 +82,7 @@ public class BlockRelocator extends BlockContainer
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
-            return ((TileRelocator)tile).isProvidingStrongPower(side);
+            return ((TileRelocator) tile).isProvidingStrongPower(side);
         }
         return 0;
     }
@@ -117,7 +117,7 @@ public class BlockRelocator extends BlockContainer
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile != null && tile instanceof TileRelocator)
         {
-            for (ItemStack stack : ((TileRelocator)tile).getDrops())
+            for (ItemStack stack : ((TileRelocator) tile).getDrops())
             {
                 IOHelper.spawnItemInWorld(world, stack, x, y, z);
             }
@@ -134,7 +134,7 @@ public class BlockRelocator extends BlockContainer
             MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
             if (hit != null)
             {
-                return ((TileRelocator)tile).onActivated(player, hit, player.getHeldItem());
+                return ((TileRelocator) tile).onActivated(player, hit, player.getHeldItem());
             }
         }
         return false;
@@ -149,7 +149,7 @@ public class BlockRelocator extends BlockContainer
             MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
             if (hit != null)
             {
-                boolean breakBlock = ((TileRelocator)tile).leftClick(player, hit, player.getHeldItem());
+                boolean breakBlock = ((TileRelocator) tile).leftClick(player, hit, player.getHeldItem());
                 if (breakBlock)
                 {
                     super.onBlockClicked(world, x, y, z, player);
@@ -167,7 +167,7 @@ public class BlockRelocator extends BlockContainer
             MovingObjectPosition hit = RayTracer.retraceBlock(world, player, x, y, z);
             if (hit != null)
             {
-                if (!((TileRelocator)tile).leftClick(player, hit, player.getHeldItem()))
+                if (!((TileRelocator) tile).leftClick(player, hit, player.getHeldItem()))
                 { // If tile.leftClick returns false, return false, otherwise return super.
                     return false;
                 }
@@ -205,7 +205,7 @@ public class BlockRelocator extends BlockContainer
             List<IndexedCuboid6> cuboids = new ArrayList<IndexedCuboid6>();
             for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
             {
-                if (((TileRelocator)tile).connectsToSide(i))
+                if (((TileRelocator) tile).connectsToSide(i))
                 {
                     cuboids.add(new IndexedCuboid6(i, RelocatorData.sideCuboids[i].copy().add(Vector3.fromTileEntity(tile))));
                 }

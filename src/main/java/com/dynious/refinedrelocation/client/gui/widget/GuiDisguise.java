@@ -35,7 +35,7 @@ public class GuiDisguise extends GuiWidgetBase
                 Block disguisedAs = tile.getDisguise();
                 int meta = tile.blockDisguisedMetadata;
                 ItemStack item = new ItemStack(disguisedAs, 0, meta);
-                tooltip.add(StatCollector.translateToLocalFormatted(Strings.DISGUISED,  item.getDisplayName()));
+                tooltip.add(StatCollector.translateToLocalFormatted(Strings.DISGUISED, item.getDisplayName()));
                 for (String s : StatCollector.translateToLocal(Strings.DISGUISED_INFO).split("\\\\n"))
                 {
                     tooltip.add("\u00A77" + s);

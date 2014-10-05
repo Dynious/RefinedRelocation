@@ -23,19 +23,12 @@ import org.lwjgl.opengl.GL11;
 
 public class RendererRelocator extends TileEntitySpecialRenderer
 {
-    public static RendererRelocator instance = new RendererRelocator();
-
-    private static RenderItem renderer;
-    private static EntityItem entityItem = new EntityItem(null);
-
     public static final CCModel CENTER_MODEL;
     public static final CCModel[] SIDE_MODELS = new CCModel[6];
-
-    private static IconTransformation iconTransformation = new IconTransformation(Blocks.stone.getIcon(0, 0));
+    public static RendererRelocator instance = new RendererRelocator();
     public static IIcon[] iconsCenter = new IIcon[4];
     public static IIcon iconSide;
     public static IIcon iconSideStuffed;
-
     static
     {
         renderer = new RenderItem()
@@ -66,6 +59,25 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         {
             model.computeNormals().computeLighting(LightModel.standardLightModel);
         }
+    }
+    private static RenderItem renderer;
+    private static EntityItem entityItem = new EntityItem(null);
+    private static IconTransformation iconTransformation = new IconTransformation(Blocks.stone.getIcon(0, 0));
+
+    public static void resetRenderer()
+    {
+        CCRenderState.reset();
+        CCRenderState.setDynamic();
+    }
+
+    public static void loadIcons(IIconRegister register)
+    {
+        iconsCenter[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
+        iconsCenter[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter1");
+        iconsCenter[2] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter2");
+        iconsCenter[3] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter3");
+        iconSide = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSide");
+        iconSideStuffed = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSideStuffed");
     }
 
     @Override
@@ -117,7 +129,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
             }
             else
             {
-                switch(relocator.getRenderType())
+                switch (relocator.getRenderType())
                 {
                     case 0:
                         iconTransformation.icon = iconsCenter[0];
@@ -160,21 +172,5 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
 
         GL11.glPopMatrix();
-    }
-
-    public static void resetRenderer()
-    {
-        CCRenderState.reset();
-        CCRenderState.setDynamic();
-    }
-
-    public static void loadIcons(IIconRegister register)
-    {
-        iconsCenter[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
-        iconsCenter[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter1");
-        iconsCenter[2] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter2");
-        iconsCenter[3] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter3");
-        iconSide = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSide");
-        iconSideStuffed = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSideStuffed");
     }
 }

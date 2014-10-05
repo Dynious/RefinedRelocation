@@ -38,12 +38,10 @@ public class RelocatorModuleRegistry
             try
             {
                 return modules.get(identifier).newInstance();
-            }
-            catch (InstantiationException e)
+            } catch (InstantiationException e)
             {
                 e.printStackTrace();
-            }
-            catch (IllegalAccessException e)
+            } catch (IllegalAccessException e)
             {
                 e.printStackTrace();
             }
@@ -88,12 +86,10 @@ public class RelocatorModuleRegistry
             {
                 IRelocatorModule module = (IRelocatorModule) clazz.newInstance();
                 module.registerIcons(register);
-            }
-            catch (InstantiationException e)
+            } catch (InstantiationException e)
             {
                 e.printStackTrace();
-            }
-            catch (IllegalAccessException e)
+            } catch (IllegalAccessException e)
             {
                 e.printStackTrace();
             }

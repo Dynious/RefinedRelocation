@@ -28,6 +28,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
         this.setHasSubtypes(true);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
+
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
@@ -43,7 +44,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     @Override
     public IRelocatorModule getRelocatorModule(ItemStack stack)
     {
-        switch(stack.getItemDamage())
+        switch (stack.getItemDamage())
         {
             case 0:
                 return null;
