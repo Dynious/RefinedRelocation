@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ItemRelocatorModule extends Item implements IItemRelocatorModule
 {
-    private IIcon[] icons = new IIcon[12];
+    private IIcon[] icons = new IIcon[13];
 
     public ItemRelocatorModule()
     {
@@ -70,6 +70,8 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
                 return new RelocatorMultiModule();
             case 11:
                 return new RelocatorModuleSneakyExtraction();
+            case 12:
+                return new RelocatorModuleCrafting();
         }
         return null;
     }
@@ -78,7 +80,7 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     @Override
     public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for (int j = 0; j < 12; ++j)
+        for (int j = 0; j < 13; ++j)
         {
             par3List.add(new ItemStack(par1, 1, j));
         }

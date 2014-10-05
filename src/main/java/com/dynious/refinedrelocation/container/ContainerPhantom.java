@@ -15,7 +15,11 @@ public abstract class ContainerPhantom extends Container
     public ItemStack slotClick(int slotNum, int mouseButton, int modifier, EntityPlayer player)
     {
         Slot slot = slotNum < 0 ? null : (Slot) this.inventorySlots.get(slotNum);
-        if (slot instanceof SlotPhantom)
+        if (slot instanceof SlotUntouchable)
+        {
+            return null;
+        }
+        else if (slot instanceof SlotPhantom)
         {
             return (allowStackSizes ? slotClickPhantom(slot, mouseButton, modifier, player) : slotClickPhantom(slot, mouseButton, player));
         }

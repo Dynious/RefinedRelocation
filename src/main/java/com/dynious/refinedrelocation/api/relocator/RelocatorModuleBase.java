@@ -41,6 +41,18 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
+    public boolean isItemDestination()
+    {
+        return false;
+    }
+
+    @Override
+    public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean simulate)
+    {
+        return stack;
+    }
+
+    @Override
     public void onRedstonePowerChange(boolean isPowered)
     {
     }

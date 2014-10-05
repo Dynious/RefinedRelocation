@@ -23,6 +23,10 @@ public interface IRelocatorModule
 
     public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate);
 
+    public boolean isItemDestination();
+
+    public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean simulate);
+
     public void onRedstonePowerChange(boolean isPowered);
 
     public boolean connectsToRedstone();
