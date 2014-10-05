@@ -190,58 +190,6 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
         }
     }
 
-    /*
-
-    @Override
-    public IEnergyHandler getEnergyHandler()
-    {
-        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
-        if (tile != null && tile instanceof IEnergyHandler)
-        {
-            if (!tile.equals(energyHandler))
-            {
-                setEnergyHandler((IEnergyHandler) tile);
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
-            }
-            return (IEnergyHandler) tile;
-        }
-        else
-        {
-            if (energyHandler != null)
-            {
-                setEnergyHandler(null);
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
-            }
-            return null;
-        }
-    }
-
-    @Override
-    public IEnergyInterface getEnergyInterface()
-    {
-        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
-        if (tile != null && tile instanceof IEnergyInterface)
-        {
-            if (!tile.equals(energyInterface))
-            {
-                setEnergyInterface((IEnergyInterface) tile);
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
-            }
-            return (IEnergyInterface) tile;
-        }
-        else
-        {
-            if (energyInterface != null)
-            {
-                setEnergyInterface(null);
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlockId(this.xCoord, this.yCoord, this.zCoord));
-            }
-            return null;
-        }
-    }
-
-    */
-
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
