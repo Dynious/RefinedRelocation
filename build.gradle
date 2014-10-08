@@ -60,15 +60,15 @@ dependencies {
     compile "net.industrial-craft:industrialcraft-2:2.2.508-experimental:api"
     compile "mcp.mobius.waila:Waila:1.5.2a"
 	compile "appeng:appliedenergistics2:rv1-stable-1:dev"
+    compile "com.pahimar.ee3:EquivalentExchange3:1.7.10-0.2.347:dev"
+    compile "mcp.mobius.jabba:Jabba:1.1.4_1.7.10:dev"
 }
 
 apply from: 'downloader.gradle'
 
-addGitDep("cofh","https://github.com/CoFH/CoFHLib.git","a9aa00d6742317ff1453ee6ac6053d488eb12dc1")
-addGitDep("ee3","https://github.com/pahimar/Equivalent-Exchange-3.git","ad8f6d5a3d02efdd5ac49b03fd29c3922b7dc72c")
-addGitDep("ic","https://github.com/progwml6/ironchest.git","9a87528223250caa19651b64f7bab0f225c58564")
-addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/116/artifact/build/libs/InventoryTweaks-api-1.57-116.jar","157")
-addHgDep("jabba","https://bitbucket.org/ProfMobius/jabba","3dda9540ae34fc1c7fefab627579d2bba80a14ce")
+addGitDep("cofh","https://github.com/CoFH/CoFHLib.git","361316980153984ca97f6cc2e7cae9ce89b025a2")
+addGitDep("ic","https://github.com/progwml6/ironchest.git","75ac574c759c099b93c2d2d838c14f2ab4a98383")
+addZipDep("it","http://build.technicpack.net/job/Inventory-Tweaks/147/artifact/build/libs/InventoryTweaks-api-1.58-147.jar","158")
 
 compileApiJava.dependsOn(getDeps)
 
@@ -81,13 +81,6 @@ sourceSets {
         java {
             srcDir 'build/deps/cofh/src/main/java'
             include 'cofh/api/**'
-            
-            srcDir 'build/deps/ee3/src/main/java'
-            include 'com/**'
-            
-            srcDir 'build/deps/jabba/src/main/java'
-            include 'mcp/**'
-            include 'powercrystals/**'
             
             srcDir 'build/deps/ic/src/main/java'
             include 'cpw/**'
