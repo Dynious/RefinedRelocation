@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -98,6 +99,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     @Override
     public ItemStack putInInventory(ItemStack itemStack, boolean simulate)
     {
+        int emptySlot = -1;
         for (int slot = 0; slot < getSizeInventory() && itemStack != null && itemStack.stackSize > 0; ++slot)
         {
             if (isItemValidForSlot(slot, itemStack))
@@ -106,26 +108,10 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
 
                 if (itemstack1 == null)
                 {
-                    int max = Math.min(itemStack.getMaxStackSize(), getInventoryStackLimit());
-                    if (max >= itemStack.stackSize)
-                    {
-                        if (!simulate)
-                        {
-                            chestContents[slot] = itemStack;
-
-                            markDirty();
-                        }
-                        itemStack = null;
-                    }
-                    else
-                    {
-                        ItemStack newStack = itemStack.splitStack(max);
-                        if (!simulate)
-                        {
-                            chestContents[slot] = newStack;
-                            markDirty();
-                        }
-                    }
+                    if (simulate)
+                        return null;
+                    if (emptySlot == -1)
+                        emptySlot = slot;
                 }
                 else if (ItemStackHelper.areItemStacksEqual(itemstack1, itemStack))
                 {
@@ -143,6 +129,14 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
                 }
             }
         }
+
+        if (itemStack != null && itemStack.stackSize != 0 && emptySlot != -1)
+        {
+            chestContents[emptySlot] = itemStack;
+            itemStack = null;
+            markDirty();
+        }
+
         return itemStack;
     }
 

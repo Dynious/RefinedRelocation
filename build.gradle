@@ -31,7 +31,7 @@ if (env.BUILD_NUMBER != null) {
 }
 
 minecraft {
-    version = "1.7.10-10.13.1.1216-new"
+    version = "1.7.10-10.13.1.1222"
     
     replaceIn "lib/Reference.java"
     replace "@VERSION@", project.version
