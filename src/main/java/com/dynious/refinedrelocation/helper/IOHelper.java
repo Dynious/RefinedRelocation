@@ -182,9 +182,9 @@ public class IOHelper
 
             for (int j = 0; j < aint.length && itemStack != null && itemStack.stackSize > 0; ++j)
             {
-                stackInSlot = inventory.getStackInSlot(aint[j]);
-                if (canInsertItemToInventory(inventory, stackInSlot, aint[j], side))
+                if (canInsertItemToInventory(inventory, itemStack, aint[j], side))
                 {
+                    stackInSlot = inventory.getStackInSlot(aint[j]);
                     if (stackInSlot == null)
                     {
                         if (simulate)
@@ -204,9 +204,9 @@ public class IOHelper
 
             for (int slot = 0; slot < invSize && itemStack != null && itemStack.stackSize > 0; ++slot)
             {
-                stackInSlot = inventory.getStackInSlot(slot);
-                if (canInsertItemToInventory(inventory, stackInSlot, slot, side))
+                if (canInsertItemToInventory(inventory, itemStack, slot, side))
                 {
+                    stackInSlot = inventory.getStackInSlot(slot);
                     if (stackInSlot == null)
                     {
                         if (simulate)
