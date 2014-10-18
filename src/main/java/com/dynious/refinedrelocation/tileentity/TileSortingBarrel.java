@@ -47,7 +47,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     {
         if (getStorage().sameItem(itemStack.copy()))
         {
-            int added = Math.min(getStorage().getMaxStoredCount() - getStorage().getAmount(), itemStack.stackSize);
+            int added = getStorage().isVoid() ? itemStack.stackSize : Math.min(getStorage().getMaxStoredCount() - getStorage().getAmount(), itemStack.stackSize);
             if (!simulate)
             {
                 getStorage().setAmount(getStorage().getAmount() + added);
