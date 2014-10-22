@@ -88,17 +88,20 @@ public class SortingGrid extends Grid implements ISortingGrid
     public List<LocalizedStack> getItemsInGrid()
     {
         List<LocalizedStack> list = new ArrayList<LocalizedStack>();
-        for (IGridMemberHandler member : members)
+        if (members != null)
         {
-            if (member.getOwner() instanceof ISortingInventory)
+            for (IGridMemberHandler member : members)
             {
-                ISortingInventory inventory = (ISortingInventory) member.getOwner();
-                for (int slot = 0; slot < inventory.getSizeInventory(); slot++)
+                if (member.getOwner() instanceof ISortingInventory)
                 {
-                    ItemStack stack = inventory.getStackInSlot(slot);
-                    if (stack != null)
+                    ISortingInventory inventory = (ISortingInventory) member.getOwner();
+                    for (int slot = 0; slot < inventory.getSizeInventory(); slot++)
                     {
-                        list.add(new LocalizedStack(stack, inventory, slot));
+                        ItemStack stack = inventory.getStackInSlot(slot);
+                        if (stack != null)
+                        {
+                            list.add(new LocalizedStack(stack, inventory, slot));
+                        }
                     }
                 }
             }
@@ -106,13 +109,17 @@ public class SortingGrid extends Grid implements ISortingGrid
         return list;
     }
 
+    @Override
     public void onInventoryChange()
     {
-        for (IGridMemberHandler member : members)
+        if (members != null)
         {
-            if (member.getOwner() instanceof IInventoryChangeListener)
+            for (IGridMemberHandler member : members)
             {
-                ((IInventoryChangeListener) member.getOwner()).onInventoryChanged();
+                if (member.getOwner() instanceof IInventoryChangeListener)
+                {
+                    ((IInventoryChangeListener) member.getOwner()).onInventoryChanged();
+                }
             }
         }
     }
