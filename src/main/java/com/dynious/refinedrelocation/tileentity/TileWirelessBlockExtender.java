@@ -1,6 +1,9 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import buildcraft.api.power.IPowerReceptor;
+import com.dynious.refinedrelocation.lib.Mods;
+import com.dynious.refinedrelocation.mods.IC2Helper;
+import cpw.mods.fml.common.Optional;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,6 +20,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     public int yConnected = Integer.MAX_VALUE;
     public int zConnected = Integer.MAX_VALUE;
     private int recheckTime = 0;
+    private boolean IC2registerChange = false;
 
     public void setLink(int x, int y, int z)
     {
@@ -41,6 +45,14 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public void updateEntity()
     {
+        if (IC2registerChange)
+        {
+            if (energySink == null)
+                IC2Helper.removeFromEnergyNet(this);
+            else
+                IC2Helper.addToEnergyNet(this);
+            IC2registerChange = false;
+        }
         super.updateEntity();
         recheckTime++;
         if (recheckTime >= 20)
@@ -174,7 +186,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
         {
             if (!tile.equals(energySink))
             {
-                setEnergySink((IEnergySink) tile);
+                saveSetEnergySink((IEnergySink) tile);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
             return (IEnergySink) tile;
@@ -183,10 +195,31 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
         {
             if (energySink != null)
             {
-                setEnergySink(null);
+                saveSetEnergySink(null);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
             return null;
+        }
+    }
+
+    @Optional.Method(modid = Mods.IC2_ID)
+    public void saveSetEnergySink(IEnergySink energySink)
+    {
+        if (this.energySink == null && energySink != null)
+        {
+            this.energySink = energySink;
+            if (!worldObj.isRemote)
+            {
+                IC2registerChange = true;
+            }
+        }
+        else if (this.energySink != null)
+        {
+            if (energySink == null && !worldObj.isRemote)
+            {
+                IC2registerChange = true;
+            }
+            this.energySink = energySink;
         }
     }
 
