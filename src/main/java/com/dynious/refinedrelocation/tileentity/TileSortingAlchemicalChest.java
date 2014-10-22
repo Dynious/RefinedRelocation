@@ -8,8 +8,10 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHa
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.pahimar.ee3.tileentity.TileEntityAlchemicalChest;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.ironchest.TileEntityIronChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -179,9 +181,24 @@ public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implem
         return false;
     }
 
+    private void fixState(byte state)
+    {
+        ItemStack[] inventory = new ItemStack[48];
+        if (state == 1)
+        {
+            inventory = new ItemStack[84];
+        }
+        else if (state == 2)
+        {
+            inventory = new ItemStack[117];
+        }
+        ReflectionHelper.setPrivateValue(TileEntityAlchemicalChest.class, this, inventory, "inventory");
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
+        fixState(compound.getByte("state"));
         super.readFromNBT(compound);
         filter.readFromNBT(compound);
         if (compound.hasKey("priority"))
@@ -197,6 +214,7 @@ public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implem
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+        compound.setByte("state", state);
         super.writeToNBT(compound);
         filter.writeToNBT(compound);
         compound.setByte("priority", (byte) priority.ordinal());
