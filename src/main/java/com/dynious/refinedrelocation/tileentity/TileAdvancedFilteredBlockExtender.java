@@ -180,8 +180,10 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
+        restrictExtraction = compound.getBoolean("restrictExtraction");
         spreadItems = compound.getBoolean("spreadItems");
         insertDirection = compound.getByteArray("insertDirection");
+        maxStackSize = compound.getByte("maxStackSize");
         filter.readFromNBT(compound);
     }
 
@@ -189,8 +191,10 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
+        compound.setBoolean("restrictExtraction", restrictExtraction);
         compound.setBoolean("spreadItems", spreadItems);
         compound.setByteArray("insertDirection", insertDirection);
+        compound.setByte("maxStackSize", maxStackSize);
         filter.writeToNBT(compound);
     }
 }
