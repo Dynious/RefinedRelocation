@@ -61,6 +61,16 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
+    public ItemStack getStackInSlot(int islot) {
+        ItemStack itemStack = super.getStackInSlot(islot);
+        if (itemStack != null && getStorage() != null) {
+            itemStack = itemStack.copy();
+            itemStack.stackSize = getStorage().getAmount();
+        }
+        return itemStack;
+    }
+
+    @Override
     public void invalidate()
     {
         sortingInventoryHandler.onTileRemoved();
