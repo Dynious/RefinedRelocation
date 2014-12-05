@@ -65,7 +65,11 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
         ItemStack itemStack = super.getStackInSlot(islot);
         if (itemStack != null && getStorage() != null) {
             itemStack = itemStack.copy();
-            itemStack.stackSize = getStorage().getAmount();
+            if (getStorage().isCreative()) {
+                itemStack.stackSize = itemStack.getMaxStackSize();
+            } else {
+                itemStack.stackSize = getStorage().getAmount();
+            }
         }
         return itemStack;
     }
