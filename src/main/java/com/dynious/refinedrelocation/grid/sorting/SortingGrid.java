@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid.sorting;
 
 import com.dynious.refinedrelocation.api.tileentity.IInventoryChangeListener;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.api.tileentity.ISpecialSortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.grid.ISortingGrid;
 import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
@@ -100,7 +101,12 @@ public class SortingGrid extends Grid implements ISortingGrid
                         ItemStack stack = inventory.getStackInSlot(slot);
                         if (stack != null)
                         {
-                            list.add(new LocalizedStack(stack, inventory, slot));
+                            if (inventory instanceof ISpecialSortingInventory)
+                            {
+                                list.add(((ISpecialSortingInventory) inventory).getLocalizedStackInSlot(slot));
+                            } else {
+                                list.add(new LocalizedStack(stack, inventory, slot));
+                            }
                         }
                     }
                 }

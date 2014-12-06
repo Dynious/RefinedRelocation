@@ -27,6 +27,7 @@ import com.dynious.refinedrelocation.api.tileentity.IInventoryChangeListener;
 import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -98,7 +99,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
                 {
                     iterator1.remove();
 
-                    stack.setStackSize(stack.getStackSize() - newStack.STACK.stackSize);
+                    stack.setStackSize(stack.getStackSize() - newStack.SIZE);
 
                     if (stack.getStackSize() == 0)
                     {
@@ -185,6 +186,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
 
         IStorageGrid storage = getGridNode(null).getGrid().getCache(IStorageGrid.class);
         IItemList<IAEItemStack> list = AEApi.instance().storage().createItemList();
+        List<LocalizedStack> stackUpdates = Lists.newArrayList();
 
         for (LocalizedStack stack : getHandler().getGrid().getItemsInGrid())
         {

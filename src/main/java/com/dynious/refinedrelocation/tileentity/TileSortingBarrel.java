@@ -2,7 +2,8 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilter;
-import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.api.tileentity.ISpecialSortingInventory;
+import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.mods.BarrelFilter;
 import mcp.mobius.betterbarrels.common.blocks.TileEntityBarrel;
@@ -10,7 +11,7 @@ import mcp.mobius.betterbarrels.network.BarrelPacketHandler;
 import mcp.mobius.betterbarrels.network.Message0x01ContentUpdate;
 import net.minecraft.item.ItemStack;
 
-public class TileSortingBarrel extends TileEntityBarrel implements ISortingInventory
+public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSortingInventory
 {
     public boolean isFirstRun = true;
 
@@ -61,8 +62,17 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
     }
 
     @Override
+    public LocalizedStack getLocalizedStackInSlot(int slot) {
+        ItemStack itemStack = getStackInSlot(slot);
+        if (itemStack != null) {
+            return new LocalizedStack(itemStack, this, slot, getStorage().getAmount());
+        }
+        return null;
+    }
+
+    @Override
     public ItemStack getStackInSlot(int islot) {
-        ItemStack itemStack = super.getStackInSlot(islot);
+        /*ItemStack itemStack = super.getStackInSlot(islot);
         if (itemStack != null && getStorage() != null) {
             itemStack = itemStack.copy();
             if (getStorage().isCreative()) {
@@ -71,7 +81,8 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISortingInven
                 itemStack.stackSize = getStorage().getAmount();
             }
         }
-        return itemStack;
+        return itemStack;*/
+        return super.getStackInSlot(islot);
     }
 
     @Override
