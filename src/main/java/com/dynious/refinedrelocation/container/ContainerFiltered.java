@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageSetFilterOption;
 import com.dynious.refinedrelocation.network.packet.MessageUserFilter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -59,7 +60,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             {
                 for (Object crafter : crafters)
                 {
-                    ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_BASE + (tile.getFilter().getValue(i) ? 0 : 1), i);
+                    NetworkHandler.INSTANCE.sendTo(new MessageSetFilterOption(i, tile.getFilter().getValue(i)), (EntityPlayerMP) crafter);
                 }
                 lastFilterOptions[i] = tile.getFilter().getValue(i);
             }
