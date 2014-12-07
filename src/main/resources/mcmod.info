@@ -7,8 +7,8 @@
   "mcversion": "@MCVERSION@",
   "url": "",
   "updateUrl": "",
-  "authors": ["Dynious"],
-  "credits": "Dynious, for making the mod!",
+  "authors": ["Dynious", "dmillerw],
+  "credits": "Dynious: founder, developer; dmillerw: developer; All other contributors!",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
