@@ -18,6 +18,9 @@ public class IOHelper
 {
     public static ItemStack extract(IInventory inventory, ItemStack itemStack, ForgeDirection direction, boolean oreDict, boolean simulate)
     {
+        if(itemStack == null)
+            return null;
+
         ItemStack toExtract = itemStack.copy();
 
         if (inventory instanceof ISidedInventory)
