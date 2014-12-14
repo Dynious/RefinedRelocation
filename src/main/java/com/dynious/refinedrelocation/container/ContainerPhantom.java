@@ -19,11 +19,61 @@ public abstract class ContainerPhantom extends Container
         {
             return null;
         }
+        else  if (slot instanceof SlotGhost)
+        {
+            return slotClickGhost(slot, mouseButton, player);
+        }
         else if (slot instanceof SlotPhantom)
         {
             return (allowStackSizes ? slotClickPhantom(slot, mouseButton, modifier, player) : slotClickPhantom(slot, mouseButton, player));
         }
         return super.slotClick(slotNum, mouseButton, modifier, player);
+    }
+
+    private ItemStack slotClickGhost(Slot slot, int mouseButton, EntityPlayer player)
+    {
+        ItemStack stackSlot = slot.getStack();
+        if (mouseButton == 2)
+        {
+            if (stackSlot != null && stackSlot.stackSize > 0)
+            {
+                player.dropPlayerItemWithRandomChoice(stackSlot, true);
+            }
+            slot.putStack(null);
+        }
+        else if (mouseButton == 0 || mouseButton == 1)
+        {
+            InventoryPlayer playerInv = player.inventory;
+            ItemStack stackHeld = playerInv.getItemStack();
+            if (stackHeld == null)
+            {
+                if (stackSlot != null && stackSlot.stackSize > 0)
+                {
+                    playerInv.setItemStack(stackSlot);
+                }
+                slot.putStack(null);
+            }
+            else
+            {
+                if (!ItemStackHelper.areItemStacksEqual(stackSlot, stackHeld))
+                {
+                    if (stackSlot != null && stackSlot.stackSize > 0)
+                    {
+                        player.dropPlayerItemWithRandomChoice(stackSlot, true);
+                    }
+                    stackSlot = stackHeld.copy();
+                    stackSlot.stackSize = 0;
+                    slot.putStack(stackSlot);
+                }
+                else if (stackSlot.stackSize > 0)
+                {
+                    int toMove = Math.min(stackHeld.getMaxStackSize() - stackHeld.stackSize, stackSlot.stackSize);
+                    stackHeld.stackSize += toMove;
+                    stackSlot.stackSize -= toMove;
+                }
+            }
+        }
+        return null;
     }
 
     private ItemStack slotClickPhantom(Slot slot, int mouseButton, EntityPlayer player)

@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
+import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.item.ItemStack;
@@ -35,7 +36,7 @@ public class RelocatorGridLogic
             {
                 PathToRelocator pathToRelocator = iterator.next();
                 //Try to output
-                ItemOrPaths itemOrPaths2 = tryOutputAndReturnConnections(itemStack, pathToRelocator, itemOrPaths, -1);
+                ItemOrPaths itemOrPaths2 = tryOutputAndReturnConnections(itemStack, pathToRelocator, itemOrPaths, ForgeDirection.OPPOSITES[pathToRelocator.PATH.get(pathToRelocator.PATH.size() - 1)]);
                 //If an output was found the to-be-checked list is null, now return the travellingItem
                 if (itemOrPaths2.ITEM != null)
                 {
@@ -73,13 +74,62 @@ public class RelocatorGridLogic
         for (int i = 0; i < path.RELOCATOR.getConnectedRelocators().length; i++)
         {
             IRelocator relocator1 = path.RELOCATOR.getConnectedRelocators()[i];
-            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && (currentPaths == null || !doesListContainTile(currentPaths.PATHS, relocator1.getTileEntity())) && path.RELOCATOR.passesFilter(itemStack, i, false, true) && relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i], true, true))
+            if (relocator1 != null && !checkedRelocators.contains(relocator1.getTileEntity()) && (currentPaths == null || !doesListContainTile(currentPaths.PATHS, relocator1.getTileEntity())) && path.RELOCATOR.passesFilter(itemStack, i, false, true))
             {
-                //Clone the path to the connected Relocator and add the new side to it
-                ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
-                newP.add((byte) i);
-                //Add the path to the unchecked list
-                uncheckedRelocators.add(new PathToRelocator(relocator1, newP));
+                IRelocatorModule module = path.RELOCATOR.getRelocatorModule(i);
+                if (module != null && module.isItemDestination())
+                {
+                    ItemStack stack = module.receiveItemStack(path.RELOCATOR, i, itemStack.copy(), true);
+                    //If we managed to output everything or a part of the stack go on
+                    if (stack == null || stack.stackSize < itemStack.stackSize)
+                    {
+                        //Create a new path with the side we can output to
+                        ArrayList<Byte> newPath = (ArrayList<Byte>) path.PATH.clone();
+                        newPath.add((byte) i);
+                        //Invert the stack size (we get back what didn't fit)
+                        if (stack != null)
+                        {
+                            stack.stackSize = itemStack.stackSize - stack.stackSize;
+                        }
+                        else
+                        {
+                            stack = itemStack.copy();
+                        }
+                        return new ItemOrPaths(new TravellingItem(stack, newPath));
+                    }
+                    continue;
+                }
+                if (relocator1.passesFilter(itemStack, ForgeDirection.OPPOSITES[i], true, true))
+                {
+                    IRelocatorModule module1 = relocator1.getRelocatorModule(ForgeDirection.OPPOSITES[i]);
+                    if (module1 != null && module1.isItemDestination())
+                    {
+                        ItemStack stack = module1.receiveItemStack(relocator1, ForgeDirection.OPPOSITES[i], itemStack.copy(), true);
+                        //If we managed to output everything or a part of the stack go on
+                        if (stack == null || stack.stackSize < itemStack.stackSize)
+                        {
+                            //Create a new path with the side we can output to
+                            ArrayList<Byte> newPath = (ArrayList<Byte>) path.PATH.clone();
+                            newPath.add((byte) i);
+                            //Invert the stack size (we get back what didn't fit)
+                            if (stack != null)
+                            {
+                                stack.stackSize = itemStack.stackSize - stack.stackSize;
+                            }
+                            else
+                            {
+                                stack = itemStack.copy();
+                            }
+                            return new ItemOrPaths(new TravellingItem(stack, newPath));
+                        }
+                        continue;
+                    }
+                    //Clone the path to the connected Relocator and add the new side to it
+                    ArrayList<Byte> newP = (ArrayList<Byte>) path.PATH.clone();
+                    newP.add((byte) i);
+                    //Add the path to the unchecked list
+                    uncheckedRelocators.add(new PathToRelocator(relocator1, newP));
+                }
             }
         }
         return new ItemOrPaths(uncheckedRelocators);
@@ -92,15 +142,39 @@ public class RelocatorGridLogic
         {
             if (i != excludedSide)
             {
+                IRelocatorModule module = path.RELOCATOR.getRelocatorModule(i);
+                if (module != null && module.isItemDestination())
+                {
+                    ItemStack stack = module.receiveItemStack(path.RELOCATOR, i, itemStack.copy(), true);
+                    //If we managed to output everything or a part of the stack go on
+                    if (stack == null || stack.stackSize < itemStack.stackSize)
+                    {
+                        //Create a new path with the side we can output to
+                        ArrayList<Byte> newPath = (ArrayList<Byte>) path.PATH.clone();
+                        newPath.add((byte) i);
+                        //Invert the stack size (we get back what didn't fit)
+                        if (stack != null)
+                        {
+                            stack.stackSize = itemStack.stackSize - stack.stackSize;
+                        }
+                        else
+                        {
+                            stack = itemStack.copy();
+                        }
+                        return new TravellingItem(stack, newPath);
+                    }
+                    continue;
+                }
+
                 TileEntity inventory = path.RELOCATOR.getConnectedInventories()[i];
                 if (inventory != null)
                 {
                     if (path.RELOCATOR.passesFilter(itemStack, i, false, true))
                     {
                         ItemStack stack;
-                        if (path.RELOCATOR.getRelocatorModule(i) != null)
+                        if (module != null)
                         {
-                            stack = path.RELOCATOR.getRelocatorModule(i).outputToSide(path.RELOCATOR, i, inventory, itemStack.copy(), true);
+                            stack = module.outputToSide(path.RELOCATOR, i, inventory, itemStack.copy(), true);
                         }
                         else
                         {
@@ -130,6 +204,9 @@ public class RelocatorGridLogic
         return null;
     }
 
+    /**
+     * Checks if the list of Relocators to be checked doesn't already contain the Relocator given
+     */
     public static boolean doesListContainTile(List<PathToRelocator> uncheckedRelocators, TileEntity tile)
     {
         for (PathToRelocator path : uncheckedRelocators)

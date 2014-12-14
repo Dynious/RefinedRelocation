@@ -548,14 +548,40 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void outputToSide(TravellingItem item, byte side)
     {
+        //Can we output?
         if (modules[side] == null || modules[side].passesFilter(this, side, item.getItemStack(), false, false))
         {
+            //Is our output side our destination?
+            if (modules[side] != null && modules[side].isItemDestination())
+            {
+                ItemStack stack = modules[side].receiveItemStack(this, side, item.getItemStack(), false);
+                if (stack != null && stack.stackSize > 0)
+                {
+                    item.getItemStack().stackSize = stack.stackSize;
+                    retryOutput(item, side);
+                }
+                return;
+            }
             IRelocator relocator = getConnectedRelocators()[side];
             if (relocator != null)
             {
                 int side2 = ForgeDirection.OPPOSITES[side];
-                if (relocator.getRelocatorModule(side2) == null || relocator.getRelocatorModule(side2).passesFilter(relocator, side2, item.getItemStack(), true, false))
+                IRelocatorModule module = relocator.getRelocatorModule(side2);
+
+                //Can we input?
+                if (module == null || module.passesFilter(relocator, side2, item.getItemStack(), true, false))
                 {
+                    //Is our input side our destination?
+                    if (module != null && module.isItemDestination())
+                    {
+                        ItemStack stack = module.receiveItemStack(this, side, item.getItemStack(), false);
+                        if (stack != null && stack.stackSize > 0)
+                        {
+                            item.getItemStack().stackSize = stack.stackSize;
+                            retryOutput(item, side);
+                        }
+                        return;
+                    }
                     relocator.receiveTravellingItem(item);
                     return;
                 }
@@ -571,7 +597,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 {
                     stack = IOHelper.insert(getConnectedInventories()[side], item.getItemStack().copy(), ForgeDirection.getOrientation(side).getOpposite(), false);
                 }
-                if (stack != null)
+                if (stack != null && stack.stackSize > 0)
                 {
                     item.getItemStack().stackSize = stack.stackSize;
                     retryOutput(item, side);

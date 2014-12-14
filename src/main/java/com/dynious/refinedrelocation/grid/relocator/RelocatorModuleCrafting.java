@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.client.gui.GuiModuleCrafting;
 import com.dynious.refinedrelocation.container.ContainerModuleCrafting;
+import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -30,6 +31,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
     public World world;
     public final LocalInventoryCrafting CRAFT_MATRIX = new LocalInventoryCrafting();
     public final IInventory CRAFT_RESULT = new InventoryCraftResult();
+    public int maxItemStack = 1;
 
     @Override
     public void init(IItemRelocator relocator, int side)
@@ -46,7 +48,24 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
     @Override
     public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean simulate)
     {
-        return null;
+        for (int i = 0; i < CRAFT_MATRIX.getSizeInventory(); i++)
+        {
+            ItemStack craftStack = CRAFT_MATRIX.getStackInSlot(i);
+            if (ItemStackHelper.areItemStacksEqual(stack, craftStack))
+            {
+                int toMove = Math.min(maxItemStack - craftStack.stackSize, stack.stackSize);
+
+                stack.stackSize -= toMove;
+                if (!simulate)
+                    craftStack.stackSize += toMove;
+
+                if (stack.stackSize == 0)
+                {
+                    return null;
+                }
+            }
+        }
+        return stack;
     }
 
     @Override
