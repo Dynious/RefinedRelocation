@@ -56,7 +56,7 @@ repositories {
 dependencies {
     compile "codechicken:CodeChickenLib:1.7.10-1.1.1.95:dev"
     compile "codechicken:ForgeMultipart:1.7.10-1.1.0.299:dev"
-    compile "com.mod-buildcraft:buildcraft:6.0.17:dev"
+    compile "com.mod-buildcraft:buildcraft:6.2.5:dev"
     compile "net.industrial-craft:industrialcraft-2:2.2.508-experimental:api"
     compile "mcp.mobius.waila:Waila:1.5.2a"
     compile "appeng:appliedenergistics2:rv1-stable-1:dev"

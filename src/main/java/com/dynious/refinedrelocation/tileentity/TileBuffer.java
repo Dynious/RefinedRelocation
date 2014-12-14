@@ -1,8 +1,5 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import buildcraft.api.power.IPowerEmitter;
-import buildcraft.api.power.IPowerReceptor;
-import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
@@ -30,15 +27,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Optional.Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = Mods.BC_POWER_API_ID)
-public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, IFluidHandler, IPowerEmitter, ILoopable
+public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, IFluidHandler, ILoopable
 {
     public ItemStack bufferedItemStack = null;
     public boolean containsItemStack = false;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean firstRun = true;
     protected int bufferedSide = -1;
-    private PowerHandler powerHandler;
 
     @Override
     public void updateEntity()
@@ -414,72 +409,6 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
     @Optional.Method(modid = Mods.IC2_ID)
     @Override
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction)
-    {
-        return true;
-    }
-
-    @Optional.Method(modid = Mods.BC_POWER_API_ID)
-    @Override
-    public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
-    {
-        return getPowerReceiver();
-    }
-
-    @Optional.Method(modid = Mods.BC_POWER_API_ID)
-    public PowerHandler.PowerReceiver getPowerReceiver()
-    {
-        if (powerHandler == null)
-        {
-            powerHandler = new PowerHandler(this, PowerHandler.Type.MACHINE);
-            powerHandler.configure(0.1F, 500F, 0.01F, 500F);
-            powerHandler.configurePowerPerdition(0, 0);
-        }
-        return powerHandler.getPowerReceiver();
-    }
-
-    @Optional.Method(modid = Mods.BC_POWER_API_ID)
-    @Override
-    public void doWork(PowerHandler powerHandler)
-    {
-        for (ForgeDirection outputSide : getOutputSidesForInsertDirection(ForgeDirection.UNKNOWN))
-        {
-            double usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(powerHandler.getEnergyStored(), outputSide.ordinal());
-            powerHandler.useEnergy(usedEnergy, usedEnergy, true);
-            if (powerHandler.getEnergyStored() == 0)
-            {
-                return;
-            }
-        }
-    }
-
-    @Optional.Method(modid = Mods.BC_POWER_API_ID)
-    public double insertMinecraftJoules(double amount, int side)
-    {
-        TileEntity tile = tiles[side];
-        if (tile != null)
-        {
-            if (tile instanceof IPowerReceptor)
-            {
-                PowerHandler.PowerReceiver powerReceiver = ((IPowerReceptor) tile).getPowerReceiver(ForgeDirection.getOrientation(side).getOpposite());
-                if (powerReceiver != null)
-                {
-                    amount -= powerReceiver.receiveEnergy(PowerHandler.Type.PIPE, amount, ForgeDirection.getOrientation(side).getOpposite());
-                }
-            }
-        }
-        return amount;
-    }
-
-    @Optional.Method(modid = Mods.BC_POWER_API_ID)
-    @Override
-    public World getWorld()
-    {
-        return this.getWorldObj();
-    }
-
-    @Optional.Method(modid = Mods.BC_POWER_API_ID)
-    @Override
-    public boolean canEmitPowerFrom(ForgeDirection direction)
     {
         return true;
     }

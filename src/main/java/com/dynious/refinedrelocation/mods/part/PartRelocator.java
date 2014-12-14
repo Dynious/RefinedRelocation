@@ -1,5 +1,7 @@
 package com.dynious.refinedrelocation.mods.part;
 
+import buildcraft.api.core.EnumColor;
+import buildcraft.api.transport.IPipe;
 import buildcraft.api.transport.PipeWire;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
@@ -439,6 +441,13 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
 
     @Override
     @Optional.Method(modid = "BuildCraftAPI|transport")
+    public int injectItem(ItemStack itemStack, boolean b, ForgeDirection forgeDirection, EnumColor enumColor)
+    {
+        return relocator.injectItem(itemStack, b, forgeDirection, enumColor);
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
     public int injectItem(ItemStack stack, boolean b, ForgeDirection direction)
     {
         return relocator.injectItem(stack, b, direction);
@@ -453,8 +462,15 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
 
     @Override
     @Optional.Method(modid = "BuildCraftAPI|transport")
-    public boolean isWireActive(PipeWire pipeWire)
+    public TileEntity getAdjacentTile(ForgeDirection forgeDirection)
     {
-        return relocator.isWireActive(pipeWire);
+        return relocator.getAdjacentTile(forgeDirection);
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public IPipe getPipe()
+    {
+        return relocator.getPipe();
     }
 }

@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import buildcraft.api.power.PowerHandler;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.google.common.primitives.Bytes;
 import cpw.mods.fml.common.Optional;
@@ -219,40 +218,6 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
             return super.injectEnergy(directionFrom, amount, voltage);
         }
         return inputAmount - amount;
-    }
-
-    @Optional.Method(modid = Mods.BC_POWER_API_ID)
-    @Override
-    public void doWork(PowerHandler powerHandler)
-    {
-        if (spreadItems)
-        {
-            boolean didUseEnergy;
-            List<ForgeDirection> outputSides = getOutputSidesForInsertDirection(ForgeDirection.UNKNOWN, lastBCEnergyOutputSide);
-            double amountPerStack = outputSides.isEmpty() ? 0 : powerHandler.getEnergyStored() / outputSides.size();
-
-            do
-            {
-                didUseEnergy = false;
-                for (ForgeDirection outputSide : outputSides)
-                {
-                    lastBCEnergyOutputSide = outputSide;
-                    double usedEnergy = powerHandler.getEnergyStored() - insertMinecraftJoules(amountPerStack, outputSide.ordinal());
-                    if (usedEnergy > 0)
-                    {
-                        powerHandler.useEnergy(usedEnergy, usedEnergy, true);
-                        didUseEnergy = true;
-
-                        if (powerHandler.getEnergyStored() == 0)
-                            return;
-                    }
-                }
-            } while (didUseEnergy);
-        }
-        else
-        {
-            super.doWork(powerHandler);
-        }
     }
 
     @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)

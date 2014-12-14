@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import buildcraft.api.power.IPowerReceptor;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import cpw.mods.fml.common.Optional;
@@ -148,30 +147,6 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
             if (fluidHandler != null)
             {
                 setFluidHandler(null);
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
-            }
-            return null;
-        }
-    }
-
-    @Override
-    public IPowerReceptor getPowerReceptor()
-    {
-        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
-        if (tile != null && tile instanceof IPowerReceptor)
-        {
-            if (!tile.equals(powerReceptor))
-            {
-                setPowerReceptor((IPowerReceptor) tile);
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
-            }
-            return (IPowerReceptor) tile;
-        }
-        else
-        {
-            if (powerReceptor != null)
-            {
-                setPowerReceptor(null);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
             return null;

@@ -1,7 +1,5 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import buildcraft.api.power.IPowerReceptor;
-import buildcraft.api.power.PowerHandler;
 import cofh.api.energy.IEnergyHandler;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.LoopHelper;
@@ -43,7 +41,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     protected IInventory inventory;
     protected int[] accessibleSlots;
     protected IFluidHandler fluidHandler;
-    protected IPowerReceptor powerReceptor;
     protected IEnergySink energySink;
     protected IEnergyHandler energyHandler;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
@@ -136,18 +133,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     public void setFluidHandler(IFluidHandler fluidHandler)
     {
         this.fluidHandler = fluidHandler;
-    }
-
-    @Method(modid = Mods.BC_POWER_API_ID)
-    public IPowerReceptor getPowerReceptor()
-    {
-        return powerReceptor;
-    }
-
-    @Method(modid = Mods.BC_POWER_API_ID)
-    public void setPowerReceptor(IPowerReceptor powerReceptor)
-    {
-        this.powerReceptor = powerReceptor;
     }
 
     @Method(modid = Mods.IC2_ID)
@@ -287,14 +272,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
                 }
                 setFluidHandler((IFluidHandler) tile);
             }
-            if (Mods.IS_BC_ENERGY_API_LOADED && tile instanceof IPowerReceptor)
-            {
-                if (getPowerReceptor() == null)
-                {
-                    updated = true;
-                }
-                setPowerReceptor((IPowerReceptor) tile);
-            }
             if (Mods.IS_IC2_LOADED && tile instanceof IEnergySink)
             {
                 if (getEnergySink() == null)
@@ -325,8 +302,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         setInventory(null);
         setFluidHandler(null);
 
-        if (Mods.IS_BC_ENERGY_API_LOADED)
-            setPowerReceptor(null);
         if (Mods.IS_IC2_LOADED)
             setEnergySink(null);
         if (Mods.IS_COFH_ENERGY_API_LOADED)
@@ -336,10 +311,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     public boolean hasConnection()
     {
         if (getInventory() != null || getFluidHandler() != null)
-        {
-            return true;
-        }
-        if (Mods.IS_BC_ENERGY_API_LOADED && getPowerReceptor() != null)
         {
             return true;
         }
@@ -362,8 +333,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
             connections.add("Inventory");
         if (getFluidHandler() != null)
             connections.add("Fluid Transmission");
-        if (Mods.IS_BC_ENERGY_API_LOADED && getPowerReceptor() != null)
-            connections.add("Buildcraft Energy");
         if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add("IC2 Energy");
         if (Mods.IS_COFH_ENERGY_API_LOADED && getEnergyHandler() != null)
@@ -669,38 +638,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
             return getFluidHandler().getTankInfo(getInputSide(from));
         }
         return new FluidTankInfo[0];
-    }
-
-    @Method(modid = Mods.BC_POWER_API_ID)
-    @Override
-    public PowerHandler.PowerReceiver getPowerReceiver(ForgeDirection forgeDirection)
-    {
-        if (getPowerReceptor() != null)
-        {
-            return getPowerReceptor().getPowerReceiver(getInputSide(forgeDirection));
-        }
-        return null;
-    }
-
-    @Method(modid = Mods.BC_POWER_API_ID)
-    @Override
-    public void doWork(PowerHandler powerHandler)
-    {
-        if (getPowerReceptor() != null)
-        {
-            getPowerReceptor().doWork(powerHandler);
-        }
-    }
-
-    @Method(modid = Mods.BC_POWER_API_ID)
-    @Override
-    public World getWorld()
-    {
-        if (getPowerReceptor() != null)
-        {
-            return getPowerReceptor().getWorld();
-        }
-        return null;
     }
 
     @Method(modid = Mods.IC2_ID)

@@ -1,6 +1,11 @@
 package com.dynious.refinedrelocation.tileentity;
 
+import buildcraft.api.core.EnumColor;
+import buildcraft.api.gates.IGate;
+import buildcraft.api.transport.IPipe;
+import buildcraft.api.transport.IPipeTile;
 import buildcraft.api.transport.PipeWire;
+import buildcraft.transport.Pipe;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
@@ -1071,6 +1076,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     @Override
     @Optional.Method(modid = "BuildCraftAPI|transport")
+    public int injectItem(ItemStack itemStack, boolean b, ForgeDirection forgeDirection, EnumColor enumColor)
+    {
+        return injectItem(itemStack, b, forgeDirection);
+    }
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
     public int injectItem(ItemStack stack, boolean b, ForgeDirection direction)
     {
         if (stack == null)
@@ -1090,8 +1102,70 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     @Override
     @Optional.Method(modid = "BuildCraftAPI|transport")
-    public boolean isWireActive(PipeWire pipeWire)
+    public TileEntity getAdjacentTile(ForgeDirection forgeDirection)
     {
-        return false;
+        return inventories[forgeDirection.ordinal()];
+    }
+
+    IPipe pipe;
+
+    @Override
+    @Optional.Method(modid = "BuildCraftAPI|transport")
+    public IPipe getPipe()
+    {
+        if (pipe == null)
+        {
+            pipe = new IPipe()
+            {
+                @Override
+                public int x()
+                {
+                    return xCoord;
+                }
+
+                @Override
+                public int y()
+                {
+                    return yCoord;
+                }
+
+                @Override
+                public int z()
+                {
+                    return zCoord;
+                }
+
+                @Override
+                public IPipeTile getTile()
+                {
+                    return TileRelocator.this;
+                }
+
+                @Override
+                public IGate getGate(ForgeDirection forgeDirection)
+                {
+                    return null;
+                }
+
+                @Override
+                public boolean hasGate(ForgeDirection forgeDirection)
+                {
+                    return false;
+                }
+
+                @Override
+                public boolean isWired(PipeWire pipeWire)
+                {
+                    return false;
+                }
+
+                @Override
+                public boolean isWireActive(PipeWire pipeWire)
+                {
+                    return false;
+                }
+            };
+        }
+        return pipe;
     }
 }
