@@ -22,8 +22,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RelocatorModuleCrafting extends RelocatorModuleBase
 {
@@ -31,7 +30,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
     public World world;
     public final LocalInventoryCrafting CRAFT_MATRIX = new LocalInventoryCrafting();
     public final IInventory CRAFT_RESULT = new InventoryCraftResult();
-    public int maxItemStack = 1;
+    public int maxItemStack = 10;
 
     @Override
     public void init(IItemRelocator relocator, int side)
@@ -48,20 +47,59 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
     @Override
     public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean simulate)
     {
-        for (int i = 0; i < CRAFT_MATRIX.getSizeInventory(); i++)
+        if (!simulate)
         {
-            ItemStack craftStack = CRAFT_MATRIX.getStackInSlot(i);
-            if (ItemStackHelper.areItemStacksEqual(stack, craftStack))
+            int currentAmount = 0;
+            List<Integer> slots = new ArrayList<Integer>();
+            for (int i = 0; i < CRAFT_MATRIX.getSizeInventory(); i++)
             {
-                int toMove = Math.min(maxItemStack - craftStack.stackSize, stack.stackSize);
-
-                stack.stackSize -= toMove;
-                if (!simulate)
-                    craftStack.stackSize += toMove;
-
-                if (stack.stackSize == 0)
+                ItemStack craftStack = CRAFT_MATRIX.getStackInSlot(i);
+                if (ItemStackHelper.areItemStacksEqual(stack, craftStack))
                 {
-                    return null;
+                    currentAmount += craftStack.stackSize;
+                    slots.add(i);
+                }
+            }
+            int needed = (slots.size() * maxItemStack) - currentAmount;
+            int toMove = Math.min(needed, stack.stackSize);
+            int amountPerStack = (toMove + currentAmount) / slots.size();
+            int extra = (toMove + currentAmount) % slots.size();
+
+            for (int slot : slots)
+            {
+                ItemStack craftStack = CRAFT_MATRIX.getStackInSlot(slot);
+                if (extra > 0)
+                {
+                    craftStack.stackSize = amountPerStack + 1;
+                    extra--;
+                }
+                else
+                {
+                    craftStack.stackSize = amountPerStack;
+                }
+            }
+
+            stack.stackSize -= toMove;
+
+            if (stack.stackSize == 0)
+            {
+                return null;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < CRAFT_MATRIX.getSizeInventory(); i++)
+            {
+                ItemStack craftStack = CRAFT_MATRIX.getStackInSlot(i);
+                if (ItemStackHelper.areItemStacksEqual(stack, craftStack))
+                {
+                    int toMove = Math.min(maxItemStack - craftStack.stackSize, stack.stackSize);
+                    stack.stackSize -= toMove;
+
+                    if (stack.stackSize == 0)
+                    {
+                        return null;
+                    }
                 }
             }
         }

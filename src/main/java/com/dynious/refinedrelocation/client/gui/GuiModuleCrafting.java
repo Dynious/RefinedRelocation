@@ -43,7 +43,7 @@ public class GuiModuleCrafting extends GuiContainer
                 GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
                 GL11.glColorMask(true, true, true, false);
-                this.drawGradientRect(slot.xDisplayPosition, slot.yDisplayPosition, slot.xDisplayPosition + 16, slot.yDisplayPosition + 16, -2130706433, -2130706433);
+                drawRect(slot.xDisplayPosition, slot.yDisplayPosition, slot.xDisplayPosition + 16, slot.yDisplayPosition + 16, 0x7F8B8B8B);
                 GL11.glColorMask(true, true, true, true);
                 GL11.glEnable(GL11.GL_LIGHTING);
                 GL11.glEnable(GL11.GL_DEPTH_TEST);
