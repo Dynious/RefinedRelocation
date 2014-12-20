@@ -42,6 +42,9 @@ public class ConfigHandler
         Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION = getConfiguration("Ticks between extractions", Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT,
                 "Minimum amount of time between Relocator extractions.");
 
+        Settings.CRAFTING_MODULE_TICKS_BETWEEN_CRAFTING = getConfiguration("Ticks between crafting", Settings.CRAFTING_MODULE_TICKS_BETWEEN_CRAFTING_DEFAULT,
+                "Ticks between Crafting Module craft operations.");
+
         if (configFile.hasChanged())
             configFile.save();
     }

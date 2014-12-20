@@ -16,6 +16,7 @@ public class Resources
     public static final ResourceLocation GUI_SORTING_IMPORTER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "sortingImporter.png");
     public static final ResourceLocation GUI_POWER_LIMITER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "powerLimiter.png");
     public static final ResourceLocation GUI_MODULE_STOCK = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleStock.png");
+    public static final ResourceLocation GUI_MODULE_CRAFTING = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleCrafting.png");
     public static final ResourceLocation GUI_MODULAR = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "modularGui.png");
     public static final String MODEL_SHEET_LOCATION = "textures/model/";
     public static final ResourceLocation MODEL_TEXTURE_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "blockExtender0.png");

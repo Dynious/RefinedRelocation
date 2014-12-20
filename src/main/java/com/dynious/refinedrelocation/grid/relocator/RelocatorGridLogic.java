@@ -79,7 +79,7 @@ public class RelocatorGridLogic
                 IRelocatorModule module = path.RELOCATOR.getRelocatorModule(i);
                 if (module != null && module.isItemDestination())
                 {
-                    ItemStack stack = module.receiveItemStack(path.RELOCATOR, i, itemStack.copy(), true);
+                    ItemStack stack = module.receiveItemStack(path.RELOCATOR, i, itemStack.copy(), false, true);
                     //If we managed to output everything or a part of the stack go on
                     if (stack == null || stack.stackSize < itemStack.stackSize)
                     {
@@ -104,7 +104,7 @@ public class RelocatorGridLogic
                     IRelocatorModule module1 = relocator1.getRelocatorModule(ForgeDirection.OPPOSITES[i]);
                     if (module1 != null && module1.isItemDestination())
                     {
-                        ItemStack stack = module1.receiveItemStack(relocator1, ForgeDirection.OPPOSITES[i], itemStack.copy(), true);
+                        ItemStack stack = module1.receiveItemStack(relocator1, ForgeDirection.OPPOSITES[i], itemStack.copy(), true, true);
                         //If we managed to output everything or a part of the stack go on
                         if (stack == null || stack.stackSize < itemStack.stackSize)
                         {
@@ -145,7 +145,7 @@ public class RelocatorGridLogic
                 IRelocatorModule module = path.RELOCATOR.getRelocatorModule(i);
                 if (module != null && module.isItemDestination())
                 {
-                    ItemStack stack = module.receiveItemStack(path.RELOCATOR, i, itemStack.copy(), true);
+                    ItemStack stack = module.receiveItemStack(path.RELOCATOR, i, itemStack.copy(), false, true);
                     //If we managed to output everything or a part of the stack go on
                     if (stack == null || stack.stackSize < itemStack.stackSize)
                     {

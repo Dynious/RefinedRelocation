@@ -559,7 +559,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             //Is our output side our destination?
             if (modules[side] != null && modules[side].isItemDestination())
             {
-                ItemStack stack = modules[side].receiveItemStack(this, side, item.getItemStack(), false);
+                ItemStack stack = modules[side].receiveItemStack(this, side, item.getItemStack(), false, false);
                 if (stack != null && stack.stackSize > 0)
                 {
                     item.getItemStack().stackSize = stack.stackSize;
@@ -579,7 +579,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     //Is our input side our destination?
                     if (module != null && module.isItemDestination())
                     {
-                        ItemStack stack = module.receiveItemStack(this, side, item.getItemStack(), false);
+                        ItemStack stack = module.receiveItemStack(this, side, item.getItemStack(), true, false);
                         if (stack != null && stack.stackSize > 0)
                         {
                             item.getItemStack().stackSize = stack.stackSize;

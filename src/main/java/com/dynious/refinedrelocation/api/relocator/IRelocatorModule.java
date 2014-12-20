@@ -25,7 +25,7 @@ public interface IRelocatorModule
 
     public boolean isItemDestination();
 
-    public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean simulate);
+    public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate);
 
     public void onRedstonePowerChange(boolean isPowered);
 

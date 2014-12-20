@@ -14,9 +14,12 @@ import java.util.List;
 
 public class GuiModuleCrafting extends GuiContainer
 {
+    private RelocatorModuleCrafting moduleCrafting;
+
     public GuiModuleCrafting(EntityPlayer player, RelocatorModuleCrafting tile)
     {
         super(new ContainerModuleCrafting(player, tile));
+        moduleCrafting = tile;
         this.xSize = 176;
         this.ySize = 166;
     }
@@ -25,10 +28,14 @@ public class GuiModuleCrafting extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(Resources.GUI_MODULE_STOCK);
+        this.mc.getTextureManager().bindTexture(Resources.GUI_MODULE_CRAFTING);
         int xPos = (width - xSize) / 2;
         int yPos = (height - ySize) / 2;
         drawTexturedModalRect(xPos, yPos, 0, 0, xSize, ySize);
+        if (moduleCrafting.isStuffed)
+        {
+            drawTexturedModalRect(xPos + 119, yPos + 30, 176, 0, 26, 26);
+        }
     }
 
     @SuppressWarnings("unchecked")

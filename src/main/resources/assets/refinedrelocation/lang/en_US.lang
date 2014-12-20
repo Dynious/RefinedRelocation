@@ -50,6 +50,7 @@ item.relocatorModule8.name=Module Spread
 item.relocatorModule9.name=Module Item Detector
 item.relocatorModule10.name=Multi Module
 item.relocatorModule11.name=Module Sneaky Extraction
+item.relocatorModule12.name=Module Crafting
 
 # Inventory localizations
 container.sortingChest.name=Sorting Chest
@@ -164,6 +165,7 @@ itemDesc.refinedrelocation.relocatorModuleInfo8=Spreads items over the\nconnecte
 itemDesc.refinedrelocation.relocatorModuleInfo9=Pulses when item in filter\npasses through
 itemDesc.refinedrelocation.relocatorModuleInfo10=Allows multiple modules\nto be placed on one spot
 itemDesc.refinedrelocation.relocatorModuleInfo11=Can extract items\nfrom another side\nthan the connected side
+itemDesc.refinedrelocation.relocatorModuleInfo12=Can craft items when\npassing through the module
 itemDesc.refinedrelocation.sortingUpgrade0=Upgrades Chests to their Sorting version
 itemDesc.refinedrelocation.sortingUpgrade1=Upgrades Barrels to their Sorting version
 itemDesc.refinedrelocation.sortingUpgradeMats=Needs 2 items of the Chest material

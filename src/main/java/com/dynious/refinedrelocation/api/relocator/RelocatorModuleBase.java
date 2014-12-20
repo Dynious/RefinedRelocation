@@ -47,7 +47,7 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
-    public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean simulate)
+    public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
         return stack;
     }
