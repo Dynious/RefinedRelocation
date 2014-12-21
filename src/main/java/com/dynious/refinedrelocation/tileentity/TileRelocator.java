@@ -185,11 +185,18 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                             IRelocatorModule module = relocator.getRelocatorModule(ForgeDirection.OPPOSITES[side]);
                             if (module == null || module.passesFilter(relocator, ForgeDirection.OPPOSITES[side], stack, true, true))
                             {
-                                TravellingItem item = RelocatorGridLogic.findOutput(stack, relocator, ForgeDirection.OPPOSITES[side]);
-                                if (item != null)
+                                if (module != null && module.isItemDestination())
                                 {
-                                    stack.stackSize -= item.getStackSize();
-                                    relocator.receiveTravellingItem(item);
+                                    stack = module.receiveItemStack(relocator, ForgeDirection.OPPOSITES[side], stack.copy(), true, false);
+                                }
+                                else
+                                {
+                                    TravellingItem item = RelocatorGridLogic.findOutput(stack, relocator, ForgeDirection.OPPOSITES[side]);
+                                    if (item != null)
+                                    {
+                                        stack.stackSize -= item.getStackSize();
+                                        relocator.receiveTravellingItem(item);
+                                    }
                                 }
                             }
                         }
