@@ -70,6 +70,10 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
                 return stack;
 
             int needed = (slots.size() * maxCraftStack) - currentAmount;
+            
+            if (needed < 0)
+                return stack;
+
             int toMove = Math.min(needed, stack.stackSize);
             int amountPerStack = (toMove + currentAmount) / slots.size();
             int extra = (toMove + currentAmount) % slots.size();
@@ -103,6 +107,8 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
                 if (ItemStackHelper.areItemStacksEqual(stack, craftStack))
                 {
                     int toMove = Math.min(maxCraftStack - craftStack.stackSize, stack.stackSize);
+                    if (toMove < 0)
+                        continue;
                     stack.stackSize -= toMove;
 
                     if (stack.stackSize == 0)
