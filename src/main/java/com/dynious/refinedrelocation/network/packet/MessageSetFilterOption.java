@@ -5,6 +5,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Container;
 
 public class MessageSetFilterOption implements IMessage, IMessageHandler<MessageSetFilterOption, IMessage>
@@ -39,7 +40,7 @@ public class MessageSetFilterOption implements IMessage, IMessageHandler<Message
     @Override
     public IMessage onMessage(MessageSetFilterOption message, MessageContext ctx)
     {
-        Container container = ctx.getServerHandler().playerEntity.openContainer;
+        Container container = Minecraft.getMinecraft().thePlayer.openContainer;
 
         if (container == null || !(container instanceof IContainerFiltered))
             return null;
