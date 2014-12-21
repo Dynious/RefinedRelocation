@@ -70,7 +70,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
                 return stack;
 
             int needed = (slots.size() * maxCraftStack) - currentAmount;
-            
+
             if (needed < 0)
                 return stack;
 
