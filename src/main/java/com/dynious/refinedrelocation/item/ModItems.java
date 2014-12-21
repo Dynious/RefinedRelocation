@@ -59,6 +59,7 @@ public class ModItems
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 9), "d d", " r ", "t t", 'd', Items.redstone, 't', Blocks.redstone_torch, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 10), "d d", " r ", "g g", 'd', Items.diamond, 'g', Items.gold_ingot, 'r', new ItemStack(relocatorModule, 1, 0));
         GameRegistry.addShapelessRecipe(new ItemStack(relocatorModule, 1, 11), new ItemStack(relocatorModule, 1, 5), new ItemStack(relocatorModule, 1, 3));
+        GameRegistry.addShapedRecipe(new ItemStack(relocatorModule, 1, 12), "c c", " r ", "i i", 'i', Items.iron_ingot, 'c', Blocks.crafting_table, 'r', new ItemStack(relocatorModule, 1, 0));
 
         GameRegistry.addShapedRecipe(new ItemStack(toolBox), "isi", "i i", "iii", 'i', Items.iron_ingot, 's', Items.stick);
         GameRegistry.addRecipe(new RecipeToolbox());

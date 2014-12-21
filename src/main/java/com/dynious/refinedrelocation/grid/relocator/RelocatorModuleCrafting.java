@@ -35,7 +35,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
     private static IIcon icon;
     public final LocalInventoryCrafting CRAFT_MATRIX = new LocalInventoryCrafting();
     public final IInventory CRAFT_RESULT = new InventoryCraftResult();
-    public int maxItemStack = 10;
+    private int maxCraftStack = 64;
     public int craftTick = 0;
     public int normalTick = 0;
     public ItemStack outputStack = null;
@@ -69,7 +69,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
             if (slots.isEmpty())
                 return stack;
 
-            int needed = (slots.size() * maxItemStack) - currentAmount;
+            int needed = (slots.size() * maxCraftStack) - currentAmount;
             int toMove = Math.min(needed, stack.stackSize);
             int amountPerStack = (toMove + currentAmount) / slots.size();
             int extra = (toMove + currentAmount) % slots.size();
@@ -102,7 +102,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
                 ItemStack craftStack = CRAFT_MATRIX.getStackInSlot(i);
                 if (ItemStackHelper.areItemStacksEqual(stack, craftStack))
                 {
-                    int toMove = Math.min(maxItemStack - craftStack.stackSize, stack.stackSize);
+                    int toMove = Math.min(maxCraftStack - craftStack.stackSize, stack.stackSize);
                     stack.stackSize -= toMove;
 
                     if (stack.stackSize == 0)
@@ -214,6 +214,16 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
         }
     }
 
+    public int getMaxCraftStack()
+    {
+        return maxCraftStack;
+    }
+
+    public void setMaxCraftStack(int maxCraftStack)
+    {
+        this.maxCraftStack = maxCraftStack;
+    }
+
     @Override
     public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
@@ -278,6 +288,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
 
         outputStack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("outputStack"));
         input = compound.getBoolean("input");
+        maxCraftStack = compound.getInteger("maxCraftStack");
     }
 
     @Override
@@ -305,6 +316,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
             compound.setTag("outputStack", nbttagcompound1);
         }
         compound.setBoolean("input", input);
+        compound.setInteger("maxCraftStack", maxCraftStack);
     }
 
     private class LocalInventoryCrafting extends InventoryCrafting

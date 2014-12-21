@@ -12,19 +12,21 @@ public class ContainerModuleCrafting extends ContainerPhantom
     private RelocatorModuleCrafting module;
     private boolean initialUpdate = true;
     private boolean isStuffed = false;
+    private int lastCraftStack = 64;
+    private int lastCraftTick = 0;
 
     public ContainerModuleCrafting(EntityPlayer player, RelocatorModuleCrafting module)
     {
         this.module = module;
         allowStackSizes = false;
 
-        this.addSlotToContainer(new SlotUntouchable(module.CRAFT_RESULT, 0, 124, 35));
+        this.addSlotToContainer(new SlotUntouchable(module.CRAFT_RESULT, 0, 106, 35));
 
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 3; x++)
             {
-                this.addSlotToContainer(new SlotGhost(module.CRAFT_MATRIX, y * 3 + x, 30 + x * 18, 17 + y * 18));
+                this.addSlotToContainer(new SlotGhost(module.CRAFT_MATRIX, y * 3 + x, 12 + x * 18, 17 + y * 18));
             }
         }
 
@@ -58,6 +60,23 @@ public class ContainerModuleCrafting extends ContainerPhantom
             isStuffed = (module.outputStack != null);
         }
 
+        if (module.getMaxCraftStack() != lastCraftStack || initialUpdate)
+        {
+            for (Object crafter : crafters)
+            {
+                ((ICrafting) crafter).sendProgressBarUpdate(this, 1, module.getMaxCraftStack());
+            }
+            lastCraftStack = module.getMaxCraftStack();
+        }
+        if (module.craftTick != lastCraftStack || initialUpdate)
+        {
+            for (Object crafter : crafters)
+            {
+                ((ICrafting) crafter).sendProgressBarUpdate(this, 2, module.craftTick);
+            }
+            lastCraftTick = module.craftTick;
+        }
+
         if (initialUpdate)
             initialUpdate = false;
     }
@@ -70,7 +89,18 @@ public class ContainerModuleCrafting extends ContainerPhantom
             case 0:
                 module.isStuffed = value == 1;
                 break;
+            case 1:
+                setMaxCraftStack(value);
+                break;
+            case 2:
+                module.craftTick = value;
+                break;
         }
+    }
+
+    public void setMaxCraftStack(int size)
+    {
+        module.setMaxCraftStack(size);
     }
 
     @Override

@@ -64,6 +64,7 @@ gui.refinedrelocation.shiftClick=Shift+Click
 gui.refinedrelocation.filteredExtr=Filtered Extraction
 gui.refinedrelocation.unfilteredExtr=Unfiltered Extraction
 gui.refinedrelocation.maxStackSize=Max Stack Size
+gui.refinedrelocation.maxCraftStack=Max stored stack size per slot
 gui.refinedrelocation.mode=Mode
 gui.refinedrelocation.roundRobin=Round-robin
 gui.refinedrelocation.roundRobinInfo=Spread output across\nall valid sides

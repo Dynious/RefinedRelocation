@@ -1,10 +1,12 @@
 package com.dynious.refinedrelocation.client.gui;
 
+import com.dynious.refinedrelocation.client.gui.widget.GuiButtonMaxCraftStack;
 import com.dynious.refinedrelocation.container.ContainerModuleCrafting;
 import com.dynious.refinedrelocation.container.ContainerModuleStock;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleStock;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Settings;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -12,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
-public class GuiModuleCrafting extends GuiContainer
+public class GuiModuleCrafting extends GuiRefinedRelocationContainer
 {
     private RelocatorModuleCrafting moduleCrafting;
 
@@ -25,6 +27,14 @@ public class GuiModuleCrafting extends GuiContainer
     }
 
     @Override
+    public void initGui()
+    {
+        super.initGui();
+
+        new GuiButtonMaxCraftStack(this, (width - xSize) / 2 + 139, (height - ySize) / 2 + 33, moduleCrafting);
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -34,8 +44,13 @@ public class GuiModuleCrafting extends GuiContainer
         drawTexturedModalRect(xPos, yPos, 0, 0, xSize, ySize);
         if (moduleCrafting.isStuffed)
         {
-            drawTexturedModalRect(xPos + 119, yPos + 30, 176, 0, 26, 26);
+            drawTexturedModalRect(xPos + 101, yPos + 30, 176, 0, 26, 26);
         }
+        if (moduleCrafting.craftTick > 0 && Settings.CRAFTING_MODULE_TICKS_BETWEEN_CRAFTING != 0)
+        {
+            drawTexturedModalRect(xPos + 70, yPos + 35, 176, 26, (int) ((((float) moduleCrafting.craftTick) / Settings.CRAFTING_MODULE_TICKS_BETWEEN_CRAFTING) * 24), 17);
+        }
+        super.drawGuiContainerBackgroundLayer(f, i, j);
     }
 
     @SuppressWarnings("unchecked")

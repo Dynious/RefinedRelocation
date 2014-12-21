@@ -10,6 +10,7 @@ public class Strings
     public static final String FILTERED_EXTRACT = GUI_PREFIX + "filteredExtr";
     public static final String UNFILTERED_EXTRACT = GUI_PREFIX + "unfilteredExtr";
     public static final String MAX_STACK_SIZE = GUI_PREFIX + "maxStackSize";
+    public static final String MAX_CRAFT_STACK = GUI_PREFIX + "maxCraftStack";
     public static final String MODE = GUI_PREFIX + "mode";
     public static final String ROUND_ROBIN = GUI_PREFIX + "roundRobin";
     public static final String ROUND_ROBIN_INFO = GUI_PREFIX + "roundRobinInfo";
