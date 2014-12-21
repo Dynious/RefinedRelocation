@@ -390,10 +390,13 @@ public class FilterStandard implements IFilterGUI
         {
             compound.setBoolean("cumstomFilters" + i, customFilters[i]);
         }
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < creativeTabs.length; i++)
         {
-            compound.setBoolean("creativeTabs" + i, creativeTabs[i]);
+            if (creativeTabs[i])
+                builder.append(tabs[i].getTabLabel()).append("^$");
         }
+        compound.setString("filters", builder.toString());
     }
 
     public void readFromNBT(NBTTagCompound compound)
@@ -404,7 +407,19 @@ public class FilterStandard implements IFilterGUI
         {
             customFilters[i] = compound.getBoolean("cumstomFilters" + i);
         }
-        for (int i = 0; i < creativeTabs.length; i++)
+
+        String filters = compound.getString("filters");
+        for (String string : filters.split("\\^\\$"))
+        {
+            for (int i = 0; i < tabs.length; i++)
+            {
+                if (string.equals(tabs[i].getTabLabel()))
+                    creativeTabs[i] = true;
+            }
+        }
+
+        //1.0.7- compat
+        for (int i = 0; compound.hasKey("creativeTabs" + i); i++)
         {
             creativeTabs[i] = compound.getBoolean("creativeTabs" + i);
         }
