@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.0.7a",
-			"changeLog":"Fixed a major bug in 1.0.7 + fixed a minor bug",
-			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2222556/download"
+			"modVersion":"1.0.7b",
+			"changeLog":"Fixed serverside tile saving bug and improved performance",
+			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2222594/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
