@@ -5,8 +5,6 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.google.common.primitives.Booleans;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -22,7 +20,6 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +27,6 @@ public class FilterStandard implements IFilterGUI
 {
     public static final int FILTER_SIZE = 14;
     private boolean[] customFilters = new boolean[FILTER_SIZE];
-    private static Field displayOnCreativeTab = ReflectionHelper.findField(Block.class, ObfuscationReflectionHelper.remapFieldNames(Block.class.getName(), "displayOnCreativeTab", "field_149772_a", "a"));
-    private static Field tabToDisplayOn = ReflectionHelper.findField(Item.class, ObfuscationReflectionHelper.remapFieldNames(Item.class.getName(), "tabToDisplayOn", "field_77701_a", "a"));
-    private static Field tabIndex = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabIndex", "field_78033_n", "n"));
-    private static Field tabLabel = ReflectionHelper.findField(CreativeTabs.class, ObfuscationReflectionHelper.remapFieldNames(CreativeTabs.class.getName(), "tabLabel", "field_78034_o", "o"));
     private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
     private IFilterTileGUI tile;
     private boolean[] creativeTabs = new boolean[tabs.length];
@@ -110,13 +103,7 @@ public class FilterStandard implements IFilterGUI
         CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
         for (int i = 0; i < creativeTabArray.length; i++)
         {
-            try
-            {
-                labels[i] = (String) tabLabel.get(creativeTabArray[i]);
-            } catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
+            labels[i] = creativeTabArray[i].tabLabel;
         }
         return labels;
     }
@@ -225,33 +212,26 @@ public class FilterStandard implements IFilterGUI
 
             if (Booleans.contains(creativeTabs, true))
             {
-                try
+                CreativeTabs tab;
+                if (itemStack.getItem() instanceof ItemBlock)
                 {
-                    CreativeTabs tab;
+                    tab = Block.getBlockById(ItemBlock.getIdFromItem(itemStack.getItem())).displayOnCreativeTab;
+                }
+                else
+                {
+                    tab = itemStack.getItem().tabToDisplayOn;
+                }
+                if (tab != null)
+                {
+                    int index = tab.tabIndex;
 
-                    if (itemStack.getItem() instanceof ItemBlock)
+                    for (int i = 0; i < creativeTabs.length; i++)
                     {
-                        tab = (CreativeTabs) displayOnCreativeTab.get(Block.getBlockById(ItemBlock.getIdFromItem(itemStack.getItem())));
-                    }
-                    else
-                    {
-                        tab = (CreativeTabs) tabToDisplayOn.get(itemStack.getItem());
-                    }
-                    if (tab != null)
-                    {
-                        int index = tabIndex.getInt(tab);
-
-                        for (int i = 0; i < creativeTabs.length; i++)
+                        if (creativeTabs[i] && index == i)
                         {
-                            if (creativeTabs[i] && index == i)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
-                } catch (IllegalAccessException e)
-                {
-                    e.printStackTrace();
                 }
             }
         }
@@ -394,7 +374,9 @@ public class FilterStandard implements IFilterGUI
         for (int i = 0; i < creativeTabs.length; i++)
         {
             if (creativeTabs[i])
-                builder.append(tabs[i].getTabLabel()).append("^$");
+            {
+                builder.append(tabs[i].tabLabel).append("^$");
+            }
         }
         compound.setString("filters", builder.toString());
     }
@@ -413,7 +395,7 @@ public class FilterStandard implements IFilterGUI
         {
             for (int i = 0; i < tabs.length; i++)
             {
-                if (string.equals(tabs[i].getTabLabel()))
+                if (string.equals(tabs[i].tabLabel))
                     creativeTabs[i] = true;
             }
         }

@@ -21,12 +21,6 @@ import java.lang.reflect.Field;
 
 public class BlockFilteringHopper extends BlockHopper
 {
-    @SideOnly(Side.CLIENT)
-    public Field iconField;
-    @SideOnly(Side.CLIENT)
-    public Field iconFieldTop;
-    @SideOnly(Side.CLIENT)
-    public Field iconFieldInside;
 
     protected BlockFilteringHopper()
     {
@@ -34,13 +28,6 @@ public class BlockFilteringHopper extends BlockHopper
         this.setBlockName(Names.filteringHopper);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
         this.setHardness(3.0F).setResistance(8.0F).setStepSound(soundTypeWood);
-
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-        {
-            iconField = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperIcon", "field_149921_b", "b"));
-            iconFieldTop = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperTopIcon", "field_149923_M", "M"));
-            iconFieldInside = ReflectionHelper.findField(BlockHopper.class, ObfuscationReflectionHelper.remapFieldNames(BlockHopper.class.getName(), "hopperInsideIcon", "field_149924_N", "N"));
-        }
     }
 
     @Override
@@ -66,15 +53,9 @@ public class BlockFilteringHopper extends BlockHopper
     @Override
     public void registerBlockIcons(IIconRegister par1IconRegister)
     {
-        try
-        {
-            iconField.set(this, par1IconRegister.registerIcon(Resources.MOD_ID + ":" + "filteringHopper_outside"));
-            iconFieldTop.set(this, par1IconRegister.registerIcon(Resources.MOD_ID + ":" + "filteringHopper_top"));
-            iconFieldInside.set(this, par1IconRegister.registerIcon(Resources.MOD_ID + ":" + "filteringHopper_inside"));
-        } catch (IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
+        this.field_149921_b = par1IconRegister.registerIcon(Resources.MOD_ID + ":" + "filteringHopper_outside");
+        this.field_149923_M = par1IconRegister.registerIcon(Resources.MOD_ID + ":" + "filteringHopper_top");
+        this.field_149924_N = par1IconRegister.registerIcon(Resources.MOD_ID + ":" + "filteringHopper_inside");
     }
 
     @Override

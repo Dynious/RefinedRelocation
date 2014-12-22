@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 public class RendererSortingIronChest extends TileEntityIronChestRenderer
 {
     private Field model;
+    private ModelChest chest;
 
     public RendererSortingIronChest()
     {
@@ -65,7 +66,10 @@ public class RendererSortingIronChest extends TileEntityIronChestRenderer
             lidangle = 1.0F - lidangle * lidangle * lidangle;
             try
             {
-                ModelChest chest = (ModelChest) model.get(this);
+                if (chest == null)
+                {
+                    chest = (ModelChest) model.get(this);
+                }
                 chest.chestLid.rotateAngleX = -((lidangle * 3.141593F) / 2.0F);
                 chest.renderAll();
             } catch (IllegalAccessException e)

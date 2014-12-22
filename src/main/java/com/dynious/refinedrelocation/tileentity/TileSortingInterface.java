@@ -267,7 +267,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     public Packet getDescriptionPacket()
     {
         S35PacketUpdateTileEntity pkt = (S35PacketUpdateTileEntity) super.getDescriptionPacket();
-        NBTTagCompound tag = ObfuscationReflectionHelper.getPrivateValue(S35PacketUpdateTileEntity.class, pkt, "field_148860_e", "e");
+        NBTTagCompound tag = pkt.field_148860_e;
         tag.setByte("side", (byte) connectedSide.ordinal());
         tag.setBoolean("stuffed", bufferInventory[0] != null);
         return pkt;

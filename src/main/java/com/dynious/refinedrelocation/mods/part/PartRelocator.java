@@ -38,7 +38,6 @@ import java.util.List;
 public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInventory, JNormalOcclusion, TSlottedPart, IRedstonePart
 {
     public static final String RELOCATOR_TYPE = "tile." + Names.relocator;
-    private static Field nbtField = ReflectionHelper.findField(S35PacketUpdateTileEntity.class, "field_148860_e", "e");
     private TileRelocator relocator;
 
     public PartRelocator(TileRelocator tile)
@@ -217,15 +216,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public void writeDesc(MCDataOutput packet)
     {
         S35PacketUpdateTileEntity p = (S35PacketUpdateTileEntity) relocator.getDescriptionPacket();
-        NBTTagCompound t = null;
-        try
-        {
-            t = (NBTTagCompound) nbtField.get(p);
-        } catch (IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
-        packet.writeNBTTagCompound(t);
+        packet.writeNBTTagCompound(p.field_148860_e);
     }
 
     @Override
