@@ -117,9 +117,9 @@ public class BlockExtender extends BlockContainer implements IDismantleable
 
                             if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Math.pow(Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER, 2))
                             {
-                                if (world.getTileEntity(x, y, z) instanceof TileWirelessBlockExtender) {
+                                if (tileX == x && tileY == y && tileZ == z) {
                                     if (world.isRemote) {
-                                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.NO_LINK_WIRELESS_BLOCK_EXTENDER)));
+                                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.NO_LINK_TO_SELF)));
                                     }
                                     return true;
                                 }
