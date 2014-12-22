@@ -12,6 +12,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
@@ -27,10 +28,14 @@ public class EventHandlerClient
     @SubscribeEvent
     public void FOVEvent(FOVUpdateEvent event)
     {
-        ItemStack itemInUse = Minecraft.getMinecraft().thePlayer.getItemInUse();
-        if (itemInUse != null && itemInUse.getItem() == ModItems.playerRelocator)
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if (player != null)
         {
-            ModItems.playerRelocator.shiftFOV(itemInUse, event);
+            ItemStack itemInUse = player.getItemInUse();
+            if (itemInUse != null && itemInUse.getItem() == ModItems.playerRelocator)
+            {
+                ModItems.playerRelocator.shiftFOV(itemInUse, event);
+            }
         }
     }
 
