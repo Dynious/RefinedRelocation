@@ -85,6 +85,7 @@ public class Strings
     public static final String DISGUISED_AS = ITEM_DESC_PREFIX + "disguisedAs";
     public static final String CANNOT_DISGUISE_AS = ITEM_DESC_PREFIX + "cannotDisguiseAs";
     public static final String LINKER_SET = ITEM_DESC_PREFIX + "linkerSet";
+    public static final String NO_LINK_TO_SELF = ITEM_DESC_PREFIX + "noLinkingToSelf";
     public static final String NO_LONGER_LINKED = ITEM_DESC_PREFIX + "noLongerLinked";
     public static final String INTER_DIMENSIONAL = ITEM_DESC_PREFIX + "interDimensional";
     public static final String BROKEN_LINK = ITEM_DESC_PREFIX + "brokenLink";

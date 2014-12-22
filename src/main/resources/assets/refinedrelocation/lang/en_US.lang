@@ -146,6 +146,7 @@ itemDesc.refinedrelocation.unlinked=Unlinked
 itemDesc.refinedrelocation.disguisedAs=Disguised %s as: %s
 itemDesc.refinedrelocation.cannotDisguiseAs=Can not disguise as: %s
 itemDesc.refinedrelocation.linkerSet=Linker set to position: (%s, %s, %s) (%s)
+itemDesc.refinedrelocation.noLinkingToSelf=Cannot link block to itself
 itemDesc.refinedrelocation.noLongerLinked=%s is no longer linked
 itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
 itemDesc.refinedrelocation.brokenLink=Broken link!
