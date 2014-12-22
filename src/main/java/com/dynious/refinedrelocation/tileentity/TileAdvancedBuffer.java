@@ -19,7 +19,6 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
     private boolean spreadItems = false;
     private ForgeDirection lastItemOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastFluidOutputSide = ForgeDirection.UNKNOWN;
-    private ForgeDirection lastBCEnergyOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastIC2EnergyOutputSide = ForgeDirection.UNKNOWN;
     private ForgeDirection lastCoFHEnergyOutputSide = ForgeDirection.UNKNOWN;
 
@@ -272,6 +271,7 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
             if (!outputPriorities.contains(i))
                 outputPrioritiesArrayProxy[i] = NULL_PRIORITY;
         }
+        spreadItems = compound.getBoolean("spreadItems");
     }
 
     @Override
@@ -284,5 +284,6 @@ public class TileAdvancedBuffer extends TileBuffer implements IAdvancedTile
             byteArrayPriorities[priority] = outputPriorities.get(priority);
         }
         compound.setByteArray("insertPriority", byteArrayPriorities);
+        compound.setBoolean("spreadItems", spreadItems);
     }
 }
