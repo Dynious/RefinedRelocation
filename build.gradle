@@ -22,7 +22,7 @@ apply plugin: 'forge'
 ext.env = System.getenv()
 ext.cclVersion = "1.1.1.95"
 
-version = "1.0.7a"
+version = "1.0.7b"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.7.10"
 
@@ -110,7 +110,7 @@ processResources {
 
 jar {
     manifest {
-        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin", "FMLCorePluginContainsFMLMod": "true")
+        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin", "FMLCorePluginContainsFMLMod": "true", "FMLAT": "RefinedRelocation_at.cfg")
     }
 }
 
@@ -119,7 +119,7 @@ task deobfJar(type: Jar) {
     classifier = 'deobf'
 	
 	manifest {
-        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin", "FMLCorePluginContainsFMLMod": "true")
+        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin", "FMLCorePluginContainsFMLMod": "true", "FMLAT": "RefinedRelocation_at.cfg")
     }
 }
 
