@@ -371,7 +371,7 @@ public class FilterStandard implements IFilterGUI
             compound.setBoolean("cumstomFilters" + i, customFilters[i]);
         }
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < creativeTabs.length; i++)
+        for (int i = 0; i < tabs.length && i < creativeTabs.length; i++)
         {
             if (creativeTabs[i])
             {
@@ -393,7 +393,7 @@ public class FilterStandard implements IFilterGUI
         String filters = compound.getString("filters");
         for (String string : filters.split("\\^\\$"))
         {
-            for (int i = 0; i < tabs.length; i++)
+            for (int i = 0; i < tabs.length && i < creativeTabs.length; i++)
             {
                 if (string.equals(tabs[i].tabLabel))
                     creativeTabs[i] = true;
@@ -401,7 +401,7 @@ public class FilterStandard implements IFilterGUI
         }
 
         //1.0.7- compat
-        for (int i = 0; compound.hasKey("creativeTabs" + i); i++)
+        for (int i = 0; compound.hasKey("creativeTabs" + i) && i < creativeTabs.length; i++)
         {
             creativeTabs[i] = compound.getBoolean("creativeTabs" + i);
         }
