@@ -1058,10 +1058,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
     }
 
-    /*
-    IPipeTile functionality
-     */
-
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
@@ -1074,22 +1070,26 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return true;
     }
 
+    /*
+    IPipeTile functionality
+     */
+
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public PipeType getPipeType()
     {
         return PipeType.ITEM;
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public int injectItem(ItemStack itemStack, boolean b, ForgeDirection forgeDirection, EnumColor enumColor)
     {
         return injectItem(itemStack, b, forgeDirection);
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public int injectItem(ItemStack stack, boolean b, ForgeDirection direction)
     {
         if (stack == null)
@@ -1101,14 +1101,14 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public boolean isPipeConnected(ForgeDirection direction)
     {
         return connectsToSide(direction.ordinal());
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public TileEntity getAdjacentTile(ForgeDirection forgeDirection)
     {
         return inventories[forgeDirection.ordinal()];
@@ -1117,7 +1117,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     IPipe pipe;
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public IPipe getPipe()
     {
         if (pipe == null)

@@ -12,6 +12,7 @@ import codechicken.multipart.*;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.client.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
+import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.mods.FMPHelper;
@@ -424,42 +425,42 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
      */
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public PipeType getPipeType()
     {
         return relocator.getPipeType();
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public int injectItem(ItemStack itemStack, boolean b, ForgeDirection forgeDirection, EnumColor enumColor)
     {
         return relocator.injectItem(itemStack, b, forgeDirection, enumColor);
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public int injectItem(ItemStack stack, boolean b, ForgeDirection direction)
     {
         return relocator.injectItem(stack, b, direction);
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public boolean isPipeConnected(ForgeDirection direction)
     {
         return relocator.isPipeConnected(direction);
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public TileEntity getAdjacentTile(ForgeDirection forgeDirection)
     {
         return relocator.getAdjacentTile(forgeDirection);
     }
 
     @Override
-    @Optional.Method(modid = "BuildCraftAPI|transport")
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public IPipe getPipe()
     {
         return relocator.getPipe();

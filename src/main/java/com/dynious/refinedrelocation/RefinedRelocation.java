@@ -76,10 +76,7 @@ public class RefinedRelocation
             FMPHelper.addFMPRecipes();
         }
 
-        if (Mods.IS_BC_TRANSPORT_LOADED)
-        {
-            BuildcraftIntegration.init();
-        }
+        BuildcraftIntegration.init();
 
         proxy.initTileEntities();
 

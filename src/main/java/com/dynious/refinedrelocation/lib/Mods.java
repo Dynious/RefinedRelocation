@@ -14,15 +14,11 @@ public class Mods
     public static final String BC_TRANS_API_ID = "BuildCraftAPI|transport";
     public static final boolean IS_BC_TRANSPORT_API_LOADED = ModAPIManager.INSTANCE.hasAPI(BC_TRANS_API_ID);
     public static final String BC_TRANS_ID = "BuildCraft|Transport";
-    public static final boolean IS_BC_TRANSPORT_LOADED = Loader.isModLoaded(BC_TRANS_ID);
-    public static final String BC_POWER_API_ID = "BuildCraftAPI|power";
-    public static final boolean IS_BC_ENERGY_API_LOADED = ModAPIManager.INSTANCE.hasAPI(BC_POWER_API_ID);
     public static final String COFH_TRANSPORT_API_ID = "CoFHAPI|transport";
     public static final boolean IS_COFH_TRANSPORT_API_LOADED = ModAPIManager.INSTANCE.hasAPI(COFH_TRANSPORT_API_ID);
     public static final String COFH_ENERGY_API_ID = "CoFHAPI|energy";
     public static final boolean IS_COFH_ENERGY_API_LOADED = ModAPIManager.INSTANCE.hasAPI(COFH_ENERGY_API_ID);
     public static final String COFH_BLOCK_API_ID = "CoFHAPI|block";
-    public static final boolean IS_COFH_BLOCK_API_LOADED = ModAPIManager.INSTANCE.hasAPI(COFH_BLOCK_API_ID);
     public static final String IC2_ID = "IC2";
     public static final boolean IS_IC2_LOADED = Loader.isModLoaded(IC2_ID);
     public static final String FMP_IS = "McMultipart";
