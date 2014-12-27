@@ -465,4 +465,15 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     {
         return relocator.getPipe();
     }
+
+    /*
+    IItemDuct implementation
+     */
+
+    @Override
+    @Optional.Method(modid = Mods.COFH_TRANSPORT_API_ID)
+    public ItemStack insertItem(ForgeDirection forgeDirection, ItemStack itemStack)
+    {
+        return insert(itemStack, forgeDirection.ordinal(), false);
+    }
 }

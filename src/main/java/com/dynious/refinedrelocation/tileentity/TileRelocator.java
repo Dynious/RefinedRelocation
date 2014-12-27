@@ -1175,4 +1175,15 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
         return pipe;
     }
+
+    /*
+    IItemDuct implementation
+     */
+
+    @Override
+    @Optional.Method(modid = Mods.COFH_TRANSPORT_API_ID)
+    public ItemStack insertItem(ForgeDirection forgeDirection, ItemStack itemStack)
+    {
+        return insert(itemStack, forgeDirection.ordinal(), false);
+    }
 }
