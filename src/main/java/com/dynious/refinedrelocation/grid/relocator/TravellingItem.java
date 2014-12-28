@@ -38,7 +38,10 @@ public class TravellingItem
 
     public static TravellingItem createFromNBT(NBTTagCompound compound)
     {
-        TravellingItem t = new TravellingItem(ItemStack.loadItemStackFromNBT(compound), new ArrayList<Byte>(Bytes.asList(compound.getByteArray("path"))), compound.getByte("input"));
+        ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
+        if (stack == null)
+            return null;
+        TravellingItem t = new TravellingItem(stack, new ArrayList<Byte>(Bytes.asList(compound.getByteArray("path"))), compound.getByte("input"));
         t.counter = compound.getByte("counter");
         return t;
     }

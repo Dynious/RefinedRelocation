@@ -727,7 +727,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
                 NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-                items.add(TravellingItem.createFromNBT(nbttagcompound1));
+                TravellingItem readTravellingStack = TravellingItem.createFromNBT(nbttagcompound1);
+                if (readTravellingStack != null)
+                    items.add(readTravellingStack);
             }
         }
         if (compound.hasKey("ItemsToAdd"))
@@ -736,9 +738,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
                 NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-                itemsToAdd.add(TravellingItem.createFromNBT(nbttagcompound1));
+                TravellingItem readTravellingStack = TravellingItem.createFromNBT(nbttagcompound1);
+                if (readTravellingStack != null)
+                    itemsToAdd.add(readTravellingStack);
             }
         }
+
         if (compound.hasKey("StuffedItems"))
         {
             NBTTagList nbttaglist = compound.getTagList("StuffedItems", 10);
@@ -746,7 +751,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
                 byte side = nbttagcompound1.getByte("Side");
-                stuffedItems[side].add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
+                ItemStack readStack = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+                if (readStack != null)
+                    stuffedItems[side].add(readStack);
             }
         }
 
