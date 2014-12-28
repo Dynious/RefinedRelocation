@@ -289,8 +289,16 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
         return EnumSet.of(GridFlags.REQUIRE_CHANNEL);
     }
 
-    @Override
+    /*
+    AE2 rv1 backwards compat (damn typos :P)
+     */
     public boolean isWorldAccessable()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isWorldAccessible()
     {
         return true;
     }

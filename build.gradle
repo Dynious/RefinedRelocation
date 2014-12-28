@@ -59,7 +59,7 @@ dependencies {
     compile "com.mod-buildcraft:buildcraft:6.2.5:dev"
     compile "net.industrial-craft:industrialcraft-2:2.2.658-experimental:api"
     compile "mcp.mobius.waila:Waila:1.5.2a"
-    compile "appeng:appliedenergistics2:rv1-stable-1:dev"
+    compile "appeng:appliedenergistics2:rv2-beta-2:dev"
     compile "com.pahimar.ee3:EquivalentExchange3:1.7.10-0.2.347:dev"
     compile "mcp.mobius.jabba:Jabba:1.1.4_1.7.10:dev"
 }
