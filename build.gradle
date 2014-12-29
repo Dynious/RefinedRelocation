@@ -22,7 +22,7 @@ apply plugin: 'forge'
 ext.env = System.getenv()
 ext.cclVersion = "1.1.1.95"
 
-version = "1.0.7b"
+version = "1.0.7c"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.7.10"
 
