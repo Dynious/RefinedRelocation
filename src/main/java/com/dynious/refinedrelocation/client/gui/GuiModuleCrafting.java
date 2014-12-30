@@ -2,12 +2,9 @@ package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonMaxCraftStack;
 import com.dynious.refinedrelocation.container.ContainerModuleCrafting;
-import com.dynious.refinedrelocation.container.ContainerModuleStock;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
-import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleStock;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Settings;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import org.lwjgl.opengl.GL11;

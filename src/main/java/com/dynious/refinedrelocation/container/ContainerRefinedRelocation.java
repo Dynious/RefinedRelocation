@@ -10,9 +10,8 @@ import net.minecraft.inventory.Container;
 public abstract class ContainerRefinedRelocation extends Container
 {
     /**
-     *
      * @param messageId The ID of this message. MAX SIZE BYTE!
-     * @param message The message (boolean, byte or integer)
+     * @param message   The message (boolean, byte or integer)
      */
     public void sendMessage(int messageId, Object message)
     {

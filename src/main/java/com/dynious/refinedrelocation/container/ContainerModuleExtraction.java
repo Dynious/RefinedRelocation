@@ -96,7 +96,7 @@ public class ContainerModuleExtraction extends ContainerHierarchical
     @Override
     public void onMessage(int messageID, Object message)
     {
-        switch(messageID)
+        switch (messageID)
         {
             case 0:
                 setTicksBetweenExtraction((Integer) message);

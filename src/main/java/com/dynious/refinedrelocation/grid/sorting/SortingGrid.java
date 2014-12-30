@@ -104,7 +104,9 @@ public class SortingGrid extends Grid implements ISortingGrid
                             if (inventory instanceof ISpecialSortingInventory)
                             {
                                 list.add(((ISpecialSortingInventory) inventory).getLocalizedStackInSlot(slot));
-                            } else {
+                            }
+                            else
+                            {
                                 list.add(new LocalizedStack(stack, inventory, slot));
                             }
                         }

@@ -7,7 +7,6 @@ import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.block.BlockSortingIronChest;
 import com.dynious.refinedrelocation.block.ModBlocks;
-import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;

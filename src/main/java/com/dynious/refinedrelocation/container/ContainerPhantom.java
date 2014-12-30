@@ -1,5 +1,8 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.container.slot.SlotGhost;
+import com.dynious.refinedrelocation.container.slot.SlotPhantom;
+import com.dynious.refinedrelocation.container.slot.SlotUntouchable;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,7 +21,7 @@ public abstract class ContainerPhantom extends ContainerRefinedRelocation
         {
             return null;
         }
-        else  if (slot instanceof SlotGhost)
+        else if (slot instanceof SlotGhost)
         {
             return slotClickGhost(slot, mouseButton, player);
         }

@@ -26,8 +26,8 @@ import java.util.List;
 public class FilterStandard implements IFilterGUI
 {
     public static final int FILTER_SIZE = 14;
-    private boolean[] customFilters = new boolean[FILTER_SIZE];
     private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
+    private boolean[] customFilters = new boolean[FILTER_SIZE];
     private IFilterTileGUI tile;
     private boolean[] creativeTabs = new boolean[tabs.length];
     private String userFilter = "";

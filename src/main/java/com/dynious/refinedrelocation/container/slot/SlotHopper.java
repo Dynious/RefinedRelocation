@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.container;
+package com.dynious.refinedrelocation.container.slot;
 
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

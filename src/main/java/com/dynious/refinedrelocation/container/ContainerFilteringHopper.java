@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.container.slot.SlotHopper;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageUserFilter;

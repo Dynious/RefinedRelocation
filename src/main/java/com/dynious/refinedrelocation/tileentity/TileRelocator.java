@@ -5,7 +5,6 @@ import buildcraft.api.gates.IGate;
 import buildcraft.api.transport.IPipe;
 import buildcraft.api.transport.IPipeTile;
 import buildcraft.api.transport.PipeWire;
-import buildcraft.transport.Pipe;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
@@ -46,28 +45,25 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 {
     public boolean shouldUpdate = true;
     public boolean isBeingPowered = false;
+    IPipe pipe;
     private boolean isFirstTick = true;
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocatorModule[] modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
     private List<ItemStack>[] stuffedItems;
-
     /*
     Only used client side
      */
     private boolean[] isConnected = new boolean[6];
     private byte renderType = 0;
     private boolean[] isStuffed = new boolean[6];
-
     /*
     Cached Paths and stack sizes
      */
     private TravellingItem cachedTravellingItem;
     private int maxStackSize = 64;
-
     private List<TravellingItem> items = new ArrayList<TravellingItem>();
     private List<TravellingItem> itemsToAdd = new ArrayList<TravellingItem>();
-
     private byte ticker = 0;
 
     @SuppressWarnings("unchecked")
@@ -900,6 +896,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
     }
 
+    /*
+    ISidedInventory implementation
+     */
+
     public void calculateRenderType()
     {
         if (isConnected[0] && isConnected[1] && !isConnected[2] && !isConnected[3] && !isConnected[4] && !isConnected[5])
@@ -911,10 +911,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         else
             renderType = 0;
     }
-
-    /*
-    ISidedInventory implementation
-     */
 
     public byte getRenderType()
     {
@@ -1071,15 +1067,15 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return super.getRenderBoundingBox().expand(0.5, 0.5, 0.5);
     }
 
+    /*
+    IPipeTile functionality
+     */
+
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemstack)
     {
         return true;
     }
-
-    /*
-    IPipeTile functionality
-     */
 
     @Override
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
@@ -1120,8 +1116,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         return inventories[forgeDirection.ordinal()];
     }
-
-    IPipe pipe;
 
     @Override
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)

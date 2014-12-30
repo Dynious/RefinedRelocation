@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.container;
+package com.dynious.refinedrelocation.container.slot;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

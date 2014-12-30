@@ -1,5 +1,7 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.container.slot.SlotGhost;
+import com.dynious.refinedrelocation.container.slot.SlotUntouchable;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;

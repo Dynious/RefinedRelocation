@@ -6,18 +6,11 @@ import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.relauncher.ReflectionHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-
-import java.lang.reflect.Field;
 
 public class BlockFilteringHopper extends BlockHopper
 {

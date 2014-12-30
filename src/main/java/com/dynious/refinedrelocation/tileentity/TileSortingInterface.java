@@ -9,7 +9,6 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHa
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

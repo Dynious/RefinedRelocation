@@ -1,10 +1,7 @@
-package com.dynious.refinedrelocation.container;
+package com.dynious.refinedrelocation.container.slot;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-
-import java.lang.reflect.Field;
 
 public class SlotPhantom extends Slot
 {

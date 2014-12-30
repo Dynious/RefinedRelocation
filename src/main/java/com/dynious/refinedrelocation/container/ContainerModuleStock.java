@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.container.slot.SlotPhantom;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleStock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;

@@ -28,18 +28,19 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RelocatorModuleCrafting extends RelocatorModuleBase
 {
     private static IIcon icon;
     public final LocalInventoryCrafting CRAFT_MATRIX = new LocalInventoryCrafting();
     public final IInventory CRAFT_RESULT = new InventoryCraftResult();
-    private int maxCraftStack = 64;
     public int craftTick = 0;
     public int normalTick = 0;
     public ItemStack outputStack = null;
     public boolean isStuffed = false;
+    private int maxCraftStack = 64;
     private boolean input = false;
 
     @Override

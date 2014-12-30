@@ -62,16 +62,19 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
     }
 
     @Override
-    public LocalizedStack getLocalizedStackInSlot(int slot) {
+    public LocalizedStack getLocalizedStackInSlot(int slot)
+    {
         ItemStack itemStack = getStackInSlot(slot);
-        if (itemStack != null) {
+        if (itemStack != null)
+        {
             return new LocalizedStack(itemStack, this, slot, getStorage().getAmount());
         }
         return null;
     }
 
     @Override
-    public ItemStack getStackInSlot(int islot) {
+    public ItemStack getStackInSlot(int islot)
+    {
         /*ItemStack itemStack = super.getStackInSlot(islot);
         if (itemStack != null && getStorage() != null) {
             itemStack = itemStack.copy();
