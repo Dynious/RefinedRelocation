@@ -1,9 +1,9 @@
 package com.dynious.refinedrelocation.client.gui;
 
+import com.dynious.refinedrelocation.container.ContainerRefinedRelocation;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
 {
     protected List<IGuiWidgetBase> children = new ArrayList<IGuiWidgetBase>();
 
-    public GuiRefinedRelocationContainer(Container container)
+    public GuiRefinedRelocationContainer(ContainerRefinedRelocation container)
     {
         super(container);
     }
@@ -154,5 +154,11 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
         for (IGuiWidgetBase child : this.children)
             child.mouseMovedOrUp(par1, par2, par3);
         super.mouseMovedOrUp(par1, par2, par3);
+    }
+
+    @Override
+    public ContainerRefinedRelocation getContainer()
+    {
+        return (ContainerRefinedRelocation) inventorySlots;
     }
 }

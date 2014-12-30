@@ -3,8 +3,6 @@ package com.dynious.refinedrelocation.client.gui.widget;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageMaxCraftStack;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -27,8 +25,8 @@ public class GuiButtonMaxCraftStack extends GuiButtonCounter
         if (tile == null)
             return;
 
-        tile.setMaxCraftStack((byte) newValue);
-        NetworkHandler.INSTANCE.sendToServer(new MessageMaxCraftStack((byte) newValue));
+        tile.setMaxCraftStack((int) newValue);
+        getContainer().sendMessage(0, (int) newValue);
     }
 
     @Override

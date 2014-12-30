@@ -4,8 +4,6 @@ import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageSide;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StatCollector;
@@ -43,7 +41,7 @@ public class GuiButtonSide extends GuiButton
     protected void onValueChangedByUser(int side)
     {
         module.setOutputSide(side);
-        NetworkHandler.INSTANCE.sendToServer(new MessageSide(side));
+        getContainer().sendMessage(0, side);
     }
 
     public void update()

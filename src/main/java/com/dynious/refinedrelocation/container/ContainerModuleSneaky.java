@@ -55,4 +55,15 @@ public class ContainerModuleSneaky extends ContainerHierarchical
     {
         module.setOutputSide(ticks);
     }
+
+    @Override
+    public void onMessage(int messageID, Object message)
+    {
+        switch (messageID)
+        {
+            case 0:
+                setSide((Integer) message);
+                break;
+        }
+    }
 }

@@ -3,8 +3,6 @@ package com.dynious.refinedrelocation.client.gui.widget;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageModuleMaxStackSize;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public class GuiButtonModuleMaxStackSize extends GuiButtonCounter
             return;
 
         module.maxExtractionStackSize = (int) newValue;
-        NetworkHandler.INSTANCE.sendToServer(new MessageModuleMaxStackSize((int) newValue));
+        getContainer().sendMessage(2, (int) newValue);
     }
 
     @Override

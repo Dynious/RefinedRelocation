@@ -2,10 +2,9 @@ package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 
-public class ContainerPowerLimiter extends Container
+public class ContainerPowerLimiter extends ContainerRefinedRelocation
 {
     public TilePowerLimiter tile;
     private boolean initialUpdate = true;
@@ -55,5 +54,12 @@ public class ContainerPowerLimiter extends Container
     {
         if (id == 0)
             setRedstoneToggle(value != 0);
+    }
+
+    @Override
+    public void onMessage(int messageID, Object message)
+    {
+        if (messageID == 0)
+            setRedstoneToggle((Boolean) message);
     }
 }

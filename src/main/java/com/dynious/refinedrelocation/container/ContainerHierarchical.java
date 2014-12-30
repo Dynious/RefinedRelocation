@@ -6,7 +6,7 @@ import net.minecraft.inventory.ICrafting;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ContainerHierarchical extends Container
+public abstract class ContainerHierarchical extends ContainerRefinedRelocation
 {
 
     private ContainerHierarchical parentContainer;

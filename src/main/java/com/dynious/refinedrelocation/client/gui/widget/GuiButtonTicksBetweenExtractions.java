@@ -4,8 +4,6 @@ import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageTicksBetweenExtraction;
 import net.minecraft.util.StatCollector;
 
 import java.text.DecimalFormat;
@@ -31,7 +29,7 @@ public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
             return;
 
         module.setTicksBetweenExtraction((int) newValue);
-        NetworkHandler.INSTANCE.sendToServer(new MessageTicksBetweenExtraction((int) newValue));
+        getContainer().sendMessage(0, (int) newValue);
     }
 
     @Override

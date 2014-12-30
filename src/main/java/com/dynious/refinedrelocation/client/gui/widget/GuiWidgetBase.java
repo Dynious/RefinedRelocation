@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.IGuiWidgetBase;
+import com.dynious.refinedrelocation.container.ContainerRefinedRelocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
@@ -259,5 +260,11 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
     {
         for (IGuiWidgetBase child : this.children)
             child.mouseMovedOrUp(par1, par2, par3);
+    }
+
+    @Override
+    public ContainerRefinedRelocation getContainer()
+    {
+        return getParent().getContainer();
     }
 }

@@ -43,4 +43,12 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     {
         ((RelocatorModuleSneakyExtraction) module).setExtractionSide(side);
     }
+
+    @Override
+    public void onMessage(int messageID, Object message)
+    {
+        super.onMessage(messageID, message);
+        if (messageID == 3)
+            setExtractionSide((Integer) message);
+    }
 }

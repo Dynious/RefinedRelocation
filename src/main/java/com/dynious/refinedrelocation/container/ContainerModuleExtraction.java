@@ -92,4 +92,21 @@ public class ContainerModuleExtraction extends ContainerHierarchical
     {
         module.maxExtractionStackSize = maxStackSize;
     }
+
+    @Override
+    public void onMessage(int messageID, Object message)
+    {
+        switch(messageID)
+        {
+            case 0:
+                setTicksBetweenExtraction((Integer) message);
+                break;
+            case 1:
+                setRedstoneControlState((Integer) message);
+                break;
+            case 2:
+                setMaxStackSize((Integer) message);
+                break;
+        }
+    }
 }

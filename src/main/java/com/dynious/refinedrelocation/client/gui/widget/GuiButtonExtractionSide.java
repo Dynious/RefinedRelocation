@@ -4,8 +4,6 @@ import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageExtractionSide;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StatCollector;
@@ -43,7 +41,7 @@ public class GuiButtonExtractionSide extends GuiButton
     protected void onValueChangedByUser(int side)
     {
         module.setExtractionSide(side);
-        NetworkHandler.INSTANCE.sendToServer(new MessageExtractionSide(side));
+        getContainer().sendMessage(3, side);
     }
 
     public void update()

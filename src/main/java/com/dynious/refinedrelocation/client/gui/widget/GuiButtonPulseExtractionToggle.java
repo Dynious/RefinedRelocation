@@ -3,8 +3,6 @@ package com.dynious.refinedrelocation.client.gui.widget;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageExtractOnRedstoneSignal;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
@@ -24,7 +22,7 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
     public void update()
     {
         if (module != null)
-            setNewState(module.redstoneControlState);
+            setNewState(module.redstoneControlState, false);
         super.update();
     }
 
@@ -34,9 +32,9 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
         if (isMouseInsideBounds(mouseX, mouseY))
         {
             if (type == 0)
-                setNewState(getNextControlState());
+                setNewState(getNextControlState(), true);
             else if (type == 1)
-                setNewState(getPreviousControlState());
+                setNewState(getPreviousControlState(), true);
         }
 
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
@@ -52,13 +50,14 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
         return module.redstoneControlState - 1 >= 0 ? module.redstoneControlState - 1 : 3;
     }
 
-    protected void setNewState(int newState)
+    protected void setNewState(int newState, boolean sendUpdate)
     {
         if (module == null)
             return;
 
         module.redstoneControlState = newState;
-        NetworkHandler.INSTANCE.sendToServer(new MessageExtractOnRedstoneSignal(newState));
+        if (sendUpdate)
+            getContainer().sendMessage(1, newState);
 
         switch (module.redstoneControlState)
         {

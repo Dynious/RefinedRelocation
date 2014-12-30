@@ -1,7 +1,6 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
@@ -51,24 +50,23 @@ public class ContainerModuleCrafting extends ContainerPhantom
     {
         super.detectAndSendChanges();
 
-        if ((module.outputStack == null) == isStuffed || initialUpdate)
-        {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, 0, (module.outputStack != null) ? 1 : 0);
-            }
-            isStuffed = (module.outputStack != null);
-        }
-
         if (module.getMaxCraftStack() != lastCraftStack || initialUpdate)
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, 1, module.getMaxCraftStack());
+                ((ICrafting) crafter).sendProgressBarUpdate(this, 0, module.getMaxCraftStack());
             }
             lastCraftStack = module.getMaxCraftStack();
         }
-        if (module.craftTick != lastCraftStack || initialUpdate)
+        if ((module.outputStack == null) == isStuffed || initialUpdate)
+        {
+            for (Object crafter : crafters)
+            {
+                ((ICrafting) crafter).sendProgressBarUpdate(this, 1, (module.outputStack != null) ? 1 : 0);
+            }
+            isStuffed = (module.outputStack != null);
+        }
+        if (module.craftTick != lastCraftTick || initialUpdate)
         {
             for (Object crafter : crafters)
             {
@@ -87,10 +85,10 @@ public class ContainerModuleCrafting extends ContainerPhantom
         switch (id)
         {
             case 0:
-                module.isStuffed = value == 1;
+                setMaxCraftStack(value);
                 break;
             case 1:
-                setMaxCraftStack(value);
+                module.isStuffed = value == 1;
                 break;
             case 2:
                 module.craftTick = value;
@@ -113,5 +111,12 @@ public class ContainerModuleCrafting extends ContainerPhantom
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
     {
         return null;
+    }
+
+    @Override
+    public void onMessage(int messageID, Object message)
+    {
+        if (messageID == 0)
+            setMaxCraftStack((Integer) message);
     }
 }

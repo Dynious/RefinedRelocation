@@ -2,6 +2,9 @@ package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.packet.*;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
@@ -27,15 +30,11 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 12, Side.CLIENT);
         INSTANCE.registerMessage(MessagePriority.class, MessagePriority.class, 13, Side.SERVER);
         INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 14, Side.CLIENT);
-        INSTANCE.registerMessage(MessageSide.class, MessageSide.class, 15, Side.SERVER);
+        INSTANCE.registerMessage(MessageSetFilterOption.class, MessageSetFilterOption.class, 15, Side.CLIENT);
         INSTANCE.registerMessage(MessageHomeButtonClicked.class, MessageHomeButtonClicked.class, 16, Side.SERVER);
         INSTANCE.registerMessage(MessageKonga.class, MessageKonga.class, 17, Side.CLIENT);
-        INSTANCE.registerMessage(MessageExtractionSide.class, MessageExtractionSide.class, 18, Side.SERVER);
-        INSTANCE.registerMessage(MessageTicksBetweenExtraction.class, MessageTicksBetweenExtraction.class, 19, Side.SERVER);
-        INSTANCE.registerMessage(MessageExtractOnRedstoneSignal.class, MessageExtractOnRedstoneSignal.class, 20, Side.SERVER);
-        INSTANCE.registerMessage(MessageModuleMaxStackSize.class, MessageModuleMaxStackSize.class, 21, Side.SERVER);
-        INSTANCE.registerMessage(MessageRedstoneToggle.class, MessageRedstoneToggle.class, 22, Side.SERVER);
-        INSTANCE.registerMessage(MessageSetFilterOption.class, MessageSetFilterOption.class, 23, Side.CLIENT);
-        INSTANCE.registerMessage(MessageMaxCraftStack.class, MessageMaxCraftStack.class, 24, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIBoolean.class, MessageGUIBoolean.class, 18, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIByte.class, MessageGUIByte.class, 19, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIInteger.class, MessageGUIInteger.class, 10, Side.SERVER);
     }
 }

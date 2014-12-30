@@ -1,14 +1,14 @@
 package com.dynious.refinedrelocation.client.gui;
 
+import com.dynious.refinedrelocation.container.ContainerRefinedRelocation;
 import com.dynious.refinedrelocation.lib.Resources;
-import net.minecraft.inventory.Container;
 import org.lwjgl.opengl.GL11;
 
 public class GuiModular extends GuiRefinedRelocationContainer
 {
     private static final int SPACE_BETWEEN_MODULES = 10;
 
-    public GuiModular(Container container)
+    public GuiModular(ContainerRefinedRelocation container)
     {
         super(container);
         this.xSize = 0;
