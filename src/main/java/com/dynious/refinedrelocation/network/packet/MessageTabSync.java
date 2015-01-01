@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.network.packet;
 
+import com.dynious.refinedrelocation.grid.FilterCreativeTabs;
 import com.dynious.refinedrelocation.grid.FilterStandard;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -44,6 +45,7 @@ public class MessageTabSync implements IMessage, IMessageHandler<MessageTabSync,
     public IMessage onMessage(MessageTabSync message, MessageContext ctx)
     {
         FilterStandard.syncTabs(message.labels);
+        FilterCreativeTabs.syncTabs(message.labels);
         return null;
     }
 }
