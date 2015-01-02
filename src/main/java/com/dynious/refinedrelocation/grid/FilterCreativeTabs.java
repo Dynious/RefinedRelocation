@@ -1,8 +1,12 @@
 package com.dynious.refinedrelocation.grid;
 
 import com.dynious.refinedrelocation.api.filter.IFilterModule;
+import com.dynious.refinedrelocation.client.gui.GuiModularFiltered;
+import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.IGuiWidgetBase;
-import com.google.common.primitives.Booleans;
+import com.dynious.refinedrelocation.client.gui.widget.GuiMCreativeTabsList;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,6 +36,11 @@ public class FilterCreativeTabs implements IFilterModule
         return I18n.format(tabs[place].getTranslatedTabLabel()).replace("itemGroup.", "");
     }
 
+    public int getSize()
+    {
+        return tabs.length;
+    }
+
     @Override
     public String getDisplayName()
     {
@@ -41,27 +50,24 @@ public class FilterCreativeTabs implements IFilterModule
     @Override
     public boolean matchesFilter(ItemStack stack)
     {
-        if (Booleans.contains(creativeTabs, true))
+        CreativeTabs tab;
+        if (stack.getItem() instanceof ItemBlock)
         {
-            CreativeTabs tab;
-            if (stack.getItem() instanceof ItemBlock)
-            {
-                tab = Block.getBlockById(ItemBlock.getIdFromItem(stack.getItem())).displayOnCreativeTab;
-            }
-            else
-            {
-                tab = stack.getItem().tabToDisplayOn;
-            }
-            if (tab != null)
-            {
-                int index = tab.tabIndex;
+            tab = Block.getBlockById(ItemBlock.getIdFromItem(stack.getItem())).displayOnCreativeTab;
+        }
+        else
+        {
+            tab = stack.getItem().tabToDisplayOn;
+        }
+        if (tab != null)
+        {
+            int index = tab.tabIndex;
 
-                for (int i = 0; i < creativeTabs.length; i++)
+            for (int i = 0; i < creativeTabs.length; i++)
+            {
+                if (creativeTabs[i] && index == i)
                 {
-                    if (creativeTabs[i] && index == i)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
@@ -69,9 +75,10 @@ public class FilterCreativeTabs implements IFilterModule
     }
 
     @Override
-    public IGuiWidgetBase getGUI()
+    @SideOnly(Side.CLIENT)
+    public IGuiWidgetBase getGUI(IGuiParent parent, int x, int y)
     {
-        return null;
+        return new GuiMCreativeTabsList(parent, x, y, GuiModularFiltered.X_SIZE, GuiModularFiltered.Y_SIZE, this);
     }
 
     @Override

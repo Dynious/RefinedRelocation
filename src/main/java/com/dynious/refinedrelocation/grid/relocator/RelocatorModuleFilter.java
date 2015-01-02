@@ -1,13 +1,12 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.client.gui.GuiFiltered;
-import com.dynious.refinedrelocation.container.ContainerFiltered;
-import com.dynious.refinedrelocation.grid.FilterStandard;
+import com.dynious.refinedrelocation.api.tileentity.INewFilterTile;
+import com.dynious.refinedrelocation.client.gui.GuiModularFiltered;
+import com.dynious.refinedrelocation.container.ContainerModularFiltered;
+import com.dynious.refinedrelocation.grid.Filter;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -26,18 +25,18 @@ import net.minecraft.util.StatCollector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelocatorModuleFilter extends RelocatorModuleBase
+public class RelocatorModuleFilter extends RelocatorModuleBase implements INewFilterTile
 {
     private static IIcon icon;
-    private FilterStandard filter;
-    private FilterStandard filterWaila;
+    private Filter newFilter;
+    //private FilterStandard filterWaila;
     private long lastChange = -401;
     private IItemRelocator relocator;
 
     @Override
     public void init(IItemRelocator relocator, int side)
     {
-        filter = new FilterStandard(getFilterTile(this, relocator));
+        newFilter = new Filter(this);
         this.relocator = relocator;
     }
 
@@ -58,19 +57,19 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new GuiFiltered(getFilterTile(this, relocator));
+        return new GuiModularFiltered(this);
     }
 
     @Override
     public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new ContainerFiltered(getFilterTile(this, relocator));
+        return new ContainerModularFiltered(this);
     }
 
     @Override
     public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
-        return (!simulate && (relocator.getTileEntity().getWorldObj().getTotalWorldTime() - lastChange) > 400) || filter.passesFilter(stack);
+        return (!simulate && (relocator.getTileEntity().getWorldObj().getTotalWorldTime() - lastChange) > 400) || newFilter.passesFilter(stack);
     }
 
     @Override
@@ -81,41 +80,17 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
         return list;
     }
 
-    private IFilterTileGUI getFilterTile(final RelocatorModuleFilter module, final IItemRelocator relocator)
-    {
-        return new IFilterTileGUI()
-        {
-            @Override
-            public IFilterGUI getFilter()
-            {
-                return module.filter;
-            }
-
-            @Override
-            public TileEntity getTileEntity()
-            {
-                return relocator.getTileEntity();
-            }
-
-            @Override
-            public void onFilterChanged()
-            {
-                lastChange = relocator.getTileEntity().getWorldObj().getTotalWorldTime();
-                relocator.getTileEntity().markDirty();
-            }
-        };
-    }
 
     @Override
     public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
-        filter.readFromNBT(compound);
+        newFilter.readFromNBT(compound);
     }
 
     @Override
     public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
     {
-        filter.writeToNBT(compound);
+        newFilter.writeToNBT(compound);
     }
 
     @Override
@@ -133,6 +108,7 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     @Override
     public List<String> getWailaInformation(NBTTagCompound nbtData)
     {
+        /*
         if (filterWaila == null)
         {
             filterWaila = new FilterStandard(getFilterTile(this, relocator));
@@ -140,6 +116,26 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
         List<String> information = new ArrayList<String>();
         filterWaila.readFromNBT(nbtData);
         information.addAll(filterWaila.getWAILAInformation(nbtData));
-        return information;
+        */
+        return null;
+    }
+
+    @Override
+    public Filter getFilter()
+    {
+        return newFilter;
+    }
+
+    @Override
+    public TileEntity getTileEntity()
+    {
+        return relocator.getTileEntity();
+    }
+
+    @Override
+    public void onFilterChanged()
+    {
+        lastChange = relocator.getTileEntity().getWorldObj().getTotalWorldTime();
+        relocator.getTileEntity().markDirty();
     }
 }

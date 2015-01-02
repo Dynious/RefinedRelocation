@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.api.filter;
 
+import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.IGuiWidgetBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,7 +15,7 @@ public interface IFilterModule
     public boolean matchesFilter(ItemStack stack);
 
     @SideOnly(Side.CLIENT)
-    public IGuiWidgetBase getGUI();
+    public IGuiWidgetBase getGUI(IGuiParent parent, int x, int y);
 
     public Container getContainer();
 

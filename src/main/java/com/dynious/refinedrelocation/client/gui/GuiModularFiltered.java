@@ -1,15 +1,21 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.container.ContainerFiltered;
+import com.dynious.refinedrelocation.api.filter.IFilterModule;
+import com.dynious.refinedrelocation.api.tileentity.INewFilterTile;
+import com.dynious.refinedrelocation.container.ContainerModularFiltered;
 
 public class GuiModularFiltered extends GuiRefinedRelocationContainer
 {
-    private IFilterTileGUI filterTile;
+    private INewFilterTile filterTile;
 
-    public GuiModularFiltered(IFilterTileGUI filterTile)
+    public static final int X_SIZE = 150;
+    public static final int Y_SIZE = 100;
+    private static final int[] X_POSITIONS = new int[] { 0, 155 };
+    private static final int[] Y_POSITIONS = new int[] { 35, 140 };
+
+    public GuiModularFiltered(INewFilterTile filterTile)
     {
-        super(new ContainerFiltered(filterTile));
+        super(new ContainerModularFiltered(filterTile));
         this.filterTile = filterTile;
         this.xSize = 305;
         this.ySize = 240;
@@ -20,17 +26,23 @@ public class GuiModularFiltered extends GuiRefinedRelocationContainer
     {
         super.initGui();
 
-        //new GuiFilterList(this, guiLeft, guiTop + 35, 150, 100, filterTile);
+        IFilterModule[] filters = filterTile.getFilter().filters;
+        for (int i = 0; i < filters.length; i++)
+        {
+            IFilterModule filter = filters[i];
+            if (filter != null)
+                filter.getGUI(this, X_POSITIONS[i % 2], Y_POSITIONS[i/2]);
+        }
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
     {
         drawRect(guiLeft, guiTop, guiLeft + xSize, guiTop + 30, 0xffc6c6c6);
-        drawRect(guiLeft, guiTop + 35, guiLeft + 150, guiTop + 135, 0xffc6c6c6);
-        drawRect(guiLeft + 155, guiTop + 35, guiLeft + 305, guiTop + 135, 0xffc6c6c6);
-        drawRect(guiLeft, guiTop + 140, guiLeft + 150, guiTop + 240, 0xffc6c6c6);
-        drawRect(guiLeft + 155, guiTop + 140, guiLeft + 305, guiTop + 240, 0xffc6c6c6);
+        drawRect(guiLeft + X_POSITIONS[0], guiTop + Y_POSITIONS[0], guiLeft + X_POSITIONS[0] + X_SIZE, guiTop + Y_POSITIONS[0] + Y_SIZE, 0xffc6c6c6);
+        drawRect(guiLeft + X_POSITIONS[1], guiTop + Y_POSITIONS[0], guiLeft + X_POSITIONS[1] + X_SIZE, guiTop + Y_POSITIONS[0] + Y_SIZE, 0xffc6c6c6);
+        drawRect(guiLeft + X_POSITIONS[0], guiTop + Y_POSITIONS[1], guiLeft + X_POSITIONS[0] + X_SIZE, guiTop + Y_POSITIONS[1] + Y_SIZE, 0xffc6c6c6);
+        drawRect(guiLeft + X_POSITIONS[1], guiTop + Y_POSITIONS[1], guiLeft + X_POSITIONS[1] + X_SIZE, guiTop + Y_POSITIONS[1] + Y_SIZE, 0xffc6c6c6);
 
         super.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
     }
