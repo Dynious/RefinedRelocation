@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.api.tileentity.INewFilterTile;
+import com.dynious.refinedrelocation.client.gui.widget.GuiFilterModuleList;
 import com.dynious.refinedrelocation.container.ContainerModularFiltered;
 
 public class GuiModularFiltered extends GuiRefinedRelocationContainer
@@ -31,8 +32,17 @@ public class GuiModularFiltered extends GuiRefinedRelocationContainer
         {
             IFilterModule filter = filters[i];
             if (filter != null)
-                filter.getGUI(this, X_POSITIONS[i % 2], Y_POSITIONS[i/2]);
+                filter.getGUI(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2]);
+            else
+                new GuiFilterModuleList(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2], filterTile, i);
         }
+    }
+
+    public void onModuleAdded(int position)
+    {
+        IFilterModule module = filterTile.getFilter().filters[position];
+        if (module != null)
+            module.getGUI(this, guiLeft +X_POSITIONS[position % 2], guiTop + Y_POSITIONS[position/2]);
     }
 
     @Override

@@ -13,6 +13,9 @@ import java.util.List;
 public abstract class GuiRefinedRelocationContainer extends GuiContainer implements IGuiParent
 {
     protected List<IGuiWidgetBase> children = new ArrayList<IGuiWidgetBase>();
+    private List<IGuiWidgetBase> toAdd = new ArrayList<IGuiWidgetBase>();
+    private List<IGuiWidgetBase> toRemove = new ArrayList<IGuiWidgetBase>();
+    private boolean clear = false;
 
     public GuiRefinedRelocationContainer(ContainerRefinedRelocation container)
     {
@@ -39,31 +42,31 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     @Override
     public void addChild(IGuiWidgetBase child)
     {
-        this.children.add(child);
+        this.toAdd.add(child);
     }
 
     @Override
     public void addChildren(List<IGuiWidgetBase> children)
     {
-        this.children.addAll(children);
+        this.toAdd.addAll(children);
     }
 
     @Override
     public void clearChildren()
     {
-        this.children.clear();
+        clear = true;
     }
 
     @Override
     public boolean removeChild(IGuiWidgetBase child)
     {
-        return this.children.remove(child);
+        return this.toRemove.add(child);
     }
 
     @Override
     public void removeChildren(List<IGuiWidgetBase> children)
     {
-        this.children.removeAll(children);
+        this.toRemove.addAll(children);
     }
 
     @Override
@@ -112,6 +115,22 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     public void updateScreen()
     {
         super.updateScreen();
+
+        if (clear)
+        {
+            children.clear();
+            clear = false;
+        }
+        if(!toAdd.isEmpty())
+        {
+            children.addAll(toAdd);
+            toAdd.clear();
+        }
+        if(!toRemove.isEmpty())
+        {
+            children.removeAll(toRemove);
+            toRemove.clear();
+        }
 
         for (IGuiWidgetBase child : this.children)
         {

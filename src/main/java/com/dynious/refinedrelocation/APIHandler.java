@@ -2,11 +2,13 @@ package com.dynious.refinedrelocation;
 
 import com.dynious.refinedrelocation.api.IAPIHandler;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
+import com.dynious.refinedrelocation.grid.FilterModuleRegistry;
 import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.sorting.SortingInventoryHandler;
@@ -60,5 +62,10 @@ public class APIHandler implements IAPIHandler
     public void registerToolboxClazz(Class clazz)
     {
         ItemToolBox.addToolboxClass(clazz);
+    }
+
+    public void registerFilterModule(String identifier, String displayName, Class<? extends IFilterModule> clazz) throws IllegalArgumentException
+    {
+        FilterModuleRegistry.add(identifier, displayName, clazz);
     }
 }

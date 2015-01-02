@@ -3,14 +3,15 @@ package com.dynious.refinedrelocation.client.gui.widget;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.FilterCreativeTabs;
 
-public class GuiMCreativeTabsList extends GuiList
+public class GuiCreativeTabsList extends GuiList
 {
     private FilterCreativeTabs filter;
 
-    public GuiMCreativeTabsList(IGuiParent parent, int x, int y, int w, int h, FilterCreativeTabs filter)
+    public GuiCreativeTabsList(IGuiParent parent, int x, int y, int w, int h, FilterCreativeTabs filter)
     {
         super(parent, x, y, w, h);
         this.filter = filter;
+        init();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.api;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
@@ -26,4 +27,6 @@ public interface IAPIHandler
     public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side);
 
     public void registerToolboxClazz(Class clazz);
+
+    public void registerFilterModule(String identifier, String displayName, Class<? extends IFilterModule> clazz) throws IllegalArgumentException;
 }

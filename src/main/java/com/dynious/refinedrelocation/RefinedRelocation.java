@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.command.CommandRefinedRelocation;
 import com.dynious.refinedrelocation.config.ConfigHandler;
 import com.dynious.refinedrelocation.creativetab.CreativeTabRefinedRelocation;
 import com.dynious.refinedrelocation.event.TickEvent;
+import com.dynious.refinedrelocation.grid.FilterModuleRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
@@ -61,6 +62,8 @@ public class RefinedRelocation
         NetworkHandler.init();
 
         RelocatorModuleRegistry.registerModules();
+
+        FilterModuleRegistry.registerModules();
 
         proxy.registerEventHandlers();
 

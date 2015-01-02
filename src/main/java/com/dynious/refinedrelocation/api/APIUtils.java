@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.api;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
@@ -101,5 +102,18 @@ public final class APIUtils
     public static void registerToolboxClazz(Class clazz)
     {
         apiHandler.registerToolboxClazz(clazz);
+    }
+
+    /**
+     * Registers a module for the filtering interface. To show up in the module list
+     * your module MUST be registered using this.
+     *
+     * @param identifier The identifier of this module
+     * @param displayName The name of this module seen by the user (localized!)
+     * @param clazz      The class of this module
+     */
+    public static void registerFilterModule(String identifier, String displayName, Class<? extends IFilterModule> clazz) throws IllegalArgumentException
+    {
+        apiHandler.registerFilterModule(identifier, displayName, clazz);
     }
 }

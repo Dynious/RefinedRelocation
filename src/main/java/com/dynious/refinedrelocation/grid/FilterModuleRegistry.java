@@ -1,15 +1,16 @@
 package com.dynious.refinedrelocation.grid;
 
+import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilterModule;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FilterModuleRegistry
 {
-    private static Map<String, Class<? extends IFilterModule>> modules = new HashMap<String, Class<? extends IFilterModule>>();
+    private static List<RegisteredModule> modules = new ArrayList<RegisteredModule>();
 
-    public static void add(String identifier, Class<? extends IFilterModule> clazz) throws IllegalArgumentException
+    public static void add(String identifier, String displayName, Class<? extends IFilterModule> clazz) throws IllegalArgumentException
     {
         if (identifier == null || identifier.isEmpty() || clazz == null)
         {
@@ -19,21 +20,16 @@ public class FilterModuleRegistry
         {
             throw new IllegalArgumentException("Identifier already registered");
         }
-        modules.put(identifier, clazz);
-    }
-
-    public static boolean contains(String identifier)
-    {
-        return modules.containsKey(identifier);
+        modules.add(new RegisteredModule(identifier, displayName, clazz));
     }
 
     public static IFilterModule getModule(String identifier)
     {
-        if (modules.containsKey(identifier))
+        if (contains(identifier))
         {
             try
             {
-                return modules.get(identifier).newInstance();
+                return get(identifier).getClazz().newInstance();
             } catch (InstantiationException e)
             {
                 e.printStackTrace();
@@ -47,32 +43,93 @@ public class FilterModuleRegistry
 
     public static String getIdentifier(Class<? extends IFilterModule> clazz)
     {
-        for (Map.Entry<String, Class<? extends IFilterModule>> e : modules.entrySet())
+        for (RegisteredModule module : modules)
         {
-            if (e.getValue().equals(clazz))
+            if (module.clazz.equals(clazz))
             {
-                return e.getKey();
+                return module.getIdentifier();
             }
         }
 
         return "";
     }
 
+    public static String getName(int index)
+    {
+        return modules.get(index).getName();
+    }
+
     public static void registerModules()
     {
-        /*
-        APIUtils.registerRelocatorModule("filter", RelocatorModuleFilter.class);
-        APIUtils.registerRelocatorModule("oneWay", RelocatorModuleOneWay.class);
-        APIUtils.registerRelocatorModule("extraction", RelocatorModuleExtraction.class);
-        APIUtils.registerRelocatorModule("blockedExtraction", RelocatorModuleBlockedExtraction.class);
-        APIUtils.registerRelocatorModule("sneaky", RelocatorModuleSneaky.class);
-        APIUtils.registerRelocatorModule("stock", RelocatorModuleStock.class);
-        APIUtils.registerRelocatorModule("redstoneBlock", RelocatorModuleRedstoneBlock.class);
-        APIUtils.registerRelocatorModule("spread", RelocatorModuleSpread.class);
-        APIUtils.registerRelocatorModule("itemDetector", RelocatorModuleItemDetector.class);
-        APIUtils.registerRelocatorModule("multiModule", RelocatorMultiModule.class);
-        APIUtils.registerRelocatorModule("sneakyExtraction", RelocatorModuleSneakyExtraction.class);
-        APIUtils.registerRelocatorModule("crafting", RelocatorModuleCrafting.class);
-        */
+        APIUtils.registerFilterModule("creativeTab", "CREATIVE SHIZZLE", FilterCreativeTabs.class);
+    }
+
+    public static boolean contains(String identifier)
+    {
+        for (RegisteredModule module : modules)
+        {
+            if (module.getIdentifier().equals(identifier))
+                return true;
+        }
+        return false;
+    }
+
+    private static RegisteredModule get(String identifier)
+    {
+        for (RegisteredModule module : modules)
+        {
+            if (module.getIdentifier().equals(identifier))
+                return module;
+        }
+        return null;
+    }
+
+    public static IFilterModule getNew(int index)
+    {
+        try
+        {
+            return modules.get(index).getClazz().newInstance();
+        } catch (InstantiationException e)
+        {
+            e.printStackTrace();
+        } catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static int getSize()
+    {
+        return modules.size();
+    }
+
+    private static class RegisteredModule
+    {
+        private String identifier;
+        private String name;
+        private Class<? extends IFilterModule> clazz;
+
+        public RegisteredModule(String identifier, String name, Class<? extends IFilterModule> clazz)
+        {
+            this.identifier = identifier;
+            this.name = name;
+            this.clazz = clazz;
+        }
+
+        public String getIdentifier()
+        {
+            return identifier;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public Class<? extends IFilterModule> getClazz()
+        {
+            return clazz;
+        }
     }
 }

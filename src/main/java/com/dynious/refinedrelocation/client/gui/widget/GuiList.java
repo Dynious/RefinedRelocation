@@ -27,9 +27,12 @@ public abstract class GuiList extends GuiWidgetBase
         super(parent, x, y, w, h);
 
         numFiltersPerScreen = (int) Math.floor(((h + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));
+    }
 
+    public void init()
+    {
         checkboxes = new GuiListCheckbox[numFiltersPerScreen];
-        for (int i = 0; i < numFiltersPerScreen; i++)
+        for (int i = 0; i < numFiltersPerScreen && i < getListSize(); i++)
         {
             checkboxes[i] = new GuiListCheckbox(this, x, y + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, this);
         }
@@ -51,6 +54,9 @@ public abstract class GuiList extends GuiWidgetBase
 
     public void setCurrentIndex(int index)
     {
+        if (!isScrollable())
+            return;
+
         index = Math.min(getListSize() - numFiltersPerScreen, Math.max(0, index));
 
         this.currentIndex = index;
@@ -63,10 +69,18 @@ public abstract class GuiList extends GuiWidgetBase
 
     public void recalculateScrollBar()
     {
+        if (!isScrollable())
+            return;
+
         int scrollBarTotalHeight = h - 2;
         this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / getListSize() + 1;
         this.scrollBarYPos = y + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (getListSize() - numFiltersPerScreen));
         this.scrollBarXPos = x + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
+    }
+
+    public boolean isScrollable()
+    {
+        return (getListSize() - numFiltersPerScreen) > 0;
     }
 
     @Override
@@ -88,7 +102,8 @@ public abstract class GuiList extends GuiWidgetBase
 
         GL11.glColor4f(1F, 1F, 1F, 1F);
 
-        GuiContainer.drawRect(scrollBarXPos - scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, scrollBarColor);
+        if (isScrollable())
+            GuiContainer.drawRect(scrollBarXPos - scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, scrollBarColor);
 
         super.drawBackground(mouseX, mouseY);
     }

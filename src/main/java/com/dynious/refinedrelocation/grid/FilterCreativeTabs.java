@@ -4,7 +4,7 @@ import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.client.gui.GuiModularFiltered;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.IGuiWidgetBase;
-import com.dynious.refinedrelocation.client.gui.widget.GuiMCreativeTabsList;
+import com.dynious.refinedrelocation.client.gui.widget.GuiCreativeTabsList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -78,7 +78,7 @@ public class FilterCreativeTabs implements IFilterModule
     @SideOnly(Side.CLIENT)
     public IGuiWidgetBase getGUI(IGuiParent parent, int x, int y)
     {
-        return new GuiMCreativeTabsList(parent, x, y, GuiModularFiltered.X_SIZE, GuiModularFiltered.Y_SIZE, this);
+        return new GuiCreativeTabsList(parent, x, y, GuiModularFiltered.X_SIZE, GuiModularFiltered.Y_SIZE, this);
     }
 
     @Override
