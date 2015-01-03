@@ -2,9 +2,7 @@ package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.packet.*;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
+import com.dynious.refinedrelocation.network.packet.gui.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
@@ -33,8 +31,11 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageSetFilterOption.class, MessageSetFilterOption.class, 15, Side.CLIENT);
         INSTANCE.registerMessage(MessageHomeButtonClicked.class, MessageHomeButtonClicked.class, 16, Side.SERVER);
         INSTANCE.registerMessage(MessageKonga.class, MessageKonga.class, 17, Side.CLIENT);
-        INSTANCE.registerMessage(MessageGUIBoolean.class, MessageGUIBoolean.class, 18, Side.SERVER);
-        INSTANCE.registerMessage(MessageGUIByte.class, MessageGUIByte.class, 19, Side.SERVER);
-        INSTANCE.registerMessage(MessageGUIInteger.class, MessageGUIInteger.class, 10, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIBooleanServer.class, MessageGUIBooleanServer.class, 18, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIBooleanClient.class, MessageGUIBooleanClient.class, 19, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIByteServer.class, MessageGUIByteServer.class, 20, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIByteClient.class, MessageGUIByteClient.class, 21, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIIntegerServer.class, MessageGUIIntegerServer.class, 22, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIIntegerClient.class, MessageGUIIntegerClient.class, 23, Side.CLIENT);
     }
 }

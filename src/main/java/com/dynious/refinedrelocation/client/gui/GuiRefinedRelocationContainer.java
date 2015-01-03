@@ -12,7 +12,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public abstract class GuiRefinedRelocationContainer extends GuiContainer implements IGuiParent
 {
-    protected List<IGuiWidgetBase> children = new ArrayList<IGuiWidgetBase>();
+    private List<IGuiWidgetBase> children = new ArrayList<IGuiWidgetBase>();
     private List<IGuiWidgetBase> toAdd = new ArrayList<IGuiWidgetBase>();
     private List<IGuiWidgetBase> toRemove = new ArrayList<IGuiWidgetBase>();
     private boolean clear = false;
@@ -27,6 +27,19 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     {
         super.initGui();
         this.clearChildren();
+    }
+
+    public List<IGuiWidgetBase> getChildren()
+    {
+        if (toAdd.isEmpty())
+            return children;
+        else
+        {
+            List<IGuiWidgetBase> list = new ArrayList<IGuiWidgetBase>(children);
+            list.addAll(toAdd);
+            list.removeAll(toRemove);
+            return list;
+        }
     }
 
     public int getLeft()

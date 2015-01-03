@@ -13,8 +13,6 @@ public class ContainerModuleCrafting extends ContainerPhantom
     private RelocatorModuleCrafting module;
     private boolean initialUpdate = true;
     private boolean isStuffed = false;
-    private int lastCraftStack = 64;
-    private int lastCraftTick = 0;
 
     public ContainerModuleCrafting(EntityPlayer player, RelocatorModuleCrafting module)
     {
@@ -44,6 +42,9 @@ public class ContainerModuleCrafting extends ContainerPhantom
             this.addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 142));
         }
 
+        registerFieldSync("maxCraftStack", module);
+        registerFieldSync("craftTick", module);
+
         this.onCraftMatrixChanged(module.CRAFT_MATRIX);
     }
 
@@ -52,29 +53,13 @@ public class ContainerModuleCrafting extends ContainerPhantom
     {
         super.detectAndSendChanges();
 
-        if (module.getMaxCraftStack() != lastCraftStack || initialUpdate)
-        {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, 0, module.getMaxCraftStack());
-            }
-            lastCraftStack = module.getMaxCraftStack();
-        }
         if ((module.outputStack == null) == isStuffed || initialUpdate)
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, 1, (module.outputStack != null) ? 1 : 0);
+                ((ICrafting) crafter).sendProgressBarUpdate(this, 0, (module.outputStack != null) ? 1 : 0);
             }
             isStuffed = (module.outputStack != null);
-        }
-        if (module.craftTick != lastCraftTick || initialUpdate)
-        {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, 2, module.craftTick);
-            }
-            lastCraftTick = module.craftTick;
         }
 
         if (initialUpdate)
@@ -87,13 +72,7 @@ public class ContainerModuleCrafting extends ContainerPhantom
         switch (id)
         {
             case 0:
-                setMaxCraftStack(value);
-                break;
-            case 1:
                 module.isStuffed = value == 1;
-                break;
-            case 2:
-                module.craftTick = value;
                 break;
         }
     }

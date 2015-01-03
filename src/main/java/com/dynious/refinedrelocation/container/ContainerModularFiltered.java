@@ -22,21 +22,13 @@ public class ContainerModularFiltered extends ContainerHierarchical
     {
         super(parentContainer);
         this.tile = tile;
+        registerFieldSync("blacklists", tile);
     }
 
     @Override
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
-
-        if (tile.getFilter().isBlacklisting() != lastBlacklist || initialUpdate)
-        {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 0, tile.getFilter().isBlacklisting() ? 1 : 0);
-            }
-            lastBlacklist = tile.getFilter().isBlacklisting();
-        }
 
         if (tile instanceof ISortingInventory)
         {
@@ -45,7 +37,7 @@ public class ContainerModularFiltered extends ContainerHierarchical
             {
                 for (Object crafter : crafters)
                 {
-                    ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 1, inv.getPriority().ordinal());
+                    ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 0, inv.getPriority().ordinal());
                 }
                 lastPriority = inv.getPriority().ordinal();
             }
@@ -61,9 +53,6 @@ public class ContainerModularFiltered extends ContainerHierarchical
         switch (id)
         {
             case 0:
-                setBlackList(value != 0);
-                break;
-            case 1:
                 setPriority(value);
                 break;
         }
@@ -73,12 +62,6 @@ public class ContainerModularFiltered extends ContainerHierarchical
     public boolean canInteractWith(EntityPlayer entityplayer)
     {
         return true;
-    }
-
-    public void setBlackList(boolean value)
-    {
-        lastBlacklist = value;
-        tile.getFilter().setBlacklists(value);
     }
 
     public void setPriority(int priority)

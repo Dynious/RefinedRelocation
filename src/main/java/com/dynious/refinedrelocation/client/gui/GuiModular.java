@@ -30,7 +30,7 @@ public class GuiModular extends GuiRefinedRelocationContainer
 
         int childTotalHeight = SPACE_BETWEEN_MODULES;
 
-        for (IGuiWidgetBase widget : children) // Get total width and height
+        for (IGuiWidgetBase widget : getChildren()) // Get total width and height
         {
             int widthDelta = widget.getWidth() + SPACE_BETWEEN_MODULES;
             int heightDelta = widget.getHeight() + SPACE_BETWEEN_MODULES;
@@ -60,7 +60,7 @@ public class GuiModular extends GuiRefinedRelocationContainer
         int currentX = startX + SPACE_BETWEEN_MODULES;
         int currentY = startY + SPACE_BETWEEN_MODULES;
 
-        for (IGuiWidgetBase widget : children)
+        for (IGuiWidgetBase widget : getChildren())
         {
             int deltaX = widget.getWidth() + SPACE_BETWEEN_MODULES;
             int deltaY = widget.getHeight() + SPACE_BETWEEN_MODULES;
