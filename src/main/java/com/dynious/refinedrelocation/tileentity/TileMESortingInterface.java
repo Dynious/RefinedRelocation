@@ -363,31 +363,32 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
     {
         super.writeToNBT(compound);
         compound.setInteger("priority", priority);
-        node.saveToNBT("node", compound);
+        if (node != null)
+            node.saveToNBT("node", compound);
     }
 
     @Override
     public void invalidate()
     {
+        super.invalidate();
         isReady = false;
         if (node != null)
         {
             node.destroy();
             node = null;
         }
-        super.invalidate();
     }
 
     @Override
     public void onChunkUnload()
     {
+        super.onChunkUnload();
         isReady = false;
         if (node != null)
         {
             node.destroy();
             node = null;
         }
-        super.onChunkUnload();
     }
 
     @Override
