@@ -76,6 +76,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
     }
 
+    public void markUpdate()
+    {
+        markUpdate(worldObj, xCoord, yCoord, zCoord);
+    }
+
     public static void markUpdate(World world, int x, int y, int z)
     {
         if (world.isRemote) return;

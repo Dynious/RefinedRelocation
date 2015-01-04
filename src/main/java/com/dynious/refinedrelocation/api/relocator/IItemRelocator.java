@@ -20,4 +20,6 @@ public interface IItemRelocator
     public boolean connectsToSide(int side);
 
     public boolean isStuffedOnSide(int side);
+
+    public void markUpdate();
 }

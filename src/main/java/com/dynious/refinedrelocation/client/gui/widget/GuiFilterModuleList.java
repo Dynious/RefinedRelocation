@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
+import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.api.tileentity.INewFilterTile;
 import com.dynious.refinedrelocation.client.gui.GuiModularFiltered;
 import com.dynious.refinedrelocation.grid.FilterModuleRegistry;
@@ -34,10 +35,11 @@ public class GuiFilterModuleList extends GuiList
     {
         if (index < FilterModuleRegistry.getSize())
         {
-            tile.getFilter().filters[id] = FilterModuleRegistry.getNew(index);
-            ((GuiModularFiltered) parent).onModuleAdded(id);
-            parent.removeChild(this);
+            IFilterModule module = FilterModuleRegistry.getNew(index);
+            module.init(tile);
+            tile.getFilter().filters[id] = module;
         }
+        getContainer().sendMessage(0, (index << 8) | id);
     }
 
     @Override

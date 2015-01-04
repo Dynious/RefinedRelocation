@@ -51,7 +51,7 @@ public class Filter
             IFilterModule module = FilterModuleRegistry.getModule(nbttagcompound1.getString("clazzIdentifier"));
             if (module != null)
             {
-                //TODO: ADD? module.init(this, place);
+                module.init(tile);
                 filters[place] = module;
                 filters[place].readFromNBT(nbttagcompound1);
             }

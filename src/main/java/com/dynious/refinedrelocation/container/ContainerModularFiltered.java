@@ -1,7 +1,9 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.api.tileentity.INewFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.grid.FilterModuleRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
@@ -45,6 +47,21 @@ public class ContainerModularFiltered extends ContainerHierarchical
 
         if (initialUpdate)
             initialUpdate = false;
+    }
+
+    @Override
+    public void onMessage(int messageID, Object message)
+    {
+        if (messageID == 0)
+        {
+            int i = (Integer) message;
+            int index = i >> 8;
+            int id = i & 0xFF;
+            IFilterModule module = FilterModuleRegistry.getNew(index);
+            module.init(tile);
+            tile.getFilter().filters[id] = module;
+            tile.onFilterChanged();
+        }
     }
 
     @Override

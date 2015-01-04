@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.grid;
 
-import com.dynious.refinedrelocation.api.filter.IFilterModule;
+import com.dynious.refinedrelocation.api.filter.FilterModuleBase;
 import com.dynious.refinedrelocation.client.gui.GuiModularFiltered;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.IGuiWidgetBase;
@@ -10,13 +10,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class FilterCreativeTabs implements IFilterModule
+public class FilterCreativeTabs extends FilterModuleBase
 {
     private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
     private boolean[] creativeTabs = new boolean[tabs.length];
@@ -24,6 +23,7 @@ public class FilterCreativeTabs implements IFilterModule
     public void setValue(int place, boolean value)
     {
         creativeTabs[place] = value;
+        filterTile.onFilterChanged();
     }
 
     public boolean getValue(int place)
@@ -39,12 +39,6 @@ public class FilterCreativeTabs implements IFilterModule
     public int getSize()
     {
         return tabs.length;
-    }
-
-    @Override
-    public String getDisplayName()
-    {
-        return null;
     }
 
     @Override
@@ -79,12 +73,6 @@ public class FilterCreativeTabs implements IFilterModule
     public IGuiWidgetBase getGUI(IGuiParent parent, int x, int y)
     {
         return new GuiCreativeTabsList(parent, x, y, GuiModularFiltered.X_SIZE, GuiModularFiltered.Y_SIZE, this);
-    }
-
-    @Override
-    public Container getContainer()
-    {
-        return null;
     }
 
     @Override

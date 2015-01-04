@@ -258,6 +258,12 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     }
 
     @Override
+    public void markUpdate()
+    {
+        relocator.markUpdate();
+    }
+
+    @Override
     public IRelocatorModule getRelocatorModule(int side)
     {
         return relocator.getRelocatorModule(side);

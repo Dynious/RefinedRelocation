@@ -136,6 +136,6 @@ public class RelocatorModuleFilter extends RelocatorModuleBase implements INewFi
     public void onFilterChanged()
     {
         lastChange = relocator.getTileEntity().getWorldObj().getTotalWorldTime();
-        relocator.getTileEntity().markDirty();
+        relocator.markUpdate();
     }
 }
