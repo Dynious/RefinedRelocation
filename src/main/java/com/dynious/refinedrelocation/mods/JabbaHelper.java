@@ -41,6 +41,7 @@ public class JabbaHelper
             oldBarrel.writeToNBT(tag);
             newBarrel.readFromNBT(tag);
             // Clear the old block out
+            world.removeTileEntity(tile.xCoord, tile.yCoord, tile.zCoord);
             world.setBlockToAir(tile.xCoord, tile.yCoord, tile.zCoord);
             // And put in our block instead
             world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, ModBlocks.sortingBarrel, meta, 3);

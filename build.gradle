@@ -61,7 +61,7 @@ dependencies {
     compile "mcp.mobius.waila:Waila:1.5.2a"
     compile "appeng:appliedenergistics2:rv2-alpha-1:dev"
     compile "com.pahimar.ee3:EquivalentExchange3:1.7.10-0.2.347:dev"
-    compile "mcp.mobius.jabba:Jabba:1.1.4_1.7.10:dev"
+    compile "mcp.mobius.jabba:Jabba:1.2.0a_1.7.10:dev"
 }
 
 apply from: 'downloader.gradle'
