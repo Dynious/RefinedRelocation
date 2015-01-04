@@ -3,7 +3,7 @@ package com.dynious.refinedrelocation.tileentity;
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.api.tileentity.ISpecialSortingInventory;
-import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
+import com.dynious.refinedrelocation.api.tileentity.grid.SpecialLocalizedStack;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.mods.BarrelFilter;
 import mcp.mobius.betterbarrels.common.blocks.TileEntityBarrel;
@@ -62,14 +62,20 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
     }
 
     @Override
-    public LocalizedStack getLocalizedStackInSlot(int slot)
+    public SpecialLocalizedStack getLocalizedStackInSlot(int slot)
     {
         ItemStack itemStack = getStackInSlot(slot);
         if (itemStack != null)
         {
-            return new LocalizedStack(itemStack, this, slot, getStorage().getAmount());
+            return new SpecialLocalizedStack(itemStack, this, slot, getStorage().getAmount());
         }
         return null;
+    }
+
+    @Override
+    public void alterStackSize(int alteration)
+    {
+        getStorage().setAmount(getStorage().getAmount() + alteration);
     }
 
     @Override
