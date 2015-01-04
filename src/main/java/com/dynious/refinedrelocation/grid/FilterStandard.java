@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.grid;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.google.common.primitives.Booleans;
@@ -162,7 +163,15 @@ public class FilterStandard implements IFilterGUI
                     {
                         if (itemName == null)
                         {
-                            itemName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
+                            try
+                            {
+                                itemName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
+                            }
+                            catch (Exception e)
+                            {
+                                LogHelper.error("Encountered an error when retrieving item name of: " + itemStack.toString());
+                                break;
+                            }
                         }
                         if (stringMatchesWildcardPattern(itemName, s))
                             return true;

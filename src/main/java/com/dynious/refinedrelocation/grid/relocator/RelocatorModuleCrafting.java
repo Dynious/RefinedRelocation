@@ -54,6 +54,9 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
     @Override
     public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
+        if (stack == null)
+            return null;
+
         if (!simulate)
         {
             this.input = input;
@@ -154,7 +157,10 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
                         IOHelper.spawnItemInWorld(relocator.getTileEntity().getWorldObj(), outputStack, relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
                         outputStack = null;
                     }
-                    outputStack(relocator, side);
+                    else
+                    {
+                        outputStack(relocator, side);
+                    }
                 }
             }
         }
