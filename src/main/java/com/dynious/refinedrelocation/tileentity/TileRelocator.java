@@ -1021,7 +1021,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             else
             {
                 TileEntity tile = DirectionHelper.getTileAtSide(this, ForgeDirection.getOrientation(side));
-                LogHelper.warning(String.format("%s at %s:%s:%s inserted ItemStack wrongly into Relocator!!", BlockHelper.getTileEntityDisplayName(tile), tile.xCoord, tile.yCoord, tile.zCoord));
+                LogHelper.warning(String.format("Tileentity at %s:%s:%s inserted ItemStack wrongly into Relocator!!", tile.xCoord, tile.yCoord, tile.zCoord));
                 IOHelper.spawnItemInWorld(worldObj, itemStackCopy, xCoord, yCoord, zCoord);
             }
         }
