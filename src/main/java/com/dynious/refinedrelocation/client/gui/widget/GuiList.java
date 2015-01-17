@@ -102,6 +102,18 @@ public abstract class GuiList extends GuiWidgetBase
 
         GL11.glColor4f(1F, 1F, 1F, 1F);
 
+        GuiContainer.drawRect(x - 1, y - 1, x + w, y + h, 0xFF373737);
+        GuiContainer.drawRect(x, y, x + w - scrollBarAreaWidth, y + h, 0xFF5F5F5F);
+        GuiContainer.drawRect(x, y + h - 1, x + w, y + h, 0xFFFFFFFF);
+        GuiContainer.drawRect(x + w, y, x + w + 1, y + h, 0xFFFFFFFF);
+        GuiContainer.drawRect(x + w - scrollBarAreaWidth, y, x + w - scrollBarAreaWidth + 1, y + h, 0xFFFFFFFF);
+
+        for (GuiCheckbox checkbox : checkboxes)
+        {
+            if (checkbox != null)
+                GuiContainer.drawRect(checkbox.x, checkbox.y, checkbox.x + checkbox.w, checkbox.y + checkbox.h, 0xFF8b8b8b);
+        }
+
         if (isScrollable())
             GuiContainer.drawRect(scrollBarXPos - scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, scrollBarColor);
 

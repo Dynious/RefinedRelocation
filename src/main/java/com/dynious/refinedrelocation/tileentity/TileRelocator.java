@@ -856,7 +856,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             isConnected[i] = tag.hasKey("c" + i);
         }
         calculateRenderType();
-        modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
         readModules(tag);
 
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
@@ -886,6 +885,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     public void readModules(NBTTagCompound compound)
     {
+        boolean[] contains = new boolean[4];
         NBTTagList nbttaglist = compound.getTagList("modules", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
@@ -894,10 +894,23 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             IRelocatorModule module = RelocatorModuleRegistry.getModule(nbttagcompound1.getString("clazzIdentifier"));
             if (module != null)
             {
-                module.init(this, place);
-                modules[place] = module;
-                modules[place].readFromNBT(this, i, nbttagcompound1);
+                contains[place] = true;
+                if (modules[place] == null)
+                {
+                    module.init(this, place);
+                    modules[place] = module;
+                    modules[place].readFromNBT(this, i, nbttagcompound1);
+                }
+                else
+                {
+                    modules[place].readFromNBT(this, i, nbttagcompound1);
+                }
             }
+        }
+        for (int i = 0; i < contains.length; i++)
+        {
+            if (!contains[i])
+                modules[i] = null;
         }
     }
 

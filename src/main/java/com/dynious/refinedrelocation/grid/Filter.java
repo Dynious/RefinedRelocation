@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
+import java.util.Arrays;
+
 public class Filter
 {
     public IFilterModule[] filters = new IFilterModule[4];
@@ -43,6 +45,7 @@ public class Filter
 
     public void readFromNBT(NBTTagCompound compound)
     {
+        boolean[] contains = new boolean[4];
         NBTTagList nbttaglist = compound.getTagList("filters", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
@@ -51,10 +54,23 @@ public class Filter
             IFilterModule module = FilterModuleRegistry.getModule(nbttagcompound1.getString("clazzIdentifier"));
             if (module != null)
             {
-                module.init(tile);
-                filters[place] = module;
-                filters[place].readFromNBT(nbttagcompound1);
+                contains[place] = true;
+                if (filters[place] == null)
+                {
+                    module.init(tile);
+                    filters[place] = module;
+                    filters[place].readFromNBT(nbttagcompound1);
+                }
+                else
+                {
+                    filters[place].readFromNBT(nbttagcompound1);
+                }
             }
+        }
+        for (int i = 0; i < contains.length; i++)
+        {
+            if (!contains[i])
+                filters[i] = null;
         }
     }
 

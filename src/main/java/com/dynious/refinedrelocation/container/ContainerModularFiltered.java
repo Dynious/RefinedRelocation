@@ -3,7 +3,10 @@ package com.dynious.refinedrelocation.container;
 import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.api.tileentity.INewFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.client.gui.GuiModularFiltered;
 import com.dynious.refinedrelocation.grid.FilterModuleRegistry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
@@ -11,7 +14,6 @@ public class ContainerModularFiltered extends ContainerHierarchical
 {
     public INewFilterTile tile;
 
-    private boolean lastBlacklist = true;
     private boolean initialUpdate = true;
     private int lastPriority;
 
@@ -61,6 +63,12 @@ public class ContainerModularFiltered extends ContainerHierarchical
             module.init(tile);
             tile.getFilter().filters[id] = module;
             tile.onFilterChanged();
+
+            //Sync with clients
+            for (Object crafter : crafters)
+            {
+                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 1, 0);
+            }
         }
     }
 
@@ -71,6 +79,13 @@ public class ContainerModularFiltered extends ContainerHierarchical
         {
             case 0:
                 setPriority(value);
+                break;
+            case 1:
+                GuiScreen screen = Minecraft.getMinecraft().currentScreen;
+                if (screen instanceof GuiModularFiltered)
+                {
+                    ((GuiModularFiltered) screen).onModuleChanged();
+                }
                 break;
         }
     }

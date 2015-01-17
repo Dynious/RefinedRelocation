@@ -8,6 +8,8 @@ import com.dynious.refinedrelocation.container.ContainerModularFiltered;
 public class GuiModularFiltered extends GuiRefinedRelocationContainer
 {
     private INewFilterTile filterTile;
+    private IGuiWidgetBase[] filterList = new IGuiWidgetBase[4];
+    private boolean listenForChange = false;
 
     public static final int X_SIZE = 150;
     public static final int Y_SIZE = 100;
@@ -32,17 +34,47 @@ public class GuiModularFiltered extends GuiRefinedRelocationContainer
         {
             IFilterModule filter = filters[i];
             if (filter != null)
-                filter.getGUI(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2]);
+                filterList[i] = filter.getGUI(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2]);
             else
-                new GuiFilterModuleList(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2], filterTile, i);
+                filterList[i] = new GuiFilterModuleList(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2], filterTile, i);
         }
     }
 
-    public void onModuleAdded(int position)
+    public void onModuleChanged()
     {
-        IFilterModule module = filterTile.getFilter().filters[position];
-        if (module != null)
-            module.getGUI(this, guiLeft +X_POSITIONS[position % 2], guiTop + Y_POSITIONS[position/2]);
+        listenForChange = true;
+    }
+
+    public void checkModuleChanges()
+    {
+        IFilterModule[] filters = filterTile.getFilter().filters;
+        for (int i = 0; i < filters.length; i++)
+        {
+            IFilterModule module = filters[i];
+            if (module != null && filterList[i] instanceof GuiFilterModuleList)
+            {
+                removeChild(filterList[i]);
+                filterList[i] = module.getGUI(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i / 2]);
+                listenForChange = false;
+            }
+            else if (module == null && !(filterList[i] instanceof GuiFilterModuleList))
+            {
+                removeChild(filterList[i]);
+                filterList[i] = new GuiFilterModuleList(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2], filterTile, i);
+                listenForChange = false;
+            }
+        }
+    }
+
+    @Override
+    public void updateScreen()
+    {
+        if (listenForChange)
+        {
+            checkModuleChanges();
+            listenForChange = false;
+        }
+        super.updateScreen();
     }
 
     @Override
