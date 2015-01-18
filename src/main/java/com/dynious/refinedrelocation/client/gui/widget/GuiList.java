@@ -1,7 +1,10 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -34,7 +37,7 @@ public abstract class GuiList extends GuiWidgetBase
         checkboxes = new GuiListCheckbox[numFiltersPerScreen];
         for (int i = 0; i < numFiltersPerScreen && i < getListSize(); i++)
         {
-            checkboxes[i] = new GuiListCheckbox(this, x, y + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, this);
+            checkboxes[i] = new GuiListCheckbox(this, x, y + i * (filterRowHeight + rowSpacing), isScrollable() ? w - scrollBarAreaWidth : w, filterRowHeight, i, this);
         }
         recalculateScrollBar();
     }
@@ -103,10 +106,11 @@ public abstract class GuiList extends GuiWidgetBase
         GL11.glColor4f(1F, 1F, 1F, 1F);
 
         GuiContainer.drawRect(x - 1, y - 1, x + w, y + h, 0xFF373737);
-        GuiContainer.drawRect(x, y, x + w - scrollBarAreaWidth, y + h, 0xFF5F5F5F);
-        GuiContainer.drawRect(x, y + h - 1, x + w, y + h, 0xFFFFFFFF);
-        GuiContainer.drawRect(x + w, y, x + w + 1, y + h, 0xFFFFFFFF);
-        GuiContainer.drawRect(x + w - scrollBarAreaWidth, y, x + w - scrollBarAreaWidth + 1, y + h, 0xFFFFFFFF);
+        GuiContainer.drawRect(x, y, isScrollable() ? x + w - scrollBarAreaWidth : x + w, y + h, 0xFF5F5F5F);
+        drawHorizontalGradient(x, y + h - 1, x + w, y + h, 0xFF373737, 0xFFFFFFFF);
+        drawGradientRect(x + w, y - 1, x + w + 1, y + h, 0xFF373737, 0xFFFFFFFF);
+        if (isScrollable())
+            drawGradientRect(x + w - scrollBarAreaWidth, y, x + w - scrollBarAreaWidth + 1, y + h, 0xFF373737, 0xFFFFFFFF);
 
         for (GuiCheckbox checkbox : checkboxes)
         {
@@ -125,12 +129,18 @@ public abstract class GuiList extends GuiWidgetBase
     {
         super.handleMouseInput();
 
-        int i = Mouse.getEventDWheel();
+        int x = Mouse.getEventX() * Minecraft.getMinecraft().currentScreen.width / this.mc.displayWidth;
+        int y = Minecraft.getMinecraft().currentScreen.height - Mouse.getEventY() * Minecraft.getMinecraft().currentScreen.height / this.mc.displayHeight - 1;
 
-        if (i == 0)
-            return;
+        if (isMouseInsideBounds(x, y))
+        {
+            int i = Mouse.getEventDWheel();
 
-        setCurrentIndex(i > 0 ? getCurrentIndex() - 1 : getCurrentIndex() + 1);
+            if (i == 0)
+                return;
+
+            setCurrentIndex(i > 0 ? getCurrentIndex() - 1 : getCurrentIndex() + 1);
+        }
     }
 
     @Override
@@ -155,5 +165,35 @@ public abstract class GuiList extends GuiWidgetBase
             indexWhenClicked = 0;
             lastNumberOfMoves = 0;
         }
+    }
+
+    protected void drawHorizontalGradient(int p_73733_1_, int p_73733_2_, int p_73733_3_, int p_73733_4_, int p_73733_5_, int p_73733_6_)
+    {
+        float f = (float)(p_73733_5_ >> 24 & 255) / 255.0F;
+        float f1 = (float)(p_73733_5_ >> 16 & 255) / 255.0F;
+        float f2 = (float)(p_73733_5_ >> 8 & 255) / 255.0F;
+        float f3 = (float)(p_73733_5_ & 255) / 255.0F;
+        float f4 = (float)(p_73733_6_ >> 24 & 255) / 255.0F;
+        float f5 = (float)(p_73733_6_ >> 16 & 255) / 255.0F;
+        float f6 = (float)(p_73733_6_ >> 8 & 255) / 255.0F;
+        float f7 = (float)(p_73733_6_ & 255) / 255.0F;
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_F(f1, f2, f3, f);
+        tessellator.addVertex((double)p_73733_1_, (double)p_73733_2_, (double)this.zLevel);
+        tessellator.addVertex((double)p_73733_1_, (double)p_73733_4_, (double)this.zLevel);
+        tessellator.setColorRGBA_F(f5, f6, f7, f4);
+        tessellator.addVertex((double)p_73733_3_, (double)p_73733_4_, (double)this.zLevel);
+        tessellator.addVertex((double)p_73733_3_, (double)p_73733_2_, (double)this.zLevel);
+        tessellator.draw();
+        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 }

@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.api.filter.IFilterModule;
 import com.dynious.refinedrelocation.api.tileentity.INewFilterTile;
+import com.dynious.refinedrelocation.client.gui.widget.GuiButtonOpenModuleSelection;
 import com.dynious.refinedrelocation.client.gui.widget.GuiFilterModuleList;
 import com.dynious.refinedrelocation.container.ContainerModularFiltered;
 
@@ -36,7 +37,7 @@ public class GuiModularFiltered extends GuiRefinedRelocationContainer
             if (filter != null)
                 filterList[i] = filter.getGUI(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2]);
             else
-                filterList[i] = new GuiFilterModuleList(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2], filterTile, i);
+                filterList[i] = new GuiButtonOpenModuleSelection(this, guiLeft + X_POSITIONS[i % 2] + X_SIZE/2 - 12, guiTop + Y_POSITIONS[i/2] + Y_SIZE/2 - 10, i);
         }
     }
 
@@ -51,19 +52,30 @@ public class GuiModularFiltered extends GuiRefinedRelocationContainer
         for (int i = 0; i < filters.length; i++)
         {
             IFilterModule module = filters[i];
-            if (module != null && filterList[i] instanceof GuiFilterModuleList)
+            if (module != null && isModuleSelector(filterList[i]))
             {
                 removeChild(filterList[i]);
                 filterList[i] = module.getGUI(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i / 2]);
                 listenForChange = false;
             }
-            else if (module == null && !(filterList[i] instanceof GuiFilterModuleList))
+            else if (module == null && !isModuleSelector(filterList[i]))
             {
                 removeChild(filterList[i]);
                 filterList[i] = new GuiFilterModuleList(this, guiLeft + X_POSITIONS[i % 2], guiTop + Y_POSITIONS[i/2], filterTile, i);
                 listenForChange = false;
             }
         }
+    }
+
+    private boolean isModuleSelector(Object o)
+    {
+        return o instanceof GuiFilterModuleList || o instanceof GuiButtonOpenModuleSelection;
+    }
+
+    public void onListButtonClicked(GuiButtonOpenModuleSelection button)
+    {
+        removeChild(button);
+        filterList[button.getId()] = new GuiFilterModuleList(this, guiLeft + X_POSITIONS[button.getId() % 2], guiTop + Y_POSITIONS[button.getId()/2], filterTile, button.getId());
     }
 
     @Override
@@ -81,10 +93,6 @@ public class GuiModularFiltered extends GuiRefinedRelocationContainer
     protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
     {
         drawRect(guiLeft, guiTop, guiLeft + xSize, guiTop + 30, 0xffc6c6c6);
-        drawRect(guiLeft + X_POSITIONS[0], guiTop + Y_POSITIONS[0], guiLeft + X_POSITIONS[0] + X_SIZE, guiTop + Y_POSITIONS[0] + Y_SIZE, 0xffc6c6c6);
-        drawRect(guiLeft + X_POSITIONS[1], guiTop + Y_POSITIONS[0], guiLeft + X_POSITIONS[1] + X_SIZE, guiTop + Y_POSITIONS[0] + Y_SIZE, 0xffc6c6c6);
-        drawRect(guiLeft + X_POSITIONS[0], guiTop + Y_POSITIONS[1], guiLeft + X_POSITIONS[0] + X_SIZE, guiTop + Y_POSITIONS[1] + Y_SIZE, 0xffc6c6c6);
-        drawRect(guiLeft + X_POSITIONS[1], guiTop + Y_POSITIONS[1], guiLeft + X_POSITIONS[1] + X_SIZE, guiTop + Y_POSITIONS[1] + Y_SIZE, 0xffc6c6c6);
 
         super.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
     }

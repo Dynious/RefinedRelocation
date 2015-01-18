@@ -2,7 +2,9 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Resources;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GuiCheckbox extends GuiWidgetBase
@@ -55,6 +57,7 @@ public class GuiCheckbox extends GuiWidgetBase
     {
         if (isMouseInsideBounds(mouseX, mouseY) && (type == 0))
         {
+            this.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
             setChecked(!getChecked());
             onStateChangedByUser(getChecked());
         }
