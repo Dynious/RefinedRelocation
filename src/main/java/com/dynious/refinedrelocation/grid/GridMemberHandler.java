@@ -33,10 +33,6 @@ public class GridMemberHandler implements IGridMemberHandler
      */
     public void onTileAdded()
     {
-        if (owner.getWorldObj().isRemote)
-        {
-            return;
-        }
         searchForLeader();
     }
 
@@ -45,10 +41,6 @@ public class GridMemberHandler implements IGridMemberHandler
      */
     public void onTileRemoved()
     {
-        if (owner.getWorldObj().isRemote)
-        {
-            return;
-        }
         canJoinGroup = false;
         if (getGrid() != null)
         {

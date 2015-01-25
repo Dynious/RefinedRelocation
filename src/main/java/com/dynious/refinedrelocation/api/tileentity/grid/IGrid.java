@@ -2,6 +2,8 @@ package com.dynious.refinedrelocation.api.tileentity.grid;
 
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 
+import java.util.List;
+
 public interface IGrid
 {
     /**
@@ -22,6 +24,11 @@ public interface IGrid
      * Sets grid of all members to null and deletes the member list
      */
     public void resetMembers();
+
+    /**
+     * Returns all members of this grid
+     */
+    public List<IGridMemberHandler> getMembers();
 
     /**
      * Merges this grid into the give grid

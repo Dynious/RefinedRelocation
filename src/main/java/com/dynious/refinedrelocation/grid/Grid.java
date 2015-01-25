@@ -4,7 +4,9 @@ import com.dynious.refinedrelocation.api.tileentity.grid.IGrid;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 public class Grid implements IGrid
 {
@@ -72,6 +74,12 @@ public class Grid implements IGrid
                 member.onTileAdded();
             }
         }
+    }
+
+    @Override
+    public List<IGridMemberHandler> getMembers()
+    {
+        return Collections.unmodifiableList(members);
     }
 
     /**
