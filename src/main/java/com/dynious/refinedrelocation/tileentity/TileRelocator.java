@@ -5,6 +5,7 @@ import buildcraft.api.gates.IGate;
 import buildcraft.api.transport.IPipe;
 import buildcraft.api.transport.IPipeTile;
 import buildcraft.api.transport.PipeWire;
+import buildcraft.api.transport.pluggable.PipePluggable;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
@@ -20,6 +21,7 @@ import com.dynious.refinedrelocation.network.packet.MessageItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -1061,6 +1063,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
     }
 
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemstack)
+    {
+        return true;
+    }
+
     @Override
     public AxisAlignedBB getRenderBoundingBox()
     {
@@ -1072,16 +1081,38 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
      */
 
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemstack)
-    {
-        return true;
-    }
-
-    @Override
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public PipeType getPipeType()
     {
         return PipeType.ITEM;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public int x()
+    {
+        return xCoord;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public int y()
+    {
+        return yCoord;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public int z()
+    {
+        return zCoord;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public boolean canInjectItems(ForgeDirection forgeDirection)
+    {
+        return !isStuffedOnSide(forgeDirection.ordinal());
     }
 
     @Override
@@ -1112,9 +1143,23 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
     @Override
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
-    public TileEntity getAdjacentTile(ForgeDirection forgeDirection)
+    public Block getNeighborBlock(ForgeDirection forgeDirection)
     {
-        return inventories[forgeDirection.ordinal()];
+        return null;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public TileEntity getNeighborTile(ForgeDirection forgeDirection)
+    {
+        return null;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public IPipe getNeighborPipe(ForgeDirection forgeDirection)
+    {
+        return null;
     }
 
     @Override
@@ -1125,24 +1170,6 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             pipe = new IPipe()
             {
-                @Override
-                public int x()
-                {
-                    return xCoord;
-                }
-
-                @Override
-                public int y()
-                {
-                    return yCoord;
-                }
-
-                @Override
-                public int z()
-                {
-                    return zCoord;
-                }
-
                 @Override
                 public IPipeTile getTile()
                 {
@@ -1175,6 +1202,41 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             };
         }
         return pipe;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public int getPipeColor()
+    {
+        return 0;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public PipePluggable getPipePluggable(ForgeDirection forgeDirection)
+    {
+        return null;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public boolean hasPipePluggable(ForgeDirection forgeDirection)
+    {
+        return false;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public boolean hasBlockingPluggable(ForgeDirection forgeDirection)
+    {
+        return false;
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public void scheduleNeighborChange()
+    {
+
     }
 
     /*
