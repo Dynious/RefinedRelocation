@@ -1145,21 +1145,22 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public Block getNeighborBlock(ForgeDirection forgeDirection)
     {
-        return null;
+        return DirectionHelper.getBlockAtSide(worldObj, xCoord, yCoord, zCoord, forgeDirection);
     }
 
     @Override
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public TileEntity getNeighborTile(ForgeDirection forgeDirection)
     {
-        return null;
+        return DirectionHelper.getTileAtSide(worldObj, xCoord, yCoord, zCoord, forgeDirection);
     }
 
     @Override
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public IPipe getNeighborPipe(ForgeDirection forgeDirection)
     {
-        return null;
+        TileEntity tile = getNeighborTile(forgeDirection);
+        return tile instanceof IPipeTile ? ((IPipeTile) tile).getPipe() : null;
     }
 
     @Override
@@ -1236,7 +1237,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public void scheduleNeighborChange()
     {
-
+        onBlocksChanged();
     }
 
     /*

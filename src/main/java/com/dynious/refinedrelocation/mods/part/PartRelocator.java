@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.mods.part;
 
 import buildcraft.api.core.EnumColor;
 import buildcraft.api.transport.IPipe;
+import buildcraft.api.transport.pluggable.PipePluggable;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
@@ -19,6 +20,7 @@ import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -28,6 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -430,6 +433,20 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
 
     @Override
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public World getWorldObj()
+    {
+        return relocator.getWorldObj();
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public boolean canInjectItems(ForgeDirection forgeDirection)
+    {
+        return relocator.canInjectItems(forgeDirection);
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
     public int injectItem(ItemStack itemStack, boolean b, ForgeDirection forgeDirection, EnumColor enumColor)
     {
         return relocator.injectItem(itemStack, b, forgeDirection, enumColor);
@@ -451,9 +468,23 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
 
     @Override
     @Optional.Method(modid = Mods.BC_TRANS_API_ID)
-    public TileEntity getAdjacentTile(ForgeDirection forgeDirection)
+    public Block getNeighborBlock(ForgeDirection forgeDirection)
     {
-        return relocator.getAdjacentTile(forgeDirection);
+        return relocator.getNeighborBlock(forgeDirection);
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public TileEntity getNeighborTile(ForgeDirection forgeDirection)
+    {
+        return relocator.getNeighborTile(forgeDirection);
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public IPipe getNeighborPipe(ForgeDirection forgeDirection)
+    {
+        return relocator.getNeighborPipe(forgeDirection);
     }
 
     @Override
@@ -461,6 +492,41 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public IPipe getPipe()
     {
         return relocator.getPipe();
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public int getPipeColor()
+    {
+        return relocator.getPipeColor();
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public PipePluggable getPipePluggable(ForgeDirection forgeDirection)
+    {
+        return relocator.getPipePluggable(forgeDirection);
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public boolean hasPipePluggable(ForgeDirection forgeDirection)
+    {
+        return relocator.hasPipePluggable(forgeDirection);
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public boolean hasBlockingPluggable(ForgeDirection forgeDirection)
+    {
+        return relocator.hasBlockingPluggable(forgeDirection);
+    }
+
+    @Override
+    @Optional.Method(modid = Mods.BC_TRANS_API_ID)
+    public void scheduleNeighborChange()
+    {
+        relocator.scheduleNeighborChange();
     }
 
     /*
