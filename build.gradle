@@ -22,7 +22,7 @@ apply plugin: 'forge'
 ext.env = System.getenv()
 ext.cclVersion = "1.1.1.95"
 
-version = "1.0.7d"
+version = "1.0.7e"
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation-1.7.10"
 
@@ -31,7 +31,7 @@ if (env.BUILD_NUMBER != null) {
 }
 
 minecraft {
-    version = "1.7.10-10.13.1.1222"
+    version = "1.7.10-10.13.2.1291"
     
     replaceIn "lib/Reference.java"
     replace "@VERSION@", project.version
