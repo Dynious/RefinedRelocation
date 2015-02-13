@@ -33,7 +33,7 @@ public class GuiCheckboxFilter extends GuiCheckbox
             return;
 
         tile.getFilter().setValue(index, newState);
-        NetworkHandler.INSTANCE.sendToServer(new MessageFilterOption((byte) index));
+        NetworkHandler.INSTANCE.sendToServer(new MessageFilterOption(index));
     }
 
     @Override
