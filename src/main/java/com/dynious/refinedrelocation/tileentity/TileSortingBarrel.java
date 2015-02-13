@@ -51,7 +51,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
             int added = getStorage().isVoid() ? itemStack.stackSize : Math.min(getStorage().getMaxStoredCount() - getStorage().getAmount(), itemStack.stackSize);
             if (!simulate)
             {
-                getStorage().setAmount(getStorage().getAmount() + added);
+                getStorage().setAmount(Math.min(getStorage().getAmount() + added, getStorage().getMaxStoredCount()));
                 BarrelPacketHandler.INSTANCE.sendToDimension(new Message0x01ContentUpdate(this), getWorldObj().provider.dimensionId);
             }
             itemStack.stackSize -= added;
