@@ -119,6 +119,10 @@ public class ItemSortingUpgrade extends Item
                     if (!EE3Helper.upgradeAlchemicalToSortingChest(te))
                         return false;
                 }
+                else
+                {
+                    return false;
+                }
 
                 removeNeededItem(player, neededMaterial);
                 stack.stackSize--;
