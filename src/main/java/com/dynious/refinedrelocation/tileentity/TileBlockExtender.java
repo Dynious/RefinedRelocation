@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
@@ -41,7 +42,8 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     protected int[] accessibleSlots;
     protected IFluidHandler fluidHandler;
     protected IEnergySink energySink;
-    protected IEnergyHandler energyHandler;
+    protected IEnergyReceiver energyReceiver;
+    protected IEnergyProvider energyProvider;
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean isRedstonePowered = false;
     protected boolean isRedstoneEnabled = true;
@@ -162,15 +164,27 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     }
 
     @Method(modid = Mods.COFH_ENERGY_API_ID)
-    public IEnergyHandler getEnergyHandler()
+    public IEnergyReceiver getEnergyReceiver()
     {
-        return energyHandler;
+        return energyReceiver;
     }
 
     @Method(modid = Mods.COFH_ENERGY_API_ID)
-    public void setEnergyHandler(IEnergyHandler energyHandler)
+    public void setEnergyReceiver(IEnergyReceiver energyReceiver)
     {
-        this.energyHandler = energyHandler;
+        this.energyReceiver = energyReceiver;
+    }
+
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
+    public IEnergyProvider getEnergyProvider()
+    {
+        return energyProvider;
+    }
+
+    @Method(modid = Mods.COFH_ENERGY_API_ID)
+    public void setEnergyProvider(IEnergyProvider energyProvider)
+    {
+        this.energyProvider = energyProvider;
     }
 
     public TileEntity[] getTiles()
@@ -279,13 +293,21 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
                 }
                 setEnergySink((IEnergySink) tile);
             }
-            if (Mods.IS_COFH_ENERGY_API_LOADED && tile instanceof IEnergyHandler)
+            if (Mods.IS_COFH_ENERGY_API_LOADED && tile instanceof IEnergyReceiver)
             {
-                if (getEnergyHandler() == null)
+                if (getEnergyReceiver() == null)
                 {
                     updated = true;
                 }
-                setEnergyHandler((IEnergyHandler) tile);
+                setEnergyReceiver((IEnergyReceiver) tile);
+            }
+            if (Mods.IS_COFH_ENERGY_API_LOADED && tile instanceof IEnergyProvider)
+            {
+                if (getEnergyProvider() == null)
+                {
+                    updated = true;
+                }
+                setEnergyProvider((IEnergyProvider) tile);
             }
 
             if (updated)
@@ -304,7 +326,10 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         if (Mods.IS_IC2_LOADED)
             setEnergySink(null);
         if (Mods.IS_COFH_ENERGY_API_LOADED)
-            setEnergyHandler(null);
+        {
+            setEnergyReceiver(null);
+            setEnergyProvider(null);
+        }
     }
 
     public boolean hasConnection()
@@ -317,7 +342,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
         {
             return true;
         }
-        if (Mods.IS_COFH_ENERGY_API_LOADED && getEnergyHandler() != null)
+        if (Mods.IS_COFH_ENERGY_API_LOADED && (getEnergyReceiver() != null || getEnergyProvider() != null))
         {
             return true;
         }
@@ -334,8 +359,10 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
             connections.add("Fluid Transmission");
         if (Mods.IS_IC2_LOADED && getEnergySink() != null)
             connections.add("IC2 Energy");
-        if (Mods.IS_COFH_ENERGY_API_LOADED && getEnergyHandler() != null)
-            connections.add("Thermal Expansion Energy");
+        if (Mods.IS_COFH_ENERGY_API_LOADED && getEnergyReceiver() != null)
+            connections.add("Thermal Expansion Energy Receiver");
+        if (Mods.IS_COFH_ENERGY_API_LOADED && getEnergyProvider() != null)
+            connections.add("Thermal Expansion Energy Provider");
 
         return connections;
     }
@@ -683,9 +710,9 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     @Override
     public int receiveEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
-        if (getEnergyHandler() != null)
+        if (getEnergyReceiver() != null)
         {
-            return getEnergyHandler().receiveEnergy(getInputSide(forgeDirection), i, b);
+            return getEnergyReceiver().receiveEnergy(getInputSide(forgeDirection), i, b);
         }
         return 0;
     }
@@ -694,9 +721,9 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
-        if (getEnergyHandler() != null)
+        if (getEnergyReceiver() != null)
         {
-            return getEnergyHandler().extractEnergy(getInputSide(forgeDirection), i, b);
+            return getEnergyProvider().extractEnergy(getInputSide(forgeDirection), i, b);
         }
         return 0;
     }
@@ -705,16 +732,24 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     @Override
     public boolean canConnectEnergy(ForgeDirection forgeDirection)
     {
-        return getEnergyHandler() != null && getEnergyHandler().canConnectEnergy(getInputSide(forgeDirection));
+        if (getEnergyReceiver() != null)
+            return getEnergyReceiver().canConnectEnergy(getInputSide(forgeDirection));
+        else if (getEnergyProvider() != null)
+            return getEnergyProvider().canConnectEnergy(getInputSide(forgeDirection));
+        return false;
     }
 
     @Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
     public int getEnergyStored(ForgeDirection forgeDirection)
     {
-        if (getEnergyHandler() != null)
+        if (getEnergyReceiver() != null)
         {
-            return getEnergyHandler().getEnergyStored(getInputSide(forgeDirection));
+            return getEnergyReceiver().getEnergyStored(getInputSide(forgeDirection));
+        }
+        else if (getEnergyProvider() != null)
+        {
+            return getEnergyProvider().getEnergyStored(getInputSide(forgeDirection));
         }
         return 0;
     }
@@ -723,9 +758,13 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     @Override
     public int getMaxEnergyStored(ForgeDirection forgeDirection)
     {
-        if (getEnergyHandler() != null)
+        if (getEnergyReceiver() != null)
         {
-            return getEnergyHandler().getMaxEnergyStored(getInputSide(forgeDirection));
+            return getEnergyReceiver().getMaxEnergyStored(getInputSide(forgeDirection));
+        }
+        else if (getEnergyProvider() != null)
+        {
+            return getEnergyProvider().getMaxEnergyStored(getInputSide(forgeDirection));
         }
         return 0;
     }

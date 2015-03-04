@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyReceiver;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.helper.LoopHelper;
@@ -341,7 +341,7 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         return new FluidTankInfo[]{new FluidTankInfo(null, Integer.MAX_VALUE)};
     }
 
-    @Optional.Method(modid = "IC2")
+    @Optional.Method(modid = Mods.IC2_ID)
     @Override
     public double getDemandedEnergy()
     {
@@ -434,9 +434,9 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
         TileEntity tile = tiles[side];
         if (tile != null)
         {
-            if (tile instanceof IEnergyHandler)
+            if (tile instanceof IEnergyReceiver)
             {
-                amount -= ((IEnergyHandler) tile).receiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
+                amount -= ((IEnergyReceiver) tile).receiveEnergy(ForgeDirection.getOrientation(side).getOpposite(), amount, simulate);
             }
         }
         return amount;

@@ -1,5 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import cpw.mods.fml.common.Optional;
@@ -153,6 +155,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
         }
     }
 
+    @Optional.Method(modid = Mods.IC2_ID)
     @Override
     public IEnergySink getEnergySink()
     {
@@ -195,6 +198,56 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
                 IC2registerChange = true;
             }
             this.energySink = energySink;
+        }
+    }
+
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
+    @Override
+    public IEnergyReceiver getEnergyReceiver()
+    {
+        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
+        if (tile != null && tile instanceof IEnergyReceiver)
+        {
+            if (!tile.equals(energyReceiver))
+            {
+                setEnergyReceiver((IEnergyReceiver) tile);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return (IEnergyReceiver) tile;
+        }
+        else
+        {
+            if (energyReceiver != null)
+            {
+                setEnergyReceiver(null);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return null;
+        }
+    }
+
+    @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
+    @Override
+    public IEnergyProvider getEnergyProvider()
+    {
+        TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
+        if (tile != null && tile instanceof IEnergyProvider)
+        {
+            if (!tile.equals(energyProvider))
+            {
+                setEnergyProvider((IEnergyProvider) tile);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return (IEnergyProvider) tile;
+        }
+        else
+        {
+            if (energyProvider != null)
+            {
+                setEnergyProvider(null);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
+            }
+            return null;
         }
     }
 
