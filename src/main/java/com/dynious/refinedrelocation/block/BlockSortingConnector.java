@@ -17,6 +17,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -186,5 +187,19 @@ public class BlockSortingConnector extends BlockContainer
             return ((TileSortingInterface) tile).rotateBlock();
         }
         return false;
+    }
+
+    @Optional.Method(modid = Mods.AE2_ID)
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
+    {
+        if (!world.isRemote)
+        {
+            TileEntity tile = world.getTileEntity(x, y, z);
+            if (tile != null && tile instanceof TileMESortingInterface && entity instanceof EntityPlayer)
+            {
+                ((TileMESortingInterface) tile).setOwner((EntityPlayer) entity);
+            }
+        }
     }
 }
