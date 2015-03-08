@@ -125,7 +125,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     {
         if (isFirstTick)
         {
-            onBlocksChanged();
+            discoverNeighbours();
             isFirstTick = false;
         }
 
@@ -427,11 +427,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return items;
     }
 
-    public void onBlocksChanged()
+    public void discoverNeighbours()
     {
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-            return;
-
         inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
         relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
 
@@ -455,7 +452,18 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     inventories[direction.ordinal()] = tile;
                 }
             }
+        }
+    }
 
+    public void onBlocksChanged()
+    {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+            return;
+
+        discoverNeighbours();
+
+        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
+        {
             if (relocators[direction.ordinal()] == null && inventories[direction.ordinal()] == null)
             {
                 emptySide(direction.ordinal());
