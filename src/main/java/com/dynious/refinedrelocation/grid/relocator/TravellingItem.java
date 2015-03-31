@@ -16,6 +16,8 @@ public class TravellingItem
     public byte counter;
     private ItemStack itemStack;
     private List<Byte> path;
+    public boolean sync;
+    public byte id;
 
     public TravellingItem(ItemStack itemStack, List<Byte> path, int inputSide)
     {

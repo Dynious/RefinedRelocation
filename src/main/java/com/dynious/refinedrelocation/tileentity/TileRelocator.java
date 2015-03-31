@@ -1,11 +1,5 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import buildcraft.api.core.EnumColor;
-import buildcraft.api.gates.IGate;
-import buildcraft.api.transport.IPipe;
-import buildcraft.api.transport.IPipeTile;
-import buildcraft.api.transport.PipeWire;
-import buildcraft.api.transport.pluggable.PipePluggable;
 import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorGridLogic;
@@ -21,7 +15,9 @@ import com.dynious.refinedrelocation.network.packet.MessageItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import net.minecraft.block.Block;
+import gnu.trove.iterator.TByteObjectIterator;
+import gnu.trove.map.TByteObjectMap;
+import gnu.trove.map.hash.TByteObjectHashMap;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -38,16 +34,12 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class TileRelocator extends TileEntity implements IRelocator, ISidedInventory
 {
     public boolean shouldUpdate = true;
     public boolean isBeingPowered = false;
-    IPipe pipe;
     private boolean isFirstTick = true;
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
@@ -66,7 +58,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private int maxStackSize = 64;
     private List<TravellingItem> items = new ArrayList<TravellingItem>();
     private List<TravellingItem> itemsToAdd = new ArrayList<TravellingItem>();
+    /*
+    Client side cached items
+     */
+    private TByteObjectMap<StackAndCounter> cachedItems = new TByteObjectHashMap<StackAndCounter>();
     private byte ticker = 0;
+    private byte lastID = (byte) (new Random().nextInt(512) - 256);
 
     @SuppressWarnings("unchecked")
     public TileRelocator()
@@ -137,9 +134,20 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
 
         if (!itemsToAdd.isEmpty())
         {
+            for (TravellingItem item : itemsToAdd)
+            {
+                if (item.sync)
+                {
+                    lastID++;
+                    item.id = lastID;
+                }
+            }
             items.addAll(itemsToAdd);
-            //TODO: More efficient client syncing
             NetworkHandler.INSTANCE.sendToAllAround(new MessageItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 16));
+            for (TravellingItem item : itemsToAdd)
+            {
+                item.sync = false;
+            }
             itemsToAdd.clear();
         }
 
@@ -239,6 +247,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             item.counter++;
             if (item.counter > TravellingItem.timePerRelocator)
             {
+                cachedItems.put(item.id, new StackAndCounter(item.getItemStack()));
                 iterator.remove();
             }
             else if (item.counter == TravellingItem.timePerRelocator / 2)
@@ -248,6 +257,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     iterator.remove();
                 }
             }
+        }
+        for (TByteObjectIterator<StackAndCounter> iterator = cachedItems.iterator(); iterator.hasNext(); )
+        {
+            StackAndCounter stackAndCounter = iterator.value();
+            stackAndCounter.counter--;
+            if (stackAndCounter.counter <= 0)
+                iterator.remove();
         }
     }
 
@@ -919,6 +935,12 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return renderType;
     }
 
+    @Override
+    public ItemStack getItemStackWithId(byte id)
+    {
+        return cachedItems.get(id).stack;
+    }
+
     public void removeFloatingItems()
     {
         for (Iterator<TravellingItem> iterator = items.iterator(); iterator.hasNext(); )
@@ -1085,5 +1107,17 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public ItemStack insertItem(ForgeDirection forgeDirection, ItemStack itemStack)
     {
         return insert(itemStack, forgeDirection.ordinal(), false);
+    }
+
+    private static class StackAndCounter
+    {
+        public ItemStack stack;
+        // Cache time in ticks
+        public byte counter = 20;
+
+        public StackAndCounter(ItemStack stack)
+        {
+            this.stack = stack;
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.tileentity;
 
-import buildcraft.api.transport.IPipeTile;
 import cofh.api.transport.IItemDuct;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
@@ -34,4 +33,6 @@ public interface IRelocator extends IItemRelocator, IItemDuct
     public Container getContainer(int side, EntityPlayer player);
 
     public byte getRenderType();
+
+    public ItemStack getItemStackWithId(byte id);
 }
