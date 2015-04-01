@@ -15,7 +15,6 @@ import com.dynious.refinedrelocation.network.packet.MessageItemList;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import gnu.trove.iterator.TByteObjectIterator;
 import gnu.trove.map.TByteObjectMap;
 import gnu.trove.map.hash.TByteObjectHashMap;
 import net.minecraft.client.gui.GuiScreen;
@@ -141,12 +140,26 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                     lastID++;
                     item.id = lastID;
                 }
+                else
+                {
+                    for (TravellingItem i : items)
+                    {
+                        if (i.id == item.id)
+                        {
+                            item.lastId = item.id;
+                            lastID++;
+                            item.id = lastID;
+                            break;
+                        }
+                    }
+                }
             }
             items.addAll(itemsToAdd);
             NetworkHandler.INSTANCE.sendToAllAround(new MessageItemList(this, itemsToAdd), new NetworkRegistry.TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 16));
             for (TravellingItem item : itemsToAdd)
             {
                 item.sync = false;
+                item.lastId = null;
             }
             itemsToAdd.clear();
         }
@@ -245,22 +258,22 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             TravellingItem item = iterator.next();
             item.counter++;
-            if (item.counter > TravellingItem.timePerRelocator)
+            if (item.counter > (TravellingItem.timePerRelocator + 1))
             {
-                cachedItems.put(item.id, new StackAndCounter(item.getItemStack()));
                 iterator.remove();
             }
             else if (item.counter == TravellingItem.timePerRelocator / 2)
             {
+                cachedItems.put(item.id, new StackAndCounter(item.getItemStack()));
                 if (!connectsToSide(item.getOutputSide()))
                 {
                     iterator.remove();
                 }
             }
         }
-        for (TByteObjectIterator<StackAndCounter> iterator = cachedItems.iterator(); iterator.hasNext(); )
+        for (Iterator<StackAndCounter> iterator = cachedItems.valueCollection().iterator(); iterator.hasNext(); )
         {
-            StackAndCounter stackAndCounter = iterator.value();
+            StackAndCounter stackAndCounter = iterator.next();
             stackAndCounter.counter--;
             if (stackAndCounter.counter <= 0)
                 iterator.remove();
@@ -542,6 +555,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         return inventories;
     }
 
+    @Override
     public List<TravellingItem> getItems(boolean includeItemsToAdd)
     {
         if (includeItemsToAdd)
@@ -946,7 +960,20 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     @Override
     public ItemStack getItemStackWithId(byte id)
     {
-        return cachedItems.get(id).stack;
+        if (worldObj.isRemote)
+        {
+            StackAndCounter item = cachedItems.get(id);
+            return item == null ? null : item.stack;
+        }
+        else
+        {
+            for (TravellingItem item : items)
+            {
+                if (item.id == id)
+                    return item.getItemStack();
+            }
+            return null;
+        }
     }
 
     public void removeFloatingItems()

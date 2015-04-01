@@ -35,6 +35,8 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageKonga.class, MessageKonga.class, 17, Side.CLIENT);
         INSTANCE.registerMessage(MessageGUIBoolean.class, MessageGUIBoolean.class, 18, Side.SERVER);
         INSTANCE.registerMessage(MessageGUIByte.class, MessageGUIByte.class, 19, Side.SERVER);
-        INSTANCE.registerMessage(MessageGUIInteger.class, MessageGUIInteger.class, 10, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIInteger.class, MessageGUIInteger.class, 20, Side.SERVER);
+        INSTANCE.registerMessage(MessageItemRequest.class, MessageItemRequest.class, 21, Side.SERVER);
+        INSTANCE.registerMessage(MessageItemAnswer.class, MessageItemAnswer.class, 22, Side.CLIENT);
     }
 }

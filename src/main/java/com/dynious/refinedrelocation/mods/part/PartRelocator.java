@@ -1,8 +1,5 @@
 package com.dynious.refinedrelocation.mods.part;
 
-import buildcraft.api.core.EnumColor;
-import buildcraft.api.transport.IPipe;
-import buildcraft.api.transport.pluggable.PipePluggable;
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
@@ -20,7 +17,6 @@ import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -30,7 +26,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -318,6 +313,12 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public byte getRenderType()
     {
         return relocator.getRenderType();
+    }
+
+    @Override
+    public ItemStack getItemStackWithId(byte id)
+    {
+        return relocator.getItemStackWithId(id);
     }
 
     /*

@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.network.packet;
 
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.helper.DirectionHelper;
+import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -47,20 +48,28 @@ public class MessageItemList implements IMessage, IMessageHandler<MessageItemLis
         for (int i = 0; i < size; i++)
         {
             byte id = buf.readByte();
-            List<Byte> list = new ArrayList<Byte>();
-            list.add(buf.readByte());
-            byte input = buf.readByte();
 
-            ItemStack stack;
-            if (buf.readBoolean())
+            byte outAndIn = buf.readByte();
+
+            boolean idChange = ((outAndIn >> 7) & 1) == 1;
+            boolean sync = ((outAndIn >> 6) & 1) == 1;
+
+            List<Byte> list = new ArrayList<Byte>();
+            list.add((byte) ((outAndIn >> 3) & 7));
+            byte input = (byte) (outAndIn & 7);
+            if (input == 7)
+                input = -1;
+
+            if (sync)
             {
-                stack = ByteBufUtils.readItemStack(buf);
-                TravellingItem item = new TravellingItem(stack, list, input);
-                item.id = id;
-                items.add(item);
+                items.add(new TravellingItem(ByteBufUtils.readItemStack(buf), list, input, id));
             }
             else
             {
+                if (idChange)
+                {
+                    idAndPos.add(new IdAndPosition(id, list, input, buf.readByte()));
+                }
                 idAndPos.add(new IdAndPosition(id, list, input));
             }
         }
@@ -77,12 +86,13 @@ public class MessageItemList implements IMessage, IMessageHandler<MessageItemLis
         for (TravellingItem item : items)
         {
             buf.writeByte(item.id);
-            buf.writeByte(item.getOutputSide());
-            buf.writeByte(item.getInputSide());
 
-            buf.writeBoolean(item.sync);
+            buf.writeByte((byte) ((byte) ((item.lastId != null ? 1 : 0) << 7) | (byte) ((item.sync ? 1 : 0) << 6) | (byte) (item.getOutputSide() << 3) | (item.getInputSide() == -1 ? 7 : item.getInputSide())));
+
             if (item.sync)
                 ByteBufUtils.writeItemStack(buf, item.getItemStack());
+            if (item.lastId != null)
+                buf.writeByte(item.lastId);
         }
     }
 
@@ -102,14 +112,20 @@ public class MessageItemList implements IMessage, IMessageHandler<MessageItemLis
                 TileEntity te = DirectionHelper.getTileAtSide(tile, ForgeDirection.getOrientation(idAndPosition.input));
                 if (te instanceof IRelocator)
                 {
-                    ItemStack stack = ((IRelocator) te).getItemStackWithId(idAndPosition.id);
+                    ItemStack stack = ((IRelocator) te).getItemStackWithId(idAndPosition.oldId == null ? idAndPosition.id : idAndPosition.oldId);
                     if (stack != null)
                     {
-                        ((IRelocator) tile).receiveTravellingItem(new TravellingItem(stack, idAndPosition.list, idAndPosition.input));
+                        ((IRelocator) tile).receiveTravellingItem(new TravellingItem(stack, idAndPosition.list, idAndPosition.input, idAndPosition.id));
                     }
-                    //TODO: Request item
+                    else
+                    {
+                        NetworkHandler.INSTANCE.sendToServer(new MessageItemRequest(tile, idAndPosition.id));
+                    }
                 }
-                //TODO: Request item
+                else
+                {
+                    NetworkHandler.INSTANCE.sendToServer(new MessageItemRequest(tile, idAndPosition.id));
+                }
             }
         }
         return null;
@@ -119,12 +135,21 @@ public class MessageItemList implements IMessage, IMessageHandler<MessageItemLis
     {
         public byte id, input;
         public List<Byte> list;
+        public Byte oldId;
 
         public IdAndPosition(byte id, List<Byte> list, byte input)
         {
             this.id = id;
             this.list = list;
             this.input = input;
+        }
+
+        public IdAndPosition(byte id, List<Byte> list, byte input, byte oldId)
+        {
+            this.id = id;
+            this.list = list;
+            this.input = input;
+            this.oldId = oldId;
         }
     }
 }

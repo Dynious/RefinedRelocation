@@ -14,10 +14,11 @@ public class TravellingItem
     public static final byte timePerRelocator = 10;
     public byte input;
     public byte counter;
-    private ItemStack itemStack;
+    public ItemStack itemStack;
     private List<Byte> path;
-    public boolean sync;
+    public boolean sync = true;
     public byte id;
+    public Byte lastId;
 
     public TravellingItem(ItemStack itemStack, List<Byte> path, int inputSide)
     {
@@ -36,6 +37,12 @@ public class TravellingItem
         this.path = path;
         this.input = getPath().get(0);
         getPath().remove(0);
+    }
+
+    public TravellingItem(ItemStack itemStack, List<Byte> path, int inputSide, byte id)
+    {
+        this(itemStack, path, inputSide);
+        this.id = id;
     }
 
     public static TravellingItem createFromNBT(NBTTagCompound compound)
@@ -135,6 +142,7 @@ public class TravellingItem
         compound.setByteArray("path", Bytes.toArray(path));
         compound.setByte("input", input);
         compound.setByte("counter", counter);
+        compound.setByte("id", id);
     }
 
     public void readFromNBT(NBTTagCompound compound)
@@ -143,5 +151,6 @@ public class TravellingItem
         path = Bytes.asList(compound.getByteArray("path"));
         input = compound.getByte("input");
         counter = compound.getByte("counter");
+        id = compound.getByte("id");
     }
 }
