@@ -69,6 +69,18 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
     }
 
     @Override
+    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        readFromNBT(relocator, side, compound);
+    }
+
+    @Override
+    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        writeToNBT(relocator, side, compound);
+    }
+
+    @Override
     public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         List<ItemStack> list = new ArrayList<ItemStack>();

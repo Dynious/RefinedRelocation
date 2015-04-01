@@ -99,6 +99,16 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     }
 
     @Override
+    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+    }
+
+    @Override
+    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+    }
+
+    @Override
     public abstract List<ItemStack> getDrops(IItemRelocator relocator, int side);
 
     @Override

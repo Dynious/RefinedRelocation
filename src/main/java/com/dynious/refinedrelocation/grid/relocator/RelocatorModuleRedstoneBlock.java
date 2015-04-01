@@ -70,6 +70,18 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
     }
 
     @Override
+    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        readFromNBT(relocator, side, compound);
+    }
+
+    @Override
+    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        writeToNBT(relocator, side, compound);
+    }
+
+    @Override
     public IIcon getIcon(IItemRelocator relocator, int side)
     {
         return relocator.getRedstoneState() ? (blockOnSignal ? icons[0] : icons[1]) : (blockOnSignal ? icons[2] : icons[3]);

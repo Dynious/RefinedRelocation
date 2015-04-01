@@ -793,7 +793,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             }
         }
 
-        readModules(compound);
+        readModules(compound, false);
     }
 
     @Override
@@ -853,7 +853,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
         compound.setTag("StuffedItems", nbttaglist);
 
-        saveModules(compound);
+        saveModules(compound, false);
     }
 
     @Override
@@ -868,7 +868,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             if (connectsToSide(i))
                 tag.setBoolean("c" + i, true);
         }
-        saveModules(tag);
+        saveModules(tag, true);
 
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
@@ -892,7 +892,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         }
         calculateRenderType();
         modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
-        readModules(tag);
+        readModules(tag, true);
 
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
@@ -902,7 +902,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         removeFloatingItems();
     }
 
-    public void saveModules(NBTTagCompound compound)
+    public void saveModules(NBTTagCompound compound, boolean client)
     {
         NBTTagList nbttaglist = new NBTTagList();
         for (int i = 0; i < modules.length; i++)
@@ -912,14 +912,17 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
                 NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                 nbttagcompound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(modules[i].getClass()));
                 nbttagcompound1.setByte("place", (byte) i);
-                modules[i].writeToNBT(this, i, nbttagcompound1);
+                if (client)
+                    modules[i].writeClientData(this, i, nbttagcompound1);
+                else
+                    modules[i].writeToNBT(this, i, nbttagcompound1);
                 nbttaglist.appendTag(nbttagcompound1);
             }
         }
         compound.setTag("modules", nbttaglist);
     }
 
-    public void readModules(NBTTagCompound compound)
+    public void readModules(NBTTagCompound compound, boolean client)
     {
         NBTTagList nbttaglist = compound.getTagList("modules", 10);
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
@@ -931,7 +934,10 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 module.init(this, place);
                 modules[place] = module;
-                modules[place].readFromNBT(this, i, nbttagcompound1);
+                if (client)
+                    modules[place].readClientData(this, i, nbttagcompound1);
+                else
+                    modules[place].readFromNBT(this, i, nbttagcompound1);
             }
         }
     }

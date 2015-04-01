@@ -44,6 +44,10 @@ public interface IRelocatorModule
 
     public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound);
 
+    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound);
+
+    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound);
+
     public List<ItemStack> getDrops(IItemRelocator relocator, int side);
 
     @SideOnly(Side.CLIENT)
