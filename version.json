@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.0.7g",
-			"changeLog":"Fixes RF transmission issues, ME Interface issues & Relocator Module issues",
-			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2229767/download"
+			"modVersion":"1.0.8",
+			"changeLog":"More efficient Relocator network code and downgrade recipe config option",
+			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2232626/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
