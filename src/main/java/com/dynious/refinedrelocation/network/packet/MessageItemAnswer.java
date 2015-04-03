@@ -62,7 +62,7 @@ public class MessageItemAnswer implements IMessage, IMessageHandler<MessageItemA
                 if (item.id == message.id)
                 {
                     item.itemStack = message.stack;
-                    break;
+                    return null;
                 }
             }
         }

@@ -113,17 +113,18 @@ public class MessageItemList implements IMessage, IMessageHandler<MessageItemLis
                 if (te instanceof IRelocator)
                 {
                     ItemStack stack = ((IRelocator) te).getItemStackWithId(idAndPosition.oldId == null ? idAndPosition.id : idAndPosition.oldId);
-                    if (stack != null)
-                    {
-                        ((IRelocator) tile).receiveTravellingItem(new TravellingItem(stack, idAndPosition.list, idAndPosition.input, idAndPosition.id));
-                    }
-                    else
+                    ((IRelocator) tile).receiveTravellingItem(new TravellingItem(stack, idAndPosition.list, idAndPosition.input, idAndPosition.id));
+
+                    // If we are unable to find the stack (and we add it as null) in the previous relocator, request it from the server
+                    if (stack == null)
                     {
                         NetworkHandler.INSTANCE.sendToServer(new MessageItemRequest(tile, idAndPosition.id));
                     }
                 }
                 else
                 {
+                    // If the previous Relocator was removed add a null stack and request the item from the server
+                    ((IRelocator) tile).receiveTravellingItem(new TravellingItem(null, idAndPosition.list, idAndPosition.input, idAndPosition.id));
                     NetworkHandler.INSTANCE.sendToServer(new MessageItemRequest(tile, idAndPosition.id));
                 }
             }

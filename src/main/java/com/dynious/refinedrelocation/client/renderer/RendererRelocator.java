@@ -160,6 +160,9 @@ public class RendererRelocator extends TileEntitySpecialRenderer
 
         for (TravellingItem item : relocator.getItems(false))
         {
+            if (item.getItemStack() == null)
+                continue;
+
             GL11.glPushMatrix();
             entityItem.setEntityItemStack(item.getItemStack());
 

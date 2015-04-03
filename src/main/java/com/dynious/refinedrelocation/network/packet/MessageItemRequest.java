@@ -13,7 +13,6 @@ public class MessageItemRequest implements IMessage, IMessageHandler<MessageItem
     public int x, y, z;
     public byte id;
 
-
     public MessageItemRequest()
     {
     }
@@ -52,7 +51,8 @@ public class MessageItemRequest implements IMessage, IMessageHandler<MessageItem
         if (tile != null && tile instanceof IRelocator)
         {
             ItemStack stack = ((IRelocator) tile).getItemStackWithId(message.id);
-            return new MessageItemAnswer(tile, message.id, stack);
+            if (stack != null)
+                return new MessageItemAnswer(tile, message.id, stack);
         }
         return null;
     }

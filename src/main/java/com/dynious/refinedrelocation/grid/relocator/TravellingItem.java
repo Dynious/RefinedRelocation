@@ -142,7 +142,7 @@ public class TravellingItem
         compound.setByteArray("path", Bytes.toArray(path));
         compound.setByte("input", input);
         compound.setByte("counter", counter);
-        compound.setByte("id", id);
+        compound.setByte("Tid", id);
     }
 
     public void readFromNBT(NBTTagCompound compound)
@@ -151,6 +151,6 @@ public class TravellingItem
         path = Bytes.asList(compound.getByteArray("path"));
         input = compound.getByte("input");
         counter = compound.getByte("counter");
-        id = compound.getByte("id");
+        id = compound.getByte("Tid");
     }
 }
