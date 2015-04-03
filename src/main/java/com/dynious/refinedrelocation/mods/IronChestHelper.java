@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.client.renderer.ItemRendererSortingIronChes
 import com.dynious.refinedrelocation.client.renderer.RendererSortingIronChest;
 import com.dynious.refinedrelocation.item.ItemSortingIronChest;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import com.dynious.refinedrelocation.tileentity.TileSortingIronChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -56,9 +57,12 @@ public class IronChestHelper
                 GameRegistry.addRecipe(oreRecipe);
             }
         }
-        for (int i = 0; i < IronChestType.values().length - 1; i++)
+        if (!Settings.DISABLE_SORTING_TO_NORMAL)
         {
-            GameRegistry.addShapelessRecipe(new ItemStack(IronChest.ironChestBlock, 1, i), new ItemStack(ModBlocks.sortingIronChest, 1, i));
+            for (int i = 0; i < IronChestType.values().length - 1; i++)
+            {
+                GameRegistry.addShapelessRecipe(new ItemStack(IronChest.ironChestBlock, 1, i), new ItemStack(ModBlocks.sortingIronChest, 1, i));
+            }
         }
     }
 

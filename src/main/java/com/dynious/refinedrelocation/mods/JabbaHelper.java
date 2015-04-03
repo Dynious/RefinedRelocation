@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.block.BlockSortingBarrel;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mcp.mobius.betterbarrels.BetterBarrels;
@@ -26,6 +27,11 @@ public class JabbaHelper
     public static void addBarrelRecipes()
     {
         GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.sortingBarrel), "g g", " b ", "g g", 'g', Items.gold_nugget, 'b', new ItemStack(BetterBarrels.blockBarrel));
+
+        if (!Settings.DISABLE_SORTING_TO_NORMAL)
+        {
+            GameRegistry.addShapelessRecipe(new ItemStack(BetterBarrels.blockBarrel), new ItemStack(ModBlocks.sortingBarrel));
+        }
     }
 
     public static boolean upgradeToSortingBarrel(TileEntity tile)

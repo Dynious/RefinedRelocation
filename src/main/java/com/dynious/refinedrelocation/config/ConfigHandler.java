@@ -45,6 +45,9 @@ public class ConfigHandler
         Settings.CRAFTING_MODULE_TICKS_BETWEEN_CRAFTING = getConfiguration("Ticks between crafting", Settings.CRAFTING_MODULE_TICKS_BETWEEN_CRAFTING_DEFAULT,
                 "Ticks between Crafting Module craft operations.");
 
+        Settings.DISABLE_SORTING_TO_NORMAL = getConfiguration("Disable sorting to normal", Settings.DISABLE_SORTING_TO_NORMAL_DEFAULT,
+                "Disable sorting block to normal block downgrade recipe.");
+
         if (configFile.hasChanged())
             configFile.save();
     }

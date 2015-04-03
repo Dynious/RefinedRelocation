@@ -82,7 +82,8 @@ public class ModBlocks
         GameRegistry.addShapedRecipe(new ItemStack(buffer, 1, 2), "g g", " b ", "g g", 'g', Items.gold_ingot, 'b', new ItemStack(buffer, 1, 0));
 
         GameRegistry.addShapedRecipe(new ItemStack(sortingChest, 1, 0), "g g", " b ", "p p", 'g', Items.gold_ingot, 'b', new ItemStack(Blocks.chest), 'p', Blocks.planks);
-        GameRegistry.addShapelessRecipe(new ItemStack(Blocks.chest), new ItemStack(sortingChest, 1, 0));
+        if (!Settings.DISABLE_SORTING_TO_NORMAL)
+            GameRegistry.addShapelessRecipe(new ItemStack(Blocks.chest), new ItemStack(sortingChest, 1, 0));
 
         GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 4, 0), "gsg", "sis", "gsg", 'g', Items.gold_nugget, 's', Blocks.stone, 'i', Items.iron_ingot);
         GameRegistry.addShapedRecipe(new ItemStack(sortingConnector, 1, 1), "g g", " i ", "g g", 'g', Items.gold_ingot, 'i', new ItemStack(sortingConnector, 4, 0));
