@@ -61,6 +61,9 @@ public class RelocatorHUDHandler implements IWailaDataProvider
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
     {
+        if (!(iWailaDataAccessor.getTileEntity() instanceof IRelocator))
+            return null;
+
         if (tick >= TICKS_BETWEEN_ITEM_CHANGE)
         {
             ++currentStackShown;
@@ -105,7 +108,7 @@ public class RelocatorHUDHandler implements IWailaDataProvider
     {
         int side = iWailaDataAccessor.getPosition().subHit;
 
-        if (side >= 6)
+        if (side >= 6 || !(iWailaDataAccessor.getTileEntity() instanceof IRelocator))
         {
             return strings;
         }
