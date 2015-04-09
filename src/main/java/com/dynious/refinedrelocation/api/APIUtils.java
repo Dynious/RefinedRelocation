@@ -7,8 +7,10 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public final class APIUtils
 {
@@ -101,5 +103,19 @@ public final class APIUtils
     public static void registerToolboxClazz(Class clazz)
     {
         apiHandler.registerToolboxClazz(clazz);
+    }
+
+    /**
+     * Utility method to insert items into a TileEntity (IInventory / IItemDuct etc.)
+     *
+     * @param tile TileEntity to insert into
+     * @param itemStack ItemStack to insert
+     * @param side Side to insert into
+     * @param simulate Simulate insertion (don't actually add it, just return when would happen)
+     * @return The ItemStack that was unable to be added
+     */
+    public static ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
+    {
+        return apiHandler.insert(tile, itemStack, side, simulate);
     }
 }

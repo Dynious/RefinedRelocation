@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.api.relocator;
 
-import com.dynious.refinedrelocation.helper.IOHelper;
+import com.dynious.refinedrelocation.api.APIUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -37,7 +37,7 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     @Override
     public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate)
     {
-        return IOHelper.insert(inventory, stack, ForgeDirection.getOrientation(side).getOpposite(), simulate);
+        return APIUtils.insert(inventory, stack, ForgeDirection.getOrientation(side).getOpposite(), simulate);
     }
 
     @Override

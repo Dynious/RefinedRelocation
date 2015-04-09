@@ -11,11 +11,14 @@ import com.dynious.refinedrelocation.grid.FilterStandard;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.sorting.SortingInventoryHandler;
 import com.dynious.refinedrelocation.grid.sorting.SortingMemberHandler;
+import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.item.ItemToolBox;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class APIHandler implements IAPIHandler
 {
@@ -60,5 +63,11 @@ public class APIHandler implements IAPIHandler
     public void registerToolboxClazz(Class clazz)
     {
         ItemToolBox.addToolboxClass(clazz);
+    }
+
+    @Override
+    public ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
+    {
+        return IOHelper.insert(tile, itemStack, side, simulate);
     }
 }
