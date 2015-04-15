@@ -1,0 +1,87 @@
+# Block localizations
+tile.blockExtender0.name=Наполнитель блоков
+tile.blockExtender1.name=Продвинутый наполнитель блоков
+tile.blockExtender2.name=Фильтрующий наполнитель блоков
+tile.blockExtender3.name=Продвинутый фильтрующий наполнитель блоков
+tile.blockExtender4.name=Беспроводной наполнитель блоков
+tile.buffer0.name=Буфер
+tile.buffer1.name=Продвинутый буфер
+tile.buffer2.name=Фильтрующий буфер
+tile.sortingChest.name=Сортирующий сундук
+tile.sortingIronChest0.name=Сортирующий железный сундук
+tile.sortingIronChest1.name=Сортирующий золотой сундук
+tile.sortingIronChest2.name=Сортирующий алмазный сундук
+tile.sortingIronChest3.name=Сортирующий медный сундук
+tile.sortingIronChest4.name=Сортирующий серебряный сундук
+tile.sortingIronChest5.name=Сортирующий кристаллический сундук
+tile.sortingIronChest6.name=Сортирующий обсидиановый сундук
+tile.sortingIronChest7.name=DirtChest 9001!
+tile.sortingConnector0.name=Сортирующий соединитель
+tile.sortingConnector1.name=Сортирующий интерфейс
+tile.sortingConnector2.name=Сортирующий импортер
+tile.filteringHopper.name=Фильтрующая воронка
+tile.sortingBarrel.name=Сортирующая бочка
+tile.relocationController.name=Перемещающий контроллер
+tile.powerLimiter.name=Ограничитель энергии
+tile.sortingAlchemicalChest.name=Сортирующий алхимический сундук
+
+# Item localizations
+item.linker.name=Соединитель
+item.sortingUpgrade.name=Сортирующее улучшение
+item.playerRelocator.name=Переместитель игрока
+
+# Inventory localizations
+container.sortingChest.name=Сортирующий сундук
+itemGroup.RefinedRelocation=Refined Relocation
+
+# GUI localizations
+gui.refinedrelocation.blacklist=Чёрный список
+gui.refinedrelocation.whitelist=Белый список
+gui.refinedrelocation.click=Клик
+gui.refinedrelocation.shiftClick=Shift+клик
+gui.refinedrelocation.filteredExtr=Фильтрующее извлечение
+gui.refinedrelocation.unfilteredExtr=Нефильтрующее извлечение
+gui.refinedrelocation.maxStackSize=Макс. размер стака
+gui.refinedrelocation.mode=Режим
+gui.refinedrelocation.roundRobin=Циклический
+gui.refinedrelocation.roundRobinInfo=Разносит предметы на\nвсе действительные стороны
+gui.refinedrelocation.greedy=Жадный
+gui.refinedrelocation.greedyInfo=Разносит предметы только на действ. сторону\nс наивысшим приоритетом
+gui.refinedrelocation.spread=Разносить предметы
+gui.refinedrelocation.stack=Собирать предметы
+gui.refinedrelocation.disguised=Замаскирован как: %s
+gui.refinedrelocation.undisguised=Не замаскирован
+gui.refinedrelocation.disguisedInfo=Используйте несоединённый соединитель,\nчтобы демаскировать этот блок
+gui.refinedrelocation.undisguisedInfo=Используйте соединитель, чтобы замаскировать этот блок
+gui.refinedrelocation.connected=Соединён
+gui.refinedrelocation.notConnected=Не соединён
+gui.refinedrelocation.bufferInsInfo=Приоритеты стороны выхода\nПредметы, которые входят\nв буфер, будут пытаться\nвыходить на действительную\nсторону в порядке приоритета\n(Меньшее число = больший приоритет)
+gui.refinedrelocation.blockExtenderInsInfo=Стороны входа\nПредметы будут входить\nв выбранную сторону\nсоединённого инвентаря,\nкогда они входят\nв соответствующую сторону\nэтого наполнителя блоков
+gui.refinedrelocation.redstoneTrans=Сигнал красного камня
+gui.refinedrelocation.enabled=Включен
+gui.refinedrelocation.disabled=Отключен
+gui.refinedrelocation.active=Активен
+gui.refinedrelocation.inactive=Неактивен
+gui.refinedrelocation.customFilter=Нестандартный фильтр
+gui.refinedrelocation.nameMatching=Соответствие имён
+gui.refinedrelocation.wildcardChar=Wildcard character
+gui.refinedrelocation.oredictChar=Oredict lookup prefix
+gui.refinedrelocation.commaSeparation=Отделяйте фильтры запятой
+gui.refinedrelocation.wirelessLink=Беспроводное соединение
+gui.refinedrelocation.linkedToAt=Соединён с %s на: (%s, %s, %s)
+gui.refinedrelocation.connections=Соединения
+gui.refinedrelocation.oreDictConversion=OreDict. преобразование
+gui.refinedrelocation.maxEnergy=Макс. пропускная энергия
+gui.refinedrelocation.RSOn=Высокий сигнал красного камня отключает питание
+gui.refinedrelocation.RSPulse=Импульс красного камня включает питание
+
+#Item Description Localizations
+itemDesc.refinedrelocation.linkedPos=Соединённая позиция: (%s, %s, %s) (%s)
+itemDesc.refinedrelocation.unlinked=Не соединён
+itemDesc.refinedrelocation.disguisedAs=%s замаскирован как: %s
+itemDesc.refinedrelocation.cannotDisguiseAs=Не может быть замаскирован как: %s
+itemDesc.refinedrelocation.linkerSet=Соединитель установлен на позицию: (%s, %s, %s) (%s)
+itemDesc.refinedrelocation.noLongerLinked=Соединитель больше не соединён
+itemDesc.refinedrelocation.interDimensional=Межпространственное соединение: %s
+itemDesc.refinedrelocation.brokenLink=Соединение нарушено!
+itemDesc.refinedrelocation.cooldown=Охлаждение: %s
