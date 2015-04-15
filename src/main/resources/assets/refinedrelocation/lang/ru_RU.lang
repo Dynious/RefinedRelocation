@@ -19,6 +19,7 @@ tile.sortingIronChest7.name=DirtChest 9001!
 tile.sortingConnector0.name=Сортирующий соединитель
 tile.sortingConnector1.name=Сортирующий интерфейс
 tile.sortingConnector2.name=Сортирующий импортер
+tile.sortingConnector3.name=МЭ сортирующий интерфейс
 tile.filteringHopper.name=Фильтрующая воронка
 tile.sortingBarrel.name=Сортирующая бочка
 tile.relocationController.name=Перемещающий контроллер
@@ -42,12 +43,14 @@ item.relocatorModule1.name=Модуль «Фильтр»
 item.relocatorModule2.name=Модуль «В один конец»
 item.relocatorModule3.name=Модуль «Извлечение»
 item.relocatorModule4.name=Модуль «Заблокированное извлечение»
-item.relocatorModule5.name=Модуль «Скрытый»
+item.relocatorModule5.name=Модуль «Незаметность»
 item.relocatorModule6.name=Модуль «Запас»
 item.relocatorModule7.name=Модуль «Красный блок»
 item.relocatorModule8.name=Модуль «Распространение»
 item.relocatorModule9.name=Модуль «Детектор предметов»
 item.relocatorModule10.name=Мульти-модуль
+item.relocatorModule11.name=Модуль «Незаметное извлечение»
+item.relocatorModule12.name=Модуль «Создание»
 
 # Inventory localizations
 container.sortingChest.name=Сортирующий сундук
@@ -61,6 +64,7 @@ gui.refinedrelocation.shiftClick=Shift+клик
 gui.refinedrelocation.filteredExtr=Фильтрующее извлечение
 gui.refinedrelocation.unfilteredExtr=Нефильтрующее извлечение
 gui.refinedrelocation.maxStackSize=Макс. размер стака
+gui.refinedrelocation.maxCraftStack=Макс. размер хранящегося в слоте стака
 gui.refinedrelocation.mode=Режим
 gui.refinedrelocation.roundRobin=Циклический
 gui.refinedrelocation.roundRobinInfo=Разносит продукцию на\nвсе действительные стороны
@@ -74,8 +78,8 @@ gui.refinedrelocation.disguisedInfo=Используйте несоединён�
 gui.refinedrelocation.undisguisedInfo=Используйте соединитель, чтобы замаскировать этот блок
 gui.refinedrelocation.connected=Соединён
 gui.refinedrelocation.notConnected=Не соединён
-gui.refinedrelocation.bufferInsInfo=Приоритеты выходной стороны\nПредметы, которые входят\nв буфер, будут пытаться\nвыходить на действительную\nсторону в порядке приоритета\n(Меньшее число = Более высокий приоритет)
-gui.refinedrelocation.blockExtenderInsInfo=Вставляющие стороны\nПредметы будут входить\nв выбранную сторону\nсоединённого инвентаря,\nкогда они входят\nв соответствующую сторону\nэтого наполнителя блоков
+gui.refinedrelocation.bufferInsInfo=Приоритеты стороны выхода\nПредметы, которые входят\nв буфер, будут пытаться\nвыходить на действительную\nсторону в порядке приоритета\n(Меньшее число = больший приоритет)
+gui.refinedrelocation.blockExtenderInsInfo=Стороны входа\nПредметы будут входить\nв выбранную сторону\nсоединённого инвентаря,\nкогда они входят\nв соответствующую сторону\nэтого наполнителя блоков
 gui.refinedrelocation.redstoneTrans=Сигнал красного камня
 gui.refinedrelocation.enabled=Включен
 gui.refinedrelocation.disabled=Отключен
@@ -109,16 +113,43 @@ gui.refinedrelocation.connectedTo=Подключен к:
 gui.refinedrelocation.linkedTo=Соединён с:
 gui.refinedrelocation.facing=Смотрит (на):
 gui.refinedrelocation.redstone=Красный камень:
+gui.refinedrelocation.sneakyExtraction=Сторона, из которой будут извлекаться предметы
+gui.refinedrelocation.controllerLocked=Контроллер переместителя закрыт. Shift-ПКМ, чтобы открыть, с переместителем игрока в инвентаре.
+gui.refinedrelocation.toggleLock=Чтобы переключить замок контроллера переместителя, Вам нужен соединённый переместитель игрока в инвентаре.
+gui.refinedrelocation.moduleMaxStackSize=Макс. размер стака, который может быть извлечён
+gui.refinedrelocation.moduleRedstoneControl0=Всегда активен
+gui.refinedrelocation.moduleRedstoneControl1=Активен без сигнала красного камня
+gui.refinedrelocation.moduleRedstoneControl2=Активен по сигналу красного камня
+gui.refinedrelocation.moduleRedstoneControl3=Активен по импульсу красного камня
+gui.refinedrelocation.formed=Мультиблок построен правильно
+gui.refinedrelocation.notFormed=Мультиблок построен неправильно
+gui.refinedrelocation.locked=Закрыт: %s
+gui.refinedrelocation.formed=Сформирован: %s
+gui.refinedrelocation.outputSide=Сторона выхода:
+gui.refinedrelocation.wailaRedstoneControl=Контроль красным камнем: %s
+gui.refinedrelocation.wailaUserFilter=Фильтр пользователя: %s
+gui.refinedrelocation.wailaPresets=Настройки:
+gui.refinedrelocation.wailaConnectedDirection=Соединён со стороной: %s
+gui.refinedrelocation.wailaPowerThroughput=Максимальная пропускная энергия: %d (%s)
+gui.refinedrelocation.wailaEnabled=Включен: %s
+gui.refinedrelocation.wailaMaxStackSize=Макс. размер стака: %d
+gui.refinedrelocation.ellipse=...
+gui.refinedrelocation.true=Да
+gui.refinedrelocation.false=Нет
+gui.refinedrelocation.yes=Да
+gui.refinedrelocation.no=Нет
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Соединённая позиция: (%s, %s, %s) (%s)
+itemDesc.refinedrelocation.linked=Соединён: %s
 itemDesc.refinedrelocation.unlinked=Не соединён
 itemDesc.refinedrelocation.disguisedAs=%s замаскирован как: %s
 itemDesc.refinedrelocation.cannotDisguiseAs=Не может быть замаскирован как: %s
 itemDesc.refinedrelocation.linkerSet=Соединитель установлен на позицию: (%s, %s, %s) (%s)
+itemDesc.refinedrelocation.noLinkingToSelf=Нельзя соединить блок с самим собой
 itemDesc.refinedrelocation.noLongerLinked=%s больше не соединён
-itemDesc.refinedrelocation.interDimensional=Inter-Dimensional link to: %s
-itemDesc.refinedrelocation.brokenLink=Нарушенное соединение!
+itemDesc.refinedrelocation.interDimensional=Межпространственное соединение: %s
+itemDesc.refinedrelocation.brokenLink=Соединение нарушено!
 itemDesc.refinedrelocation.cooldown=Охлаждение: %s
 itemDesc.refinedrelocation.relContDesc=Мультиблок (%s x %s x %s)
 itemDesc.refinedrelocation.toolBoxInfo=Содержит гаечные ключи\nShift-клик, чтобы добавить ключ\nиз инвентаря или переключиться\nмежду ключами
@@ -135,6 +166,13 @@ itemDesc.refinedrelocation.relocatorModuleInfo7=Запрещает переда�
 itemDesc.refinedrelocation.relocatorModuleInfo8=Распространяет предметы по\nсоединённому инвентарю
 itemDesc.refinedrelocation.relocatorModuleInfo9=Пульсирует, когда предмет проходит\nчерез фильтр
 itemDesc.refinedrelocation.relocatorModuleInfo10=Позволяет нескольким модулям\nустанавливаться в одном месте
+itemDesc.refinedrelocation.relocatorModuleInfo11=Может извлекать предметы\nс другой стороны,\nвместо стороны соединения
+itemDesc.refinedrelocation.relocatorModuleInfo12=Может создавать предметы во время\nпрохождения материалов через модуль
+itemDesc.refinedrelocation.sortingUpgrade0=Улучшает сундуки до их сортирующей версии
+itemDesc.refinedrelocation.sortingUpgrade1=Улучшает бочки до их сортирующей версии
+itemDesc.refinedrelocation.sortingUpgradeMats=Нужно 2 предмета того, из чего сделан сундук
+itemDesc.refinedrelocation.sortingUpgradeNoMat=Нужно 2 %s для улучшения!
+itemDesc.refinedrelocation.planks=доски
 
 #Filter Localization
 filterName.refinedrelocation.filterIngot=Все слитки
@@ -153,8 +191,10 @@ filterName.refinedrelocation.filterPlants=Все растения
 filterName.refinedrelocation.filterFuel=Всё топливо
 
 #Relocator Localizations
-relocatorModule.refinedrelocation.redstoneBlockEnabled=Режим переключён, теперь предметы блокируются по сигналу красного камня.
-relocatorModule.refinedrelocation.redstoneBlockDisabled=Режим переключён, теперь предметы разрешаются по сигналу красного камня.
+relocatorModule.refinedrelocation.redstoneBlockEnabled=Предметы блокируются по сигналу
+relocatorModule.refinedrelocation.redstoneBlockDisabled=Предметы разрешаются по сигналу
+relocatorModule.refinedrelocation.redstoneBlockEnabledChat=Режим переключён, теперь предметы блокируются по сигналу красного камня.
+relocatorModule.refinedrelocation.redstoneBlockDisabledChat=Режим переключён, теперь предметы разрешаются по сигналу красного камня.
 
 relocatorStuffed.refinedrelocation.stuffed=Содержит:
 
