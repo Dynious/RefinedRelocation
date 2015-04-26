@@ -22,7 +22,7 @@ public class SpecialLocalizedStack extends LocalizedStack
     @Override
     public void alterStackSize(int alteration)
     {
-        ((ISpecialSortingInventory) INVENTORY).alterStackSize(alteration);
+        ((ISpecialSortingInventory) INVENTORY).alterStackSize(SLOT, alteration);
         size += alteration;
     }
 }

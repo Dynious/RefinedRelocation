@@ -73,7 +73,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
     }
 
     @Override
-    public void alterStackSize(int alteration)
+    public void alterStackSize(int slot, int alteration)
     {
         getStorage().setAmount(getStorage().getAmount() + alteration);
     }
