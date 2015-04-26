@@ -76,13 +76,13 @@ public class ItemRendererRelocator implements IItemRenderer
         {
             if (side == 0 || side == 1)
             {
-                iconTransformation.icon = RendererRelocator.iconSide;
+                iconTransformation.icon = RendererRelocator.iconSide[itemStack.getItemDamage()];
 
                 RendererRelocator.SIDE_MODELS[side].render(0, 48, list, iconTransformation);
             }
             else
             {
-                iconTransformation.icon = RendererRelocator.iconsCenter[1];
+                iconTransformation.icon = RendererRelocator.iconsCenter[1][itemStack.getItemDamage()];
 
                 RendererRelocator.CENTER_MODEL.render(side * 4, side * 4 + 4, list, iconTransformation);
                 RendererRelocator.CENTER_MODEL.render(24 + side * 4, 24 + side * 4 + 4, list, iconTransformation);

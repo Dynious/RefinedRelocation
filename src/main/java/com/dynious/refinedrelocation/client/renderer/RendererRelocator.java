@@ -5,10 +5,10 @@ import codechicken.lib.render.CCModel;
 import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.TextureUtils;
 import codechicken.lib.render.uv.IconTransformation;
-import codechicken.lib.vec.Translation;
 import codechicken.lib.vec.Vector3;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
+import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -26,8 +26,8 @@ public class RendererRelocator extends TileEntitySpecialRenderer
     public static final CCModel CENTER_MODEL;
     public static final CCModel[] SIDE_MODELS = new CCModel[6];
     public static RendererRelocator instance = new RendererRelocator();
-    public static IIcon[] iconsCenter = new IIcon[4];
-    public static IIcon iconSide;
+    public static IIcon[][] iconsCenter = new IIcon[4][9];
+    public static IIcon[] iconSide = new IIcon[9];
     public static IIcon iconSideStuffed;
     private static RenderItem renderer;
     private static EntityItem entityItem = new EntityItem(null);
@@ -50,7 +50,7 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         renderer.setRenderManager(RenderManager.instance);
         entityItem.hoverStart = 0.0F;
 
-        CENTER_MODEL = CCModel.quadModel(48).generateBox(0, -4.0D, -4.0D, -4.0D, 8.0D, 8.0D, 8.0D, 0.0D, 0.0D, 32.0D, 32.0D, 16.0D);
+        CENTER_MODEL = CCModel.quadModel(48).generateBox(0, -8.0D, -8.0D, -8.0D, 16.0D, 16.0D, 16.0D, 0.0D, 0.0D, 64.0D, 64.0D, 32.0D);
         //CENTER_MODEL = CCModel.quadModel(48).generateBlock(0, RelocatorData.middleCuboid);
         CCModel.generateBackface(CENTER_MODEL, 0, CENTER_MODEL, 24, 24);
         CENTER_MODEL.computeNormals().computeLighting(LightModel.standardLightModel);
@@ -73,12 +73,15 @@ public class RendererRelocator extends TileEntitySpecialRenderer
 
     public static void loadIcons(IIconRegister register)
     {
-        iconsCenter[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
-        iconsCenter[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter1");
-        iconsCenter[2] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter2");
-        iconsCenter[3] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter3");
-        iconSide = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSide");
-        iconSideStuffed = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSideStuffed");
+        for (int i = 0; i < RelocatorData.oreTypes.length; i++)
+        {
+            iconsCenter[0][i] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter" + RelocatorData.oreTypes[i] + 0);
+            iconsCenter[1][i] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter" + RelocatorData.oreTypes[i] + 1);
+            iconsCenter[2][i] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter" + RelocatorData.oreTypes[i] + 2);
+            iconsCenter[3][i] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter" + RelocatorData.oreTypes[i] + 3);
+            iconSide[i] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSide" + RelocatorData.oreTypes[i]);
+            iconSideStuffed = register.registerIcon(Resources.MOD_ID + ":" + "relocatorSideStuffed");
+        }
     }
 
     @Override
@@ -94,10 +97,9 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         resetRenderer();
 
         GL11.glPushMatrix();
+        GL11.glTranslated(x + 0.5F, y + 0.5F, z + 0.5F);
 
         CCRenderState.startDrawing();
-
-        Translation trans = new Translation(x + 0.5F, y + 0.5F, z + 0.5F);
 
         for (int side = 0; side < 6; side++)
         {
@@ -107,46 +109,21 @@ public class RendererRelocator extends TileEntitySpecialRenderer
                 IRelocatorModule module = relocator.getRelocatorModule(side);
                 if (module != null)
                 {
-                    iconTransformation.icon = module.getIcon(relocator, side);
-                    SIDE_MODELS[side].render(0, 4, trans, iconTransformation);
-                    SIDE_MODELS[side].render(8, 24, trans, iconTransformation);
-                    SIDE_MODELS[side].render(24, 28, trans, iconTransformation);
-                    SIDE_MODELS[side].render(32, 48, trans, iconTransformation);
+                    renderSideWithIcon(side, module.getIcon(relocator, side));
                 }
 
-                //Render other parts
+                renderSideWithIcon(side, iconSide[relocator.getOreType()]);
+
                 if (relocator.isStuffedOnSide(side))
                 {
-                    iconTransformation.icon = iconSideStuffed;
+                    renderSideWithIcon(side, iconSideStuffed);
                 }
-                else
-                {
-                    iconTransformation.icon = iconSide;
-                }
-                SIDE_MODELS[side].render(0, 4, trans, iconTransformation);
-                SIDE_MODELS[side].render(8, 24, trans, iconTransformation);
-                SIDE_MODELS[side].render(24, 28, trans, iconTransformation);
-                SIDE_MODELS[side].render(32, 48, trans, iconTransformation);
             }
             else
             {
-                switch (relocator.getRenderType())
-                {
-                    case 0:
-                        iconTransformation.icon = iconsCenter[0];
-                        break;
-                    case 1:
-                        iconTransformation.icon = iconsCenter[1];
-                        break;
-                    case 2:
-                        iconTransformation.icon = iconsCenter[2];
-                        break;
-                    case 3:
-                        iconTransformation.icon = iconsCenter[3];
-                        break;
-                }
-                CENTER_MODEL.render(side * 4, side * 4 + 4, trans, iconTransformation);
-                CENTER_MODEL.render(24 + side * 4, 24 + side * 4 + 4, trans, iconTransformation);
+                iconTransformation.icon = iconsCenter[relocator.getRenderType()][relocator.getOreType()];
+                CENTER_MODEL.render(side * 4, side * 4 + 4, iconTransformation);
+                CENTER_MODEL.render(24 + side * 4, 24 + side * 4 + 4, iconTransformation);
             }
         }
         CCRenderState.draw();
@@ -176,5 +153,14 @@ public class RendererRelocator extends TileEntitySpecialRenderer
         GL11.glPopMatrix();
 
         GL11.glPopMatrix();
+    }
+
+    private static void renderSideWithIcon(int side, IIcon icon)
+    {
+        iconTransformation.icon = icon;
+        SIDE_MODELS[side].render(0, 4, iconTransformation);
+        SIDE_MODELS[side].render(8, 24, iconTransformation);
+        SIDE_MODELS[side].render(24, 28, iconTransformation);
+        SIDE_MODELS[side].render(32, 48, iconTransformation);
     }
 }

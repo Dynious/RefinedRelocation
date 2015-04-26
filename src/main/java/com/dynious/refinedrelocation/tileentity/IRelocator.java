@@ -8,6 +8,7 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -26,6 +27,10 @@ public interface IRelocator extends IItemRelocator, IItemDuct
     public void receiveTravellingItem(TravellingItem item);
 
     public List<TravellingItem> getItems(boolean includeItemsToAdd);
+
+    public void onAdded(EntityLivingBase player, ItemStack stack);
+
+    public byte getOreType();
 
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(int side, EntityPlayer player);

@@ -18,6 +18,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import gnu.trove.map.TByteObjectMap;
 import gnu.trove.map.hash.TByteObjectHashMap;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -63,6 +64,8 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     private TByteObjectMap<StackAndCounter> cachedItems = new TByteObjectHashMap<StackAndCounter>();
     private byte ticker = 0;
     private byte lastID = (byte) (new Random().nextInt(512) - 256);
+
+    public byte oreType = 0;
 
     @SuppressWarnings("unchecked")
     public TileRelocator()
@@ -504,6 +507,22 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     @Override
+    public void onAdded(EntityLivingBase player, ItemStack stack)
+    {
+        if (stack != null)
+        {
+            System.out.println(stack.getItemDamage());
+            oreType = (byte) stack.getItemDamage();
+        }
+    }
+
+    @Override
+    public byte getOreType()
+    {
+        return oreType;
+    }
+
+    @Override
     public GuiScreen getGUI(int side, EntityPlayer player)
     {
         IRelocatorModule module = modules[side];
@@ -756,6 +775,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         super.readFromNBT(compound);
 
         isBeingPowered = compound.getBoolean("redstone");
+        oreType = compound.getByte("oreType");
 
         if (compound.hasKey("Items"))
         {
@@ -802,6 +822,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         super.writeToNBT(compound);
 
         compound.setBoolean("redstone", isBeingPowered);
+        compound.setByte("oreType", oreType);
 
         if (!items.isEmpty())
         {
@@ -862,6 +883,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         NBTTagCompound tag = new NBTTagCompound();
 
         tag.setBoolean("redstone", isBeingPowered);
+        tag.setByte("oreType", oreType);
 
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {
@@ -885,6 +907,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         NBTTagCompound tag = pkt.func_148857_g();
 
         isBeingPowered = tag.getBoolean("redstone");
+        oreType = tag.getByte("oreType");
 
         for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
         {

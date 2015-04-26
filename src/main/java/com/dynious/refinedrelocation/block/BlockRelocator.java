@@ -14,8 +14,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -109,6 +112,16 @@ public class BlockRelocator extends BlockContainer
     public boolean renderAsNormalBlock()
     {
         return false;
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
+    {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof TileRelocator)
+        {
+            ((TileRelocator) tile).onAdded(entity, stack);
+        }
     }
 
     @Override
@@ -220,5 +233,14 @@ public class BlockRelocator extends BlockContainer
     public void registerBlockIcons(IIconRegister register)
     {
         blockIcon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorCenter0");
+    }
+
+    @Override
+    public void getSubBlocks(Item item, CreativeTabs tabs, List list)
+    {
+        for (int i = 0; i < RelocatorData.oreTypes.length; i++)
+        {
+            list.add(new ItemStack(item, 1, i));
+        }
     }
 }

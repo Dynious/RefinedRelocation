@@ -4,15 +4,19 @@ import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.item.*;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
+import com.dynious.refinedrelocation.lib.RelocatorData;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.mods.AE2Helper;
 import com.dynious.refinedrelocation.mods.EE3Helper;
 import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.mods.JabbaHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ModBlocks
 {
@@ -121,12 +125,32 @@ public class ModBlocks
             relocator = new BlockRelocator();
             ModObjects.relocator = new ItemStack(relocator);
             GameRegistry.registerBlock(relocator, Names.relocator);
-            GameRegistry.addShapedRecipe(new ItemStack(relocator, 4, 0), "igi", "g g", "igi", 'i', Items.iron_ingot, 'g', Blocks.glass_pane);
+            addRelocatorOreRecipes(relocator);
         }
 
         if (Mods.IS_AE2_LOADED)
         {
             AE2Helper.addAERecipes();
         }
+    }
+
+    public static void addRelocatorOreRecipes(Object relocator)
+    {
+        ItemStack stack;
+        if (relocator instanceof Item)
+            stack = new ItemStack((Item) relocator);
+        else
+            stack = new ItemStack((Block) relocator);
+
+        for (int i = 0; i < RelocatorData.oreTypes.length; i++)
+        {
+            addOreRecipe(stack.copy(), i, "ingot" + RelocatorData.oreTypes[i]);
+        }
+    }
+
+    private static void addOreRecipe(ItemStack itemStack, int meta, String ore)
+    {
+        itemStack.setItemDamage(meta);
+        GameRegistry.addRecipe(new ShapedOreRecipe(itemStack, "ogo", "g g", "ogo", 'o', ore, 'g', Blocks.glass_pane));
     }
 }

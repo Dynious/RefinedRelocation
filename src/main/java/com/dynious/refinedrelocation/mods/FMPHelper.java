@@ -4,13 +4,12 @@ import codechicken.multipart.PartMap;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 import com.dynious.refinedrelocation.api.ModObjects;
+import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.mods.part.ItemPartRelocator;
 import com.dynious.refinedrelocation.mods.part.PartFactory;
 import com.dynious.refinedrelocation.mods.part.PartRelocator;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -30,7 +29,7 @@ public class FMPHelper
 
     public static void addFMPRecipes()
     {
-        GameRegistry.addShapedRecipe(new ItemStack(partRelocator, 4, 0), "igi", "g g", "igi", 'i', Items.iron_ingot, 'g', Blocks.glass_pane);
+        ModBlocks.addRelocatorOreRecipes(partRelocator);
     }
 
     public static void updateBlock(World world, int x, int y, int z)

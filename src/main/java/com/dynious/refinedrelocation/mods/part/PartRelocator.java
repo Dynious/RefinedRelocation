@@ -18,6 +18,7 @@ import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -289,6 +290,18 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public List<TravellingItem> getItems(boolean includeItemsToAdd)
     {
         return relocator.getItems(includeItemsToAdd);
+    }
+
+    @Override
+    public void onAdded(EntityLivingBase player, ItemStack stack)
+    {
+        relocator.onAdded(player, stack);
+    }
+
+    @Override
+    public byte getOreType()
+    {
+        return relocator.getOreType();
     }
 
     @Override

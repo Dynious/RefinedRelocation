@@ -6,6 +6,7 @@ public class RelocatorData
 {
     public static final Cuboid6 middleCuboid;
     public static final Cuboid6[] sideCuboids = new Cuboid6[6];
+    public static final String[] oreTypes = { "Iron", "Gold", "Copper", "Tin", "Silver", "Lead", "Nickel", "Platinum", "Mithril" };
 
     static
     {
