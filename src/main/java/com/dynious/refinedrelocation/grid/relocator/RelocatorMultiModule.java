@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.client.gui.GuiHome;
 import com.dynious.refinedrelocation.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.helper.StringHelper;
+import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -258,6 +259,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
             if (module != null)
                 drops.addAll(module.getDrops(relocator, side));
         }
+        drops.add(new ItemStack(ModItems.relocatorModule, 1, 10));
         return drops;
     }
 
