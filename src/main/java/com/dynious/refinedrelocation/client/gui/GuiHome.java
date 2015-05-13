@@ -5,8 +5,7 @@ import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.client.gui.widget.GuiButtonOpenModuleGUI;
 import com.dynious.refinedrelocation.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageHomeButtonClicked;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
@@ -36,6 +35,6 @@ public class GuiHome extends GuiModular
     public void onButtonClicked(int index)
     {
         ((ContainerMultiModule) inventorySlots).openOrActive(index);
-        NetworkHandler.INSTANCE.sendToServer(new MessageHomeButtonClicked(index));
+        GuiHelper.sendActionMessage(index);
     }
 }
