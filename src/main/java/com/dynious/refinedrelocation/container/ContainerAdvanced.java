@@ -7,6 +7,7 @@ import net.minecraft.inventory.ICrafting;
 
 public class ContainerAdvanced extends ContainerHierarchical implements IContainerAdvanced
 {
+    public static final int MESSAGE_SPREAD_ITEMS = 0;
 
     public IAdvancedTile tile;
 
@@ -122,4 +123,10 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
         lastSpreadItems = spreadItems;
     }
 
+    @Override
+    public void onMessage(int messageId, Object value, EntityPlayer player) {
+        switch(messageId) {
+            case MESSAGE_SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
+        }
+    }
 }

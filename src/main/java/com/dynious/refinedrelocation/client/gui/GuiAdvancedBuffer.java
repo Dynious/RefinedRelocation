@@ -32,7 +32,7 @@ public class GuiAdvancedBuffer extends GuiRefinedRelocationContainer
 
         new GuiLabel(this, width / 2, height / 2 - 30, BlockHelper.getTileEntityDisplayName(buffer).replaceAll("Advanced", "Adv."));
 
-        new GuiButtonSpread(this, width / 2 + 17, height / 2 - 4, buffer);
+        new GuiButtonSpread(this, width / 2 + 17, height / 2 - 4, buffer, ContainerAdvanced.MESSAGE_SPREAD_ITEMS);
 
         new GuiInsertDirections(this, width / 2 - 39, height / 2 - 19, 50, 50, buffer);
     }

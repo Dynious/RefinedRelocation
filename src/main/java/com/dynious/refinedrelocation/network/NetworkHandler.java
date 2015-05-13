@@ -15,7 +15,7 @@ public class NetworkHandler
     {
         INSTANCE.registerMessage(MessageMaxStackSize.class, MessageMaxStackSize.class, 0, Side.SERVER);
         INSTANCE.registerMessage(MessageInsertDirection.class, MessageInsertDirection.class, 1, Side.SERVER);
-        INSTANCE.registerMessage(MessageSpread.class, MessageSpread.class, 2, Side.SERVER);
+        //INSTANCE.registerMessage(MessageSpread.class, MessageSpread.class, 2, Side.SERVER);
         INSTANCE.registerMessage(MessageUserFilter.class, MessageUserFilter.class, 3, Side.SERVER);
         INSTANCE.registerMessage(MessageUserFilter.class, MessageUserFilter.class, 4, Side.CLIENT);
         //INSTANCE.registerMessage(MessageBlackList.class, MessageBlackList.class, 5, Side.SERVER);
