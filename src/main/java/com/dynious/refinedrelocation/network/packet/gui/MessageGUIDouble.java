@@ -8,14 +8,14 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class MessageGUIInteger extends MessageGUI implements IMessageHandler<MessageGUIInteger, IMessage> {
+public class MessageGUIDouble extends MessageGUI implements IMessageHandler<MessageGUIDouble, IMessage> {
 
-    private int value;
+    private double value;
 
-    public MessageGUIInteger() {
+    public MessageGUIDouble() {
     }
 
-    public MessageGUIInteger(int id, int value) {
+    public MessageGUIDouble(int id, double value) {
         super(id);
         this.value = value;
     }
@@ -23,17 +23,17 @@ public class MessageGUIInteger extends MessageGUI implements IMessageHandler<Mes
     @Override
     public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
-        value = buf.readInt();
+        value = buf.readDouble();
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
-        buf.writeInt(value);
+        buf.writeDouble(value);
     }
 
     @Override
-    public IMessage onMessage(MessageGUIInteger message, MessageContext ctx) {
+    public IMessage onMessage(MessageGUIDouble message, MessageContext ctx) {
         EntityPlayer entityPlayer = ctx.getServerHandler().playerEntity;
         Container container = entityPlayer.openContainer;
         if(container == null || !(container instanceof ContainerRefinedRelocation)) {

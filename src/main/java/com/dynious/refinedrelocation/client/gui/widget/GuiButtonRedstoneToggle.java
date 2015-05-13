@@ -10,11 +10,13 @@ import java.util.List;
 
 public class GuiButtonRedstoneToggle extends GuiButtonToggle
 {
+    private final int boundMessageId;
     protected TilePowerLimiter tile;
 
-    public GuiButtonRedstoneToggle(IGuiParent parent, int x, int y, TilePowerLimiter tile)
+    public GuiButtonRedstoneToggle(IGuiParent parent, int x, int y, TilePowerLimiter tile, int boundMessageId)
     {
         super(parent, x, y, 24, 20, 96, 0, null, null);
+        this.boundMessageId = boundMessageId;
         this.tile = tile;
         update();
     }
@@ -26,7 +28,7 @@ public class GuiButtonRedstoneToggle extends GuiButtonToggle
             return;
 
         tile.setRedstoneToggle(newState);
-        GuiHelper.sendBooleanMessage(0, newState);
+        GuiHelper.sendBooleanMessage(boundMessageId, newState);
     }
 
     @Override

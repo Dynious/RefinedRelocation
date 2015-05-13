@@ -28,9 +28,9 @@ public class GuiPowerLimiter extends GuiRefinedRelocationContainer
         super.initGui();
 
         button = new GuiButtonEnergyTypes(this, width / 2 + 30, height / 2 - 10, 24, 20, tile);
-        new GuiTextInputPowerLimiter(this, width / 2 - 20, height / 2 - 10, 40, 20, tile);
+        new GuiTextInputPowerLimiter(this, width / 2 - 20, height / 2 - 10, 40, 20, tile, ContainerPowerLimiter.MESSAGE_POWER_LIMIT);
 
-        new GuiButtonRedstoneToggle(this, width / 2 - 54, height / 2 - 10, tile);
+        new GuiButtonRedstoneToggle(this, width / 2 - 54, height / 2 - 10, tile, ContainerPowerLimiter.MESSAGE_REDSTONE_TOGGLE);
     }
 
     @Override

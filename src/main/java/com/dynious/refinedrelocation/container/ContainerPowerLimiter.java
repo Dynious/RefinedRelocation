@@ -6,6 +6,9 @@ import net.minecraft.inventory.ICrafting;
 
 public class ContainerPowerLimiter extends ContainerRefinedRelocation
 {
+    public static final int MESSAGE_REDSTONE_TOGGLE = 0;
+    public static final int MESSAGE_POWER_LIMIT = 1;
+
     public TilePowerLimiter tile;
     private boolean initialUpdate = true;
     private boolean redstoneToggle = false;
@@ -59,7 +62,9 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     @Override
     public void onMessage(int messageID, Object message, EntityPlayer entityPlayer)
     {
-        if (messageID == 0)
-            setRedstoneToggle((Boolean) message);
+        switch(messageID) {
+            case MESSAGE_REDSTONE_TOGGLE: setRedstoneToggle((Boolean) message); break;
+            case MESSAGE_POWER_LIMIT: setMaxAcceptedEnergy((Double) message); break;
+        }
     }
 }

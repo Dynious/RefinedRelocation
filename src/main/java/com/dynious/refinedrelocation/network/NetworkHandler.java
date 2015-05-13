@@ -24,8 +24,8 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageRestrictExtraction.class, MessageRestrictExtraction.class, 8, Side.SERVER);
         INSTANCE.registerMessage(MessageRedstoneEnabled.class, MessageRedstoneEnabled.class, 9, Side.SERVER);
         INSTANCE.registerMessage(MessageSwitchPage.class, MessageSwitchPage.class, 10, Side.SERVER);
-        INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 11, Side.SERVER);
-        INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 12, Side.CLIENT);
+        //INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 11, Side.SERVER);
+        //INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 12, Side.CLIENT);
         INSTANCE.registerMessage(MessagePriority.class, MessagePriority.class, 13, Side.SERVER);
         INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 14, Side.CLIENT);
         INSTANCE.registerMessage(MessageSetFilterOption.class, MessageSetFilterOption.class, 15, Side.CLIENT);
@@ -38,5 +38,6 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageItemAnswer.class, MessageItemAnswer.class, 22, Side.CLIENT);
         INSTANCE.registerMessage(MessageGUIString.class, MessageGUIString.class, 23, Side.SERVER);
         INSTANCE.registerMessage(MessageGUIAction.class, MessageGUIAction.class, 24, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIDouble.class, MessageGUIDouble.class, 25, Side.SERVER);
     }
 }
