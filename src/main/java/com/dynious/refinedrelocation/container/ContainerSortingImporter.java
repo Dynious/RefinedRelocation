@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerSortingImporter extends ContainerPhantom
 {
+    public static final int MESSAGE_SWITCH_PAGE = 0;
+
     private TileSortingImporter inventory;
     private int page = 0;
 
@@ -149,5 +151,18 @@ public class ContainerSortingImporter extends ContainerPhantom
     public int getPage()
     {
         return page;
+    }
+
+    @Override
+    public void onMessage(int messageId, Object value, EntityPlayer player) {
+        switch(messageId) {
+            case MESSAGE_SWITCH_PAGE:
+                if((Boolean) value) {
+                    previousPage();
+                } else {
+                    nextPage();
+                }
+                break;
+        }
     }
 }
