@@ -41,7 +41,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
         }
         if (filterTile instanceof ISortingInventory)
         {
-            new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile);
+            new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile, ContainerFiltered.MESSAGE_PRIORITY);
         }
     }
 

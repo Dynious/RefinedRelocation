@@ -26,7 +26,7 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageSwitchPage.class, MessageSwitchPage.class, 10, Side.SERVER);
         //INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 11, Side.SERVER);
         //INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 12, Side.CLIENT);
-        INSTANCE.registerMessage(MessagePriority.class, MessagePriority.class, 13, Side.SERVER);
+        //INSTANCE.registerMessage(MessagePriority.class, MessagePriority.class, 13, Side.SERVER);
         INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 14, Side.CLIENT);
         INSTANCE.registerMessage(MessageSetFilterOption.class, MessageSetFilterOption.class, 15, Side.CLIENT);
         INSTANCE.registerMessage(MessageHomeButtonClicked.class, MessageHomeButtonClicked.class, 16, Side.SERVER);
