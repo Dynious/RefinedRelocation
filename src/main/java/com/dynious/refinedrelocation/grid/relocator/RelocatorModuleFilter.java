@@ -7,7 +7,7 @@ import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.GuiFiltered;
 import com.dynious.refinedrelocation.container.ContainerFiltered;
-import com.dynious.refinedrelocation.grid.FilterStandard;
+import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -29,15 +29,15 @@ import java.util.List;
 public class RelocatorModuleFilter extends RelocatorModuleBase
 {
     private static IIcon icon;
-    private FilterStandard filter;
-    private FilterStandard filterWaila;
+    private MultiFilter filter;
+    private MultiFilter filterWaila;
     private long lastChange = -401;
     private IItemRelocator relocator;
 
     @Override
     public void init(IItemRelocator relocator, int side)
     {
-        filter = new FilterStandard(getFilterTile(this, relocator));
+        filter = new MultiFilter(getFilterTile(this, relocator));
         this.relocator = relocator;
     }
 
@@ -135,7 +135,7 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     {
         if (filterWaila == null)
         {
-            filterWaila = new FilterStandard(getFilterTile(this, relocator));
+            filterWaila = new MultiFilter(getFilterTile(this, relocator));
         }
         List<String> information = new ArrayList<String>();
         filterWaila.readFromNBT(nbtData);

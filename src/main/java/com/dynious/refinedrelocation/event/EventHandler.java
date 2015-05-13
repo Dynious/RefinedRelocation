@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.event;
 
-import com.dynious.refinedrelocation.grid.FilterStandard;
+import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageTabSync;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -15,7 +15,7 @@ public class EventHandler
     {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
         {
-            NetworkHandler.INSTANCE.sendTo(new MessageTabSync(FilterStandard.getLabels()), (EntityPlayerMP) event.player);
+            NetworkHandler.INSTANCE.sendTo(new MessageTabSync(MultiFilter.getLabels()), (EntityPlayerMP) event.player);
         }
     }
 }
