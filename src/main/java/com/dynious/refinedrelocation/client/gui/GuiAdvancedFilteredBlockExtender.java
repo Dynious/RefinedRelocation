@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.client.gui.widget.*;
 import com.dynious.refinedrelocation.container.ContainerAdvancedFiltered;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedFilteredBlockExtender;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
@@ -27,15 +28,15 @@ public class GuiAdvancedFilteredBlockExtender extends GuiRefinedRelocationContai
 
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(blockExtender).replaceAll("Advanced", "Adv."));
 
-        new GuiButtonMaxStackSize(this, width / 2 - 81, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_MAX_STACK_SIZE);
+        new GuiButtonMaxStackSize(this, width / 2 - 81, height / 2 - 67, blockExtender, MessageGUI.MAX_STACK_SIZE);
 
-        new GuiButtonBlacklist(this, width / 2 - 54, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_BLACKLIST);
-        new GuiButtonSpread(this, width / 2 - 27, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_SPREAD_ITEMS);
-        new GuiButtonFilterExtraction(this, width / 2, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_RESTRICT_EXTRACTION);
+        new GuiButtonBlacklist(this, width / 2 - 54, height / 2 - 67, blockExtender, MessageGUI.BLACKLIST);
+        new GuiButtonSpread(this, width / 2 - 27, height / 2 - 67, blockExtender, MessageGUI.SPREAD_ITEMS);
+        new GuiButtonFilterExtraction(this, width / 2, height / 2 - 67, blockExtender, MessageGUI.RESTRICT_EXTRACTION);
 
-        new GuiUserFilter(this, width / 2 - 80, height / 2 - 41, 103, 27, true, blockExtender);
+        new GuiUserFilter(this, width / 2 - 80, height / 2 - 41, 103, 27, true, blockExtender, MessageGUI.USERFILTER);
 
-        new GuiFilterList(this, width / 2 - 80, height / 2 - 8, 160, 87, blockExtender, ContainerAdvancedFiltered.MESSAGE_FILTER_OPTION);
+        new GuiFilterList(this, width / 2 - 80, height / 2 - 8, 160, 87, blockExtender, MessageGUI.FILTER_OPTION);
 
         new GuiInsertDirections(this, width / 2 + 29, height / 2 - 65, 50, 50, blockExtender);
     }

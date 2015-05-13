@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.client.gui.widget.GuiTextInputPowerLimiter;
 import com.dynious.refinedrelocation.container.ContainerPowerLimiter;
 import com.dynious.refinedrelocation.helper.EnergyType;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import org.lwjgl.opengl.GL11;
 
@@ -28,9 +29,9 @@ public class GuiPowerLimiter extends GuiRefinedRelocationContainer
         super.initGui();
 
         button = new GuiButtonEnergyTypes(this, width / 2 + 30, height / 2 - 10, 24, 20, tile);
-        new GuiTextInputPowerLimiter(this, width / 2 - 20, height / 2 - 10, 40, 20, tile, ContainerPowerLimiter.MESSAGE_POWER_LIMIT);
+        new GuiTextInputPowerLimiter(this, width / 2 - 20, height / 2 - 10, 40, 20, tile, MessageGUI.POWER_LIMIT);
 
-        new GuiButtonRedstoneToggle(this, width / 2 - 54, height / 2 - 10, tile, ContainerPowerLimiter.MESSAGE_REDSTONE_TOGGLE);
+        new GuiButtonRedstoneToggle(this, width / 2 - 54, height / 2 - 10, tile, MessageGUI.REDSTONE_TOGGLE);
     }
 
     @Override

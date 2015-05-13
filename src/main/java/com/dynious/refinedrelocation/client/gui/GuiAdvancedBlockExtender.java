@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
 import com.dynious.refinedrelocation.container.ContainerAdvanced;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedBlockExtender;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
@@ -30,8 +31,8 @@ public class GuiAdvancedBlockExtender extends GuiRefinedRelocationContainer
 
         new GuiLabel(this, width / 2, height / 2 - 30, BlockHelper.getTileEntityDisplayName(blockExtender));
 
-        new GuiButtonMaxStackSize(this, width / 2 - 66, height / 2 - 4, blockExtender, ContainerAdvanced.MESSAGE_MAX_STACK_SIZE);
-        new GuiButtonSpread(this, width / 2 + 42, height / 2 - 4, blockExtender, ContainerAdvanced.MESSAGE_SPREAD_ITEMS);
+        new GuiButtonMaxStackSize(this, width / 2 - 66, height / 2 - 4, blockExtender, MessageGUI.MAX_STACK_SIZE);
+        new GuiButtonSpread(this, width / 2 + 42, height / 2 - 4, blockExtender, MessageGUI.SPREAD_ITEMS);
 
         new GuiInsertDirections(this, width / 2 - 25, height / 2 - 19, 50, 50, blockExtender);
     }

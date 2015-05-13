@@ -5,17 +5,14 @@ import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageSetFilterOption;
-import com.dynious.refinedrelocation.network.packet.MessageUserFilter;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIString;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered
 {
-
-    public static final int MESSAGE_BLACKLIST = 0;
-    public static final int MESSAGE_PRIORITY = 1;
-    public static final int MESSAGE_FILTER_OPTION = 2;
 
     public IFilterTileGUI tile;
 
@@ -52,7 +49,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             {
                 if (crafter instanceof EntityPlayerMP)
                 {
-                    NetworkHandler.INSTANCE.sendTo(new MessageUserFilter(tile.getFilter().getUserFilter()), (EntityPlayerMP) crafter);
+                    NetworkHandler.INSTANCE.sendTo(new MessageGUIString(MessageGUI.USERFILTER, tile.getFilter().getUserFilter()), (EntityPlayerMP) crafter);
                 }
             }
             lastUserFilter = tile.getFilter().getUserFilter();
@@ -166,9 +163,10 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     @Override
     public void onMessage(int messageId, Object value, EntityPlayer player) {
         switch(messageId) {
-            case MESSAGE_BLACKLIST: setBlackList((Boolean) value); break;
-            case MESSAGE_PRIORITY: setPriority((Integer) value); break;
-            case MESSAGE_FILTER_OPTION: toggleFilterOption((Integer) value); break;
+            case MessageGUI.BLACKLIST: setBlackList((Boolean) value); break;
+            case MessageGUI.PRIORITY: setPriority((Integer) value); break;
+            case MessageGUI.FILTER_OPTION: toggleFilterOption((Integer) value); break;
+            case MessageGUI.USERFILTER: setUserFilter((String) value); break;
         }
     }
 }

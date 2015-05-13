@@ -1,17 +1,13 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerAdvancedFiltered extends ContainerHierarchical implements IContainerAdvancedFiltered
 {
-    public static final int MESSAGE_BLACKLIST = 0;
-    public static final int MESSAGE_SPREAD_ITEMS = 1;
-    public static final int MESSAGE_MAX_STACK_SIZE = 2;
-    public static final int MESSAGE_RESTRICT_EXTRACTION = 3;
-    public static final int MESSAGE_FILTER_OPTION = 4;
 
     public IAdvancedFilteredTile tile;
 
@@ -145,11 +141,12 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     @Override
     public void onMessage(int messageId, Object value, EntityPlayer player) {
         switch(messageId) {
-            case MESSAGE_BLACKLIST: setBlackList((Boolean) value); break;
-            case MESSAGE_SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
-            case MESSAGE_MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
-            case MESSAGE_RESTRICT_EXTRACTION: setRestrictExtraction((Boolean) value); break;
-            case MESSAGE_FILTER_OPTION: toggleFilterOption((Integer) value); break;
+            case MessageGUI.BLACKLIST: setBlackList((Boolean) value); break;
+            case MessageGUI.SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
+            case MessageGUI.MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
+            case MessageGUI.RESTRICT_EXTRACTION: setRestrictExtraction((Boolean) value); break;
+            case MessageGUI.FILTER_OPTION: toggleFilterOption((Integer) value); break;
+            case MessageGUI.USERFILTER: setUserFilter((String) value); break;
         }
     }
 }

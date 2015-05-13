@@ -1,15 +1,13 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerAdvanced extends ContainerHierarchical implements IContainerAdvanced
 {
-    public static final int MESSAGE_SPREAD_ITEMS = 0;
-    public static final int MESSAGE_MAX_STACK_SIZE = 1;
-
     public IAdvancedTile tile;
 
     private boolean lastSpreadItems = false;
@@ -127,8 +125,8 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
     @Override
     public void onMessage(int messageId, Object value, EntityPlayer player) {
         switch(messageId) {
-            case MESSAGE_SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
-            case MESSAGE_MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
+            case MessageGUI.SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
+            case MessageGUI.MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
         }
     }
 }

@@ -5,7 +5,8 @@ import com.dynious.refinedrelocation.container.slot.SlotHopper;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageSetFilterOption;
-import com.dynious.refinedrelocation.network.packet.MessageUserFilter;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIString;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -90,7 +91,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
             {
                 if (crafter instanceof EntityPlayerMP)
                 {
-                    NetworkHandler.INSTANCE.sendTo(new MessageUserFilter(tile.getFilter().getUserFilter()), (EntityPlayerMP) crafter);
+                    NetworkHandler.INSTANCE.sendTo(new MessageGUIString(MessageGUI.USERFILTER, tile.getFilter().getUserFilter()), (EntityPlayerMP) crafter);
                 }
             }
             lastUserFilter = tile.getFilter().getUserFilter();
@@ -179,7 +180,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     @Override
     public void onMessage(int messageId, Object value, EntityPlayer player) {
         switch(messageId) {
-            case ContainerFiltered.MESSAGE_BLACKLIST: setBlackList((Boolean) value); break;
+            case MessageGUI.BLACKLIST: setBlackList((Boolean) value); break;
         }
     }
 }

@@ -14,7 +14,7 @@ public class GuiUserFilter extends GuiWidgetBase
     protected GuiButton userFilterHelp;
     protected GuiTextInputUserFilter userFilter;
 
-    public GuiUserFilter(IGuiParent parent, int x, int y, int w, int h, boolean drawLabel, IFilterTileGUI tile)
+    public GuiUserFilter(IGuiParent parent, int x, int y, int w, int h, boolean drawLabel, IFilterTileGUI tile, int boundMessageId)
     {
         super(parent, x, y, w, h);
         this.drawLabel = drawLabel;
@@ -29,6 +29,6 @@ public class GuiUserFilter extends GuiWidgetBase
                 + StatCollector.translateToLocal(Strings.OREDICT_CHARACTER) + ": \u00A72!\n\u00A77"
                 + StatCollector.translateToLocal(Strings.COMMA_SEPARATION));
 
-        userFilter = new GuiTextInputUserFilter(this, x, y + h - inputHeight, w, inputHeight, tile);
+        userFilter = new GuiTextInputUserFilter(this, x, y + h - inputHeight, w, inputHeight, tile, boundMessageId);
     }
 }
