@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.container;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
+import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
@@ -127,6 +128,11 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
         switch(messageId) {
             case MessageGUI.SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
             case MessageGUI.MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
+            case MessageGUI.REDSTONE_ENABLED:
+                if(tile instanceof TileBlockExtender) {
+                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
+                }
+                break;
         }
     }
 }

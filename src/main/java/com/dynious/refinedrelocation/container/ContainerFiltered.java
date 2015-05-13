@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageSetFilterOption;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIString;
+import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ICrafting;
@@ -167,6 +168,11 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             case MessageGUI.PRIORITY: setPriority((Integer) value); break;
             case MessageGUI.FILTER_OPTION: toggleFilterOption((Integer) value); break;
             case MessageGUI.USERFILTER: setUserFilter((String) value); break;
+            case MessageGUI.REDSTONE_ENABLED:
+                if(tile instanceof TileBlockExtender) {
+                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
+                }
+                break;
         }
     }
 }

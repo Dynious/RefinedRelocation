@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.container;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
+import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
@@ -147,6 +148,11 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
             case MessageGUI.RESTRICT_EXTRACTION: setRestrictExtraction((Boolean) value); break;
             case MessageGUI.FILTER_OPTION: toggleFilterOption((Integer) value); break;
             case MessageGUI.USERFILTER: setUserFilter((String) value); break;
+            case MessageGUI.REDSTONE_ENABLED:
+                if(tile instanceof TileBlockExtender) {
+                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
+                }
+                break;
         }
     }
 }
