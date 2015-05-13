@@ -5,47 +5,43 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class MessageGUIBoolean implements IMessage, IMessageHandler<MessageGUIBoolean, IMessage>
-{
-    int id = 0;
-    boolean bool = true;
+public class MessageGUIBoolean extends MessageGUI implements IMessageHandler<MessageGUIBoolean, IMessage>  {
 
-    public MessageGUIBoolean()
-    {
-    }
+    private boolean value = true;
 
-    public MessageGUIBoolean(int id, boolean bool)
-    {
-        this.id = id;
-        this.bool = bool;
+    public MessageGUIBoolean() {}
+
+    public MessageGUIBoolean(int id, boolean value) {
+        super(id);
+        this.value = value;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
-        id = buf.readByte();
-        bool = buf.readBoolean();
+    public void fromBytes(ByteBuf buf) {
+        super.fromBytes(buf);
+        value = buf.readBoolean();
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
-        buf.writeByte(id);
-        buf.writeBoolean(bool);
+    public void toBytes(ByteBuf buf) {
+        super.toBytes(buf);
+        buf.writeBoolean(value);
     }
 
     @Override
-    public IMessage onMessage(MessageGUIBoolean message, MessageContext ctx)
-    {
-        Container container = ctx.getServerHandler().playerEntity.openContainer;
-
-        if (container == null || !(container instanceof ContainerRefinedRelocation))
+    public IMessage onMessage(MessageGUIBoolean message, MessageContext ctx) {
+        EntityPlayer entityPlayer = ctx.getServerHandler().playerEntity;
+        Container container = entityPlayer.openContainer;
+        if(container == null || !(container instanceof ContainerRefinedRelocation)) {
             return null;
+        }
 
-        ((ContainerRefinedRelocation) container).onMessage(message.id, message.bool);
+        ((ContainerRefinedRelocation) container).onMessage(message.id, message.value, entityPlayer);
 
         return null;
     }
+
 }

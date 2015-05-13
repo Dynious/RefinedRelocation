@@ -2,6 +2,10 @@ package com.dynious.refinedrelocation.helper;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.GuiIds;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import com.dynious.refinedrelocation.tileentity.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -60,5 +64,17 @@ public class GuiHelper
                 return false;
         }
         return true;
+    }
+
+    public static void sendByteMessage(int messageId, byte value) {
+        NetworkHandler.INSTANCE.sendToServer(new MessageGUIByte(messageId, value));
+    }
+
+    public static void sendIntMessage(int messageId, int value) {
+        NetworkHandler.INSTANCE.sendToServer(new MessageGUIInteger(messageId, value));
+    }
+
+    public static void sendBooleanMessage(int messageId, boolean value) {
+        NetworkHandler.INSTANCE.sendToServer(new MessageGUIBoolean(messageId, value));
     }
 }

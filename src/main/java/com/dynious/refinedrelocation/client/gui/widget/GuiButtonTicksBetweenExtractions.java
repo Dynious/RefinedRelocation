@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
@@ -29,7 +30,7 @@ public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
             return;
 
         module.setTicksBetweenExtraction((int) newValue);
-        getContainer().sendMessage(0, (int) newValue);
+        GuiHelper.sendIntMessage(0, (int) newValue);
     }
 
     @Override

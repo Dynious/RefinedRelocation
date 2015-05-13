@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
@@ -56,8 +57,9 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
             return;
 
         module.redstoneControlState = newState;
-        if (sendUpdate)
-            getContainer().sendMessage(1, newState);
+        if (sendUpdate) {
+            GuiHelper.sendIntMessage(1, newState);
+        }
 
         switch (module.redstoneControlState)
         {

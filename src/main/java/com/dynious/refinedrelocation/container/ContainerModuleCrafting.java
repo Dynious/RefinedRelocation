@@ -116,7 +116,7 @@ public class ContainerModuleCrafting extends ContainerPhantom
     }
 
     @Override
-    public void onMessage(int messageID, Object message)
+    public void onMessage(int messageID, Object message, EntityPlayer entityPlayer)
     {
         if (messageID == 0)
             setMaxCraftStack((Integer) message);

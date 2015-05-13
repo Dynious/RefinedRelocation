@@ -57,7 +57,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     }
 
     @Override
-    public void onMessage(int messageID, Object message)
+    public void onMessage(int messageID, Object message, EntityPlayer entityPlayer)
     {
         if (messageID == 0)
             setRedstoneToggle((Boolean) message);

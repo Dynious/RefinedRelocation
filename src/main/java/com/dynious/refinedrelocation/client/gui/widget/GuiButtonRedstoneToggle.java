@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.util.StatCollector;
@@ -25,7 +26,7 @@ public class GuiButtonRedstoneToggle extends GuiButtonToggle
             return;
 
         tile.setRedstoneToggle(newState);
-        getContainer().sendMessage(0, newState);
+        GuiHelper.sendBooleanMessage(0, newState);
     }
 
     @Override

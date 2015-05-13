@@ -5,46 +5,42 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class MessageGUIInteger implements IMessage, IMessageHandler<MessageGUIInteger, IMessage>
-{
-    int id = 0;
-    int integer = 0;
+public class MessageGUIInteger extends MessageGUI implements IMessageHandler<MessageGUIInteger, IMessage> {
 
-    public MessageGUIInteger()
-    {
+    private int value = 0;
+
+    public MessageGUIInteger() {
     }
 
-    public MessageGUIInteger(int id, int integer)
-    {
-        this.id = id;
-        this.integer = integer;
+    public MessageGUIInteger(int id, int value) {
+        super(id);
+        this.value = value;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
-        id = buf.readByte();
-        integer = buf.readInt();
+    public void fromBytes(ByteBuf buf) {
+        super.fromBytes(buf);
+        value = buf.readInt();
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
-        buf.writeByte(id);
-        buf.writeInt(integer);
+    public void toBytes(ByteBuf buf) {
+        super.toBytes(buf);
+        buf.writeInt(value);
     }
 
     @Override
-    public IMessage onMessage(MessageGUIInteger message, MessageContext ctx)
-    {
-        Container container = ctx.getServerHandler().playerEntity.openContainer;
-
-        if (container == null || !(container instanceof ContainerRefinedRelocation))
+    public IMessage onMessage(MessageGUIInteger message, MessageContext ctx) {
+        EntityPlayer entityPlayer = ctx.getServerHandler().playerEntity;
+        Container container = entityPlayer.openContainer;
+        if(container == null || !(container instanceof ContainerRefinedRelocation)) {
             return null;
+        }
 
-        ((ContainerRefinedRelocation) container).onMessage(message.id, message.integer);
+        ((ContainerRefinedRelocation) container).onMessage(message.id, message.value, entityPlayer);
 
         return null;
     }
