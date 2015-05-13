@@ -2,9 +2,7 @@ package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.packet.*;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
+import com.dynious.refinedrelocation.network.packet.gui.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
@@ -38,5 +36,7 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageGUIInteger.class, MessageGUIInteger.class, 20, Side.SERVER);
         INSTANCE.registerMessage(MessageItemRequest.class, MessageItemRequest.class, 21, Side.SERVER);
         INSTANCE.registerMessage(MessageItemAnswer.class, MessageItemAnswer.class, 22, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIString.class, MessageGUIString.class, 23, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIAction.class, MessageGUIAction.class, 24, Side.SERVER);
     }
 }
