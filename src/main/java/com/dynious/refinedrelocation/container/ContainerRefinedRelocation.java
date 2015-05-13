@@ -3,9 +3,9 @@ package com.dynious.refinedrelocation.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public abstract class ContainerRefinedRelocation extends Container
-{
+public abstract class ContainerRefinedRelocation extends Container implements IContainerNetworked {
 
-    public void onMessage(int messageID, Object message, EntityPlayer player) {}
+    @Override
+    public void onMessage(int messageId, Object value, EntityPlayer player) {}
 
 }

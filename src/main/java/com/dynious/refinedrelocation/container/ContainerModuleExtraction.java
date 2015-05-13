@@ -94,18 +94,18 @@ public class ContainerModuleExtraction extends ContainerHierarchical
     }
 
     @Override
-    public void onMessage(int messageID, Object message, EntityPlayer entityPlayer)
+    public void onMessage(int messageId, Object value, EntityPlayer entityPlayer)
     {
-        switch (messageID)
+        switch (messageId)
         {
             case 0:
-                setTicksBetweenExtraction((Integer) message);
+                setTicksBetweenExtraction((Integer) value);
                 break;
             case 1:
-                setRedstoneControlState((Integer) message);
+                setRedstoneControlState((Integer) value);
                 break;
             case 2:
-                setMaxStackSize((Integer) message);
+                setMaxStackSize((Integer) value);
                 break;
         }
     }

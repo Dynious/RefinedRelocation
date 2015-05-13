@@ -13,6 +13,8 @@ import net.minecraft.inventory.ICrafting;
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered
 {
 
+    public static final int MESSAGE_BLACKLIST = 0;
+
     public IFilterTileGUI tile;
 
     private String lastUserFilter = "";
@@ -157,5 +159,12 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         lastPriority = priority;
         if (tile instanceof ISortingInventory)
             ((ISortingInventory) tile).setPriority(ISortingInventory.Priority.values()[priority]);
+    }
+
+    @Override
+    public void onMessage(int messageId, Object value, EntityPlayer player) {
+        switch(messageId) {
+            case MESSAGE_BLACKLIST: setBlackList((Boolean) value); break;
+        }
     }
 }

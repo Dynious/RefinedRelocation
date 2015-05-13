@@ -46,10 +46,10 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     }
 
     @Override
-    public void onMessage(int messageID, Object message, EntityPlayer entityPlayer)
+    public void onMessage(int messageId, Object value, EntityPlayer entityPlayer)
     {
-        super.onMessage(messageID, message, entityPlayer);
-        if (messageID == 3)
-            setExtractionSide((Integer) message);
+        super.onMessage(messageId, value, entityPlayer);
+        if (messageId == 3)
+            setExtractionSide((Integer) value);
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.inventory.ICrafting;
 
 public class ContainerAdvancedFiltered extends ContainerHierarchical implements IContainerAdvancedFiltered
 {
+    public static final int MESSAGE_BLACKLIST = 0;
 
     public IAdvancedFilteredTile tile;
 
@@ -136,4 +137,11 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
     // end delegate methods
 
+
+    @Override
+    public void onMessage(int messageId, Object value, EntityPlayer player) {
+        switch(messageId) {
+            case MESSAGE_BLACKLIST: setBlackList((Boolean) value); break;
+        }
+    }
 }

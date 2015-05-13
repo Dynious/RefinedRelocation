@@ -57,12 +57,12 @@ public class ContainerModuleSneaky extends ContainerHierarchical
     }
 
     @Override
-    public void onMessage(int messageID, Object message, EntityPlayer entityPlayer)
+    public void onMessage(int messageId, Object value, EntityPlayer entityPlayer)
     {
-        switch (messageID)
+        switch (messageId)
         {
             case 0:
-                setSide((Integer) message);
+                setSide((Integer) value);
                 break;
         }
     }

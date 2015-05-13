@@ -60,11 +60,11 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     }
 
     @Override
-    public void onMessage(int messageID, Object message, EntityPlayer entityPlayer)
+    public void onMessage(int messageId, Object value, EntityPlayer entityPlayer)
     {
-        switch(messageID) {
-            case MESSAGE_REDSTONE_TOGGLE: setRedstoneToggle((Boolean) message); break;
-            case MESSAGE_POWER_LIMIT: setMaxAcceptedEnergy((Double) message); break;
+        switch(messageId) {
+            case MESSAGE_REDSTONE_TOGGLE: setRedstoneToggle((Boolean) value); break;
+            case MESSAGE_POWER_LIMIT: setMaxAcceptedEnergy((Double) value); break;
         }
     }
 }

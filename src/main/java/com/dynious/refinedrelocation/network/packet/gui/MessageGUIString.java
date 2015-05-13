@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.network.packet.gui;
 
-import com.dynious.refinedrelocation.container.ContainerRefinedRelocation;
+import com.dynious.refinedrelocation.container.IContainerNetworked;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -38,11 +38,11 @@ public class MessageGUIString extends MessageGUI implements IMessageHandler<Mess
     public IMessage onMessage(MessageGUIString message, MessageContext ctx) {
         EntityPlayer entityPlayer = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity : FMLClientHandler.instance().getClientPlayerEntity();
         Container container = entityPlayer.openContainer;
-        if(container == null || !(container instanceof ContainerRefinedRelocation)) {
+        if(container == null || !(container instanceof IContainerNetworked)) {
             return null;
         }
 
-        ((ContainerRefinedRelocation) container).onMessage(message.id, message.value, entityPlayer);
+        ((IContainerNetworked) container).onMessage(message.id, message.value, entityPlayer);
 
         return null;
     }

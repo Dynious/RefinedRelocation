@@ -12,7 +12,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 
-public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered
+public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered, IContainerNetworked
 {
     protected final ISidedInventory inventory;
     protected IFilterTileGUI tile;
@@ -174,5 +174,12 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     public void setPriority(int priority)
     {
         //NOOP
+    }
+
+    @Override
+    public void onMessage(int messageId, Object value, EntityPlayer player) {
+        switch(messageId) {
+            case ContainerFiltered.MESSAGE_BLACKLIST: setBlackList((Boolean) value); break;
+        }
     }
 }

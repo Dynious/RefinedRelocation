@@ -28,7 +28,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
 
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity()));
 
-        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile);
+        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile, ContainerFiltered.MESSAGE_BLACKLIST);
 
         new GuiUserFilter(this, width / 2 - 80, height / 2 - 56, 160, 30, true, filterTile);
 
