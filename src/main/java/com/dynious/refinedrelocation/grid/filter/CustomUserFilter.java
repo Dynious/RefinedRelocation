@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class CustomUserFilter extends AbstractFilter {
 
-    private String value;
+    private String value = "";
 
     public CustomUserFilter() {
         super(TYPE_CUSTOM);

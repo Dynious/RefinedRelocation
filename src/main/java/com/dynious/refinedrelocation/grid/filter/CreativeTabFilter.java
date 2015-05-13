@@ -30,10 +30,17 @@ public class CreativeTabFilter extends AbstractFilter {
         }
     }
 
-    private boolean[] creativeTabs;
+    private boolean[] tabStates;
 
     public CreativeTabFilter() {
         super(TYPE_CREATIVETAB);
+        if(serverSideTabs == null) {
+            serverSideTabs = new ServerSideCreativeTab[CreativeTabs.creativeTabArray.length];
+            for(int i = 0; i < serverSideTabs.length; i++) {
+                serverSideTabs[i] = new ServerSideCreativeTab(i, CreativeTabs.creativeTabArray[i].tabLabel);
+            }
+        }
+        tabStates = new boolean[serverSideTabs.length];
     }
 
     @Override
@@ -48,9 +55,9 @@ public class CreativeTabFilter extends AbstractFilter {
         {
             int index = tab.tabIndex;
 
-            for (int i = 0; i < creativeTabs.length; i++)
+            for (int i = 0; i < tabStates.length; i++)
             {
-                if (creativeTabs[i] && index == i)
+                if (tabStates[i] && index == i)
                 {
                     return true;
                 }
@@ -62,29 +69,38 @@ public class CreativeTabFilter extends AbstractFilter {
     @Override
     public void writeToNBT(NBTTagCompound compound) {
         NBTTagList tagList = new NBTTagList();
-        for(int i = 0; i < creativeTabs.length; i++) {
-            if(creativeTabs[i]) {
+        for(int i = 0; i < tabStates.length; i++) {
+            if(tabStates[i]) {
                 tagList.appendTag(new NBTTagString(serverSideTabs[i].tabLabel));
             }
         }
-        compound.setTag("creativeTabs", tagList);
+        compound.setTag("tabStates", tagList);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
-
+        NBTTagList tagList = compound.getTagList("tabStates", 8);
+        for(int i = 0; i < tagList.tagCount(); i++) {
+            String tabLabel = tagList.getStringTagAt(i);
+            for(int j = 0; j < serverSideTabs.length; j++) {
+                if(serverSideTabs[j].tabLabel.equals(tabLabel)) {
+                    tabStates[j] = true;
+                    break;
+                }
+            }
+        }
     }
 
     public String getName(int index) {
-        return I18n.format("itemGroup" + serverSideTabs[index].tabLabel).replace("itemGroup.", "");
+        return I18n.format("itemGroup." + serverSideTabs[index].tabLabel).replace("itemGroup.", "");
     }
 
     public void setTabActive(int index, boolean active) {
-        creativeTabs[index] = active;
+        tabStates[index] = active;
     }
 
     public boolean isTabActive(int index) {
-        return creativeTabs[index];
+        return tabStates[index];
     }
 
 }

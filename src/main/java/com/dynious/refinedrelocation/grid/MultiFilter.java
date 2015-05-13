@@ -34,6 +34,14 @@ public class MultiFilter implements IFilterGUI {
     public MultiFilter(IFilterTileGUI tile)
     {
         this.tile = tile;
+
+        // TODO temp testing code:
+        userFilter = new CustomUserFilter();
+        presetFilter = new PresetFilter();
+        creativeTabFilter = new CreativeTabFilter();
+        filterList.add(userFilter);
+        filterList.add(presetFilter);
+        filterList.add(creativeTabFilter);
     }
 
     public static String[] getOreNames(ItemStack itemStack)
@@ -105,11 +113,10 @@ public class MultiFilter implements IFilterGUI {
     @Deprecated
     public String getName(int listIndex) {
         if(listIndex < PresetFilter.PRESET_COUNT) {
-            presetFilter.getName(listIndex);
+            return presetFilter.getName(listIndex);
         } else {
-            creativeTabFilter.getName(listIndex - PresetFilter.PRESET_COUNT);
+            return creativeTabFilter.getName(listIndex - PresetFilter.PRESET_COUNT);
         }
-        return null;
     }
 
     @Override
