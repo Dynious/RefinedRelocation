@@ -9,6 +9,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
 {
     public static final int MESSAGE_BLACKLIST = 0;
     public static final int MESSAGE_SPREAD_ITEMS = 1;
+    public static final int MESSAGE_MAX_STACK_SIZE = 2;
 
     public IAdvancedFilteredTile tile;
 
@@ -144,6 +145,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
         switch(messageId) {
             case MESSAGE_BLACKLIST: setBlackList((Boolean) value); break;
             case MESSAGE_SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
+            case MESSAGE_MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
         }
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.inventory.ICrafting;
 public class ContainerAdvanced extends ContainerHierarchical implements IContainerAdvanced
 {
     public static final int MESSAGE_SPREAD_ITEMS = 0;
+    public static final int MESSAGE_MAX_STACK_SIZE = 1;
 
     public IAdvancedTile tile;
 
@@ -127,6 +128,7 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
     public void onMessage(int messageId, Object value, EntityPlayer player) {
         switch(messageId) {
             case MESSAGE_SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
+            case MESSAGE_MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
         }
     }
 }

@@ -30,7 +30,7 @@ public class GuiAdvancedBlockExtender extends GuiRefinedRelocationContainer
 
         new GuiLabel(this, width / 2, height / 2 - 30, BlockHelper.getTileEntityDisplayName(blockExtender));
 
-        new GuiButtonMaxStackSize(this, width / 2 - 66, height / 2 - 4, blockExtender);
+        new GuiButtonMaxStackSize(this, width / 2 - 66, height / 2 - 4, blockExtender, ContainerAdvanced.MESSAGE_MAX_STACK_SIZE);
         new GuiButtonSpread(this, width / 2 + 42, height / 2 - 4, blockExtender, ContainerAdvanced.MESSAGE_SPREAD_ITEMS);
 
         new GuiInsertDirections(this, width / 2 - 25, height / 2 - 19, 50, 50, blockExtender);

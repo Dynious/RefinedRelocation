@@ -13,7 +13,7 @@ public class NetworkHandler
 
     public static void init()
     {
-        INSTANCE.registerMessage(MessageMaxStackSize.class, MessageMaxStackSize.class, 0, Side.SERVER);
+        //INSTANCE.registerMessage(MessageMaxStackSize.class, MessageMaxStackSize.class, 0, Side.SERVER);
         INSTANCE.registerMessage(MessageInsertDirection.class, MessageInsertDirection.class, 1, Side.SERVER);
         //INSTANCE.registerMessage(MessageSpread.class, MessageSpread.class, 2, Side.SERVER);
         INSTANCE.registerMessage(MessageUserFilter.class, MessageUserFilter.class, 3, Side.SERVER);

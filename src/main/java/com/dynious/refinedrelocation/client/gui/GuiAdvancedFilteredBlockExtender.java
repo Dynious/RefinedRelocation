@@ -27,7 +27,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiRefinedRelocationContai
 
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(blockExtender).replaceAll("Advanced", "Adv."));
 
-        new GuiButtonMaxStackSize(this, width / 2 - 81, height / 2 - 67, blockExtender);
+        new GuiButtonMaxStackSize(this, width / 2 - 81, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_MAX_STACK_SIZE);
 
         new GuiButtonBlacklist(this, width / 2 - 54, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_BLACKLIST);
         new GuiButtonSpread(this, width / 2 - 27, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_SPREAD_ITEMS);
