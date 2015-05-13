@@ -32,7 +32,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
 
         new GuiUserFilter(this, width / 2 - 80, height / 2 - 56, 160, 30, true, filterTile);
 
-        new GuiFilterList(this, width / 2 - 80, height / 2 - 18, 160, 97, filterTile);
+        new GuiFilterList(this, width / 2 - 80, height / 2 - 18, 160, 97, filterTile, ContainerFiltered.MESSAGE_FILTER_OPTION);
 
         if (filterTile instanceof TileBlockExtender)
         {

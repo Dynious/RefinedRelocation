@@ -11,6 +11,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     public static final int MESSAGE_SPREAD_ITEMS = 1;
     public static final int MESSAGE_MAX_STACK_SIZE = 2;
     public static final int MESSAGE_RESTRICT_EXTRACTION = 3;
+    public static final int MESSAGE_FILTER_OPTION = 4;
 
     public IAdvancedFilteredTile tile;
 
@@ -148,6 +149,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
             case MESSAGE_SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
             case MESSAGE_MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
             case MESSAGE_RESTRICT_EXTRACTION: setRestrictExtraction((Boolean) value); break;
+            case MESSAGE_FILTER_OPTION: toggleFilterOption((Integer) value); break;
         }
     }
 }

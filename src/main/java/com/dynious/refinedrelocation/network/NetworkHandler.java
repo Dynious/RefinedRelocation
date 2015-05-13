@@ -19,7 +19,7 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageUserFilter.class, MessageUserFilter.class, 3, Side.SERVER);
         INSTANCE.registerMessage(MessageUserFilter.class, MessageUserFilter.class, 4, Side.CLIENT);
         //INSTANCE.registerMessage(MessageBlackList.class, MessageBlackList.class, 5, Side.SERVER);
-        INSTANCE.registerMessage(MessageFilterOption.class, MessageFilterOption.class, 6, Side.SERVER);
+        //INSTANCE.registerMessage(MessageFilterOption.class, MessageFilterOption.class, 6, Side.SERVER);
         INSTANCE.registerMessage(MessageTabSync.class, MessageTabSync.class, 7, Side.CLIENT);
         //INSTANCE.registerMessage(MessageRestrictExtraction.class, MessageRestrictExtraction.class, 8, Side.SERVER);
         INSTANCE.registerMessage(MessageRedstoneEnabled.class, MessageRedstoneEnabled.class, 9, Side.SERVER);

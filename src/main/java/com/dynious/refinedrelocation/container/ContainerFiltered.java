@@ -15,6 +15,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
 
     public static final int MESSAGE_BLACKLIST = 0;
     public static final int MESSAGE_PRIORITY = 1;
+    public static final int MESSAGE_FILTER_OPTION = 2;
 
     public IFilterTileGUI tile;
 
@@ -167,6 +168,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         switch(messageId) {
             case MESSAGE_BLACKLIST: setBlackList((Boolean) value); break;
             case MESSAGE_PRIORITY: setPriority((Integer) value); break;
+            case MESSAGE_FILTER_OPTION: toggleFilterOption((Integer) value); break;
         }
     }
 }

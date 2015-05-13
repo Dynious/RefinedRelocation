@@ -35,7 +35,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiRefinedRelocationContai
 
         new GuiUserFilter(this, width / 2 - 80, height / 2 - 41, 103, 27, true, blockExtender);
 
-        new GuiFilterList(this, width / 2 - 80, height / 2 - 8, 160, 87, blockExtender);
+        new GuiFilterList(this, width / 2 - 80, height / 2 - 8, 160, 87, blockExtender, ContainerAdvancedFiltered.MESSAGE_FILTER_OPTION);
 
         new GuiInsertDirections(this, width / 2 + 29, height / 2 - 65, 50, 50, blockExtender);
     }
