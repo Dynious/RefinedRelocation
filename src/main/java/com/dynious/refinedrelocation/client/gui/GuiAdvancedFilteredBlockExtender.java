@@ -31,7 +31,7 @@ public class GuiAdvancedFilteredBlockExtender extends GuiRefinedRelocationContai
 
         new GuiButtonBlacklist(this, width / 2 - 54, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_BLACKLIST);
         new GuiButtonSpread(this, width / 2 - 27, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_SPREAD_ITEMS);
-        new GuiButtonFilterExtraction(this, width / 2, height / 2 - 67, blockExtender);
+        new GuiButtonFilterExtraction(this, width / 2, height / 2 - 67, blockExtender, ContainerAdvancedFiltered.MESSAGE_RESTRICT_EXTRACTION);
 
         new GuiUserFilter(this, width / 2 - 80, height / 2 - 41, 103, 27, true, blockExtender);
 

@@ -1,9 +1,8 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageRestrictExtraction;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import net.minecraft.util.StatCollector;
 
@@ -11,12 +10,14 @@ import java.util.List;
 
 public class GuiButtonFilterExtraction extends GuiButtonToggle
 {
+    private final int boundMessageId;
     protected IAdvancedFilteredTile tile;
 
-    public GuiButtonFilterExtraction(IGuiParent parent, int x, int y, IAdvancedFilteredTile tile)
+    public GuiButtonFilterExtraction(IGuiParent parent, int x, int y, IAdvancedFilteredTile tile, int boundMessageId)
     {
         super(parent, x, y, 24, 20, 72, 0, null, null);
         this.tile = tile;
+        this.boundMessageId = boundMessageId;
         update();
     }
 
@@ -27,7 +28,7 @@ public class GuiButtonFilterExtraction extends GuiButtonToggle
             return;
 
         tile.setRestrictionExtraction(newState);
-        NetworkHandler.INSTANCE.sendToServer(new MessageRestrictExtraction(newState));
+        GuiHelper.sendBooleanMessage(boundMessageId, newState);
     }
 
     @Override
