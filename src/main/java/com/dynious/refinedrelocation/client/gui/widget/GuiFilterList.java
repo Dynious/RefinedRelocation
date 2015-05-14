@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -67,6 +68,10 @@ public class GuiFilterList extends GuiWidgetBase
     @Override
     public void drawBackground(int mouseX, int mouseY)
     {
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        mc.renderEngine.bindTexture(Resources.GUI_MODULAR_FILTER);
+        this.drawTexturedModalRect(x, y, 0, 0, w, h);
+
         if (mouseClickY != -1)
         {
             float pixelsPerFilter = ((float) h - 2 - scrollBarScaledHeight) / (tile.getFilter().getSize() - numFiltersPerScreen);
