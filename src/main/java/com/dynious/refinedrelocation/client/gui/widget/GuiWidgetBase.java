@@ -226,8 +226,9 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        for (IGuiWidgetBase child : this.children)
-            child.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
+        for(int i = 0; i < children.size(); i++) {
+            children.get(i).mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
+        }
     }
 
     @Override

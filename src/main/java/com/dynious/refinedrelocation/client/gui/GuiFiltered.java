@@ -31,11 +31,14 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
 
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity()));
 
-        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile, MessageGUI.BLACKLIST);
-
         panel = new GuiTabPanel(this, width / 2 - 80, height / 2 - 18, 160, 97);
-        tabButtons = new GuiTabButton[2];
 
+        if(filterTile.getFilter().getFilterCount() == 0) {
+            GuiEmptyFilter emptyFilter = new GuiEmptyFilter(width / 2 - 80, height / 2 - 18, 160, 97);
+            new GuiTabButton(panel, width / 2 - 118, height / 2 - 18, emptyFilter);
+        }
+
+        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile, MessageGUI.BLACKLIST);
 
         if (filterTile instanceof TileBlockExtender)
         {
