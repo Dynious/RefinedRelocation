@@ -1,12 +1,12 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.container.slot.SlotHopper;
-import com.dynious.refinedrelocation.lib.GuiNetworkIds;
+import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
 import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageSetFilterOption;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIString;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -18,9 +18,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     protected final ISidedInventory inventory;
     protected IFilterTileGUI tile;
 
-    private String lastUserFilter = "";
     private boolean lastBlacklist = true;
-    private boolean lastFilterOptions[];
     private boolean initialUpdate = true;
 
     @SuppressWarnings("unchecked")
@@ -37,8 +35,6 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
             newSlot.slotNumber = oldSlot.slotNumber;
             this.inventorySlots.set(i, newSlot);
         }
-
-        lastFilterOptions = new boolean[tile.getFilter().getSize()];
     }
 
     /**
@@ -85,96 +81,42 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     {
         super.detectAndSendChanges();
 
-        if (!tile.getFilter().getUserFilter().equals(lastUserFilter) || initialUpdate)
-        {
-            for (Object crafter : crafters)
-            {
-                if (crafter instanceof EntityPlayerMP)
-                {
-                    NetworkHandler.INSTANCE.sendTo(new MessageGUIString(MessageGUI.USERFILTER, tile.getFilter().getUserFilter()), (EntityPlayerMP) crafter);
+        for(int i = 0; i < tile.getFilter().getFilterCount(); i++) {
+            AbstractFilter filter = tile.getFilter().getFilterAtIndex(i);
+            if(initialUpdate || filter.isDirty()) {
+                for(Object crafter : crafters) {
+                    if(crafter instanceof EntityPlayerMP) { // TODO <- is this really necessary? and if it is, it shouldn't be
+                        tile.getFilter().getFilterAtIndex(i).sendUpdate((EntityPlayerMP) crafter);
+                    }
                 }
-            }
-            lastUserFilter = tile.getFilter().getUserFilter();
-        }
-
-        for (int i = 0; i < tile.getFilter().getSize(); i++)
-        {
-            if (tile.getFilter().getValue(i) != lastFilterOptions[i] || initialUpdate)
-            {
-                for (Object crafter : crafters)
-                {
-                    NetworkHandler.INSTANCE.sendTo(new MessageSetFilterOption(i, tile.getFilter().getValue(i)), (EntityPlayerMP) crafter);
-                }
-                lastFilterOptions[i] = tile.getFilter().getValue(i);
+                filter.markDirty(false);
             }
         }
 
-        if (tile.getFilter().isBlacklisting() != lastBlacklist || initialUpdate)
-        {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, GuiNetworkIds.FILTERED_BASE + 2, tile.getFilter().isBlacklisting() ? 1 : 0);
+        if(tile.getFilter().isBlacklisting() != lastBlacklist || initialUpdate) {
+            for(Object crafter : crafters) {
+                NetworkHandler.INSTANCE.sendTo(new MessageGUIBoolean(MessageGUI.BLACKLIST, tile.getFilter().isBlacklisting()), (EntityPlayerMP) crafter);
             }
             lastBlacklist = tile.getFilter().isBlacklisting();
         }
 
-        if (initialUpdate)
+        if(initialUpdate) {
             initialUpdate = false;
-    }
-
-    @Override
-    public void updateProgressBar(int id, int value)
-    {
-        id -= GuiNetworkIds.FILTERED_BASE;
-
-        if (id > GuiNetworkIds.FILTERED_MAX || id < GuiNetworkIds.FILTERED_BASE)
-            return;
-
-        switch (id)
-        {
-            case 0:
-                setFilterOption(value, true);
-                break;
-            case 1:
-                setFilterOption(value, false);
-                break;
-            case 2:
-                setBlackList(value != 0);
-                break;
         }
     }
 
     @Override
-    public void setUserFilter(String filter)
-    {
-        lastUserFilter = filter;
-        tile.getFilter().setUserFilter(filter);
-    }
-
-    @Override
-    public void setBlackList(boolean value)
-    {
+    public void setBlackList(boolean value) {
         lastBlacklist = value;
         tile.getFilter().setBlacklists(value);
     }
 
     @Override
-    public void setFilterOption(int filterIndex, boolean value)
-    {
-        lastFilterOptions[filterIndex] = value;
-        tile.getFilter().setValue(filterIndex, value);
-    }
+    public void setPriority(int priority) {}
 
     @Override
-    public void toggleFilterOption(int filterIndex)
-    {
-        this.setFilterOption(filterIndex, !tile.getFilter().getValue(filterIndex));
-    }
-
-    @Override
-    public void setPriority(int priority)
-    {
-        //NOOP
+    public IFilterGUI getFilter() {
+        return tile.getFilter();
     }
 
     @Override

@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 public class GuiFiltered extends GuiRefinedRelocationContainer
 {
     private IFilterTileGUI filterTile;
-    private GuiPanel panel;
+    private GuiTabPanel panel;
     private GuiTabButton[] tabButtons;
 
     public GuiFiltered(IFilterTileGUI filterTile)
@@ -33,35 +33,9 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
 
         new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile, MessageGUI.BLACKLIST);
 
-        panel = new GuiPanel(this, width / 2 - 80, height / 2 - 18, 160, 97);
-
+        panel = new GuiTabPanel(this, width / 2 - 80, height / 2 - 18, 160, 97);
         tabButtons = new GuiTabButton[2];
-        tabButtons[0] = new GuiTabButton(this, width / 2 - 118, height / 2 - 19, 31, 26) {
-            @Override
-            public void onActivated() {
-                for(int i = 0; i < tabButtons.length; i++) {
-                    if(tabButtons[i] != this) {
-                        tabButtons[i].setActive(false);
-                    }
-                }
-                panel.removeAllChildren();
-                new GuiFilterList(panel, width / 2 - 80, height / 2 - 18, 160, 97, filterTile, MessageGUI.FILTER_OPTION);
-            }
-        };
-        tabButtons[1] = new GuiTabButton(this, width / 2 - 118, height / 2 - 19 + 26, 31, 26) {
-            @Override
-            public void onActivated() {
-                for(int i = 0; i < tabButtons.length; i++) {
-                    if(tabButtons[i] != this) {
-                        tabButtons[i].setActive(false);
-                    }
-                }
-                panel.removeAllChildren();
-                new GuiUserFilter(panel, width / 2 - 80, height / 2 - 18, 160, 30, true, filterTile, MessageGUI.USERFILTER);
-            }
-        };
 
-        tabButtons[0].setActive(true);
 
         if (filterTile instanceof TileBlockExtender)
         {

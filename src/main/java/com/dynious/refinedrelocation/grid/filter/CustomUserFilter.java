@@ -2,6 +2,9 @@ package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.helper.LogHelper;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -9,8 +12,8 @@ public class CustomUserFilter extends AbstractFilter {
 
     private String value = "";
 
-    public CustomUserFilter() {
-        super(TYPE_CUSTOM);
+    public CustomUserFilter(MultiFilter parent, int index) {
+        super(TYPE_CUSTOM, parent, index);
     }
 
     @Override
@@ -62,8 +65,10 @@ public class CustomUserFilter extends AbstractFilter {
 
     public void setValue(String value) {
         this.value = value;
+        markDirty(true);
     }
 
+    // TODO move this function to a better place
     private static boolean stringMatchesWildcardPattern(String string, String wildcardPattern) {
         // TODO this function only allows wildcards at the beginning and/or end, not in the middle
         if(wildcardPattern.startsWith("*") && wildcardPattern.length() > 1) {
@@ -84,5 +89,17 @@ public class CustomUserFilter extends AbstractFilter {
             }
         }
         return false;
+    }
+
+    @Override
+    public void sendUpdate(EntityPlayerMP playerMP) {
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterString(filterIndex, 0, value), playerMP);
+    }
+
+    @Override
+    public void setFilterString(int optionId, String value) {
+        switch(optionId) {
+            case 0: this.value = value; break;
+        }
     }
 }

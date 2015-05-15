@@ -1,30 +1,26 @@
 package com.dynious.refinedrelocation.api.filter;
 
+import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
+import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
 
 public interface IFilterGUI extends IFilter
 {
-    public int getSize();
+    boolean isBlacklisting();
 
-    public void setValue(int place, boolean value);
+    void setBlacklists(boolean blacklists);
 
-    public boolean getValue(int place);
+    List<String> getWAILAInformation(NBTTagCompound compound);
 
-    public String getName(int place);
+    void filterChanged();
 
-    public boolean isBlacklisting();
+    void writeToNBT(NBTTagCompound compound);
 
-    public void setBlacklists(boolean blacklists);
+    void readFromNBT(NBTTagCompound compound);
 
-    public List<String> getWAILAInformation(NBTTagCompound compound);
+    int getFilterCount();
 
-    public String getUserFilter();
-
-    public void setUserFilter(String userFilter);
-
-    public void writeToNBT(NBTTagCompound compound);
-
-    public void readFromNBT(NBTTagCompound compound);
+    AbstractFilter getFilterAtIndex(int index);
 }

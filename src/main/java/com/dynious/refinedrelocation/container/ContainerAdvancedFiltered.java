@@ -1,11 +1,13 @@
 package com.dynious.refinedrelocation.container;
 
-import com.dynious.refinedrelocation.lib.GuiNetworkIds;
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class ContainerAdvancedFiltered extends ContainerHierarchical implements IContainerAdvancedFiltered
 {
@@ -44,40 +46,19 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
 
     @Override
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         ((ContainerAdvanced) containerAdvanced).detectAndSendChanges();
         ((ContainerFiltered) containerFiltered).detectAndSendChanges();
 
-        if (tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate)
-        {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.FILTERED_ADVANCED_BASE, tile.getRestrictExtraction() ? 1 : 0);
+        if(tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate) {
+            for(Object crafter : crafters) {
+                NetworkHandler.INSTANCE.sendTo(new MessageGUIBoolean(MessageGUI.RESTRICT_EXTRACTION, tile.getRestrictExtraction()), (EntityPlayerMP) crafter);
             }
             lastRestrictExtraction = tile.getRestrictExtraction();
         }
 
-        if (initialUpdate)
+        if(initialUpdate) {
             initialUpdate = false;
-    }
-
-    @Override
-    public void updateProgressBar(int id, int value)
-    {
-        ((ContainerAdvanced) containerAdvanced).updateProgressBar(id, value);
-        ((ContainerFiltered) containerFiltered).updateProgressBar(id, value);
-
-        if (id > GuiNetworkIds.FILTERED_ADVANCED_MAX || id < GuiNetworkIds.FILTERED_ADVANCED_BASE)
-            return;
-
-        id -= GuiNetworkIds.FILTERED_ADVANCED_BASE;
-
-        switch (id)
-        {
-            case 0:
-                tile.setRestrictionExtraction(value != 0);
-                break;
         }
     }
 
@@ -88,13 +69,6 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
         lastRestrictExtraction = restrictExtraction;
     }
 
-    // delegate methods
-    @Override
-    public void setUserFilter(String filter)
-    {
-        containerFiltered.setUserFilter(filter);
-    }
-
     @Override
     public void setBlackList(boolean value)
     {
@@ -102,21 +76,11 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
 
     @Override
-    public void setFilterOption(int filterIndex, boolean value)
-    {
-        containerFiltered.setFilterOption(filterIndex, value);
-    }
+    public void setPriority(int priority) {}
 
     @Override
-    public void toggleFilterOption(int filterIndex)
-    {
-        containerFiltered.toggleFilterOption(filterIndex);
-    }
-
-    @Override
-    public void setPriority(int priority)
-    {
-        //NOOP
+    public IFilterGUI getFilter() {
+        return tile.getFilter();
     }
 
     @Override
@@ -146,8 +110,6 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
             case MessageGUI.SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
             case MessageGUI.MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
             case MessageGUI.RESTRICT_EXTRACTION: setRestrictExtraction((Boolean) value); break;
-            case MessageGUI.FILTER_OPTION: toggleFilterOption((Integer) value); break;
-            case MessageGUI.USERFILTER: setUserFilter((String) value); break;
             case MessageGUI.REDSTONE_ENABLED:
                 if(tile instanceof TileBlockExtender) {
                     ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);

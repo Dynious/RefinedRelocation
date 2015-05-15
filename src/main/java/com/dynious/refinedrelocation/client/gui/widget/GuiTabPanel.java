@@ -2,9 +2,9 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 
-public class GuiPanel extends GuiWidgetBase {
+public class GuiTabPanel extends GuiWidgetBase {
 
-    public GuiPanel(IGuiParent parent, int x, int y, int w, int h) {
+    public GuiTabPanel(IGuiParent parent, int x, int y, int w, int h) {
         super(parent, x, y, w, h);
     }
 

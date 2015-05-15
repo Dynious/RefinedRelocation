@@ -1,15 +1,17 @@
 package com.dynious.refinedrelocation.grid.filter;
 
+import com.dynious.refinedrelocation.grid.MultiFilter;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
-public class CreativeTabFilter extends AbstractFilter {
+public class CreativeTabFilter extends AbstractFilter implements IChecklistFilter {
 
     public static class ServerSideCreativeTab {
         public final int tabIndex;
@@ -32,8 +34,8 @@ public class CreativeTabFilter extends AbstractFilter {
 
     private boolean[] tabStates;
 
-    public CreativeTabFilter() {
-        super(TYPE_CREATIVETAB);
+    public CreativeTabFilter(MultiFilter parent, int index) {
+        super(TYPE_CREATIVETAB, parent, index);
         if(serverSideTabs == null) {
             serverSideTabs = new ServerSideCreativeTab[CreativeTabs.creativeTabArray.length];
             for(int i = 0; i < serverSideTabs.length; i++) {
@@ -91,16 +93,39 @@ public class CreativeTabFilter extends AbstractFilter {
         }
     }
 
+    @Override
+    public void sendUpdate(EntityPlayerMP playerMP) {
+        // TODO implement
+    }
+
+    @Override
     public String getName(int index) {
         return I18n.format("itemGroup." + serverSideTabs[index].tabLabel).replace("itemGroup.", "");
     }
 
-    public void setTabActive(int index, boolean active) {
-        tabStates[index] = active;
+    @Override
+    public void setValue(int optionIndex, boolean value) {
+        tabStates[optionIndex] = value;
+        markDirty(true);
     }
 
-    public boolean isTabActive(int index) {
-        return tabStates[index];
+    @Override
+    public boolean getValue(int optionIndex) {
+        return tabStates[optionIndex];
     }
 
+    @Override
+    public int getOptionCount() {
+        return tabStates.length;
+    }
+
+    public static String[] getCreativeTabLabels() {
+        String[] labels = new String[CreativeTabs.creativeTabArray.length];
+        CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
+        for (int i = 0; i < creativeTabArray.length; i++)
+        {
+            labels[i] = creativeTabArray[i].tabLabel;
+        }
+        return labels;
+    }
 }

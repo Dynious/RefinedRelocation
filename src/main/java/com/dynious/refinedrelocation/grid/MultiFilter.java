@@ -26,51 +26,19 @@ public class MultiFilter implements IFilterGUI {
 
     private List<AbstractFilter> filterList = new ArrayList<AbstractFilter>();
 
-    // Until the filters are dynamic as described in #150, store them the old way too
-    private CustomUserFilter userFilter;
-    private PresetFilter presetFilter;
-    private CreativeTabFilter creativeTabFilter;
-
-    public MultiFilter(IFilterTileGUI tile)
-    {
+    public MultiFilter(IFilterTileGUI tile) {
         this.tile = tile;
-
-        // TODO temp testing code:
-        userFilter = new CustomUserFilter();
-        presetFilter = new PresetFilter();
-        creativeTabFilter = new CreativeTabFilter();
-        filterList.add(userFilter);
-        filterList.add(presetFilter);
-        filterList.add(creativeTabFilter);
     }
 
-    public static String[] getOreNames(ItemStack itemStack)
-    {
+    // TODO find a better place for this function
+    public static String[] getOreNames(ItemStack itemStack) {
         int[] ids = OreDictionary.getOreIDs(itemStack);
-
         String[] oreNames = new String[ids.length];
         for (int i = 0; i < ids.length; i++)
         {
             oreNames[i] = OreDictionary.getOreName(ids[i]).toLowerCase().replaceAll("\\s+", "");
         }
         return oreNames;
-    }
-
-    public static String[] getLabels()
-    {
-        String[] labels = new String[CreativeTabs.creativeTabArray.length];
-        CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
-        for (int i = 0; i < creativeTabArray.length; i++)
-        {
-            labels[i] = creativeTabArray[i].tabLabel;
-        }
-        return labels;
-    }
-
-    @Override
-    @Deprecated
-    public int getSize() {
-        return CreativeTabFilter.serverSideTabs.length - 2 + PresetFilter.PRESET_COUNT;
     }
 
     @Override
@@ -89,37 +57,6 @@ public class MultiFilter implements IFilterGUI {
     }
 
     @Override
-    @Deprecated
-    public void setValue(int listIndex, boolean value) {
-        if(listIndex < PresetFilter.PRESET_COUNT) {
-            presetFilter.setPresetActive(listIndex, value);
-        } else {
-            creativeTabFilter.setTabActive(listIndex - PresetFilter.PRESET_COUNT, value);
-        }
-        tile.onFilterChanged();
-    }
-
-    @Override
-    @Deprecated
-    public boolean getValue(int listIndex) {
-        if(listIndex < PresetFilter.PRESET_COUNT) {
-            return presetFilter.isPresetActive(listIndex);
-        } else {
-            return creativeTabFilter.isTabActive(listIndex - PresetFilter.PRESET_COUNT);
-        }
-    }
-
-    @Override
-    @Deprecated
-    public String getName(int listIndex) {
-        if(listIndex < PresetFilter.PRESET_COUNT) {
-            return presetFilter.getName(listIndex);
-        } else {
-            return creativeTabFilter.getName(listIndex - PresetFilter.PRESET_COUNT);
-        }
-    }
-
-    @Override
     public boolean isBlacklisting() {
         return isBlacklisting;
     }
@@ -131,13 +68,7 @@ public class MultiFilter implements IFilterGUI {
     }
 
     @Override
-    public String getUserFilter() {
-        return userFilter.getValue();
-    }
-
-    @Override
-    public void setUserFilter(String value) {
-        userFilter.setValue(value);
+    public void filterChanged() {
         tile.onFilterChanged();
     }
 
@@ -147,27 +78,8 @@ public class MultiFilter implements IFilterGUI {
 
         filter.add(StringHelper.getLocalizedString(Strings.MODE) + ": " + (nbtData.getBoolean("blacklists") ? StringHelper.getLocalizedString(Strings.BLACKLIST) : StringHelper.getLocalizedString(Strings.WHITELIST)));
 
-        if (nbtData.hasKey("userFilter") && StringUtils.isNotBlank(nbtData.getString("userFilter")))
-        {
-            filter.add(StatCollector.translateToLocalFormatted(Strings.WAILA_USER_FILTER, StringUtils.abbreviate(nbtData.getString("userFilter"), 40)));
-        }
+        // TODO add back filter-specific WAILA information
 
-        int usedPresets = 0;
-        for (int i = 0; i < getSize(); i++)
-        {
-            if (usedPresets < 2) // Only show a maximum of 2 presets
-            {
-                if (getValue(i))
-                {
-                    filter.add(" " + getName(i) + (i == 1 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
-                    ++usedPresets;
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
         return filter;
     }
 
@@ -196,51 +108,82 @@ public class MultiFilter implements IFilterGUI {
                 switch(filterType) {
                     // Custom User Filter
                     case AbstractFilter.TYPE_CUSTOM:
-                        CustomUserFilter userFilter = new CustomUserFilter();
+                        CustomUserFilter userFilter = new CustomUserFilter(this, filterList.size());
                         userFilter.readFromNBT(tagFilter);
                         filterList.add(userFilter);
-
-                        // Until the filters are dynamic as described in #150, store them the old way too
-                        this.userFilter = userFilter;
                         break;
                     // Preset Filter
                     case 1:
-                        PresetFilter presetFilter = new PresetFilter();
+                        PresetFilter presetFilter = new PresetFilter(this, filterList.size());
                         presetFilter.readFromNBT(tagFilter);
                         filterList.add(presetFilter);
-
-                        this.presetFilter = presetFilter;
                         break;
                     // Creative Tab Filter
                     case 2:
-                        CreativeTabFilter creativeTabFilter = new CreativeTabFilter();
+                        CreativeTabFilter creativeTabFilter = new CreativeTabFilter(this, filterList.size());
                         creativeTabFilter.readFromNBT(tagFilter);
                         filterList.add(creativeTabFilter);
-
-                        // Until the filters are dynamic as described in #150, store them the old way too
-                        this.creativeTabFilter = creativeTabFilter;
                         break;
                 }
             }
         } else {
-            this.userFilter.setValue(compound.getString("userFilter"));
             this.isBlacklisting = compound.getBoolean("blacklists");
-            for (int i = 0; i < PresetFilter.PRESET_COUNT; i++) {
-                presetFilter.setPresetActive(i, compound.getBoolean("cumstomFilters" + i));
+
+            String userFilterString = compound.getString("userFilter");
+            if(!userFilterString.isEmpty()) {
+                CustomUserFilter userFilter = new CustomUserFilter(this, filterList.size());
+                userFilter.setValue(userFilterString);
+                filterList.add(userFilter);
             }
 
-            String filters = compound.getString("filters");
-            for(String string : filters.split("\\^\\$")) {
-                for(int i = 0; i < CreativeTabFilter.serverSideTabs.length; i++) {
-                    if(string.equals(CreativeTabFilter.serverSideTabs[i].tabLabel))
-                        creativeTabFilter.setTabActive(i, true);
+            PresetFilter presetFilter = new PresetFilter(this, filterList.size());
+            boolean foundActive = false;
+            for (int i = 0; i < PresetFilter.PRESET_COUNT; i++) {
+                if(compound.getBoolean("cumstomFilters" + i)) {
+                    foundActive = true;
+                    presetFilter.setValue(i, true);
                 }
             }
+            if(foundActive) {
+                filterList.add(presetFilter);
+            }
 
-            //1.0.7- compat
-            for(int i = 0; compound.hasKey("creativeTabs" + i); i++) {
-                creativeTabFilter.setTabActive(i, compound.getBoolean("creativeTabs" + i));
+            String creativeTabFilters = compound.getString("filters");
+            CreativeTabFilter creativeTabFilter = new CreativeTabFilter(this, filterList.size());
+            foundActive = false;
+            for(String string : creativeTabFilters.split("\\^\\$")) {
+                for(int i = 0; i < CreativeTabFilter.serverSideTabs.length; i++) {
+                    if(string.equals(CreativeTabFilter.serverSideTabs[i].tabLabel)) {
+                        creativeTabFilter.setValue(i, true);
+                        foundActive = true;
+                    }
+                }
+            }
+            if(foundActive) {
+                filterList.add(creativeTabFilter);
+            } else {
+                //1.0.7- compat
+                for (int i = 0; compound.hasKey("creativeTabs" + i); i++) {
+                    if(compound.getBoolean("creativeTabs" + i)) {
+                        creativeTabFilter.setValue(i, true);
+                        foundActive = true;
+                    }
+                }
+                if(foundActive) {
+                    filterList.add(creativeTabFilter);
+                }
             }
         }
     }
+
+    @Override
+    public int getFilterCount() {
+        return filterList.size();
+    }
+
+    @Override
+    public AbstractFilter getFilterAtIndex(int index) {
+        return filterList.get(index);
+    }
+
 }

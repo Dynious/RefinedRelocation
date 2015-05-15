@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.grid.filter;
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
@@ -12,14 +13,14 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.IPlantable;
 
-public class PresetFilter extends AbstractFilter {
+public class PresetFilter extends AbstractFilter implements IChecklistFilter {
 
     public static final int PRESET_COUNT = 14;
 
     private boolean[] presets = new boolean[PRESET_COUNT];
 
-    public PresetFilter() {
-        super(TYPE_PRESET);
+    public PresetFilter(MultiFilter parent, int index) {
+        super(TYPE_PRESET, parent, index);
     }
 
     @Override
@@ -75,6 +76,11 @@ public class PresetFilter extends AbstractFilter {
         }
     }
 
+    @Override
+    public void sendUpdate(EntityPlayerMP playerMP) {
+
+    }
+
     public String getName(int index) {
         switch (index) {
             case 0:
@@ -109,11 +115,20 @@ public class PresetFilter extends AbstractFilter {
         return null;
     }
 
-    public void setPresetActive(int index, boolean active) {
-        presets[index] = active;
+    @Override
+    public void setValue(int optionIndex, boolean value) {
+        presets[optionIndex] = value;
+        markDirty(true);
     }
 
-    public boolean isPresetActive(int index) {
-        return presets[index];
+    @Override
+    public boolean getValue(int optionIndex) {
+        return presets[optionIndex];
     }
+
+    @Override
+    public int getOptionCount() {
+        return presets.length;
+    }
+
 }

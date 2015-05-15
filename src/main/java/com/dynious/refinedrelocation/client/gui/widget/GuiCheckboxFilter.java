@@ -1,47 +1,37 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
-import com.dynious.refinedrelocation.helper.GuiHelper;
+import com.dynious.refinedrelocation.grid.filter.IChecklistFilter;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBoolean;
 import net.minecraft.client.Minecraft;
 
-public class GuiCheckboxFilter extends GuiCheckbox
-{
-    private int boundMessageId;
-    protected IFilterTileGUI tile;
+public class GuiCheckboxFilter extends GuiCheckbox {
+
+    protected IChecklistFilter filter;
     protected int index;
 
-    public GuiCheckboxFilter(IGuiParent parent, int x, int y, int w, int h, int index, IFilterTileGUI tile, int boundMessageId)
-    {
+    public GuiCheckboxFilter(IGuiParent parent, int x, int y, int w, int h, int index, IChecklistFilter filter) {
         super(parent, x, y, w, h, null);
-        this.tile = tile;
-        this.boundMessageId = boundMessageId;
+        this.filter = filter;
         setIndex(index);
         update();
     }
 
-    public void setIndex(int index)
-    {
+    public void setIndex(int index) {
         this.index = index;
-        if (tile != null)
-            this.label.setText(Minecraft.getMinecraft().fontRenderer.trimStringToWidth(tile.getFilter().getName(index), w - (textureW + 6)));
+        this.label.setText(Minecraft.getMinecraft().fontRenderer.trimStringToWidth(filter.getName(index), w - (textureW + 6)));
     }
 
     @Override
-    protected void onStateChangedByUser(boolean newState)
-    {
-        if (tile == null)
-            return;
-
-        tile.getFilter().setValue(index, newState);
-        GuiHelper.sendIntMessage(boundMessageId, index);
+    protected void onStateChangedByUser(boolean newState) {
+        filter.setValue(index, newState);
+        NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterBoolean(filter.getFilterIndex(), index, newState));
     }
 
     @Override
-    public void update()
-    {
-        if (tile != null)
-            setChecked(tile.getFilter().getValue(index));
+    public void update() {
+        setChecked(filter.getValue(index));
 
         super.update();
     }

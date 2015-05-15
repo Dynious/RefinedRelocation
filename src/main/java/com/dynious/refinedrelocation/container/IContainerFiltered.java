@@ -1,14 +1,9 @@
 package com.dynious.refinedrelocation.container;
 
-public interface IContainerFiltered
-{
-    public void setUserFilter(String filter);
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 
-    public void setBlackList(boolean value);
-
-    public void setFilterOption(int filterIndex, boolean value);
-
-    public void toggleFilterOption(int filterIndex);
-
-    public void setPriority(int priority);
+public interface IContainerFiltered {
+    void setBlackList(boolean value);
+    void setPriority(int priority);
+    IFilterGUI getFilter();
 }

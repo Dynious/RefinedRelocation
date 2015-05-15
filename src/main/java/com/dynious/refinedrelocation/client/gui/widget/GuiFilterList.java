@@ -1,14 +1,13 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.grid.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-public class GuiFilterList extends GuiWidgetBase
-{
+public class GuiFilterList extends GuiWidgetBase {
     public int numFiltersPerScreen;
     public int filterRowHeight = 10;
     public int rowSpacing = 1;
@@ -21,21 +20,21 @@ public class GuiFilterList extends GuiWidgetBase
     public int mouseClickY = -1;
     public int indexWhenClicked;
     public int lastNumberOfMoves;
-    protected IFilterTileGUI tile;
+    protected IChecklistFilter filter;
     protected int currentIndex = 0;
     protected GuiCheckboxFilter filters[];
 
-    public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile, int boundMessageId)
+    public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IChecklistFilter filter)
     {
         super(parent, x, y, w, h);
-        this.tile = tile;
+        this.filter = filter;
 
         numFiltersPerScreen = (int) Math.floor(((h + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));
 
         filters = new GuiCheckboxFilter[numFiltersPerScreen];
         for (int i = 0; i < numFiltersPerScreen; i++)
         {
-            filters[i] = new GuiCheckboxFilter(this, x, y + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, tile, boundMessageId);
+            filters[i] = new GuiCheckboxFilter(this, x, y + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, filter);
         }
         recalculateScrollBar();
     }
@@ -47,7 +46,7 @@ public class GuiFilterList extends GuiWidgetBase
 
     public void setCurrentIndex(int index)
     {
-        index = Math.min(tile.getFilter().getSize() - numFiltersPerScreen, Math.max(0, index));
+        index = Math.min(filter.getOptionCount() - numFiltersPerScreen, Math.max(0, index));
 
         this.currentIndex = index;
         for (int i = 0; i < numFiltersPerScreen; i++)
@@ -60,8 +59,8 @@ public class GuiFilterList extends GuiWidgetBase
     public void recalculateScrollBar()
     {
         int scrollBarTotalHeight = h - 2;
-        this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / tile.getFilter().getSize() + 1;
-        this.scrollBarYPos = y + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (tile.getFilter().getSize() - numFiltersPerScreen));
+        this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / filter.getOptionCount() + 1;
+        this.scrollBarYPos = y + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (filter.getOptionCount() - numFiltersPerScreen));
         this.scrollBarXPos = x + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
     }
 
@@ -74,7 +73,7 @@ public class GuiFilterList extends GuiWidgetBase
 
         if (mouseClickY != -1)
         {
-            float pixelsPerFilter = ((float) h - 2 - scrollBarScaledHeight) / (tile.getFilter().getSize() - numFiltersPerScreen);
+            float pixelsPerFilter = ((float) h - 2 - scrollBarScaledHeight) / (filter.getOptionCount() - numFiltersPerScreen);
             if (pixelsPerFilter != 0)
             {
                 int numberOfFiltersMoved = (int) ((mouseY - mouseClickY) / pixelsPerFilter);
