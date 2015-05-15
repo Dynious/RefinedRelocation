@@ -99,6 +99,7 @@ public class MultiFilter implements IFilterGUI {
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
+        filterList.clear();
         if(compound.getByte("version") >= 1) {
             isBlacklisting = compound.getBoolean("isBlacklisting");
             NBTTagList tagFilterList = compound.getTagList("filterList", 10);

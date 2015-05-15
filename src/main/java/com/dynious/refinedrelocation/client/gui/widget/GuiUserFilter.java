@@ -6,7 +6,7 @@ import net.minecraft.util.StatCollector;
 
 public class GuiUserFilter extends GuiWidgetBase {
 
-    public int inputHeight = 15;
+    public int inputHeight = 85;
     protected CustomUserFilter filter;
     protected boolean drawLabel = true;
     protected GuiLabel userFilterLabel;

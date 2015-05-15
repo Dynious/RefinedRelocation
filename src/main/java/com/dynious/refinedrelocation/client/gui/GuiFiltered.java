@@ -29,13 +29,32 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
 
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity()));
 
+        rebuildTabPanel();
+
+        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile, MessageGUI.BLACKLIST);
+
+        if (filterTile instanceof TileBlockExtender)
+        {
+            new GuiRedstoneSignalStatus(this, width / 2 + 35, height / 2 - 63, (TileBlockExtender) filterTile);
+            new GuiDisguise(this, width / 2 + 15, height / 2 - 63, 16, 16, (TileBlockExtender) filterTile);
+        }
+        if (filterTile instanceof ISortingInventory)
+        {
+            new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
+        }
+    }
+
+    public void rebuildTabPanel() {
+        if(panel != null) {
+            removeChild(panel);
+        }
         panel = new GuiTabPanel(this, width / 2 - 80, height / 2 - 18, 160, 97);
 
         int tabButtonX = width / 2 - 118;
         int pageX = width / 2 - 80;
         int pageY = height / 2 - 18;
         if(filterTile.getFilter().getFilterCount() == 0) {
-            GuiTabButton emptyTabButton = new GuiTabButton(panel, tabButtonX, height / 2 - 18, new GuiEmptyFilter(pageX, pageY, 160, 97));
+            GuiTabButton emptyTabButton = new GuiTabButton(panel, tabButtonX, height / 2 - 18, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()));
             panel.setActiveTabButton(emptyTabButton);
         } else {
             GuiTabButton firstTabButton = null;
@@ -54,22 +73,10 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
                 }
                 curY += 25;
                 if(filterTile.getFilter().getFilterCount() < 4) {
-                    new GuiTabButton(panel, tabButtonX, curY, new GuiEmptyFilter(pageX, pageY, 160, 97));
+                    new GuiTabButton(panel, tabButtonX, curY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()));
                 }
             }
             panel.setActiveTabButton(firstTabButton);
-        }
-
-        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile, MessageGUI.BLACKLIST);
-
-        if (filterTile instanceof TileBlockExtender)
-        {
-            new GuiRedstoneSignalStatus(this, width / 2 + 35, height / 2 - 63, (TileBlockExtender) filterTile);
-            new GuiDisguise(this, width / 2 + 15, height / 2 - 63, 16, 16, (TileBlockExtender) filterTile);
-        }
-        if (filterTile instanceof ISortingInventory)
-        {
-            new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
         }
     }
 

@@ -21,7 +21,6 @@ public class MessageAddFilter implements IMessage, IMessageHandler<MessageAddFil
     @Override
     public void fromBytes(ByteBuf buf) {
         filterType = buf.readInt();
-        System.out.println(filterType);
     }
 
     @Override
