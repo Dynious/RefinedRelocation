@@ -186,4 +186,16 @@ public class MultiFilter implements IFilterGUI {
         return filterList.get(index);
     }
 
+    @Override
+    public void addNewFilter(int filterType) {
+        AbstractFilter filter = null;
+        switch(filterType) {
+            case AbstractFilter.TYPE_CUSTOM: filter = new CustomUserFilter(this, filterList.size()); break;
+            case AbstractFilter.TYPE_CREATIVETAB: filter = new CreativeTabFilter(this, filterList.size());  break;
+            case AbstractFilter.TYPE_PRESET: filter = new PresetFilter(this, filterList.size());  break;
+        }
+        filterList.add(filter);
+        tile.onFilterChanged();
+    }
+
 }

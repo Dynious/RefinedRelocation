@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.packet.*;
+import com.dynious.refinedrelocation.network.packet.filter.MessageAddFilter;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBoolean;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
 import com.dynious.refinedrelocation.network.packet.gui.*;
@@ -18,7 +19,7 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageSetFilterBoolean.class, MessageSetFilterBoolean.class, 0, Side.SERVER);
         INSTANCE.registerMessage(MessageInsertDirection.class, MessageInsertDirection.class, 1, Side.SERVER);
         INSTANCE.registerMessage(MessageSetFilterString.class, MessageSetFilterString.class, 2, Side.SERVER);
-        //INSTANCE.registerMessage(MessageUserFilter.class, MessageUserFilter.class, 3, Side.SERVER);
+        INSTANCE.registerMessage(MessageAddFilter.class, MessageAddFilter.class, 3, Side.SERVER);
         //INSTANCE.registerMessage(MessageUserFilter.class, MessageUserFilter.class, 4, Side.CLIENT);
         //INSTANCE.registerMessage(MessageBlackList.class, MessageBlackList.class, 5, Side.SERVER);
         //INSTANCE.registerMessage(MessageFilterOption.class, MessageFilterOption.class, 6, Side.SERVER);

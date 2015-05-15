@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
-import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
@@ -14,8 +13,8 @@ public class GuiUserFilter extends GuiWidgetBase {
     protected GuiButton userFilterHelp;
     protected GuiTextInputUserFilter userFilter;
 
-    public GuiUserFilter(IGuiParent parent, int x, int y, int w, int h, boolean drawLabel, CustomUserFilter filter) {
-        super(parent, x, y, w, h);
+    public GuiUserFilter(int x, int y, int w, int h, boolean drawLabel, CustomUserFilter filter) {
+        super(x, y, w, h);
         this.drawLabel = drawLabel;
         this.filter = filter;
 

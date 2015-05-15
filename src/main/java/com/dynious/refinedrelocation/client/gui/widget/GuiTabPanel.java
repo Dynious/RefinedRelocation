@@ -21,6 +21,9 @@ public class GuiTabPanel extends GuiWidgetBase {
     }
 
     public void setActiveTabButton(GuiTabButton tabButton) {
+        if(this.activeTabButton == tabButton) {
+            return;
+        }
         if(this.activeTabButton != null) {
             this.activeTabButton.setActive(false);
         }

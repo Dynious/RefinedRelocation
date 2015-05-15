@@ -1,6 +1,5 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
-import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -24,9 +23,9 @@ public class GuiFilterList extends GuiWidgetBase {
     protected int currentIndex = 0;
     protected GuiCheckboxFilter filters[];
 
-    public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IChecklistFilter filter)
+    public GuiFilterList(int x, int y, int w, int h, IChecklistFilter filter)
     {
-        super(parent, x, y, w, h);
+        super(x, y, w, h);
         this.filter = filter;
 
         numFiltersPerScreen = (int) Math.floor(((h + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));

@@ -23,4 +23,6 @@ public interface IFilterGUI extends IFilter
     int getFilterCount();
 
     AbstractFilter getFilterAtIndex(int index);
+
+    void addNewFilter(int filterType);
 }
