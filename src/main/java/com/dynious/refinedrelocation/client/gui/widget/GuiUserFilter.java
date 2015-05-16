@@ -31,4 +31,10 @@ public class GuiUserFilter extends GuiWidgetBase
 
         userFilter = new GuiTextInputUserFilter(this, x, y + h - inputHeight, w, inputHeight, tile, boundMessageId);
     }
+
+    @Override
+    public boolean isContainerElement()
+    {
+        return true;
+    }
 }
