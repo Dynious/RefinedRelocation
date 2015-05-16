@@ -21,10 +21,8 @@ public class GuiButtonFilterType extends GuiButton {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown) {
-        if(isMouseInsideBounds(mouseX, mouseY)) {
+        if(isInsideBounds(mouseX, mouseY)) {
             NetworkHandler.INSTANCE.sendToServer(new MessageAddFilter(typeId));
-            filter.addNewFilter(typeId);
-            parentGui.rebuildTabPanel();
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }

@@ -1,25 +1,26 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
+import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.IGuiWidgetBase;
 import com.dynious.refinedrelocation.lib.Resources;
 import org.lwjgl.opengl.GL11;
 
 public class GuiTabButton extends GuiWidgetBase {
 
-    private final GuiTabPanel parent;
+    private final GuiTabPanel panel;
     private final IGuiWidgetBase page;
     private boolean active;
 
-    public GuiTabButton(GuiTabPanel parent, int x, int y, IGuiWidgetBase page) {
+    public GuiTabButton(IGuiParent parent, GuiTabPanel panel, int x, int y, IGuiWidgetBase page) {
         super(parent, x, y, 31, 26);
-        this.parent = parent;
+        this.panel = panel;
         this.page = page;
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown) {
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
-        if(isMouseInsideBounds(mouseX, mouseY)) {
+        if(isInsideBounds(mouseX, mouseY)) {
             setActive(true);
         }
     }
@@ -30,8 +31,8 @@ public class GuiTabButton extends GuiWidgetBase {
         }
         this.active = active;
         if(active) {
-            parent.setCurrentPage(page);
-            parent.setActiveTabButton(this);
+            panel.setCurrentPage(page);
+            panel.setActiveTabButton(this);
         }
     }
 

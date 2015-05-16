@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIAction;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
