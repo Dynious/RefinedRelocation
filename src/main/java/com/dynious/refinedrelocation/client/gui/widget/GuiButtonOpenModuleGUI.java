@@ -19,7 +19,7 @@ public class GuiButtonOpenModuleGUI extends GuiScalableButton
     {
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
 
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             ((GuiHome) parent).onButtonClicked(index);
         }

@@ -35,7 +35,7 @@ public class GuiButtonFilterExtraction extends GuiButtonToggle
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
             tooltip.add(StatCollector.translateToLocal(getState() ? Strings.FILTERED_EXTRACT : Strings.UNFILTERED_EXTRACT));
         return tooltip;
     }

@@ -30,7 +30,7 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             if (type == 0)
                 setNewState(getNextControlState(), true);
@@ -86,7 +86,7 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List tooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             tooltip.add(StatCollector.translateToLocal(Strings.MODULE_REDSTONE_CONTROL + module.redstoneControlState));
         }

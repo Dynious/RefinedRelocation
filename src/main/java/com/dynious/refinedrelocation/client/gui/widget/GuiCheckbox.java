@@ -29,7 +29,7 @@ public class GuiCheckbox extends GuiWidgetBase
         mc.getTextureManager().bindTexture(Resources.GUI_SHARED);
         GL11.glColor4f(1F, 1F, 1F, 1F);
 
-        boolean hovered = isMouseInsideBounds(mouseX, mouseY);
+        boolean hovered = isInsideBounds(mouseX, mouseY);
         label.setColor(hovered ? 0xaaffff : 0xffffff);
         if (!hovered)
             Gui.drawRect(x, y, x + w, y + h, 0x44ffffff);
@@ -53,7 +53,7 @@ public class GuiCheckbox extends GuiWidgetBase
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if (isMouseInsideBounds(mouseX, mouseY) && (type == 0))
+        if (isInsideBounds(mouseX, mouseY) && type == 0)
         {
             setChecked(!getChecked());
             onStateChangedByUser(getChecked());

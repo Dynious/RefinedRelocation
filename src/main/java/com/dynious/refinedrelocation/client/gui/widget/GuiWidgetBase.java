@@ -46,9 +46,9 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
         this.setParent(parent);
     }
 
-    public boolean isMouseInsideBounds(int mouseX, int mouseY)
+    public boolean isInsideBounds(int x, int y)
     {
-        return mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
+        return x >= this.x && x <= this.x + w && y >= this.y && y <= this.y + h;
     }
 
     @Override
@@ -183,8 +183,9 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
     @Override
     public List<String> getTooltip(int mouseX, int mouseY)
     {
+        // TODO don't create a list in every getTooltip call, pass a list down instead
         List<String> tooltip = new ArrayList<String>();
-        if (this.tooltipString != null && isMouseInsideBounds(mouseX, mouseY))
+        if (this.tooltipString != null && isInsideBounds(mouseX, mouseY))
         {
             tooltip.addAll(Arrays.asList(tooltipString.split("\n")));
         }
@@ -266,5 +267,38 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
     public ContainerRefinedRelocation getContainer()
     {
         return getParent().getContainer();
+    }
+
+    public IGuiWidgetBase getWidgetAt(int x, int y)
+    {
+        IGuiWidgetBase foundChild = getChildAt(x, y);
+        if (foundChild != null)
+        {
+            return foundChild.getWidgetAt(x, y);
+        }
+        return this;
+    }
+
+    public IGuiWidgetBase getChildAt(int x, int y)
+    {
+        if (!isVisible())
+        {
+            return null;
+        }
+        for (int i = children.size() - 1; i >= 0; i--)
+        {
+            IGuiWidgetBase child = children.get(i);
+            if (child.isVisible() && child.isInsideBounds(x, y))
+            {
+                return child;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<IGuiWidgetBase> getChildren()
+    {
+        return children;
     }
 }

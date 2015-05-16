@@ -148,11 +148,11 @@ public class GuiScalableButton extends com.dynious.refinedrelocation.client.gui.
     {
         if (this.visible)
         {
-            int k = isMouseInsideBounds(mouseX, mouseY) ? 40 : 20;
+            int k = isInsideBounds(mouseX, mouseY) ? 40 : 20;
             drawContinuousTexturedBox(buttonTextures, this.x, this.y, 0, 46 + k, this.getWidth(), this.getHeight(), 200, 20, 2, 3, 2, 2, this.zLevel);
             int color = 14737632;
 
-            if (isMouseInsideBounds(mouseX, mouseY))
+            if (isInsideBounds(mouseX, mouseY))
             {
                 color = 16777120;
             }

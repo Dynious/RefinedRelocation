@@ -43,7 +43,7 @@ public class GuiInsertDirection extends GuiWidgetBase
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
 
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             TileEntity tile = (TileEntity) this.tile;
             tooltip.add(BlockHelper.getBlockDisplayName(tile.getWorldObj(), tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
@@ -83,7 +83,7 @@ public class GuiInsertDirection extends GuiWidgetBase
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         FontRenderer fontRendererObj = mc.fontRenderer;
 
-        boolean isHovered = isMouseInsideBounds(mouseX, mouseY);
+        boolean isHovered = isInsideBounds(mouseX, mouseY);
         int textureOffset = (relativeSide != null ? relativeSide.ordinal() : side.ordinal()) + 1;
 
         if (tile instanceof TileBlockExtender)
@@ -114,7 +114,7 @@ public class GuiInsertDirection extends GuiWidgetBase
 
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if ((type == 0 || type == 1) && !isConnected && isMouseInsideBounds(mouseX, mouseY))
+        if ((type == 0 || type == 1) && !isConnected && isInsideBounds(mouseX, mouseY))
         {
             if (tile instanceof TileBlockExtender)
             {

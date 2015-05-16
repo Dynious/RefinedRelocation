@@ -56,7 +56,7 @@ public class GuiButtonPriority extends GuiButton
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> subTooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.PRIORITY) + ":");
@@ -70,7 +70,7 @@ public class GuiButtonPriority extends GuiButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if (isMouseInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
+        if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
         {
             int amount = type == 0 ? -1 : 1;
             if (tile.getPriority().ordinal() + amount >= 0 && tile.getPriority().ordinal() + amount < ISortingInventory.Priority.values().length)
