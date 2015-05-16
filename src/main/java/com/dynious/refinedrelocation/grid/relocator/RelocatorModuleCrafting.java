@@ -75,7 +75,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
             if (slots.isEmpty())
                 return stack;
 
-            int needed = (slots.size() * maxCraftStack) - currentAmount;
+            int needed = (slots.size() * Math.min(stack.getMaxStackSize(), maxCraftStack)) - currentAmount;
 
             if (needed < 0)
                 return stack;
@@ -112,7 +112,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
                 ItemStack craftStack = CRAFT_MATRIX.getStackInSlot(i);
                 if (ItemStackHelper.areItemStacksEqual(stack, craftStack))
                 {
-                    int toMove = Math.min(maxCraftStack - craftStack.stackSize, stack.stackSize);
+                    int toMove = Math.min(craftStack.getMaxStackSize(), Math.min(maxCraftStack - craftStack.stackSize, stack.stackSize));
                     if (toMove < 0)
                         continue;
                     stack.stackSize -= toMove;
@@ -173,7 +173,22 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
             ItemStack stack = CRAFT_MATRIX.getStackInSlot(slot);
             if (stack != null)
             {
-                stack.stackSize--;
+                stack.splitStack(1);
+
+                if (stack.getItem().hasContainerItem(stack))
+                {
+                    ItemStack containerStack = stack.getItem().getContainerItem(stack);
+                    System.out.println(containerStack);
+                    if (containerStack.getItem() == stack.getItem())
+                    {
+                        CRAFT_MATRIX.setInventorySlotContents(slot, containerStack);
+                    }
+                    else
+                    {
+                        outputStack = containerStack;
+                        outputStack(relocator, side);
+                    }
+                }
             }
         }
         outputStack = CRAFT_RESULT.getStackInSlot(0).copy();
