@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
@@ -50,7 +51,7 @@ public class RelocatorModuleItemDetector extends RelocatorModuleFilter
 
     public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {
-        if (!simulate && stack != null && super.passesFilter(relocator, side, stack, input, simulate))
+        if (!simulate && stack != null && filter.passesFilter(stack))
         {
             tick = 6;
             emitRedstoneSignal = true;
@@ -88,5 +89,19 @@ public class RelocatorModuleItemDetector extends RelocatorModuleFilter
     private void markRedstoneUpdate(TileEntity relocator)
     {
         TileRelocator.markUpdateAndNotify(relocator.getWorldObj(), relocator.xCoord, relocator.yCoord, relocator.zCoord);
+    }
+
+    @Override
+    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        super.readClientData(relocator, side, compound);
+        emitRedstoneSignal = compound.getBoolean("emit");
+    }
+
+    @Override
+    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        super.writeClientData(relocator, side, compound);
+        compound.setBoolean("emit", emitRedstoneSignal);
     }
 }
