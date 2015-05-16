@@ -112,7 +112,7 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
                 ItemStack craftStack = CRAFT_MATRIX.getStackInSlot(i);
                 if (ItemStackHelper.areItemStacksEqual(stack, craftStack))
                 {
-                    int toMove = Math.min(craftStack.getMaxStackSize(), Math.min(maxCraftStack - craftStack.stackSize, stack.stackSize));
+                    int toMove = Math.min(Math.min(craftStack.getMaxStackSize(), maxCraftStack) - craftStack.stackSize, stack.stackSize);
                     if (toMove < 0)
                         continue;
                     stack.stackSize -= toMove;
