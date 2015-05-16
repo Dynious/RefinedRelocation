@@ -17,7 +17,7 @@ import java.util.List;
 public class RelocatorModuleItemDetector extends RelocatorModuleFilter
 {
     private static IIcon[] icons = new IIcon[4];
-    private static boolean emitRedstoneSignal = false;
+    private boolean emitRedstoneSignal = false;
     private int tick = 0;
 
     @Override
