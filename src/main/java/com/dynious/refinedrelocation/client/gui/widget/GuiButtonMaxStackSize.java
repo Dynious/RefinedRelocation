@@ -36,7 +36,7 @@ public class GuiButtonMaxStackSize extends GuiButtonCounter
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> subTooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.MAX_STACK_SIZE));

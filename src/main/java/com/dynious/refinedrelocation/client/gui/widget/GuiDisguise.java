@@ -28,7 +28,7 @@ public class GuiDisguise extends GuiWidgetBase
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             if (tile.getDisguise() != null)
             {
@@ -69,7 +69,7 @@ public class GuiDisguise extends GuiWidgetBase
                 this.drawTexturedModelRectFromIcon(x, y, icon, w, h);
             }
         }
-        if (tile.getDisguise() != null && isMouseInsideBounds(mouseX, mouseY))
+        if (tile.getDisguise() != null && isInsideBounds(mouseX, mouseY))
             return;
 
         GL11.glEnable(GL11.GL_BLEND);

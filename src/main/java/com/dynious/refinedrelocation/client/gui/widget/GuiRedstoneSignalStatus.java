@@ -29,7 +29,7 @@ public class GuiRedstoneSignalStatus extends GuiButtonToggle
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
 
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             String colorCode = "\u00A7";
             String grayColor = colorCode + "7";

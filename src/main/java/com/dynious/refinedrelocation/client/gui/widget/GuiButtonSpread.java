@@ -36,7 +36,7 @@ public class GuiButtonSpread extends GuiButtonToggle
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             if (tile instanceof TileBuffer)
             {

@@ -105,7 +105,7 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> list = new ArrayList<String>();
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             list.add(StatCollector.translateToLocal(Strings.MAX_ENERGY));
         }
