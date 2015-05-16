@@ -289,7 +289,7 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
         for (int i = children.size() - 1; i >= 0; i--)
         {
             IGuiWidgetBase child = children.get(i);
-            if (!child.isContainerElement() && child.isVisible() && child.isInsideBounds(x, y))
+            if (child.isVisible() && child.isInsideBounds(x, y))
             {
                 return child;
             }
@@ -303,9 +303,4 @@ public abstract class GuiWidgetBase extends Gui implements IGuiWidgetBase
         return children;
     }
 
-    @Override
-    public boolean isContainerElement()
-    {
-        return false;
-    }
 }
