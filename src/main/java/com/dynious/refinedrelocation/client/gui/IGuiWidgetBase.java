@@ -53,4 +53,9 @@ public interface IGuiWidgetBase extends IGuiParent
     IGuiWidgetBase getWidgetAt(int mouseX, int mouseY);
 
     List<IGuiWidgetBase> getChildren();
+
+    /**
+     * @return true if mouse clicks should pass through this widget
+     */
+    boolean isContainerElement();
 }

@@ -29,7 +29,7 @@ import java.util.List;
 public class RelocatorModuleFilter extends RelocatorModuleBase
 {
     private static IIcon icon;
-    private MultiFilter filter;
+    protected MultiFilter filter;
     private MultiFilter filterWaila;
     private long lastChange = -401;
     private IItemRelocator relocator;
