@@ -133,8 +133,10 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     @Override
     public void keyTyped(char c, int i)
     {
-        rootNode.keyTyped(c, i);
-        super.keyTyped(c, i);
+        if(!rootNode.keyTyped(c, i))
+        {
+            super.keyTyped(c, i);
+        }
     }
 
     @Override
