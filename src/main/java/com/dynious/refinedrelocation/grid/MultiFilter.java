@@ -22,7 +22,7 @@ import java.util.List;
 public class MultiFilter implements IFilterGUI {
 
     private IFilterTileGUI tile;
-    private boolean isBlacklisting = false;
+    private boolean isBlacklisting;
 
     private List<AbstractFilter> filterList = new ArrayList<AbstractFilter>();
 
@@ -76,7 +76,7 @@ public class MultiFilter implements IFilterGUI {
     public List<String> getWAILAInformation(NBTTagCompound nbtData) {
         List<String> filter = new ArrayList<String>();
 
-        filter.add(StringHelper.getLocalizedString(Strings.MODE) + ": " + (nbtData.getBoolean("blacklists") ? StringHelper.getLocalizedString(Strings.BLACKLIST) : StringHelper.getLocalizedString(Strings.WHITELIST)));
+        filter.add(StringHelper.getLocalizedString(Strings.MODE) + ": " + (nbtData.getBoolean("isBlacklisting") ? StringHelper.getLocalizedString(Strings.BLACKLIST) : StringHelper.getLocalizedString(Strings.WHITELIST)));
 
         // TODO add back filter-specific WAILA information
 

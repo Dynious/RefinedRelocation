@@ -48,7 +48,6 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     public ItemStack[] inventory;
     private int facing;
     private IFilterGUI filter = APIUtils.createStandardFilter(this);
-    private boolean blacklist = true;
 
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
     private boolean isFirstTick = true;
@@ -357,7 +356,6 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
             }
         }
         filter.readFromNBT(compound);
-        blacklist = compound.getBoolean("blacklist");
 
         facing = compound.getByte("facing");
         if (compound.hasKey("priority"))
@@ -392,7 +390,6 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         compound.setTag("Items", nbttaglist);
 
         filter.writeToNBT(compound);
-        compound.setBoolean("blacklist", blacklist);
 
         compound.setByte("facing", (byte) facing);
         compound.setByte("priority", (byte) priority.ordinal());
