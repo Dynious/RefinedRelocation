@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.grid.filter;
 
-public interface IChecklistFilter {
+public interface IChecklistFilter
+{
 
     int getFilterIndex();
     String getName(int optionIndex);
