@@ -358,19 +358,32 @@ public class FilterStandard implements IFilterGUI
         }
 
         int usedPresets = 0;
-        for (int i = 0; i < getSize(); i++)
+
+        for (int i = 0; i < customFilters.length; i++)
         {
-            if (usedPresets < 2) // Only show a maximum of 2 presets
+            if (nbtData.getBoolean("cumstomFilters" + i))
             {
-                if (getValue(i))
-                {
-                    filter.add(" " + getName(i) + (i == 1 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
-                    ++usedPresets;
-                }
+                filter.add(" " + getName(i) + (usedPresets == 0 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
+                ++usedPresets;
+                if (usedPresets == 2)
+                    return filter;
             }
-            else
+        }
+
+        String filters = nbtData.getString("filters");
+
+        loop:
+        for (String string : filters.split("\\^\\$"))
+        {
+            for (int i = 0; i < creativeTabArray.length && i < creativeTabs.length; i++)
             {
-                break;
+                if (string.equals(creativeTabArray[i].tabLabel))
+                {
+                    filter.add(" " + I18n.format(creativeTabArray[i].getTranslatedTabLabel()).replace("itemGroup.", "") + (usedPresets == 0 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
+                    ++usedPresets;
+                    if (usedPresets == 2)
+                        break loop;
+                }
             }
         }
         return filter;

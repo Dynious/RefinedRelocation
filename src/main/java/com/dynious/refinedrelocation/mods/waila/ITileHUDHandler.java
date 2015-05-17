@@ -11,7 +11,6 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,8 +41,6 @@ public class ITileHUDHandler implements IWailaDataProvider
         if (tileEntity instanceof IFilterTileGUI)
         {
             NBTTagCompound compound = accessor.getNBTData();
-            if (Minecraft.getMinecraft().currentScreen == null)
-                tileEntity.readFromNBT(compound);
             List<String> wailaInfo = ((IFilterTileGUI) tileEntity).getFilter().getWAILAInformation(compound);
             if (wailaInfo != null && !wailaInfo.isEmpty())
             {
