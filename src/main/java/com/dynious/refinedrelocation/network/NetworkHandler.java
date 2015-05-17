@@ -17,30 +17,29 @@ public class NetworkHandler
     public static void init()
     {
         INSTANCE.registerMessage(MessageSetFilterBoolean.class, MessageSetFilterBoolean.class, 0, Side.SERVER);
-        INSTANCE.registerMessage(MessageInsertDirection.class, MessageInsertDirection.class, 1, Side.SERVER);
+        INSTANCE.registerMessage(MessageSetFilterBoolean.class, MessageSetFilterBoolean.class, 1, Side.CLIENT);
         INSTANCE.registerMessage(MessageSetFilterString.class, MessageSetFilterString.class, 2, Side.SERVER);
-        INSTANCE.registerMessage(MessageAddFilter.class, MessageAddFilter.class, 3, Side.SERVER);
-        INSTANCE.registerMessage(MessageGUIAction.class, MessageGUIAction.class, 4, Side.CLIENT);
-        //INSTANCE.registerMessage(MessageBlackList.class, MessageBlackList.class, 5, Side.SERVER);
-        //INSTANCE.registerMessage(MessageFilterOption.class, MessageFilterOption.class, 6, Side.SERVER);
-        INSTANCE.registerMessage(MessageTabSync.class, MessageTabSync.class, 7, Side.CLIENT);
-        //INSTANCE.registerMessage(MessageRestrictExtraction.class, MessageRestrictExtraction.class, 8, Side.SERVER);
-        //INSTANCE.registerMessage(MessageRedstoneEnabled.class, MessageRedstoneEnabled.class, 9, Side.SERVER);
-        //INSTANCE.registerMessage(MessageSwitchPage.class, MessageSwitchPage.class, 10, Side.SERVER);
-        //INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 11, Side.SERVER);
-        //INSTANCE.registerMessage(MessageSetMaxPower.class, MessageSetMaxPower.class, 12, Side.CLIENT);
-        //INSTANCE.registerMessage(MessagePriority.class, MessagePriority.class, 13, Side.SERVER);
-        INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 14, Side.CLIENT);
-        INSTANCE.registerMessage(MessageSetFilterBoolean.class, MessageSetFilterBoolean.class, 15, Side.CLIENT);
-        //INSTANCE.registerMessage(MessageHomeButtonClicked.class, MessageHomeButtonClicked.class, 16, Side.SERVER);
-        INSTANCE.registerMessage(MessageKonga.class, MessageKonga.class, 17, Side.CLIENT);
-        INSTANCE.registerMessage(MessageGUIBoolean.class, MessageGUIBoolean.class, 18, Side.SERVER);
-        INSTANCE.registerMessage(MessageGUIByte.class, MessageGUIByte.class, 19, Side.SERVER);
-        INSTANCE.registerMessage(MessageGUIInteger.class, MessageGUIInteger.class, 20, Side.SERVER);
-        INSTANCE.registerMessage(MessageItemRequest.class, MessageItemRequest.class, 21, Side.SERVER);
-        INSTANCE.registerMessage(MessageItemAnswer.class, MessageItemAnswer.class, 22, Side.CLIENT);
-        INSTANCE.registerMessage(MessageGUIString.class, MessageGUIString.class, 23, Side.SERVER);
-        INSTANCE.registerMessage(MessageGUIAction.class, MessageGUIAction.class, 24, Side.SERVER);
-        INSTANCE.registerMessage(MessageGUIDouble.class, MessageGUIDouble.class, 25, Side.SERVER);
+        INSTANCE.registerMessage(MessageSetFilterString.class, MessageSetFilterString.class, 3, Side.CLIENT);
+        INSTANCE.registerMessage(MessageAddFilter.class, MessageAddFilter.class, 4, Side.SERVER);
+
+        INSTANCE.registerMessage(MessageInsertDirection.class, MessageInsertDirection.class, 5, Side.SERVER);
+        INSTANCE.registerMessage(MessageTabSync.class, MessageTabSync.class, 6, Side.CLIENT);
+        INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 7, Side.CLIENT);
+        INSTANCE.registerMessage(MessageKonga.class, MessageKonga.class, 8, Side.CLIENT);
+        INSTANCE.registerMessage(MessageItemRequest.class, MessageItemRequest.class, 9, Side.SERVER);
+        INSTANCE.registerMessage(MessageItemAnswer.class, MessageItemAnswer.class, 10, Side.CLIENT);
+
+        INSTANCE.registerMessage(MessageGUIBoolean.class, MessageGUIBoolean.class, 11, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIBoolean.class, MessageGUIBoolean.class, 12, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIByte.class, MessageGUIByte.class, 13, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIByte.class, MessageGUIByte.class, 14, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIInteger.class, MessageGUIInteger.class, 15, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIInteger.class, MessageGUIInteger.class, 16, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIString.class, MessageGUIString.class, 17, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIString.class, MessageGUIString.class, 18, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIAction.class, MessageGUIAction.class, 19, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIAction.class, MessageGUIAction.class, 20, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIDouble.class, MessageGUIDouble.class, 21, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIDouble.class, MessageGUIDouble.class, 22, Side.CLIENT);
     }
 }

@@ -92,7 +92,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     public void onMessage(int messageId, Object value, EntityPlayer player) {
         switch(messageId) {
             case MessageGUI.BLACKLIST: setBlackList((Boolean) value); break;
-            case MessageGUI.PRIORITY: setPriority((Integer) value); break;
+            case MessageGUI.PRIORITY: setPriority((Byte) value); break;
             case MessageGUI.REDSTONE_ENABLED:
                 if(tile instanceof TileBlockExtender) {
                     ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
