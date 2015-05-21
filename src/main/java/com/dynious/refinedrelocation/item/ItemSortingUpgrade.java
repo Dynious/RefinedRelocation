@@ -180,7 +180,9 @@ public class ItemSortingUpgrade extends Item
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean b)
     {
         list.add(StatCollector.translateToLocal(Strings.SORTING_UPGRADE + itemstack.getItemDamage()));
-        list.add(StatCollector.translateToLocal(Strings.SORTING_UPGRADE_MATS));
+        if(itemstack.getItemDamage() == 0) {
+            list.add(StatCollector.translateToLocal(Strings.SORTING_UPGRADE_MATS));
+        }
     }
 
     @Override
