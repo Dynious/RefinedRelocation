@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 public class GuiFiltered extends GuiRefinedRelocationContainer
@@ -27,6 +28,8 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
     {
         super.initGui();
 
+        Keyboard.enableRepeatEvents(true);
+
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity()));
 
         new GuiUserFilter(this, width / 2 - 80, height / 2 - 56, 160, 30, true, filterTile, MessageGUI.USERFILTER);
@@ -44,6 +47,12 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
         {
             new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
         }
+    }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        Keyboard.enableRepeatEvents(false);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedFilteredBlockExtender;
 import net.minecraft.entity.player.InventoryPlayer;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 public class GuiAdvancedFilteredBlockExtender extends GuiRefinedRelocationContainer
@@ -26,6 +27,8 @@ public class GuiAdvancedFilteredBlockExtender extends GuiRefinedRelocationContai
     {
         super.initGui();
 
+        Keyboard.enableRepeatEvents(true);
+
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(blockExtender).replaceAll("Advanced", "Adv."));
 
         new GuiButtonMaxStackSize(this, width / 2 - 81, height / 2 - 67, blockExtender, MessageGUI.MAX_STACK_SIZE);
@@ -39,6 +42,13 @@ public class GuiAdvancedFilteredBlockExtender extends GuiRefinedRelocationContai
         new GuiFilterList(this, width / 2 - 80, height / 2 - 8, 160, 87, blockExtender, MessageGUI.FILTER_OPTION);
 
         new GuiInsertDirections(this, width / 2 + 29, height / 2 - 65, 50, 50, blockExtender);
+    }
+
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+
+        Keyboard.enableRepeatEvents(false);
     }
 
     @Override
