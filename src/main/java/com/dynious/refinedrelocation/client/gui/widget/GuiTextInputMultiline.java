@@ -23,6 +23,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 
 	private String text;
 	private String[] renderLines;
+	private int scrollOffset;
 	private int lineScrollOffset;
 
 	public GuiTextInputMultiline(IGuiParent parent, int x, int y, int w, int h) {
@@ -202,9 +203,13 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 
 		if (isInside && type == 0)
 		{
-			int relX = mouseX - x - 4;
-			String s = fontRenderer.trimStringToWidth(text.substring(lineScrollOffset), w);
-			setCursorPosition(fontRenderer.trimStringToWidth(s, relX).length() + lineScrollOffset);
+			int relX = mouseX - x;
+			int relY = mouseY - y;
+			int lineNumber = Math.round((float) relY / (float) fontRenderer.FONT_HEIGHT) + scrollOffset + 1;
+			int startOfLine = getStartOfLine(getEndOfLine(0, lineNumber), 1);
+			int endOfLine = getEndOfLine(startOfLine, 1);
+			String visibleLine = fontRenderer.trimStringToWidth(text.substring(startOfLine + lineScrollOffset, endOfLine), w);
+			setCursorPosition(startOfLine + fontRenderer.trimStringToWidth(visibleLine, relX).length() + lineScrollOffset);
 		}
 	}
 
