@@ -5,14 +5,15 @@ import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
 
-public class GuiTextInputUserFilter extends GuiTextInput {
+public class GuiTextInputUserFilter extends GuiTextInputMultiline {
 
     protected CustomUserFilter filter;
 
     public GuiTextInputUserFilter(IGuiParent parent, int x, int y, int w, int h, CustomUserFilter filter) {
         super(parent, x, y, w, h);
         this.filter = filter;
-        setMaxStringLength(256);
+        this.isMultiLine = true;
+
         update();
     }
 
@@ -24,7 +25,7 @@ public class GuiTextInputUserFilter extends GuiTextInput {
 
     @Override
     public void update() {
-        if(!filter.getValue().equals(textField.getText())) {
+        if(!filter.getValue().equals(getText())) {
             setText(filter.getValue());
         }
         super.update();
