@@ -22,7 +22,7 @@ public class CustomUserFilter extends AbstractFilter {
         String[] oreNames = null;
         String filter = value.toLowerCase().replaceAll("\\s+", "");
         String itemName = null;
-        for(String s : filter.split(",")) {
+        for(String s : filter.split("\n")) {
             if (s.contains("!")) {
                 if(oreNames == null) {
                     oreNames = MultiFilter.getOreNames(itemStack);
