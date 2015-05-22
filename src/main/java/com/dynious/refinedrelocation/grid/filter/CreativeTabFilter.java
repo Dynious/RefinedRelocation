@@ -1,6 +1,8 @@
 package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.grid.MultiFilter;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -95,7 +97,17 @@ public class CreativeTabFilter extends AbstractFilter implements IChecklistFilte
 
     @Override
     public void sendUpdate(EntityPlayerMP playerMP) {
-        // TODO implement
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, tabStates), playerMP);
+    }
+
+    @Override
+    public void setFilterBooleanArray(int optionId, boolean[] values) {
+        tabStates = values;
+    }
+
+    @Override
+    public void setFilterBoolean(int optionId, boolean value) {
+        tabStates[optionId] = value;
     }
 
     @Override

@@ -42,6 +42,7 @@ public abstract class AbstractFilter {
 
     public void setFilterString(int optionId, String value) {}
     public void setFilterBoolean(int optionId, boolean value) {}
+    public void setFilterBooleanArray(int optionId, boolean[] values) {}
 
     public int getFilterIndex() {
         return filterIndex;
@@ -55,5 +56,6 @@ public abstract class AbstractFilter {
     public boolean isDirty() {
         return isDirty;
     }
+
 
 }

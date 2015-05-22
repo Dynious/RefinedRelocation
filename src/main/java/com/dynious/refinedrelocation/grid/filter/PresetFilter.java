@@ -2,6 +2,8 @@ package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -78,7 +80,17 @@ public class PresetFilter extends AbstractFilter implements IChecklistFilter {
 
     @Override
     public void sendUpdate(EntityPlayerMP playerMP) {
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, presets), playerMP);
+    }
 
+    @Override
+    public void setFilterBooleanArray(int optionId, boolean[] values) {
+        presets = values;
+    }
+
+    @Override
+    public void setFilterBoolean(int optionId, boolean value) {
+        presets[optionId] = value;
     }
 
     public String getName(int index) {

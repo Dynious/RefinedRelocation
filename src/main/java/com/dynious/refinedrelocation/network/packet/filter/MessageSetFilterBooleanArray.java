@@ -8,38 +8,43 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Container;
 
-public class MessageSetFilterBoolean implements IMessage, IMessageHandler<MessageSetFilterBoolean, IMessage> {
+public class MessageSetFilterBooleanArray implements IMessage, IMessageHandler<MessageSetFilterBooleanArray, IMessage> {
     public int filterIndex;
     public int filterOption;
-    public boolean filterState;
+    public boolean[] filterStates;
 
-    public MessageSetFilterBoolean() {}
+    public MessageSetFilterBooleanArray() {}
 
-    public MessageSetFilterBoolean(int filterIndex, int filterOption, boolean filterState) {
+    public MessageSetFilterBooleanArray(int filterIndex, int filterOption, boolean[] filterStates) {
         this.filterIndex = filterIndex;
         this.filterOption = filterOption;
-        this.filterState = filterState;
+        this.filterStates = filterStates;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
         filterIndex = buf.readByte();
         filterOption = buf.readInt();
-        filterState = buf.readBoolean();
+        filterStates = new boolean[buf.readByte()];
+        for(int i = 0; i < filterStates.length; i++) {
+            filterStates[i] = buf.readBoolean();
+        }
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeByte(filterIndex);
         buf.writeInt(filterOption);
-        buf.writeBoolean(filterState);
+        buf.writeByte(filterStates.length);
+        for(int i = 0; i < filterStates.length; i++) {
+            buf.writeBoolean(filterStates[i]);
+        }
     }
 
     @Override
-    public IMessage onMessage(MessageSetFilterBoolean message, MessageContext ctx) {
+    public IMessage onMessage(MessageSetFilterBooleanArray message, MessageContext ctx) {
         Container container = null;
         if(ctx.side == Side.CLIENT) {
             container = FMLClientHandler.instance().getClientPlayerEntity().openContainer;
@@ -50,7 +55,7 @@ public class MessageSetFilterBoolean implements IMessage, IMessageHandler<Messag
             return null;
         }
         AbstractFilter filter = ((IContainerFiltered) container).getFilter().getFilterAtIndex(message.filterIndex);
-        filter.setFilterBoolean(message.filterOption, message.filterState);
+        filter.setFilterBooleanArray(message.filterOption, message.filterStates);
         return null;
     }
 }
