@@ -21,6 +21,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     private GuiTabPanel panel;
     private final List<GuiTabButton> tabButtons = new ArrayList<GuiTabButton>();
     private int lastFilterCount;
+    private boolean initialUpdate = true;
 
     public GuiFiltered(IFilterTileGUI filterTile) {
         super(new ContainerFiltered(filterTile));
@@ -108,7 +109,8 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     {
         super.updateScreen();
         if(lastFilterCount != filterTile.getFilter().getFilterCount()) {
-            rebuildTabPanel(true);
+            rebuildTabPanel(!initialUpdate);
+            initialUpdate = false;
             lastFilterCount = filterTile.getFilter().getFilterCount();
         }
     }
