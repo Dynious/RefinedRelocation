@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.grid;
 
-import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
+import com.dynious.refinedrelocation.api.tileentity.IGridMember;
 import com.dynious.refinedrelocation.api.tileentity.grid.IGrid;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import net.minecraft.tileentity.TileEntity;
@@ -57,18 +57,18 @@ public class GridMemberHandler implements IGridMemberHandler
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
         {
             TileEntity tile = owner.getWorldObj().getTileEntity(owner.xCoord + direction.offsetX, owner.yCoord + direction.offsetY, owner.zCoord + direction.offsetZ);
-            if (tile != null && tile instanceof ISortingMember)
+            if (tile != null && tile instanceof IGridMember)
             {
-                IGridMemberHandler filteringMember = ((ISortingMember) tile).getHandler();
-                if (filteringMember.canJoinGroup() && filteringMember.getGrid() != null)
+                IGridMemberHandler gridMember = ((IGridMember) tile).getHandler();
+                if (gridMember.canJoinGroup() && gridMember.getGrid() != null)
                 {
                     if (grid == null)
                     {
-                        setGrid(filteringMember.getGrid());
+                        setGrid(gridMember.getGrid());
                     }
-                    else if (filteringMember.getGrid() != getGrid())
+                    else if (gridMember.getGrid() != getGrid())
                     {
-                        filteringMember.getGrid().mergeToGrid(getGrid());
+                        gridMember.getGrid().mergeToGrid(getGrid());
                     }
                 }
             }
