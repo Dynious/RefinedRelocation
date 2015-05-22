@@ -2,9 +2,11 @@ package com.dynious.refinedrelocation.network.packet.filter;
 
 import com.dynious.refinedrelocation.container.IContainerFiltered;
 import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Container;
@@ -38,7 +40,12 @@ public class MessageSetFilterBoolean implements IMessage, IMessageHandler<Messag
 
     @Override
     public IMessage onMessage(MessageSetFilterBoolean message, MessageContext ctx) {
-        Container container = Minecraft.getMinecraft().thePlayer.openContainer;
+        Container container = null;
+        if(ctx.side == Side.CLIENT) {
+            container = FMLClientHandler.instance().getClientPlayerEntity().openContainer;
+        } else if(ctx.side == Side.SERVER) {
+            container = ctx.getServerHandler().playerEntity.openContainer;
+        }
         if (container == null || !(container instanceof IContainerFiltered)) {
             return null;
         }

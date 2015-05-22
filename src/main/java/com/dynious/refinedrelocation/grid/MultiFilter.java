@@ -8,13 +8,10 @@ import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import com.dynious.refinedrelocation.grid.filter.PresetFilter;
 import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +20,8 @@ public class MultiFilter implements IFilterGUI {
 
     private IFilterTileGUI tile;
     private boolean isBlacklisting;
+
+    private boolean isDirty;
 
     private List<AbstractFilter> filterList = new ArrayList<AbstractFilter>();
 
@@ -188,15 +187,37 @@ public class MultiFilter implements IFilterGUI {
     }
 
     @Override
-    public void addNewFilter(int filterType) {
+    public void setFilterType(int filterIndex, int filterType) {
+        if(filterIndex == -1) {
+            filterIndex = filterList.size();
+        } else if(filterIndex < filterList.size() && filterList.get(filterIndex).getTypeId() == filterType) {
+            return;
+        }
         AbstractFilter filter = null;
         switch(filterType) {
-            case AbstractFilter.TYPE_CUSTOM: filter = new CustomUserFilter(this, filterList.size()); break;
-            case AbstractFilter.TYPE_CREATIVETAB: filter = new CreativeTabFilter(this, filterList.size());  break;
-            case AbstractFilter.TYPE_PRESET: filter = new PresetFilter(this, filterList.size());  break;
+            case AbstractFilter.TYPE_CUSTOM: filter = new CustomUserFilter(this, filterIndex); break;
+            case AbstractFilter.TYPE_CREATIVETAB: filter = new CreativeTabFilter(this, filterIndex);  break;
+            case AbstractFilter.TYPE_PRESET: filter = new PresetFilter(this, filterIndex);  break;
         }
-        filterList.add(filter);
-        tile.onFilterChanged();
+        if(filter != null) {
+            markDirty(true);
+            if(filterIndex < filterList.size()) {
+                filterList.set(filterIndex, filter);
+            } else {
+                filterList.add(filter);
+            }
+        }
+    }
+
+    @Override
+    public boolean isDirty() {
+        return isDirty;
+    }
+
+    @Override
+    public void markDirty(boolean dirty) {
+        this.isDirty = dirty;
+        filterChanged();
     }
 
 }

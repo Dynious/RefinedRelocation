@@ -35,12 +35,21 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
+        if(tile.getFilter().isDirty()) {
+            initialUpdate = true;
+            tile.getFilter().markDirty(false);
+        }
+
         for(int i = 0; i < tile.getFilter().getFilterCount(); i++) {
             AbstractFilter filter = tile.getFilter().getFilterAtIndex(i);
             if(initialUpdate || filter.isDirty()) {
                 for(Object crafter : crafters) {
                     if(crafter instanceof EntityPlayerMP) {
-                        filter.sendUpdate((EntityPlayerMP) crafter);
+                        if(initialUpdate) {
+                            filter.sendInitialUpdate((EntityPlayerMP) crafter);
+                        } else {
+                            filter.sendUpdate((EntityPlayerMP) crafter);
+                        }
                     }
                 }
                 filter.markDirty(false);

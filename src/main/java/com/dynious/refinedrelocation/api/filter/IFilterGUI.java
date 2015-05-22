@@ -24,5 +24,9 @@ public interface IFilterGUI extends IFilter
 
     AbstractFilter getFilterAtIndex(int index);
 
-    void addNewFilter(int filterType);
+    void setFilterType(int filterIndex, int filterType);
+
+    boolean isDirty();
+
+    void markDirty(boolean dirty);
 }

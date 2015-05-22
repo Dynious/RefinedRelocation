@@ -1,6 +1,9 @@
 package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.grid.MultiFilter;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,6 +32,12 @@ public abstract class AbstractFilter {
     public abstract boolean isInFilter(ItemStack itemStack);
     public abstract void writeToNBT(NBTTagCompound compound);
     public abstract void readFromNBT(NBTTagCompound compound);
+
+    public void sendInitialUpdate(EntityPlayerMP playerMP) {
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterType(filterIndex, typeId), playerMP);
+        sendUpdate(playerMP);
+    }
+
     public abstract void sendUpdate(EntityPlayerMP playerMP);
 
     public void setFilterString(int optionId, String value) {}
@@ -46,4 +55,5 @@ public abstract class AbstractFilter {
     public boolean isDirty() {
         return isDirty;
     }
+
 }
