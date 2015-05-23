@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.MathHelper;
@@ -55,9 +56,21 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 			if(renderLines == null) {
 				renderLines = text.split("\n");
 			}
-			for(int i = 0; i < renderLines.length; i++) {
-				fontRenderer.drawString(renderLines[i], x, y + i * fontRenderer.FONT_HEIGHT, Integer.MAX_VALUE);
+
+			// Draw text lines
+			for(int i = scrollOffset; i < renderLines.length; i++) {
+				int offsetY = (i - scrollOffset) * fontRenderer.FONT_HEIGHT;
+				if(offsetY + fontRenderer.FONT_HEIGHT >= h) {
+					break;
+				}
+				if(lineScrollOffset >= renderLines[i].length()) {
+					continue;
+				}
+				String lineText = fontRenderer.trimStringToWidth(renderLines[i].substring(lineScrollOffset), w);
+				fontRenderer.drawString(lineText, x, y + offsetY, Integer.MAX_VALUE);
 			}
+
+			// Draw cursor
 			int cursorLine = 0;
 			int lastLineIdx = 0;
 			for(int i = 0; i < cursorPosition; i++) {
@@ -66,7 +79,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 					lastLineIdx = i + 1;
 				}
 			}
-			drawCursorVertical(x + fontRenderer.getStringWidth(text.substring(lastLineIdx, cursorPosition)), y + cursorLine * fontRenderer.FONT_HEIGHT);
+			drawCursorVertical(x + fontRenderer.getStringWidth(text.substring(lastLineIdx, cursorPosition)), y + (cursorLine - scrollOffset) * fontRenderer.FONT_HEIGHT);
 		}
 	}
 
@@ -101,30 +114,54 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 				markDirty();
 				return true;
 			case Keyboard.KEY_END:
-				setCursorPosition(getEndOfLine(cursorPosition, 1));
+				if(GuiScreen.isCtrlKeyDown()) {
+					setCursorPosition(text.length());
+				} else {
+					setCursorPosition(getEndOfLine(cursorPosition, 1));
+				}
 				return true;
 			case Keyboard.KEY_HOME:
-				setCursorPosition(getStartOfLine(cursorPosition, 1));
+				if(GuiScreen.isCtrlKeyDown()) {
+					setCursorPosition(0);
+				} else {
+					setCursorPosition(getStartOfLine(cursorPosition, 1));
+				}
 				return true;
 			case Keyboard.KEY_LEFT:
-				setCursorPosition(cursorPosition - 1);
+				if(GuiScreen.isCtrlKeyDown()) {
+					setCursorPosition(getStartOfWord(cursorPosition - 1));
+				} else {
+					setCursorPosition(cursorPosition - 1);
+				}
 				return true;
 			case Keyboard.KEY_RIGHT:
-				setCursorPosition(cursorPosition + 1);
+				if(GuiScreen.isCtrlKeyDown()) {
+					setCursorPosition(getStartOfNextWord(cursorPosition + 1));
+				} else {
+					setCursorPosition(cursorPosition + 1);
+				}
 				return true;
 			case Keyboard.KEY_UP:
-				int upLine = getStartOfLine(cursorPosition, 2);
-				setCursorPosition(upLine + Math.min(getLineLength(upLine), (cursorPosition - getStartOfLine(cursorPosition, 1))));
+				if(GuiScreen.isCtrlKeyDown()) {
+					// TODO implement vertical scrolling
+				} else {
+					int upLine = getStartOfLine(cursorPosition, 2);
+					setCursorPosition(upLine + Math.min(getLineLength(upLine), (cursorPosition - getStartOfLine(cursorPosition, 1))));
+				}
 				return true;
 			case Keyboard.KEY_DOWN:
-				int downLine = getEndOfLine(cursorPosition, 2);
-				setCursorPosition(getStartOfLine(downLine, 1) + Math.min(getLineLength(downLine), (cursorPosition - getStartOfLine(cursorPosition, 1))));
+				if(GuiScreen.isCtrlKeyDown()) {
+					// TODO implement vertical scrolling
+				} else {
+					int downLine = getEndOfLine(cursorPosition, 2);
+					setCursorPosition(getStartOfLine(downLine, 1) + Math.min(getLineLength(downLine), (cursorPosition - getStartOfLine(cursorPosition, 1))));
+				}
 				return true;
 			case Keyboard.KEY_DELETE:
-				deleteFront(false);
+				deleteFront(GuiScreen.isCtrlKeyDown());
 				return true;
 			case Keyboard.KEY_BACK:
-				deleteBack(false);
+				deleteBack(GuiScreen.isCtrlKeyDown());
 				return true;
 			default:
 				if (ChatAllowedCharacters.isAllowedCharacter(unicode)) {
@@ -137,6 +174,46 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 
 	private int getLineLength(int position) {
 		return getEndOfLine(position, 1) - getStartOfLine(position, 1);
+	}
+
+	private int getStartOfWord(int position) {
+		position = MathHelper.clamp_int(position, 0, text.length());
+		if(text.charAt(position) == '\n') {
+			return position;
+		}
+		boolean foundAlphabetic = false;
+		for(int i = position; i >= 0; i--) {
+			char c = text.charAt(i);
+			if(c == '\n') {
+				return i + 1;
+			}
+			if(Character.isAlphabetic(c)) {
+				foundAlphabetic = true;
+			} else if(foundAlphabetic) {
+				return i + 1;
+			}
+		}
+		return 0;
+	}
+
+	private int getStartOfNextWord(int position) {
+		position = MathHelper.clamp_int(position, 0, text.length());
+		if(text.charAt(position - 1) == '\n') {
+			return position;
+		}
+		boolean foundNonAlphabetic = false;
+		for(int i = position; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if(c == '\n') {
+				return i;
+			}
+			if(!Character.isAlphabetic(c)) {
+				foundNonAlphabetic = true;
+			} else if(foundNonAlphabetic) {
+				return i;
+			}
+		}
+		return text.length();
 	}
 
 	private int getStartOfLine(int position, int iterations) {
@@ -160,17 +237,25 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 	}
 
 	private void deleteBack(boolean wholeWord) {
+		int deleteCount = 1;
+		if(wholeWord) {
+			deleteCount = cursorPosition - getStartOfWord(cursorPosition);
+		}
 		if(cursorPosition > 0) {
-			text = text.substring(0, cursorPosition - 1) + text.substring(cursorPosition);
-			setCursorPosition(cursorPosition - 1);
+			text = text.substring(0, cursorPosition - deleteCount) + text.substring(cursorPosition);
+			setCursorPosition(cursorPosition - deleteCount);
 			markDirty();
 			onTextChangedByUser(text);
 		}
 	}
 
 	private void deleteFront(boolean wholeWord) {
+		int deleteCount = 1;
+		if(wholeWord) {
+			deleteCount = getStartOfNextWord(cursorPosition) - cursorPosition;
+		}
 		if(cursorPosition < text.length()) {
-			text = text.substring(0, cursorPosition) + text.substring(cursorPosition + 1);
+			text = text.substring(0, cursorPosition) + text.substring(cursorPosition + deleteCount);
 			markDirty();
 			onTextChangedByUser(text);
 		}
