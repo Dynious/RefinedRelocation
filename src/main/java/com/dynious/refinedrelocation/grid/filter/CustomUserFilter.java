@@ -22,12 +22,12 @@ public class CustomUserFilter extends AbstractFilter {
         String[] oreNames = null;
         String filter = value.toLowerCase().replaceAll("\\s+", "");
         String itemName = null;
-        for(String s : filter.split("\n")) {
-            if (s.contains("!")) {
+        for(String s : filter.split("[\n,]")) {
+            if (s.startsWith("!")) {
                 if(oreNames == null) {
                     oreNames = MultiFilter.getOreNames(itemStack);
                 }
-                s = s.replace("!", "");
+                s = s.substring(1);
                 for(String oreName : oreNames) {
                     if(stringMatchesWildcardPattern(oreName, s)) {
                         return true;

@@ -11,6 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiTextInputMultiline extends GuiWidgetBase {
 
+	private static final int MARGIN = 2;
+
 	private final FontRenderer fontRenderer;
 
 	protected boolean isMultiLine;
@@ -66,8 +68,8 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 				if(lineScrollOffset >= renderLines[i].length()) {
 					continue;
 				}
-				String lineText = fontRenderer.trimStringToWidth(renderLines[i].substring(lineScrollOffset), w);
-				fontRenderer.drawString(lineText, x, y + offsetY, Integer.MAX_VALUE);
+				String lineText = fontRenderer.trimStringToWidth(renderLines[i].substring(lineScrollOffset), w - MARGIN);
+				fontRenderer.drawString(lineText, x + MARGIN, y + MARGIN + offsetY, Integer.MAX_VALUE);
 			}
 
 			// Draw cursor
@@ -79,7 +81,9 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 					lastLineIdx = i + 1;
 				}
 			}
-			drawCursorVertical(x + fontRenderer.getStringWidth(text.substring(lastLineIdx, cursorPosition)), y + (cursorLine - scrollOffset) * fontRenderer.FONT_HEIGHT);
+			if((cursorLine - scrollOffset) * fontRenderer.FONT_HEIGHT >= 0 && (cursorLine - scrollOffset + 1) * fontRenderer.FONT_HEIGHT < h - MARGIN) {
+				drawCursorVertical(x + fontRenderer.getStringWidth(text.substring(lastLineIdx + lineScrollOffset, cursorPosition)) + MARGIN, y + (cursorLine - scrollOffset) * fontRenderer.FONT_HEIGHT + MARGIN);
+			}
 		}
 	}
 
@@ -143,7 +147,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 				return true;
 			case Keyboard.KEY_UP:
 				if(GuiScreen.isCtrlKeyDown()) {
-					// TODO implement vertical scrolling
+					scroll(0, -1);
 				} else {
 					int upLine = getStartOfLine(cursorPosition, 2);
 					setCursorPosition(upLine + Math.min(getLineLength(upLine), (cursorPosition - getStartOfLine(cursorPosition, 1))));
@@ -151,7 +155,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 				return true;
 			case Keyboard.KEY_DOWN:
 				if(GuiScreen.isCtrlKeyDown()) {
-					// TODO implement vertical scrolling
+					scroll(0, 1);
 				} else {
 					int downLine = getEndOfLine(cursorPosition, 2);
 					setCursorPosition(getStartOfLine(downLine, 1) + Math.min(getLineLength(downLine), (cursorPosition - getStartOfLine(cursorPosition, 1))));
@@ -177,7 +181,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 	}
 
 	private int getStartOfWord(int position) {
-		position = MathHelper.clamp_int(position, 0, text.length());
+		position = MathHelper.clamp_int(position, 0, text.length() - 1);
 		if(text.charAt(position) == '\n') {
 			return position;
 		}
@@ -197,8 +201,8 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 	}
 
 	private int getStartOfNextWord(int position) {
-		position = MathHelper.clamp_int(position, 0, text.length());
-		if(text.charAt(position - 1) == '\n') {
+		position = MathHelper.clamp_int(position, 0, text.length() - 1);
+		if(text.charAt(position) == '\n') {
 			return position;
 		}
 		boolean foundNonAlphabetic = false;
@@ -277,6 +281,49 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 
 	public void setCursorPosition(int cursorPosition) {
 		this.cursorPosition = MathHelper.clamp_int(cursorPosition, 0, text.length());
+
+		int cursorLine = 0;
+		for(int i = 0; i < cursorPosition; i++) {
+			if(text.charAt(i) == '\n') {
+				cursorLine++;
+			}
+		}
+
+		int visibleHeight =  h - MARGIN;
+		int visibleCursorY = (cursorLine - scrollOffset) * fontRenderer.FONT_HEIGHT + MARGIN;
+		if(visibleCursorY < 0) {
+			scroll(0, visibleCursorY / fontRenderer.FONT_HEIGHT - 1);
+		} else if(visibleCursorY > visibleHeight - fontRenderer.FONT_HEIGHT) {
+			scroll(0, (visibleCursorY - visibleHeight) / fontRenderer.FONT_HEIGHT + 1);
+		}
+
+		int visibleWidth = w - MARGIN;
+		int cursorLineStart = getStartOfLine(cursorPosition, 1);
+		int cursorLineEnd = getEndOfLine(cursorPosition, 1);
+		int cursorLineX = Math.min(getLineLength(cursorPosition), (cursorPosition - cursorLineStart));
+		String lineText = text.substring(cursorLineStart, cursorLineEnd);
+		lineScrollOffset = MathHelper.clamp_int(lineScrollOffset, 0, lineText.length());
+		if(cursorLineX == lineScrollOffset)
+		{
+			lineScrollOffset -= fontRenderer.trimStringToWidth(lineText, visibleWidth, true).length();
+		}
+		lineScrollOffset = MathHelper.clamp_int(lineScrollOffset, 0, lineText.length());
+		String visibleLineText = fontRenderer.trimStringToWidth(lineText.substring(lineScrollOffset), visibleWidth);
+		int l = visibleLineText.length() + lineScrollOffset;
+		if(cursorLineX > l)
+		{
+			lineScrollOffset += cursorLineX - l;
+		}
+		else if(cursorLineX <= lineScrollOffset)
+		{
+			lineScrollOffset -= lineScrollOffset - cursorLineX;
+		}
+		lineScrollOffset = MathHelper.clamp_int(lineScrollOffset, 0, lineText.length());
+	}
+
+	public void scroll(int x, int y) {
+		lineScrollOffset = Math.max(lineScrollOffset + x, 0);
+		scrollOffset = Math.max(scrollOffset + y, 0);
 	}
 
 	@Override
@@ -289,11 +336,11 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 		if (isInside && type == 0)
 		{
 			int relX = mouseX - x;
-			int relY = mouseY - y;
+			int relY = mouseY - y - MARGIN;
 			int lineNumber = Math.round((float) relY / (float) fontRenderer.FONT_HEIGHT) + scrollOffset + 1;
 			int startOfLine = getStartOfLine(getEndOfLine(0, lineNumber), 1);
 			int endOfLine = getEndOfLine(startOfLine, 1);
-			String visibleLine = fontRenderer.trimStringToWidth(text.substring(startOfLine + lineScrollOffset, endOfLine), w);
+			String visibleLine = fontRenderer.trimStringToWidth(text.substring(startOfLine + lineScrollOffset, endOfLine), w - MARGIN);
 			setCursorPosition(startOfLine + fontRenderer.trimStringToWidth(visibleLine, relX).length() + lineScrollOffset);
 		}
 	}

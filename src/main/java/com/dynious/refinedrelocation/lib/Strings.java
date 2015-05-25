@@ -130,4 +130,5 @@ public class Strings
     public static final String COMMAND_HELP_CHANGELOG = COMMAND_PREFIX + "helpChangelog";
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
+    public static final String SELECT_FILTER_TYPE = GUI_PREFIX + "selectFilterType";
 }
