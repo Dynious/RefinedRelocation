@@ -4,8 +4,8 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 
 public interface IAdvancedFilteredTile extends IAdvancedTile, IFilterTileGUI
 {
-    public boolean getRestrictExtraction();
+    boolean getRestrictExtraction();
 
-    public void setRestrictionExtraction(boolean restrict);
+    void setRestrictionExtraction(boolean restrict);
 
 }

@@ -108,7 +108,7 @@ public class GuiHandler implements IGuiHandler
                 case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
                     if (tile instanceof TileAdvancedFilteredBlockExtender)
                     {
-                        return new GuiAdvancedFilteredBlockExtender(player.inventory, (TileAdvancedFilteredBlockExtender) tile);
+                        return new GuiFiltered((IFilterTileGUI) tile);
                     }
                     break;
                 case GuiIds.ADVANCED_BUFFER:

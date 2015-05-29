@@ -8,6 +8,8 @@ import com.dynious.refinedrelocation.grid.filter.*;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
+import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
+import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -41,17 +43,36 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
 
         rebuildTabPanel(false);
 
-        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile, MessageGUI.BLACKLIST);
+        int curX = width / 2 - 75;
+        int curY = height / 2 - 67;
+
+        new GuiButtonBlacklist(this, curX, curY, filterTile, MessageGUI.BLACKLIST);
+        curX += 27;
 
         if (filterTile instanceof TileBlockExtender)
         {
-            new GuiRedstoneSignalStatus(this, width / 2 + 35, height / 2 - 63, (TileBlockExtender) filterTile);
-            new GuiDisguise(this, width / 2 + 15, height / 2 - 63, 16, 16, (TileBlockExtender) filterTile);
+            new GuiRedstoneSignalStatus(this, curX, curY, (TileBlockExtender) filterTile);
+            curX += 27;
         }
+
         if (filterTile instanceof ISortingInventory)
         {
-            new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
+            new GuiButtonPriority(this, curX, curY, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
         }
+
+        if(filterTile instanceof IAdvancedTile)
+        {
+            curX = width / 2 - 75;
+            curY += 24;
+            new GuiButtonMaxStackSize(this, curX, curY, (IAdvancedTile) filterTile, MessageGUI.MAX_STACK_SIZE);
+            curX += 27;
+            new GuiButtonSpread(this, curX, curY, (IAdvancedTile) filterTile, MessageGUI.SPREAD_ITEMS);
+            curX += 27;
+            new GuiButtonFilterExtraction(this, curX, curY, (IAdvancedFilteredTile) filterTile, MessageGUI.RESTRICT_EXTRACTION);
+
+            new GuiInsertDirections(this, width / 2 + 30, height / 2 - 70, 50, 50, (IAdvancedTile) filterTile);
+        }
+
     }
 
     public void rebuildTabPanel(boolean focusLast) {
@@ -68,7 +89,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         int pageX = width / 2 - 80;
         int pageY = height / 2 - 18;
         if(filterTile.getFilter().getFilterCount() == 0) {
-            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, height / 2 - 18, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()));
+            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, pageY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()));
             panel.setActiveTabButton(emptyTabButton);
             tabButtons.add(emptyTabButton);
         } else {
