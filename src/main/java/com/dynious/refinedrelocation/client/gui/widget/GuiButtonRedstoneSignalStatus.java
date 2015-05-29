@@ -3,23 +3,20 @@ package com.dynious.refinedrelocation.client.gui.widget;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
-public class GuiRedstoneSignalStatus extends GuiButtonToggle
+public class GuiButtonRedstoneSignalStatus extends GuiButtonToggle
 {
-    protected static final int textureXBase = 128;
+    private final int boundMessageId;
     protected TileBlockExtender tile;
-    protected boolean lastEnabled = false;
-    protected boolean lastPowered = true;
-    protected String tooltipText;
 
-    public GuiRedstoneSignalStatus(IGuiParent parent, int x, int y, TileBlockExtender tile)
+    public GuiButtonRedstoneSignalStatus(IGuiParent parent, int x, int y, TileBlockExtender tile, int boundMessageId)
     {
-        super(parent, x, y, 16, 16, textureXBase, 80, null, null);
+        super(parent, x, y, 24, 20, 202, 0, null, null);
+        this.boundMessageId = boundMessageId;
         this.tile = tile;
         update();
     }
@@ -58,21 +55,22 @@ public class GuiRedstoneSignalStatus extends GuiButtonToggle
     protected void onStateChangedByUser(boolean newState)
     {
         if (tile == null)
+        {
             return;
+        }
 
         tile.setRedstoneTransmissionEnabled(newState);
-        GuiHelper.sendBooleanMessage(MessageGUI.REDSTONE_ENABLED, newState);
+        GuiHelper.sendBooleanMessage(boundMessageId, newState);
     }
 
     @Override
     public void update()
     {
-        super.update();
-
         if (tile != null)
         {
             setState(tile.isRedstoneTransmissionEnabled());
-            this.textureX = tile.isRedstoneTransmissionActive() ? textureXBase + w : textureXBase;
         }
+
+        super.update();
     }
 }

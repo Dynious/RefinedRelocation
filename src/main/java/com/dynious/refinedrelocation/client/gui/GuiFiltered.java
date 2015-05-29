@@ -46,12 +46,28 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         int curX = width / 2 - 75;
         int curY = height / 2 - 67;
 
+        if(filterTile instanceof IAdvancedTile)
+        {
+            new GuiButtonMaxStackSize(this, curX, height / 2 - 45, (IAdvancedTile) filterTile, MessageGUI.MAX_STACK_SIZE);
+            curX += 27;
+            new GuiButtonSpread(this, curX, height / 2 - 45, (IAdvancedTile) filterTile, MessageGUI.SPREAD_ITEMS);
+            curX += 27;
+            new GuiButtonFilterExtraction(this, curX, height / 2 - 45, (IAdvancedFilteredTile) filterTile, MessageGUI.RESTRICT_EXTRACTION);
+
+            new GuiInsertDirections(this, width / 2 + 30, height / 2 - 70, 50, 50, (IAdvancedTile) filterTile);
+        }
+        else
+        {
+            curY = height / 2 - 60;
+        }
+        curX = width / 2 - 75;
+
         new GuiButtonBlacklist(this, curX, curY, filterTile, MessageGUI.BLACKLIST);
         curX += 27;
 
         if (filterTile instanceof TileBlockExtender)
         {
-            new GuiRedstoneSignalStatus(this, curX, curY, (TileBlockExtender) filterTile);
+            new GuiButtonRedstoneSignalStatus(this, curX, curY, (TileBlockExtender) filterTile, MessageGUI.REDSTONE_ENABLED);
             curX += 27;
         }
 
@@ -59,20 +75,6 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         {
             new GuiButtonPriority(this, curX, curY, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
         }
-
-        if(filterTile instanceof IAdvancedTile)
-        {
-            curX = width / 2 - 75;
-            curY += 22;
-            new GuiButtonMaxStackSize(this, curX, curY, (IAdvancedTile) filterTile, MessageGUI.MAX_STACK_SIZE);
-            curX += 27;
-            new GuiButtonSpread(this, curX, curY, (IAdvancedTile) filterTile, MessageGUI.SPREAD_ITEMS);
-            curX += 27;
-            new GuiButtonFilterExtraction(this, curX, curY, (IAdvancedFilteredTile) filterTile, MessageGUI.RESTRICT_EXTRACTION);
-
-            new GuiInsertDirections(this, width / 2 + 30, height / 2 - 70, 50, 50, (IAdvancedTile) filterTile);
-        }
-
     }
 
     public void rebuildTabPanel(boolean focusLast) {
@@ -85,16 +87,16 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         tabButtons.clear();
 
         panel = new GuiTabPanel(this, width / 2 - 80, height / 2 - 18, 160, 97);
-        int tabButtonX = width / 2 - 118;
         int pageX = width / 2 - 80;
-        int pageY = height / 2 - 18;
+        int pageY = height / 2 - 12;
+        int tabButtonX = width / 2 - 118;
+        int tabButtonY = pageY  - 6;
         if(filterTile.getFilter().getFilterCount() == 0) {
-            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, pageY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()));
+            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()));
             panel.setActiveTabButton(emptyTabButton);
             tabButtons.add(emptyTabButton);
         } else {
             GuiTabButton firstTabButton = null;
-            int curY = pageY;
             for(int i = 0; i < filterTile.getFilter().getFilterCount(); i++) {
                 AbstractFilter filter = filterTile.getFilter().getFilterAtIndex(i);
                 IGuiWidgetBase page = null;
@@ -103,12 +105,12 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
                     case AbstractFilter.TYPE_PRESET: page = new GuiFilterList(pageX, pageY, 160, 97, (IChecklistFilter) filter); break;
                     case AbstractFilter.TYPE_CREATIVETAB: page = new GuiFilterList(pageX, pageY, 160, 97, (IChecklistFilter) filter); break;
                 }
-                GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, curY, page);
+                GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page);
                 if(firstTabButton == null) {
                     firstTabButton = tabButton;
                 }
                 tabButtons.add(tabButton);
-                curY += 25;
+                tabButtonY += 25;
             }
             if(focusLast) {
                 tabButtons.get(tabButtons.size() - 1).setActive(true);
@@ -116,7 +118,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
                 firstTabButton.setActive(true);
             }
             if(filterTile.getFilter().getFilterCount() < 4) {
-                tabButtons.add(new GuiTabButton(this, panel, tabButtonX, curY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter())));
+                tabButtons.add(new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter())));
             }
         }
     }

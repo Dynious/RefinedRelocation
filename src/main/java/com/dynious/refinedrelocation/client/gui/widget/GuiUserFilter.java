@@ -6,7 +6,7 @@ import net.minecraft.util.StatCollector;
 
 public class GuiUserFilter extends GuiWidgetBase {
 
-    public int inputHeight = 85;
+    public int inputHeight = 76;
     protected CustomUserFilter filter;
     protected boolean drawLabel = true;
     protected GuiLabel userFilterLabel;
@@ -27,7 +27,7 @@ public class GuiUserFilter extends GuiWidgetBase {
                 + StatCollector.translateToLocal(Strings.OREDICT_CHARACTER) + ": \u00A72!\n\u00A77"
                 + StatCollector.translateToLocal(Strings.COMMA_SEPARATION));
 
-        userFilter = new GuiTextInputUserFilter(this, x, y + h - inputHeight, w, inputHeight, filter);
+        userFilter = new GuiTextInputUserFilter(this, x, y + h - inputHeight - 9, w, inputHeight, filter);
     }
 
 }
