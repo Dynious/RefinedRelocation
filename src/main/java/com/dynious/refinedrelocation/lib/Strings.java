@@ -31,7 +31,6 @@ public class Strings
     public static final String DISABLED = GUI_PREFIX + "disabled";
     public static final String ACTIVE = GUI_PREFIX + "active";
     public static final String INACTIVE = GUI_PREFIX + "inactive";
-    public static final String CUSTOM_FILTER = GUI_PREFIX + "customFilter";
     public static final String NAME_MATCHING = GUI_PREFIX + "nameMatching";
     public static final String WILDCARD_CHARACTER = GUI_PREFIX + "wildcardChar";
     public static final String OREDICT_CHARACTER = GUI_PREFIX + "oredictChar";
@@ -78,6 +77,10 @@ public class Strings
     public static final String YES = GUI_PREFIX + "yes";
     public static final String NO = GUI_PREFIX + "no";
     public static final String FORMED = GUI_PREFIX + "formed";
+    public static final String SELECT_FILTER_TYPE = GUI_PREFIX + "selectFilterType";
+    public static final String CUSTOM_FILTER = GUI_PREFIX + "customFilter";
+    public static final String PRESET_FILTER = GUI_PREFIX + "presetFilter";
+    public static final String CREATIVE_FILTER = GUI_PREFIX + "creativeFilter";
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String LINKED = ITEM_DESC_PREFIX + "linked";
@@ -130,5 +133,5 @@ public class Strings
     public static final String COMMAND_HELP_CHANGELOG = COMMAND_PREFIX + "helpChangelog";
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
-    public static final String SELECT_FILTER_TYPE = GUI_PREFIX + "selectFilterType";
+
 }

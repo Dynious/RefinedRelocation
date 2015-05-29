@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.grid.MultiFilter;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
 import net.minecraft.block.Block;
@@ -108,6 +109,11 @@ public class CreativeTabFilter extends AbstractFilter implements IChecklistFilte
     @Override
     public void setFilterBoolean(int optionId, boolean value) {
         tabStates[optionId] = value;
+    }
+
+    @Override
+    public String getFilterName() {
+        return Strings.CREATIVE_FILTER;
     }
 
     @Override

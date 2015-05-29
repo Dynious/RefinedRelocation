@@ -2,7 +2,9 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.grid.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -28,12 +30,15 @@ public class GuiFilterList extends GuiWidgetBase {
         super(x, y, w, h);
         this.filter = filter;
 
-        numFiltersPerScreen = (int) Math.floor(((h + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));
+        GuiLabel headerLabel = new GuiLabel(this, x, y, StatCollector.translateToLocal(filter.getFilterName()));
+        headerLabel.drawCentered = false;
+
+        numFiltersPerScreen = (int) Math.floor(((h - 12 + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));
 
         filters = new GuiCheckboxFilter[numFiltersPerScreen];
         for (int i = 0; i < numFiltersPerScreen; i++)
         {
-            filters[i] = new GuiCheckboxFilter(this, x, y + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, filter);
+            filters[i] = new GuiCheckboxFilter(this, x, y + 12 + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, filter);
         }
         recalculateScrollBar();
     }
@@ -57,10 +62,10 @@ public class GuiFilterList extends GuiWidgetBase {
 
     public void recalculateScrollBar()
     {
-        int scrollBarTotalHeight = h - 2;
+        int scrollBarTotalHeight = h - 22;
         this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / filter.getOptionCount() + 1;
-        this.scrollBarYPos = y + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (filter.getOptionCount() - numFiltersPerScreen));
-        this.scrollBarXPos = x + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
+        this.scrollBarYPos = y + 13 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (filter.getOptionCount() - numFiltersPerScreen));
+        this.scrollBarXPos = x + 1 + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
     }
 
     @Override
@@ -68,7 +73,7 @@ public class GuiFilterList extends GuiWidgetBase {
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(Resources.GUI_MODULAR_FILTER);
-        this.drawTexturedModalRect(x, y, 0, 0, w, h);
+        this.drawTexturedModalRect(x, y + 12, 0, 0, 162, 89 - 12);
 
         if (mouseClickY != -1)
         {

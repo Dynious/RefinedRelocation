@@ -63,7 +63,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         if(filterTile instanceof IAdvancedTile)
         {
             curX = width / 2 - 75;
-            curY += 24;
+            curY += 22;
             new GuiButtonMaxStackSize(this, curX, curY, (IAdvancedTile) filterTile, MessageGUI.MAX_STACK_SIZE);
             curX += 27;
             new GuiButtonSpread(this, curX, curY, (IAdvancedTile) filterTile, MessageGUI.SPREAD_ITEMS);

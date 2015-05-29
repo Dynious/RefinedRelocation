@@ -85,7 +85,6 @@ gui.refinedrelocation.enabled=Enabled
 gui.refinedrelocation.disabled=Disabled
 gui.refinedrelocation.active=Active
 gui.refinedrelocation.inactive=Inactive
-gui.refinedrelocation.customFilter=Custom filter
 gui.refinedrelocation.nameMatching=Item name matching
 gui.refinedrelocation.wildcardChar=Wildcard character
 gui.refinedrelocation.oredictChar=Oredict lookup prefix
@@ -139,6 +138,9 @@ gui.refinedrelocation.false=False
 gui.refinedrelocation.yes=Yes
 gui.refinedrelocation.no=No
 gui.refinedrelocation.selectFilterType=Select a filter type:
+gui.refinedrelocation.customFilter=Custom Filter
+gui.refinedrelocation.presetFilter=Preset Filter
+gui.refinedrelocation.creativeFilter=Creative Filter
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)

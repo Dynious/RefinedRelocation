@@ -93,6 +93,11 @@ public class PresetFilter extends AbstractFilter implements IChecklistFilter {
         presets[optionId] = value;
     }
 
+    @Override
+    public String getFilterName() {
+        return Strings.PRESET_FILTER;
+    }
+
     public String getName(int index) {
         switch (index) {
             case 0:
