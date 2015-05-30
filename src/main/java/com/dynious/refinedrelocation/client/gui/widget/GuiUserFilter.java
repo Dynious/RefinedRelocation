@@ -6,6 +6,9 @@ import net.minecraft.util.StatCollector;
 
 public class GuiUserFilter extends GuiWidgetBase {
 
+    public static final int ICON_X = 116;
+    public static final int ICON_Y = 238;
+
     public int inputHeight = 76;
     protected CustomUserFilter filter;
     protected boolean drawLabel = true;

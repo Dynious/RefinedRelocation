@@ -7,10 +7,13 @@ import com.dynious.refinedrelocation.container.ContainerFiltered;
 import com.dynious.refinedrelocation.grid.filter.*;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
+import com.dynious.refinedrelocation.tileentity.TileAdvancedFilteredBlockExtender;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -39,7 +42,11 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
 
         Keyboard.enableRepeatEvents(true);
 
-        new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity()));
+        String title = BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity());
+        if(filterTile instanceof TileAdvancedFilteredBlockExtender) {
+            title = StatCollector.translateToLocal(Strings.ADV_FILTERED_BLOCK_EXTENDER);
+        }
+        new GuiLabel(this, width / 2, height / 2 - 76, title);
 
         rebuildTabPanel(false);
 
@@ -92,7 +99,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         int tabButtonX = width / 2 - 118;
         int tabButtonY = pageY  - 6;
         if(filterTile.getFilter().getFilterCount() == 0) {
-            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()));
+            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()), -1, -1);
             panel.setActiveTabButton(emptyTabButton);
             tabButtons.add(emptyTabButton);
         } else {
@@ -100,12 +107,26 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
             for(int i = 0; i < filterTile.getFilter().getFilterCount(); i++) {
                 AbstractFilter filter = filterTile.getFilter().getFilterAtIndex(i);
                 IGuiWidgetBase page = null;
+                int iconTextureX = -1;
+                int iconTextureY = -1;
                 switch(filter.getTypeId()) {
-                    case AbstractFilter.TYPE_CUSTOM: page = new GuiUserFilter(pageX, pageY, 160, 97, true, (CustomUserFilter) filter); break;
-                    case AbstractFilter.TYPE_PRESET: page = new GuiFilterList(pageX, pageY, 160, 97, (IChecklistFilter) filter); break;
-                    case AbstractFilter.TYPE_CREATIVETAB: page = new GuiFilterList(pageX, pageY, 160, 97, (IChecklistFilter) filter); break;
+                    case AbstractFilter.TYPE_CUSTOM:
+                        page = new GuiUserFilter(pageX, pageY, 160, 97, true, (CustomUserFilter) filter);
+                        iconTextureX = GuiUserFilter.ICON_X;
+                        iconTextureY = GuiUserFilter.ICON_Y;
+                        break;
+                    case AbstractFilter.TYPE_PRESET:
+                        page = new GuiFilterList(pageX, pageY, 160, 97, (IChecklistFilter) filter);
+                        iconTextureX = GuiFilterList.ICON_PRESET_X;
+                        iconTextureY = GuiFilterList.ICON_PRESET_Y;
+                        break;
+                    case AbstractFilter.TYPE_CREATIVETAB:
+                        page = new GuiFilterList(pageX, pageY, 160, 97, (IChecklistFilter) filter);
+                        iconTextureX = GuiFilterList.ICON_CREATIVE_X;
+                        iconTextureY = GuiFilterList.ICON_CREATIVE_Y;
+                        break;
                 }
-                GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page);
+                GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page, iconTextureX, iconTextureY);
                 if(firstTabButton == null) {
                     firstTabButton = tabButton;
                 }
@@ -118,7 +139,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
                 firstTabButton.setActive(true);
             }
             if(filterTile.getFilter().getFilterCount() < 4) {
-                tabButtons.add(new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter())));
+                tabButtons.add(new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()), -1, -1));
             }
         }
     }

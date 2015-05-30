@@ -9,6 +9,12 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 public class GuiFilterList extends GuiWidgetBase {
+
+    public static final int ICON_PRESET_X = 98;
+    public static final int ICON_PRESET_Y = 238;
+    public static final int ICON_CREATIVE_X = 80;
+    public static final int ICON_CREATIVE_Y = 238;
+
     public int numFiltersPerScreen;
     public int filterRowHeight = 10;
     public int rowSpacing = 1;
