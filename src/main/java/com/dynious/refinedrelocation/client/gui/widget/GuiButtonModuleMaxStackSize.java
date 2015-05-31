@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
@@ -25,14 +26,14 @@ public class GuiButtonModuleMaxStackSize extends GuiButtonCounter
             return;
 
         module.maxExtractionStackSize = (int) newValue;
-        getContainer().sendMessage(2, (int) newValue);
+        GuiHelper.sendIntMessage(2, (int) newValue);
     }
 
     @Override
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
             tooltip.add(0, StatCollector.translateToLocal(Strings.MODULE_MAX_STACK_SIZE));
         return tooltip;
     }

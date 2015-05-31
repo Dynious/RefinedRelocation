@@ -27,10 +27,12 @@ import java.util.List;
 public class FilterStandard implements IFilterGUI
 {
     public static final int FILTER_SIZE = 14;
-    private static CreativeTabs[] tabs = CreativeTabs.creativeTabArray;
-    private boolean[] customFilters = new boolean[FILTER_SIZE];
+    private static CreativeTabs[] syncedTabs;
+
     private IFilterTileGUI tile;
-    private boolean[] creativeTabs = new boolean[tabs.length];
+    private CreativeTabs[] creativeTabArray;
+    private boolean[] creativeTabs;
+    private boolean[] customFilters = new boolean[FILTER_SIZE];
     private String userFilter = "";
 
     private boolean blacklists = false;
@@ -38,6 +40,8 @@ public class FilterStandard implements IFilterGUI
     public FilterStandard(IFilterTileGUI tile)
     {
         this.tile = tile;
+        creativeTabArray = syncedTabs != null ? syncedTabs : CreativeTabs.creativeTabArray;
+        creativeTabs = new boolean[creativeTabArray.length];
     }
 
     public static boolean stringMatchesWildcardPattern(String string, String wildcardPattern)
@@ -79,7 +83,7 @@ public class FilterStandard implements IFilterGUI
 
     public static void syncTabs(String[] tabLabels)
     {
-        tabs = new CreativeTabs[tabLabels.length];
+        syncedTabs = new CreativeTabs[tabLabels.length];
         for (int i = 0; i < tabLabels.length; i++)
         {
             String label = tabLabels[i];
@@ -89,12 +93,12 @@ public class FilterStandard implements IFilterGUI
                 {
                     if (label.equalsIgnoreCase(tab.getTabLabel()))
                     {
-                        tabs[i] = tab;
+                        syncedTabs[i] = tab;
                     }
                 }
             }
-            if (tabs[i] == null)
-                tabs[i] = createNewFakeTab(label);
+            if (syncedTabs[i] == null)
+                syncedTabs[i] = createNewFakeTab(label);
         }
     }
 
@@ -234,6 +238,7 @@ public class FilterStandard implements IFilterGUI
                 {
                     int index = tab.tabIndex;
 
+                    // TODO I might be silly, but um...isn't this the same as creativeTabs[index]? o_o
                     for (int i = 0; i < creativeTabs.length; i++)
                     {
                         if (creativeTabs[i] && index == i)
@@ -305,7 +310,7 @@ public class FilterStandard implements IFilterGUI
             case 13:
                 return StatCollector.translateToLocal(Strings.FUEL_FILTER);
             default:
-                return I18n.format(tabs[getCreativeTab(place)].getTranslatedTabLabel()).replace("itemGroup.", "");
+                return I18n.format(creativeTabArray[getCreativeTab(place)].getTranslatedTabLabel()).replace("itemGroup.", "");
         }
     }
 
@@ -353,19 +358,32 @@ public class FilterStandard implements IFilterGUI
         }
 
         int usedPresets = 0;
-        for (int i = 0; i < getSize(); i++)
+
+        for (int i = 0; i < customFilters.length; i++)
         {
-            if (usedPresets < 2) // Only show a maximum of 2 presets
+            if (nbtData.getBoolean("cumstomFilters" + i))
             {
-                if (getValue(i))
-                {
-                    filter.add(" " + getName(i) + (i == 1 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
-                    ++usedPresets;
-                }
+                filter.add(" " + getName(i) + (usedPresets == 0 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
+                ++usedPresets;
+                if (usedPresets == 2)
+                    return filter;
             }
-            else
+        }
+
+        String filters = nbtData.getString("filters");
+
+        loop:
+        for (String string : filters.split("\\^\\$"))
+        {
+            for (int i = 0; i < creativeTabArray.length && i < creativeTabs.length; i++)
             {
-                break;
+                if (string.equals(creativeTabArray[i].tabLabel))
+                {
+                    filter.add(" " + I18n.format(creativeTabArray[i].getTranslatedTabLabel()).replace("itemGroup.", "") + (usedPresets == 0 ? " " + StringHelper.getLocalizedString(Strings.ELLIPSE) : ""));
+                    ++usedPresets;
+                    if (usedPresets == 2)
+                        break loop;
+                }
             }
         }
         return filter;
@@ -380,11 +398,11 @@ public class FilterStandard implements IFilterGUI
             compound.setBoolean("cumstomFilters" + i, customFilters[i]);
         }
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < tabs.length && i < creativeTabs.length; i++)
+        for (int i = 0; i < creativeTabArray.length && i < creativeTabs.length; i++)
         {
             if (creativeTabs[i])
             {
-                builder.append(tabs[i].tabLabel).append("^$");
+                builder.append(creativeTabArray[i].tabLabel).append("^$");
             }
         }
         compound.setString("filters", builder.toString());
@@ -402,9 +420,9 @@ public class FilterStandard implements IFilterGUI
         String filters = compound.getString("filters");
         for (String string : filters.split("\\^\\$"))
         {
-            for (int i = 0; i < tabs.length && i < creativeTabs.length; i++)
+            for (int i = 0; i < creativeTabArray.length && i < creativeTabs.length; i++)
             {
-                if (string.equals(tabs[i].tabLabel))
+                if (string.equals(creativeTabArray[i].tabLabel))
                     creativeTabs[i] = true;
             }
         }

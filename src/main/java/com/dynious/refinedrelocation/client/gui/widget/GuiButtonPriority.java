@@ -2,9 +2,8 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessagePriority;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -12,17 +11,20 @@ import java.util.List;
 
 public class GuiButtonPriority extends GuiButton
 {
+    private final int boundMessageId;
     private ISortingInventory tile;
 
-    public GuiButtonPriority(IGuiParent parent, ISortingInventory tile)
+    public GuiButtonPriority(IGuiParent parent, ISortingInventory tile, int boundMessageId)
     {
         super(parent, "");
+        this.boundMessageId = boundMessageId;
         this.tile = tile;
     }
 
-    public GuiButtonPriority(IGuiParent parent, int x, int y, int w, int h, ISortingInventory tile)
+    public GuiButtonPriority(IGuiParent parent, int x, int y, int w, int h, ISortingInventory tile, int boundMessageId)
     {
         super(parent, x, y, w, h, 0, 0, "");
+        this.boundMessageId = boundMessageId;
         this.tile = tile;
     }
 
@@ -54,7 +56,7 @@ public class GuiButtonPriority extends GuiButton
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> subTooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.PRIORITY) + ":");
@@ -68,14 +70,14 @@ public class GuiButtonPriority extends GuiButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if (isMouseInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
+        if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
         {
             int amount = type == 0 ? -1 : 1;
             if (tile.getPriority().ordinal() + amount >= 0 && tile.getPriority().ordinal() + amount < ISortingInventory.Priority.values().length)
             {
                 ISortingInventory.Priority newPriority = ISortingInventory.Priority.values()[tile.getPriority().ordinal() + amount];
                 tile.setPriority(newPriority);
-                NetworkHandler.INSTANCE.sendToServer(new MessagePriority(newPriority.ordinal()));
+                GuiHelper.sendIntMessage(boundMessageId, newPriority.ordinal());
                 setValue(newPriority);
             }
         }

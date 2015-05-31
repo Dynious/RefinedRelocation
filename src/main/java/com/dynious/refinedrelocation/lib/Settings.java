@@ -11,6 +11,7 @@ public class Settings
     public static final int RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION_DEFAULT = 10;
     public static final int CRAFTING_MODULE_TICKS_BETWEEN_CRAFTING_DEFAULT = 20;
     public static final boolean DISABLE_SORTING_TO_NORMAL_DEFAULT = false;
+    public static final boolean FORCE_NON_FMP_RELOCATORS_DEFAULT = false;
 
 
     public static boolean DISABLE_WIRELESS_BLOCK_EXTENDER;
@@ -22,4 +23,5 @@ public class Settings
     public static int RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION;
     public static int CRAFTING_MODULE_TICKS_BETWEEN_CRAFTING;
     public static boolean DISABLE_SORTING_TO_NORMAL;
+    public static boolean FORCE_NON_FMP_RELOCATORS;
 }

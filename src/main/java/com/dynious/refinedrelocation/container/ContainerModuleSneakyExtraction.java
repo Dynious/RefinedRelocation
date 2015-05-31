@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
@@ -45,10 +46,10 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     }
 
     @Override
-    public void onMessage(int messageID, Object message)
+    public void onMessage(int messageId, Object value, EntityPlayer entityPlayer)
     {
-        super.onMessage(messageID, message);
-        if (messageID == 3)
-            setExtractionSide((Integer) message);
+        super.onMessage(messageId, value, entityPlayer);
+        if (messageId == 3)
+            setExtractionSide((Integer) value);
     }
 }

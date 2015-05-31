@@ -24,7 +24,7 @@ public class GuiFilterList extends GuiWidgetBase
     protected int currentIndex = 0;
     protected GuiCheckboxFilter filters[];
 
-    public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile)
+    public GuiFilterList(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile, int boundMessageId)
     {
         super(parent, x, y, w, h);
         this.tile = tile;
@@ -34,7 +34,7 @@ public class GuiFilterList extends GuiWidgetBase
         filters = new GuiCheckboxFilter[numFiltersPerScreen];
         for (int i = 0; i < numFiltersPerScreen; i++)
         {
-            filters[i] = new GuiCheckboxFilter(this, x, y + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, tile);
+            filters[i] = new GuiCheckboxFilter(this, x, y + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, tile, boundMessageId);
         }
         recalculateScrollBar();
     }

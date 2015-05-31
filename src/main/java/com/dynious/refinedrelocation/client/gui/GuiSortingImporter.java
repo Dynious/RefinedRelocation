@@ -1,10 +1,9 @@
 package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.container.ContainerSortingImporter;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageSwitchPage;
 import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -88,11 +87,11 @@ public class GuiSortingImporter extends GuiContainer
         {
             case 0:
                 ((ContainerSortingImporter) inventorySlots).previousPage();
-                NetworkHandler.INSTANCE.sendToServer(new MessageSwitchPage(true));
+                GuiHelper.sendBooleanMessage(ContainerSortingImporter.MESSAGE_SWITCH_PAGE, true);
                 break;
             case 1:
                 ((ContainerSortingImporter) inventorySlots).nextPage();
-                NetworkHandler.INSTANCE.sendToServer(new MessageSwitchPage(false));
+                GuiHelper.sendBooleanMessage(ContainerSortingImporter.MESSAGE_SWITCH_PAGE, false);
                 break;
         }
     }

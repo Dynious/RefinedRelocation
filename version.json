@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.0.8a",
-			"changeLog":"Fixed API bug and fixed WAILA integration error",
-			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2233469/download"
+			"modVersion":"1.0.8b",
+			"changeLog":"API change.",
+			"updateURL":"http://minecraft.curseforge.com/mc-mods/75811-refined-relocation/files/2235511/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",

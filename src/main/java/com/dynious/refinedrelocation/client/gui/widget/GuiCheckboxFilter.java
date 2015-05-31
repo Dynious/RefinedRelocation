@@ -2,19 +2,20 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageFilterOption;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import net.minecraft.client.Minecraft;
 
 public class GuiCheckboxFilter extends GuiCheckbox
 {
+    private int boundMessageId;
     protected IFilterTileGUI tile;
     protected int index;
 
-    public GuiCheckboxFilter(IGuiParent parent, int x, int y, int w, int h, int index, IFilterTileGUI tile)
+    public GuiCheckboxFilter(IGuiParent parent, int x, int y, int w, int h, int index, IFilterTileGUI tile, int boundMessageId)
     {
         super(parent, x, y, w, h, null);
         this.tile = tile;
+        this.boundMessageId = boundMessageId;
         setIndex(index);
         update();
     }
@@ -33,7 +34,7 @@ public class GuiCheckboxFilter extends GuiCheckbox
             return;
 
         tile.getFilter().setValue(index, newState);
-        NetworkHandler.INSTANCE.sendToServer(new MessageFilterOption(index));
+        GuiHelper.sendIntMessage(boundMessageId, index);
     }
 
     @Override

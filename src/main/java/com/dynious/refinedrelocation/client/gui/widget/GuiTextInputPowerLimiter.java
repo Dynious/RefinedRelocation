@@ -2,9 +2,8 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.GuiPowerLimiter;
 import com.dynious.refinedrelocation.helper.EnergyType;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageSetMaxPower;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.StringUtils;
@@ -14,14 +13,16 @@ import java.util.List;
 
 public class GuiTextInputPowerLimiter extends GuiTextInput
 {
+    private final int boundMessageId;
     protected GuiPowerLimiter parent;
     private TilePowerLimiter tile;
     private double maxAcceptedEnergy;
     private EnergyType currentEnergyType;
 
-    public GuiTextInputPowerLimiter(GuiPowerLimiter parent, int x, int y, int w, int h, TilePowerLimiter tile)
+    public GuiTextInputPowerLimiter(GuiPowerLimiter parent, int x, int y, int w, int h, TilePowerLimiter tile, int boundMessageId)
     {
         super(parent, x, y, w, h);
+        this.boundMessageId = boundMessageId;
         this.tile = tile;
         this.parent = parent;
         update();
@@ -35,7 +36,7 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
 
         maxAcceptedEnergy = stringToMaxEnergy(newFilter);
         tile.setMaxAcceptedEnergy(maxAcceptedEnergy);
-        NetworkHandler.INSTANCE.sendToServer(new MessageSetMaxPower(maxAcceptedEnergy));
+        GuiHelper.sendDoubleMessage(boundMessageId, maxAcceptedEnergy);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> list = new ArrayList<String>();
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             list.add(StatCollector.translateToLocal(Strings.MAX_ENERGY));
         }

@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface IGuiWidgetBase extends IGuiParent
 {
-    public IGuiParent getParent();
+    IGuiParent getParent();
 
-    public void setParent(IGuiParent parent);
+    void setParent(IGuiParent parent);
 
-    public int getWidth();
+    int getWidth();
 
-    public int getHeight();
+    int getHeight();
 
     void setSize(int w, int h);
 
@@ -28,21 +28,30 @@ public interface IGuiWidgetBase extends IGuiParent
 
     void setVisible(boolean visible);
 
-    public List<String> getTooltip(int mouseX, int mouseY);
+    List<String> getTooltip(int mouseX, int mouseY);
 
-    public void drawForeground(int mouseX, int mouseY);
+    void drawForeground(int mouseX, int mouseY);
 
-    public void drawBackground(int mouseX, int mouseY);
+    void drawBackground(int mouseX, int mouseY);
 
-    public void draw(int mouseX, int mouseY);
+    void draw(int mouseX, int mouseY);
 
-    public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown);
+    void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown);
 
-    public boolean keyTyped(char c, int i);
+    boolean keyTyped(char c, int i);
 
-    public void handleMouseInput();
+    void handleMouseInput();
 
-    public void update();
+    void update();
 
-    public void mouseMovedOrUp(int par1, int par2, int par3);
+    void mouseMovedOrUp(int par1, int par2, int par3);
+
+    boolean isInsideBounds(int x, int y);
+
+    IGuiWidgetBase getChildAt(int mouseX, int mouseY);
+
+    IGuiWidgetBase getWidgetAt(int mouseX, int mouseY);
+
+    List<IGuiWidgetBase> getChildren();
+
 }

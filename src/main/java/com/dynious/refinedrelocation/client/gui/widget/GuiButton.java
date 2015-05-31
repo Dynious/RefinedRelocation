@@ -34,7 +34,7 @@ public class GuiButton extends GuiWidgetBase
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         int offsetTextureY = 0;
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             offsetTextureY += this.h;
         }
@@ -45,7 +45,7 @@ public class GuiButton extends GuiWidgetBase
             if (child instanceof GuiLabel)
             {
                 GuiLabel childLabel = (GuiLabel) child;
-                childLabel.setColor(isMouseInsideBounds(mouseX, mouseY) ? 0xffffa0 : 0xffffff);
+                childLabel.setColor(isInsideBounds(mouseX, mouseY) ? 0xffffa0 : 0xffffff);
             }
         }
 
@@ -56,7 +56,7 @@ public class GuiButton extends GuiWidgetBase
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
-        if (isMouseInsideBounds(mouseX, mouseY) && visible)
+        if(isInsideBounds(mouseX, mouseY))
         {
             this.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
         }

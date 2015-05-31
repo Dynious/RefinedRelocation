@@ -53,7 +53,7 @@ public class GuiButtonCounter extends GuiButton
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
 
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             tooltip.add("\u00A77" + StatCollector.translateToLocal(Strings.CLICK) + ": \u00B1" + numberFormat.format(step));
             tooltip.add("\u00A77" + StatCollector.translateToLocal(Strings.SHIFT_CLICK) + ": \u00B1" + numberFormat.format(shiftStep));
@@ -65,7 +65,7 @@ public class GuiButtonCounter extends GuiButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if (isMouseInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
+        if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
         {
             double oldVal = getValue();
             double curStep = (isShiftKeyDown ? shiftStep : step) * (type == 1 ? -1 : 1);

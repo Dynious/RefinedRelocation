@@ -5,14 +5,15 @@ import com.dynious.refinedrelocation.container.slot.SlotHopper;
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageSetFilterOption;
-import com.dynious.refinedrelocation.network.packet.MessageUserFilter;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIString;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 
-public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered
+public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered, IContainerNetworked
 {
     protected final ISidedInventory inventory;
     protected IFilterTileGUI tile;
@@ -90,7 +91,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
             {
                 if (crafter instanceof EntityPlayerMP)
                 {
-                    NetworkHandler.INSTANCE.sendTo(new MessageUserFilter(tile.getFilter().getUserFilter()), (EntityPlayerMP) crafter);
+                    NetworkHandler.INSTANCE.sendTo(new MessageGUIString(MessageGUI.USERFILTER, tile.getFilter().getUserFilter()), (EntityPlayerMP) crafter);
                 }
             }
             lastUserFilter = tile.getFilter().getUserFilter();
@@ -174,5 +175,12 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     public void setPriority(int priority)
     {
         //NOOP
+    }
+
+    @Override
+    public void onMessage(int messageId, Object value, EntityPlayer player) {
+        switch(messageId) {
+            case MessageGUI.BLACKLIST: setBlackList((Boolean) value); break;
+        }
     }
 }

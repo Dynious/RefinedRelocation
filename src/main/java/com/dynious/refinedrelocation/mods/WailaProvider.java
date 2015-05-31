@@ -25,17 +25,17 @@ public class WailaProvider
         registrar.registerBodyProvider(new ITileHUDHandler(), IAdvancedTile.class);
         registrar.registerBodyProvider(new ITileHUDHandler(), IDisguisable.class);
 
-        registrar.registerSyncedNBTKey("*", BlockRelocator.class);
-        registrar.registerSyncedNBTKey("*", BlockPowerLimiter.class);
-        registrar.registerSyncedNBTKey("*", IFilterTile.class);
-        registrar.registerSyncedNBTKey("*", IAdvancedTile.class);
-        registrar.registerSyncedNBTKey("*", BlockRelocationController.class);
+        registrar.registerNBTProvider(new RelocatorHUDHandler(), BlockRelocator.class);
+        registrar.registerNBTProvider(new PowerLimiterHUDHandler(), BlockPowerLimiter.class);
+        registrar.registerNBTProvider(new ITileHUDHandler(), IFilterTile.class);
+        registrar.registerNBTProvider(new ITileHUDHandler(), IAdvancedTile.class);
+        registrar.registerNBTProvider(new RelocationControllerHUDHandler(), BlockRelocationController.class);
 
         if (Mods.IS_FMP_LOADED)
         {
             registrar.registerStackProvider(new RelocatorHUDHandler(), BlockMultipart.class);
             registrar.registerBodyProvider(new RelocatorHUDHandler(), BlockMultipart.class);
-            registrar.registerSyncedNBTKey("*", BlockMultipart.class);
+            registrar.registerNBTProvider(new RelocatorHUDHandler(), BlockMultipart.class);
         }
     }
 }

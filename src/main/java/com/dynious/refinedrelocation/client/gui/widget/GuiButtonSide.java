@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
 import com.dynious.refinedrelocation.helper.BlockHelper;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import net.minecraft.client.Minecraft;
@@ -23,7 +24,7 @@ public class GuiButtonSide extends GuiButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             if (type == 0)
             {
@@ -41,7 +42,7 @@ public class GuiButtonSide extends GuiButton
     protected void onValueChangedByUser(int side)
     {
         module.setOutputSide(side);
-        getContainer().sendMessage(0, side);
+        GuiHelper.sendIntMessage(0, side);
     }
 
     public void update()

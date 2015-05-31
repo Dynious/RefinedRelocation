@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
@@ -26,14 +27,14 @@ public class GuiButtonMaxCraftStack extends GuiButtonCounter
             return;
 
         tile.setMaxCraftStack((int) newValue);
-        getContainer().sendMessage(0, (int) newValue);
+        GuiHelper.sendIntMessage(0, (int) newValue);
     }
 
     @Override
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> subTooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.MAX_CRAFT_STACK));

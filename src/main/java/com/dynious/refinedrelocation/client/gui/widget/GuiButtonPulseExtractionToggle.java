@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
@@ -29,7 +30,7 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             if (type == 0)
                 setNewState(getNextControlState(), true);
@@ -56,8 +57,9 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
             return;
 
         module.redstoneControlState = newState;
-        if (sendUpdate)
-            getContainer().sendMessage(1, newState);
+        if (sendUpdate) {
+            GuiHelper.sendIntMessage(1, newState);
+        }
 
         switch (module.redstoneControlState)
         {
@@ -84,7 +86,7 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List tooltip = super.getTooltip(mouseX, mouseY);
-        if (isMouseInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY))
         {
             tooltip.add(StatCollector.translateToLocal(Strings.MODULE_REDSTONE_CONTROL + module.redstoneControlState));
         }

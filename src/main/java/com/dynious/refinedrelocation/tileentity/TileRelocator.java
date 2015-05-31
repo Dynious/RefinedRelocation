@@ -41,6 +41,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     public boolean shouldUpdate = true;
     public boolean isBeingPowered = false;
     private boolean isFirstTick = true;
+    private boolean neighborChanged = false;
     private TileEntity[] inventories = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocator[] relocators = new IRelocator[ForgeDirection.VALID_DIRECTIONS.length];
     private IRelocatorModule[] modules = new IRelocatorModule[ForgeDirection.VALID_DIRECTIONS.length];
@@ -126,6 +127,13 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         {
             discoverNeighbours();
             isFirstTick = false;
+            // If a neighbor updated before this tile at startup, don't affect modules
+            neighborChanged = false;
+        }
+
+        if (neighborChanged)
+        {
+            neighborChangeUpdate();
         }
 
         if (shouldUpdate)
@@ -488,6 +496,11 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
     }
 
     public void onBlocksChanged()
+    {
+        neighborChanged = true;
+    }
+
+    private void neighborChangeUpdate()
     {
         if (FMLCommonHandler.instance().getEffectiveSide().isClient())
             return;

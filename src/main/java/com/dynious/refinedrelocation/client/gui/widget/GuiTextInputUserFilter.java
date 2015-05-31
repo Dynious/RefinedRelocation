@@ -2,17 +2,18 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.MessageUserFilter;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 
 public class GuiTextInputUserFilter extends GuiTextInput
 {
+    private int boundMessageId;
     protected IFilterTileGUI tile;
 
-    public GuiTextInputUserFilter(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile)
+    public GuiTextInputUserFilter(IGuiParent parent, int x, int y, int w, int h, IFilterTileGUI tile, int boundMessageId)
     {
         super(parent, x, y, w, h);
         this.tile = tile;
+        this.boundMessageId = boundMessageId;
         setMaxStringLength(256);
         update();
     }
@@ -24,7 +25,7 @@ public class GuiTextInputUserFilter extends GuiTextInput
             return;
 
         tile.getFilter().setUserFilter(newFilter);
-        NetworkHandler.INSTANCE.sendToServer(new MessageUserFilter(newFilter));
+        GuiHelper.sendStringMessage(boundMessageId, newFilter);
     }
 
     @Override

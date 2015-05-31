@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
@@ -57,9 +58,11 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     }
 
     @Override
-    public void onMessage(int messageID, Object message)
+    public void onMessage(int messageId, Object value, EntityPlayer entityPlayer)
     {
-        if (messageID == 0)
-            setRedstoneToggle((Boolean) message);
+        switch(messageId) {
+            case MessageGUI.REDSTONE_TOGGLE: setRedstoneToggle((Boolean) value); break;
+            case MessageGUI.POWER_LIMIT: setMaxAcceptedEnergy((Double) value); break;
+        }
     }
 }

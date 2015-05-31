@@ -10,13 +10,14 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class MessageGUIBoolean extends MessageGUI implements IMessageHandler<MessageGUIBoolean, IMessage>  {
+public class MessageGUIDouble extends MessageGUI implements IMessageHandler<MessageGUIDouble, IMessage> {
 
-    private boolean value = true;
+    private double value;
 
-    public MessageGUIBoolean() {}
+    public MessageGUIDouble() {
+    }
 
-    public MessageGUIBoolean(int id, boolean value) {
+    public MessageGUIDouble(int id, double value) {
         super(id);
         this.value = value;
     }
@@ -24,17 +25,17 @@ public class MessageGUIBoolean extends MessageGUI implements IMessageHandler<Mes
     @Override
     public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
-        value = buf.readBoolean();
+        value = buf.readDouble();
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
-        buf.writeBoolean(value);
+        buf.writeDouble(value);
     }
 
     @Override
-    public IMessage onMessage(MessageGUIBoolean message, MessageContext ctx) {
+    public IMessage onMessage(MessageGUIDouble message, MessageContext ctx) {
         EntityPlayer entityPlayer = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity : FMLClientHandler.instance().getClientPlayerEntity();
         Container container = entityPlayer.openContainer;
         if(container == null || !(container instanceof IContainerNetworked)) {
@@ -45,5 +46,4 @@ public class MessageGUIBoolean extends MessageGUI implements IMessageHandler<Mes
 
         return null;
     }
-
 }

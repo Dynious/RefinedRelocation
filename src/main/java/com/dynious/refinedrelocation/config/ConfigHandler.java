@@ -48,6 +48,9 @@ public class ConfigHandler
         Settings.DISABLE_SORTING_TO_NORMAL = getConfiguration("Disable sorting to normal", Settings.DISABLE_SORTING_TO_NORMAL_DEFAULT,
                 "Disable sorting block to normal block downgrade recipe.");
 
+        Settings.FORCE_NON_FMP_RELOCATORS = getConfiguration("Force non-FMP Relocators", Settings.FORCE_NON_FMP_RELOCATORS_DEFAULT,
+                "Forces RR to use non-FMP Relocators.");
+
         if (configFile.hasChanged())
             configFile.save();
     }

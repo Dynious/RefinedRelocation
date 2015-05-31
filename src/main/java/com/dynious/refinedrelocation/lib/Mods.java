@@ -21,8 +21,8 @@ public class Mods
     public static final String COFH_BLOCK_API_ID = "CoFHAPI|block";
     public static final String IC2_ID = "IC2";
     public static final boolean IS_IC2_LOADED = Loader.isModLoaded(IC2_ID);
-    public static final String FMP_IS = "McMultipart";
-    public static final boolean IS_FMP_LOADED = Loader.isModLoaded(FMP_IS);
+    public static final String FMP_ID = "McMultipart";
+    public static final boolean IS_FMP_LOADED = !Settings.FORCE_NON_FMP_RELOCATORS && Loader.isModLoaded(FMP_ID);
     public static final String WAILA_ID = "Waila";
     public static final boolean IS_WAILA_LOADED = Loader.isModLoaded(WAILA_ID);
     public static final String AE2_ID = "appliedenergistics2";

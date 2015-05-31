@@ -63,7 +63,7 @@ public class GuiButtonToggle extends GuiButton
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if (isMouseInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
+        if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
         {
             setState(!getState());
             onStateChangedByUser(getState());

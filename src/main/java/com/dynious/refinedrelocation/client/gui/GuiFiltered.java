@@ -6,6 +6,7 @@ import com.dynious.refinedrelocation.client.gui.widget.*;
 import com.dynious.refinedrelocation.container.ContainerFiltered;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import org.lwjgl.opengl.GL11;
 
@@ -28,11 +29,11 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
 
         new GuiLabel(this, width / 2, height / 2 - 76, BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity()));
 
-        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile);
+        new GuiUserFilter(this, width / 2 - 80, height / 2 - 56, 160, 30, true, filterTile, MessageGUI.USERFILTER);
 
-        new GuiUserFilter(this, width / 2 - 80, height / 2 - 56, 160, 30, true, filterTile);
+        new GuiButtonBlacklist(this, width / 2 + 57, height / 2 - 67, filterTile, MessageGUI.BLACKLIST);
 
-        new GuiFilterList(this, width / 2 - 80, height / 2 - 18, 160, 97, filterTile);
+        new GuiFilterList(this, width / 2 - 80, height / 2 - 18, 160, 97, filterTile, MessageGUI.FILTER_OPTION);
 
         if (filterTile instanceof TileBlockExtender)
         {
@@ -41,7 +42,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
         }
         if (filterTile instanceof ISortingInventory)
         {
-            new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile);
+            new GuiButtonPriority(this, width / 2 + 30, height / 2 - 67, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
         }
     }
 
