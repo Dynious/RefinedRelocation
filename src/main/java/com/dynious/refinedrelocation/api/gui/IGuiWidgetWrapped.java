@@ -15,5 +15,6 @@ public interface IGuiWidgetWrapped {
 	void drawForeground(int mouseX, int mouseY);
 	boolean keyTyped(char c, int i);
 	void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown);
-
+	void mouseMovedOrUp(int mouseX, int mouseY, int type);
+	void handleMouseInput();
 }

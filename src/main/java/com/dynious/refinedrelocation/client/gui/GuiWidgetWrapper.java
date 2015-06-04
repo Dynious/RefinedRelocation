@@ -44,4 +44,15 @@ public class GuiWidgetWrapper extends GuiWidgetBase {
 		wrappedWidget.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
 	}
 
+	@Override
+	public void mouseMovedOrUp(int mouseX, int mouseY, int type) {
+		super.mouseMovedOrUp(mouseX, mouseY, type);
+		wrappedWidget.mouseMovedOrUp(mouseX, mouseY, type);
+	}
+
+	@Override
+	public void handleMouseInput() {
+		super.handleMouseInput();
+		wrappedWidget.handleMouseInput();
+	}
 }

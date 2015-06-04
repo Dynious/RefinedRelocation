@@ -34,12 +34,12 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped {
         GuiLabel headerLabel = new GuiLabel(this, x, y + 40, StatCollector.translateToLocal(filter.getFilterName()));
         headerLabel.drawCentered = false;
 
-        numFiltersPerScreen = (int) Math.floor(((h - 62 + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));
+        numFiltersPerScreen = (int) Math.floor(((h - 73 + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));
 
         filters = new GuiCheckboxFilter[numFiltersPerScreen];
         for (int i = 0; i < numFiltersPerScreen; i++)
         {
-            filters[i] = new GuiCheckboxFilter(this, x, y + 50 + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, filter);
+            filters[i] = new GuiCheckboxFilter(this, x, y + 55 + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, filter);
         }
         recalculateScrollBar();
     }
@@ -63,9 +63,9 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped {
 
     public void recalculateScrollBar()
     {
-        int scrollBarTotalHeight = h - 70;
+        int scrollBarTotalHeight = h - 81;
         this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / filter.getOptionCount() + 1;
-        this.scrollBarYPos = y + 51 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (filter.getOptionCount() - numFiltersPerScreen));
+        this.scrollBarYPos = y + 56 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (filter.getOptionCount() - numFiltersPerScreen));
         this.scrollBarXPos = x + 1 + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
     }
 
@@ -74,7 +74,7 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped {
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(Resources.GUI_MODULAR_FILTER);
-        this.drawTexturedModalRect(x, y + 50, 0, 0, 162, 144);
+        this.drawTexturedModalRect(x, y + 55, 0, 0, 162, 121);
 
         if (mouseClickY != -1)
         {

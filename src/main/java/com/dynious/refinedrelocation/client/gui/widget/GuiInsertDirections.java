@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
@@ -60,4 +61,11 @@ public class GuiInsertDirections extends GuiWidgetBase
         }
     }
 
+    @Override
+    public void drawBackground(int mouseX, int mouseY) {
+        mc.getTextureManager().bindTexture(Resources.GUI_MODULAR_FILTER);
+        drawTexturedModalRect(x - 2, y - 2, 162, 0, 54, 54);
+
+        super.drawBackground(mouseX, mouseY);
+    }
 }
