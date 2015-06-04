@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 public class GuiTabButton extends GuiWidgetBase {
 
     private final GuiTabPanel panel;
+    private final int tabIndex;
     private final IGuiWidgetBase page;
     private int backgroundTextureX;
     private int backgroundTextureY;
@@ -15,10 +16,11 @@ public class GuiTabButton extends GuiWidgetBase {
     private final int iconTextureY;
     private boolean active;
 
-    public GuiTabButton(IGuiParent parent, GuiTabPanel panel, int x, int y, IGuiWidgetBase page, int iconTextureX, int iconTextureY) {
+    public GuiTabButton(IGuiParent parent, GuiTabPanel panel, int x, int y, IGuiWidgetBase page, int tabIndex, int iconTextureX, int iconTextureY) {
         super(parent, x, y, 31, 26);
         this.panel = panel;
         this.page = page;
+        this.tabIndex = tabIndex;
         this.iconTextureX = iconTextureX;
         this.iconTextureY = iconTextureY;
         backgroundTextureX = 0;
@@ -35,6 +37,10 @@ public class GuiTabButton extends GuiWidgetBase {
         if(isInsideBounds(mouseX, mouseY)) {
             setActive(true);
         }
+    }
+
+    public int getTabIndex() {
+        return tabIndex;
     }
 
     public void setActive(boolean active) {
@@ -59,5 +65,9 @@ public class GuiTabButton extends GuiWidgetBase {
         if(iconTextureX != -1) {
             this.drawTexturedModalRect(x + 8 + (active ? 2 : -1), y + 4, iconTextureX, iconTextureY, 18, 18);
         }
+    }
+
+    public IGuiWidgetBase getTabPage() {
+        return page;
     }
 }

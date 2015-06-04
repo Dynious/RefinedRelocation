@@ -27,6 +27,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     private IMultiFilterTile filterTile;
     private IMultiFilter filter;
     private GuiTabPanel panel;
+    private GuiButtonDeleteFilter deleteFilterButton;
     private final List<GuiTabButton> tabButtons = new ArrayList<GuiTabButton>();
     private int lastFilterCount;
     private boolean initialUpdate = true;
@@ -55,9 +56,12 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         rebuildTabPanel(false);
     }
 
-    public void rebuildTabPanel(boolean focusLast) {
+    public void rebuildTabPanel(boolean focusLast)     {
         if(panel != null) {
             removeChild(panel);
+        }
+        if(deleteFilterButton != null) {
+            removeChild(deleteFilterButton);
         }
         for(GuiTabButton tabButton : tabButtons) {
             removeChild(tabButton);
@@ -68,7 +72,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         int tabButtonX = width / 2 - 118;
         int tabButtonY = height / 2 - 60;
 
-        GuiTabButton settingsTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterSettings(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight(), filterTile), 134, 238);
+        GuiTabButton settingsTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterSettings(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight(), filterTile), tabButtons.size(), 134, 238);
         settingsTabButton.setPlainTexture();
         if(!focusLast) {
             panel.setActiveTabButton(settingsTabButton);
@@ -78,7 +82,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         tabButtonY = height / 2 - 18;
 
         if(filter.getFilterCount() == 0) {
-            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), 62, 238);
+            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
             tabButtons.add(emptyTabButton);
         } else {
             for(int i = 0; i < filter.getFilterCount(); i++) {
@@ -86,7 +90,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
                 int iconTextureX = filterChild.getIconX();
                 int iconTextureY = filterChild.getIconY();
                 IGuiWidgetBase page = new GuiWidgetWrapper(filterChild.getGuiWidget(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()));
-                GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page, iconTextureX, iconTextureY);
+                GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page, tabButtons.size(), iconTextureX, iconTextureY);
                 tabButtons.add(tabButton);
                 tabButtonY += 25;
             }
@@ -94,9 +98,11 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
                 tabButtons.get(tabButtons.size() - 1).setActive(true);
             }
             if(filter.getFilterCount() < 4) {
-                tabButtons.add(new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), 62, 238));
+                tabButtons.add(new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238));
             }
         }
+
+        deleteFilterButton = new GuiButtonDeleteFilter(this, width / 2 + 65, height / 2 - 65);
     }
 
     @Override
@@ -104,6 +110,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         super.onGuiClosed();
         Keyboard.enableRepeatEvents(false);
     }
+
     public void updateScreen()
     {
         super.updateScreen();
@@ -131,5 +138,18 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     @Override
     public boolean doesGuiPauseGame() {
         return false;
+    }
+
+    public boolean hasFilterSelected() {
+        GuiTabButton activeTabButton = panel.getActiveTabButton();
+        return activeTabButton.getTabIndex() > 0 && !(activeTabButton.getTabPage() instanceof GuiEmptyFilter);
+    }
+
+    public int getSelectedFilterIndex() {
+        return panel.getActiveTabButton().getTabIndex() - 1;
+    }
+
+    public IMultiFilter getFilter() {
+        return filter;
     }
 }

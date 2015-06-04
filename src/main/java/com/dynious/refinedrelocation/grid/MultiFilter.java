@@ -183,14 +183,22 @@ public class MultiFilter implements IMultiFilter {
         } else if(filterIndex < filterList.size() && filterList.get(filterIndex).getTypeName().equals(filterType)) {
             return;
         }
-        IMultiFilterChild filter = MultiFilterRegistry.getFilter(filterType);
-        if(filter != null) {
-            filter.setParentFilter(this, filterIndex);
+        if(filterType.isEmpty()) {
+            filterList.remove(filterIndex);
+            for(int i = filterIndex; i < filterList.size(); i++) {
+                filterList.get(i).setParentFilter(this, i);
+            }
             markDirty(true);
-            if(filterIndex < filterList.size()) {
-                filterList.set(filterIndex, filter);
-            } else {
-                filterList.add(filter);
+        } else {
+            IMultiFilterChild filter = MultiFilterRegistry.getFilter(filterType);
+            if(filter != null) {
+                filter.setParentFilter(this, filterIndex);
+                markDirty(true);
+                if(filterIndex < filterList.size()) {
+                    filterList.set(filterIndex, filter);
+                } else {
+                    filterList.add(filter);
+                }
             }
         }
     }

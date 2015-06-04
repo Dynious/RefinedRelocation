@@ -30,4 +30,8 @@ public class GuiTabPanel extends GuiWidgetBase {
         this.activeTabButton = tabButton;
         this.activeTabButton.setActive(true);
     }
+
+    public GuiTabButton getActiveTabButton() {
+        return activeTabButton;
+    }
 }
