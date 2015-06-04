@@ -16,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered {
 
     public IMultiFilterTile tile;
-    private IMultiFilter filter;
 
     private boolean lastBlacklist = true;
     private int lastPriority;
@@ -30,7 +29,6 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         super(parentContainer);
 
         this.tile = tile;
-        this.filter = tile.getFilter();
     }
 
     @Override
@@ -42,8 +40,8 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             tile.getFilter().markDirty(false);
         }
 
-        for(int i = 0; i < filter.getFilterCount(); i++) {
-            IMultiFilterChild filterChild = filter.getFilterAtIndex(i);
+        for(int i = 0; i < tile.getFilter().getFilterCount(); i++) {
+            IMultiFilterChild filterChild = tile.getFilter().getFilterAtIndex(i);
             if(initialUpdate || filterChild.isDirty()) {
                 for(Object crafter : crafters) {
                     if(crafter instanceof EntityPlayerMP) {
