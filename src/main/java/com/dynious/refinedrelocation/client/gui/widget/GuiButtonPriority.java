@@ -77,7 +77,7 @@ public class GuiButtonPriority extends GuiButton
             {
                 ISortingInventory.Priority newPriority = ISortingInventory.Priority.values()[tile.getPriority().ordinal() + amount];
                 tile.setPriority(newPriority);
-                GuiHelper.sendIntMessage(boundMessageId, newPriority.ordinal());
+                GuiHelper.sendByteMessage(boundMessageId, (byte) newPriority.ordinal());
                 setValue(newPriority);
             }
         }

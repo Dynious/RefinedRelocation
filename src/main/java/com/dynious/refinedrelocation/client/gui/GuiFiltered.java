@@ -83,6 +83,9 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
 
         if(filter.getFilterCount() == 0) {
             GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
+            if(focusLast) {
+                emptyTabButton.setActive(true);
+            }
             tabButtons.add(emptyTabButton);
         } else {
             for(int i = 0; i < filter.getFilterCount(); i++) {
