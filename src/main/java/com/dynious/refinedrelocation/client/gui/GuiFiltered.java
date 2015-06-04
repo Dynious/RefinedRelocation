@@ -142,7 +142,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
 
     public boolean hasFilterSelected() {
         GuiTabButton activeTabButton = panel.getActiveTabButton();
-        return activeTabButton.getTabIndex() > 0 && !(activeTabButton.getTabPage() instanceof GuiEmptyFilter);
+        return activeTabButton != null && activeTabButton.getTabIndex() > 0 && !(activeTabButton.getTabPage() instanceof GuiEmptyFilter);
     }
 
     public int getSelectedFilterIndex() {
