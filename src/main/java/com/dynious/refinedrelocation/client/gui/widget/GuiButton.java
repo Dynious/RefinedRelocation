@@ -9,28 +9,35 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiButton extends GuiWidgetBase
 {
-    protected int textureX = 0;
-    protected int textureY = 0;
-    protected GuiLabel label = null;
+    protected ResourceLocation texture;
+    protected int textureX;
+    protected int textureY;
+    protected GuiLabel label;
 
     public GuiButton(IGuiParent parent, String labelText)
     {
         super(parent);
+        this.texture = Resources.GUI_SHARED;
         this.label = new GuiLabel(this, x + w / 2, y + h / 2, labelText, 0xffffff, true);
     }
 
     public GuiButton(IGuiParent parent, int x, int y, int w, int h, int textureX, int textureY, String labelText)
     {
         super(parent, x, y, w, h);
+        this.texture = Resources.GUI_SHARED;
         this.textureX = textureX;
         this.textureY = textureY;
         this.label = new GuiLabel(this, this.x + this.w / 2, this.y + this.h / 2, labelText, 0xffffff, true);
     }
 
+    public void setTextureSheet(ResourceLocation texture) {
+        this.texture = texture;
+    }
+
     @Override
     public void drawBackground(int mouseX, int mouseY)
     {
-        mc.getTextureManager().bindTexture(Resources.GUI_SHARED);
+        mc.getTextureManager().bindTexture(texture);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         int offsetTextureY = 0;

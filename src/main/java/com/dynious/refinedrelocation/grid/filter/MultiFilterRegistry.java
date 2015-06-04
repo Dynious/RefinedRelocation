@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,4 +71,7 @@ public class MultiFilterRegistry {
 		APIUtils.registerMultiFilterChild(CustomUserFilter.TYPE_NAME, CustomUserFilter.class);
 	}
 
+	public static Collection<Class<? extends IMultiFilterChild>> getFilters() {
+		return filters.values();
+	}
 }

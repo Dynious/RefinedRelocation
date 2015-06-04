@@ -1,22 +1,18 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
-import com.dynious.refinedrelocation.api.filter.IMultiFilter;
-import com.dynious.refinedrelocation.client.gui.GuiFiltered;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiButtonFilterType extends GuiButton {
 
     private final String typeName;
-    private final GuiFiltered parentGui;
-    private final IMultiFilter filter;
 
-    public GuiButtonFilterType(IGuiParent parent, int x, int y, String labelText, GuiFiltered parentGui, IMultiFilter filter, String typeName) {
-        super(parent, x, y, 24, 20, 0, 0, labelText);
+    public GuiButtonFilterType(IGuiParent parent, int x, int y, String typeName, ResourceLocation texture, int texCoordX, int texCoordY) {
+        super(parent, x, y, 24, 20, texCoordX, texCoordY, "");
         this.typeName = typeName;
-        this.parentGui = parentGui;
-        this.filter = filter;
+        setTextureSheet(texture);
     }
 
     @Override
