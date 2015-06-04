@@ -3,10 +3,17 @@ package com.dynious.refinedrelocation.grid.filter;
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
+import com.dynious.refinedrelocation.client.gui.widget.GuiCheckboxFilter;
+import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
+import com.dynious.refinedrelocation.client.gui.widget.GuiUserFilter;
 import com.dynious.refinedrelocation.grid.MultiFilter;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -15,6 +22,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.IPlantable;
 
@@ -94,6 +102,30 @@ public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
     @Override
     public void sendUpdate(EntityPlayerMP playerMP) {
         NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, presets), playerMP);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height) {
+        return new GuiFilterList(x, y, width, height, this);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ResourceLocation getIconSheet() {
+        return Resources.GUI_SHARED;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconX() {
+        return 98;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconY() {
+        return 238;
     }
 
     @Override

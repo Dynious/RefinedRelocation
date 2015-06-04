@@ -1,18 +1,14 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-public class GuiFilterList extends GuiWidgetBase {
-
-    public static final int ICON_PRESET_X = 98;
-    public static final int ICON_PRESET_Y = 238;
-    public static final int ICON_CREATIVE_X = 80;
-    public static final int ICON_CREATIVE_Y = 238;
+public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped {
 
     public int numFiltersPerScreen;
     public int filterRowHeight = 10;

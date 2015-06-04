@@ -3,9 +3,14 @@ package com.dynious.refinedrelocation.grid.filter;
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
+import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
+import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.ResourceLocation;
 
 public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
 
@@ -121,6 +127,30 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     @Override
     public void sendUpdate(EntityPlayerMP playerMP) {
         NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, tabStates), playerMP);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height) {
+        return new GuiFilterList(x, y, width, height, this);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ResourceLocation getIconSheet() {
+        return Resources.GUI_SHARED;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconX() {
+        return 80;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconY() {
+        return 238;
     }
 
     @Override

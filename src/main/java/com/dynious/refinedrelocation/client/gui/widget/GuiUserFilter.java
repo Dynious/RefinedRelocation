@@ -1,10 +1,11 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
-public class GuiUserFilter extends GuiWidgetBase {
+public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped {
 
     public static final int ICON_X = 116;
     public static final int ICON_Y = 238;

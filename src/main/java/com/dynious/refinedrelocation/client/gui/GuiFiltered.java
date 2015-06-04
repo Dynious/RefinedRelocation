@@ -110,27 +110,9 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
             GuiTabButton firstTabButton = null;
             for(int i = 0; i < filter.getFilterCount(); i++) {
                 IMultiFilterChild filterChild = filter.getFilterAtIndex(i);
-                IGuiWidgetBase page = null;
-                int iconTextureX = -1;
-                int iconTextureY = -1;
-                // TODO grab from MultiFilterRegistry
-//                switch(filter.getTypeId()) {
-//                    case AbstractFilter.TYPE_CUSTOM:
-//                        page = new GuiUserFilter(pageX, pageY, 160, 97, true, (CustomUserFilter) filter);
-//                        iconTextureX = GuiUserFilter.ICON_X;
-//                        iconTextureY = GuiUserFilter.ICON_Y;
-//                        break;
-//                    case AbstractFilter.TYPE_PRESET:
-//                        page = new GuiFilterList(pageX, pageY, 160, 97, (IChecklistFilter) filter);
-//                        iconTextureX = GuiFilterList.ICON_PRESET_X;
-//                        iconTextureY = GuiFilterList.ICON_PRESET_Y;
-//                        break;
-//                    case AbstractFilter.TYPE_CREATIVETAB:
-//                        page = new GuiFilterList(pageX, pageY, 160, 97, (IChecklistFilter) filter);
-//                        iconTextureX = GuiFilterList.ICON_CREATIVE_X;
-//                        iconTextureY = GuiFilterList.ICON_CREATIVE_Y;
-//                        break;
-//                }
+                int iconTextureX = filterChild.getIconX();
+                int iconTextureY = filterChild.getIconY();
+                IGuiWidgetBase page = new GuiWidgetWrapper(filterChild.getGuiWidget(pageX, pageY, 160, 97));
                 GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page, iconTextureX, iconTextureY);
                 if(firstTabButton == null) {
                     firstTabButton = tabButton;

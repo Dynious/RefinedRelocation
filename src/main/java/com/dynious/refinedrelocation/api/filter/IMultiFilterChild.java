@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.api.filter;
 
+import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -22,6 +23,9 @@ public interface IMultiFilterChild {
 	void markDirty(boolean isDirty);
 	boolean isDirty();
 	void sendUpdate(EntityPlayerMP playerMP);
+
+	@SideOnly(Side.CLIENT)
+	IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height);
 
 	@SideOnly(Side.CLIENT)
 	ResourceLocation getIconSheet();
