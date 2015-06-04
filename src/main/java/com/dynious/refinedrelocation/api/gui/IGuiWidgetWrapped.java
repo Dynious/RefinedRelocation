@@ -3,6 +3,8 @@ package com.dynious.refinedrelocation.api.gui;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public interface IGuiWidgetWrapped {
 
@@ -17,4 +19,5 @@ public interface IGuiWidgetWrapped {
 	void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown);
 	void mouseMovedOrUp(int mouseX, int mouseY, int type);
 	void handleMouseInput();
+	List<String> getTooltip(int mouseX, int mouseY);
 }

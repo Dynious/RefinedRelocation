@@ -3,6 +3,8 @@ package com.dynious.refinedrelocation.client.gui;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.gui.widget.GuiWidgetBase;
 
+import java.util.List;
+
 public class GuiWidgetWrapper extends GuiWidgetBase {
 
 	private final IGuiWidgetWrapped wrappedWidget;
@@ -54,5 +56,12 @@ public class GuiWidgetWrapper extends GuiWidgetBase {
 	public void handleMouseInput() {
 		super.handleMouseInput();
 		wrappedWidget.handleMouseInput();
+	}
+
+	@Override
+	public List<String> getTooltip(int mouseX, int mouseY) {
+		List<String> tooltipList = super.getTooltip(mouseX, mouseY);
+		tooltipList.addAll(wrappedWidget.getTooltip(mouseX, mouseY));
+		return tooltipList;
 	}
 }
