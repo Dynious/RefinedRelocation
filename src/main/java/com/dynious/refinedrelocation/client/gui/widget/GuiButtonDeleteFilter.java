@@ -2,9 +2,11 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.GuiFiltered;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 public class GuiButtonDeleteFilter extends GuiButton {
 
@@ -13,6 +15,7 @@ public class GuiButtonDeleteFilter extends GuiButton {
     public GuiButtonDeleteFilter(GuiFiltered parent, int x, int y) {
         super(parent, x, y, 16, 16, 160, 80, "");
         this.parent = parent;
+        setTooltipString(StatCollector.translateToLocal(Strings.DELETE_FILTER));
     }
 
     @Override

@@ -217,4 +217,9 @@ public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
         return presets.length;
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getTooltipLangKey() {
+        return Strings.PRESET_FILTER;
+    }
 }

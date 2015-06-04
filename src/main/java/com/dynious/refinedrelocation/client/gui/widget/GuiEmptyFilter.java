@@ -19,7 +19,7 @@ public class GuiEmptyFilter extends GuiWidgetBase {
         for(Class<? extends IMultiFilterChild> entry : MultiFilterRegistry.getFilters()) {
             try {
                 IMultiFilterChild filterChild = entry.newInstance();
-                new GuiButtonFilterType(this, curX, curY, filterChild.getTypeName(), filterChild.getIconSheet(), filterChild.getIconX(), filterChild.getIconY());
+                new GuiButtonFilterType(this, curX, curY, filterChild.getTypeName(), filterChild.getTooltipLangKey(), filterChild.getIconSheet(), filterChild.getIconX(), filterChild.getIconY());
                 curX += 26;
                 if(curX > endX) {
                     curX = startX;

@@ -143,6 +143,7 @@ gui.refinedrelocation.presetFilter=Preset Filter
 gui.refinedrelocation.creativeFilter=Creative Filter
 gui.refinedrelocation.advFilteredBlockExtender=Adv. Filtered Block Extender
 gui.refinedrelocation.filterSettings=Filter Settings
+gui.refinedrelocation.deleteFilter=Delete Filter
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)

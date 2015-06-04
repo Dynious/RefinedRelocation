@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 public class GuiButtonFilterType extends GuiButton {
 
@@ -15,12 +16,13 @@ public class GuiButtonFilterType extends GuiButton {
     private final int iconTexCoordY;
     private final String typeName;
 
-    public GuiButtonFilterType(IGuiParent parent, int x, int y, String typeName, ResourceLocation texture, int texCoordX, int texCoordY) {
+    public GuiButtonFilterType(IGuiParent parent, int x, int y, String typeName, String tooltipLangKey, ResourceLocation texture, int texCoordX, int texCoordY) {
         super(parent, x, y, 24, 20, 0, 0, "");
         this.iconTexture = texture;
         this.iconTexCoordX = texCoordX;
         this.iconTexCoordY = texCoordY;
         this.typeName = typeName;
+        setTooltipString(StatCollector.translateToLocal(tooltipLangKey));
     }
 
     @Override

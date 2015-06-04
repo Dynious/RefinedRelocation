@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.client.gui.widget.GuiUserFilter;
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
 import cpw.mods.fml.relauncher.Side;
@@ -172,4 +173,9 @@ public class CustomUserFilter implements IMultiFilterChild {
     @Override
     public void setFilterBooleanArray(int optionId, boolean[] values) {}
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getTooltipLangKey() {
+        return Strings.CUSTOM_FILTER;
+    }
 }
