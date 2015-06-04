@@ -128,11 +128,6 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
         switch(messageId) {
             case MessageGUI.SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
             case MessageGUI.MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
-            case MessageGUI.REDSTONE_ENABLED:
-                if(tile instanceof TileBlockExtender) {
-                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
-                }
-                break;
         }
     }
 }

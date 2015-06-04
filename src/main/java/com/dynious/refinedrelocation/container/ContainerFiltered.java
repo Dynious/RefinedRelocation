@@ -101,11 +101,6 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         switch(messageId) {
             case MessageGUI.BLACKLIST: setBlackList((Boolean) value); break;
             case MessageGUI.PRIORITY: setPriority((Byte) value); break;
-            case MessageGUI.REDSTONE_ENABLED:
-                if(tile instanceof TileBlockExtender) {
-                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
-                }
-                break;
         }
     }
 
