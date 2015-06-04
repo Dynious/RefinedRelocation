@@ -7,10 +7,6 @@ import net.minecraft.util.StatCollector;
 
 public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped {
 
-    public static final int ICON_X = 116;
-    public static final int ICON_Y = 238;
-
-    public int inputHeight = 76;
     protected CustomUserFilter filter;
     protected boolean drawLabel = true;
     protected GuiLabel userFilterLabel;
@@ -22,7 +18,7 @@ public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped {
         this.drawLabel = drawLabel;
         this.filter = filter;
 
-        userFilterLabel = new GuiLabel(this, x, y, StatCollector.translateToLocal(Strings.CUSTOM_FILTER));
+        userFilterLabel = new GuiLabel(this, x, y + 40, StatCollector.translateToLocal(Strings.CUSTOM_FILTER));
         userFilterLabel.drawCentered = false;
 
         userFilterHelp = new GuiButton(this, userFilterLabel.x + userFilterLabel.w + 5, userFilterLabel.y - 1, 10, 10, 0, 128, null);
@@ -31,7 +27,7 @@ public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped {
                 + StatCollector.translateToLocal(Strings.OREDICT_CHARACTER) + ": \u00A72!\n\u00A77"
                 + StatCollector.translateToLocal(Strings.COMMA_SEPARATION));
 
-        userFilter = new GuiTextInputUserFilter(this, x, y + h - inputHeight - 9, w, inputHeight, filter);
+        userFilter = new GuiTextInputUserFilter(this, x, y + userFilterLabel.h + 45, w, h - userFilterLabel.h - 70, filter);
     }
 
 }

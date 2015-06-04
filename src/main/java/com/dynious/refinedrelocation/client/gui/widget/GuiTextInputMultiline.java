@@ -232,6 +232,9 @@ public class GuiTextInputMultiline extends GuiWidgetBase {
 		int endOfLine = position - 1;
 		for(int i = 0; i < iteration; i++) {
 			endOfLine = text.indexOf('\n', endOfLine + 1);
+			if(endOfLine == -1) {
+				return text.length();
+			}
 		}
 		return endOfLine != -1 ? endOfLine : text.length();
 	}

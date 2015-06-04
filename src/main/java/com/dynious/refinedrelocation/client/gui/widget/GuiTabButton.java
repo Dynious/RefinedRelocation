@@ -9,6 +9,8 @@ public class GuiTabButton extends GuiWidgetBase {
 
     private final GuiTabPanel panel;
     private final IGuiWidgetBase page;
+    private int backgroundTextureX;
+    private int backgroundTextureY;
     private final int iconTextureX;
     private final int iconTextureY;
     private boolean active;
@@ -19,6 +21,12 @@ public class GuiTabButton extends GuiWidgetBase {
         this.page = page;
         this.iconTextureX = iconTextureX;
         this.iconTextureY = iconTextureY;
+        backgroundTextureX = 0;
+        backgroundTextureY = 230;
+    }
+
+    public void setPlainTexture() {
+        backgroundTextureY = 204;
     }
 
     @Override
@@ -46,7 +54,7 @@ public class GuiTabButton extends GuiWidgetBase {
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.renderEngine.bindTexture(Resources.GUI_SHARED);
-        this.drawTexturedModalRect(x + (active ? 2 : 0), y, active ? 0 : 32, 230, w, h);
+        this.drawTexturedModalRect(x + (active ? 2 : 0), y, backgroundTextureX  + (active ? 0 : 32), backgroundTextureY, w, h);
 
         if(iconTextureX != -1) {
             this.drawTexturedModalRect(x + 8 + (active ? 2 : -1), y + 4, iconTextureX, iconTextureY, 18, 18);

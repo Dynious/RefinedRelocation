@@ -53,39 +53,6 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         new GuiLabel(this, width / 2, height / 2 - 76, title);
 
         rebuildTabPanel(false);
-
-        int curX = width / 2 - 75;
-        int curY = height / 2 - 67;
-
-        if(filterTile instanceof IAdvancedTile)
-        {
-            new GuiButtonMaxStackSize(this, curX, height / 2 - 45, (IAdvancedTile) filterTile, MessageGUI.MAX_STACK_SIZE);
-            curX += 27;
-            new GuiButtonSpread(this, curX, height / 2 - 45, (IAdvancedTile) filterTile, MessageGUI.SPREAD_ITEMS);
-            curX += 27;
-            new GuiButtonFilterExtraction(this, curX, height / 2 - 45, (IAdvancedFilteredTile) filterTile, MessageGUI.RESTRICT_EXTRACTION);
-
-            new GuiInsertDirections(this, width / 2 + 30, height / 2 - 70, 50, 50, (IAdvancedTile) filterTile);
-        }
-        else
-        {
-            curY = height / 2 - 60;
-        }
-        curX = width / 2 - 75;
-
-        new GuiButtonBlacklist(this, curX, curY, filterTile, MessageGUI.BLACKLIST);
-        curX += 27;
-
-        if (filterTile instanceof TileBlockExtender)
-        {
-            new GuiButtonRedstoneSignalStatus(this, curX, curY, (TileBlockExtender) filterTile, MessageGUI.REDSTONE_ENABLED);
-            curX += 27;
-        }
-
-        if (filterTile instanceof ISortingInventory)
-        {
-            new GuiButtonPriority(this, curX, curY, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
-        }
     }
 
     public void rebuildTabPanel(boolean focusLast) {
@@ -97,36 +64,37 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         }
         tabButtons.clear();
 
-        panel = new GuiTabPanel(this, width / 2 - 80, height / 2 - 18, 160, 97);
-        int pageX = width / 2 - 80;
-        int pageY = height / 2 - 12;
+        panel = new GuiTabPanel(this, width / 2 - 80, height / 2 - 100, 160, 200);
         int tabButtonX = width / 2 - 118;
-        int tabButtonY = pageY  - 6;
+        int tabButtonY = height / 2 - 60;
+
+        GuiTabButton settingsTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterSettings(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight(), filterTile), 134, 238);
+        settingsTabButton.setPlainTexture();
+        if(!focusLast) {
+            panel.setActiveTabButton(settingsTabButton);
+        }
+        tabButtons.add(settingsTabButton);
+
+        tabButtonY = height / 2 - 18;
+
         if(filter.getFilterCount() == 0) {
-            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()), -1, -1);
-            panel.setActiveTabButton(emptyTabButton);
+            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), 62, 238);
             tabButtons.add(emptyTabButton);
         } else {
-            GuiTabButton firstTabButton = null;
             for(int i = 0; i < filter.getFilterCount(); i++) {
                 IMultiFilterChild filterChild = filter.getFilterAtIndex(i);
                 int iconTextureX = filterChild.getIconX();
                 int iconTextureY = filterChild.getIconY();
-                IGuiWidgetBase page = new GuiWidgetWrapper(filterChild.getGuiWidget(pageX, pageY, 160, 97));
+                IGuiWidgetBase page = new GuiWidgetWrapper(filterChild.getGuiWidget(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()));
                 GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page, iconTextureX, iconTextureY);
-                if(firstTabButton == null) {
-                    firstTabButton = tabButton;
-                }
                 tabButtons.add(tabButton);
                 tabButtonY += 25;
             }
             if(focusLast) {
                 tabButtons.get(tabButtons.size() - 1).setActive(true);
-            } else if(firstTabButton != null) {
-                firstTabButton.setActive(true);
             }
             if(filter.getFilterCount() < 4) {
-                tabButtons.add(new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(this, pageX, pageY, 160, 97, filterTile.getFilter()), -1, -1));
+                tabButtons.add(new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), 62, 238));
             }
         }
     }
