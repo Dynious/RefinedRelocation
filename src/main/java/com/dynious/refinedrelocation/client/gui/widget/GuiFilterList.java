@@ -1,8 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
-import com.dynious.refinedrelocation.grid.filter.IChecklistFilter;
+import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.lib.Resources;
-import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Mouse;

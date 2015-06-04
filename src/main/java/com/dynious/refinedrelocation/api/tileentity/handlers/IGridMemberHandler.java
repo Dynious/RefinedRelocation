@@ -10,34 +10,34 @@ public interface IGridMemberHandler
      *
      * @return The TileEntity this Handler is linked to
      */
-    public TileEntity getOwner();
+    TileEntity getOwner();
 
     /**
      * Should be called on first tick from its TileEntity
      */
-    public void onTileAdded();
+    void onTileAdded();
 
     /**
      * Should be called by invalidate() and onChunkUnload() from its TileEntity
      */
-    public void onTileRemoved();
+    void onTileRemoved();
 
     /**
      * Get the Grid of this GridMember
      *
      * @return The Grid of this GridMember
      */
-    public IGrid getGrid();
+    IGrid getGrid();
 
     /**
      * Sets the Grid of a GridMember
      *
      * @param newLeader The new Grid for this GridMember
      */
-    public void setGrid(IGrid newLeader);
+    void setGrid(IGrid newLeader);
 
     /**
      * @return Boolean if the GridMember can join a group
      */
-    public boolean canJoinGroup();
+    boolean canJoinGroup();
 }

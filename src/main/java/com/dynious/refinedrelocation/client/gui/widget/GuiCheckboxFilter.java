@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
-import com.dynious.refinedrelocation.grid.filter.IChecklistFilter;
+import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBoolean;
 import net.minecraft.client.Minecraft;

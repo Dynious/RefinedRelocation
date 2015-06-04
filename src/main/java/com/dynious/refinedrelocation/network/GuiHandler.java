@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.client.gui.*;
 import com.dynious.refinedrelocation.container.*;
 import com.dynious.refinedrelocation.lib.GuiIds;
@@ -30,9 +30,9 @@ public class GuiHandler implements IGuiHandler
             switch (guiId)
             {
                 case GuiIds.FILTERED:
-                    if (tile instanceof IFilterTileGUI)
+                    if (tile instanceof IMultiFilterTile)
                     {
-                        return new ContainerFiltered((IFilterTileGUI) tile);
+                        return new ContainerFiltered((IMultiFilterTile) tile);
                     }
                     break;
                 case GuiIds.ADVANCED_BLOCK_EXTENDER:
@@ -57,7 +57,7 @@ public class GuiHandler implements IGuiHandler
                 case GuiIds.FILTERING_HOPPER:
                     if (tile instanceof TileFilteringHopper)
                     {
-                        return new ContainerFilteringHopper(player.inventory, (IFilterTileGUI) tile);
+                        return new ContainerFilteringHopper(player.inventory, (IMultiFilterTile) tile);
                     }
                     break;
                 case GuiIds.SORTING_IMPORTER:
@@ -100,15 +100,15 @@ public class GuiHandler implements IGuiHandler
                     }
                     break;
                 case GuiIds.FILTERED:
-                    if (tile instanceof IFilterTileGUI)
+                    if (tile instanceof IMultiFilterTile)
                     {
-                        return new GuiFiltered((IFilterTileGUI) tile);
+                        return new GuiFiltered((IMultiFilterTile) tile);
                     }
                     break;
                 case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
                     if (tile instanceof TileAdvancedFilteredBlockExtender)
                     {
-                        return new GuiFiltered((IFilterTileGUI) tile);
+                        return new GuiFiltered((IMultiFilterTile) tile);
                     }
                     break;
                 case GuiIds.ADVANCED_BUFFER:

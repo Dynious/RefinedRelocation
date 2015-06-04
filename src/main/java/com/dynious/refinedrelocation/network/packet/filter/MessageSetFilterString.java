@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.network.packet.filter;
 
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.container.IContainerFiltered;
-import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -9,8 +9,6 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Container;
 
 public class MessageSetFilterString implements IMessage, IMessageHandler<MessageSetFilterString, IMessage> {
@@ -52,7 +50,7 @@ public class MessageSetFilterString implements IMessage, IMessageHandler<Message
         if (container == null || !(container instanceof IContainerFiltered)) {
             return null;
         }
-        AbstractFilter filter = ((IContainerFiltered) container).getFilter().getFilterAtIndex(message.filterIndex);
+        IMultiFilterChild filter = ((IContainerFiltered) container).getFilter().getFilterAtIndex(message.filterIndex);
         filter.setFilterString(message.filterOption, message.filterString);
         return null;
     }

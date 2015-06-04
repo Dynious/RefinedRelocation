@@ -5,5 +5,5 @@ import net.minecraft.item.ItemStack;
 
 public interface IItemRelocatorModule
 {
-    public IRelocatorModule getRelocatorModule(ItemStack stack);
+    IRelocatorModule getRelocatorModule(ItemStack stack);
 }

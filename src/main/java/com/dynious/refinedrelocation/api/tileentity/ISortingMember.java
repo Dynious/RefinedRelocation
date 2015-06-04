@@ -16,5 +16,5 @@ public interface ISortingMember extends IGridMember
      *
      * @return The SortingMemberHandler of this tile
      */
-    public ISortingMemberHandler getHandler();
+    ISortingMemberHandler getHandler();
 }

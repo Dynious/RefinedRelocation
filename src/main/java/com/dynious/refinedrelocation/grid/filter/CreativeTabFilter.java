@@ -1,6 +1,8 @@
 package com.dynious.refinedrelocation.grid.filter;
 
-import com.dynious.refinedrelocation.grid.MultiFilter;
+import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
@@ -14,7 +16,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
-public class CreativeTabFilter extends AbstractFilter implements IChecklistFilter {
+public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
+
+    public static final String TYPE_NAME = "creative";
 
     public static class ServerSideCreativeTab {
         public final int tabIndex;
@@ -35,10 +39,22 @@ public class CreativeTabFilter extends AbstractFilter implements IChecklistFilte
         }
     }
 
-    private boolean[] tabStates;
+    public static String[] getCreativeTabLabels() {
+        String[] labels = new String[CreativeTabs.creativeTabArray.length];
+        CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
+        for (int i = 0; i < creativeTabArray.length; i++)
+        {
+            labels[i] = creativeTabArray[i].tabLabel;
+        }
+        return labels;
+    }
 
-    public CreativeTabFilter(MultiFilter parent, int index) {
-        super(TYPE_CREATIVETAB, parent, index);
+    private IMultiFilter parentFilter;
+    private int filterIndex;
+    private boolean[] tabStates;
+    private boolean isDirty;
+
+    public CreativeTabFilter() {
         if(serverSideTabs == null) {
             serverSideTabs = new ServerSideCreativeTab[CreativeTabs.creativeTabArray.length];
             for(int i = 0; i < serverSideTabs.length; i++) {
@@ -46,6 +62,12 @@ public class CreativeTabFilter extends AbstractFilter implements IChecklistFilte
             }
         }
         tabStates = new boolean[serverSideTabs.length];
+    }
+
+    @Override
+    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
+        this.parentFilter = parentFilter;
+        this.filterIndex = filterIndex;
     }
 
     @Override
@@ -112,6 +134,9 @@ public class CreativeTabFilter extends AbstractFilter implements IChecklistFilte
     }
 
     @Override
+    public void setFilterString(int optionId, String value) {}
+
+    @Override
     public String getFilterName() {
         return Strings.CREATIVE_FILTER;
     }
@@ -137,13 +162,28 @@ public class CreativeTabFilter extends AbstractFilter implements IChecklistFilte
         return tabStates.length;
     }
 
-    public static String[] getCreativeTabLabels() {
-        String[] labels = new String[CreativeTabs.creativeTabArray.length];
-        CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
-        for (int i = 0; i < creativeTabArray.length; i++)
-        {
-            labels[i] = creativeTabArray[i].tabLabel;
-        }
-        return labels;
+    @Override
+    public IMultiFilter getParentFilter() {
+        return parentFilter;
+    }
+
+    @Override
+    public int getFilterIndex() {
+        return filterIndex;
+    }
+
+    @Override
+    public void markDirty(boolean isDirty) {
+        this.isDirty = isDirty;
+    }
+
+    @Override
+    public boolean isDirty() {
+        return isDirty;
+    }
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
     }
 }

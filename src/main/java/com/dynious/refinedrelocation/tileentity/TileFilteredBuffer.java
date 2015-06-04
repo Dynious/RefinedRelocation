@@ -1,15 +1,15 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileFilteredBuffer extends TileBuffer implements IFilterTileGUI
+public class TileFilteredBuffer extends TileBuffer implements IMultiFilterTile
 {
-    private IFilterGUI filter = APIUtils.createStandardFilter(this);
+    private IMultiFilter filter = APIUtils.createStandardFilter(this);
 
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side)
@@ -18,7 +18,7 @@ public class TileFilteredBuffer extends TileBuffer implements IFilterTileGUI
     }
 
     @Override
-    public IFilterGUI getFilter()
+    public IMultiFilter getFilter()
     {
         return filter;
     }

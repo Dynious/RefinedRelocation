@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.container;
 
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
@@ -79,7 +79,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     public void setPriority(int priority) {}
 
     @Override
-    public IFilterGUI getFilter() {
+    public IMultiFilter getFilter() {
         return tile.getFilter();
     }
 

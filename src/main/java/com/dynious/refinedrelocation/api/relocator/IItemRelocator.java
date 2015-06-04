@@ -5,19 +5,19 @@ import net.minecraft.tileentity.TileEntity;
 
 public interface IItemRelocator
 {
-    public TileEntity getTileEntity();
+    TileEntity getTileEntity();
 
-    public IRelocatorModule getRelocatorModule(int side);
+    IRelocatorModule getRelocatorModule(int side);
 
-    public ItemStack insert(ItemStack itemStack, int side, boolean simulate);
+    ItemStack insert(ItemStack itemStack, int side, boolean simulate);
 
-    public boolean getRedstoneState();
+    boolean getRedstoneState();
 
-    public TileEntity[] getConnectedInventories();
+    TileEntity[] getConnectedInventories();
 
-    public IItemRelocator[] getConnectedRelocators();
+    IItemRelocator[] getConnectedRelocators();
 
-    public boolean connectsToSide(int side);
+    boolean connectsToSide(int side);
 
-    public boolean isStuffedOnSide(int side);
+    boolean isStuffedOnSide(int side);
 }

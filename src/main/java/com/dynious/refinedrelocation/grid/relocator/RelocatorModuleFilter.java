@@ -1,10 +1,10 @@
 package com.dynious.refinedrelocation.grid.relocator;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.client.gui.GuiFiltered;
 import com.dynious.refinedrelocation.container.ContainerFiltered;
 import com.dynious.refinedrelocation.grid.MultiFilter;
@@ -81,12 +81,12 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
         return list;
     }
 
-    private IFilterTileGUI getFilterTile(final RelocatorModuleFilter module, final IItemRelocator relocator)
+    private IMultiFilterTile getFilterTile(final RelocatorModuleFilter module, final IItemRelocator relocator)
     {
-        return new IFilterTileGUI()
+        return new IMultiFilterTile()
         {
             @Override
-            public IFilterGUI getFilter()
+            public IMultiFilter getFilter()
             {
                 return module.filter;
             }

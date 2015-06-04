@@ -1,5 +1,8 @@
 package com.dynious.refinedrelocation.grid.filter;
 
+import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
@@ -15,15 +18,15 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.IPlantable;
 
-public class PresetFilter extends AbstractFilter implements IChecklistFilter {
+public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
 
     public static final int PRESET_COUNT = 14;
+    public static final String TYPE_NAME = "preset";
 
     private boolean[] presets = new boolean[PRESET_COUNT];
-
-    public PresetFilter(MultiFilter parent, int index) {
-        super(TYPE_PRESET, parent, index);
-    }
+    private IMultiFilter parentFilter;
+    private int filterIndex;
+    private boolean isDirty;
 
     @Override
     public boolean isInFilter(ItemStack itemStack) {
@@ -79,6 +82,16 @@ public class PresetFilter extends AbstractFilter implements IChecklistFilter {
     }
 
     @Override
+    public void markDirty(boolean isDirty) {
+        this.isDirty = isDirty;
+    }
+
+    @Override
+    public boolean isDirty() {
+        return isDirty;
+    }
+
+    @Override
     public void sendUpdate(EntityPlayerMP playerMP) {
         NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, presets), playerMP);
     }
@@ -87,6 +100,30 @@ public class PresetFilter extends AbstractFilter implements IChecklistFilter {
     public void setFilterBooleanArray(int optionId, boolean[] values) {
         presets = values;
     }
+
+    @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
+
+    @Override
+    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
+        this.parentFilter = parentFilter;
+        this.filterIndex = filterIndex;
+    }
+
+    @Override
+    public IMultiFilter getParentFilter() {
+        return parentFilter;
+    }
+
+    @Override
+    public int getFilterIndex() {
+        return filterIndex;
+    }
+
+    @Override
+    public void setFilterString(int optionId, String value) {}
 
     @Override
     public void setFilterBoolean(int optionId, boolean value) {

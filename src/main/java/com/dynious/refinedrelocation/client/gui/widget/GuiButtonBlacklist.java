@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -11,9 +11,9 @@ import java.util.List;
 public class GuiButtonBlacklist extends GuiButtonToggle
 {
     private final int boundMessageId;
-    protected IFilterTileGUI tile;
+    protected IMultiFilterTile tile;
 
-    public GuiButtonBlacklist(IGuiParent parent, int x, int y, IFilterTileGUI tile, int boundMessageId)
+    public GuiButtonBlacklist(IGuiParent parent, int x, int y, IMultiFilterTile tile, int boundMessageId)
     {
         super(parent, x, y, 24, 20, 24, 0, null, null);
         this.boundMessageId = boundMessageId;

@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.network.packet.filter;
 
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.container.IContainerFiltered;
-import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -54,7 +54,7 @@ public class MessageSetFilterBooleanArray implements IMessage, IMessageHandler<M
         if (container == null || !(container instanceof IContainerFiltered)) {
             return null;
         }
-        AbstractFilter filter = ((IContainerFiltered) container).getFilter().getFilterAtIndex(message.filterIndex);
+        IMultiFilterChild filter = ((IContainerFiltered) container).getFilter().getFilterAtIndex(message.filterIndex);
         filter.setFilterBooleanArray(message.filterOption, message.filterStates);
         return null;
     }

@@ -1,13 +1,15 @@
 package com.dynious.refinedrelocation;
 
 import com.dynious.refinedrelocation.api.IAPIHandler;
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import com.dynious.refinedrelocation.grid.MultiFilter;
+import com.dynious.refinedrelocation.grid.filter.MultiFilterRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.grid.sorting.SortingInventoryHandler;
 import com.dynious.refinedrelocation.grid.sorting.SortingMemberHandler;
@@ -34,7 +36,7 @@ public class APIHandler implements IAPIHandler
         return GuiIds.FILTERED;
     }
 
-    public IFilterGUI createStandardFilter(IFilterTileGUI filterTile)
+    public IMultiFilter createStandardFilter(IMultiFilterTile filterTile)
     {
         return new MultiFilter(filterTile);
     }
@@ -69,5 +71,10 @@ public class APIHandler implements IAPIHandler
     public ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
     {
         return IOHelper.insert(tile, itemStack, side, simulate);
+    }
+
+    @Override
+    public void registerMultiFilterChild(String identifier, Class<? extends IMultiFilterChild> clazz) {
+        MultiFilterRegistry.add(identifier, clazz);
     }
 }

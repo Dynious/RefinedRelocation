@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.mods.waila;
 
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -38,10 +38,10 @@ public class ITileHUDHandler implements IWailaDataProvider
     public List<String> getWailaBody(ItemStack itemStatck, List<String> strings, IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
         TileEntity tileEntity = accessor.getTileEntity();
-        if (tileEntity instanceof IFilterTileGUI)
+        if (tileEntity instanceof IMultiFilterTile)
         {
             NBTTagCompound compound = accessor.getNBTData();
-            List<String> wailaInfo = ((IFilterTileGUI) tileEntity).getFilter().getWAILAInformation(compound);
+            List<String> wailaInfo = ((IMultiFilterTile) tileEntity).getFilter().getWAILAInformation(compound);
             if (wailaInfo != null && !wailaInfo.isEmpty())
             {
                 addToList(strings, wailaInfo);

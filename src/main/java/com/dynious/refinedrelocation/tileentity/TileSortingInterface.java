@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
@@ -19,11 +19,11 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileSortingInterface extends TileSortingConnector implements ISortingInventory, IFilterTileGUI
+public class TileSortingInterface extends TileSortingConnector implements ISortingInventory, IMultiFilterTile
 {
     public ItemStack[] bufferInventory = new ItemStack[1];
     private ISortingInventoryHandler sortingHandler = APIUtils.createSortingInventoryHandler(this);
-    private IFilterGUI filter = APIUtils.createStandardFilter(this);
+    private IMultiFilter filter = APIUtils.createStandardFilter(this);
     private boolean isStuffed = false;
     private int counter;
     private ForgeDirection connectedSide = ForgeDirection.UNKNOWN;
@@ -84,7 +84,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public IFilterGUI getFilter()
+    public IMultiFilter getFilter()
     {
         return filter;
     }

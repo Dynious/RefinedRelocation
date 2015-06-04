@@ -1,12 +1,10 @@
 package com.dynious.refinedrelocation.api.filter;
 
-import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
-import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
 
-public interface IFilterGUI extends IFilter
+public interface IMultiFilter extends IFilter
 {
     boolean isBlacklisting();
 
@@ -20,13 +18,13 @@ public interface IFilterGUI extends IFilter
 
     void readFromNBT(NBTTagCompound compound);
 
-    int getFilterCount();
-
-    AbstractFilter getFilterAtIndex(int index);
-
-    void setFilterType(int filterIndex, int filterType);
-
     boolean isDirty();
 
     void markDirty(boolean dirty);
+
+    int getFilterCount();
+
+    IMultiFilterChild getFilterAtIndex(int index);
+
+    void setFilterType(int filterIndex, String filterType);
 }

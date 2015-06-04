@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
  * This will make sure the Sorting System knows there have been changes in your inventory.
  * Only call
  * <p/>
- * To open the Filtering GUI for this TileEntity also implement {@link IFilterTileGUI}).
+ * To open the Filtering GUI for this TileEntity also implement {@link IMultiFilterTile}).
  * <p/>
  * Automatically syncs the inventory to all players in a 5 block radius.
  */
@@ -29,7 +29,7 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
      *
      * @return The SortingInventoryHandler of this tile
      */
-    public ISortingInventoryHandler getHandler();
+    ISortingInventoryHandler getHandler();
 
     /**
      * Forcibly sets an ItemStack to the slotIndex
@@ -38,7 +38,7 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
      * @param slotIndex The slot index to add the ItemStack in
      * @return Were we able to add the ItemStack?
      */
-    public boolean putStackInSlot(ItemStack itemStack, int slotIndex);
+    boolean putStackInSlot(ItemStack itemStack, int slotIndex);
 
     /**
      * This should try to add the ItemStack to the inventory of this TileEntity
@@ -47,7 +47,7 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
      * @param simulate  Simulate the insertion of items (only return result, no action)
      * @return The remaining ItemStack after trying to put the ItemStack in the Inventory
      */
-    public ItemStack putInInventory(ItemStack itemStack, boolean simulate);
+    ItemStack putInInventory(ItemStack itemStack, boolean simulate);
 
     /**
      * The Sorting System will try to put items in the highest priority inventory.
@@ -57,14 +57,14 @@ public interface ISortingInventory extends ISortingMember, IInventory, IFilterTi
      *
      * @return The Priority of this ISortingInventory
      */
-    public Priority getPriority();
+    Priority getPriority();
 
     /**
      * Sets the priority of a block to a new value.
      *
      * @param priority The new priority of this tile
      */
-    public void setPriority(Priority priority);
+    void setPriority(Priority priority);
 
     enum Priority
     {

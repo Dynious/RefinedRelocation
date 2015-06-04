@@ -1,21 +1,22 @@
 package com.dynious.refinedrelocation.grid.filter;
 
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class CustomUserFilter extends AbstractFilter {
+public class CustomUserFilter implements IMultiFilterChild {
 
+    public static final String TYPE_NAME = "user";
+    private IMultiFilter parentFilter;
+    private int filterIndex;
+    private boolean isDirty;
     private String value = "";
-
-    public CustomUserFilter(MultiFilter parent, int index) {
-        super(TYPE_CUSTOM, parent, index);
-    }
 
     @Override
     public boolean isInFilter(ItemStack itemStack) {
@@ -60,6 +61,16 @@ public class CustomUserFilter extends AbstractFilter {
         value = compound.getString("value");
     }
 
+    @Override
+    public void markDirty(boolean isDirty) {
+        this.isDirty = isDirty;
+    }
+
+    @Override
+    public boolean isDirty() {
+        return isDirty;
+    }
+
     public String getValue() {
         return value;
     }
@@ -98,10 +109,37 @@ public class CustomUserFilter extends AbstractFilter {
     }
 
     @Override
+    public String getTypeName() {
+        return TYPE_NAME;
+    }
+
+    @Override
+    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
+        this.parentFilter = parentFilter;
+        this.filterIndex = filterIndex;
+    }
+
+    @Override
+    public IMultiFilter getParentFilter() {
+        return parentFilter;
+    }
+
+    @Override
+    public int getFilterIndex() {
+        return filterIndex;
+    }
+
+    @Override
     public void setFilterString(int optionId, String value) {
         switch(optionId) {
             case 0: this.value = value; break;
         }
     }
+
+    @Override
+    public void setFilterBoolean(int optionId, boolean value) {}
+
+    @Override
+    public void setFilterBooleanArray(int optionId, boolean[] values) {}
 
 }

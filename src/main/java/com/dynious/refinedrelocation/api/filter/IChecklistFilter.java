@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.grid.filter;
+package com.dynious.refinedrelocation.api.filter;
 
 public interface IChecklistFilter
 {

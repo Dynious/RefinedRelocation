@@ -15,48 +15,48 @@ import java.util.List;
 
 public interface IRelocatorModule
 {
-    public void init(IItemRelocator relocator, int side);
+    void init(IItemRelocator relocator, int side);
 
-    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack);
+    boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack);
 
-    public void onUpdate(IItemRelocator relocator, int side);
+    void onUpdate(IItemRelocator relocator, int side);
 
-    public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate);
+    ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate);
 
-    public boolean isItemDestination();
+    boolean isItemDestination();
 
-    public ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate);
+    ItemStack receiveItemStack(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate);
 
-    public void onRedstonePowerChange(boolean isPowered);
+    void onRedstonePowerChange(boolean isPowered);
 
-    public boolean connectsToRedstone();
+    boolean connectsToRedstone();
 
-    public int strongRedstonePower(int side);
-
-    @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player);
-
-    public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player);
-
-    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate);
-
-    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound);
-
-    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound);
-
-    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound);
-
-    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound);
-
-    public List<ItemStack> getDrops(IItemRelocator relocator, int side);
+    int strongRedstonePower(int side);
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IItemRelocator relocator, int side);
+    GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player);
+
+    Container getContainer(IItemRelocator relocator, int side, EntityPlayer player);
+
+    boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate);
+
+    void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound);
+
+    void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound);
+
+    void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound);
+
+    void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound);
+
+    List<ItemStack> getDrops(IItemRelocator relocator, int side);
 
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister register);
+    IIcon getIcon(IItemRelocator relocator, int side);
 
-    public String getDisplayName();
+    @SideOnly(Side.CLIENT)
+    void registerIcons(IIconRegister register);
 
-    public List<String> getWailaInformation(NBTTagCompound nbtData);
+    String getDisplayName();
+
+    List<String> getWailaInformation(NBTTagCompound nbtData);
 }

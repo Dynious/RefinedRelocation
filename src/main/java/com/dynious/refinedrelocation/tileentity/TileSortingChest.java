@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.block.BlockSortingChest;
@@ -24,7 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
-public class TileSortingChest extends TileEntity implements ISortingInventory, IFilterTileGUI
+public class TileSortingChest extends TileEntity implements ISortingInventory, IMultiFilterTile
 {
     /**
      * The current angle of the lid (between 0 and 1)
@@ -47,7 +47,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     public int ticksSinceSync;
     public ItemStack[] inventory;
     private int facing;
-    private IFilterGUI filter = APIUtils.createStandardFilter(this);
+    private IMultiFilter filter = APIUtils.createStandardFilter(this);
 
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
     private boolean isFirstTick = true;
@@ -472,7 +472,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     }
 
     @Override
-    public IFilterGUI getFilter()
+    public IMultiFilter getFilter()
     {
         return filter;
     }

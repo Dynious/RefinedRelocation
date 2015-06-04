@@ -1,10 +1,11 @@
 package com.dynious.refinedrelocation.grid;
 
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.grid.filter.CreativeTabFilter;
 import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
+import com.dynious.refinedrelocation.grid.filter.MultiFilterRegistry;
 import com.dynious.refinedrelocation.grid.filter.PresetFilter;
 import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -16,16 +17,16 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiFilter implements IFilterGUI {
+public class MultiFilter implements IMultiFilter {
 
-    private IFilterTileGUI tile;
+    private IMultiFilterTile tile;
     private boolean isBlacklisting;
 
     private boolean isDirty;
 
-    private List<AbstractFilter> filterList = new ArrayList<AbstractFilter>();
+    private List<IMultiFilterChild> filterList = new ArrayList<IMultiFilterChild>();
 
-    public MultiFilter(IFilterTileGUI tile) {
+    public MultiFilter(IMultiFilterTile tile) {
         this.tile = tile;
     }
 
@@ -46,7 +47,7 @@ public class MultiFilter implements IFilterGUI {
             return false;
         }
         boolean foundInFilter = false;
-        for(AbstractFilter filter : filterList) {
+        for(IMultiFilterChild filter : filterList) {
             if(filter.isInFilter(itemStack)) {
                 foundInFilter = true;
                 break;
@@ -87,9 +88,9 @@ public class MultiFilter implements IFilterGUI {
         compound.setByte("version", (byte) 1);
         compound.setBoolean("isBlacklisting", isBlacklisting);
         NBTTagList tagFilterList = new NBTTagList();
-        for(AbstractFilter filter : filterList) {
+        for(IMultiFilterChild filter : filterList) {
             NBTTagCompound tagFilter = new NBTTagCompound();
-            tagFilter.setByte("type", filter.getTypeId());
+            tagFilter.setString("type", filter.getTypeName());
             filter.writeToNBT(tagFilter);
             tagFilterList.appendTag(tagFilter);
         }
@@ -104,26 +105,12 @@ public class MultiFilter implements IFilterGUI {
             NBTTagList tagFilterList = compound.getTagList("filterList", 10);
             for(int i = 0; i < tagFilterList.tagCount(); i++) {
                 NBTTagCompound tagFilter = tagFilterList.getCompoundTagAt(i);
-                int filterType = tagFilter.getByte("type");
-                switch(filterType) {
-                    // Custom User Filter
-                    case AbstractFilter.TYPE_CUSTOM:
-                        CustomUserFilter userFilter = new CustomUserFilter(this, filterList.size());
-                        userFilter.readFromNBT(tagFilter);
-                        filterList.add(userFilter);
-                        break;
-                    // Preset Filter
-                    case 1:
-                        PresetFilter presetFilter = new PresetFilter(this, filterList.size());
-                        presetFilter.readFromNBT(tagFilter);
-                        filterList.add(presetFilter);
-                        break;
-                    // Creative Tab Filter
-                    case 2:
-                        CreativeTabFilter creativeTabFilter = new CreativeTabFilter(this, filterList.size());
-                        creativeTabFilter.readFromNBT(tagFilter);
-                        filterList.add(creativeTabFilter);
-                        break;
+                String filterType = tagFilter.getString("type");
+                IMultiFilterChild filter = MultiFilterRegistry.getFilter(filterType);
+                if(filter != null) {
+                    filter.setParentFilter(this, filterList.size());
+                    filter.readFromNBT(tagFilter);
+                    filterList.add(filter);
                 }
             }
         } else {
@@ -131,12 +118,14 @@ public class MultiFilter implements IFilterGUI {
 
             String userFilterString = compound.getString("userFilter");
             if(!userFilterString.isEmpty()) {
-                CustomUserFilter userFilter = new CustomUserFilter(this, filterList.size());
+                CustomUserFilter userFilter = new CustomUserFilter();
+                userFilter.setParentFilter(this, filterList.size());
                 userFilter.setValue(userFilterString);
                 filterList.add(userFilter);
             }
 
-            PresetFilter presetFilter = new PresetFilter(this, filterList.size());
+            PresetFilter presetFilter = new PresetFilter();
+            presetFilter.setParentFilter(this, filterList.size());
             boolean foundActive = false;
             for (int i = 0; i < PresetFilter.PRESET_COUNT; i++) {
                 if(compound.getBoolean("cumstomFilters" + i)) {
@@ -149,7 +138,8 @@ public class MultiFilter implements IFilterGUI {
             }
 
             String creativeTabFilters = compound.getString("filters");
-            CreativeTabFilter creativeTabFilter = new CreativeTabFilter(this, filterList.size());
+            CreativeTabFilter creativeTabFilter = new CreativeTabFilter();
+            creativeTabFilter.setParentFilter(this, filterList.size());
             foundActive = false;
             for(String string : creativeTabFilters.split("\\^\\$")) {
                 for(int i = 0; i < CreativeTabFilter.serverSideTabs.length; i++) {
@@ -182,24 +172,20 @@ public class MultiFilter implements IFilterGUI {
     }
 
     @Override
-    public AbstractFilter getFilterAtIndex(int index) {
+    public IMultiFilterChild getFilterAtIndex(int index) {
         return filterList.get(index);
     }
 
     @Override
-    public void setFilterType(int filterIndex, int filterType) {
+    public void setFilterType(int filterIndex, String filterType) {
         if(filterIndex == -1) {
             filterIndex = filterList.size();
-        } else if(filterIndex < filterList.size() && filterList.get(filterIndex).getTypeId() == filterType) {
+        } else if(filterIndex < filterList.size() && filterList.get(filterIndex).getTypeName().equals(filterType)) {
             return;
         }
-        AbstractFilter filter = null;
-        switch(filterType) {
-            case AbstractFilter.TYPE_CUSTOM: filter = new CustomUserFilter(this, filterIndex); break;
-            case AbstractFilter.TYPE_CREATIVETAB: filter = new CreativeTabFilter(this, filterIndex);  break;
-            case AbstractFilter.TYPE_PRESET: filter = new PresetFilter(this, filterIndex);  break;
-        }
+        IMultiFilterChild filter = MultiFilterRegistry.getFilter(filterType);
         if(filter != null) {
+            filter.setParentFilter(this, filterIndex);
             markDirty(true);
             if(filterIndex < filterList.size()) {
                 filterList.set(filterIndex, filter);

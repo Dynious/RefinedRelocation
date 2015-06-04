@@ -1,9 +1,10 @@
 package com.dynious.refinedrelocation.api;
 
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +31,7 @@ public final class APIUtils
 
     /**
      * Opens the Filtering GUI for the TileEntity at the given position.
-     * The TileEntity should implement IFilterTileGUI.
+     * The TileEntity should implement IMultiFilterTile.
      */
     public static void openFilteringGUI(EntityPlayer entityPlayer, World world, int x, int y, int z)
     {
@@ -43,7 +44,7 @@ public final class APIUtils
      *
      * @return a new instance of the standard IFilterGUI
      */
-    public static IFilterGUI createStandardFilter(IFilterTileGUI filterTile)
+    public static IMultiFilter createStandardFilter(IMultiFilterTile filterTile)
     {
         return apiHandler.createStandardFilter(filterTile);
     }
@@ -117,5 +118,10 @@ public final class APIUtils
     public static ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
     {
         return apiHandler.insert(tile, itemStack, side, simulate);
+    }
+
+    public static void registerMultiFilterChild(String identifier, Class<? extends IMultiFilterChild> clazz)
+    {
+        apiHandler.registerMultiFilterChild(identifier, clazz);
     }
 }

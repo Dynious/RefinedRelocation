@@ -4,5 +4,5 @@ import com.dynious.refinedrelocation.api.filter.IFilter;
 
 public interface IFilterTile
 {
-    public IFilter getFilter();
+    IFilter getFilter();
 }

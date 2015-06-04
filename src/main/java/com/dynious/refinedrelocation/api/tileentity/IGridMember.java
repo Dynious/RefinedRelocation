@@ -12,5 +12,5 @@ public interface IGridMember
      *
      * @return The GridMemberHandler of this tile
      */
-    public IGridMemberHandler getHandler();
+    IGridMemberHandler getHandler();
 }

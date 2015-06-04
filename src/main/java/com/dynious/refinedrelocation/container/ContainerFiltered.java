@@ -1,12 +1,12 @@
 package com.dynious.refinedrelocation.container;
 
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
-import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
 import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIAction;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
@@ -15,20 +15,22 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered {
 
-    public IFilterTileGUI tile;
+    public IMultiFilterTile tile;
+    private IMultiFilter filter;
 
     private boolean lastBlacklist = true;
     private int lastPriority;
     private boolean initialUpdate = true;
 
-    public ContainerFiltered(IFilterTileGUI tile) {
+    public ContainerFiltered(IMultiFilterTile tile) {
         this.tile = tile;
     }
 
-    public ContainerFiltered(IFilterTileGUI tile, ContainerHierarchical parentContainer) {
+    public ContainerFiltered(IMultiFilterTile tile, ContainerHierarchical parentContainer) {
         super(parentContainer);
 
         this.tile = tile;
+        this.filter = tile.getFilter();
     }
 
     @Override
@@ -40,19 +42,18 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             tile.getFilter().markDirty(false);
         }
 
-        for(int i = 0; i < tile.getFilter().getFilterCount(); i++) {
-            AbstractFilter filter = tile.getFilter().getFilterAtIndex(i);
-            if(initialUpdate || filter.isDirty()) {
+        for(int i = 0; i < filter.getFilterCount(); i++) {
+            IMultiFilterChild filterChild = filter.getFilterAtIndex(i);
+            if(initialUpdate || filterChild.isDirty()) {
                 for(Object crafter : crafters) {
                     if(crafter instanceof EntityPlayerMP) {
                         if(initialUpdate) {
-                            filter.sendInitialUpdate((EntityPlayerMP) crafter);
-                        } else {
-                            filter.sendUpdate((EntityPlayerMP) crafter);
+                            NetworkHandler.INSTANCE.sendTo(new MessageSetFilterType(i, filterChild.getTypeName()), (EntityPlayerMP) crafter);
                         }
+                        filterChild.sendUpdate((EntityPlayerMP) crafter);
                     }
                 }
-                filter.markDirty(false);
+                filterChild.markDirty(false);
             }
         }
 
@@ -111,7 +112,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     }
 
     @Override
-    public IFilterGUI getFilter() {
+    public IMultiFilter getFilter() {
         return tile.getFilter();
     }
 }

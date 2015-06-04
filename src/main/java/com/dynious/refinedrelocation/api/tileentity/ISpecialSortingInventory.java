@@ -11,7 +11,7 @@ public interface ISpecialSortingInventory extends ISortingInventory
      * @param slot The slot this stack is in.
      * @return The new SpecialLocalizedStack for this slot.
      */
-    public SpecialLocalizedStack getLocalizedStackInSlot(int slot);
+    SpecialLocalizedStack getLocalizedStackInSlot(int slot);
 
     /**
      * This should alter the amount of items in your inventory in the given slot.
@@ -19,5 +19,5 @@ public interface ISpecialSortingInventory extends ISortingInventory
      * @param slot The slot that should change size.
      * @param alteration The change (positive is addition, negative is removal).
      */
-    public void alterStackSize(int slot, int alteration);
+    void alterStackSize(int slot, int alteration);
 }

@@ -1,9 +1,9 @@
 package com.dynious.refinedrelocation.container;
 
-import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.filter.IMultiFilter;
+import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
+import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.container.slot.SlotHopper;
-import com.dynious.refinedrelocation.grid.filter.AbstractFilter;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
@@ -16,16 +16,18 @@ import net.minecraft.item.ItemStack;
 public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered, IContainerNetworked
 {
     protected final ISidedInventory inventory;
-    protected IFilterTileGUI tile;
+    protected IMultiFilterTile tile;
+    protected IMultiFilter filter;
 
     private boolean lastBlacklist = true;
     private boolean initialUpdate = true;
 
     @SuppressWarnings("unchecked")
-    public ContainerFilteringHopper(InventoryPlayer par1InventoryPlayer, IFilterTileGUI filterTile)
+    public ContainerFilteringHopper(InventoryPlayer par1InventoryPlayer, IMultiFilterTile filterTile)
     {
         super(par1InventoryPlayer, (IInventory) filterTile);
         this.tile = filterTile;
+        this.filter = filterTile.getFilter();
         this.inventory = (ISidedInventory) filterTile;
 
         for (int i = 0; i < inventory.getSizeInventory(); ++i)
@@ -81,15 +83,15 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     {
         super.detectAndSendChanges();
 
-        for(int i = 0; i < tile.getFilter().getFilterCount(); i++) {
-            AbstractFilter filter = tile.getFilter().getFilterAtIndex(i);
-            if(initialUpdate || filter.isDirty()) {
+        for(int i = 0; i < filter.getFilterCount(); i++) {
+            IMultiFilterChild filterChild = filter.getFilterAtIndex(i);
+            if(initialUpdate || filterChild.isDirty()) {
                 for(Object crafter : crafters) {
                     if(crafter instanceof EntityPlayerMP) { // TODO <- is this really necessary? and if it is, it shouldn't be
-                        tile.getFilter().getFilterAtIndex(i).sendUpdate((EntityPlayerMP) crafter);
+                        filterChild.sendUpdate((EntityPlayerMP) crafter);
                     }
                 }
-                filter.markDirty(false);
+                filterChild.markDirty(false);
             }
         }
 
@@ -115,7 +117,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     public void setPriority(int priority) {}
 
     @Override
-    public IFilterGUI getFilter() {
+    public IMultiFilter getFilter() {
         return tile.getFilter();
     }
 
