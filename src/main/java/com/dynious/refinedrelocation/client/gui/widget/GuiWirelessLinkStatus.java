@@ -60,6 +60,7 @@ public class GuiWirelessLinkStatus extends GuiButton
             else
             {
                 tooltip.add(grayColor + StatCollector.translateToLocal(Strings.UNLINKED));
+                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.USE_LINKER_TO_LINK));
             }
         }
 
