@@ -175,7 +175,13 @@ public class CustomUserFilter implements IMultiFilterChild {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getTooltipLangKey() {
+    public String getNameLangKey() {
         return Strings.CUSTOM_FILTER;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getDescriptionLangKey() {
+        return Strings.CUSTOM_FILTER_DESCRIPTION;
     }
 }

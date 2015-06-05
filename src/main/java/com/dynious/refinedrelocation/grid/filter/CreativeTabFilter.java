@@ -229,8 +229,13 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getTooltipLangKey() {
+    public String getNameLangKey() {
         return Strings.CREATIVE_FILTER;
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getDescriptionLangKey() {
+        return Strings.CREATIVE_FILTER_DESCRIPTION;
+    }
 }

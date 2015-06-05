@@ -29,7 +29,7 @@ public class GuiLabel extends GuiWidgetBase
     @Override
     public void drawForeground(int mouseX, int mouseY)
     {
-        if (this.text != null && !this.text.equals(""))
+        if (this.text != null && !this.text.isEmpty())
         {
             int x = this.x;
             int y = this.y;

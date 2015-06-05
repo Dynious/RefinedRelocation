@@ -37,5 +37,8 @@ public interface IMultiFilterChild {
 	int getIconY();
 
 	@SideOnly(Side.CLIENT)
-	String getTooltipLangKey();
+	String getNameLangKey();
+
+	@SideOnly(Side.CLIENT)
+	String getDescriptionLangKey();
 }

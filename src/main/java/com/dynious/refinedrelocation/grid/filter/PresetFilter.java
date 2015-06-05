@@ -219,7 +219,13 @@ public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getTooltipLangKey() {
+    public String getNameLangKey() {
         return Strings.PRESET_FILTER;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getDescriptionLangKey() {
+        return Strings.PRESET_FILTER_DESCRIPTION;
     }
 }
