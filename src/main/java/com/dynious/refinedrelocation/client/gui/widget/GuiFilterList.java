@@ -78,7 +78,7 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped {
 
         if (mouseClickY != -1)
         {
-            float pixelsPerFilter = ((float) h - 2 - scrollBarScaledHeight) / (filter.getOptionCount() - numFiltersPerScreen);
+            float pixelsPerFilter = ((float) h - 73 - scrollBarScaledHeight) / (filter.getOptionCount() - numFiltersPerScreen);
             if (pixelsPerFilter != 0)
             {
                 int numberOfFiltersMoved = (int) ((mouseY - mouseClickY) / pixelsPerFilter);

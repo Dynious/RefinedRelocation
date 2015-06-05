@@ -8,6 +8,8 @@ import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
+import java.util.List;
+
 public class GuiButtonDeleteFilter extends GuiButton {
 
     private final GuiFiltered parent;
@@ -21,13 +23,16 @@ public class GuiButtonDeleteFilter extends GuiButton {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown) {
         if (isInsideBounds(mouseX, mouseY)) {
-            if(parent.hasFilterSelected()) {
-                int selectedFilterIndex = parent.getSelectedFilterIndex();
-                NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterType(selectedFilterIndex, ""));
-                parent.getFilter().setFilterType(selectedFilterIndex, "");
-            }
+            int selectedFilterIndex = parent.getSelectedFilterIndex();
+            NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterType(selectedFilterIndex, ""));
+            parent.getFilter().setFilterType(selectedFilterIndex, "");
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
+    }
+
+    @Override
+    public boolean isInsideBounds(int x, int y) {
+        return parent.hasFilterSelected() && super.isInsideBounds(x, y);
     }
 
     @Override
