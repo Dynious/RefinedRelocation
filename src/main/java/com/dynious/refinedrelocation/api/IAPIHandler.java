@@ -4,7 +4,7 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.api.tileentity.IFilterGUITile;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,7 @@ public interface IAPIHandler
 
     int getFilteringGUIID();
 
-    IFilterGUI createStandardFilter(IFilterGUITile filterTile);
+    IFilterGUI createStandardFilter(IFilterTileGUI filterTile);
 
     ISortingMemberHandler createSortingMemberHandler(TileEntity owner);
 

@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
  * @deprecated This interface will be renamed to IMultiFilterTile during the update to Minecraft 1.8. We already provide a dummy interface named like that which currently just extends this, so consider using that instead.
  */
 @Deprecated
-public interface IFilterGUITile extends IFilterTile
+public interface IFilterTileGUI extends IFilterTile
 {
     IFilterGUI getFilter();
 

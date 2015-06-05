@@ -2,12 +2,10 @@ package com.dynious.refinedrelocation;
 
 import com.dynious.refinedrelocation.api.IAPIHandler;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.api.tileentity.IFilterGUITile;
-import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingMemberHandler;
 import com.dynious.refinedrelocation.grid.MultiFilter;
@@ -38,7 +36,7 @@ public class APIHandler implements IAPIHandler
         return GuiIds.FILTERED;
     }
 
-    public IFilterGUI createStandardFilter(IFilterGUITile filterTile)
+    public IFilterGUI createStandardFilter(IFilterTileGUI filterTile)
     {
         return new MultiFilter(filterTile);
     }
