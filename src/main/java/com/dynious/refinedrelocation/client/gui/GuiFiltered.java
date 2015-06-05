@@ -47,7 +47,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         Keyboard.enableRepeatEvents(true);
 
         String title = BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity());
-        if(filterTile instanceof TileAdvancedFilteredBlockExtender) {
+        if(filterTile.getClass() == TileAdvancedFilteredBlockExtender.class) {
             title = StatCollector.translateToLocal(Strings.ADV_FILTERED_BLOCK_EXTENDER);
         }
         new GuiLabel(this, width / 2, height / 2 - 76, title);
