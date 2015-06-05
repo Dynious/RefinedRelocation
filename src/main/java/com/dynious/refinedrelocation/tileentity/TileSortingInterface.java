@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
@@ -23,7 +24,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
 {
     public ItemStack[] bufferInventory = new ItemStack[1];
     private ISortingInventoryHandler sortingHandler = APIUtils.createSortingInventoryHandler(this);
-    private IMultiFilter filter = APIUtils.createStandardFilter(this);
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private boolean isStuffed = false;
     private int counter;
     private ForgeDirection connectedSide = ForgeDirection.UNKNOWN;
@@ -84,7 +85,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public IMultiFilter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
     }

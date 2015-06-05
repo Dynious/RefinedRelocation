@@ -1,20 +1,15 @@
 package com.dynious.refinedrelocation.client.gui;
 
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
-import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.client.gui.widget.*;
 import com.dynious.refinedrelocation.container.ContainerFiltered;
-import com.dynious.refinedrelocation.grid.filter.MultiFilterRegistry;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
-import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
-import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedFilteredBlockExtender;
-import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -25,7 +20,7 @@ import java.util.List;
 public class GuiFiltered extends GuiRefinedRelocationContainer {
 
     private IMultiFilterTile filterTile;
-    private IMultiFilter filter;
+    private IFilterGUI filter;
     private GuiTabPanel panel;
     private GuiButtonDeleteFilter deleteFilterButton;
     private final List<GuiTabButton> tabButtons = new ArrayList<GuiTabButton>();
@@ -153,7 +148,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         return panel.getActiveTabButton().getTabIndex() - 1;
     }
 
-    public IMultiFilter getFilter() {
+    public IFilterGUI getFilter() {
         return filter;
     }
 }

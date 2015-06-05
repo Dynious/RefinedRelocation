@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.api.tileentity;
 
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import net.minecraft.tileentity.TileEntity;
 
@@ -10,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 @Deprecated
 public interface IFilterGUITile extends IFilterTile
 {
-    IMultiFilter getFilter();
+    IFilterGUI getFilter();
 
     TileEntity getTileEntity();
 

@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
@@ -17,7 +18,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
 {
     protected final ISidedInventory inventory;
     protected IMultiFilterTile tile;
-    protected IMultiFilter filter;
+    protected IFilterGUI filter;
 
     private boolean lastBlacklist = true;
     private boolean initialUpdate = true;
@@ -117,7 +118,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     public void setPriority(int priority) {}
 
     @Override
-    public IMultiFilter getFilter() {
+    public IFilterGUI getFilter() {
         return tile.getFilter();
     }
 

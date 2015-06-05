@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     private boolean shouldUpdateBestSlot = true;
     private int lastSlotSide;
     private ItemStack lastStack;
-    private IMultiFilter filter = APIUtils.createStandardFilter(this);
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private byte maxStackSize = 64;
 
     @Override
@@ -159,7 +160,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     }
 
     @Override
-    public IMultiFilter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
     }

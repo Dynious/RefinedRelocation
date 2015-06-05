@@ -2,7 +2,7 @@ package com.dynious.refinedrelocation.grid;
 
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
-import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
+import com.dynious.refinedrelocation.api.tileentity.IFilterGUITile;
 import com.dynious.refinedrelocation.grid.filter.CreativeTabFilter;
 import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import com.dynious.refinedrelocation.grid.filter.MultiFilterRegistry;
@@ -19,14 +19,14 @@ import java.util.List;
 
 public class MultiFilter implements IMultiFilter {
 
-    private IMultiFilterTile tile;
+    private IFilterGUITile tile;
     private boolean isBlacklisting;
 
     private boolean isDirty;
 
     private List<IMultiFilterChild> filterList = new ArrayList<IMultiFilterChild>();
 
-    public MultiFilter(IMultiFilterTile tile) {
+    public MultiFilter(IFilterGUITile tile) {
         this.tile = tile;
     }
 

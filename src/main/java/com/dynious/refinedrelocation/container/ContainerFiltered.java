@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
@@ -105,7 +106,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     }
 
     @Override
-    public IMultiFilter getFilter() {
+    public IFilterGUI getFilter() {
         return tile.getFilter();
     }
 }

@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
@@ -18,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implements ISortingInventory, IMultiFilterTile
 {
     public boolean isFirstRun = true;
-    private IMultiFilter filter = APIUtils.createStandardFilter(this);
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private ISortingInventoryHandler sortingInventoryHandler = APIUtils.createSortingInventoryHandler(this);
     private Priority priority = Priority.NORMAL;
 
@@ -101,7 +102,7 @@ public class TileSortingAlchemicalChest extends TileEntityAlchemicalChest implem
     }
 
     @Override
-    public IMultiFilter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
     }

@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
+import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
@@ -14,7 +15,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 public class TileFilteringHopper extends TileEntityHopper implements IMultiFilterTile, ISidedInventory
 {
     private static int[] accessibleSlots = new int[]{0, 1, 2, 3, 4};
-    private IMultiFilter filter = APIUtils.createStandardFilter(this);
+    private IFilterGUI filter = APIUtils.createStandardFilter(this);
     private ItemStack checkedItemStack;
     private boolean passedItemStackFilter;
 
@@ -56,7 +57,7 @@ public class TileFilteringHopper extends TileEntityHopper implements IMultiFilte
     }
 
     @Override
-    public IMultiFilter getFilter()
+    public IFilterGUI getFilter()
     {
         return filter;
     }
