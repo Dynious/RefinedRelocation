@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.container;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.network.NetworkHandler;
@@ -16,17 +17,17 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class ContainerFiltered extends ContainerHierarchical implements IContainerFiltered {
 
-    public IMultiFilterTile tile;
+    public IFilterTileGUI tile;
 
     private boolean lastBlacklist = true;
     private int lastPriority;
     private boolean initialUpdate = true;
 
-    public ContainerFiltered(IMultiFilterTile tile) {
+    public ContainerFiltered(IFilterTileGUI tile) {
         this.tile = tile;
     }
 
-    public ContainerFiltered(IMultiFilterTile tile, ContainerHierarchical parentContainer) {
+    public ContainerFiltered(IFilterTileGUI tile, ContainerHierarchical parentContainer) {
         super(parentContainer);
 
         this.tile = tile;

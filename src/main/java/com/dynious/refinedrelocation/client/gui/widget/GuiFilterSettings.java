@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
-import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
@@ -13,7 +13,7 @@ import net.minecraft.util.StatCollector;
 
 public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrapped {
 
-	public GuiFilterSettings(int x, int y, int w, int h, IMultiFilterTile filterTile) {
+	public GuiFilterSettings(int x, int y, int w, int h, IFilterTileGUI filterTile) {
 		super(x, y, w, h);
 
 		GuiLabel headerLabel = new GuiLabel(this, x, y + 40, StatCollector.translateToLocal(Strings.FILTER_SETTINGS));

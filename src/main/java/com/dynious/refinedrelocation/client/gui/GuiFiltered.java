@@ -1,9 +1,8 @@
 package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
-import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.widget.*;
 import com.dynious.refinedrelocation.container.ContainerFiltered;
 import com.dynious.refinedrelocation.helper.BlockHelper;
@@ -19,14 +18,14 @@ import java.util.List;
 
 public class GuiFiltered extends GuiRefinedRelocationContainer {
 
-    private IMultiFilterTile filterTile;
+    private IFilterTileGUI filterTile;
     private IFilterGUI filter;
     private GuiTabPanel panel;
     private GuiButtonDeleteFilter deleteFilterButton;
     private final List<GuiTabButton> tabButtons = new ArrayList<GuiTabButton>();
     private int lastFilterCount;
 
-    public GuiFiltered(IMultiFilterTile filterTile) {
+    public GuiFiltered(IFilterTileGUI filterTile) {
         super(new ContainerFiltered(filterTile));
         this.filterTile = filterTile;
         this.filter = filterTile.getFilter();

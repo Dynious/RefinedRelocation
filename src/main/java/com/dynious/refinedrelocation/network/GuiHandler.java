@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.client.gui.*;
 import com.dynious.refinedrelocation.container.*;
@@ -100,9 +101,9 @@ public class GuiHandler implements IGuiHandler
                     }
                     break;
                 case GuiIds.FILTERED:
-                    if (tile instanceof IMultiFilterTile)
+                    if (tile instanceof IFilterTileGUI)
                     {
-                        return new GuiFiltered((IMultiFilterTile) tile);
+                        return new GuiFiltered((IFilterTileGUI) tile);
                     }
                     break;
                 case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
