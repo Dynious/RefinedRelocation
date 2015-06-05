@@ -8,6 +8,7 @@ import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
+import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
 import net.minecraft.util.StatCollector;
 
 public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrapped {
@@ -38,7 +39,7 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
 		new GuiButtonBlacklist(this, curX, curY, filterTile, MessageGUI.BLACKLIST);
 		curX += 27;
 
-		if (filterTile instanceof TileBlockExtender)
+		if (filterTile instanceof TileBlockExtender && !(filterTile instanceof TileWirelessBlockExtender))
 		{
 			new GuiButtonRedstoneSignalStatus(this, curX, curY, (TileBlockExtender) filterTile, MessageGUI.REDSTONE_ENABLED);
 			curX += 27;

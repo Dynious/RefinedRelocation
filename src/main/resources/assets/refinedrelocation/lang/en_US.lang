@@ -147,7 +147,7 @@ gui.refinedrelocation.deleteFilter=Delete Filter
 gui.refinedrelocation.clickToToggle=Click to toggle
 gui.refinedrelocation.clickIncrease=Click to increase
 gui.refinedrelocation.clickDecrease=Right-Click to decrease
-gui.refinedrelocation.useLinkerToLink=Use a Linker to link this block to an inventory
+gui.refinedrelocation.useLinkerToLink=Use a Linker with an inventory
 gui.refinedrelocation.insertExtract=Insert/Extract
 gui.refinedrelocation.multiFilterHelp=Configure up to four filters by\nselecting a tab on the left.\nIn order for an item to be\nallowed through, at least one\nof the configured filters need\nto allow it to pass.
 

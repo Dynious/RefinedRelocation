@@ -48,11 +48,21 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     public static String[] getCreativeTabLabels() {
         String[] labels = new String[CreativeTabs.creativeTabArray.length];
         CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
-        for (int i = 0; i < creativeTabArray.length; i++)
+        for (int i = 0; i < labels.length; i++)
         {
             labels[i] = creativeTabArray[i].tabLabel;
         }
         return labels;
+    }
+
+    public static int getFixedTabIndex(int tabIndex) {
+        if(tabIndex >= 5) {
+            tabIndex++;
+        }
+        if(tabIndex >= 11) {
+            tabIndex++;
+        }
+        return tabIndex;
     }
 
     private IMultiFilter parentFilter;
@@ -160,7 +170,7 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
 
     @Override
     public void setFilterBoolean(int optionId, boolean value) {
-        tabStates[optionId] = value;
+        tabStates[getFixedTabIndex(optionId)] = value;
     }
 
     @Override
@@ -173,23 +183,23 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
 
     @Override
     public String getName(int index) {
-        return I18n.format("itemGroup." + serverSideTabs[index].tabLabel).replace("itemGroup.", "");
+        return I18n.format("itemGroup." + serverSideTabs[getFixedTabIndex(index)].tabLabel).replace("itemGroup.", "");
     }
 
     @Override
     public void setValue(int optionIndex, boolean value) {
-        tabStates[optionIndex] = value;
+        tabStates[getFixedTabIndex(optionIndex)] = value;
         markDirty(true);
     }
 
     @Override
     public boolean getValue(int optionIndex) {
-        return tabStates[optionIndex];
+        return tabStates[getFixedTabIndex(optionIndex)];
     }
 
     @Override
     public int getOptionCount() {
-        return tabStates.length;
+        return tabStates.length - 2;
     }
 
     @Override
@@ -222,4 +232,5 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     public String getTooltipLangKey() {
         return Strings.CREATIVE_FILTER;
     }
+
 }
