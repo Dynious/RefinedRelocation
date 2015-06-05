@@ -17,7 +17,7 @@ import java.util.List;
 
 public class BlockHelper
 {
-    public static final String nullBlockString = StatCollector.translateToLocal(Strings.NONE);
+    public static final String nullBlockString = StatCollector.translateToLocal(Strings.AIR);
 
     public static String getBlockDisplayName(World world, int x, int y, int z, ForgeDirection side)
     {

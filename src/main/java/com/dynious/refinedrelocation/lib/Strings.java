@@ -50,7 +50,7 @@ public class Strings
     public static final String TICKS_BETWEEN_EXT = GUI_PREFIX + "ticksBetween";
     public static final String SECONDS_BETWEEN_EXT = GUI_PREFIX + "secondsBetween";
     public static final String SNEAKY = GUI_PREFIX + "sneaky";
-    public static final String NONE = GUI_PREFIX + "none";
+    public static final String AIR = GUI_PREFIX + "air";
     public static final String PLAYER_RELOCATOR_LINK = GUI_PREFIX + "playerRelocatorLink";
     public static final String TOO_FAR = GUI_PREFIX + "tooFar";
     public static final String LINKED_WITH = GUI_PREFIX + "linkedWith";
@@ -141,4 +141,5 @@ public class Strings
     public static final String CLICK_TO_TOGGLE = GUI_PREFIX + "clickToToggle";
     public static final String CLICK_INCREASE = GUI_PREFIX + "clickIncrease";
     public static final String CLICK_DECREASE = GUI_PREFIX + "clickDecrease";
+    public static final String INSERT_EXTRACT = GUI_PREFIX + "insertExtract";
 }

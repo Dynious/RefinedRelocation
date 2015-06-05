@@ -25,7 +25,7 @@ public class GuiInsertDirection extends GuiWidgetBase
     public ForgeDirection insertDirection;
     public ForgeDirection rotation;
     public ForgeDirection relativeSide;
-    public boolean isConnected = false;
+    public boolean isFrontSide = false;
     protected IAdvancedTile tile;
 
     public GuiInsertDirection(IGuiParent parent, int x, int y, IAdvancedTile tile, ForgeDirection side, ForgeDirection relativeSide)
@@ -46,13 +46,13 @@ public class GuiInsertDirection extends GuiWidgetBase
         if (isInsideBounds(mouseX, mouseY))
         {
             TileEntity tile = (TileEntity) this.tile;
-            tooltip.add(BlockHelper.getBlockDisplayName(tile.getWorldObj(), tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
+            tooltip.add("\u00a7a" + StatCollector.translateToLocal(Strings.DIRECTION + side.ordinal()) + ": \u00a7r" + BlockHelper.getBlockDisplayName(tile.getWorldObj(), tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
 
             if (tile instanceof TileBlockExtender)
             {
                 TileBlockExtender blockExtender = ((TileBlockExtender) tile);
-                isConnected = blockExtender.getConnectedDirection() == side;
-                if (isConnected)
+                isFrontSide = blockExtender.getConnectedDirection() == side;
+                if (isFrontSide)
                 {
                     String colorCode = "\u00A7";
                     String grayColor = colorCode + "7";
@@ -62,7 +62,7 @@ public class GuiInsertDirection extends GuiWidgetBase
                         tooltip.add(grayColor + StatCollector.translateToLocal(Strings.CONNECTED));
                         List<String> connections = blockExtender.getConnectionTypes();
                         for (int i = 0; i < connections.size(); i++)
-                            connections.set(i, yellowColor + connections.get(i));
+                            connections.set(i, yellowColor + "* " + connections.get(i));
 
                         tooltip.addAll(connections);
                     }
@@ -70,6 +70,9 @@ public class GuiInsertDirection extends GuiWidgetBase
                     {
                         tooltip.add(grayColor + StatCollector.translateToLocal(Strings.NOT_CONNECTED));
                     }
+                } else {
+                    tooltip.add("\u00a7a" + StatCollector.translateToLocal(Strings.INSERT_EXTRACT) + ": \u00a7r" + StatCollector.translateToLocal(Strings.DIRECTION + insertDirection.ordinal()));
+                    tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
                 }
             }
         }
@@ -89,12 +92,12 @@ public class GuiInsertDirection extends GuiWidgetBase
         if (tile instanceof TileBlockExtender)
         {
             TileBlockExtender blockExtender = ((TileBlockExtender) tile);
-            isConnected = blockExtender.getConnectedDirection() == side;
+            isFrontSide = blockExtender.getConnectedDirection() == side;
             boolean hasTile = blockExtender.getTiles()[side.ordinal()] != null;
 
-            this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h * 2 : (isHovered ? h : (hasTile ? 0 : h * 2))), w, h);
+            this.drawTexturedModalRect(x, y, isFrontSide ? 0 : textureOffset * w, 80 + (isFrontSide ? h * 2 : (isHovered ? h : (hasTile ? 0 : h * 2))), w, h);
 
-            if (!isConnected)
+            if (!isFrontSide)
             {
                 this.insertDirection = ForgeDirection.getOrientation(tile.getInsertDirection()[side.ordinal()]);
                 char letter = insertDirection.toString().charAt(0);
@@ -103,7 +106,7 @@ public class GuiInsertDirection extends GuiWidgetBase
         }
         else if (tile instanceof TileAdvancedBuffer)
         {
-            this.drawTexturedModalRect(x, y, isConnected ? 0 : textureOffset * w, 80 + (isConnected ? h * 2 : (isHovered ? h : 0)), w, h);
+            this.drawTexturedModalRect(x, y, isFrontSide ? 0 : textureOffset * w, 80 + (isFrontSide ? h * 2 : (isHovered ? h : 0)), w, h);
 
             TileAdvancedBuffer buffer = (TileAdvancedBuffer) tile;
             byte p = buffer.getPriority(side.ordinal());
@@ -114,7 +117,7 @@ public class GuiInsertDirection extends GuiWidgetBase
 
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
-        if ((type == 0 || type == 1) && !isConnected && isInsideBounds(mouseX, mouseY))
+        if ((type == 0 || type == 1) && !isFrontSide && isInsideBounds(mouseX, mouseY))
         {
             if (tile instanceof TileBlockExtender)
             {

@@ -104,7 +104,7 @@ gui.refinedrelocation.tab=Tab
 gui.refinedrelocation.ticksBetween=Ticks between each extraction
 gui.refinedrelocation.secondsBetween=seconds between each extraction
 gui.refinedrelocation.sneaky=The side into which items will be inserted
-gui.refinedrelocation.none=None
+gui.refinedrelocation.air=Air
 gui.refinedrelocation.playerRelocatorLink=Player Relocator is now linked to the Relocation Controller
 gui.refinedrelocation.tooFar=The %s is too far from the linked position (max range: %s)
 gui.refinedrelocation.linkedWith=%s is now linked with %s at (%s, %s, %s)
@@ -147,6 +147,7 @@ gui.refinedrelocation.deleteFilter=Delete Filter
 gui.refinedrelocation.clickToToggle=Click to toggle
 gui.refinedrelocation.clickIncrease=Click to increase
 gui.refinedrelocation.clickDecrease=Right-Click to decrease
+gui.refinedrelocation.insertExtract=Insert/Extract
 gui.refinedrelocation.multiFilterHelp=Configure up to four filters by\nselecting a tab on the left.\nIn order for an item to be\nallowed through, at least one\nof the configured filters need\nto allow it to pass.
 
 #Item Description Localizations
