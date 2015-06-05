@@ -48,6 +48,16 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
 		{
 			new GuiButtonPriority(this, curX, curY, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
 		}
+
+		curX = x + w / 2 - 80;
+		curY += 30;
+
+		String[] helpLines = StatCollector.translateToLocal(Strings.MULTIFILTER_HELP).split("\\\\n");
+		for(String helpLine : helpLines)
+		{
+			new GuiLabel(this, curX, curY, helpLine).drawCentered = false;
+			curY += 12;
+		}
 	}
 
 }

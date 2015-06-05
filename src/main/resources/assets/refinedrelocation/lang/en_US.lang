@@ -144,6 +144,7 @@ gui.refinedrelocation.creativeFilter=Creative Filter
 gui.refinedrelocation.advFilteredBlockExtender=Adv. Filtered Block Extender
 gui.refinedrelocation.filterSettings=Filter Settings
 gui.refinedrelocation.deleteFilter=Delete Filter
+gui.refinedrelocation.multiFilterHelp=Configure up to four filters by\nselecting a tab on the left.\nIn order for an item to be\nallowed through, at least one\nof the configured filters need\nto allow it to pass.
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)

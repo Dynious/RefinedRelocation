@@ -83,6 +83,7 @@ public class Strings
     public static final String CREATIVE_FILTER = GUI_PREFIX + "creativeFilter";
     public static final String FILTER_SETTINGS = GUI_PREFIX + "filterSettings";
     public static final String DELETE_FILTER = GUI_PREFIX + "deleteFilter";
+    public static final String MULTIFILTER_HELP = GUI_PREFIX + "multiFilterHelp";
     public static final String ADV_FILTERED_BLOCK_EXTENDER = GUI_PREFIX + "advFilteredBlockExtender";
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
