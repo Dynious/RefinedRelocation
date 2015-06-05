@@ -138,4 +138,7 @@ public class Strings
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
 
+    public static final String CLICK_TO_TOGGLE = GUI_PREFIX + "clickToToggle";
+    public static final String CLICK_INCREASE = GUI_PREFIX + "clickIncrease";
+    public static final String CLICK_DECREASE = GUI_PREFIX + "clickDecrease";
 }

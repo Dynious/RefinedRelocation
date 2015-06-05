@@ -56,9 +56,12 @@ public class GuiButtonSpread extends GuiButtonToggle
                         tooltip.add("\u00A77" + s);
                     }
                 }
+                tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
             }
-            else
+            else {
                 tooltip.add(StatCollector.translateToLocal(getState() ? Strings.SPREAD : Strings.STACK));
+                tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
+            }
         }
         return tooltip;
     }

@@ -40,6 +40,8 @@ public class GuiButtonMaxStackSize extends GuiButtonCounter
         {
             List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.MAX_STACK_SIZE));
+            tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_INCREASE));
+            tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_DECREASE));
             tooltip.addAll(subTooltip);
             return tooltip;
         }

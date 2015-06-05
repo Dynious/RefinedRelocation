@@ -37,15 +37,17 @@ public class GuiButtonRedstoneSignalStatus extends GuiButtonToggle
             {
                 tooltip.add(grayColor + StatCollector.translateToLocal(Strings.ENABLED));
 
-                if (tile.isRedstoneTransmissionActive())
-                    tooltip.add(redColor + StatCollector.translateToLocal(Strings.ACTIVE));
-                else
-                    tooltip.add(redColor + StatCollector.translateToLocal(Strings.INACTIVE));
+                // Removed for now because I feel like it might confuse - blay
+//                if (tile.isRedstoneTransmissionActive())
+//                    tooltip.add(redColor + StatCollector.translateToLocal(Strings.ACTIVE));
+//                else
+//                    tooltip.add(redColor + StatCollector.translateToLocal(Strings.INACTIVE));
             }
             else
             {
                 tooltip.add(grayColor + StatCollector.translateToLocal(Strings.DISABLED));
             }
+            tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
         }
 
         return tooltip;

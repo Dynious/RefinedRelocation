@@ -35,8 +35,10 @@ public class GuiButtonBlacklist extends GuiButtonToggle
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isInsideBounds(mouseX, mouseY))
+        if (isInsideBounds(mouseX, mouseY)) {
             tooltip.add(StatCollector.translateToLocal(getState() ? Strings.BLACKLIST : Strings.WHITELIST));
+            tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
+        }
         return tooltip;
     }
 
