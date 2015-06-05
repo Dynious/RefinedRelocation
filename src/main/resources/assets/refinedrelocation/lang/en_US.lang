@@ -151,7 +151,7 @@ gui.refinedrelocation.useLinkerToLink=Use a Linker with an inventory
 gui.refinedrelocation.insertExtract=Insert/Extract
 gui.refinedrelocation.multiFilterHelp=Configure up to four filters by\nselecting a tab on the left.\nIn order for an item to be\nallowed through, at least one\nof the configured filters need\nto allow it to pass.
 gui.refinedrelocation.presetFilterDesc=Checklist based on the\nmost common things
-gui.refinedrelocation.creativeFilterDesc=A checklist based on\nthe creative tabs
+gui.refinedrelocation.creativeFilterDesc=Checklist based on\nthe creative tabs
 gui.refinedrelocation.customFilterDesc=A customizable text\nbased filter
 
 #Item Description Localizations
