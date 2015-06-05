@@ -31,9 +31,9 @@ public class GuiHandler implements IGuiHandler
             switch (guiId)
             {
                 case GuiIds.FILTERED:
-                    if (tile instanceof IMultiFilterTile)
+                    if (tile instanceof IFilterTileGUI)
                     {
-                        return new ContainerFiltered((IMultiFilterTile) tile);
+                        return new ContainerFiltered((IFilterTileGUI) tile);
                     }
                     break;
                 case GuiIds.ADVANCED_BLOCK_EXTENDER:
