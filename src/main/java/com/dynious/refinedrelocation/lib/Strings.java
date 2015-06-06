@@ -36,6 +36,8 @@ public class Strings
     public static final String BUFFER_INSERTION_INFO = GUI_PREFIX + "bufferInsInfo";
     public static final String BLOCK_EXTENDER_INSERTION_INFO = GUI_PREFIX + "blockExtenderInsInfo";
     public static final String REDSTONE_TRANSMISSION = GUI_PREFIX + "redstoneTrans";
+    public static final String REDSTONE_TRANSMISSION_ON_DESC = GUI_PREFIX + "redstoneTransOnDesc";
+    public static final String REDSTONE_TRANSMISSION_OFF_DESC = GUI_PREFIX + "redstoneTransOffDesc";
     public static final String ENABLED = GUI_PREFIX + "enabled";
     public static final String DISABLED = GUI_PREFIX + "disabled";
     public static final String ACTIVE = GUI_PREFIX + "active";

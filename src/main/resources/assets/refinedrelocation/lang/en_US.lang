@@ -87,6 +87,8 @@ gui.refinedrelocation.notConnected=Not Connected
 gui.refinedrelocation.bufferInsInfo=Output side priorities\nItems that get inserted\ninto the buffer will attempt\nto be outputted to a valid\nside in order of priority\n(lower number = higher priority)
 gui.refinedrelocation.blockExtenderInsInfo=Insert/extract directions\nItems will get inserted/extracted\ninto the chosen side of the\nconnected inventory whenever they\nare inserted/extracted into the\nrelevant side of this Block Extender
 gui.refinedrelocation.redstoneTrans=Redstone Signal Transmission
+gui.refinedrelocation.redstoneTransOnDesc=Redstone signals will be transmitted\nto the target block
+gui.refinedrelocation.redstoneTransOffDesc=Redstone signals won't be transmitted\nto the target block
 gui.refinedrelocation.enabled=Enabled
 gui.refinedrelocation.disabled=Disabled
 gui.refinedrelocation.active=Active

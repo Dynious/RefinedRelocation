@@ -28,24 +28,11 @@ public class GuiButtonRedstoneSignalStatus extends GuiButtonToggle
 
         if (isInsideBounds(mouseX, mouseY))
         {
-            String colorCode = "\u00A7";
-            String grayColor = colorCode + "7";
-            String redColor = colorCode + "4";
-
             tooltip.add(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION));
-            if (tile.isRedstoneTransmissionEnabled())
+            String[] tooltipLines = StatCollector.translateToLocal(tile.isRedstoneTransmissionEnabled() ? Strings.REDSTONE_TRANSMISSION_ON_DESC : Strings.REDSTONE_TRANSMISSION_OFF_DESC).split("\\\\n");
+            for (String tooltipLine : tooltipLines)
             {
-                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.ENABLED));
-
-                // Removed for now because I feel like it might confuse - blay
-//                if (tile.isRedstoneTransmissionActive())
-//                    tooltip.add(redColor + StatCollector.translateToLocal(Strings.ACTIVE));
-//                else
-//                    tooltip.add(redColor + StatCollector.translateToLocal(Strings.INACTIVE));
-            }
-            else
-            {
-                tooltip.add(grayColor + StatCollector.translateToLocal(Strings.DISABLED));
+                tooltip.add("\u00a77" + tooltipLine);
             }
             tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
         }
