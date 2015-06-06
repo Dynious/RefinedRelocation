@@ -2,7 +2,6 @@ package com.dynious.refinedrelocation.tileentity;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
@@ -64,7 +63,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
     }
 
     @Override
-    public final boolean putStackInSlot(ItemStack itemStack, int slotIndex)
+    public boolean putStackInSlot(ItemStack itemStack, int slotIndex)
     {
         itemStack = putInInventory(itemStack, false);
         bufferInventory[0] = itemStack;

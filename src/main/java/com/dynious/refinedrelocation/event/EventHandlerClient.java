@@ -1,8 +1,7 @@
 package com.dynious.refinedrelocation.event;
 
 import codechicken.lib.raytracer.RayTracer;
-import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.block.ModBlocks;
@@ -15,37 +14,31 @@ import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageOpenFilterGUI;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
+
 public class EventHandlerClient
 {
-    private World interactionWorld;
-    private int interactionX;
-    private int interactionY;
-    private int interactionZ;
     private GuiButton editFilterButton;
 
     @SubscribeEvent
@@ -149,40 +142,46 @@ public class EventHandlerClient
     }
 
     @SubscribeEvent
-    public void interactWith(PlayerInteractEvent event) {
-        // Sadly the only solution I could think of for checking if a GuiContainer belongs to an IFilterTileGUI
-        if(event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            interactionWorld = event.world;
-            interactionX = event.x;
-            interactionY = event.y;
-            interactionZ = event.z;
-            return;
-        }
-        interactionWorld = null;
-    }
-
-    @SubscribeEvent
-    public void initGui(GuiScreenEvent.InitGuiEvent event) {
-        if(interactionWorld != null) {
-            TileEntity tileEntity = interactionWorld.getTileEntity(interactionX, interactionY, interactionZ);
-            if(tileEntity instanceof IFilterTileGUI && event.gui instanceof GuiContainer) {
-                // Make sure it's not already a filter GUI or an inventory GUI
-                if (!(event.gui instanceof GuiFiltered) && !(event.gui instanceof GuiInventory) && !(event.gui instanceof GuiContainerCreative)) {
-                    GuiContainer guiContainer = (GuiContainer) event.gui;
-                    if (interactionWorld != null) {
-                        editFilterButton = new GuiEditFilterButton(guiContainer.guiLeft - 31, guiContainer.guiTop + 25);
-                        event.buttonList.add(editFilterButton);
-                    }
+    public void initGui(GuiScreenEvent.InitGuiEvent.Post event)
+    {
+        if (event.gui instanceof GuiContainer && !(event.gui instanceof GuiFiltered))
+        {
+            GuiContainer container = (GuiContainer) event.gui;
+            for (Slot slot : (List<Slot>) container.inventorySlots.inventorySlots)
+            {
+                if (slot.inventory instanceof ISortingInventory)
+                {
+                    editFilterButton = new GuiEditFilterButton(container.guiLeft - 31, container.guiTop + 25);
+                    event.buttonList.add(editFilterButton);
+                    return;
                 }
             }
         }
     }
 
     @SubscribeEvent
-    public void actionPerformed(GuiScreenEvent.ActionPerformedEvent.Pre event) {
-        if(event.button == editFilterButton) {
-            NetworkHandler.INSTANCE.sendToServer(new MessageOpenFilterGUI(interactionX, interactionY, interactionZ));
-            event.setCanceled(true);
+    public void actionPerformed(GuiScreenEvent.ActionPerformedEvent.Pre event)
+    {
+        if (event.button == editFilterButton)
+        {
+            TileEntity tile = null;
+            if (event.gui instanceof GuiContainer && !(event.gui instanceof GuiFiltered))
+            {
+                GuiContainer container = (GuiContainer) event.gui;
+                for (Slot slot : (List<Slot>) container.inventorySlots.inventorySlots)
+                {
+                    if (slot.inventory instanceof ISortingInventory && ((ISortingInventory)  slot.inventory).getHandler() != null)
+                    {
+                        tile = ((ISortingInventory)  slot.inventory).getHandler().getOwner();
+                        break;
+                    }
+                }
+            }
+            if (tile != null)
+            {
+                NetworkHandler.INSTANCE.sendToServer(new MessageOpenFilterGUI(tile.xCoord, tile.yCoord, tile.zCoord));
+                event.setCanceled(true);
+            }
         }
     }
 

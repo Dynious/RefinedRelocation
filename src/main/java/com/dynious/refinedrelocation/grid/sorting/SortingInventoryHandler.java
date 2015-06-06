@@ -27,10 +27,9 @@ public class SortingInventoryHandler extends SortingMemberHandler implements ISo
      */
     public final void setInventorySlotContents(int par1, ItemStack itemStack)
     {
-        inventory.putStackInSlot(itemStack, par1);
-
         if (itemStack == null || owner.getWorldObj().isRemote || getGrid() == null)
         {
+            inventory.putStackInSlot(itemStack, par1);
             inventory.markDirty();
             return;
         }
