@@ -4,11 +4,18 @@ public class Strings
 {
     private static final String GUI_PREFIX = "gui." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String BLACKLIST = GUI_PREFIX + "blacklist";
+    public static final String BLACKLIST_DESC = GUI_PREFIX + "blacklistDesc";
     public static final String WHITELIST = GUI_PREFIX + "whitelist";
+    public static final String WHITELIST_DESC = GUI_PREFIX + "whitelistDesc";
     public static final String CLICK = GUI_PREFIX + "click";
     public static final String SHIFT_CLICK = GUI_PREFIX + "shiftClick";
+    public static final String CLICK_TO_TOGGLE = GUI_PREFIX + "clickToToggle";
+    public static final String CLICK_INCREASE = GUI_PREFIX + "clickIncrease";
+    public static final String CLICK_DECREASE = GUI_PREFIX + "clickDecrease";
     public static final String FILTERED_EXTRACT = GUI_PREFIX + "filteredExtr";
+    public static final String FILTERED_EXTRACT_DESC = GUI_PREFIX + "filteredExtrDesc";
     public static final String UNFILTERED_EXTRACT = GUI_PREFIX + "unfilteredExtr";
+    public static final String UNFILTERED_EXTRACT_DESC = GUI_PREFIX + "unfilteredExtrDesc";
     public static final String MAX_STACK_SIZE = GUI_PREFIX + "maxStackSize";
     public static final String MAX_CRAFT_STACK = GUI_PREFIX + "maxCraftStack";
     public static final String MODE = GUI_PREFIX + "mode";
@@ -79,22 +86,20 @@ public class Strings
     public static final String FORMED = GUI_PREFIX + "formed";
     public static final String SELECT_FILTER_TYPE = GUI_PREFIX + "selectFilterType";
     public static final String CUSTOM_FILTER = GUI_PREFIX + "customFilter";
+    public static final String CUSTOM_FILTER_DESCRIPTION = GUI_PREFIX + "customFilterDesc";
     public static final String PRESET_FILTER = GUI_PREFIX + "presetFilter";
+    public static final String PRESET_FILTER_DESCRIPTION = GUI_PREFIX + "presetFilterDesc";
     public static final String CREATIVE_FILTER = GUI_PREFIX + "creativeFilter";
+    public static final String CREATIVE_FILTER_DESCRIPTION = GUI_PREFIX + "creativeFilterDesc";
     public static final String SAME_ITEM_FILTER = GUI_PREFIX + "sameItemFilter";
+    public static final String SAME_ITEM_FILTER_DESCRIPTION = GUI_PREFIX + "sameItemFilterDesc";
+    public static final String MULTIFILTER_HELP = GUI_PREFIX + "multiFilterHelp";
     public static final String FILTER_SETTINGS = GUI_PREFIX + "filterSettings";
     public static final String DELETE_FILTER = GUI_PREFIX + "deleteFilter";
-    public static final String MULTIFILTER_HELP = GUI_PREFIX + "multiFilterHelp";
-    public static final String CLICK_TO_TOGGLE = GUI_PREFIX + "clickToToggle";
-    public static final String CLICK_INCREASE = GUI_PREFIX + "clickIncrease";
-    public static final String CLICK_DECREASE = GUI_PREFIX + "clickDecrease";
     public static final String INSERT_EXTRACT = GUI_PREFIX + "insertExtract";
     public static final String USE_LINKER_TO_LINK = GUI_PREFIX + "useLinkerToLink";
-    public static final String PRESET_FILTER_DESCRIPTION = GUI_PREFIX + "presetFilterDesc";
-    public static final String CREATIVE_FILTER_DESCRIPTION = GUI_PREFIX + "creativeFilterDesc";
-    public static final String CUSTOM_FILTER_DESCRIPTION = GUI_PREFIX + "customFilterDesc";
-    public static final String SAME_ITEM_FILTER_DESCRIPTION = GUI_PREFIX + "sameItemFilterDesc";
     public static final String ADV_FILTERED_BLOCK_EXTENDER = GUI_PREFIX + "advFilteredBlockExtender";
+
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
     public static final String LINKED = ITEM_DESC_PREFIX + "linked";
@@ -148,6 +153,4 @@ public class Strings
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
 
-    public static final String BLACKLIST_DESC = GUI_PREFIX + "blacklistDesc";
-    public static final String WHITELIST_DESC = GUI_PREFIX + "whitelistDesc";
 }
