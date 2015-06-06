@@ -87,7 +87,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
             GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterTypeList(this, panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
             if (focusLast)
             {
-                emptyTabButton.setActive(true);
+                panel.setActiveTabButton(emptyTabButton);
             }
             emptyTabButton.setPlainTexture();
             tabButtons.add(emptyTabButton);
@@ -105,10 +105,10 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
             }
             if (focusLast)
             {
-                tabButtons.get(tabButtons.size() - 1).setActive(true);
+                panel.setActiveTabButton(tabButtons.get(tabButtons.size() - 1));
             } else
             {
-                tabButtons.get(0).setActive(true);
+                panel.setActiveTabButton(tabButtons.get(1));
             }
             if (filter.getFilterCount() < 4)
             {
