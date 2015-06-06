@@ -16,18 +16,22 @@ import java.util.List;
 
 public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrapped
 {
-    public int numFiltersPerScreen;
-    public int rowHeight = 27;
-    public int rowSpacing = 0;
-    public int scrollBarAreaWidth = 10;
-    public int scrollBarWidth = 7;
-    public int scrollBarScaledHeight;
-    public int scrollBarYPos;
-    public int scrollBarXPos;
-    public int scrollBarColor = 0xFFAAAAAA;
+    private static final int ROW_HEIGHT = 27;
+    private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
+    private static final int SCROLLBAR_AREA_WIDTH = 10;
+    private static final int SCROLLBAR_WIDTH = 7;
+
+    private final int numFiltersPerScreen;
+    private final int listOffsetY;
+
+    private int scrollBarScaledHeight;
+    private int scrollBarYPos;
+    private int scrollBarXPos;
+
     public int mouseClickY = -1;
     public int indexWhenClicked;
     public int lastNumberOfMoves;
+
     protected int currentIndex = 0;
 
     protected final GuiButtonFilterType[] filterTypes;
@@ -53,18 +57,19 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
             }
         }
 
-        GuiLabel headerLabel = new GuiLabel(this, x, y - 15, StatCollector.translateToLocal(Strings.SELECT_FILTER_TYPE));
+        GuiLabel headerLabel = new GuiLabel(this, x, y, StatCollector.translateToLocal(Strings.SELECT_FILTER_TYPE));
         headerLabel.drawCentered = false;
+        listOffsetY = headerLabel.h + 10;
 
-        numFiltersPerScreen = (int) Math.floor(((h - 73 + 2 * rowSpacing) / (rowHeight + rowSpacing)));
+        numFiltersPerScreen = (int) Math.floor(((h - listOffsetY) / ROW_HEIGHT));
 
-        int curY = y;
+        int curY = y + listOffsetY;
         filterTypes = new GuiButtonFilterType[numFiltersPerScreen];
         for (int i = 0; i < numFiltersPerScreen; i++)
         {
             filterTypes[i] = new GuiButtonFilterType(this, x, curY);
             filterTypes[i].setFilter((i + currentIndex < availableFilters.size()) ? availableFilters.get(i + currentIndex) : null);
-            curY += rowHeight - 1;
+            curY += ROW_HEIGHT - 1;
         }
 
         recalculateScrollBar();
@@ -89,20 +94,20 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
 
     public void recalculateScrollBar()
     {
-        int scrollBarTotalHeight = h - 124;
-        this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / (availableFilters.size());
-        this.scrollBarYPos = y + 1 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / Math.max((availableFilters.size() - numFiltersPerScreen), 1));
-        this.scrollBarXPos = x + 1 + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
+        int scrollBarTotalHeight = 26 * 4 - 2;
+        this.scrollBarScaledHeight = scrollBarTotalHeight * Math.min(1, numFiltersPerScreen / availableFilters.size());
+        this.scrollBarYPos = y + listOffsetY + 1 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / Math.max(1, (availableFilters.size() - numFiltersPerScreen)));
+        this.scrollBarXPos = x + 1 + w - SCROLLBAR_AREA_WIDTH / 2 + SCROLLBAR_WIDTH / 2 + 1;
     }
 
     @Override
     public void drawBackground(int mouseX, int mouseY)
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f(1f, 1f, 1f, 1f);
 
         if (mouseClickY != -1)
         {
-            float pixelsPerFilter = ((float) h - 73 - scrollBarScaledHeight) / (availableFilters.size() - numFiltersPerScreen);
+            float pixelsPerFilter = ((float) h - listOffsetY - 4 - scrollBarScaledHeight) / (availableFilters.size() - numFiltersPerScreen);
             if (pixelsPerFilter != 0)
             {
                 int numberOfFiltersMoved = (int) ((mouseY - mouseClickY) / pixelsPerFilter);
@@ -114,13 +119,13 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
             }
         }
 
-        GL11.glColor4f(1F, 1F, 1F, 1F);
+        GL11.glColor4f(1f, 1f, 1f, 1f);
 
         super.drawBackground(mouseX, mouseY);
 
         mc.getTextureManager().bindTexture(Resources.GUI_MODULAR_FILTER);
-        drawTexturedModalRect(x + 8 + w - scrollBarAreaWidth - scrollBarWidth, y, 162, 54, 11, 105);
-        GuiContainer.drawRect(scrollBarXPos - scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, scrollBarColor);
+        drawTexturedModalRect(x + 8 + w - SCROLLBAR_AREA_WIDTH - SCROLLBAR_WIDTH, y + listOffsetY, 162, 54, 11, 105);
+        GuiContainer.drawRect(scrollBarXPos - SCROLLBAR_WIDTH, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
 
 
     }
@@ -143,7 +148,7 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
     {
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
 
-        if (mouseX >= scrollBarXPos - scrollBarWidth && mouseX <= scrollBarXPos && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight)
+        if (mouseX >= scrollBarXPos - SCROLLBAR_WIDTH && mouseX <= scrollBarXPos && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight)
         {
             mouseClickY = mouseY;
             indexWhenClicked = getCurrentIndex();

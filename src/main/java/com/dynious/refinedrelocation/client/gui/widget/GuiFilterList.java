@@ -11,18 +11,23 @@ import org.lwjgl.opengl.GL11;
 public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
 {
 
-    public int numFiltersPerScreen;
-    public int filterRowHeight = 10;
-    public int rowSpacing = 1;
-    public int scrollBarAreaWidth = 10;
-    public int scrollBarWidth = 7;
-    public int scrollBarScaledHeight;
-    public int scrollBarYPos;
-    public int scrollBarXPos;
-    public int scrollBarColor = 0xFFAAAAAA;
-    public int mouseClickY = -1;
-    public int indexWhenClicked;
-    public int lastNumberOfMoves;
+    private static final int ROW_SPACING = 1;
+    private static final int ROW_HEIGHT = 10;
+    private static final int SCROLLBAR_COLOR = 0xFFAAAAAA;
+    private static final int SCROLLBAR_AREA_WIDTH = 10;
+    private static final int SCROLLBAR_WIDTH = 7;
+
+    private final int numFiltersPerScreen;
+    private final int listOffsetY;
+
+    private int scrollBarScaledHeight;
+    private int scrollBarYPos;
+    private int scrollBarXPos;
+
+    private int mouseClickY = -1;
+    private int indexWhenClicked;
+    private int lastNumberOfMoves;
+
     protected IChecklistFilter filter;
     protected int currentIndex = 0;
     protected GuiCheckboxFilter filters[];
@@ -32,15 +37,16 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
         super(x, y, w, h);
         this.filter = filter;
 
-        GuiLabel headerLabel = new GuiLabel(this, x, y + 40, StatCollector.translateToLocal(filter.getNameLangKey()));
+        GuiLabel headerLabel = new GuiLabel(this, x, y, StatCollector.translateToLocal(filter.getNameLangKey()));
         headerLabel.drawCentered = false;
+        listOffsetY = headerLabel.h + 8;
 
-        numFiltersPerScreen = (int) Math.floor(((h - 73 + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));
+        numFiltersPerScreen = (int) Math.floor(((h - listOffsetY + 2 * ROW_SPACING) / (ROW_HEIGHT + ROW_SPACING)));
 
         filters = new GuiCheckboxFilter[numFiltersPerScreen];
         for (int i = 0; i < numFiltersPerScreen; i++)
         {
-            filters[i] = new GuiCheckboxFilter(this, x, y + 55 + i * (filterRowHeight + rowSpacing), w - scrollBarAreaWidth, filterRowHeight, i, filter);
+            filters[i] = new GuiCheckboxFilter(this, x, y + listOffsetY + i * (ROW_HEIGHT + ROW_SPACING), w - SCROLLBAR_AREA_WIDTH, ROW_HEIGHT, i, filter);
         }
         recalculateScrollBar();
     }
@@ -64,22 +70,22 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
 
     public void recalculateScrollBar()
     {
-        int scrollBarTotalHeight = h - 81;
-        this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / filter.getOptionCount() + 1;
-        this.scrollBarYPos = y + 56 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / Math.max(1, filter.getOptionCount() - numFiltersPerScreen));
-        this.scrollBarXPos = x + 1 + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
+        int scrollBarTotalHeight =  h - listOffsetY - 4;
+        this.scrollBarScaledHeight = scrollBarTotalHeight * Math.min(1, numFiltersPerScreen / filter.getOptionCount());
+        this.scrollBarYPos = y + listOffsetY + 1 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / Math.max(1, filter.getOptionCount() - numFiltersPerScreen));
+        this.scrollBarXPos = x + 1 + w - SCROLLBAR_AREA_WIDTH / 2 + SCROLLBAR_WIDTH / 2 + 1;
     }
 
     @Override
     public void drawBackground(int mouseX, int mouseY)
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f(1f, 1f, 1f, 1f);
         mc.renderEngine.bindTexture(Resources.GUI_MODULAR_FILTER);
-        this.drawTexturedModalRect(x, y + 55, 0, 0, 162, 121);
+        drawTexturedModalRect(x, y + listOffsetY, 0, 0, 162, 121);
 
         if (mouseClickY != -1)
         {
-            float pixelsPerFilter = ((float) h - 73 - scrollBarScaledHeight) / (filter.getOptionCount() - numFiltersPerScreen);
+            float pixelsPerFilter = ((float) h - listOffsetY - 4 - scrollBarScaledHeight) / (filter.getOptionCount() - numFiltersPerScreen);
             if (pixelsPerFilter != 0)
             {
                 int numberOfFiltersMoved = (int) ((mouseY - mouseClickY) / pixelsPerFilter);
@@ -91,9 +97,8 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
             }
         }
 
-        GL11.glColor4f(1F, 1F, 1F, 1F);
-
-        GuiContainer.drawRect(scrollBarXPos - scrollBarWidth, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, scrollBarColor);
+        GL11.glColor4f(1f, 1f, 1f, 1f);
+        GuiContainer.drawRect(scrollBarXPos - SCROLLBAR_WIDTH, scrollBarYPos, scrollBarXPos, scrollBarYPos + scrollBarScaledHeight, SCROLLBAR_COLOR);
 
         super.drawBackground(mouseX, mouseY);
     }
@@ -106,7 +111,9 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
         int i = Mouse.getEventDWheel();
 
         if (i == 0)
+        {
             return;
+        }
 
         setCurrentIndex(i > 0 ? getCurrentIndex() - 1 : getCurrentIndex() + 1);
     }
@@ -116,7 +123,7 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
     {
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
 
-        if (mouseX >= scrollBarXPos - scrollBarWidth && mouseX <= scrollBarXPos && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight)
+        if (mouseX >= scrollBarXPos - SCROLLBAR_WIDTH && mouseX <= scrollBarXPos && mouseY >= scrollBarYPos && mouseY <= scrollBarYPos + scrollBarScaledHeight)
         {
             mouseClickY = mouseY;
             indexWhenClicked = getCurrentIndex();

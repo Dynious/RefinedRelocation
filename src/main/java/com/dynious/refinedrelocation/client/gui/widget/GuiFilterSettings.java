@@ -18,11 +18,11 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
     {
         super(x, y, w, h);
 
-        GuiLabel headerLabel = new GuiLabel(this, x, y + 40, StatCollector.translateToLocal(Strings.FILTER_SETTINGS));
+        GuiLabel headerLabel = new GuiLabel(this, x, y, StatCollector.translateToLocal(Strings.FILTER_SETTINGS));
         headerLabel.drawCentered = false;
 
         int curX = x + w / 2 - 75;
-        int curY = y + h / 2 - 45;
+        int curY = y + 15;
 
         if (filterTile instanceof IAdvancedTile)
         {
@@ -62,5 +62,7 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
             curY += 12;
         }
     }
+
+
 
 }
