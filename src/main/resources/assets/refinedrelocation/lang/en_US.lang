@@ -80,7 +80,7 @@ gui.refinedrelocation.connected=Connected
 gui.refinedrelocation.notConnected=Not Connected
 gui.refinedrelocation.bufferInsInfo=Output side priorities\nItems that get inserted\ninto the buffer will attempt\nto be outputted to a valid\nside in order of priority\n(lower number = higher priority)
 gui.refinedrelocation.blockExtenderInsInfo=Insert/extract directions\nItems will get inserted/extracted\ninto the chosen side of the\nconnected inventory whenever they\nare inserted/extracted into the\nrelevant side of this Block Extender
-gui.refinedrelocation.redstoneTrans=Redstone signal transmission
+gui.refinedrelocation.redstoneTrans=Redstone Signal Transmission
 gui.refinedrelocation.enabled=Enabled
 gui.refinedrelocation.disabled=Disabled
 gui.refinedrelocation.active=Active
@@ -185,8 +185,8 @@ itemDesc.refinedrelocation.relocatorModuleInfo11=Can extract items\nfrom another
 itemDesc.refinedrelocation.relocatorModuleInfo12=Can craft items when\npassing through the module
 itemDesc.refinedrelocation.sortingUpgrade0=Upgrades Chests to their Sorting version
 itemDesc.refinedrelocation.sortingUpgrade1=Upgrades Barrels to their Sorting version
-itemDesc.refinedrelocation.sortingUpgradeMats=Needs 2 items of the Chest material
-itemDesc.refinedrelocation.sortingUpgradeNoMat=Needs 2 %s to upgrade!
+itemDesc.refinedrelocation.sortingUpgradeMats=Needs two items of the chest material
+itemDesc.refinedrelocation.sortingUpgradeNoMat=Needs two %s to upgrade!
 itemDesc.refinedrelocation.planks=Planks
 
 #Filter Localization
