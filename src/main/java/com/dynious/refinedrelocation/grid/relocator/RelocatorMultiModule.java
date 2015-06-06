@@ -251,6 +251,40 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
+    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        NBTTagList list = compound.getTagList("multiModules", 10);
+        for (int i = 0; i < list.tagCount(); i++)
+        {
+            NBTTagCompound compound1 = list.getCompoundTagAt(i);
+            IRelocatorModule module = RelocatorModuleRegistry.getModule(compound1.getString("clazzIdentifier"));
+            if (module != null)
+            {
+                modules.add(module);
+                module.init(relocator, side);
+                module.readClientData(relocator, side, compound1);
+            }
+        }
+    }
+
+    @Override
+    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
+    {
+        NBTTagList list = new NBTTagList();
+        for (IRelocatorModule module : modules)
+        {
+            if (module != null)
+            {
+                NBTTagCompound compound1 = new NBTTagCompound();
+                compound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(module.getClass()));
+                module.writeClientData(relocator, side, compound1);
+                list.appendTag(compound1);
+            }
+        }
+        compound.setTag("multiModules", list);
+    }
+
+    @Override
     public List<ItemStack> getDrops(IItemRelocator relocator, int side)
     {
         List<ItemStack> drops = new ArrayList<ItemStack>();
