@@ -13,6 +13,8 @@ import com.dynious.refinedrelocation.container.IContainerFiltered;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.MessageOpenFilterGUI;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -177,9 +179,10 @@ public class EventHandlerClient
     }
 
     @SubscribeEvent
-    public void actionPerformed(GuiScreenEvent.ActionPerformedEvent event) {
+    public void actionPerformed(GuiScreenEvent.ActionPerformedEvent.Pre event) {
         if(event.button == editFilterButton) {
-            APIUtils.openFilteringGUI(FMLClientHandler.instance().getClientPlayerEntity(), interactionWorld, interactionX, interactionY, interactionZ);
+            NetworkHandler.INSTANCE.sendToServer(new MessageOpenFilterGUI(interactionX, interactionY, interactionZ));
+            event.setCanceled(true);
         }
     }
 
