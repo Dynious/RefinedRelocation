@@ -28,6 +28,7 @@ public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped {
                 + StatCollector.translateToLocal(Strings.COMMA_SEPARATION));
 
         userFilter = new GuiTextInputUserFilter(this, x, y + userFilterLabel.h + 45, w, h - userFilterLabel.h - 70, filter);
+        userFilter.setFocused(true);
     }
 
 }
