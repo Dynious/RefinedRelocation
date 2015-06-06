@@ -1,17 +1,11 @@
 package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
-import com.dynious.refinedrelocation.api.filter.IMultiFilter;
-import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
-import com.dynious.refinedrelocation.client.gui.widget.GuiCheckboxFilter;
 import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
-import com.dynious.refinedrelocation.client.gui.widget.GuiUserFilter;
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -26,15 +20,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.IPlantable;
 
-public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
+public class PresetFilter extends MultiFilterChildBase implements IChecklistFilter {
 
     public static final int PRESET_COUNT = 14;
     public static final String TYPE_NAME = "preset";
 
     private boolean[] presets = new boolean[PRESET_COUNT];
-    private IMultiFilter parentFilter;
-    private int filterIndex;
-    private boolean isDirty;
 
     @Override
     public boolean isInFilter(ItemStack itemStack) {
@@ -88,20 +79,9 @@ public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
             presets[i] = (byteArray[i] == 1);
         }
     }
-
-    @Override
-    public void markDirty(boolean isDirty) {
-        this.isDirty = isDirty;
-    }
-
-    @Override
-    public boolean isDirty() {
-        return isDirty;
-    }
-
     @Override
     public void sendUpdate(EntityPlayerMP playerMP) {
-        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, presets), playerMP);
+        getParentFilter().sendBooleanArrayToPlayer(this, playerMP, 0, presets);
     }
 
     @Override
@@ -139,32 +119,11 @@ public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
     }
 
     @Override
-    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
-        this.parentFilter = parentFilter;
-        this.filterIndex = filterIndex;
-    }
-
-    @Override
-    public IMultiFilter getParentFilter() {
-        return parentFilter;
-    }
-
-    @Override
-    public int getFilterIndex() {
-        return filterIndex;
-    }
-
-    @Override
     public void setFilterString(int optionId, String value) {}
 
     @Override
     public void setFilterBoolean(int optionId, boolean value) {
         presets[optionId] = value;
-    }
-
-    @Override
-    public String getFilterName() {
-        return Strings.PRESET_FILTER;
     }
 
     public String getName(int index) {

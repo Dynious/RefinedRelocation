@@ -1,14 +1,10 @@
 package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
-import com.dynious.refinedrelocation.api.filter.IMultiFilter;
-import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -22,7 +18,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 
-public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
+public class CreativeTabFilter extends MultiFilterChildBase implements IChecklistFilter {
 
     public static final String TYPE_NAME = "creative";
 
@@ -64,11 +60,7 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
         }
         return tabIndex;
     }
-
-    private IMultiFilter parentFilter;
-    private int filterIndex;
     private boolean[] tabStates;
-    private boolean isDirty;
 
     public CreativeTabFilter() {
         if(serverSideTabs == null) {
@@ -78,12 +70,6 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
             }
         }
         tabStates = new boolean[serverSideTabs.length];
-    }
-
-    @Override
-    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
-        this.parentFilter = parentFilter;
-        this.filterIndex = filterIndex;
     }
 
     @Override
@@ -136,7 +122,7 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
 
     @Override
     public void sendUpdate(EntityPlayerMP playerMP) {
-        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, tabStates), playerMP);
+        getParentFilter().sendBooleanArrayToPlayer(this, playerMP, 0, tabStates);
     }
 
     @Override
@@ -177,11 +163,6 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     public void setFilterString(int optionId, String value) {}
 
     @Override
-    public String getFilterName() {
-        return Strings.CREATIVE_FILTER;
-    }
-
-    @Override
     public String getName(int index) {
         return I18n.format("itemGroup." + serverSideTabs[getFixedTabIndex(index)].tabLabel).replace("itemGroup.", "");
     }
@@ -200,26 +181,6 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     @Override
     public int getOptionCount() {
         return tabStates.length - 2;
-    }
-
-    @Override
-    public IMultiFilter getParentFilter() {
-        return parentFilter;
-    }
-
-    @Override
-    public int getFilterIndex() {
-        return filterIndex;
-    }
-
-    @Override
-    public void markDirty(boolean isDirty) {
-        this.isDirty = isDirty;
-    }
-
-    @Override
-    public boolean isDirty() {
-        return isDirty;
     }
 
     @Override

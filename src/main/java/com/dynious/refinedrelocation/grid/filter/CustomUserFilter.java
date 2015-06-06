@@ -1,15 +1,11 @@
 package com.dynious.refinedrelocation.grid.filter;
 
-import com.dynious.refinedrelocation.api.filter.IMultiFilter;
-import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.gui.widget.GuiUserFilter;
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,12 +13,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public class CustomUserFilter implements IMultiFilterChild {
-
+public class CustomUserFilter extends MultiFilterChildBase
+{
     public static final String TYPE_NAME = "user";
-    private IMultiFilter parentFilter;
-    private int filterIndex;
-    private boolean isDirty;
     private String value = "";
 
     @Override
@@ -68,16 +61,6 @@ public class CustomUserFilter implements IMultiFilterChild {
         value = compound.getString("value");
     }
 
-    @Override
-    public void markDirty(boolean isDirty) {
-        this.isDirty = isDirty;
-    }
-
-    @Override
-    public boolean isDirty() {
-        return isDirty;
-    }
-
     public String getValue() {
         return value;
     }
@@ -112,7 +95,7 @@ public class CustomUserFilter implements IMultiFilterChild {
 
     @Override
     public void sendUpdate(EntityPlayerMP playerMP) {
-        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterString(filterIndex, 0, value), playerMP);
+        getParentFilter().sendStringToPlayer(this, playerMP, 0, value);
     }
 
     @Override
@@ -142,22 +125,6 @@ public class CustomUserFilter implements IMultiFilterChild {
     @Override
     public String getTypeName() {
         return TYPE_NAME;
-    }
-
-    @Override
-    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
-        this.parentFilter = parentFilter;
-        this.filterIndex = filterIndex;
-    }
-
-    @Override
-    public IMultiFilter getParentFilter() {
-        return parentFilter;
-    }
-
-    @Override
-    public int getFilterIndex() {
-        return filterIndex;
     }
 
     @Override

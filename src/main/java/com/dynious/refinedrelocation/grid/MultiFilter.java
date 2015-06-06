@@ -9,6 +9,11 @@ import com.dynious.refinedrelocation.grid.filter.MultiFilterRegistry;
 import com.dynious.refinedrelocation.grid.filter.PresetFilter;
 import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBoolean;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -214,4 +219,39 @@ public class MultiFilter implements IMultiFilter {
         filterChanged();
     }
 
+    @Override
+    public void sendStringToPlayer(IMultiFilterChild receiver, EntityPlayerMP player, int index, String value)
+    {
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterString(receiver.getFilterIndex(), index, value), player);
+    }
+
+    @Override
+    public void sendStringToServer(IMultiFilterChild receiver, int index, String value)
+    {
+        NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterString(receiver.getFilterIndex(), index, value));
+    }
+
+    @Override
+    public void sendBooleanToPlayer(IMultiFilterChild receiver, EntityPlayerMP player, int index, boolean value)
+    {
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBoolean(receiver.getFilterIndex(), index, value), player);
+    }
+
+    @Override
+    public void sendBooleanToServer(IMultiFilterChild receiver, int index, boolean value)
+    {
+        NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterBoolean(receiver.getFilterIndex(), index, value));
+    }
+
+    @Override
+    public void sendBooleanArrayToPlayer(IMultiFilterChild receiver, EntityPlayerMP player, int index, boolean[] value)
+    {
+        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(receiver.getFilterIndex(), index, value), player);
+    }
+
+    @Override
+    public void sendBooleanArrayToServer(IMultiFilterChild receiver, int index, boolean[] value)
+    {
+        NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterBooleanArray(receiver.getFilterIndex(), index, value));
+    }
 }

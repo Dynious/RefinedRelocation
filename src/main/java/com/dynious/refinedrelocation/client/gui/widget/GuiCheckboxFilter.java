@@ -1,9 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
-import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
-import com.dynious.refinedrelocation.network.NetworkHandler;
-import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBoolean;
+import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import net.minecraft.client.Minecraft;
 
 public class GuiCheckboxFilter extends GuiCheckbox {
@@ -26,7 +24,7 @@ public class GuiCheckboxFilter extends GuiCheckbox {
     @Override
     protected void onStateChangedByUser(boolean newState) {
         filter.setValue(index, newState);
-        NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterBoolean(filter.getFilterIndex(), index, newState));
+        filter.getParentFilter().sendBooleanToServer(filter, index, newState);
     }
 
     @Override

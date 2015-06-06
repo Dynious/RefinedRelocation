@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.api.filter;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
@@ -30,4 +31,16 @@ public interface IFilterGUI extends IFilter {
 	IMultiFilterChild getFilterAtIndex(int index);
 
 	void setFilterType(int filterIndex, String filterType);
+
+    void sendStringToPlayer(IMultiFilterChild receiver, EntityPlayerMP player, int index, String value);
+
+    void sendStringToServer(IMultiFilterChild receiver, int index, String value);
+
+    void sendBooleanToPlayer(IMultiFilterChild receiver, EntityPlayerMP player, int index, boolean value);
+
+    void sendBooleanToServer(IMultiFilterChild receiver, int index, boolean value);
+
+    void sendBooleanArrayToPlayer(IMultiFilterChild receiver, EntityPlayerMP player, int index, boolean[] value);
+
+    void sendBooleanArrayToServer(IMultiFilterChild receiver, int index, boolean[] value);
 }

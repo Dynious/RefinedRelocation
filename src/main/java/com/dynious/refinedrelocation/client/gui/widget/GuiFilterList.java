@@ -31,7 +31,7 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped {
         super(x, y, w, h);
         this.filter = filter;
 
-        GuiLabel headerLabel = new GuiLabel(this, x, y + 40, StatCollector.translateToLocal(filter.getFilterName()));
+        GuiLabel headerLabel = new GuiLabel(this, x, y + 40, StatCollector.translateToLocal(filter.getNameLangKey()));
         headerLabel.drawCentered = false;
 
         numFiltersPerScreen = (int) Math.floor(((h - 73 + 2 * rowSpacing) / (filterRowHeight + rowSpacing)));
