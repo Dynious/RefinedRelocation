@@ -133,8 +133,6 @@ public class PresetFilter extends MultiFilterChildBase implements IChecklistFilt
     }
 
     @Override
-
-    @Override
     public void setFilterBoolean(int optionId, boolean value)
     {
         presets[optionId] = value;
