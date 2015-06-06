@@ -1,9 +1,6 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonMaxStackSize;
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonSpread;
-import com.dynious.refinedrelocation.client.gui.widget.GuiInsertDirections;
-import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
+import com.dynious.refinedrelocation.client.gui.widget.*;
 import com.dynious.refinedrelocation.container.ContainerAdvanced;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -32,7 +29,8 @@ public class GuiAdvancedBlockExtender extends GuiRefinedRelocationContainer
         new GuiLabel(this, width / 2, height / 2 - 30, BlockHelper.getTileEntityDisplayName(blockExtender));
 
         new GuiButtonMaxStackSize(this, width / 2 - 66, height / 2 - 4, blockExtender, MessageGUI.MAX_STACK_SIZE);
-        new GuiButtonSpread(this, width / 2 + 42, height / 2 - 4, blockExtender, MessageGUI.SPREAD_ITEMS);
+        new GuiButtonSpread(this, width / 2 + 42, height / 2 - 17, blockExtender, MessageGUI.SPREAD_ITEMS);
+        new GuiButtonRedstoneSignalStatus(this, width / 2 + 42, height / 2 + 9, blockExtender, MessageGUI.REDSTONE_ENABLED);
 
         new GuiInsertDirections(this, width / 2 - 25, height / 2 - 19, 50, 50, blockExtender);
     }

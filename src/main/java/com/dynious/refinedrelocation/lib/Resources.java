@@ -7,6 +7,7 @@ public class Resources
     public static final String MOD_ID = Reference.MOD_ID.toLowerCase();
     public static final ResourceLocation TEXTURE_BLUR = new ResourceLocation(MOD_ID, "textures/misc/blur.png");
     public static final String GUI_SHEET_LOCATION = "textures/gui/";
+    public static final ResourceLocation GUI_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "blockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBlockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BUFFER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBuffer.png");
     public static final ResourceLocation GUI_SHARED = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "shared.png");

@@ -32,6 +32,10 @@ public class GuiHelper
             {
                 guiId = GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER;
             }
+            else if (tile instanceof TileBlockExtender)
+            {
+                guiId = GuiIds.BLOCK_EXTENDER;
+            }
             else if (tile instanceof TileAdvancedBuffer)
             {
                 guiId = GuiIds.ADVANCED_BUFFER;

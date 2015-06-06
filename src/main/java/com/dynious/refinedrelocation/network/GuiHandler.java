@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.client.gui.*;
+import com.dynious.refinedrelocation.client.gui.GuiBlockExtender;
 import com.dynious.refinedrelocation.container.*;
 import com.dynious.refinedrelocation.lib.GuiIds;
 import com.dynious.refinedrelocation.tileentity.*;
@@ -36,6 +37,10 @@ public class GuiHandler implements IGuiHandler
                         return new ContainerFiltered((IFilterTileGUI) tile);
                     }
                     break;
+                case GuiIds.BLOCK_EXTENDER:
+                    if (tile instanceof TileBlockExtender) {
+                        return new ContainerBlockExtender((TileBlockExtender) tile);
+                    }
                 case GuiIds.ADVANCED_BLOCK_EXTENDER:
                 case GuiIds.ADVANCED_BUFFER:
                     if (tile instanceof IAdvancedTile)
@@ -100,6 +105,10 @@ public class GuiHandler implements IGuiHandler
                         return new GuiAdvancedBlockExtender(player.inventory, (TileAdvancedBlockExtender) tile);
                     }
                     break;
+                case GuiIds.BLOCK_EXTENDER:
+                    if (tile instanceof TileBlockExtender) {
+                        return new GuiBlockExtender(player.inventory, (TileBlockExtender) tile);
+                    }
                 case GuiIds.FILTERED:
                     if (tile instanceof IFilterTileGUI)
                     {
