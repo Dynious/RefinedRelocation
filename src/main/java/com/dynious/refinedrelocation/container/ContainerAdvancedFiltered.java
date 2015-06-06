@@ -46,18 +46,22 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
 
     @Override
-    public void detectAndSendChanges() {
+    public void detectAndSendChanges()
+    {
         ((ContainerAdvanced) containerAdvanced).detectAndSendChanges();
         ((ContainerFiltered) containerFiltered).detectAndSendChanges();
 
-        if(tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate) {
-            for(Object crafter : crafters) {
+        if (tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate)
+        {
+            for (Object crafter : crafters)
+            {
                 NetworkHandler.INSTANCE.sendTo(new MessageGUIBoolean(MessageGUI.RESTRICT_EXTRACTION, tile.getRestrictExtraction()), (EntityPlayerMP) crafter);
             }
             lastRestrictExtraction = tile.getRestrictExtraction();
         }
 
-        if(initialUpdate) {
+        if (initialUpdate)
+        {
             initialUpdate = false;
         }
     }
@@ -76,10 +80,13 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
 
     @Override
-    public void setPriority(int priority) {}
+    public void setPriority(int priority)
+    {
+    }
 
     @Override
-    public IFilterGUI getFilter() {
+    public IFilterGUI getFilter()
+    {
         return tile.getFilter();
     }
 
@@ -104,14 +111,25 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
 
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer player) {
-        switch(messageId) {
-            case MessageGUI.BLACKLIST: setBlackList((Boolean) value); break;
-            case MessageGUI.SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
-            case MessageGUI.MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
-            case MessageGUI.RESTRICT_EXTRACTION: setRestrictExtraction((Boolean) value); break;
+    public void onMessage(int messageId, Object value, EntityPlayer player)
+    {
+        switch (messageId)
+        {
+            case MessageGUI.BLACKLIST:
+                setBlackList((Boolean) value);
+                break;
+            case MessageGUI.SPREAD_ITEMS:
+                setSpreadItems((Boolean) value);
+                break;
+            case MessageGUI.MAX_STACK_SIZE:
+                setMaxStackSize((Byte) value);
+                break;
+            case MessageGUI.RESTRICT_EXTRACTION:
+                setRestrictExtraction((Boolean) value);
+                break;
             case MessageGUI.REDSTONE_ENABLED:
-                if(tile instanceof TileBlockExtender) {
+                if (tile instanceof TileBlockExtender)
+                {
                     ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
                 }
                 break;

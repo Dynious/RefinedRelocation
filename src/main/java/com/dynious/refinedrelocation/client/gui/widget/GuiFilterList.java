@@ -8,7 +8,8 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped {
+public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
+{
 
     public int numFiltersPerScreen;
     public int filterRowHeight = 10;

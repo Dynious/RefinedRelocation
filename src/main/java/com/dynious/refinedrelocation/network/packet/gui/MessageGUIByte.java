@@ -10,35 +10,42 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class MessageGUIByte extends MessageGUI implements IMessageHandler<MessageGUIByte, IMessage> {
+public class MessageGUIByte extends MessageGUI implements IMessageHandler<MessageGUIByte, IMessage>
+{
 
     private byte value;
 
-    public MessageGUIByte() {
+    public MessageGUIByte()
+    {
     }
 
-    public MessageGUIByte(int id, byte value) {
+    public MessageGUIByte(int id, byte value)
+    {
         super(id);
         this.value = value;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf) {
+    public void fromBytes(ByteBuf buf)
+    {
         super.fromBytes(buf);
         value = buf.readByte();
     }
 
     @Override
-    public void toBytes(ByteBuf buf) {
+    public void toBytes(ByteBuf buf)
+    {
         super.toBytes(buf);
         buf.writeByte(value);
     }
 
     @Override
-    public IMessage onMessage(MessageGUIByte message, MessageContext ctx) {
+    public IMessage onMessage(MessageGUIByte message, MessageContext ctx)
+    {
         EntityPlayer entityPlayer = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity : FMLClientHandler.instance().getClientPlayerEntity();
         Container container = entityPlayer.openContainer;
-        if(container == null || !(container instanceof IContainerNetworked)) {
+        if (container == null || !(container instanceof IContainerNetworked))
+        {
             return null;
         }
 

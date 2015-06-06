@@ -49,8 +49,7 @@ public class GuiInsertDirections extends GuiWidgetBase
         if (tile instanceof TileBuffer)
         {
             insertDirectionHelp.setTooltipString(StatCollector.translateToLocal(Strings.BUFFER_INSERTION_INFO).replaceAll("\\\\n", "\n\u00A77"));
-        }
-        else
+        } else
         {
             insertDirectionHelp.setTooltipString(StatCollector.translateToLocal(Strings.BLOCK_EXTENDER_INSERTION_INFO).replaceAll("\\\\n", "\n\u00A77"));
         }
@@ -62,7 +61,8 @@ public class GuiInsertDirections extends GuiWidgetBase
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY) {
+    public void drawBackground(int mouseX, int mouseY)
+    {
         mc.getTextureManager().bindTexture(Resources.GUI_MODULAR_FILTER);
         drawTexturedModalRect(x - 2, y - 2, 162, 0, 54, 54);
 

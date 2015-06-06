@@ -13,7 +13,8 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrapped {
+public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrapped
+{
 
     public int numFiltersPerScreen;
     public int rowHeight = 27;
@@ -36,18 +37,16 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
     {
         super(parent, x, y, w, h);
 
-        for(Class<? extends IMultiFilterChild> entry : MultiFilterRegistry.getFilters())
+        for (Class<? extends IMultiFilterChild> entry : MultiFilterRegistry.getFilters())
         {
             try
             {
                 IMultiFilterChild filterChild = entry.newInstance();
                 availableFilters.add(filterChild);
-            }
-            catch (InstantiationException e)
+            } catch (InstantiationException e)
             {
                 e.printStackTrace();
-            }
-            catch (IllegalAccessException e)
+            } catch (IllegalAccessException e)
             {
                 e.printStackTrace();
             }

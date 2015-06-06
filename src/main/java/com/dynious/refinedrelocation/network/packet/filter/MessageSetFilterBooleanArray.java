@@ -10,48 +10,60 @@ import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.Container;
 
-public class MessageSetFilterBooleanArray implements IMessage, IMessageHandler<MessageSetFilterBooleanArray, IMessage> {
+public class MessageSetFilterBooleanArray implements IMessage, IMessageHandler<MessageSetFilterBooleanArray, IMessage>
+{
     public int filterIndex;
     public int filterOption;
     public boolean[] filterStates;
 
-    public MessageSetFilterBooleanArray() {}
+    public MessageSetFilterBooleanArray()
+    {
+    }
 
-    public MessageSetFilterBooleanArray(int filterIndex, int filterOption, boolean[] filterStates) {
+    public MessageSetFilterBooleanArray(int filterIndex, int filterOption, boolean[] filterStates)
+    {
         this.filterIndex = filterIndex;
         this.filterOption = filterOption;
         this.filterStates = filterStates;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf) {
+    public void fromBytes(ByteBuf buf)
+    {
         filterIndex = buf.readByte();
         filterOption = buf.readInt();
         filterStates = new boolean[buf.readByte()];
-        for(int i = 0; i < filterStates.length; i++) {
+        for (int i = 0; i < filterStates.length; i++)
+        {
             filterStates[i] = buf.readBoolean();
         }
     }
 
     @Override
-    public void toBytes(ByteBuf buf) {
+    public void toBytes(ByteBuf buf)
+    {
         buf.writeByte(filterIndex);
         buf.writeInt(filterOption);
         buf.writeByte(filterStates.length);
-        for(int i = 0; i < filterStates.length; i++) {
+        for (int i = 0; i < filterStates.length; i++)
+        {
             buf.writeBoolean(filterStates[i]);
         }
     }
 
     @Override
-    public IMessage onMessage(MessageSetFilterBooleanArray message, MessageContext ctx) {
+    public IMessage onMessage(MessageSetFilterBooleanArray message, MessageContext ctx)
+    {
         Container container = null;
-        if(ctx.side == Side.CLIENT) {
+        if (ctx.side == Side.CLIENT)
+        {
             container = FMLClientHandler.instance().getClientPlayerEntity().openContainer;
-        } else if(ctx.side == Side.SERVER) {
+        } else if (ctx.side == Side.SERVER)
+        {
             container = ctx.getServerHandler().playerEntity.openContainer;
         }
-        if (container == null || !(container instanceof IContainerFiltered)) {
+        if (container == null || !(container instanceof IContainerFiltered))
+        {
             return null;
         }
         IMultiFilterChild filter = ((IContainerFiltered) container).getFilter().getFilterAtIndex(message.filterIndex);
