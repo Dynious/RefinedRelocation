@@ -43,7 +43,7 @@ public class GuiButtonSpread extends GuiButtonToggle
                 if (getState())
                 {
                     tooltip.add(StatCollector.translateToLocal(Strings.MODE) + ": " + StatCollector.translateToLocal(Strings.ROUND_ROBIN));
-                    for (String s : StatCollector.translateToLocal(Strings.ROUND_ROBIN_INFO).split("\\\\n"))
+                    for (String s : StatCollector.translateToLocal(Strings.ROUND_ROBIN_DESC).split("\\\\n"))
                     {
                         tooltip.add("\u00A77" + s);
                     }
@@ -51,7 +51,7 @@ public class GuiButtonSpread extends GuiButtonToggle
                 else
                 {
                     tooltip.add(StatCollector.translateToLocal(Strings.MODE) + ": " + StatCollector.translateToLocal(Strings.GREEDY));
-                    for (String s : StatCollector.translateToLocal(Strings.GREEDY_INFO).split("\\\\n"))
+                    for (String s : StatCollector.translateToLocal(Strings.GREEDY_DESC).split("\\\\n"))
                     {
                         tooltip.add("\u00A77" + s);
                     }
@@ -60,6 +60,11 @@ public class GuiButtonSpread extends GuiButtonToggle
             }
             else {
                 tooltip.add(StatCollector.translateToLocal(getState() ? Strings.SPREAD : Strings.STACK));
+                String[] tooltipLines = StatCollector.translateToLocal(getState() ? Strings.SPREAD_DESC : Strings.STACK_DESC).split("\\\\n");
+                for (String tooltipLine : tooltipLines)
+                {
+                    tooltip.add("\u00a77" + tooltipLine);
+                }
                 tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
             }
         }

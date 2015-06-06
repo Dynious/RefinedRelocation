@@ -20,11 +20,13 @@ public class Strings
     public static final String MAX_CRAFT_STACK = GUI_PREFIX + "maxCraftStack";
     public static final String MODE = GUI_PREFIX + "mode";
     public static final String ROUND_ROBIN = GUI_PREFIX + "roundRobin";
-    public static final String ROUND_ROBIN_INFO = GUI_PREFIX + "roundRobinInfo";
+    public static final String ROUND_ROBIN_DESC = GUI_PREFIX + "roundRobinDesc";
     public static final String GREEDY = GUI_PREFIX + "greedy";
-    public static final String GREEDY_INFO = GUI_PREFIX + "greedyInfo";
+    public static final String GREEDY_DESC = GUI_PREFIX + "greedyDesc";
     public static final String SPREAD = GUI_PREFIX + "spread";
+    public static final String SPREAD_DESC = GUI_PREFIX + "spreadDesc";
     public static final String STACK = GUI_PREFIX + "stack";
+    public static final String STACK_DESC = GUI_PREFIX + "stackDesc";
     public static final String DISGUISED = GUI_PREFIX + "disguised";
     public static final String UNDISGUISED = GUI_PREFIX + "undisguised";
     public static final String DISGUISED_INFO = GUI_PREFIX + "disguisedInfo";
