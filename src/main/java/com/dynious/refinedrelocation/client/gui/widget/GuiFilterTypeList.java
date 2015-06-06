@@ -2,11 +2,12 @@ package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
-import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.client.gui.GuiFiltered;
 import com.dynious.refinedrelocation.grid.filter.MultiFilterRegistry;
 import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -15,7 +16,6 @@ import java.util.List;
 
 public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrapped
 {
-
     public int numFiltersPerScreen;
     public int rowHeight = 27;
     public int rowSpacing = 0;
@@ -33,16 +33,17 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
     protected final GuiButtonFilterType[] filterTypes;
     protected final List<IMultiFilterChild> availableFilters = new ArrayList<IMultiFilterChild>();
 
-    public GuiFilterTypeList(IGuiParent parent, int x, int y, int w, int h)
+    public GuiFilterTypeList(GuiFiltered parent, int x, int y, int w, int h)
     {
-        super(parent, x, y, w, h);
+        super(x, y, w, h);
 
         for (Class<? extends IMultiFilterChild> entry : MultiFilterRegistry.getFilters())
         {
             try
             {
                 IMultiFilterChild filterChild = entry.newInstance();
-                availableFilters.add(filterChild);
+                if (filterChild.canFilterBeUsedOnTile(parent.getFilter().getFilterTile().getTileEntity()))
+                    availableFilters.add(filterChild);
             } catch (InstantiationException e)
             {
                 e.printStackTrace();
@@ -51,6 +52,9 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
                 e.printStackTrace();
             }
         }
+
+        GuiLabel headerLabel = new GuiLabel(this, x, y - 15, StatCollector.translateToLocal(Strings.SELECT_FILTER_TYPE));
+        headerLabel.drawCentered = false;
 
         numFiltersPerScreen = (int) Math.floor(((h - 73 + 2 * rowSpacing) / (rowHeight + rowSpacing)));
 
@@ -86,8 +90,8 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
     public void recalculateScrollBar()
     {
         int scrollBarTotalHeight = h - 124;
-        this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / availableFilters.size() + 1;
-        this.scrollBarYPos = y + 1 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / (availableFilters.size() - numFiltersPerScreen));
+        this.scrollBarScaledHeight = scrollBarTotalHeight * numFiltersPerScreen / (availableFilters.size());
+        this.scrollBarYPos = y + 1 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / Math.max((availableFilters.size() - numFiltersPerScreen), 1));
         this.scrollBarXPos = x + 1 + w - scrollBarAreaWidth / 2 + scrollBarWidth / 2 + 1;
     }
 

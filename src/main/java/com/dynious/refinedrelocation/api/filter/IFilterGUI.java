@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.api.filter;
 
+import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -9,7 +10,8 @@ import java.util.List;
  * @deprecated This interface will be renamed to IMultiFilter during the update to Minecraft 1.8. We already provide a dummy interface named like that which currently just extends this, so consider using that instead.
  */
 @Deprecated
-public interface IFilterGUI extends IFilter {
+public interface IFilterGUI extends IFilter
+{
 	boolean isBlacklisting();
 
 	void setBlacklists(boolean blacklists);
@@ -29,6 +31,8 @@ public interface IFilterGUI extends IFilter {
 	int getFilterCount();
 
 	IMultiFilterChild getFilterAtIndex(int index);
+
+    IFilterTileGUI getFilterTile();
 
 	void setFilterType(int filterIndex, String filterType);
 

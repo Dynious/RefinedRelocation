@@ -8,7 +8,6 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public interface IGuiWidgetWrapped
 {
-
     int getX();
 
     int getY();

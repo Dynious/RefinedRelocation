@@ -6,14 +6,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public interface IMultiFilterChild {
+public interface IMultiFilterChild
+{
 
 	String getTypeName();
 	void setParentFilter(IMultiFilter parentFilter, int filterIndex);
 	IMultiFilter getParentFilter();
 	int getFilterIndex();
+    boolean canFilterBeUsedOnTile(TileEntity tile);
 	void setFilterString(int optionId, String value);
 	void setFilterBoolean(int optionId, boolean value);
 	void setFilterBooleanArray(int optionId, boolean[] values);

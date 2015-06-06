@@ -24,7 +24,6 @@ import java.util.List;
 
 public class MultiFilter implements IMultiFilter
 {
-
     private IFilterTileGUI tile;
     private boolean isBlacklisting;
 
@@ -211,6 +210,12 @@ public class MultiFilter implements IMultiFilter
     public IMultiFilterChild getFilterAtIndex(int index)
     {
         return filterList.get(index);
+    }
+
+    @Override
+    public IFilterTileGUI getFilterTile()
+    {
+        return tile;
     }
 
     @Override

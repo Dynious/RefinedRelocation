@@ -2,10 +2,6 @@ package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.api.APIUtils;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
-import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -70,6 +66,7 @@ public class MultiFilterRegistry
         APIUtils.registerMultiFilterChild(CreativeTabFilter.TYPE_NAME, CreativeTabFilter.class);
         APIUtils.registerMultiFilterChild(PresetFilter.TYPE_NAME, PresetFilter.class);
         APIUtils.registerMultiFilterChild(CustomUserFilter.TYPE_NAME, CustomUserFilter.class);
+        APIUtils.registerMultiFilterChild(SameItemFilter.TYPE_NAME, SameItemFilter.class);
     }
 
     public static Collection<Class<? extends IMultiFilterChild>> getFilters()

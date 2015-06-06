@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 public abstract class MultiFilterChildBase implements IMultiFilterChild
 {
@@ -28,6 +29,12 @@ public abstract class MultiFilterChildBase implements IMultiFilterChild
     public int getFilterIndex()
     {
         return filterIndex;
+    }
+
+    @Override
+    public boolean canFilterBeUsedOnTile(TileEntity tile)
+    {
+        return true;
     }
 
     @Override

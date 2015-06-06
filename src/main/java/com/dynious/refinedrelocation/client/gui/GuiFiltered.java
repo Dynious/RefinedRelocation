@@ -18,7 +18,6 @@ import java.util.List;
 
 public class GuiFiltered extends GuiRefinedRelocationContainer
 {
-
     private IFilterTileGUI filterTile;
     private IFilterGUI filter;
     private GuiTabPanel panel;
@@ -85,7 +84,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
 
         if (filter.getFilterCount() == 0)
         {
-            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
+            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterTypeList(this, panel.getX(), panel.getY() + panel.getHeight() / 2 - 36, panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
             if (focusLast)
             {
                 emptyTabButton.setActive(true);
@@ -113,7 +112,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
             }
             if (filter.getFilterCount() < 4)
             {
-                GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
+                GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterTypeList(this, panel.getX(), panel.getY() + panel.getHeight() / 2 - 36, panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
                 emptyTabButton.setPlainTexture();
                 tabButtons.add(emptyTabButton);
             }
@@ -163,7 +162,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
     public boolean hasFilterSelected()
     {
         GuiTabButton activeTabButton = panel.getActiveTabButton();
-        return activeTabButton != null && activeTabButton.getTabIndex() > 0 && !(activeTabButton.getTabPage() instanceof GuiEmptyFilter);
+        return activeTabButton != null && activeTabButton.getTabIndex() > 0 && !(activeTabButton.getTabPage() instanceof GuiFilterTypeList);
     }
 
     public int getSelectedFilterIndex()
