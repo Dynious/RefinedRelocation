@@ -100,8 +100,10 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
             @Override
             public void onFilterChanged()
             {
-                lastChange = relocator.getTileEntity().getWorldObj().getTotalWorldTime();
-                relocator.getTileEntity().markDirty();
+                if(relocator.getTileEntity().getWorldObj() != null) {
+                    lastChange = relocator.getTileEntity().getWorldObj().getTotalWorldTime();
+                    relocator.getTileEntity().markDirty();
+                }
             }
         };
     }

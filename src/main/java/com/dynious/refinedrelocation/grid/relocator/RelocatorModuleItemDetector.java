@@ -22,6 +22,12 @@ public class RelocatorModuleItemDetector extends RelocatorModuleFilter
     private int tick = 0;
 
     @Override
+    public void init(IItemRelocator relocator, int side) {
+        super.init(relocator, side);
+        filter.setBlacklists(true);
+    }
+
+    @Override
     public void onUpdate(IItemRelocator relocator, int side)
     {
         if (tick > 0)
