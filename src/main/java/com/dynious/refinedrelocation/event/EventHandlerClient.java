@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.gui.GuiEditFilterButton;
 import com.dynious.refinedrelocation.client.gui.GuiFiltered;
+import com.dynious.refinedrelocation.client.gui.GuiFilteringHopper;
 import com.dynious.refinedrelocation.client.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.container.IContainerFiltered;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
@@ -150,7 +151,7 @@ public class EventHandlerClient
             {
                 if (slot.inventory instanceof ISortingInventory)
                 {
-                    editFilterButton = new GuiEditFilterButton(container.guiLeft - 31, container.guiTop + 25);
+                    editFilterButton = new GuiEditFilterButton(container.guiLeft - GuiEditFilterButton.WIDTH, container.guiTop + GuiEditFilterButton.HEIGHT);
                     event.buttonList.add(editFilterButton);
                     return;
                 }

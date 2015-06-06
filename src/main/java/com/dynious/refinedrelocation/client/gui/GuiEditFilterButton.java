@@ -6,9 +6,12 @@ import net.minecraft.client.gui.GuiButton;
 
 public class GuiEditFilterButton extends GuiButton
 {
+    public static final int WIDTH = 31;
+    public static final int HEIGHT = 26;
+
     public GuiEditFilterButton(int x, int y)
     {
-        super(-1, x, y, 31, 26, "");
+        super(-1, x, y, WIDTH, HEIGHT, "");
     }
 
     @Override
