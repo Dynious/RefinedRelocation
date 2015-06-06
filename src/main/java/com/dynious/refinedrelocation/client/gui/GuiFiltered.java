@@ -16,7 +16,8 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiFiltered extends GuiRefinedRelocationContainer {
+public class GuiFiltered extends GuiRefinedRelocationContainer
+{
 
     private IFilterTileGUI filterTile;
     private IFilterGUI filter;
@@ -25,7 +26,8 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     private final List<GuiTabButton> tabButtons = new ArrayList<GuiTabButton>();
     private int lastFilterCount;
 
-    public GuiFiltered(IFilterTileGUI filterTile) {
+    public GuiFiltered(IFilterTileGUI filterTile)
+    {
         super(new ContainerFiltered(filterTile));
         this.filterTile = filterTile;
         this.filter = filterTile.getFilter();
@@ -35,13 +37,15 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui() {
+    public void initGui()
+    {
         super.initGui();
 
         Keyboard.enableRepeatEvents(true);
 
         String title = BlockHelper.getTileEntityDisplayName(filterTile.getTileEntity());
-        if(filterTile.getClass() == TileAdvancedFilteredBlockExtender.class) {
+        if (filterTile.getClass() == TileAdvancedFilteredBlockExtender.class)
+        {
             title = StatCollector.translateToLocal(Strings.ADV_FILTERED_BLOCK_EXTENDER);
         }
         new GuiLabel(this, width / 2, height / 2 - 76, title);
@@ -49,14 +53,18 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
         rebuildTabPanel(false);
     }
 
-    public void rebuildTabPanel(boolean focusLast)     {
-        if(panel != null) {
+    public void rebuildTabPanel(boolean focusLast)
+    {
+        if (panel != null)
+        {
             removeChild(panel);
         }
-        if(deleteFilterButton != null) {
+        if (deleteFilterButton != null)
+        {
             removeChild(deleteFilterButton);
         }
-        for(GuiTabButton tabButton : tabButtons) {
+        for (GuiTabButton tabButton : tabButtons)
+        {
             removeChild(tabButton);
         }
         tabButtons.clear();
@@ -67,22 +75,27 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
 
         GuiTabButton settingsTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterSettings(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight(), filterTile), tabButtons.size(), 134, 238);
         settingsTabButton.setPlainTexture();
-        if(!focusLast) {
+        if (!focusLast && filter.getFilterCount() == 0)
+        {
             panel.setActiveTabButton(settingsTabButton);
         }
         tabButtons.add(settingsTabButton);
 
         tabButtonY = height / 2 - 18;
 
-        if(filter.getFilterCount() == 0) {
+        if (filter.getFilterCount() == 0)
+        {
             GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
-            if(focusLast) {
+            if (focusLast)
+            {
                 emptyTabButton.setActive(true);
             }
             emptyTabButton.setPlainTexture();
             tabButtons.add(emptyTabButton);
-        } else {
-            for(int i = 0; i < filter.getFilterCount(); i++) {
+        } else
+        {
+            for (int i = 0; i < filter.getFilterCount(); i++)
+            {
                 IMultiFilterChild filterChild = filter.getFilterAtIndex(i);
                 int iconTextureX = filterChild.getIconX();
                 int iconTextureY = filterChild.getIconY();
@@ -91,10 +104,15 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
                 tabButtons.add(tabButton);
                 tabButtonY += 25;
             }
-            if(focusLast) {
+            if (focusLast)
+            {
                 tabButtons.get(tabButtons.size() - 1).setActive(true);
+            } else
+            {
+                tabButtons.get(0).setActive(true);
             }
-            if(filter.getFilterCount() < 4) {
+            if (filter.getFilterCount() < 4)
+            {
                 GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiEmptyFilter(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
                 emptyTabButton.setPlainTexture();
                 tabButtons.add(emptyTabButton);
@@ -105,7 +123,8 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     }
 
     @Override
-    public void onGuiClosed() {
+    public void onGuiClosed()
+    {
         super.onGuiClosed();
         Keyboard.enableRepeatEvents(false);
     }
@@ -113,14 +132,16 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     public void updateScreen()
     {
         super.updateScreen();
-        if(lastFilterCount != filter.getFilterCount()) {
+        if (lastFilterCount != filter.getFilterCount())
+        {
             rebuildTabPanel(true);
             lastFilterCount = filter.getFilterCount();
         }
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
+    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
+    {
         int xSize = 176;
         int ySize = 174;
 
@@ -134,20 +155,24 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     }
 
     @Override
-    public boolean doesGuiPauseGame() {
+    public boolean doesGuiPauseGame()
+    {
         return false;
     }
 
-    public boolean hasFilterSelected() {
+    public boolean hasFilterSelected()
+    {
         GuiTabButton activeTabButton = panel.getActiveTabButton();
         return activeTabButton != null && activeTabButton.getTabIndex() > 0 && !(activeTabButton.getTabPage() instanceof GuiEmptyFilter);
     }
 
-    public int getSelectedFilterIndex() {
+    public int getSelectedFilterIndex()
+    {
         return panel.getActiveTabButton().getTabIndex() - 1;
     }
 
-    public IFilterGUI getFilter() {
+    public IFilterGUI getFilter()
+    {
         return filter;
     }
 }
