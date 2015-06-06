@@ -178,33 +178,32 @@ public class ItemToolBox extends Item
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         MovingObjectPosition mop = RayTracer.reTrace(world, player);
-        if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
+        if (!stack.hasTagCompound())
         {
-            if (!stack.hasTagCompound())
+            NBTTagCompound compound = new NBTTagCompound();
+            compound.setTag("wrenches", new NBTTagList());
+            compound.setByte("index", (byte) 0);
+            stack.setTagCompound(compound);
+        }
+        if (player.isSneaking())
+        {
+            ItemStack[] mainInventory = player.inventory.mainInventory;
+            for (int i = 0; i < mainInventory.length; i++)
             {
-                NBTTagCompound compound = new NBTTagCompound();
-                compound.setTag("wrenches", new NBTTagList());
-                compound.setByte("index", (byte) 0);
-                stack.setTagCompound(compound);
-            }
-            if (player.isSneaking())
-            {
-                ItemStack[] mainInventory = player.inventory.mainInventory;
-                for (int i = 0; i < mainInventory.length; i++)
+                ItemStack invStack = mainInventory[i];
+                if (invStack != null && isItemWrench(invStack.getItem()) && !doesToolBoxContainWrench(stack.getTagCompound(), invStack.getItem()))
                 {
-                    ItemStack invStack = mainInventory[i];
-                    if (invStack != null && isItemWrench(invStack.getItem()) && !doesToolBoxContainWrench(stack.getTagCompound(), invStack.getItem()))
-                    {
-                        NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-                        NBTTagCompound newTag = new NBTTagCompound();
-                        ItemStack wrenchStack = invStack.splitStack(1);
-                        wrenchStack.writeToNBT(newTag);
-                        list.appendTag(newTag);
-                        if (invStack.stackSize == 0)
-                            player.inventory.setInventorySlotContents(i, null);
-                    }
+                    NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
+                    NBTTagCompound newTag = new NBTTagCompound();
+                    ItemStack wrenchStack = invStack.splitStack(1);
+                    wrenchStack.writeToNBT(newTag);
+                    list.appendTag(newTag);
+                    if (invStack.stackSize == 0)
+                        player.inventory.setInventorySlotContents(i, null);
                 }
-
+            }
+            if ((mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK))
+            {
                 byte index = stack.getTagCompound().getByte("index");
                 index++;
                 if (index >= stack.getTagCompound().getTagList("wrenches", 10).tagCount())
