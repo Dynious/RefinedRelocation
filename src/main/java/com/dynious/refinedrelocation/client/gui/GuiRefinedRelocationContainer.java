@@ -143,6 +143,7 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     public void mouseMovedOrUp(int par1, int par2, int par3)
     {
         rootNode.mouseMovedOrUp(par1, par2, par3);
+        super.mouseMovedOrUp(par1, par2, par3);
     }
 
     @Override
