@@ -25,7 +25,9 @@ public class GuiButtonBlacklist extends GuiButtonToggle
     protected void onStateChangedByUser(boolean newState)
     {
         if (tile == null)
+        {
             return;
+        }
 
         tile.getFilter().setBlacklists(newState);
         GuiHelper.sendBooleanMessage(boundMessageId, newState);
@@ -35,8 +37,14 @@ public class GuiButtonBlacklist extends GuiButtonToggle
     public List<String> getTooltip(int mouseX, int mouseY)
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isInsideBounds(mouseX, mouseY)) {
+        if (isInsideBounds(mouseX, mouseY))
+        {
             tooltip.add(StatCollector.translateToLocal(getState() ? Strings.BLACKLIST : Strings.WHITELIST));
+            String[] tooltipLines = StatCollector.translateToLocal(getState() ? Strings.BLACKLIST_DESC : Strings.WHITELIST_DESC).split("\\\\n");
+            for (String tooltipLine : tooltipLines)
+            {
+                tooltip.add("\u00a77" + tooltipLine);
+            }
             tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
         }
         return tooltip;
@@ -46,7 +54,9 @@ public class GuiButtonBlacklist extends GuiButtonToggle
     public void update()
     {
         if (tile != null)
+        {
             setState(tile.getFilter().isBlacklisting());
+        }
 
         super.update();
     }

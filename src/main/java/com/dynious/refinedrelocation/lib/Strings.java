@@ -148,4 +148,6 @@ public class Strings
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
 
+    public static final String BLACKLIST_DESC = GUI_PREFIX + "blacklistDesc";
+    public static final String WHITELIST_DESC = GUI_PREFIX + "whitelistDesc";
 }
