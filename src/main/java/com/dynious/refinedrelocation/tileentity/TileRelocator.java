@@ -131,6 +131,7 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
         if (neighborChanged)
         {
             neighborChangeUpdate();
+            neighborChanged = false;
         }
 
         if (shouldUpdate)
