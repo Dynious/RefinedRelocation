@@ -119,8 +119,7 @@ public class EventHandlerClient
                     {
                         renderOverlay(member.getOwner(), offsetX, offsetY, offsetZ, expansion);
                     }
-                }
-                else
+                } else
                 {
                     renderOverlay(tile, offsetX, offsetY, offsetZ, expansion);
                 }
@@ -170,9 +169,9 @@ public class EventHandlerClient
                 GuiContainer container = (GuiContainer) event.gui;
                 for (Slot slot : (List<Slot>) container.inventorySlots.inventorySlots)
                 {
-                    if (slot.inventory instanceof ISortingInventory && ((ISortingInventory)  slot.inventory).getHandler() != null)
+                    if (slot.inventory instanceof ISortingInventory && ((ISortingInventory) slot.inventory).getHandler() != null)
                     {
-                        tile = ((ISortingInventory)  slot.inventory).getHandler().getOwner();
+                        tile = ((ISortingInventory) slot.inventory).getHandler().getOwner();
                         break;
                     }
                 }

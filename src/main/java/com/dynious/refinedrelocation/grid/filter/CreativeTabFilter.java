@@ -22,15 +22,18 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 
-public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
+public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter
+{
 
     public static final String TYPE_NAME = "creative";
 
-    public static class ServerSideCreativeTab {
+    public static class ServerSideCreativeTab
+    {
         public final int tabIndex;
         public final String tabLabel;
 
-        public ServerSideCreativeTab(int tabIndex, String tabLabel) {
+        public ServerSideCreativeTab(int tabIndex, String tabLabel)
+        {
             this.tabIndex = tabIndex;
             this.tabLabel = tabLabel;
         }
@@ -38,14 +41,17 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
 
     public static ServerSideCreativeTab[] serverSideTabs;
 
-    public static void syncTabs(String[] tabLabels) {
+    public static void syncTabs(String[] tabLabels)
+    {
         serverSideTabs = new ServerSideCreativeTab[tabLabels.length];
-        for (int i = 0; i < tabLabels.length; i++) {
+        for (int i = 0; i < tabLabels.length; i++)
+        {
             serverSideTabs[i] = new ServerSideCreativeTab(i, tabLabels[i]);
         }
     }
 
-    public static String[] getCreativeTabLabels() {
+    public static String[] getCreativeTabLabels()
+    {
         String[] labels = new String[CreativeTabs.creativeTabArray.length];
         CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
         for (int i = 0; i < labels.length; i++)
@@ -55,11 +61,14 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
         return labels;
     }
 
-    public static int getFixedTabIndex(int tabIndex) {
-        if(tabIndex >= 5) {
+    public static int getFixedTabIndex(int tabIndex)
+    {
+        if (tabIndex >= 5)
+        {
             tabIndex++;
         }
-        if(tabIndex >= 11) {
+        if (tabIndex >= 11)
+        {
             tabIndex++;
         }
         return tabIndex;
@@ -70,10 +79,13 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     private boolean[] tabStates;
     private boolean isDirty;
 
-    public CreativeTabFilter() {
-        if(serverSideTabs == null) {
+    public CreativeTabFilter()
+    {
+        if (serverSideTabs == null)
+        {
             serverSideTabs = new ServerSideCreativeTab[CreativeTabs.creativeTabArray.length];
-            for(int i = 0; i < serverSideTabs.length; i++) {
+            for (int i = 0; i < serverSideTabs.length; i++)
+            {
                 serverSideTabs[i] = new ServerSideCreativeTab(i, CreativeTabs.creativeTabArray[i].tabLabel);
             }
         }
@@ -81,17 +93,21 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     }
 
     @Override
-    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
+    public void setParentFilter(IMultiFilter parentFilter, int filterIndex)
+    {
         this.parentFilter = parentFilter;
         this.filterIndex = filterIndex;
     }
 
     @Override
-    public boolean isInFilter(ItemStack itemStack) {
+    public boolean isInFilter(ItemStack itemStack)
+    {
         CreativeTabs tab;
-        if(itemStack.getItem() instanceof ItemBlock) {
+        if (itemStack.getItem() instanceof ItemBlock)
+        {
             tab = Block.getBlockById(ItemBlock.getIdFromItem(itemStack.getItem())).displayOnCreativeTab;
-        } else {
+        } else
+        {
             tab = itemStack.getItem().tabToDisplayOn;
         }
         if (tab != null)
@@ -110,10 +126,13 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(NBTTagCompound compound)
+    {
         NBTTagList tagList = new NBTTagList();
-        for(int i = 0; i < tabStates.length; i++) {
-            if(tabStates[i]) {
+        for (int i = 0; i < tabStates.length; i++)
+        {
+            if (tabStates[i])
+            {
                 tagList.appendTag(new NBTTagString(serverSideTabs[i].tabLabel));
             }
         }
@@ -121,12 +140,16 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(NBTTagCompound compound)
+    {
         NBTTagList tagList = compound.getTagList("tabStates", 8);
-        for(int i = 0; i < tagList.tagCount(); i++) {
+        for (int i = 0; i < tagList.tagCount(); i++)
+        {
             String tabLabel = tagList.getStringTagAt(i);
-            for(int j = 0; j < serverSideTabs.length; j++) {
-                if(serverSideTabs[j].tabLabel.equals(tabLabel)) {
+            for (int j = 0; j < serverSideTabs.length; j++)
+            {
+                if (serverSideTabs[j].tabLabel.equals(tabLabel))
+                {
                     tabStates[j] = true;
                     break;
                 }
@@ -135,107 +158,128 @@ public class CreativeTabFilter implements IMultiFilterChild, IChecklistFilter {
     }
 
     @Override
-    public void sendUpdate(EntityPlayerMP playerMP) {
+    public void sendUpdate(EntityPlayerMP playerMP)
+    {
         NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, tabStates), playerMP);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height) {
+    public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height)
+    {
         return new GuiFilterList(x, y, width, height, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ResourceLocation getIconSheet() {
+    public ResourceLocation getIconSheet()
+    {
         return Resources.GUI_SHARED;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconX() {
+    public int getIconX()
+    {
         return 80;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconY() {
+    public int getIconY()
+    {
         return 238;
     }
 
     @Override
-    public void setFilterBooleanArray(int optionId, boolean[] values) {
+    public void setFilterBooleanArray(int optionId, boolean[] values)
+    {
         tabStates = values;
     }
 
     @Override
-    public void setFilterBoolean(int optionId, boolean value) {
+    public void setFilterBoolean(int optionId, boolean value)
+    {
         tabStates[getFixedTabIndex(optionId)] = value;
     }
 
     @Override
-    public void setFilterString(int optionId, String value) {}
+    public void setFilterString(int optionId, String value)
+    {
+    }
 
     @Override
-    public String getFilterName() {
+    public String getFilterName()
+    {
         return Strings.CREATIVE_FILTER;
     }
 
     @Override
-    public String getName(int index) {
+    public String getName(int index)
+    {
         return I18n.format("itemGroup." + serverSideTabs[getFixedTabIndex(index)].tabLabel).replace("itemGroup.", "");
     }
 
     @Override
-    public void setValue(int optionIndex, boolean value) {
+    public void setValue(int optionIndex, boolean value)
+    {
         tabStates[getFixedTabIndex(optionIndex)] = value;
         markDirty(true);
     }
 
     @Override
-    public boolean getValue(int optionIndex) {
+    public boolean getValue(int optionIndex)
+    {
         return tabStates[getFixedTabIndex(optionIndex)];
     }
 
     @Override
-    public int getOptionCount() {
+    public int getOptionCount()
+    {
         return tabStates.length - 2;
     }
 
     @Override
-    public IMultiFilter getParentFilter() {
+    public IMultiFilter getParentFilter()
+    {
         return parentFilter;
     }
 
     @Override
-    public int getFilterIndex() {
+    public int getFilterIndex()
+    {
         return filterIndex;
     }
 
     @Override
-    public void markDirty(boolean isDirty) {
+    public void markDirty(boolean isDirty)
+    {
         this.isDirty = isDirty;
     }
 
     @Override
-    public boolean isDirty() {
+    public boolean isDirty()
+    {
         return isDirty;
     }
 
     @Override
-    public String getTypeName() {
+    public String getTypeName()
+    {
         return TYPE_NAME;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getNameLangKey() {
+    public String getNameLangKey()
+    {
         return Strings.CREATIVE_FILTER;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getDescriptionLangKey() {
+    public String getDescriptionLangKey()
+    {
         return Strings.CREATIVE_FILTER_DESCRIPTION;
     }
 }

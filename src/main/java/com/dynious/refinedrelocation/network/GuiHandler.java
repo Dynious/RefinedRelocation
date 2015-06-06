@@ -38,7 +38,8 @@ public class GuiHandler implements IGuiHandler
                     }
                     break;
                 case GuiIds.BLOCK_EXTENDER:
-                    if (tile instanceof TileBlockExtender) {
+                    if (tile instanceof TileBlockExtender)
+                    {
                         return new ContainerBlockExtender((TileBlockExtender) tile);
                     }
                 case GuiIds.ADVANCED_BLOCK_EXTENDER:
@@ -106,7 +107,8 @@ public class GuiHandler implements IGuiHandler
                     }
                     break;
                 case GuiIds.BLOCK_EXTENDER:
-                    if (tile instanceof TileBlockExtender) {
+                    if (tile instanceof TileBlockExtender)
+                    {
                         return new GuiBlockExtender(player.inventory, (TileBlockExtender) tile);
                     }
                 case GuiIds.FILTERED:

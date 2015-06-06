@@ -10,35 +10,42 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class MessageGUIDouble extends MessageGUI implements IMessageHandler<MessageGUIDouble, IMessage> {
+public class MessageGUIDouble extends MessageGUI implements IMessageHandler<MessageGUIDouble, IMessage>
+{
 
     private double value;
 
-    public MessageGUIDouble() {
+    public MessageGUIDouble()
+    {
     }
 
-    public MessageGUIDouble(int id, double value) {
+    public MessageGUIDouble(int id, double value)
+    {
         super(id);
         this.value = value;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf) {
+    public void fromBytes(ByteBuf buf)
+    {
         super.fromBytes(buf);
         value = buf.readDouble();
     }
 
     @Override
-    public void toBytes(ByteBuf buf) {
+    public void toBytes(ByteBuf buf)
+    {
         super.toBytes(buf);
         buf.writeDouble(value);
     }
 
     @Override
-    public IMessage onMessage(MessageGUIDouble message, MessageContext ctx) {
+    public IMessage onMessage(MessageGUIDouble message, MessageContext ctx)
+    {
         EntityPlayer entityPlayer = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity : FMLClientHandler.instance().getClientPlayerEntity();
         Container container = entityPlayer.openContainer;
-        if(container == null || !(container instanceof IContainerNetworked)) {
+        if (container == null || !(container instanceof IContainerNetworked))
+        {
             return null;
         }
 

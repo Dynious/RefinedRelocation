@@ -17,7 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public class CustomUserFilter implements IMultiFilterChild {
+public class CustomUserFilter implements IMultiFilterChild
+{
 
     public static final String TYPE_NAME = "user";
     private IMultiFilter parentFilter;
@@ -26,31 +27,42 @@ public class CustomUserFilter implements IMultiFilterChild {
     private String value = "";
 
     @Override
-    public boolean isInFilter(ItemStack itemStack) {
+    public boolean isInFilter(ItemStack itemStack)
+    {
         String[] oreNames = null;
         String filter = value.toLowerCase().replaceAll("\\s+", "");
         String itemName = null;
-        for(String s : filter.split("[\n,]")) {
-            if (s.startsWith("!")) {
-                if(oreNames == null) {
+        for (String s : filter.split("[\n,]"))
+        {
+            if (s.startsWith("!"))
+            {
+                if (oreNames == null)
+                {
                     oreNames = MultiFilter.getOreNames(itemStack);
                 }
                 s = s.substring(1);
-                for(String oreName : oreNames) {
-                    if(stringMatchesWildcardPattern(oreName, s)) {
+                for (String oreName : oreNames)
+                {
+                    if (stringMatchesWildcardPattern(oreName, s))
+                    {
                         return true;
                     }
                 }
-            } else {
-                if(itemName == null) {
-                    try {
+            } else
+            {
+                if (itemName == null)
+                {
+                    try
+                    {
                         itemName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
-                    } catch (Exception e) {
+                    } catch (Exception e)
+                    {
                         LogHelper.error("Encountered an error when retrieving item name of: " + itemStack.toString());
                         break;
                     }
                 }
-                if(stringMatchesWildcardPattern(itemName, s)) {
+                if (stringMatchesWildcardPattern(itemName, s))
+                {
                     return true;
                 }
             }
@@ -59,51 +71,66 @@ public class CustomUserFilter implements IMultiFilterChild {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(NBTTagCompound compound)
+    {
         compound.setString("value", value);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(NBTTagCompound compound)
+    {
         value = compound.getString("value");
     }
 
     @Override
-    public void markDirty(boolean isDirty) {
+    public void markDirty(boolean isDirty)
+    {
         this.isDirty = isDirty;
     }
 
     @Override
-    public boolean isDirty() {
+    public boolean isDirty()
+    {
         return isDirty;
     }
 
-    public String getValue() {
+    public String getValue()
+    {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(String value)
+    {
         this.value = value;
         markDirty(true);
     }
 
     // TODO move this function to a better place
-    private static boolean stringMatchesWildcardPattern(String string, String wildcardPattern) {
+    private static boolean stringMatchesWildcardPattern(String string, String wildcardPattern)
+    {
         // TODO this function only allows wildcards at the beginning and/or end, not in the middle
-        if(wildcardPattern.startsWith("*") && wildcardPattern.length() > 1) {
-            if(wildcardPattern.endsWith("*") && wildcardPattern.length() > 2) {
-                if(string.contains(wildcardPattern.substring(1, wildcardPattern.length() - 1))) {
+        if (wildcardPattern.startsWith("*") && wildcardPattern.length() > 1)
+        {
+            if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 2)
+            {
+                if (string.contains(wildcardPattern.substring(1, wildcardPattern.length() - 1)))
+                {
                     return true;
                 }
-            } else if(string.endsWith(wildcardPattern.substring(1))) {
+            } else if (string.endsWith(wildcardPattern.substring(1)))
+            {
                 return true;
             }
-        } else if(wildcardPattern.endsWith("*") && wildcardPattern.length() > 1) {
-            if (string.startsWith(wildcardPattern.substring(0, wildcardPattern.length() - 1))) {
+        } else if (wildcardPattern.endsWith("*") && wildcardPattern.length() > 1)
+        {
+            if (string.startsWith(wildcardPattern.substring(0, wildcardPattern.length() - 1)))
+            {
                 return true;
             }
-        } else {
-            if(string.equalsIgnoreCase(wildcardPattern)) {
+        } else
+        {
+            if (string.equalsIgnoreCase(wildcardPattern))
+            {
                 return true;
             }
         }
@@ -111,77 +138,96 @@ public class CustomUserFilter implements IMultiFilterChild {
     }
 
     @Override
-    public void sendUpdate(EntityPlayerMP playerMP) {
+    public void sendUpdate(EntityPlayerMP playerMP)
+    {
         NetworkHandler.INSTANCE.sendTo(new MessageSetFilterString(filterIndex, 0, value), playerMP);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height) {
+    public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height)
+    {
         return new GuiUserFilter(x, y, width, height, true, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ResourceLocation getIconSheet() {
+    public ResourceLocation getIconSheet()
+    {
         return Resources.GUI_SHARED;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconX() {
+    public int getIconX()
+    {
         return 116;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconY() {
+    public int getIconY()
+    {
         return 238;
     }
 
     @Override
-    public String getTypeName() {
+    public String getTypeName()
+    {
         return TYPE_NAME;
     }
 
     @Override
-    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
+    public void setParentFilter(IMultiFilter parentFilter, int filterIndex)
+    {
         this.parentFilter = parentFilter;
         this.filterIndex = filterIndex;
     }
 
     @Override
-    public IMultiFilter getParentFilter() {
+    public IMultiFilter getParentFilter()
+    {
         return parentFilter;
     }
 
     @Override
-    public int getFilterIndex() {
+    public int getFilterIndex()
+    {
         return filterIndex;
     }
 
     @Override
-    public void setFilterString(int optionId, String value) {
-        switch(optionId) {
-            case 0: this.value = value; break;
+    public void setFilterString(int optionId, String value)
+    {
+        switch (optionId)
+        {
+            case 0:
+                this.value = value;
+                break;
         }
     }
 
     @Override
-    public void setFilterBoolean(int optionId, boolean value) {}
+    public void setFilterBoolean(int optionId, boolean value)
+    {
+    }
 
     @Override
-    public void setFilterBooleanArray(int optionId, boolean[] values) {}
+    public void setFilterBooleanArray(int optionId, boolean[] values)
+    {
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getNameLangKey() {
+    public String getNameLangKey()
+    {
         return Strings.CUSTOM_FILTER;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getDescriptionLangKey() {
+    public String getDescriptionLangKey()
+    {
         return Strings.CUSTOM_FILTER_DESCRIPTION;
     }
 }

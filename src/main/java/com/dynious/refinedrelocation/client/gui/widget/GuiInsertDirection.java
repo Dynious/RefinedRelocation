@@ -65,12 +65,12 @@ public class GuiInsertDirection extends GuiWidgetBase
                             connections.set(i, yellowColor + "* " + connections.get(i));
 
                         tooltip.addAll(connections);
-                    }
-                    else
+                    } else
                     {
                         tooltip.add(grayColor + StatCollector.translateToLocal(Strings.NOT_CONNECTED));
                     }
-                } else {
+                } else
+                {
                     tooltip.add("\u00a7a" + StatCollector.translateToLocal(Strings.INSERT_EXTRACT) + ": \u00a7r" + StatCollector.translateToLocal(Strings.DIRECTION + insertDirection.ordinal()));
                     tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
                 }
@@ -103,8 +103,7 @@ public class GuiInsertDirection extends GuiWidgetBase
                 char letter = insertDirection.toString().charAt(0);
                 fontRendererObj.drawString(Character.toString(letter), x + w / 2 - fontRendererObj.getCharWidth(letter) / 2, y + h / 2 - fontRendererObj.FONT_HEIGHT / 2, hasTile || isHovered ? 0xFFFFFF : 0xAAAAAA, true);
             }
-        }
-        else if (tile instanceof TileAdvancedBuffer)
+        } else if (tile instanceof TileAdvancedBuffer)
         {
             this.drawTexturedModalRect(x, y, isFrontSide ? 0 : textureOffset * w, 80 + (isFrontSide ? h * 2 : (isHovered ? h : 0)), w, h);
 

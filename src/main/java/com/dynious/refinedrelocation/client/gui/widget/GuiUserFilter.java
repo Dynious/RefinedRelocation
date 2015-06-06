@@ -5,7 +5,8 @@ import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
-public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped {
+public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped
+{
 
     protected CustomUserFilter filter;
     protected boolean drawLabel = true;
@@ -13,7 +14,8 @@ public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped {
     protected GuiButton userFilterHelp;
     protected GuiTextInputUserFilter userFilter;
 
-    public GuiUserFilter(int x, int y, int w, int h, boolean drawLabel, CustomUserFilter filter) {
+    public GuiUserFilter(int x, int y, int w, int h, boolean drawLabel, CustomUserFilter filter)
+    {
         super(x, y, w, h);
         this.drawLabel = drawLabel;
         this.filter = filter;

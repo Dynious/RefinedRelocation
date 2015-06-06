@@ -9,19 +9,25 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class MessageGUIAction extends MessageGUI implements IMessageHandler<MessageGUIAction, IMessage>  {
+public class MessageGUIAction extends MessageGUI implements IMessageHandler<MessageGUIAction, IMessage>
+{
 
-    public MessageGUIAction() {}
+    public MessageGUIAction()
+    {
+    }
 
-    public MessageGUIAction(int id) {
+    public MessageGUIAction(int id)
+    {
         super(id);
     }
 
     @Override
-    public IMessage onMessage(MessageGUIAction message, MessageContext ctx) {
+    public IMessage onMessage(MessageGUIAction message, MessageContext ctx)
+    {
         EntityPlayer entityPlayer = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity : FMLClientHandler.instance().getClientPlayerEntity();
         Container container = entityPlayer.openContainer;
-        if(container == null || !(container instanceof IContainerNetworked)) {
+        if (container == null || !(container instanceof IContainerNetworked))
+        {
             return null;
         }
 

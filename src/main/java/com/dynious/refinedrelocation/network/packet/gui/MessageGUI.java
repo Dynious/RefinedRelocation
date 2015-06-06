@@ -3,7 +3,8 @@ package com.dynious.refinedrelocation.network.packet.gui;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 
-public abstract class MessageGUI implements IMessage {
+public abstract class MessageGUI implements IMessage
+{
 
     public static final int BLACKLIST = 0;
     public static final int SPREAD_ITEMS = 1;
@@ -18,20 +19,24 @@ public abstract class MessageGUI implements IMessage {
 
     protected int id = 0;
 
-    public MessageGUI() {
+    public MessageGUI()
+    {
     }
 
-    public MessageGUI(int id) {
+    public MessageGUI(int id)
+    {
         this.id = id;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf) {
+    public void fromBytes(ByteBuf buf)
+    {
         id = buf.readByte();
     }
 
     @Override
-    public void toBytes(ByteBuf buf) {
+    public void toBytes(ByteBuf buf)
+    {
         buf.writeByte(id);
     }
 

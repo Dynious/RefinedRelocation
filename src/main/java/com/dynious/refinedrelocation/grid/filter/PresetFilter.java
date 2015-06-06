@@ -26,7 +26,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.IPlantable;
 
-public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
+public class PresetFilter implements IMultiFilterChild, IChecklistFilter
+{
 
     public static final int PRESET_COUNT = 14;
     public static final String TYPE_NAME = "preset";
@@ -37,9 +38,11 @@ public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
     private boolean isDirty;
 
     @Override
-    public boolean isInFilter(ItemStack itemStack) {
+    public boolean isInFilter(ItemStack itemStack)
+    {
         String[] oreNames = MultiFilter.getOreNames(itemStack);
-        for (String oreName : oreNames) {
+        for (String oreName : oreNames)
+        {
             if (presets[0] && (oreName.contains("ingot") || itemStack.getItem() == Items.iron_ingot || itemStack.getItem() == Items.gold_ingot))
                 return true;
             if (presets[1] && oreName.contains("ore"))
@@ -73,102 +76,124 @@ public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(NBTTagCompound compound)
+    {
         byte[] byteArray = new byte[presets.length];
-        for(int i = 0; i < byteArray.length; i++) {
+        for (int i = 0; i < byteArray.length; i++)
+        {
             byteArray[i] = (byte) (presets[i] ? 1 : 0);
         }
         compound.setByteArray("activePresets", byteArray);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(NBTTagCompound compound)
+    {
         byte[] byteArray = compound.getByteArray("activePresets");
-        for(int i = 0; i < byteArray.length; i++) {
+        for (int i = 0; i < byteArray.length; i++)
+        {
             presets[i] = (byteArray[i] == 1);
         }
     }
 
     @Override
-    public void markDirty(boolean isDirty) {
+    public void markDirty(boolean isDirty)
+    {
         this.isDirty = isDirty;
     }
 
     @Override
-    public boolean isDirty() {
+    public boolean isDirty()
+    {
         return isDirty;
     }
 
     @Override
-    public void sendUpdate(EntityPlayerMP playerMP) {
+    public void sendUpdate(EntityPlayerMP playerMP)
+    {
         NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBooleanArray(filterIndex, 0, presets), playerMP);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height) {
+    public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height)
+    {
         return new GuiFilterList(x, y, width, height, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ResourceLocation getIconSheet() {
+    public ResourceLocation getIconSheet()
+    {
         return Resources.GUI_SHARED;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconX() {
+    public int getIconX()
+    {
         return 98;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconY() {
+    public int getIconY()
+    {
         return 238;
     }
 
     @Override
-    public void setFilterBooleanArray(int optionId, boolean[] values) {
+    public void setFilterBooleanArray(int optionId, boolean[] values)
+    {
         presets = values;
     }
 
     @Override
-    public String getTypeName() {
+    public String getTypeName()
+    {
         return TYPE_NAME;
     }
 
     @Override
-    public void setParentFilter(IMultiFilter parentFilter, int filterIndex) {
+    public void setParentFilter(IMultiFilter parentFilter, int filterIndex)
+    {
         this.parentFilter = parentFilter;
         this.filterIndex = filterIndex;
     }
 
     @Override
-    public IMultiFilter getParentFilter() {
+    public IMultiFilter getParentFilter()
+    {
         return parentFilter;
     }
 
     @Override
-    public int getFilterIndex() {
+    public int getFilterIndex()
+    {
         return filterIndex;
     }
 
     @Override
-    public void setFilterString(int optionId, String value) {}
+    public void setFilterString(int optionId, String value)
+    {
+    }
 
     @Override
-    public void setFilterBoolean(int optionId, boolean value) {
+    public void setFilterBoolean(int optionId, boolean value)
+    {
         presets[optionId] = value;
     }
 
     @Override
-    public String getFilterName() {
+    public String getFilterName()
+    {
         return Strings.PRESET_FILTER;
     }
 
-    public String getName(int index) {
-        switch (index) {
+    public String getName(int index)
+    {
+        switch (index)
+        {
             case 0:
                 return StatCollector.translateToLocal(Strings.INGOT_FILTER);
             case 1:
@@ -202,30 +227,35 @@ public class PresetFilter implements IMultiFilterChild, IChecklistFilter {
     }
 
     @Override
-    public void setValue(int optionIndex, boolean value) {
+    public void setValue(int optionIndex, boolean value)
+    {
         presets[optionIndex] = value;
         markDirty(true);
     }
 
     @Override
-    public boolean getValue(int optionIndex) {
+    public boolean getValue(int optionIndex)
+    {
         return presets[optionIndex];
     }
 
     @Override
-    public int getOptionCount() {
+    public int getOptionCount()
+    {
         return presets.length;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getNameLangKey() {
+    public String getNameLangKey()
+    {
         return Strings.PRESET_FILTER;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getDescriptionLangKey() {
+    public String getDescriptionLangKey()
+    {
         return Strings.PRESET_FILTER_DESCRIPTION;
     }
 }

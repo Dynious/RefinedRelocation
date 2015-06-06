@@ -17,7 +17,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiFilter implements IMultiFilter {
+public class MultiFilter implements IMultiFilter
+{
 
     private IFilterTileGUI tile;
     private boolean isBlacklisting;
@@ -26,12 +27,14 @@ public class MultiFilter implements IMultiFilter {
 
     private List<IMultiFilterChild> filterList = new ArrayList<IMultiFilterChild>();
 
-    public MultiFilter(IFilterTileGUI tile) {
+    public MultiFilter(IFilterTileGUI tile)
+    {
         this.tile = tile;
     }
 
     // TODO find a better place for this function
-    public static String[] getOreNames(ItemStack itemStack) {
+    public static String[] getOreNames(ItemStack itemStack)
+    {
         int[] ids = OreDictionary.getOreIDs(itemStack);
         String[] oreNames = new String[ids.length];
         for (int i = 0; i < ids.length; i++)
@@ -42,13 +45,17 @@ public class MultiFilter implements IMultiFilter {
     }
 
     @Override
-    public boolean passesFilter(ItemStack itemStack) {
-        if(itemStack == null) {
+    public boolean passesFilter(ItemStack itemStack)
+    {
+        if (itemStack == null)
+        {
             return false;
         }
         boolean foundInFilter = false;
-        for(IMultiFilterChild filter : filterList) {
-            if(filter.isInFilter(itemStack)) {
+        for (IMultiFilterChild filter : filterList)
+        {
+            if (filter.isInFilter(itemStack))
+            {
                 foundInFilter = true;
                 break;
             }
@@ -57,23 +64,27 @@ public class MultiFilter implements IMultiFilter {
     }
 
     @Override
-    public boolean isBlacklisting() {
+    public boolean isBlacklisting()
+    {
         return isBlacklisting;
     }
 
     @Override
-    public void setBlacklists(boolean blacklists) {
+    public void setBlacklists(boolean blacklists)
+    {
         this.isBlacklisting = blacklists;
         tile.onFilterChanged();
     }
 
     @Override
-    public void filterChanged() {
+    public void filterChanged()
+    {
         tile.onFilterChanged();
     }
 
     @Override
-    public List<String> getWAILAInformation(NBTTagCompound nbtData) {
+    public List<String> getWAILAInformation(NBTTagCompound nbtData)
+    {
         List<String> filter = new ArrayList<String>();
 
         filter.add(StringHelper.getLocalizedString(Strings.MODE) + ": " + (nbtData.getBoolean("isBlacklisting") ? StringHelper.getLocalizedString(Strings.BLACKLIST) : StringHelper.getLocalizedString(Strings.WHITELIST)));
@@ -84,11 +95,13 @@ public class MultiFilter implements IMultiFilter {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(NBTTagCompound compound)
+    {
         compound.setByte("version", (byte) 1);
         compound.setBoolean("isBlacklisting", isBlacklisting);
         NBTTagList tagFilterList = new NBTTagList();
-        for(IMultiFilterChild filter : filterList) {
+        for (IMultiFilterChild filter : filterList)
+        {
             NBTTagCompound tagFilter = new NBTTagCompound();
             tagFilter.setString("type", filter.getTypeName());
             filter.writeToNBT(tagFilter);
@@ -98,26 +111,32 @@ public class MultiFilter implements IMultiFilter {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(NBTTagCompound compound)
+    {
         filterList.clear();
-        if(compound.getByte("version") >= 1) {
+        if (compound.getByte("version") >= 1)
+        {
             isBlacklisting = compound.getBoolean("isBlacklisting");
             NBTTagList tagFilterList = compound.getTagList("filterList", 10);
-            for(int i = 0; i < tagFilterList.tagCount(); i++) {
+            for (int i = 0; i < tagFilterList.tagCount(); i++)
+            {
                 NBTTagCompound tagFilter = tagFilterList.getCompoundTagAt(i);
                 String filterType = tagFilter.getString("type");
                 IMultiFilterChild filter = MultiFilterRegistry.getFilter(filterType);
-                if(filter != null) {
+                if (filter != null)
+                {
                     filter.setParentFilter(this, filterList.size());
                     filter.readFromNBT(tagFilter);
                     filterList.add(filter);
                 }
             }
-        } else {
+        } else
+        {
             this.isBlacklisting = compound.getBoolean("blacklists");
 
             String userFilterString = compound.getString("userFilter");
-            if(!userFilterString.isEmpty()) {
+            if (!userFilterString.isEmpty())
+            {
                 CustomUserFilter userFilter = new CustomUserFilter();
                 userFilter.setParentFilter(this, filterList.size());
                 userFilter.setValue(userFilterString);
@@ -127,13 +146,16 @@ public class MultiFilter implements IMultiFilter {
             PresetFilter presetFilter = new PresetFilter();
             presetFilter.setParentFilter(this, filterList.size());
             boolean foundActive = false;
-            for (int i = 0; i < PresetFilter.PRESET_COUNT; i++) {
-                if(compound.getBoolean("cumstomFilters" + i)) {
+            for (int i = 0; i < PresetFilter.PRESET_COUNT; i++)
+            {
+                if (compound.getBoolean("cumstomFilters" + i))
+                {
                     foundActive = true;
                     presetFilter.setValue(i, true);
                 }
             }
-            if(foundActive) {
+            if (foundActive)
+            {
                 filterList.add(presetFilter);
             }
 
@@ -141,25 +163,33 @@ public class MultiFilter implements IMultiFilter {
             CreativeTabFilter creativeTabFilter = new CreativeTabFilter();
             creativeTabFilter.setParentFilter(this, filterList.size());
             foundActive = false;
-            for(String string : creativeTabFilters.split("\\^\\$")) {
-                for(int i = 0; i < CreativeTabFilter.serverSideTabs.length; i++) {
-                    if(string.equals(CreativeTabFilter.serverSideTabs[i].tabLabel)) {
+            for (String string : creativeTabFilters.split("\\^\\$"))
+            {
+                for (int i = 0; i < CreativeTabFilter.serverSideTabs.length; i++)
+                {
+                    if (string.equals(CreativeTabFilter.serverSideTabs[i].tabLabel))
+                    {
                         creativeTabFilter.setValue(i, true);
                         foundActive = true;
                     }
                 }
             }
-            if(foundActive) {
+            if (foundActive)
+            {
                 filterList.add(creativeTabFilter);
-            } else {
+            } else
+            {
                 //1.0.7- compat
-                for (int i = 0; compound.hasKey("creativeTabs" + i); i++) {
-                    if(compound.getBoolean("creativeTabs" + i)) {
+                for (int i = 0; compound.hasKey("creativeTabs" + i); i++)
+                {
+                    if (compound.getBoolean("creativeTabs" + i))
+                    {
                         creativeTabFilter.setValue(i, true);
                         foundActive = true;
                     }
                 }
-                if(foundActive) {
+                if (foundActive)
+                {
                     filterList.add(creativeTabFilter);
                 }
             }
@@ -167,36 +197,47 @@ public class MultiFilter implements IMultiFilter {
     }
 
     @Override
-    public int getFilterCount() {
+    public int getFilterCount()
+    {
         return filterList.size();
     }
 
     @Override
-    public IMultiFilterChild getFilterAtIndex(int index) {
+    public IMultiFilterChild getFilterAtIndex(int index)
+    {
         return filterList.get(index);
     }
 
     @Override
-    public void setFilterType(int filterIndex, String filterType) {
-        if(filterIndex == -1) {
+    public void setFilterType(int filterIndex, String filterType)
+    {
+        if (filterIndex == -1)
+        {
             filterIndex = filterList.size();
-        } else if(filterIndex < filterList.size() && filterList.get(filterIndex).getTypeName().equals(filterType)) {
+        } else if (filterIndex < filterList.size() && filterList.get(filterIndex).getTypeName().equals(filterType))
+        {
             return;
         }
-        if(filterType.isEmpty()) {
+        if (filterType.isEmpty())
+        {
             filterList.remove(filterIndex);
-            for(int i = filterIndex; i < filterList.size(); i++) {
+            for (int i = filterIndex; i < filterList.size(); i++)
+            {
                 filterList.get(i).setParentFilter(this, i);
             }
             markDirty(true);
-        } else {
+        } else
+        {
             IMultiFilterChild filter = MultiFilterRegistry.getFilter(filterType);
-            if(filter != null) {
+            if (filter != null)
+            {
                 filter.setParentFilter(this, filterIndex);
                 markDirty(true);
-                if(filterIndex < filterList.size()) {
+                if (filterIndex < filterList.size())
+                {
                     filterList.set(filterIndex, filter);
-                } else {
+                } else
+                {
                     filterList.add(filter);
                 }
             }
@@ -204,12 +245,14 @@ public class MultiFilter implements IMultiFilter {
     }
 
     @Override
-    public boolean isDirty() {
+    public boolean isDirty()
+    {
         return isDirty;
     }
 
     @Override
-    public void markDirty(boolean dirty) {
+    public void markDirty(boolean dirty)
+    {
         this.isDirty = dirty;
         filterChanged();
     }
