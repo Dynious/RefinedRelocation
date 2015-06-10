@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.grid;
 
+import com.dynious.refinedrelocation.api.filter.FilterResult;
 import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
@@ -51,20 +52,30 @@ public class MultiFilter implements IMultiFilter
     @Override
     public boolean passesFilter(ItemStack itemStack)
     {
-        if (itemStack == null)
-        {
+        return passesFilter(itemStack, new FilterResult());
+    }
+
+    @Override
+    public boolean passesFilter(ItemStack itemStack, FilterResult outResult)
+    {
+        if(itemStack == null) {
             return false;
         }
-        boolean foundInFilter = false;
+        if(isBlacklisting) {
+            outResult.passes = true;
+        }
         for (IMultiFilterChild filter : filterList)
         {
-            if (filter.isInFilter(itemStack))
+            filter.passesFilter(itemStack, outResult);
+            if(outResult.passes)
             {
-                foundInFilter = true;
+                if(isBlacklisting) {
+                    outResult.passes = false;
+                }
                 break;
             }
         }
-        return isBlacklisting ? !foundInFilter : foundInFilter;
+        return outResult.passes;
     }
 
     @Override
@@ -302,4 +313,5 @@ public class MultiFilter implements IMultiFilter
     {
         NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterBooleanArray(receiver.getFilterIndex(), index, value));
     }
+
 }

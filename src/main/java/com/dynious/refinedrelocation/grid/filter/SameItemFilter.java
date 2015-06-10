@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.grid.filter;
 
+import com.dynious.refinedrelocation.api.filter.FilterResult;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.client.gui.widget.GuiSameItemFilter;
@@ -29,7 +30,7 @@ public class SameItemFilter extends MultiFilterChildBase
     }
 
     @Override
-    public boolean isInFilter(ItemStack itemStack)
+    public void passesFilter(ItemStack itemStack, FilterResult outResult)
     {
         if (getParentFilter().getFilterTile().getTileEntity() instanceof ISortingInventory)
         {
@@ -37,10 +38,12 @@ public class SameItemFilter extends MultiFilterChildBase
             for (int i = 0; i < sortingInventory.getSizeInventory(); i++)
             {
                 if (ItemStackHelper.areItemStacksEqual(sortingInventory.getStackInSlot(i), itemStack))
-                    return true;
+                {
+                    outResult.passes = true;
+                    return;
+                }
             }
         }
-        return false;
     }
 
     @Override

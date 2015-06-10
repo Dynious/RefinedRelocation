@@ -212,7 +212,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase
 
     private int getStartOfWord(int position)
     {
-        position = MathHelper.clamp_int(position, 0, text.length() - 1);
+        position = Math.max(0, Math.min(position, text.length() - 1));
         if (text.charAt(position) == '\n')
         {
             return position;

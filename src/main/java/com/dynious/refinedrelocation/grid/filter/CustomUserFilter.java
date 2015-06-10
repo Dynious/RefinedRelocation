@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.grid.filter;
 
+import com.dynious.refinedrelocation.api.filter.FilterResult;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.gui.widget.GuiUserFilter;
 import com.dynious.refinedrelocation.grid.MultiFilter;
@@ -19,7 +20,7 @@ public class CustomUserFilter extends MultiFilterChildBase
     private String value = "";
 
     @Override
-    public boolean isInFilter(ItemStack itemStack)
+    public void passesFilter(ItemStack itemStack, FilterResult outResult)
     {
         String[] oreNames = null;
         String filter = value.toLowerCase().replaceAll("\\s+", "");
@@ -37,7 +38,8 @@ public class CustomUserFilter extends MultiFilterChildBase
                 {
                     if (stringMatchesWildcardPattern(oreName, s))
                     {
-                        return true;
+                        outResult.priorityBoost = 1337;
+                        outResult.passes = true;
                     }
                 }
             } else
@@ -55,11 +57,11 @@ public class CustomUserFilter extends MultiFilterChildBase
                 }
                 if (stringMatchesWildcardPattern(itemName, s))
                 {
-                    return true;
+                    outResult.priorityBoost = 1337;
+                    outResult.passes = true;
                 }
             }
         }
-        return false;
     }
 
     @Override

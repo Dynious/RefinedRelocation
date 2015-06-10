@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.grid.sorting;
 
+import com.dynious.refinedrelocation.api.filter.FilterResult;
 import com.dynious.refinedrelocation.api.tileentity.IInventoryChangeListener;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.ISpecialSortingInventory;
@@ -7,6 +8,7 @@ import com.dynious.refinedrelocation.api.tileentity.grid.ISortingGrid;
 import com.dynious.refinedrelocation.api.tileentity.grid.LocalizedStack;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.grid.Grid;
+import com.dynious.refinedrelocation.grid.MultiFilter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -26,39 +28,52 @@ public class SortingGrid extends Grid implements ISortingGrid
     {
         if (members != null && !members.isEmpty())
         {
-            List<List<ISortingInventory>> sortingList = createSortingList(requester);
-            for (List<ISortingInventory> list : sortingList)
+            int bestPriority = Integer.MIN_VALUE;
+            ISortingInventory bestInventory = null;
+            List<ISortingInventory> sortingList = createSortingList(requester);
+            FilterResult outResult = new FilterResult();
+            for (ISortingInventory inventory : sortingList)
             {
-                for (ISortingInventory inventory : list)
+                if (inventory.getFilter() instanceof MultiFilter)
                 {
-                    if (inventory.getFilter().passesFilter(itemStack))
-                    {
-                        if (inventory == requester)
-                        {
-                            return itemStack;
-                        }
-                        else
-                        {
-                            itemStack = inventory.putInInventory(itemStack, simulate);
-                            if (itemStack == null || itemStack.stackSize == 0)
-                            {
-                                return null;
-                            }
+                    MultiFilter multiFilter = (MultiFilter) inventory.getFilter();
+                    outResult.passes = false;
+                    outResult.priorityBoost = 0;
+                    if(multiFilter.passesFilter(itemStack, outResult)) {
+                        if(inventory.getPriority().ordinal() + outResult.priorityBoost > bestPriority) {
+                            bestInventory = inventory;
+                            bestPriority = inventory.getPriority().ordinal() + outResult.priorityBoost;
                         }
                     }
+                } else
+                {
+                    if (inventory.getFilter().passesFilter(itemStack) && inventory.getPriority().ordinal() > bestPriority)
+                    {
+                        bestInventory = inventory;
+                        bestPriority = inventory.getPriority().ordinal();
+                    }
+                }
+
+            }
+            if (bestInventory == requester)
+            {
+                return itemStack;
+            } else if (bestInventory != null)
+            {
+                itemStack = bestInventory.putInInventory(itemStack, simulate);
+                if (itemStack == null || itemStack.stackSize == 0)
+                {
+                    return null;
                 }
             }
+
         }
         return itemStack;
     }
 
-    private List<List<ISortingInventory>> createSortingList(TileEntity requester)
+    private List<ISortingInventory> createSortingList(TileEntity requester)
     {
-        List<List<ISortingInventory>> list = new ArrayList<List<ISortingInventory>>();
-        for (ISortingInventory.Priority ignored : ISortingInventory.Priority.values())
-        {
-            list.add(new ArrayList<ISortingInventory>());
-        }
+        List<ISortingInventory> list = new ArrayList<ISortingInventory>();
 
         for (Iterator<IGridMemberHandler> iterator = members.iterator(); iterator.hasNext(); )
         {
@@ -70,16 +85,7 @@ public class SortingGrid extends Grid implements ISortingGrid
             }
             if (filteringMember.getOwner() instanceof ISortingInventory)
             {
-                ISortingInventory filteringInventory = (ISortingInventory) filteringMember.getOwner();
-
-                if (filteringInventory == requester)
-                {
-                    list.get(filteringInventory.getPriority().ordinal()).add(0, filteringInventory);
-                }
-                else
-                {
-                    list.get(filteringInventory.getPriority().ordinal()).add(filteringInventory);
-                }
+                list.add((ISortingInventory) filteringMember.getOwner());
             }
         }
         return list;
@@ -104,8 +110,7 @@ public class SortingGrid extends Grid implements ISortingGrid
                             if (inventory instanceof ISpecialSortingInventory)
                             {
                                 list.add(((ISpecialSortingInventory) inventory).getLocalizedStackInSlot(slot));
-                            }
-                            else
+                            } else
                             {
                                 list.add(new LocalizedStack(stack, inventory, slot));
                             }

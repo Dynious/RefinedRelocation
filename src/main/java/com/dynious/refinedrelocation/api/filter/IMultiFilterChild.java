@@ -20,7 +20,7 @@ public interface IMultiFilterChild
 	void setFilterString(int optionId, String value);
 	void setFilterBoolean(int optionId, boolean value);
 	void setFilterBooleanArray(int optionId, boolean[] values);
-	boolean isInFilter(ItemStack itemStack);
+	void passesFilter(ItemStack itemStack, FilterResult outResult);
 	void writeToNBT(NBTTagCompound compound);
 	void readFromNBT(NBTTagCompound compound);
 	void markDirty(boolean isDirty);

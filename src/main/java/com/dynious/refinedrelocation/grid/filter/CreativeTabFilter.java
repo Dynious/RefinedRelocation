@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.grid.filter;
 
+import com.dynious.refinedrelocation.api.filter.FilterResult;
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
@@ -84,7 +85,7 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
     }
 
     @Override
-    public boolean isInFilter(ItemStack itemStack)
+    public void passesFilter(ItemStack itemStack, FilterResult outResult)
     {
         CreativeTabs tab;
         if (itemStack.getItem() instanceof ItemBlock)
@@ -102,11 +103,10 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
             {
                 if (tabStates[i] && index == i)
                 {
-                    return true;
+                    outResult.passes = true;
                 }
             }
         }
-        return false;
     }
 
     @Override
