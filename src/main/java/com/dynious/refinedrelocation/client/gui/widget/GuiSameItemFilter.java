@@ -7,5 +7,7 @@ public class GuiSameItemFilter extends GuiWidgetBase implements IGuiWidgetWrappe
     public GuiSameItemFilter(int x, int y, int w, int h)
     {
         super(x, y, w, h);
+
+
     }
 }

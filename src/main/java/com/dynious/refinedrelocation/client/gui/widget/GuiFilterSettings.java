@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.client.gui.widget.button.*;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
@@ -13,7 +14,6 @@ import net.minecraft.util.StatCollector;
 
 public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrapped
 {
-
     public GuiFilterSettings(int x, int y, int w, int h, IFilterTileGUI filterTile)
     {
         super(x, y, w, h);
@@ -62,7 +62,4 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
             curY += 12;
         }
     }
-
-
-
 }

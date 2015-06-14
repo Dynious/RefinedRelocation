@@ -1,13 +1,14 @@
-package com.dynious.refinedrelocation.client.gui.widget;
+package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class GuiScalableButton extends com.dynious.refinedrelocation.client.gui.widget.GuiButton
+public class GuiScalableButton extends GuiButton
 {
     protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
     protected int textureX = 0;

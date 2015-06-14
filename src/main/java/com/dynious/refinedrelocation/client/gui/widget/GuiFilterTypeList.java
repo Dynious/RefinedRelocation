@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.client.gui.widget;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.gui.GuiFiltered;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonFilterType;
 import com.dynious.refinedrelocation.grid.filter.MultiFilterRegistry;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;

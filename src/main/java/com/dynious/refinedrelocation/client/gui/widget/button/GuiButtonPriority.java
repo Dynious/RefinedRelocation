@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.client.gui.widget;
+package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;

@@ -2,7 +2,7 @@ package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonOpenModuleGUI;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonOpenModuleGUI;
 import com.dynious.refinedrelocation.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
 import com.dynious.refinedrelocation.helper.GuiHelper;

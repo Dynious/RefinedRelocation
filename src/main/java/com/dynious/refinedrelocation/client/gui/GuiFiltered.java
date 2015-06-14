@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.widget.*;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonDeleteFilter;
 import com.dynious.refinedrelocation.container.ContainerFiltered;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
