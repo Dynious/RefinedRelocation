@@ -95,7 +95,7 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
     public void recalculateScrollBar()
     {
         int scrollBarTotalHeight = 26 * 4 - 2;
-        this.scrollBarScaledHeight = scrollBarTotalHeight * Math.min(1, numFiltersPerScreen / availableFilters.size());
+        this.scrollBarScaledHeight = (int) (scrollBarTotalHeight * Math.min(1, (float) numFiltersPerScreen / (float) availableFilters.size()));
         this.scrollBarYPos = y + listOffsetY + 1 + ((scrollBarTotalHeight - scrollBarScaledHeight) * currentIndex / Math.max(1, (availableFilters.size() - numFiltersPerScreen)));
         this.scrollBarXPos = x + 1 + w - SCROLLBAR_AREA_WIDTH / 2 + SCROLLBAR_WIDTH / 2 + 1;
     }
