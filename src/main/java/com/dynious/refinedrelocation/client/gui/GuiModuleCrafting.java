@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonMaxCraftStack;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonMaxCraftStack;
 import com.dynious.refinedrelocation.container.ContainerModuleCrafting;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
 import com.dynious.refinedrelocation.lib.Resources;

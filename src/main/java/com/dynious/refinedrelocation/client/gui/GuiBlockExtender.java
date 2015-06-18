@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonRedstoneSignalStatus;
 import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonRedstoneSignalStatus;
 import com.dynious.refinedrelocation.container.ContainerBlockExtender;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;

@@ -1,7 +1,9 @@
-package com.dynious.refinedrelocation.client.gui.widget;
+package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.IGuiWidgetBase;
+import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
+import com.dynious.refinedrelocation.client.gui.widget.GuiWidgetBase;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;

@@ -1,13 +1,13 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButton;
 import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
 
 public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped
 {
-
     protected CustomUserFilter filter;
     protected boolean drawLabel = true;
     protected GuiLabel userFilterLabel;
@@ -32,5 +32,4 @@ public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped
         userFilter = new GuiTextInputUserFilter(this, x, y + userFilterLabel.h + 10, w, h - userFilterLabel.h - 10, filter);
         userFilter.setFocused(true);
     }
-
 }

@@ -1,6 +1,10 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.client.gui.widget.*;
+import com.dynious.refinedrelocation.client.gui.widget.GuiInsertDirections;
+import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonMaxStackSize;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonRedstoneSignalStatus;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonSpread;
 import com.dynious.refinedrelocation.container.ContainerAdvanced;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;

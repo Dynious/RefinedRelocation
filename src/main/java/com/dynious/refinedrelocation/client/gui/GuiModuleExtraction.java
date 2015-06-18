@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonModuleMaxStackSize;
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonPulseExtractionToggle;
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonTicksBetweenExtractions;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonModuleMaxStackSize;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonPulseExtractionToggle;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonTicksBetweenExtractions;
 import com.dynious.refinedrelocation.container.ContainerModuleExtraction;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 

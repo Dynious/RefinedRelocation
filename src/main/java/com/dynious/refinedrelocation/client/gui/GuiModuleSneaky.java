@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonSide;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonSide;
 import com.dynious.refinedrelocation.container.ContainerModuleSneaky;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
 

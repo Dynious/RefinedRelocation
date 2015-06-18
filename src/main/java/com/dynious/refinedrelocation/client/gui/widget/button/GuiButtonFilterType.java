@@ -1,12 +1,13 @@
-package com.dynious.refinedrelocation.client.gui.widget;
+package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
+import com.dynious.refinedrelocation.client.gui.widget.GuiWidgetBase;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import java.util.List;
 
 public class GuiButtonFilterType extends GuiWidgetBase
 {
-
     private static final int ICON_WIDTH = 18;
     private static final int ICON_HEIGHT = 18;
 
@@ -39,8 +39,8 @@ public class GuiButtonFilterType extends GuiWidgetBase
         if (filter != null)
         {
             String[] localDesc = StatCollector.translateToLocal(filter.getDescriptionLangKey()).split("\\\\n", 2);
-            descLabel.text = localDesc[0];
-            descLabel2.text = localDesc.length > 1 ? localDesc[1] : "";
+            descLabel.setText(localDesc[0]);
+            descLabel2.setText(localDesc.length > 1 ? localDesc[1] : "");
         }
     }
 

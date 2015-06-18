@@ -1,8 +1,8 @@
 package com.dynious.refinedrelocation.client.gui;
 
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonEnergyTypes;
-import com.dynious.refinedrelocation.client.gui.widget.GuiButtonRedstoneToggle;
 import com.dynious.refinedrelocation.client.gui.widget.GuiTextInputPowerLimiter;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonEnergyTypes;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonRedstoneToggle;
 import com.dynious.refinedrelocation.container.ContainerPowerLimiter;
 import com.dynious.refinedrelocation.helper.EnergyType;
 import com.dynious.refinedrelocation.lib.Resources;

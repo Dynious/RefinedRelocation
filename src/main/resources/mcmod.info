@@ -7,8 +7,8 @@
   "mcversion": "@MCVERSION@",
   "url": "",
   "updateUrl": "",
-  "authorList": ["Dynious", "dmillerw"],
-  "credits": "Dynious: founder, developer; dmillerw: developer; All other contributors!",
+  "authorList": ["Dynious", "BlayTheNinth"],
+  "credits": "Dynious: founder, developer; BlayTheNinth: developer; All other contributors!",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

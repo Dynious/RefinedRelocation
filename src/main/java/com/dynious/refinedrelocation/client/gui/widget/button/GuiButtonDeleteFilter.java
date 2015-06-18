@@ -1,14 +1,10 @@
-package com.dynious.refinedrelocation.client.gui.widget;
+package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.client.gui.GuiFiltered;
-import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-
-import java.util.List;
 
 public class GuiButtonDeleteFilter extends GuiButton
 {

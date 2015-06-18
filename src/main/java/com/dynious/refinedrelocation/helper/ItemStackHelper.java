@@ -10,7 +10,12 @@ public class ItemStackHelper
      */
     public static boolean areItemStacksEqual(ItemStack itemStack1, ItemStack itemStack2)
     {
-        return itemStack1 == null && itemStack2 == null || (!(itemStack1 == null || itemStack2 == null) && (itemStack1.getItem() == itemStack2.getItem() && (itemStack1.getItemDamage() == itemStack2.getItemDamage() && (!(itemStack1.stackTagCompound == null && itemStack2.stackTagCompound != null) && (itemStack1.stackTagCompound == null || itemStack1.stackTagCompound.equals(itemStack2.stackTagCompound))))));
+        return areItemStacksEqual(itemStack1, itemStack2, true, true);
+    }
+
+    public static boolean areItemStacksEqual(ItemStack itemStack1, ItemStack itemStack2, boolean checkMeta, boolean checkNBT)
+    {
+        return itemStack1 == null && itemStack2 == null || (!(itemStack1 == null || itemStack2 == null) && (itemStack1.getItem() == itemStack2.getItem() && ((!checkMeta || itemStack1.getItemDamage() == itemStack2.getItemDamage()) && (!checkNBT || !(itemStack1.stackTagCompound == null && itemStack2.stackTagCompound != null) && (itemStack1.stackTagCompound == null || itemStack1.stackTagCompound.equals(itemStack2.stackTagCompound))))));
     }
 
     public static boolean areOreDictEntriesSame(ItemStack itemStack1, ItemStack itemStack2)
