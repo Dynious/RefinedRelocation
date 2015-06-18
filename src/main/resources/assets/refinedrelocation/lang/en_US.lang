@@ -224,8 +224,8 @@ relocatorModule.refinedrelocation.redstoneBlockDisabledChat=Toggled mode, now al
 relocatorStuffed.refinedrelocation.stuffed=Stuffed:
 
 #Direction Localizations
-direction.refinedrelocation.direction0=Down
-direction.refinedrelocation.direction1=Up
+direction.refinedrelocation.direction0=Bottom
+direction.refinedrelocation.direction1=Top
 direction.refinedrelocation.direction2=North
 direction.refinedrelocation.direction3=South
 direction.refinedrelocation.direction4=West
