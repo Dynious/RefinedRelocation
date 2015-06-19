@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.container.ContainerFilteringHopper;
+import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageOpenFilterGUI;
 import com.dynious.refinedrelocation.tileentity.TileFilteringHopper;

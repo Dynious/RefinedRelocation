@@ -23,7 +23,7 @@ public class GuiTextInputUserFilter extends GuiTextInputMultiline
     protected void onTextChangedByUser(String newFilter)
     {
         filter.setValue(newFilter);
-        NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterString(filter.getFilterIndex(), 0, newFilter));
+        filter.getParentFilter().sendStringToServer(filter, 0, newFilter);
     }
 
     @Override

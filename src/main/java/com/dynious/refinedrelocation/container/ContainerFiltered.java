@@ -54,14 +54,11 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             {
                 for (Object crafter : crafters)
                 {
-                    if (crafter instanceof EntityPlayerMP)
+                    if (initialUpdate)
                     {
-                        if (initialUpdate)
-                        {
-                            NetworkHandler.INSTANCE.sendTo(new MessageSetFilterType(i, filterChild.getTypeName()), (EntityPlayerMP) crafter);
-                        }
-                        filterChild.sendUpdate((EntityPlayerMP) crafter);
+                        NetworkHandler.INSTANCE.sendTo(new MessageSetFilterType(i, filterChild.getTypeName()), (EntityPlayerMP) crafter);
                     }
+                    filterChild.sendUpdate((EntityPlayerMP) crafter);
                 }
                 filterChild.markDirty(false);
             }
@@ -69,10 +66,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
 
         if (tile.getFilter().isBlacklisting() != lastBlacklist || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                NetworkHandler.INSTANCE.sendTo(new MessageGUIBoolean(MessageGUI.BLACKLIST, tile.getFilter().isBlacklisting()), (EntityPlayerMP) crafter);
-            }
+            sendSyncMessage(new MessageGUIBoolean(MessageGUI.BLACKLIST, tile.getFilter().isBlacklisting()));
             lastBlacklist = tile.getFilter().isBlacklisting();
         }
 
@@ -81,10 +75,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
             ISortingInventory inv = (ISortingInventory) tile;
             if (inv.getPriority().ordinal() != lastPriority || initialUpdate)
             {
-                for (Object crafter : crafters)
-                {
-                    NetworkHandler.INSTANCE.sendTo(new MessageGUIByte(MessageGUI.PRIORITY, (byte) inv.getPriority().ordinal()), (EntityPlayerMP) crafter);
-                }
+                sendSyncMessage(new MessageGUIByte(MessageGUI.PRIORITY, (byte) inv.getPriority().ordinal()));
                 lastPriority = inv.getPriority().ordinal();
             }
         }

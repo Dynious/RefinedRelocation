@@ -53,10 +53,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
 
         if (tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                NetworkHandler.INSTANCE.sendTo(new MessageGUIBoolean(MessageGUI.RESTRICT_EXTRACTION, tile.getRestrictExtraction()), (EntityPlayerMP) crafter);
-            }
+            sendSyncMessage(new MessageGUIBoolean(MessageGUI.RESTRICT_EXTRACTION, tile.getRestrictExtraction()));
             lastRestrictExtraction = tile.getRestrictExtraction();
         }
 

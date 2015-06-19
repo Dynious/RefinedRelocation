@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneaky;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
@@ -29,26 +30,12 @@ public class ContainerModuleSneaky extends ContainerHierarchical
 
         if (module.getOutputSide() != lastSide || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 0, module.getOutputSide());
-            }
+            sendSyncMessage(new MessageGUIInteger(0, module.getOutputSide()));
             lastSide = module.getOutputSide();
         }
 
         if (initialUpdate)
             initialUpdate = false;
-    }
-
-    @Override
-    public void updateProgressBar(int id, int value)
-    {
-        switch (id)
-        {
-            case 0:
-                setSide(value);
-                break;
-        }
     }
 
     public void setSide(int ticks)
@@ -59,9 +46,8 @@ public class ContainerModuleSneaky extends ContainerHierarchical
     @Override
     public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
-        if (messageId == 0)
-        {
-            setSide(value);
+        switch(messageId) {
+            case 0: setSide(value); break;
         }
     }
 

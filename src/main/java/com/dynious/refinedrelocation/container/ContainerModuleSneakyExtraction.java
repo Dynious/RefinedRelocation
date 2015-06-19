@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 
@@ -18,26 +19,10 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     {
         if (((RelocatorModuleSneakyExtraction) module).getExtractionSide() != extractionSide || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 3, ((RelocatorModuleSneakyExtraction) module).getExtractionSide());
-            }
+            sendSyncMessage(new MessageGUIInteger(3, ((RelocatorModuleSneakyExtraction) module).getExtractionSide()));
             extractionSide = ((RelocatorModuleSneakyExtraction) module).getExtractionSide();
         }
         super.detectAndSendChanges();
-    }
-
-    @Override
-    public void updateProgressBar(int id, int value)
-    {
-        super.updateProgressBar(id, value);
-
-        switch (id)
-        {
-            case 3:
-                setExtractionSide(value);
-                break;
-        }
     }
 
     public void setExtractionSide(int side)
@@ -49,9 +34,8 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
         super.onMessageInteger(messageId, value, player);
-        if (messageId == 3)
-        {
-            setExtractionSide(value);
+        switch(messageId) {
+            case 3: setExtractionSide(value); break;
         }
     }
 

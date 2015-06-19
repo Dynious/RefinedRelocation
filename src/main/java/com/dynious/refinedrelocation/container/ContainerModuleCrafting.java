@@ -3,6 +3,8 @@ package com.dynious.refinedrelocation.container;
 import com.dynious.refinedrelocation.container.slot.SlotGhost;
 import com.dynious.refinedrelocation.container.slot.SlotUntouchable;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
@@ -54,10 +56,7 @@ public class ContainerModuleCrafting extends ContainerPhantom
 
         if (module.getMaxCraftStack() != lastCraftStack || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, 0, module.getMaxCraftStack());
-            }
+            sendSyncMessage(new MessageGUIInteger(0, module.getMaxCraftStack()));
             lastCraftStack = module.getMaxCraftStack();
         }
         if ((module.outputStack == null) == isStuffed || initialUpdate)
@@ -86,9 +85,6 @@ public class ContainerModuleCrafting extends ContainerPhantom
     {
         switch (id)
         {
-            case 0:
-                setMaxCraftStack(value);
-                break;
             case 1:
                 module.isStuffed = value == 1;
                 break;
@@ -118,9 +114,9 @@ public class ContainerModuleCrafting extends ContainerPhantom
     @Override
     public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
-        if (messageId == 0)
+        switch(messageId)
         {
-            setMaxCraftStack(value);
+            case 0: setMaxCraftStack(value); break;
         }
     }
 

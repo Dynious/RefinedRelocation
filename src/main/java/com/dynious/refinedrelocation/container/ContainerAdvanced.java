@@ -2,6 +2,8 @@ package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,25 +52,15 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
             }
         }
 
-        int progressBarId = tile.getInsertDirection().length;
-
         if (tile.getMaxStackSize() != lastMaxStackSize || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.ADVANCED_BASE + progressBarId, tile.getMaxStackSize());
-            }
+            sendSyncMessage(new MessageGUIByte(MessageGUI.MAX_STACK_SIZE, tile.getMaxStackSize()));
             lastMaxStackSize = tile.getMaxStackSize();
         }
 
-        progressBarId++;
-
         if (tile.getSpreadItems() != lastSpreadItems || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), GuiNetworkIds.ADVANCED_BASE + progressBarId, tile.getSpreadItems() ? 1 : 0);
-            }
+            sendSyncMessage(new MessageGUIBoolean(MessageGUI.SPREAD_ITEMS, tile.getSpreadItems()));
             lastSpreadItems = tile.getSpreadItems();
         }
 
@@ -86,19 +78,6 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
         if (id < tile.getInsertDirection().length)
         {
             setInsertDirection(id, value);
-        }
-        else
-        {
-            id -= tile.getInsertDirection().length;
-            switch (id)
-            {
-                case 0:
-                    setMaxStackSize((byte) value);
-                    break;
-                case 1:
-                    setSpreadItems(value != 0);
-                    break;
-            }
         }
     }
 
@@ -139,8 +118,10 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
     @Override
     public void onMessageByte(int messageId, byte value, EntityPlayer player)
     {
-        if(messageId == MessageGUI.MAX_STACK_SIZE) {
-            setMaxStackSize(value);
+        switch(messageId) {
+            case MessageGUI.MAX_STACK_SIZE:
+                setMaxStackSize(value);
+                break;
         }
     }
 

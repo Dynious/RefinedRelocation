@@ -34,28 +34,19 @@ public class ContainerModuleExtraction extends ContainerHierarchical
 
         if (module.getTicksBetweenExtraction() != lastTicks || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                NetworkHandler.INSTANCE.sendTo(new MessageGUIInteger(0, module.getTicksBetweenExtraction()), (EntityPlayerMP) crafter);
-            }
+            sendSyncMessage(new MessageGUIInteger(0, module.getTicksBetweenExtraction()));
             lastTicks = module.getTicksBetweenExtraction();
         }
 
         if (module.redstoneControlState != lastRedstoneControlState || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                NetworkHandler.INSTANCE.sendTo(new MessageGUIInteger(1, module.redstoneControlState), (EntityPlayerMP) crafter);
-            }
+            sendSyncMessage(new MessageGUIInteger(1, module.redstoneControlState));
             lastRedstoneControlState = module.redstoneControlState;
         }
 
         if (module.maxExtractionStackSize != lastMaxExtractionStackSize || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                NetworkHandler.INSTANCE.sendTo(new MessageGUIInteger(2, module.maxExtractionStackSize), (EntityPlayerMP) crafter);
-            }
+            sendSyncMessage(new MessageGUIInteger(2, module.maxExtractionStackSize));
             lastMaxExtractionStackSize = module.maxExtractionStackSize;
         }
 

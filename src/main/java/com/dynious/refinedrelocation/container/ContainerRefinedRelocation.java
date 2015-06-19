@@ -1,6 +1,9 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 
 public abstract class ContainerRefinedRelocation extends Container implements IContainerNetworked {
@@ -25,4 +28,11 @@ public abstract class ContainerRefinedRelocation extends Container implements IC
 
     @Override
     public void onMessageBooleanArray(int messageId, boolean[] values, EntityPlayer player) {}
+
+    public void sendSyncMessage(MessageGUI message) {
+        for(Object crafter : crafters) {
+            NetworkHandler.INSTANCE.sendTo(message, (EntityPlayerMP) crafter);
+        }
+    }
+
 }

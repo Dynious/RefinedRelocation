@@ -52,10 +52,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
 
         if (tile.getRedstoneToggle() != redstoneToggle || initialUpdate)
         {
-            for (Object crafter : crafters)
-            {
-                NetworkHandler.INSTANCE.sendTo(new MessageGUIBoolean(MessageGUI.REDSTONE_TOGGLE, tile.getRedstoneToggle()), (EntityPlayerMP) crafter);
-            }
+            sendSyncMessage(new MessageGUIBoolean(MessageGUI.REDSTONE_TOGGLE, tile.getRedstoneToggle()));
             redstoneToggle = tile.getRedstoneToggle();
         }
 
@@ -64,10 +61,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
             newEnergyTypes[energyType.ordinal()] = true;
         }
         if(initialUpdate || !Arrays.equals(energyTypes, newEnergyTypes)) {
-            for (Object crafter : crafters)
-            {
-                NetworkHandler.INSTANCE.sendTo(new MessageGUIBooleanArray(MessageGUI.ENERGY_TYPES, newEnergyTypes), (EntityPlayerMP) crafter);
-            }
+            sendSyncMessage(new MessageGUIBooleanArray(MessageGUI.ENERGY_TYPES, newEnergyTypes));
             for(int i = 0; i < energyTypes.length; i++) {
                 energyTypes[i] = newEnergyTypes[i];
             }
