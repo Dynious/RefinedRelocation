@@ -5,10 +5,14 @@ import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.api.tileentity.ISpecialSortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.grid.SpecialLocalizedStack;
 import com.dynious.refinedrelocation.api.tileentity.handlers.ISortingInventoryHandler;
+import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.mods.BarrelFilter;
+import com.dynious.refinedrelocation.mods.JabbaHelper;
 import mcp.mobius.betterbarrels.common.blocks.TileEntityBarrel;
+import mcp.mobius.betterbarrels.common.items.ItemBarrelHammer;
 import mcp.mobius.betterbarrels.network.BarrelPacketHandler;
 import mcp.mobius.betterbarrels.network.Message0x01ContentUpdate;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSortingInventory
@@ -137,5 +141,25 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
     public ISortingInventoryHandler getHandler()
     {
         return sortingInventoryHandler;
+    }
+
+    @Override
+    public void rightClick(EntityPlayer player, int side)
+    {
+        ItemStack heldItem = player.getHeldItem();
+        if (!player.isSneaking())
+        {
+            if (heldItem != null && (heldItem.getItem() instanceof ItemBarrelHammer))
+            {
+                if (JabbaHelper.removeSortingUpgradeFromBarrel(this))
+                {
+                    player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.sortingUpgrade, 1, 1), false);
+                }
+                return;
+            }
+        }
+        super.rightClick(player, side);
+
+
     }
 }

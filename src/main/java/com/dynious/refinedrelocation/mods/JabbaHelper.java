@@ -57,4 +57,21 @@ public class JabbaHelper
         }
         return false;
     }
+
+    public static boolean removeSortingUpgradeFromBarrel(TileSortingBarrel tile)
+    {
+        World world = tile.getWorldObj();
+        int meta = tile.getBlockMetadata();
+        TileEntityBarrel newBarrel = new TileEntityBarrel();
+        NBTTagCompound tag = new NBTTagCompound();
+        tile.writeToNBT(tag);
+        newBarrel.readFromNBT(tag);
+        // Clear the old block out
+        world.removeTileEntity(tile.xCoord, tile.yCoord, tile.zCoord);
+        world.setBlockToAir(tile.xCoord, tile.yCoord, tile.zCoord);
+        // And put in Jabba's block instead
+        world.setBlock(tile.xCoord, tile.yCoord, tile.zCoord, BetterBarrels.blockBarrel, meta, 3);
+        world.setTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, newBarrel);
+        return true;
+    }
 }
