@@ -30,13 +30,14 @@ public class GuiSortingImporter extends GuiContainer
     public void initGui()
     {
         super.initGui();
-        buttonList.clear();
 
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
-        this.previousArrow = new GuiButton(0, x + 57, y + 33, 20, 20, "<");
+
+        previousArrow = new GuiButton(0, x + 35, y + 38, 20, 20, "<");
         previousArrow.enabled = false;
-        this.nextArrow = new GuiButton(1, x + 135, y + 33, 20, 20, ">");
+
+        nextArrow = new GuiButton(1, x + 121, y + 38, 20, 20, ">");
         nextArrow.enabled = tile.getItemListSize() >= 9 + ((ContainerSortingImporter) inventorySlots).getPage() * 9;
 
         this.buttonList.add(previousArrow);
@@ -55,7 +56,8 @@ public class GuiSortingImporter extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
-        this.fontRendererObj.drawString(StatCollector.translateToLocal(Strings.ORE_DICT_CON), 106 - fontRendererObj.getStringWidth(StatCollector.translateToLocal(Strings.ORE_DICT_CON)) / 2, 6, 4210752);
+        String s = StatCollector.translateToLocal(Strings.ORE_DICT_CON);
+        fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 8, 0x404040);
     }
 
     @Override
@@ -68,15 +70,14 @@ public class GuiSortingImporter extends GuiContainer
         drawTexturedModalRect(xPos, yPos, 0, 0, xSize, ySize);
 
         int validSlots = tile.getItemListSize() + 1 - ((ContainerSortingImporter) inventorySlots).getPage() * 9;
-        int x = validSlots % 3;
+        int startX = validSlots % 3;
         for (int y = validSlots / 3; y < 3; y++)
         {
-            while (x < 3)
+            for(int x = startX; x < 3; x++)
             {
-                drawTexturedModalRect(xPos + 79 + x * 18, yPos + 17 + y * 18, 0, 167, 18, 18);
-                x++;
+                drawTexturedModalRect(xPos + 61 + x * 18, yPos + 22 + y * 18, 0, 167, 18, 18);
             }
-            x = 0;
+            startX = 0;
         }
     }
 

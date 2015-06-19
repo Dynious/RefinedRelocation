@@ -108,10 +108,10 @@ public class TileSortingConnector extends TileEntity implements ISortingMember, 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        int disguiseBlockId = pkt.func_148857_g().getInteger("disguisedId");
+        int disguiseBlockId = pkt.field_148860_e.getInteger("disguisedId");
         if (disguiseBlockId != 0)
         {
-            int disguisedMeta = pkt.func_148857_g().getInteger("disguisedMeta");
+            int disguisedMeta = pkt.field_148860_e.getInteger("disguisedMeta");
             setDisguise(Block.getBlockById(disguiseBlockId), disguisedMeta);
         }
     }

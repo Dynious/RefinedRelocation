@@ -8,6 +8,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
@@ -21,6 +24,8 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     private List<Integer> idList = new ArrayList<Integer>();
     private long lastClickTime;
     private ItemStack lastAddedStack;
+    private boolean isStuffed;
+    private int counter;
 
     @Override
     public boolean onActivated(EntityPlayer player, int side)
@@ -28,7 +33,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
         if (worldObj.isRemote)
             return true;
 
-        if (player.isSneaking() || player.getHeldItem() == null)
+        if (player.isSneaking() || (player.getHeldItem() == null && bufferInventory[0] == null))
         {
             GuiHelper.openGui(player, this);
             return true;
@@ -59,8 +64,25 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             lastClickTime = worldObj.getWorldTime();
             */
             return true;
+        } else {
+            player.dropPlayerItemWithRandomChoice(bufferInventory[0], false);
+            setInventorySlotContents(0, null);
+            return true;
         }
-        return false;
+    }
+
+    @Override
+    public void updateEntity()
+    {
+        super.updateEntity();
+        if (bufferInventory[0] != null)
+        {
+            counter++;
+            if (counter % 22 == 0)
+            {
+                setInventorySlotContents(0, bufferInventory[0]);
+            }
+        }
     }
 
     @Override
@@ -100,7 +122,14 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             {
                 itemstack = this.bufferInventory[par1];
                 this.bufferInventory[par1] = null;
-                this.markDirty();
+                isStuffed = bufferInventory[par1] != null;
+                boolean oldIsStuffed = isStuffed;
+                isStuffed = bufferInventory[0] != null;
+                if(isStuffed != oldIsStuffed)
+                {
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                }
+                markDirty();
                 return itemstack;
             }
             else
@@ -111,8 +140,14 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
                 {
                     this.bufferInventory[par1] = null;
                 }
-
-                this.markDirty();
+                isStuffed = bufferInventory[par1] != null;
+                boolean oldIsStuffed = isStuffed;
+                isStuffed = bufferInventory[0] != null;
+                if(isStuffed != oldIsStuffed)
+                {
+                    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                }
+                markDirty();
                 return itemstack;
             }
         }
@@ -166,6 +201,14 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             {
                 syncInventory();
             }
+
+            boolean oldIsStuffed = isStuffed;
+            isStuffed = bufferInventory[0] != null;
+            if(isStuffed != oldIsStuffed)
+            {
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+            }
+            markDirty();
         }
         else
         {
@@ -276,6 +319,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
         {
             NBTTagCompound tag = list.getCompoundTagAt(0);
             bufferInventory[0] = ItemStack.loadItemStackFromNBT(tag);
+            isStuffed = bufferInventory[0] != null;
         }
     }
 
@@ -303,5 +347,26 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
             list.appendTag(tag);
         }
         compound.setTag("buffer", list);
+    }
+
+    @Override
+    public Packet getDescriptionPacket()
+    {
+        S35PacketUpdateTileEntity packet = (S35PacketUpdateTileEntity) super.getDescriptionPacket();
+        packet.field_148860_e.setBoolean("Stuffed", isStuffed);
+        return packet;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+    {
+        super.onDataPacket(net, pkt);
+        isStuffed = pkt.field_148860_e.getBoolean("Stuffed");
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public boolean isStuffed()
+    {
+        return isStuffed;
     }
 }

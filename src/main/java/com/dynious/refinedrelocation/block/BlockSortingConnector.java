@@ -31,8 +31,9 @@ import java.util.List;
 
 public class BlockSortingConnector extends BlockContainer
 {
-    private IIcon[] icons = new IIcon[4];
-    private IIcon[] interfaceTextures = new IIcon[2];
+    private final IIcon[] icons = new IIcon[4];
+    private final IIcon[] interfaceTextures = new IIcon[2];
+    private IIcon importerStuffedTexture;
 
     public BlockSortingConnector()
     {
@@ -84,8 +85,7 @@ public class BlockSortingConnector extends BlockContainer
         if (world.isRemote)
         {
             return true;
-        }
-        else
+        } else
         {
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileSortingConnector)
@@ -118,7 +118,7 @@ public class BlockSortingConnector extends BlockContainer
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TileSortingConnector)
+        if (tileEntity instanceof TileSortingConnector)
         {
             TileSortingConnector tile = (TileSortingConnector) tileEntity;
             Block blockDisguisedAs = tile.getDisguise();
@@ -126,17 +126,20 @@ public class BlockSortingConnector extends BlockContainer
             if (blockDisguisedAs != null)
             {
                 return blockDisguisedAs.getIcon(side, disguisedMeta);
-            }
-            else if (tile instanceof TileSortingInterface)
+            } else if (tile instanceof TileSortingInterface)
             {
                 TileSortingInterface sortingInterface = (TileSortingInterface) tile;
                 if (sortingInterface.getConnectedSide().ordinal() == side)
                 {
                     return interfaceTextures[0];
-                }
-                else if (sortingInterface.isStuffed())
+                } else if (sortingInterface.isStuffed())
                 {
                     return interfaceTextures[1];
+                }
+            } else if(tile instanceof TileSortingImporter) {
+                TileSortingImporter sortingImporter = (TileSortingImporter) tile;
+                if(sortingImporter.isStuffed()) {
+                    return importerStuffedTexture;
                 }
             }
         }
@@ -167,6 +170,7 @@ public class BlockSortingConnector extends BlockContainer
         }
         interfaceTextures[0] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 1 + "ConSide");
         interfaceTextures[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 1 + "Stuffed");
+        importerStuffedTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 2 + "Stuffed");
     }
 
     @Override

@@ -20,13 +20,11 @@ public class ContainerSortingImporter extends ContainerPhantom
         inventory.openInventory();
         inventory.addCrafter(player);
 
-        this.addSlotToContainer(new Slot(inventory, 0, 26, 35));
-
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 3; x++)
             {
-                this.addSlotToContainer(new SlotPhantom(inventory, 1 + y * 3 + x, 80 + x * 18, 17 + y * 18));
+                this.addSlotToContainer(new SlotPhantom(inventory, 1 + y * 3 + x, 62 + x * 18, 22 + y * 18));
             }
         }
 
