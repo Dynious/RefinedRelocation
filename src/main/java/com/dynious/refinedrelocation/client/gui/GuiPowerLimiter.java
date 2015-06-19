@@ -10,6 +10,7 @@ import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -31,12 +32,12 @@ public class GuiPowerLimiter extends GuiRefinedRelocationContainer
     {
         super.initGui();
 
-        new GuiLabel(this, width / 2, height / 2 - 32, Strings.POWER_LIMITER);
+        new GuiLabel(this, width / 2, height / 2 - 32, StatCollector.translateToLocal(Strings.POWER_LIMITER));
 
         new GuiButtonRedstoneToggle(this, width / 2 - 60, height / 2 - 22, tile, MessageGUI.REDSTONE_TOGGLE);
         btnEnergyTypes = new GuiButtonEnergyTypes(this, width / 2 - 30, height / 2 - 22, 24, 20, (ContainerPowerLimiter) inventorySlots);
 
-        new GuiLabel(this, width / 2 - 60, height / 2 + 5, Strings.MAX_ENERGY).drawCentered = false;
+        new GuiLabel(this, width / 2 - 60, height / 2 + 5, StatCollector.translateToLocal(Strings.MAX_ENERGY)).drawCentered = false;
 
         new GuiTextInputPowerLimiter(this, width / 2 - 60, height / 2 + 18, 120, 20, tile, MessageGUI.POWER_LIMIT);
 
