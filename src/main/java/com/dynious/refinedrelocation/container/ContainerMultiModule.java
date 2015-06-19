@@ -38,7 +38,9 @@ public class ContainerMultiModule extends ContainerHierarchical
     }
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer player) {
+    public void onMessageAction(int messageId, EntityPlayer player)
+    {
         openOrActive(messageId);
     }
+
 }

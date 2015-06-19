@@ -1,7 +1,10 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ICrafting;
 
 public class ContainerModuleExtraction extends ContainerHierarchical
@@ -33,7 +36,7 @@ public class ContainerModuleExtraction extends ContainerHierarchical
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 0, module.getTicksBetweenExtraction());
+                NetworkHandler.INSTANCE.sendTo(new MessageGUIInteger(0, module.getTicksBetweenExtraction()), (EntityPlayerMP) crafter);
             }
             lastTicks = module.getTicksBetweenExtraction();
         }
@@ -42,7 +45,7 @@ public class ContainerModuleExtraction extends ContainerHierarchical
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 1, module.redstoneControlState);
+                NetworkHandler.INSTANCE.sendTo(new MessageGUIInteger(1, module.redstoneControlState), (EntityPlayerMP) crafter);
             }
             lastRedstoneControlState = module.redstoneControlState;
         }
@@ -51,31 +54,13 @@ public class ContainerModuleExtraction extends ContainerHierarchical
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(getTopMostContainer(), 2, module.maxExtractionStackSize);
+                NetworkHandler.INSTANCE.sendTo(new MessageGUIInteger(2, module.maxExtractionStackSize), (EntityPlayerMP) crafter);
             }
             lastMaxExtractionStackSize = module.maxExtractionStackSize;
         }
 
         if (initialUpdate)
             initialUpdate = false;
-    }
-
-    @Override
-    public void updateProgressBar(int id, int value)
-    {
-        switch (id)
-        {
-            case 0:
-                setTicksBetweenExtraction(value);
-                break;
-            case 1:
-                setRedstoneControlState(value);
-                break;
-            case 2:
-                setMaxStackSize(value);
-                break;
-
-        }
     }
 
     public void setTicksBetweenExtraction(int ticks)
@@ -94,19 +79,20 @@ public class ContainerModuleExtraction extends ContainerHierarchical
     }
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer entityPlayer)
+    public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
         switch (messageId)
         {
             case 0:
-                setTicksBetweenExtraction((Integer) value);
+                setTicksBetweenExtraction(value);
                 break;
             case 1:
-                setRedstoneControlState((Integer) value);
+                setRedstoneControlState(value);
                 break;
             case 2:
-                setMaxStackSize((Integer) value);
+                setMaxStackSize(value);
                 break;
         }
     }
+
 }

@@ -123,9 +123,28 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     }
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer player) {
-        switch(messageId) {
-            case MessageGUI.BLACKLIST: setBlackList((Boolean) value); break;
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
+    {
+        if(messageId == MessageGUI.BLACKLIST) {
+            setBlackList(value);
         }
     }
+
+    @Override
+    public void onMessageAction(int messageId, EntityPlayer player) {}
+
+    @Override
+    public void onMessageString(int messageId, String value, EntityPlayer player) {}
+
+    @Override
+    public void onMessageByte(int messageId, byte value, EntityPlayer player) {}
+
+    @Override
+    public void onMessageDouble(int messageId, double value, EntityPlayer player) {}
+
+    @Override
+    public void onMessageInteger(int messageId, int value, EntityPlayer player) {}
+
+    @Override
+    public void onMessageBooleanArray(int messageId, boolean[] values, EntityPlayer player) {}
 }

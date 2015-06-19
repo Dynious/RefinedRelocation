@@ -124,15 +124,24 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
     }
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer player) {
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
+    {
         switch(messageId) {
-            case MessageGUI.SPREAD_ITEMS: setSpreadItems((Boolean) value); break;
-            case MessageGUI.MAX_STACK_SIZE: setMaxStackSize((Byte) value); break;
+            case MessageGUI.SPREAD_ITEMS: setSpreadItems(value); break;
             case MessageGUI.REDSTONE_ENABLED:
                 if(tile instanceof TileBlockExtender) {
-                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
+                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(value);
                 }
                 break;
         }
     }
+
+    @Override
+    public void onMessageByte(int messageId, byte value, EntityPlayer player)
+    {
+        if(messageId == MessageGUI.MAX_STACK_SIZE) {
+            setMaxStackSize(value);
+        }
+    }
+
 }

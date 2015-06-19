@@ -1,15 +1,23 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.helper.EnergyType;
+import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBooleanArray;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.entity.player.EntityPlayerMP;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
 
 public class ContainerPowerLimiter extends ContainerRefinedRelocation
 {
-    public TilePowerLimiter tile;
+    private final TilePowerLimiter tile;
     private boolean initialUpdate = true;
-    private boolean redstoneToggle = false;
+    private boolean redstoneToggle;
+    private boolean[] energyTypes = new boolean[EnergyType.values().length];
 
     public ContainerPowerLimiter(TilePowerLimiter tile)
     {
@@ -32,6 +40,11 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
         tile.setRedstoneToggle(toggle);
     }
 
+    public boolean[] getEnergyTypes()
+    {
+        return energyTypes;
+    }
+
     @Override
     public void detectAndSendChanges()
     {
@@ -41,28 +54,49 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
         {
             for (Object crafter : crafters)
             {
-                ((ICrafting) crafter).sendProgressBarUpdate(this, 0, tile.getRedstoneToggle() ? 1 : 0);
+                NetworkHandler.INSTANCE.sendTo(new MessageGUIBoolean(MessageGUI.REDSTONE_TOGGLE, tile.getRedstoneToggle()), (EntityPlayerMP) crafter);
             }
             redstoneToggle = tile.getRedstoneToggle();
         }
 
-        if (initialUpdate)
-            initialUpdate = false;
+        boolean[] newEnergyTypes = new boolean[energyTypes.length];
+        for(EnergyType energyType : tile.getConnectionTypes()) {
+            newEnergyTypes[energyType.ordinal()] = true;
+        }
+        if(initialUpdate || !Arrays.equals(energyTypes, newEnergyTypes)) {
+            for (Object crafter : crafters)
+            {
+                NetworkHandler.INSTANCE.sendTo(new MessageGUIBooleanArray(MessageGUI.ENERGY_TYPES, newEnergyTypes), (EntityPlayerMP) crafter);
+            }
+            for(int i = 0; i < energyTypes.length; i++) {
+                energyTypes[i] = newEnergyTypes[i];
+            }
+        }
+
+        initialUpdate = false;
     }
 
     @Override
-    public void updateProgressBar(int id, int value)
+    public void onMessageDouble(int messageId, double value, EntityPlayer player)
     {
-        if (id == 0)
-            setRedstoneToggle(value != 0);
+        if(messageId == MessageGUI.POWER_LIMIT) {
+            setMaxAcceptedEnergy(value);
+        }
     }
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer entityPlayer)
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
-        switch(messageId) {
-            case MessageGUI.REDSTONE_TOGGLE: setRedstoneToggle((Boolean) value); break;
-            case MessageGUI.POWER_LIMIT: setMaxAcceptedEnergy((Double) value); break;
+        if(messageId == MessageGUI.REDSTONE_TOGGLE) {
+            setRedstoneToggle(value);
+        }
+    }
+
+    @Override
+    public void onMessageBooleanArray(int messageId, boolean[] values, EntityPlayer player)
+    {
+        if(messageId == MessageGUI.ENERGY_TYPES) {
+            energyTypes = values;
         }
     }
 }

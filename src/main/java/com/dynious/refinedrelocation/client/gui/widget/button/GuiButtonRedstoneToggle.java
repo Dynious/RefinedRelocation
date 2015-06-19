@@ -36,7 +36,10 @@ public class GuiButtonRedstoneToggle extends GuiButtonToggle
     {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
         if (isInsideBounds(mouseX, mouseY))
+        {
             tooltip.add(StatCollector.translateToLocal(getState() ? Strings.RS_PULSE : Strings.RS_ON));
+            tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
+        }
         return tooltip;
     }
 
@@ -44,7 +47,9 @@ public class GuiButtonRedstoneToggle extends GuiButtonToggle
     public void update()
     {
         if (tile != null)
+        {
             setState(tile.getRedstoneToggle());
+        }
 
         super.update();
     }

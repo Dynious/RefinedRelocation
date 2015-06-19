@@ -16,6 +16,7 @@ public abstract class MessageGUI implements IMessage
     public static final int REDSTONE_TOGGLE = 7;
     public static final int POWER_LIMIT = 8;
     public static final int REDSTONE_ENABLED = 9;
+    public static final int ENERGY_TYPES = 10;
 
     protected int id = 0;
 

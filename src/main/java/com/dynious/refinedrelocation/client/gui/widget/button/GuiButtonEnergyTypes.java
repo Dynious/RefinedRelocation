@@ -1,32 +1,64 @@
 package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
+import com.dynious.refinedrelocation.container.ContainerPowerLimiter;
 import com.dynious.refinedrelocation.helper.EnergyType;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
+import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
 public class GuiButtonEnergyTypes extends GuiButton
 {
-    private TilePowerLimiter tile;
+    private ContainerPowerLimiter container;
     private EnergyType currentEnergyType;
 
-    public GuiButtonEnergyTypes(IGuiParent parent, TilePowerLimiter tile)
+    public GuiButtonEnergyTypes(IGuiParent parent, int x, int y, int w, int h, ContainerPowerLimiter container)
     {
-        super(parent, "");
-        this.tile = tile;
-        if (tile != null)
+        super(parent, x, y, w, h, 0, 0, "");
+        this.container = container;
+        if (container != null)
         {
             setNextType();
         }
     }
 
-    public GuiButtonEnergyTypes(IGuiParent parent, int x, int y, int w, int h, TilePowerLimiter tile)
+    @Override
+    public List<String> getTooltip(int mouseX, int mouseY)
     {
-        super(parent, x, y, w, h, 0, 0, "");
-        this.tile = tile;
-        if (tile != null)
+        List<String> tooltip = super.getTooltip(mouseX, mouseY);
+        if (isInsideBounds(mouseX, mouseY))
         {
+            if(currentEnergyType == null)
+            {
+                tooltip.add("\u00a7a" + StatCollector.translateToLocal("Energy Type:") + "\u00a7f " + StatCollector.translateToLocal("None"));
+                tooltip.add("\u00a7c" + StatCollector.translateToLocal("No suitable energy connections."));
+            } else {
+                tooltip.add("\u00a7a" + StatCollector.translateToLocal("Energy Type:") + "\u00a7f " + currentEnergyType.name());
+                boolean foundOne = false;
+                for(int i = 0; i < container.getEnergyTypes().length; i++) {
+                    if(container.getEnergyTypes()[i])
+                    {
+                        if (foundOne)
+                        {
+                            tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
+                            break;
+                        }
+                        foundOne = true;
+                    }
+                }
+            }
+        }
+        return tooltip;
+    }
+
+    @Override
+    public void update()
+    {
+        super.update();
+
+        if(currentEnergyType == null) {
             setNextType();
         }
     }
@@ -46,7 +78,7 @@ public class GuiButtonEnergyTypes extends GuiButton
     {
         if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
         {
-            if (tile != null)
+            if (container != null)
             {
                 setNextType();
             }
@@ -60,29 +92,26 @@ public class GuiButtonEnergyTypes extends GuiButton
 
     public void setNextType()
     {
-        List<EnergyType> list = tile.getConnectionTypes();
-        if (!list.isEmpty())
+        boolean[] energyTypes = container.getEnergyTypes();
+        int ordinal = currentEnergyType != null ? currentEnergyType.ordinal() : -1;
+        for (int i = ordinal + 1; i < EnergyType.values().length; i++)
         {
-            int ordinal = currentEnergyType != null ? currentEnergyType.ordinal() : -1;
-            for (int i = ordinal + 1; i < EnergyType.values().length; i++)
+            EnergyType t = EnergyType.values()[i];
+            if (t != EnergyType.MJ && energyTypes[i])
             {
-                EnergyType t = EnergyType.values()[i];
-                if (t != EnergyType.MJ && list.contains(t))
-                {
-                    currentEnergyType = t;
-                    setValue(t);
-                    return;
-                }
+                currentEnergyType = t;
+                setValue(t);
+                return;
             }
-            for (int i = 0; i < ordinal + 1; i++)
+        }
+        for (int i = 0; i < ordinal + 1; i++)
+        {
+            EnergyType t = EnergyType.values()[i];
+            if (t != EnergyType.MJ && energyTypes[i])
             {
-                EnergyType t = EnergyType.values()[i];
-                if (t != EnergyType.MJ && list.contains(t))
-                {
-                    currentEnergyType = t;
-                    setValue(t);
-                    return;
-                }
+                currentEnergyType = t;
+                setValue(t);
+                return;
             }
         }
         label.setText("--");

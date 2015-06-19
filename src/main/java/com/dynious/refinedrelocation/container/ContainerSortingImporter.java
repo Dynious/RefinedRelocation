@@ -154,10 +154,11 @@ public class ContainerSortingImporter extends ContainerPhantom
     }
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer player) {
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
+    {
         switch(messageId) {
             case MESSAGE_SWITCH_PAGE:
-                if((Boolean) value) {
+                if(value) {
                     previousPage();
                 } else {
                     nextPage();
@@ -165,4 +166,5 @@ public class ContainerSortingImporter extends ContainerPhantom
                 break;
         }
     }
+
 }

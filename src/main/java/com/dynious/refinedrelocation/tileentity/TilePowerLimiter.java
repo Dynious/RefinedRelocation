@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.helper.LoopHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.mods.IC2Helper;
 import com.dynious.refinedrelocation.tileentity.energy.TileIndustrialCraft;
+import cpw.mods.fml.common.Optional;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -21,7 +22,11 @@ import java.util.List;
 
 import static cpw.mods.fml.common.Optional.Method;
 
-public class TilePowerLimiter extends TileIndustrialCraft implements ILoopable
+@Optional.InterfaceList({
+        @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = Mods.IC2_ID),
+        @Optional.Interface(iface = "cofh.api.energy.IEnergyHandler", modid = Mods.COFH_ENERGY_API_ID)
+})
+public class TilePowerLimiter extends TileEntity implements ILoopable, IEnergyHandler, IEnergySink
 {
     public boolean blocksChanged = true;
     protected ForgeDirection connectedDirection = ForgeDirection.UNKNOWN;

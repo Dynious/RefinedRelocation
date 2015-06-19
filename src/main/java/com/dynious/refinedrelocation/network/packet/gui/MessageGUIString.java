@@ -50,7 +50,7 @@ public class MessageGUIString extends MessageGUI implements IMessageHandler<Mess
             return null;
         }
 
-        ((IContainerNetworked) container).onMessage(message.id, message.value, entityPlayer);
+        ((IContainerNetworked) container).onMessageString(message.id, message.value, entityPlayer);
 
         return null;
     }

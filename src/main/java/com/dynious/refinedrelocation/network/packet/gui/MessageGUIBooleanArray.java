@@ -10,37 +10,43 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class MessageGUIByte extends MessageGUI implements IMessageHandler<MessageGUIByte, IMessage>
+public class MessageGUIBooleanArray extends MessageGUI implements IMessageHandler<MessageGUIBooleanArray, IMessage>
 {
 
-    private byte value;
+    private boolean[] values;
 
-    public MessageGUIByte()
+    public MessageGUIBooleanArray()
     {
     }
 
-    public MessageGUIByte(int id, byte value)
+    public MessageGUIBooleanArray(int id, boolean[] values)
     {
         super(id);
-        this.value = value;
+        this.values = values;
     }
 
     @Override
     public void fromBytes(ByteBuf buf)
     {
         super.fromBytes(buf);
-        value = buf.readByte();
+        values = new boolean[buf.readByte()];
+        for(int i = 0; i < values.length; i++) {
+            values[i] = buf.readBoolean();
+        }
     }
 
     @Override
     public void toBytes(ByteBuf buf)
     {
         super.toBytes(buf);
-        buf.writeByte(value);
+        buf.writeByte(values.length);
+        for(int i = 0; i < values.length; i++) {
+            buf.writeBoolean(values[i]);
+        }
     }
 
     @Override
-    public IMessage onMessage(MessageGUIByte message, MessageContext ctx)
+    public IMessage onMessage(MessageGUIBooleanArray message, MessageContext ctx)
     {
         EntityPlayer entityPlayer = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity : FMLClientHandler.instance().getClientPlayerEntity();
         Container container = entityPlayer.openContainer;
@@ -49,8 +55,9 @@ public class MessageGUIByte extends MessageGUI implements IMessageHandler<Messag
             return null;
         }
 
-        ((IContainerNetworked) container).onMessageByte(message.id, message.value, entityPlayer);
+        ((IContainerNetworked) container).onMessageBooleanArray(message.id, message.values, entityPlayer);
 
         return null;
     }
+
 }

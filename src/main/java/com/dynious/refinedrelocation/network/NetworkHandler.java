@@ -45,7 +45,9 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageGUIAction.class, MessageGUIAction.class, 23, Side.CLIENT);
         INSTANCE.registerMessage(MessageGUIDouble.class, MessageGUIDouble.class, 24, Side.SERVER);
         INSTANCE.registerMessage(MessageGUIDouble.class, MessageGUIDouble.class, 25, Side.CLIENT);
+        INSTANCE.registerMessage(MessageGUIBooleanArray.class, MessageGUIBooleanArray.class, 26, Side.SERVER);
+        INSTANCE.registerMessage(MessageGUIBooleanArray.class, MessageGUIBooleanArray.class, 27, Side.CLIENT);
 
-        INSTANCE.registerMessage(MessageOpenFilterGUI.class, MessageOpenFilterGUI.class, 26, Side.SERVER);
+        INSTANCE.registerMessage(MessageOpenFilterGUI.class, MessageOpenFilterGUI.class, 28, Side.SERVER);
     }
 }

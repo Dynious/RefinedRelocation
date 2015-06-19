@@ -111,28 +111,34 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
 
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer player)
+    public void onMessageByte(int messageId, byte value, EntityPlayer player)
+    {
+        if(messageId == MessageGUI.MAX_STACK_SIZE) {
+            setMaxStackSize(value);
+        }
+    }
+
+    @Override
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
         switch (messageId)
         {
             case MessageGUI.BLACKLIST:
-                setBlackList((Boolean) value);
+                setBlackList(value);
                 break;
             case MessageGUI.SPREAD_ITEMS:
-                setSpreadItems((Boolean) value);
-                break;
-            case MessageGUI.MAX_STACK_SIZE:
-                setMaxStackSize((Byte) value);
+                setSpreadItems(value);
                 break;
             case MessageGUI.RESTRICT_EXTRACTION:
-                setRestrictExtraction((Boolean) value);
+                setRestrictExtraction(value);
                 break;
             case MessageGUI.REDSTONE_ENABLED:
                 if (tile instanceof TileBlockExtender)
                 {
-                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled((Boolean) value);
+                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(value);
                 }
                 break;
         }
     }
+
 }

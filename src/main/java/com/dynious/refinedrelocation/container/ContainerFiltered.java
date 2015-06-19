@@ -119,16 +119,18 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     }
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer player)
+    public void onMessageByte(int messageId, byte value, EntityPlayer player)
     {
-        switch (messageId)
-        {
-            case MessageGUI.BLACKLIST:
-                setBlackList((Boolean) value);
-                break;
-            case MessageGUI.PRIORITY:
-                setPriority((Byte) value);
-                break;
+        if(messageId == MessageGUI.PRIORITY) {
+            setPriority(value);
+        }
+    }
+
+    @Override
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
+    {
+        if(messageId == MessageGUI.BLACKLIST) {
+            setBlackList(value);
         }
     }
 

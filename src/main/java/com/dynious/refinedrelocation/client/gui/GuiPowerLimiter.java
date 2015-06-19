@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.client.gui;
 
+import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
 import com.dynious.refinedrelocation.client.gui.widget.GuiTextInputPowerLimiter;
 import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonEnergyTypes;
 import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonRedstoneToggle;
@@ -8,19 +9,20 @@ import com.dynious.refinedrelocation.helper.EnergyType;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 public class GuiPowerLimiter extends GuiRefinedRelocationContainer
 {
-    private TilePowerLimiter tile;
-    private GuiButtonEnergyTypes button;
+    private final TilePowerLimiter tile;
+    private GuiButtonEnergyTypes btnEnergyTypes;
 
     public GuiPowerLimiter(TilePowerLimiter tile)
     {
         super(new ContainerPowerLimiter(tile));
         this.tile = tile;
-        this.xSize = 123;
-        this.ySize = 45;
+        this.xSize = 147;
+        this.ySize = 91;
     }
 
     @Override
@@ -28,10 +30,24 @@ public class GuiPowerLimiter extends GuiRefinedRelocationContainer
     {
         super.initGui();
 
-        button = new GuiButtonEnergyTypes(this, width / 2 + 30, height / 2 - 10, 24, 20, tile);
-        new GuiTextInputPowerLimiter(this, width / 2 - 20, height / 2 - 10, 40, 20, tile, MessageGUI.POWER_LIMIT);
+        new GuiLabel(this, width / 2, height / 2 - 32, "Power Limiter");
 
-        new GuiButtonRedstoneToggle(this, width / 2 - 54, height / 2 - 10, tile, MessageGUI.REDSTONE_TOGGLE);
+        new GuiButtonRedstoneToggle(this, width / 2 - 60, height / 2 - 22, tile, MessageGUI.REDSTONE_TOGGLE);
+        btnEnergyTypes = new GuiButtonEnergyTypes(this, width / 2 - 30, height / 2 - 22, 24, 20, (ContainerPowerLimiter) inventorySlots);
+
+        new GuiLabel(this, width / 2 - 60, height / 2 + 5, "Max. Energy Throughput:").drawCentered = false;
+
+        new GuiTextInputPowerLimiter(this, width / 2 - 60, height / 2 + 18, 120, 20, tile, MessageGUI.POWER_LIMIT);
+
+        Keyboard.enableRepeatEvents(true);
+    }
+
+    @Override
+    public void onGuiClosed()
+    {
+        super.onGuiClosed();
+
+        Keyboard.enableRepeatEvents(false);
     }
 
     @Override
@@ -48,6 +64,6 @@ public class GuiPowerLimiter extends GuiRefinedRelocationContainer
 
     public EnergyType getCurrentEnergyType()
     {
-        return button.getCurrentEnergyType();
+        return btnEnergyTypes.getCurrentEnergyType();
     }
 }

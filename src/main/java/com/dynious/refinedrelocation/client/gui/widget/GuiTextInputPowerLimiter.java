@@ -29,12 +29,14 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
     }
 
     @Override
-    protected void onTextChangedByUser(String newFilter)
+    protected void onTextChangedByUser(String text)
     {
         if (tile == null)
+        {
             return;
+        }
 
-        maxAcceptedEnergy = stringToMaxEnergy(newFilter);
+        maxAcceptedEnergy = stringToMaxEnergy(text);
         tile.setMaxAcceptedEnergy(maxAcceptedEnergy);
         GuiHelper.sendDoubleMessage(boundMessageId, maxAcceptedEnergy);
     }
@@ -79,7 +81,7 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
     {
         if (parent.getCurrentEnergyType() == null)
         {
-            return "--";
+            return "\u00a7cNo energy connection";
         }
         return Double.toString(parent.getCurrentEnergyType().fromInternal(maxAcceptedEnergy));
     }
@@ -101,14 +103,4 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
         return parent.getCurrentEnergyType().convertToInternal(power);
     }
 
-    @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
-        List<String> list = new ArrayList<String>();
-        if (isInsideBounds(mouseX, mouseY))
-        {
-            list.add(StatCollector.translateToLocal(Strings.MAX_ENERGY));
-        }
-        return list;
-    }
 }

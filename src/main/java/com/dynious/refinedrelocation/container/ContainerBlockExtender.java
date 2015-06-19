@@ -26,13 +26,12 @@ public class ContainerBlockExtender extends ContainerHierarchical
     }
 
     @Override
-    public void onMessage(int messageId, Object value, EntityPlayer player)
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
-        switch (messageId)
+        if (messageId == MessageGUI.REDSTONE_ENABLED)
         {
-            case MessageGUI.REDSTONE_ENABLED:
-                tile.setRedstoneTransmissionEnabled((Boolean) value);
-                break;
+            tile.setRedstoneTransmissionEnabled(value);
         }
     }
+
 }
