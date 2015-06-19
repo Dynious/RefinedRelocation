@@ -5,7 +5,8 @@ import net.minecraft.client.gui.GuiTextField;
 
 public class GuiTextInput extends GuiWidgetBase
 {
-    protected GuiTextField textField;
+    protected final GuiTextField textField;
+    private boolean enabled;
 
     public GuiTextInput(IGuiParent parent, int x, int y, int w, int h)
     {
@@ -17,7 +18,10 @@ public class GuiTextInput extends GuiWidgetBase
     public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
     {
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
-        this.textField.mouseClicked(mouseX, mouseY, type);
+        if(enabled)
+        {
+            this.textField.mouseClicked(mouseX, mouseY, type);
+        }
     }
 
     @Override
@@ -166,9 +170,10 @@ public class GuiTextInput extends GuiWidgetBase
         textField.setFocused(par1);
     }
 
-    public void setEnabled(boolean par1)
+    public void setEnabled(boolean enabled)
     {
-        textField.setEnabled(par1);
+        this.enabled = enabled;
+        textField.setEnabled(enabled);
     }
 
     public int getSelectionEnd()

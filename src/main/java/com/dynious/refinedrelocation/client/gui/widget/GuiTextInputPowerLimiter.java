@@ -8,9 +8,6 @@ import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GuiTextInputPowerLimiter extends GuiTextInput
 {
     private final int boundMessageId;
@@ -51,10 +48,17 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
                 currentEnergyType = parent.getCurrentEnergyType();
                 maxAcceptedEnergy = -1.0D;
             }
-            if (tile.getMaxAcceptedEnergy() != maxAcceptedEnergy)
+            if(currentEnergyType == null) {
+                setText("\u00a7c" + StatCollector.translateToLocal(Strings.NO_ENERGY_CONNECTION));
+                setEnabled(false);
+            } else
             {
-                maxAcceptedEnergy = tile.getMaxAcceptedEnergy();
-                setText(maxEnergyToString(tile.getMaxAcceptedEnergy()));
+                setEnabled(true);
+                if (tile.getMaxAcceptedEnergy() != maxAcceptedEnergy)
+                {
+                    maxAcceptedEnergy = tile.getMaxAcceptedEnergy();
+                    setText(maxEnergyToString(tile.getMaxAcceptedEnergy()));
+                }
             }
         }
 
@@ -79,10 +83,6 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
 
     public String maxEnergyToString(double maxAcceptedEnergy)
     {
-        if (parent.getCurrentEnergyType() == null)
-        {
-            return "\u00a7cNo energy connection";
-        }
         return Double.toString(parent.getCurrentEnergyType().fromInternal(maxAcceptedEnergy));
     }
 

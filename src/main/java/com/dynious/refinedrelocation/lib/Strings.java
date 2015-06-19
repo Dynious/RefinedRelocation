@@ -50,7 +50,6 @@ public class Strings
     public static final String LINKED_TO_AT = GUI_PREFIX + "linkedToAt";
     public static final String CONNECTIONS = GUI_PREFIX + "connections";
     public static final String ORE_DICT_CON = GUI_PREFIX + "oreDictConversion";
-    public static final String MAX_ENERGY = GUI_PREFIX + "maxEnergy";
     public static final String RS_ON = GUI_PREFIX + "RSOn";
     public static final String RS_PULSE = GUI_PREFIX + "RSPulse";
     public static final String PRIORITY = GUI_PREFIX + "priority";
@@ -103,6 +102,12 @@ public class Strings
     public static final String INSERT_EXTRACT = GUI_PREFIX + "insertExtract";
     public static final String USE_LINKER_TO_LINK = GUI_PREFIX + "useLinkerToLink";
     public static final String ADV_FILTERED_BLOCK_EXTENDER = GUI_PREFIX + "advFilteredBlockExtender";
+    public static final String POWER_LIMITER = GUI_PREFIX + "powerLimiter";
+    public static final String NO_ENERGY_CONNECTION = GUI_PREFIX + "noEnergyConnection";
+    public static final String NO_SUITABLE_ENERGY_CONNECTION = GUI_PREFIX + "noSuitableEnergyConnection";
+    public static final String ENERGY_TYPE = GUI_PREFIX + "energyType";
+    public static final String NONE = GUI_PREFIX + "none";
+    public static final String MAX_ENERGY = GUI_PREFIX + "maxEnergy";
 
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
@@ -156,5 +161,4 @@ public class Strings
     public static final String COMMAND_HELP_CHANGELOG = COMMAND_PREFIX + "helpChangelog";
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
-
 }

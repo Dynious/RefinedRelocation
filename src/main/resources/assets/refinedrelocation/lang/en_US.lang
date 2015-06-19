@@ -101,7 +101,6 @@ gui.refinedrelocation.wirelessLink=Wireless Link
 gui.refinedrelocation.linkedToAt=Linked to %s at: (%s, %s, %s)
 gui.refinedrelocation.connections=Connections
 gui.refinedrelocation.oreDictConversion=OreDict. Conversion
-gui.refinedrelocation.maxEnergy=The max energy throughput
 gui.refinedrelocation.RSOn=Redstone high disables power
 gui.refinedrelocation.RSPulse=Redstone pulse toggles power
 gui.refinedrelocation.priority=Priority
@@ -163,6 +162,12 @@ gui.refinedrelocation.presetFilterDesc=Checklist based on the\nmost common thing
 gui.refinedrelocation.creativeFilterDesc=Checklist based on\nthe creative tabs
 gui.refinedrelocation.customFilterDesc=A customizable text\nbased filter
 gui.refinedrelocation.sameItemFilterDesc=Filter on items already\nin the inventory
+gui.refinedrelocation.none=None
+gui.refinedrelocation.powerLimiter=Power Limiter
+gui.refinedrelocation.noEnergyConnection=No energy connection
+gui.refinedrelocation.noSuitableEnergyConnection=No suitable energy connections.
+gui.refinedrelocation.energyType=Energy Type:
+gui.refinedrelocation.maxEnergy=Max Energy Throughput:
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)

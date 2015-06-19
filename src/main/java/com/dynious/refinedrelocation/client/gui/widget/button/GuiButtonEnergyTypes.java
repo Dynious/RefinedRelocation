@@ -32,10 +32,10 @@ public class GuiButtonEnergyTypes extends GuiButton
         {
             if(currentEnergyType == null)
             {
-                tooltip.add("\u00a7a" + StatCollector.translateToLocal("Energy Type:") + "\u00a7f " + StatCollector.translateToLocal("None"));
-                tooltip.add("\u00a7c" + StatCollector.translateToLocal("No suitable energy connections."));
+                tooltip.add("\u00a7a" + StatCollector.translateToLocal(Strings.ENERGY_TYPE) + "\u00a7f " + StatCollector.translateToLocal(Strings.NONE));
+                tooltip.add("\u00a7c" + StatCollector.translateToLocal(Strings.NO_SUITABLE_ENERGY_CONNECTION));
             } else {
-                tooltip.add("\u00a7a" + StatCollector.translateToLocal("Energy Type:") + "\u00a7f " + currentEnergyType.name());
+                tooltip.add("\u00a7a" + StatCollector.translateToLocal(Strings.ENERGY_TYPE) + "\u00a7f " + currentEnergyType.name());
                 boolean foundOne = false;
                 for(int i = 0; i < container.getEnergyTypes().length; i++) {
                     if(container.getEnergyTypes()[i])
