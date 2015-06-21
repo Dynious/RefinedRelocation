@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 
 public class GuiCheckboxFilter extends GuiCheckbox
 {
-
     protected IChecklistFilter filter;
     protected int index;
 

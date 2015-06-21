@@ -7,14 +7,14 @@ import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
-public class GuiButtonCheckMetadata extends GuiButtonToggle
+public class GuiButtonCheckNBTData extends GuiButtonToggle
 {
     private final int boundMessageId;
     protected SameItemFilter filter;
 
-    public GuiButtonCheckMetadata(IGuiParent parent, int x, int y, SameItemFilter filter, int boundMessageId)
+    public GuiButtonCheckNBTData(IGuiParent parent, int x, int y, SameItemFilter filter, int boundMessageId)
     {
-        super(parent, x, y, 24, 20, 226, 0, null, null);
+        super(parent, x, y, 24, 20, 226, 80, null, null);
         this.boundMessageId = boundMessageId;
         this.filter = filter;
         update();
@@ -23,7 +23,7 @@ public class GuiButtonCheckMetadata extends GuiButtonToggle
     @Override
     protected void onStateChangedByUser(boolean newState)
     {
-        filter.checkMetadata = newState;
+        filter.checkNBTData = newState;
         filter.getParentFilter().sendBooleanToServer(filter, boundMessageId, newState);
     }
 
@@ -33,7 +33,7 @@ public class GuiButtonCheckMetadata extends GuiButtonToggle
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
         if (isInsideBounds(mouseX, mouseY))
         {
-            tooltip.add(StatCollector.translateToLocal(getState() ? Strings.CHECK_META : Strings.DONT_CHECK_META));
+            tooltip.add(StatCollector.translateToLocal(getState() ? Strings.CHECK_NBT : Strings.DONT_CHECK_NBT));
             tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
         }
         return tooltip;
@@ -44,7 +44,7 @@ public class GuiButtonCheckMetadata extends GuiButtonToggle
     {
         if (filter != null)
         {
-            setState(filter.checkMetadata);
+            setState(filter.checkNBTData);
         }
         super.update();
     }

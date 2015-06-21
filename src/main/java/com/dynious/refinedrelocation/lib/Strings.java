@@ -108,6 +108,10 @@ public class Strings
     public static final String ENERGY_TYPE = GUI_PREFIX + "energyType";
     public static final String NONE = GUI_PREFIX + "none";
     public static final String MAX_ENERGY = GUI_PREFIX + "maxEnergy";
+    public static final String CHECK_META = GUI_PREFIX + "checkMeta";
+    public static final String DONT_CHECK_META = GUI_PREFIX + "dontCheckMeta";
+    public static final String CHECK_NBT = GUI_PREFIX + "checkNBT";
+    public static final String DONT_CHECK_NBT = GUI_PREFIX + "dontCheckNBT";
 
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";
