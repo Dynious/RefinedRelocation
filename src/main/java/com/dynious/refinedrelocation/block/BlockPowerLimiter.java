@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.block;
 
 import cofh.api.block.IDismantleable;
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.client.renderer.DirectionalRenderer;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Mods;
@@ -28,7 +29,8 @@ import java.util.ArrayList;
 @Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = Mods.COFH_BLOCK_API_ID)
 public class BlockPowerLimiter extends BlockContainer implements IDismantleable
 {
-    private IIcon[] icons = new IIcon[3];
+    private final IIcon[] icons = new IIcon[3];
+    private final IIcon[] iconsDisabled = new IIcon[3];
 
     public BlockPowerLimiter()
     {
@@ -81,16 +83,19 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        for (int i = 0; i < icons.length; i++)
-        {
-            icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + i);
-        }
+        icons[0] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + "Front");
+        icons[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + "Back");
+        icons[2] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + "Side");
+
+        iconsDisabled[0] = icons[0];
+        iconsDisabled[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + "BackDisabled");
+        iconsDisabled[2] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.powerLimiter + "SideDisabled");
     }
 
     @Override
     public IIcon getIcon(int par1, int par2)
     {
-        return icons[0];
+        return icons[1];
     }
 
 
@@ -98,18 +103,27 @@ public class BlockPowerLimiter extends BlockContainer implements IDismantleable
     public IIcon getIcon(IBlockAccess worldObj, int x, int y, int z, int side)
     {
         TilePowerLimiter tile = (TilePowerLimiter) worldObj.getTileEntity(x, y, z);
+        IIcon[] icons = this.icons;
+        if(tile.getDisablePower()) {
+            icons = iconsDisabled;
+        }
+        int sideIdx;
         if (tile.getConnectedDirection().ordinal() == side)
         {
-            return icons[2];
+            sideIdx = 0;
+        } else if(tile.getConnectedDirection().getOpposite().ordinal() == side) {
+            sideIdx = 1;
         }
-        else if (tile.getDisablePower())
-        {
-            return icons[1];
+        else  {
+            sideIdx = 2;
         }
-        else
-        {
-            return icons[0];
-        }
+        return icons[sideIdx];
+    }
+
+    @Override
+    public int getRenderType()
+    {
+        return DirectionalRenderer.renderId;
     }
 
     @Optional.Method(modid = Mods.COFH_BLOCK_API_ID)

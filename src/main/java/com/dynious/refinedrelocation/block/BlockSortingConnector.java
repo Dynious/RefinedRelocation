@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.block;
 
 import com.dynious.refinedrelocation.RefinedRelocation;
+import com.dynious.refinedrelocation.client.renderer.DirectionalRenderer;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
@@ -31,9 +32,12 @@ import java.util.List;
 
 public class BlockSortingConnector extends BlockContainer
 {
-    private final IIcon[] icons = new IIcon[4];
-    private final IIcon[] interfaceTextures = new IIcon[2];
-    private IIcon importerStuffedTexture;
+    private final IIcon[] interfaceTextures = new IIcon[3];
+    private final IIcon[] interfaceTexturesStuffed = new IIcon[3];
+    private IIcon importerTexture;
+    private IIcon importerTextureStuffed;
+    private IIcon connectorTexture;
+    private IIcon meInterfaceTexture;
 
     public BlockSortingConnector()
     {
@@ -115,6 +119,12 @@ public class BlockSortingConnector extends BlockContainer
     }
 
     @Override
+    public int getRenderType()
+    {
+        return DirectionalRenderer.renderId;
+    }
+
+    @Override
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
@@ -129,17 +139,32 @@ public class BlockSortingConnector extends BlockContainer
             } else if (tile instanceof TileSortingInterface)
             {
                 TileSortingInterface sortingInterface = (TileSortingInterface) tile;
+                IIcon[] icons = interfaceTextures;
+                if (sortingInterface.isStuffed())
+                {
+                    icons = interfaceTexturesStuffed;
+                }
+                int sideIdx;
                 if (sortingInterface.getConnectedSide().ordinal() == side)
                 {
-                    return interfaceTextures[0];
-                } else if (sortingInterface.isStuffed())
+                    sideIdx = 0;
+                } else if (sortingInterface.getConnectedSide().getOpposite().ordinal() == side)
                 {
-                    return interfaceTextures[1];
+                    sideIdx = 1;
+                } else
+                {
+                    sideIdx = 2;
                 }
-            } else if(tile instanceof TileSortingImporter) {
+                return icons[sideIdx];
+            } else if (tile instanceof TileSortingImporter)
+            {
                 TileSortingImporter sortingImporter = (TileSortingImporter) tile;
-                if(sortingImporter.isStuffed()) {
-                    return importerStuffedTexture;
+                if (sortingImporter.isStuffed())
+                {
+                    return importerTextureStuffed;
+                } else
+                {
+                    return importerTexture;
                 }
             }
         }
@@ -164,21 +189,34 @@ public class BlockSortingConnector extends BlockContainer
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        for (int i = 0; i < icons.length; i++)
-        {
-            icons[i] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + i);
-        }
-        interfaceTextures[0] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 1 + "ConSide");
-        interfaceTextures[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 1 + "Stuffed");
-        importerStuffedTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector + 2 + "Stuffed");
+        connectorTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingConnector);
+        interfaceTextures[0] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInterface + "Front");
+        interfaceTextures[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInterface + "Back");
+        interfaceTextures[2] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInterface + "Side");
+        interfaceTexturesStuffed[0] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInterface + "FrontStuffed");
+        interfaceTexturesStuffed[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInterface + "BackStuffed");
+        interfaceTexturesStuffed[2] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInterface + "SideStuffed");
+
+        importerTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingImporter);
+        importerTextureStuffed = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingImporter + "Stuffed");
+        meInterfaceTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.MESortingInterface);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metaData)
+    public IIcon getIcon(int side, int metadata)
     {
-        if (metaData >= 0 && metaData < icons.length)
-            return icons[metaData];
+        switch (metadata)
+        {
+            case 0:
+                return connectorTexture;
+            case 1:
+                return interfaceTextures[1];
+            case 2:
+                return importerTexture;
+            case 3:
+                return meInterfaceTexture;
+        }
         return null;
     }
 

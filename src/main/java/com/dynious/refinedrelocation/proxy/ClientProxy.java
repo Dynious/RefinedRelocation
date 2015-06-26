@@ -10,6 +10,7 @@ import com.dynious.refinedrelocation.mods.IronChestHelper;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -21,6 +22,10 @@ public class ClientProxy extends CommonProxy
     public void initTileEntities()
     {
         super.initTileEntities();
+
+        DirectionalRenderer.renderId = RenderingRegistry.getNextAvailableRenderId();
+        RenderingRegistry.registerBlockHandler(DirectionalRenderer.renderId, new DirectionalRenderer());
+
         ClientRegistry.bindTileEntitySpecialRenderer(TileBlockExtender.class, new RendererBlockExtender());
         ClientRegistry.bindTileEntitySpecialRenderer(TileWirelessBlockExtender.class, new RendererWirelessBlockExtender());
         ClientRegistry.bindTileEntitySpecialRenderer(TileBuffer.class, new RendererBuffer());
