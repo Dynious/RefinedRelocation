@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 
 public interface IMultiFilterChild
 {
-
 	String getTypeName();
 	void setParentFilter(IMultiFilter parentFilter, int filterIndex);
 	IMultiFilter getParentFilter();
