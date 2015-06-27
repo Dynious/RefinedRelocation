@@ -24,28 +24,15 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
 {
     public static final String TYPE_NAME = "mod";
 
-    public static class ServerSideMod
-    {
-        public final int modIndex;
-        public final String modId;
-
-        public ServerSideMod(int modIndex, String modId)
-        {
-            this.modIndex = modIndex;
-            this.modId = modId;
-        }
-    }
-
-    public static ServerSideMod[] serverSideMods;
-    public static String[] modNames;
+    private static String[] serverSideModIDs;
+    private static String[] modNames;
 
     public static void syncMods(String[] modIDs)
     {
-        serverSideMods = new ServerSideMod[modIDs.length];
+        serverSideModIDs = modIDs;
         modNames = new String[modIDs.length];
         for (int i = 0; i < modIDs.length; i++)
         {
-            serverSideMods[i] = new ServerSideMod(i, modIDs[i]);
             modNames[i] = Loader.instance().getIndexedModList().get(modIDs[i]).getName();
         }
     }
@@ -54,16 +41,11 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
 
     public ModFilter()
     {
-        if (serverSideMods == null)
+        if (serverSideModIDs == null)
         {
-            String[] modIDs = InitialSyncHandler.getModIDs();
-            serverSideMods = new ServerSideMod[modIDs.length];
-            for (int i = 0; i < serverSideMods.length; i++)
-            {
-                serverSideMods[i] = new ServerSideMod(i, modIDs[i]);
-            }
+            serverSideModIDs = InitialSyncHandler.getModIDs();
         }
-        modStates = new boolean[serverSideMods.length];
+        modStates = new boolean[serverSideModIDs.length];
     }
 
     @Override
@@ -74,7 +56,7 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
         {
             for (int i = 0; i < modStates.length; i++)
             {
-                if (modStates[i] && serverSideMods[i].modId.equals(identifier.modId))
+                if (modStates[i] && serverSideModIDs[i].equals(identifier.modId))
                 {
                     return true;
                 }
@@ -91,7 +73,7 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
         {
             if (modStates[i])
             {
-                tagList.appendTag(new NBTTagString(serverSideMods[i].modId));
+                tagList.appendTag(new NBTTagString(serverSideModIDs[i]));
             }
         }
         compound.setTag("modStates", tagList);
@@ -104,9 +86,9 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
         for (int i = 0; i < tagList.tagCount(); i++)
         {
             String tabLabel = tagList.getStringTagAt(i);
-            for (int j = 0; j < serverSideMods.length; j++)
+            for (int j = 0; j < serverSideModIDs.length; j++)
             {
-                if (serverSideMods[j].modId.equals(tabLabel))
+                if (serverSideModIDs[j].equals(tabLabel))
                 {
                     modStates[j] = true;
                     break;

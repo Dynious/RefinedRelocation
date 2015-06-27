@@ -19,15 +19,18 @@ import java.util.List;
 
 public class InitialSyncHandler
 {
-    private static String[] getCreativeTabLabels()
+    public static String[] getCreativeTabLabels()
     {
-        String[] labels = new String[CreativeTabs.creativeTabArray.length];
+        List<String> labels = new ArrayList<String>();
         CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
-        for (int i = 0; i < labels.length; i++)
+        for (int i = 0; i < creativeTabArray.length; i++)
         {
-            labels[i] = creativeTabArray[i].tabLabel;
+            if(creativeTabArray[i].tabLabel.equals("search") || creativeTabArray[i].tabLabel.equals("inventory")) {
+                continue;
+            }
+            labels.add(creativeTabArray[i].tabLabel);
         }
-        return labels;
+        return labels.toArray(new String[labels.size()]);
     }
 
     public static String[] getModIDs()

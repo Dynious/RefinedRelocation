@@ -43,7 +43,7 @@ public class MessageTabSync implements IMessage, IMessageHandler<MessageTabSync,
     @Override
     public IMessage onMessage(MessageTabSync message, MessageContext ctx)
     {
-        CreativeTabFilter.syncTabs(message.labels);
+        CreativeTabFilter.syncTabLabels(message.labels);
         return null;
     }
 }

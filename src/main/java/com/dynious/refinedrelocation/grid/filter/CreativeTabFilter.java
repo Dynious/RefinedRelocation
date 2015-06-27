@@ -3,8 +3,10 @@ package com.dynious.refinedrelocation.grid.filter;
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
+import com.dynious.refinedrelocation.event.InitialSyncHandler;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -22,54 +24,22 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
 {
     public static final String TYPE_NAME = "creative";
 
-    public static class ServerSideCreativeTab
-    {
-        public final int tabIndex;
-        public final String tabLabel;
+    public static String[] serverSideTabLabels;
 
-        public ServerSideCreativeTab(int tabIndex, String tabLabel)
-        {
-            this.tabIndex = tabIndex;
-            this.tabLabel = tabLabel;
-        }
+    public static void syncTabLabels(String[] tabLabels)
+    {
+        serverSideTabLabels = tabLabels;
     }
 
-    public static ServerSideCreativeTab[] serverSideTabs;
-
-    public static void syncTabs(String[] tabLabels)
-    {
-        serverSideTabs = new ServerSideCreativeTab[tabLabels.length];
-        for (int i = 0; i < tabLabels.length; i++)
-        {
-            serverSideTabs[i] = new ServerSideCreativeTab(i, tabLabels[i]);
-        }
-    }
-
-    public static int getFixedTabIndex(int tabIndex)
-    {
-        if (tabIndex >= 5)
-        {
-            tabIndex++;
-        }
-        if (tabIndex >= 11)
-        {
-            tabIndex++;
-        }
-        return tabIndex;
-    }
     private boolean[] tabStates;
 
     public CreativeTabFilter()
     {
-        if (serverSideTabs == null)
+        if (serverSideTabLabels == null)
         {
-            serverSideTabs = new ServerSideCreativeTab[CreativeTabs.creativeTabArray.length];
-            for (int i = 0; i < serverSideTabs.length; i++)
-            {
-                serverSideTabs[i] = new ServerSideCreativeTab(i, CreativeTabs.creativeTabArray[i].tabLabel);
-            }
+            serverSideTabLabels = InitialSyncHandler.getCreativeTabLabels();
         }
-        tabStates = new boolean[serverSideTabs.length];
+        tabStates = new boolean[serverSideTabLabels.length];
     }
 
     @Override
@@ -98,7 +68,7 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
         {
             if (tabStates[i])
             {
-                tagList.appendTag(new NBTTagString(serverSideTabs[i].tabLabel));
+                tagList.appendTag(new NBTTagString(serverSideTabLabels[i]));
             }
         }
         compound.setTag("tabStates", tagList);
@@ -111,9 +81,9 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
         for (int i = 0; i < tagList.tagCount(); i++)
         {
             String tabLabel = tagList.getStringTagAt(i);
-            for (int j = 0; j < serverSideTabs.length; j++)
+            for (int j = 0; j < serverSideTabLabels.length; j++)
             {
-                if (serverSideTabs[j].tabLabel.equals(tabLabel))
+                if (serverSideTabLabels[j].equals(tabLabel))
                 {
                     tabStates[j] = true;
                     break;
@@ -165,7 +135,7 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
     @Override
     public void setFilterBoolean(int optionId, boolean value)
     {
-        tabStates[getFixedTabIndex(optionId)] = value;
+        tabStates[optionId] = value;
     }
 
     @Override
@@ -176,26 +146,26 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
     @Override
     public String getName(int index)
     {
-        return I18n.format("itemGroup." + serverSideTabs[getFixedTabIndex(index)].tabLabel).replace("itemGroup.", "");
+        return I18n.format("itemGroup." + serverSideTabLabels[index]).replace("itemGroup.", "");
     }
 
     @Override
     public void setValue(int optionIndex, boolean value)
     {
-        tabStates[getFixedTabIndex(optionIndex)] = value;
+        tabStates[optionIndex] = value;
         markDirty(true);
     }
 
     @Override
     public boolean getValue(int optionIndex)
     {
-        return tabStates[getFixedTabIndex(optionIndex)];
+        return tabStates[optionIndex];
     }
 
     @Override
     public int getOptionCount()
     {
-        return tabStates.length - 2;
+        return tabStates.length;
     }
 
     @Override

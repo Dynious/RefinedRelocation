@@ -169,9 +169,9 @@ public class MultiFilter implements IMultiFilter
             foundActive = false;
             for (String string : creativeTabFilters.split("\\^\\$"))
             {
-                for (int i = 0; i < CreativeTabFilter.serverSideTabs.length; i++)
+                for (int i = 0; i < CreativeTabFilter.serverSideTabLabels.length; i++)
                 {
-                    if (string.equals(CreativeTabFilter.serverSideTabs[i].tabLabel))
+                    if (string.equals(CreativeTabFilter.serverSideTabLabels[i]))
                     {
                         creativeTabFilter.setValue(i, true);
                         foundActive = true;
