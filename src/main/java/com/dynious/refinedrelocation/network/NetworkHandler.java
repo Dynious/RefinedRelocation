@@ -49,5 +49,6 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageGUIBooleanArray.class, MessageGUIBooleanArray.class, 27, Side.CLIENT);
 
         INSTANCE.registerMessage(MessageOpenFilterGUI.class, MessageOpenFilterGUI.class, 28, Side.SERVER);
+        INSTANCE.registerMessage(MessageModSync.class, MessageModSync.class, 29, Side.CLIENT);
     }
 }

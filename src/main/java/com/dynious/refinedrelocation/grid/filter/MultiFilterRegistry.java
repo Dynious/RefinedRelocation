@@ -67,6 +67,7 @@ public class MultiFilterRegistry
         APIUtils.registerMultiFilterChild(PresetFilter.TYPE_NAME, PresetFilter.class);
         APIUtils.registerMultiFilterChild(CustomUserFilter.TYPE_NAME, CustomUserFilter.class);
         APIUtils.registerMultiFilterChild(SameItemFilter.TYPE_NAME, SameItemFilter.class);
+        APIUtils.registerMultiFilterChild(ModFilter.TYPE_NAME, ModFilter.class);
     }
 
     public static Collection<Class<? extends IMultiFilterChild>> getFilters()

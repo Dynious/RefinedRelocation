@@ -96,6 +96,8 @@ public class Strings
     public static final String CREATIVE_FILTER_DESCRIPTION = GUI_PREFIX + "creativeFilterDesc";
     public static final String SAME_ITEM_FILTER = GUI_PREFIX + "sameItemFilter";
     public static final String SAME_ITEM_FILTER_DESCRIPTION = GUI_PREFIX + "sameItemFilterDesc";
+    public static final String MOD_FILTER = GUI_PREFIX + "modFilter";
+    public static final String MOD_FILTER_DESCRIPTION = GUI_PREFIX + "modFilterDesc";
     public static final String MULTIFILTER_HELP = GUI_PREFIX + "multiFilterHelp";
     public static final String FILTER_SETTINGS = GUI_PREFIX + "filterSettings";
     public static final String DELETE_FILTER = GUI_PREFIX + "deleteFilter";
@@ -165,4 +167,5 @@ public class Strings
     public static final String COMMAND_HELP_CHANGELOG = COMMAND_PREFIX + "helpChangelog";
     public static final String COMMAND_CORRUPT_URL = COMMAND_PREFIX + "versionURLCorrupt";
     public static final String COMMAND_VERSION_UNINTIALIZED = COMMAND_PREFIX + "notIntialized";
+
 }

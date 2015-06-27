@@ -45,17 +45,6 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
         }
     }
 
-    public static String[] getCreativeTabLabels()
-    {
-        String[] labels = new String[CreativeTabs.creativeTabArray.length];
-        CreativeTabs[] creativeTabArray = CreativeTabs.creativeTabArray;
-        for (int i = 0; i < labels.length; i++)
-        {
-            labels[i] = creativeTabArray[i].tabLabel;
-        }
-        return labels;
-    }
-
     public static int getFixedTabIndex(int tabIndex)
     {
         if (tabIndex >= 5)
@@ -96,15 +85,7 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
         }
         if (tab != null)
         {
-            int index = tab.tabIndex;
-
-            for (int i = 0; i < tabStates.length; i++)
-            {
-                if (tabStates[i] && index == i)
-                {
-                    return true;
-                }
-            }
+            return tabStates[tab.tabIndex];
         }
         return false;
     }

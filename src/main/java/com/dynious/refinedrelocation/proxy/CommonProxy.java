@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.proxy;
 
-import com.dynious.refinedrelocation.event.EventHandler;
+import com.dynious.refinedrelocation.event.InitialSyncHandler;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.network.GuiHandler;
@@ -60,7 +60,7 @@ public class CommonProxy
 
     public void registerEventHandlers()
     {
-        EventHandler ev = new EventHandler();
+        InitialSyncHandler ev = new InitialSyncHandler();
         FMLCommonHandler.instance().bus().register(ev);
         MinecraftForge.EVENT_BUS.register(ev);
     }
