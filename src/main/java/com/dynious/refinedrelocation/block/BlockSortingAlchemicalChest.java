@@ -12,26 +12,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+@Deprecated
 public class BlockSortingAlchemicalChest extends BlockAlchemicalChest
 {
     public BlockSortingAlchemicalChest()
     {
         super();
         this.setBlockName(Names.sortingAlchemicalChest);
-        this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
-    }
-
-    @Override
-    public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int i1, float f1, float f2, float f3)
-    {
-        if (world.isRemote) return true;
-
-        if (player.isSneaking())
-        {
-            APIUtils.openFilteringGUI(player, world, i, j, k);
-            return true;
-        }
-        return super.onBlockActivated(world, i, j, k, player, i1, f1, f2, f3);
     }
 
     @Override

@@ -182,13 +182,6 @@ public class BlockSortingChest extends BlockContainer
                 return true;
             }
         }
-        if (Mods.IS_EE3_LOADED)
-        {
-            if (EE3Helper.upgradeToAlchemicalChest(world, player, x, y, z))
-            {
-                return true;
-            }
-        }
 
         if (!world.isRemote)
         {

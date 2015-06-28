@@ -111,14 +111,6 @@ public class ItemSortingUpgrade extends Item
                     if (!IronChestHelper.upgradeIronToFilteringChest(te))
                         return false;
                 }
-                else if (Mods.IS_EE3_LOADED && EE3Helper.isAlchemicalChest(te))
-                {
-                    neededMaterial = EE3Helper.getUpgradeItemStack(te);
-                    if (!hasNeededItem(player, neededMaterial))
-                        return true;
-                    if (!EE3Helper.upgradeAlchemicalToSortingChest(te))
-                        return false;
-                }
                 else
                 {
                     return false;
