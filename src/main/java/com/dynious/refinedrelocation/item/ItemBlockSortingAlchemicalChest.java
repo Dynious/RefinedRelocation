@@ -11,14 +11,17 @@ import java.util.List;
 
 public class ItemBlockSortingAlchemicalChest extends ItemBlockAlchemicalChest
 {
-    public ItemBlockSortingAlchemicalChest(Block block) {
+    public ItemBlockSortingAlchemicalChest(Block block)
+    {
         super(block);
     }
 
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean flag) {
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean flag)
+    {
         super.addInformation(itemStack, entityPlayer, list, flag);
         list.add("\u00a7cAlchemical Sorting Chests have been removed from Refined Relocation.");
         list.add("\u00a7cPut this chest in your crafting table to get a normal Alchemical Chest back.");
     }
+
 }

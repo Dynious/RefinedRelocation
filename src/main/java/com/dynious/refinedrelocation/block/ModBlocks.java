@@ -58,9 +58,9 @@ public class ModBlocks
         ModObjects.powerLimiter = new ItemStack(powerLimiter);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
-        GameRegistry.registerBlock(buffer, ItemBuffer.class, Names.buffer);
+        GameRegistry.registerBlock(buffer, ItemBlockBuffer.class, Names.buffer);
         GameRegistry.registerBlock(sortingChest, Names.sortingChest);
-        GameRegistry.registerBlock(sortingConnector, ItemSortingConnector.class, Names.sortingConnector);
+        GameRegistry.registerBlock(sortingConnector, ItemBlockSortingConnector.class, Names.sortingConnector);
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
         GameRegistry.registerBlock(relocationController, ItemRelocationController.class, Names.relocationController);

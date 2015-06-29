@@ -1,17 +1,22 @@
 package com.dynious.refinedrelocation.item;
 
 import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class ItemSortingConnector extends ItemBlock
+import java.util.List;
+
+public class ItemBlockSortingConnector extends ItemBlock
 {
-    public ItemSortingConnector(Block block)
+    public ItemBlockSortingConnector(Block block)
     {
         super(block);
         this.setHasSubtypes(true);
@@ -42,5 +47,15 @@ public class ItemSortingConnector extends ItemBlock
             ((TileSortingInterface) tile).setConnectedSide(ForgeDirection.getOrientation(side).getOpposite());
         }
         return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean flag)
+    {
+        String[] tooltipLines = StatCollector.translateToLocal("tile." + getUnlocalizedName(itemStack) + ".tooltip").split("\\\\n");
+        for (String s : tooltipLines)
+        {
+            list.add("\u00a77" + s);
+        }
     }
 }
