@@ -48,6 +48,7 @@ public class SameItemFilter extends MultiFilterChildBase
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height)
     {
         return new GuiSameItemFilter(this, x, y, width, height);
