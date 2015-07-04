@@ -1,13 +1,18 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.lib.GuiNetworkIds;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ICrafting;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 
 public class ContainerAdvanced extends ContainerHierarchical implements IContainerAdvanced
 {
@@ -105,6 +110,9 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
+        if(!checkPermission(player)) {
+            return;
+        }
         switch(messageId) {
             case MessageGUI.SPREAD_ITEMS: setSpreadItems(value); break;
             case MessageGUI.REDSTONE_ENABLED:
@@ -118,6 +126,9 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
     @Override
     public void onMessageByte(int messageId, byte value, EntityPlayer player)
     {
+        if(!checkPermission(player)) {
+            return;
+        }
         switch(messageId) {
             case MessageGUI.MAX_STACK_SIZE:
                 setMaxStackSize(value);

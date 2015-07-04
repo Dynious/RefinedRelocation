@@ -34,6 +34,9 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
         super.onMessageInteger(messageId, value, player);
+        if(!checkPermission(player)) {
+            return;
+        }
         switch(messageId) {
             case 3: setExtractionSide(value); break;
         }

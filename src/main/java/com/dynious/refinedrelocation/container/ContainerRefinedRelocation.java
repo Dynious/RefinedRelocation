@@ -1,10 +1,14 @@
 package com.dynious.refinedrelocation.container;
 
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 
 public abstract class ContainerRefinedRelocation extends Container implements IContainerNetworked {
 
@@ -33,6 +37,16 @@ public abstract class ContainerRefinedRelocation extends Container implements IC
         for(Object crafter : crafters) {
             NetworkHandler.INSTANCE.sendTo(message, (EntityPlayerMP) crafter);
         }
+    }
+
+    public boolean checkPermission(EntityPlayer player) {
+        if(player instanceof EntityPlayerMP && ((EntityPlayerMP) player).theItemInWorldManager.getGameType().isAdventure()) {
+            ChatComponentText chatComponent = new ChatComponentText(StatCollector.translateToLocal(Strings.ADVENTURE_MODE));
+            chatComponent.getChatStyle().setColor(EnumChatFormatting.DARK_RED);
+            player.addChatMessage(chatComponent);
+            return false;
+        }
+        return true;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.dynious.refinedrelocation.network.packet.gui;
 
 import com.dynious.refinedrelocation.container.IContainerNetworked;
-import cpw.mods.fml.client.FMLClientHandler;
+import com.dynious.refinedrelocation.network.NetworkHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -42,7 +42,7 @@ public class MessageGUIByte extends MessageGUI implements IMessageHandler<Messag
     @Override
     public IMessage onMessage(MessageGUIByte message, MessageContext ctx)
     {
-        EntityPlayer entityPlayer = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity : FMLClientHandler.instance().getClientPlayerEntity();
+        EntityPlayer entityPlayer = ctx.side == Side.SERVER ? ctx.getServerHandler().playerEntity : NetworkHandler.getClientPlayerEntity();
         Container container = entityPlayer.openContainer;
         if (container == null || !(container instanceof IContainerNetworked))
         {

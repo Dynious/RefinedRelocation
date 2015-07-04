@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.container.slot.SlotHopper;
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
@@ -13,6 +14,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 
 public class ContainerFilteringHopper extends ContainerHopper implements IContainerFiltered, IContainerNetworked
 {
@@ -125,6 +129,12 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
+        if(player instanceof EntityPlayerMP && ((EntityPlayerMP) player).theItemInWorldManager.getGameType().isAdventure()) {
+            ChatComponentText chatComponent = new ChatComponentText(StatCollector.translateToLocal(Strings.ADVENTURE_MODE));
+            chatComponent.getChatStyle().setColor(EnumChatFormatting.DARK_RED);
+            player.addChatMessage(chatComponent);
+            return;
+        }
         if(messageId == MessageGUI.BLACKLIST) {
             setBlackList(value);
         }

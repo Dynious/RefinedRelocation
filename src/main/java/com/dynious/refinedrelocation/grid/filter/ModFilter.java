@@ -33,7 +33,13 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
         modNames = new String[modIDs.length];
         for (int i = 0; i < modIDs.length; i++)
         {
-            modNames[i] = Loader.instance().getIndexedModList().get(modIDs[i]).getName();
+            ModContainer modContainer = Loader.instance().getIndexedModList().get(modIDs[i]);
+            if(modContainer != null)
+            {
+                modNames[i] = modContainer.getName();
+            } else {
+                modNames[i] = modIDs[i];
+            }
         }
     }
 

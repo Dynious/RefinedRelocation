@@ -48,7 +48,9 @@ public class GuiFilterTypeList extends GuiWidgetBase implements IGuiWidgetWrappe
             {
                 IMultiFilterChild filterChild = entry.newInstance();
                 if (filterChild.canFilterBeUsedOnTile(parent.getFilter().getFilterTile().getTileEntity()))
+                {
                     availableFilters.add(filterChild);
+                }
             } catch (InstantiationException e)
             {
                 e.printStackTrace();

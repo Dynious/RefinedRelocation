@@ -256,3 +256,5 @@ command.refinedrelocation.helpLatest=- %s : Download latest version
 command.refinedrelocation.helpChangelog=- %s : Show latest changelog
 command.refinedrelocation.versionURLCorrupt=ERROR: Version URL was corrupt.
 command.refinedrelocation.notIntialized=ERROR: Version Checker has not initialized.
+
+misc.refinedrelocation.adventureMode=You can't change these settings because you're in adventure mode!

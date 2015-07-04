@@ -114,6 +114,9 @@ public class ContainerModuleCrafting extends ContainerPhantom
     @Override
     public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
+        if(!checkPermission(player)) {
+            return;
+        }
         switch(messageId)
         {
             case 0: setMaxCraftStack(value); break;

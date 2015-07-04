@@ -112,6 +112,9 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     @Override
     public void onMessageByte(int messageId, byte value, EntityPlayer player)
     {
+        if(!checkPermission(player)) {
+            return;
+        }
         if(messageId == MessageGUI.PRIORITY) {
             setPriority(value);
         }
@@ -120,6 +123,9 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
+        if(!checkPermission(player)) {
+            return;
+        }
         if(messageId == MessageGUI.BLACKLIST) {
             setBlackList(value);
         }

@@ -110,6 +110,9 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     @Override
     public void onMessageByte(int messageId, byte value, EntityPlayer player)
     {
+        if(!checkPermission(player)) {
+            return;
+        }
         if(messageId == MessageGUI.MAX_STACK_SIZE) {
             setMaxStackSize(value);
         }
@@ -118,6 +121,9 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
+        if(!checkPermission(player)) {
+            return;
+        }
         switch (messageId)
         {
             case MessageGUI.BLACKLIST:

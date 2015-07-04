@@ -2,7 +2,7 @@ package com.dynious.refinedrelocation.network.packet.filter;
 
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.container.IContainerFiltered;
-import cpw.mods.fml.client.FMLClientHandler;
+import com.dynious.refinedrelocation.network.NetworkHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -51,7 +51,7 @@ public class MessageSetFilterString implements IMessage, IMessageHandler<Message
         Container container = null;
         if (ctx.side == Side.CLIENT)
         {
-            container = FMLClientHandler.instance().getClientPlayerEntity().openContainer;
+            container = NetworkHandler.getClientPlayerEntity().openContainer;
         } else if (ctx.side == Side.SERVER)
         {
             container = ctx.getServerHandler().playerEntity.openContainer;

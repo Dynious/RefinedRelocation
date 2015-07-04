@@ -7,9 +7,12 @@ import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBoolean;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
 import com.dynious.refinedrelocation.network.packet.gui.*;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class NetworkHandler
 {
@@ -50,5 +53,10 @@ public class NetworkHandler
 
         INSTANCE.registerMessage(MessageOpenFilterGUI.class, MessageOpenFilterGUI.class, 28, Side.SERVER);
         INSTANCE.registerMessage(MessageModSync.class, MessageModSync.class, 29, Side.CLIENT);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static EntityPlayer getClientPlayerEntity() {
+        return FMLClientHandler.instance().getClientPlayerEntity();
     }
 }
