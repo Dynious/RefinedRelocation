@@ -45,7 +45,7 @@ public class TickEvent
 
                     if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
                     {
-                        ChatComponentText prefixComponent = new ChatComponentText("[RefinedRelocation] ");
+                        ChatComponentText prefixComponent = new ChatComponentText("[Refined Relocation] ");
                         prefixComponent.getChatStyle().setColor(EnumChatFormatting.GOLD);
                         ChatComponentTranslation versionComponent = new ChatComponentTranslation(Strings.NEW_VERSION, VersionChecker.getRemoteVersion().getModVersion());
                         versionComponent.getChatStyle().setColor(EnumChatFormatting.WHITE);

@@ -1,11 +1,16 @@
 # Block localizations
 tile.blockExtender0.name=Block Extender
+tile.blockExtender0.tooltip=Acts as an extension to the connected\ninventory or energy storage.
 tile.blockExtender1.name=Advanced Block Extender
+tile.blockExtender1.tooltip=Allows mapping of block sides\nto the connected inventory.
 tile.blockExtender2.name=Filtered Block Extender
+tile.blockExtender2.tooltip=Has an inbuilt configurable\nfilter.
 tile.blockExtender3.name=Advanced Filtered Block Extender
+tile.blockExtender4.tooltip=Combination of the advanced\nand filtered block extender.
 tile.blockExtender4.name=Wireless Block Extender
+tile.blockExtender4.tooltip=Use a Linker to connect it\nto an inventory or energy storage.
 tile.buffer0.name=Buffer
-tile.buffer0.tooltip=Put it between to pipes from different mods\nto connect them with each other.
+tile.buffer0.tooltip=Put it between two pipes from different mods\nto connect them with each other.
 tile.buffer1.name=Advanced Buffer
 tile.buffer1.tooltip=Allows priority-based routing of items sent through.
 tile.buffer2.name=Filtered Buffer
@@ -180,6 +185,7 @@ gui.refinedrelocation.checkMeta=Check Metadata
 gui.refinedrelocation.dontCheckMeta=Don't check Metadata
 gui.refinedrelocation.checkNBT=Check NBT Data
 gui.refinedrelocation.dontCheckNBT=Don't check NBT Data
+gui.refinedrelocation.tooltipShift=- Shift for more -
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)

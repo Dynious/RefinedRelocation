@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.item;
 
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.input.Keyboard;
 
 import java.util.List;
 
@@ -52,10 +54,15 @@ public class ItemBlockSortingConnector extends ItemBlock
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean flag)
     {
-        String[] tooltipLines = StatCollector.translateToLocal("tile." + getUnlocalizedName(itemStack) + ".tooltip").split("\\\\n");
-        for (String s : tooltipLines)
+        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
         {
-            list.add("\u00a77" + s);
+            String[] tooltipLines = StatCollector.translateToLocal(getUnlocalizedName(itemStack) + ".tooltip").split("\\\\n");
+            for (String s : tooltipLines)
+            {
+                list.add("\u00a73" + s);
+            }
+        } else {
+            list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
         }
     }
 }
