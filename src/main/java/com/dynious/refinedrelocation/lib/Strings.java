@@ -53,9 +53,8 @@ public class Strings
     public static final String RS_ON = GUI_PREFIX + "RSOn";
     public static final String RS_PULSE = GUI_PREFIX + "RSPulse";
     public static final String PRIORITY = GUI_PREFIX + "priority";
-    public static final String OUTDATED = GUI_PREFIX + "outdated";
-    public static final String CHANGE_LOG = GUI_PREFIX + "changeLog";
-    public static final String LATEST = GUI_PREFIX + "latest";
+    public static final String NEW_VERSION = GUI_PREFIX + "newVersion";
+    public static final String NEW_VERSION_CLICK = GUI_PREFIX + "newVersionClick";
     public static final String TAB = GUI_PREFIX + "tab";
     public static final String TICKS_BETWEEN_EXT = GUI_PREFIX + "ticksBetween";
     public static final String SECONDS_BETWEEN_EXT = GUI_PREFIX + "secondsBetween";

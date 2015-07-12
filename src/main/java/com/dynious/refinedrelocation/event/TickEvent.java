@@ -11,7 +11,10 @@ import com.dynious.refinedrelocation.version.VersionChecker;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 public class TickEvent
@@ -42,10 +45,16 @@ public class TickEvent
 
                     if (VersionChecker.getResult() == VersionChecker.CheckState.OUTDATED)
                     {
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.OUTDATED, Reference.VERSION, VersionChecker.getRemoteVersion().getModVersion())));
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.CHANGE_LOG) + ":"));
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(" " + VersionChecker.getRemoteVersion().getChangeLog()));
-                        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.LATEST)));
+                        ChatComponentText prefixComponent = new ChatComponentText("[RefinedRelocation] ");
+                        prefixComponent.getChatStyle().setColor(EnumChatFormatting.GOLD);
+                        ChatComponentTranslation versionComponent = new ChatComponentTranslation(Strings.NEW_VERSION, VersionChecker.getRemoteVersion().getModVersion());
+                        versionComponent.getChatStyle().setColor(EnumChatFormatting.WHITE);
+                        prefixComponent.appendSibling(versionComponent);
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(prefixComponent);
+                        ChatComponentTranslation clickComponent = new ChatComponentTranslation(Strings.NEW_VERSION_CLICK);
+                        clickComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/RefinedRelocation latest"));
+                        clickComponent.getChatStyle().setColor(EnumChatFormatting.YELLOW);
+                        Minecraft.getMinecraft().thePlayer.addChatMessage(clickComponent);
                     }
                 }
             }
