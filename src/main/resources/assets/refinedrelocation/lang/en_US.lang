@@ -96,7 +96,7 @@ gui.refinedrelocation.disguisedInfo=Use an unlinked linker\nto undisguise this b
 gui.refinedrelocation.undisguisedInfo=Use a linker to disguise this block
 gui.refinedrelocation.connected=Connected
 gui.refinedrelocation.notConnected=Not Connected
-gui.refinedrelocation.bufferInsInfo=Output side priorities\nItems that get inserted\ninto the buffer will attempt\nto be outputted to a valid\nside in order of priority\n(lower number = higher priority)
+gui.refinedrelocation.bufferInsInfo=Output Side Priorities\nItems that get inserted\ninto the buffer will attempt\nto be outputted to a valid\nside in order of priority\n(lower number = higher priority)
 gui.refinedrelocation.blockExtenderInsInfo=Insert/extract directions\nItems will get inserted/extracted\ninto the chosen side of the\nconnected inventory whenever they\nare inserted/extracted into the\nrelevant side of this Block Extender
 gui.refinedrelocation.redstoneTrans=Redstone Signal Transmission
 gui.refinedrelocation.redstoneTransOnDesc=Redstone signals will be transmitted\nto the target block
@@ -186,6 +186,7 @@ gui.refinedrelocation.dontCheckMeta=Don't check Metadata
 gui.refinedrelocation.checkNBT=Check NBT Data
 gui.refinedrelocation.dontCheckNBT=Don't check NBT Data
 gui.refinedrelocation.tooltipShift=- Shift for more -
+gui.refinedrelocation.priorityOrder=Priority Order
 
 #Item Description Localizations
 itemDesc.refinedrelocation.linkedPos=Linked position: (%s, %s, %s) (%s)

@@ -46,7 +46,12 @@ public class GuiInsertDirection extends GuiWidgetBase
         if (isInsideBounds(mouseX, mouseY))
         {
             TileEntity tile = (TileEntity) this.tile;
-            tooltip.add("\u00a7a" + StatCollector.translateToLocal(Strings.DIRECTION + side.ordinal()) + ": \u00a7r" + BlockHelper.getBlockDisplayName(tile.getWorldObj(), tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side));
+
+            if (tile instanceof TileAdvancedBuffer)
+            {
+                tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.PRIORITY_ORDER) + ": \u00a7r" + (((TileAdvancedBuffer) tile).getInsertDirection()[side.ordinal()] + 1));
+            }
+            tooltip.add("\u00a7a" + StatCollector.translateToLocal(Strings.DIRECTION + side.ordinal()) + " \u00a7r(" + BlockHelper.getBlockDisplayName(tile.getWorldObj(), tile.xCoord + side.offsetX, tile.yCoord + side.offsetY, tile.zCoord + side.offsetZ, side) + ")");
 
             if (tile instanceof TileBlockExtender)
             {
