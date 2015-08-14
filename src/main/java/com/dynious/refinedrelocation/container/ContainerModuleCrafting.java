@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.container;
 import com.dynious.refinedrelocation.container.slot.SlotGhost;
 import com.dynious.refinedrelocation.container.slot.SlotUntouchable;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
@@ -45,8 +44,6 @@ public class ContainerModuleCrafting extends ContainerPhantom
         {
             this.addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 142));
         }
-
-        this.onCraftMatrixChanged(module.CRAFT_MATRIX);
     }
 
     @Override
