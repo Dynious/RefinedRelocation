@@ -34,6 +34,9 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
     protected boolean firstRun = true;
     protected int bufferedSide = -1;
 
+    //Prevent looping, do not allow outputting while outputting
+    private boolean isOutputting = false;
+
     @Override
     public void updateEntity()
     {
@@ -114,19 +117,22 @@ public class TileBuffer extends TileIndustrialCraft implements ISidedInventory, 
     @Override
     public boolean canInsertItem(int slot, ItemStack itemstack, int side)
     {
-        if (bufferedItemStack != null)
+        if (bufferedItemStack != null || isOutputting)
         {
             return false;
         }
         ItemStack addingItemStack = itemstack.copy();
         for (ForgeDirection outputSide : getOutputSidesForInsertDirection(ForgeDirection.getOrientation(side)))
         {
+            isOutputting = true;
             TileEntity tile = tiles[outputSide.ordinal()];
             if (tile != null && IOHelper.insert(tile, addingItemStack, outputSide.getOpposite(), true) == null)
             {
+                isOutputting = false;
                 return true;
             }
         }
+        isOutputting = false;
         return false;
     }
 
