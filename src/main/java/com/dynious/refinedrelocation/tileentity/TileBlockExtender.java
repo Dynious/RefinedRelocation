@@ -721,7 +721,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
-        if (getEnergyReceiver() != null)
+        if (getEnergyProvider() != null)
         {
             return getEnergyProvider().extractEnergy(getInputSide(forgeDirection), i, b);
         }
