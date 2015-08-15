@@ -689,9 +689,9 @@ public class TileRelocator extends TileEntity implements IRelocator, ISidedInven
             {
                 for (ItemStack stack1 : stuffedItems[side])
                 {
-                    if (stack1.stackSize != 64 && ItemStackHelper.areItemStacksEqual(stack1, stack))
+                    if (stack1.stackSize != stack1.getMaxStackSize() && ItemStackHelper.areItemStacksEqual(stack1, stack))
                     {
-                        int amount = Math.min(stack.stackSize, 64 - stack1.stackSize);
+                        int amount = Math.min(stack.stackSize, stack1.getMaxStackSize() - stack1.stackSize);
                         stack1.stackSize += amount;
                         stack.stackSize -= amount;
                         if (stack.stackSize == 0)

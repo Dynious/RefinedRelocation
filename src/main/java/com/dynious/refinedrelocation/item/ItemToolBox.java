@@ -30,13 +30,12 @@ import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class ItemToolBox extends Item
 {
-    private static final String[] WRENCH_CLASS_NAMES;
     private static final List<Class<?>> WRENCH_CLASSES;
     private static IIcon transparent;
 
     static
     {
-        WRENCH_CLASS_NAMES = new String[]
+        String[] WRENCH_CLASS_NAMES = new String[]
                 {
                         "ic2.core.item.tool.ItemToolWrench",
                         "ic2.core.item.tool.ItemToolMeter",
@@ -372,7 +371,7 @@ public class ItemToolBox extends Item
         else if (pass == 1)
         {
             ItemStack wrench = getCurrentWrench(stack);
-            if (wrench != null)
+            if (wrench != null && wrench.getItem().getIcon(wrench, 0) != null)
             {
                 return wrench.getItem().getIcon(wrench, 0);
             }

@@ -47,6 +47,8 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean isRedstonePowered = false;
     protected boolean isRedstoneEnabled = true;
+    //Prevent looping, do not allow outputting while outputting
+    private boolean isOutputting = false;
 
     public TileBlockExtender()
     {
@@ -484,11 +486,14 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     @Override
     public boolean canInsertItem(int i, ItemStack itemStack, int i2)
     {
-        if (getInventory() != null)
+        if (getInventory() != null || isOutputting)
         {
             if (getInventory() instanceof ISidedInventory)
             {
-                return ((ISidedInventory) getInventory()).canInsertItem(i, itemStack, getInputSide(ForgeDirection.getOrientation(i2)).ordinal());
+                isOutputting = true;
+                boolean success =  ((ISidedInventory) getInventory()).canInsertItem(i, itemStack, getInputSide(ForgeDirection.getOrientation(i2)).ordinal());
+                isOutputting = false;
+                return success;
             }
             return true;
         }
@@ -721,7 +726,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     @Override
     public int extractEnergy(ForgeDirection forgeDirection, int i, boolean b)
     {
-        if (getEnergyReceiver() != null)
+        if (getEnergyProvider() != null)
         {
             return getEnergyProvider().extractEnergy(getInputSide(forgeDirection), i, b);
         }

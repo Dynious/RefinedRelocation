@@ -44,8 +44,6 @@ public class ContainerModuleCrafting extends ContainerPhantom
         {
             this.addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 142));
         }
-
-        this.onCraftMatrixChanged(module.craftMatrix);
     }
 
     @Override
