@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.container;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ICrafting;
 
 public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
 {
@@ -34,7 +33,7 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
         super.onMessageInteger(messageId, value, player);
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         switch(messageId) {

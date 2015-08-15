@@ -69,4 +69,10 @@ public class GuiInsertDirections extends GuiWidgetBase
 
         super.drawBackground(mouseX, mouseY);
     }
+
+    public void setAdventureModeRestriction(boolean enabled) {
+        for(GuiInsertDirection button : insertDirections) {
+            button.setAdventureModeRestriction(enabled);
+        }
+    }
 }

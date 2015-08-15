@@ -15,6 +15,7 @@ public class GuiButton extends GuiWidgetBase
     protected int textureX;
     protected int textureY;
     protected GuiLabel label;
+    private boolean adventureModeRestriction;
 
     public GuiButton(IGuiParent parent, String labelText)
     {
@@ -69,5 +70,13 @@ public class GuiButton extends GuiWidgetBase
         {
             this.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
         }
+    }
+    
+    public final boolean isAdventureModeRestriction() {
+        return adventureModeRestriction;
+    }
+
+    public final void setAdventureModeRestriction(boolean adventureModeRestriction) {
+        this.adventureModeRestriction = adventureModeRestriction;
     }
 }

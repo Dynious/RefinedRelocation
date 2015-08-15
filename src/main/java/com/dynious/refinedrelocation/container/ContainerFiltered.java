@@ -1,17 +1,14 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.api.filter.IMultiFilter;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
-import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
@@ -112,7 +109,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     @Override
     public void onMessageByte(int messageId, byte value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         if(messageId == MessageGUI.PRIORITY) {
@@ -123,7 +120,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         if(messageId == MessageGUI.BLACKLIST) {

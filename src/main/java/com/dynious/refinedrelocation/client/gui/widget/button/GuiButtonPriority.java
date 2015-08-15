@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -19,6 +20,7 @@ public class GuiButtonPriority extends GuiButton
         super(parent, "");
         this.boundMessageId = boundMessageId;
         this.tile = tile;
+        setAdventureModeRestriction(true);
     }
 
     public GuiButtonPriority(IGuiParent parent, int x, int y, int w, int h, ISortingInventory tile, int boundMessageId)
@@ -26,6 +28,7 @@ public class GuiButtonPriority extends GuiButton
         super(parent, x, y, w, h, 0, 0, "");
         this.boundMessageId = boundMessageId;
         this.tile = tile;
+        setAdventureModeRestriction(true);
     }
 
     public void setValue(ISortingInventory.Priority priority)
@@ -74,13 +77,16 @@ public class GuiButtonPriority extends GuiButton
     {
         if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
         {
-            int amount = type == 0 ? -1 : 1;
-            if (tile.getPriority().ordinal() + amount >= 0 && tile.getPriority().ordinal() + amount < ISortingInventory.Priority.values().length)
+            if(!isAdventureModeRestriction() || !GuiRefinedRelocationContainer.isRestrictedAccessWithError())
             {
-                ISortingInventory.Priority newPriority = ISortingInventory.Priority.values()[tile.getPriority().ordinal() + amount];
-                tile.setPriority(newPriority);
-                GuiHelper.sendByteMessage(boundMessageId, (byte) newPriority.ordinal());
-                setValue(newPriority);
+                int amount = type == 0 ? -1 : 1;
+                if (tile.getPriority().ordinal() + amount >= 0 && tile.getPriority().ordinal() + amount < ISortingInventory.Priority.values().length)
+                {
+                    ISortingInventory.Priority newPriority = ISortingInventory.Priority.values()[tile.getPriority().ordinal() + amount];
+                    tile.setPriority(newPriority);
+                    GuiHelper.sendByteMessage(boundMessageId, (byte) newPriority.ordinal());
+                    setValue(newPriority);
+                }
             }
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);

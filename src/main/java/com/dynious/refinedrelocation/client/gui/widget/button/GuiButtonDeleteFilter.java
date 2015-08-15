@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.client.gui.GuiFiltered;
+import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
@@ -16,6 +17,7 @@ public class GuiButtonDeleteFilter extends GuiButton
         super(parent, x, y, 16, 16, 160, 80, "");
         this.parent = parent;
         setTooltipString(StatCollector.translateToLocal(Strings.DELETE_FILTER));
+        setAdventureModeRestriction(true);
     }
 
     @Override
@@ -23,9 +25,12 @@ public class GuiButtonDeleteFilter extends GuiButton
     {
         if (isInsideBounds(mouseX, mouseY))
         {
-            int selectedFilterIndex = parent.getSelectedFilterIndex();
-            NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterType(selectedFilterIndex, ""));
-            parent.getFilter().setFilterType(selectedFilterIndex, "");
+            if(!isAdventureModeRestriction() || !GuiRefinedRelocationContainer.isRestrictedAccessWithError())
+            {
+                int selectedFilterIndex = parent.getSelectedFilterIndex();
+                NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterType(selectedFilterIndex, ""));
+                parent.getFilter().setFilterType(selectedFilterIndex, "");
+            }
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }

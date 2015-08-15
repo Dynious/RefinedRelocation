@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.client.gui.widget.button;
 
+import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Strings;
 import net.minecraft.util.StatCollector;
@@ -67,18 +68,22 @@ public class GuiButtonCounter extends GuiButton
     {
         if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
         {
-            double oldVal = getValue();
-            double curStep = (isShiftKeyDown ? shiftStep : step) * (type == 1 ? -1 : 1);
-            setValue(getValue() + curStep);
-            if (oldVal != getValue())
-                onValueChangedByUser(getValue());
+            if(!isAdventureModeRestriction() || !GuiRefinedRelocationContainer.isRestrictedAccessWithError())
+            {
+                double oldVal = getValue();
+                double curStep = (isShiftKeyDown ? shiftStep : step) * (type == 1 ? -1 : 1);
+                setValue(getValue() + curStep);
+                if (oldVal != getValue())
+                {
+                    onValueChangedByUser(getValue());
+                }
+            }
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }
 
     protected void onValueChangedByUser(double newValue)
     {
-
     }
 
 }

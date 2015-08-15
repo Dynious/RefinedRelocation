@@ -19,6 +19,7 @@ public class GuiButtonExtractionSide extends GuiButton
         super(parent, x, y, 34, 20, 120, 0, ForgeDirection.getOrientation(module.getExtractionSide()).toString());
         this.module = module;
         this.setTooltipString(StatCollector.translateToLocal(Strings.SNEAKY));
+        setAdventureModeRestriction(true);
     }
 
     @Override

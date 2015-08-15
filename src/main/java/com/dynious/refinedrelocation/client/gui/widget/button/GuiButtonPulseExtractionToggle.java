@@ -17,6 +17,7 @@ public class GuiButtonPulseExtractionToggle extends GuiButton
         super(parent, x, y, 24, 20, 96, 0, null);
         this.module = module;
         update();
+        setAdventureModeRestriction(true);
     }
 
     @Override

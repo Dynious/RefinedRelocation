@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
+import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.lib.Resources;
 import net.minecraft.client.gui.Gui;
@@ -15,6 +16,7 @@ public class GuiCheckbox extends GuiWidgetBase
     protected boolean checked = false;
 
     protected GuiLabel label;
+    private boolean adventureModeRestriction;
 
     public GuiCheckbox(IGuiParent parent, int x, int y, int w, int h, String labelText)
     {
@@ -55,14 +57,24 @@ public class GuiCheckbox extends GuiWidgetBase
     {
         if (isInsideBounds(mouseX, mouseY) && type == 0)
         {
-            setChecked(!getChecked());
-            onStateChangedByUser(getChecked());
+            if(!isAdventureModeRestriction() || !GuiRefinedRelocationContainer.isRestrictedAccessWithError())
+            {
+                setChecked(!getChecked());
+                onStateChangedByUser(getChecked());
+            }
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }
 
     protected void onStateChangedByUser(boolean newState)
     {
+    }
 
+    public final boolean isAdventureModeRestriction() {
+        return adventureModeRestriction;
+    }
+
+    public final void setAdventureModeRestriction(boolean adventureModeRestriction) {
+        this.adventureModeRestriction = adventureModeRestriction;
     }
 }

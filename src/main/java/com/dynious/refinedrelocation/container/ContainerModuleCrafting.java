@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.container;
 import com.dynious.refinedrelocation.container.slot.SlotGhost;
 import com.dynious.refinedrelocation.container.slot.SlotUntouchable;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
@@ -23,13 +22,13 @@ public class ContainerModuleCrafting extends ContainerPhantom
         this.module = module;
         allowStackSizes = false;
 
-        this.addSlotToContainer(new SlotUntouchable(module.CRAFT_RESULT, 0, 106, 35));
+        this.addSlotToContainer(new SlotUntouchable(module.craftResult, 0, 106, 35));
 
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 3; x++)
             {
-                this.addSlotToContainer(new SlotGhost(module.CRAFT_MATRIX, y * 3 + x, 12 + x * 18, 17 + y * 18));
+                this.addSlotToContainer(new SlotGhost(module.craftMatrix, y * 3 + x, 12 + x * 18, 17 + y * 18));
             }
         }
 
@@ -46,7 +45,7 @@ public class ContainerModuleCrafting extends ContainerPhantom
             this.addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 142));
         }
 
-        this.onCraftMatrixChanged(module.CRAFT_MATRIX);
+        this.onCraftMatrixChanged(module.craftMatrix);
     }
 
     @Override
@@ -114,7 +113,7 @@ public class ContainerModuleCrafting extends ContainerPhantom
     @Override
     public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         switch(messageId)

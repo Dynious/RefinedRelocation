@@ -17,6 +17,7 @@ public class GuiButtonModuleMaxStackSize extends GuiButtonCounter
         super(parent, x, y, 24, 20, 0, 0, 0, 64, 1, 8);
         this.module = module;
         update();
+        setAdventureModeRestriction(true);
     }
 
     @Override

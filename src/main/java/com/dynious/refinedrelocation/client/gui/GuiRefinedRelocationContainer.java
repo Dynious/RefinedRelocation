@@ -2,9 +2,15 @@ package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.client.gui.widget.GuiWidgetBase;
 import com.dynious.refinedrelocation.container.ContainerRefinedRelocation;
+import com.dynious.refinedrelocation.lib.Settings;
+import com.dynious.refinedrelocation.lib.Strings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -151,4 +157,19 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
     {
         return (ContainerRefinedRelocation) inventorySlots;
     }
+
+    public static boolean isRestrictedAccess() {
+        return Settings.ENABLE_ADVENTURE_MODE_RESTRICTION && Minecraft.getMinecraft().playerController.currentGameType.isAdventure();
+    }
+
+    public static boolean isRestrictedAccessWithError() {
+        if(isRestrictedAccess()) {
+            ChatComponentText chatComponent = new ChatComponentText(StatCollector.translateToLocal(Strings.ADVENTURE_MODE));
+            chatComponent.getChatStyle().setColor(EnumChatFormatting.DARK_RED);
+            Minecraft.getMinecraft().thePlayer.addChatMessage(chatComponent);
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -1,17 +1,18 @@
 package com.dynious.refinedrelocation.client.gui.widget.button;
 
+import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
 
 public class GuiButtonToggle extends GuiButton
 {
-    protected boolean state = false;
+    protected boolean state;
     protected GuiLabel labelTrue;
     protected GuiLabel labelFalse;
-    protected int offsetXTrue = 0;
-    protected int offsetYTrue = 0;
-    protected int offsetXFalse = 0;
-    protected int offsetYFalse = 0;
+    protected int offsetXTrue;
+    protected int offsetYTrue;
+    protected int offsetXFalse;
+    protected int offsetYFalse;
 
     public GuiButtonToggle(IGuiParent parent, String labelTrueText, String labelFalseText)
     {
@@ -66,15 +67,16 @@ public class GuiButtonToggle extends GuiButton
     {
         if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
         {
-            setState(!getState());
-            onStateChangedByUser(getState());
+            if(!isAdventureModeRestriction() || !GuiRefinedRelocationContainer.isRestrictedAccessWithError())
+            {
+                setState(!getState());
+                onStateChangedByUser(getState());
+            }
+            return;
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }
 
-    protected void onStateChangedByUser(boolean newState)
-    {
-
-    }
+    protected void onStateChangedByUser(boolean newState) {}
 
 }

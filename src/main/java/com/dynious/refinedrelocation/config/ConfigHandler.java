@@ -51,8 +51,13 @@ public class ConfigHandler
         Settings.FORCE_NON_FMP_RELOCATORS = getConfiguration("Force non-FMP Relocators", Settings.FORCE_NON_FMP_RELOCATORS_DEFAULT,
                 "Forces RR to use non-FMP Relocators.");
 
+        Settings.ENABLE_ADVENTURE_MODE_RESTRICTION = getConfiguration("Enable adventure mode restriction", Settings.ENABLE_ADVENTURE_MODE_RESTRICTION_DEFAULT,
+                "Disable editing of filter settings while in Adventure Mode.");
+
         if (configFile.hasChanged())
+        {
             configFile.save();
+        }
     }
 
     private static int getConfiguration(String setting, int defaultSetting, String comment)
@@ -69,6 +74,8 @@ public class ConfigHandler
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs)
     {
         if (eventArgs.modID.equals(Reference.MOD_ID))
+        {
             ConfigHandler.syncConfig();
+        }
     }
 }

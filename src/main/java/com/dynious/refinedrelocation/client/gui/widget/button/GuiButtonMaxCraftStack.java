@@ -18,6 +18,7 @@ public class GuiButtonMaxCraftStack extends GuiButtonCounter
         super(parent, x, y, 24, 20, 0, 0, 0, 64, 1, 16);
         this.tile = tile;
         update();
+        setAdventureModeRestriction(true);
     }
 
     @Override

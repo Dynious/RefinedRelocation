@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
+import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.client.gui.widget.button.GuiButton;
 import com.dynious.refinedrelocation.grid.filter.CustomUserFilter;
 import com.dynious.refinedrelocation.lib.Strings;
@@ -31,5 +32,6 @@ public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped
 
         userFilter = new GuiTextInputUserFilter(this, x, y + userFilterLabel.h + 10, w, h - userFilterLabel.h - 10, filter);
         userFilter.setFocused(true);
+        userFilter.setEnabled(!GuiRefinedRelocationContainer.isRestrictedAccess());
     }
 }

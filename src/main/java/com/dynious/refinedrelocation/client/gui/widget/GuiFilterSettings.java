@@ -32,7 +32,7 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
             curX += 27;
             new GuiButtonFilterExtraction(this, curX, curY, (IAdvancedFilteredTile) filterTile, MessageGUI.RESTRICT_EXTRACTION);
 
-            new GuiInsertDirections(this, x + w / 2 + 25, y + h / 2 - 47, 50, 50, (IAdvancedTile) filterTile);
+            new GuiInsertDirections(this, x + w / 2 + 25, y + h / 2 - 57, 50, 50, (IAdvancedTile) filterTile).setAdventureModeRestriction(true);
 
             curY += 24;
         }

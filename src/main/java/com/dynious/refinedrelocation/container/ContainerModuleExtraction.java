@@ -1,11 +1,8 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
-import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.ICrafting;
 
 public class ContainerModuleExtraction extends ContainerHierarchical
 {
@@ -72,7 +69,7 @@ public class ContainerModuleExtraction extends ContainerHierarchical
     @Override
     public void onMessageInteger(int messageId, int value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         switch (messageId)

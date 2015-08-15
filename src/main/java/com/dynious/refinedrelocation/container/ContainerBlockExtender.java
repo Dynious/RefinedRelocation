@@ -28,7 +28,7 @@ public class ContainerBlockExtender extends ContainerHierarchical
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         if (messageId == MessageGUI.REDSTONE_ENABLED)

@@ -17,7 +17,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase
     private final FontRenderer fontRenderer;
 
     protected boolean isMultiLine;
-    private boolean isEnabled = true;
+    private boolean enabled = true;
     private boolean hasFocus;
 
     private int cursorPosition;
@@ -123,16 +123,8 @@ public class GuiTextInputMultiline extends GuiWidgetBase
         {
             return false;
         }
-        if (!isEnabled)
-        {
-            return false;
-        }
         switch (keyCode)
         {
-            case Keyboard.KEY_RETURN:
-                insertText("\n");
-                markDirty();
-                return true;
             case Keyboard.KEY_END:
                 if (GuiScreen.isCtrlKeyDown())
                 {
@@ -189,17 +181,33 @@ public class GuiTextInputMultiline extends GuiWidgetBase
                     setCursorPosition(getStartOfLine(downLine, 1) + Math.min(getLineLength(downLine), (cursorPosition - getStartOfLine(cursorPosition, 1))));
                 }
                 return true;
+            case Keyboard.KEY_RETURN:
+                if(enabled)
+                {
+                    insertText("\n");
+                    markDirty();
+                }
+                return true;
             case Keyboard.KEY_DELETE:
-                deleteFront(GuiScreen.isCtrlKeyDown());
+                if(enabled)
+                {
+                    deleteFront(GuiScreen.isCtrlKeyDown());
+                }
                 return true;
             case Keyboard.KEY_BACK:
-                deleteBack(GuiScreen.isCtrlKeyDown());
+                if(enabled)
+                {
+                    deleteBack(GuiScreen.isCtrlKeyDown());
+                }
                 return true;
             default:
-                if (ChatAllowedCharacters.isAllowedCharacter(unicode))
+                if(enabled)
                 {
-                    insertText(Character.toString(unicode));
-                    return true;
+                    if (ChatAllowedCharacters.isAllowedCharacter(unicode))
+                    {
+                        insertText(Character.toString(unicode));
+                        return true;
+                    }
                 }
         }
         return super.keyTyped(unicode, keyCode);
@@ -341,10 +349,10 @@ public class GuiTextInputMultiline extends GuiWidgetBase
 
     public void setCursorPosition(int cursorPosition)
     {
-        this.cursorPosition = MathHelper.clamp_int(cursorPosition, 0, text.length());
+        this.cursorPosition = Math.min(Math.max(cursorPosition, 0), text.length());
 
         int cursorLine = 0;
-        for (int i = 0; i < cursorPosition; i++)
+        for (int i = 0; i < this.cursorPosition; i++)
         {
             if (text.charAt(i) == '\n')
             {
@@ -363,9 +371,9 @@ public class GuiTextInputMultiline extends GuiWidgetBase
         }
 
         int visibleWidth = w - MARGIN;
-        int cursorLineStart = getStartOfLine(cursorPosition, 1);
-        int cursorLineEnd = getEndOfLine(cursorPosition, 1);
-        int cursorLineX = Math.min(getLineLength(cursorPosition), (cursorPosition - cursorLineStart));
+        int cursorLineStart = getStartOfLine(this.cursorPosition, 1);
+        int cursorLineEnd = getEndOfLine(this.cursorPosition, 1);
+        int cursorLineX = Math.min(getLineLength(this.cursorPosition), (this.cursorPosition - cursorLineStart));
         String lineText = text.substring(cursorLineStart, cursorLineEnd);
         lineScrollOffset = MathHelper.clamp_int(lineScrollOffset, 0, lineText.length());
         if (cursorLineX == lineScrollOffset)
@@ -420,6 +428,10 @@ public class GuiTextInputMultiline extends GuiWidgetBase
     {
         this.text = text;
         markDirty();
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     protected void onTextChangedByUser(String newText)

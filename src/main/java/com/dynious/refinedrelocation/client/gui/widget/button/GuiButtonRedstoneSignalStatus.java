@@ -19,6 +19,7 @@ public class GuiButtonRedstoneSignalStatus extends GuiButtonToggle
         this.boundMessageId = boundMessageId;
         this.tile = tile;
         update();
+        setAdventureModeRestriction(true);
     }
 
     @Override

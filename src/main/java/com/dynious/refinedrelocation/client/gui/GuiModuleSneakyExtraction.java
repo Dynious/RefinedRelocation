@@ -23,11 +23,8 @@ public class GuiModuleSneakyExtraction extends GuiModular
         super.initGui();
 
         new GuiButtonTicksBetweenExtractions(this, 0, 0, module);
-
         new GuiButtonExtractionSide(this, 0, 0, module);
-
         new GuiButtonPulseExtractionToggle(this, 0, 0, module);
-
         new GuiButtonModuleMaxStackSize(this, 0, 0, module);
     }
 }

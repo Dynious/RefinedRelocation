@@ -39,7 +39,7 @@ public class GuiPowerLimiter extends GuiRefinedRelocationContainer
 
         new GuiLabel(this, width / 2 - 60, height / 2 + 5, StatCollector.translateToLocal(Strings.MAX_ENERGY)).drawCentered = false;
 
-        new GuiTextInputPowerLimiter(this, width / 2 - 60, height / 2 + 18, 120, 20, tile, MessageGUI.POWER_LIMIT);
+        new GuiTextInputPowerLimiter(this, width / 2 - 60, height / 2 + 18, 120, 20, tile, MessageGUI.POWER_LIMIT).setEnabled(isRestrictedAccess());
 
         Keyboard.enableRepeatEvents(true);
     }

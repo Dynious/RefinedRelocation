@@ -36,7 +36,7 @@ public class GuiAdvancedBlockExtender extends GuiRefinedRelocationContainer
         new GuiButtonSpread(this, width / 2 + 42, height / 2 - 17, blockExtender, MessageGUI.SPREAD_ITEMS);
         new GuiButtonRedstoneSignalStatus(this, width / 2 + 42, height / 2 + 9, blockExtender, MessageGUI.REDSTONE_ENABLED);
 
-        new GuiInsertDirections(this, width / 2 - 25, height / 2 - 19, 50, 50, blockExtender);
+        new GuiInsertDirections(this, width / 2 - 25, height / 2 - 19, 50, 50, blockExtender).setAdventureModeRestriction(true);
     }
 
     @Override

@@ -47,6 +47,7 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
         for (int i = 0; i < numFiltersPerScreen; i++)
         {
             filters[i] = new GuiCheckboxFilter(this, x, y + listOffsetY + i * (ROW_HEIGHT + ROW_SPACING), w - SCROLLBAR_AREA_WIDTH, ROW_HEIGHT, i, filter);
+            filters[i].setAdventureModeRestriction(true);
         }
         recalculateScrollBar();
     }

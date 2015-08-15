@@ -1,18 +1,11 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.helper.EnergyType;
-import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBooleanArray;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 
@@ -77,7 +70,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     @Override
     public void onMessageDouble(int messageId, double value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         if(messageId == MessageGUI.POWER_LIMIT) {
@@ -88,7 +81,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         if(messageId == MessageGUI.REDSTONE_TOGGLE) {
@@ -99,7 +92,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     @Override
     public void onMessageBooleanArray(int messageId, boolean[] values, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         if(messageId == MessageGUI.ENERGY_TYPES) {

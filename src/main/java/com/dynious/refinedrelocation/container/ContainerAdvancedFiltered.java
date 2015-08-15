@@ -1,13 +1,11 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
-import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 public class ContainerAdvancedFiltered extends ContainerHierarchical implements IContainerAdvancedFiltered
 {
@@ -110,7 +108,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     @Override
     public void onMessageByte(int messageId, byte value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         if(messageId == MessageGUI.MAX_STACK_SIZE) {
@@ -121,7 +119,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
     {
-        if(!checkPermission(player)) {
+        if(isRestrictedAccessWithError(player)) {
             return;
         }
         switch (messageId)

@@ -20,6 +20,7 @@ public class GuiButtonMaxStackSize extends GuiButtonCounter
         this.tile = tile;
         this.boundMessageId = boundMessageId;
         update();
+        setAdventureModeRestriction(true);
     }
 
     @Override

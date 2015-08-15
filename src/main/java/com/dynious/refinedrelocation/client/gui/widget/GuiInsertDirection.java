@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.client.gui.widget;
 
+import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -27,6 +28,7 @@ public class GuiInsertDirection extends GuiWidgetBase
     public ForgeDirection relativeSide;
     public boolean isFrontSide = false;
     protected IAdvancedTile tile;
+    private boolean adventureModeRestriction;
 
     public GuiInsertDirection(IGuiParent parent, int x, int y, IAdvancedTile tile, ForgeDirection side, ForgeDirection relativeSide)
     {
@@ -123,20 +125,32 @@ public class GuiInsertDirection extends GuiWidgetBase
     {
         if ((type == 0 || type == 1) && !isFrontSide && isInsideBounds(mouseX, mouseY))
         {
-            if (tile instanceof TileBlockExtender)
+            if(!isAdventureModeRestriction() || !GuiRefinedRelocationContainer.isRestrictedAccessWithError())
             {
-                byte step = (byte) (type == 0 ? 1 : -1);
-                tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-                NetworkHandler.INSTANCE.sendToServer(new MessageInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
-            }
-            if (tile instanceof TileAdvancedBuffer)
-            {
-                byte step = (byte) (type == 0 ? -1 : 1);
-                if (isShiftKeyDown) step = (byte) (step * 6);
+                if (tile instanceof TileBlockExtender)
+                {
+                    byte step = (byte) (type == 0 ? 1 : -1);
+                    tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
+                    NetworkHandler.INSTANCE.sendToServer(new MessageInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
+                }
+                if (tile instanceof TileAdvancedBuffer)
+                {
+                    byte step = (byte) (type == 0 ? -1 : 1);
+                    if (isShiftKeyDown) step = (byte) (step * 6);
 
-                tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
-                NetworkHandler.INSTANCE.sendToServer(new MessageInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
+                    tile.setInsertDirection(side.ordinal(), tile.getInsertDirection()[side.ordinal()] + step);
+                    NetworkHandler.INSTANCE.sendToServer(new MessageInsertDirection((byte) side.ordinal(), tile.getInsertDirection()[side.ordinal()]));
+                }
             }
         }
     }
+
+    public final boolean isAdventureModeRestriction() {
+        return adventureModeRestriction;
+    }
+
+    public void setAdventureModeRestriction(boolean adventureModeRestriction) {
+        this.adventureModeRestriction = adventureModeRestriction;
+    }
+
 }

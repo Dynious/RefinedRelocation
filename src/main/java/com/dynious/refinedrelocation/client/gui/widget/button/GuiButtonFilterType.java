@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.client.gui.widget.button;
 
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
+import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
 import com.dynious.refinedrelocation.client.gui.widget.GuiWidgetBase;
@@ -66,7 +67,10 @@ public class GuiButtonFilterType extends GuiWidgetBase
     {
         if (filter != null && isInsideBounds(mouseX, mouseY))
         {
-            NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterType(-1, filter.getTypeName()));
+            if(!GuiRefinedRelocationContainer.isRestrictedAccessWithError())
+            {
+                NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterType(-1, filter.getTypeName()));
+            }
         }
         super.mouseClicked(mouseX, mouseY, type, isShiftKeyDown);
     }

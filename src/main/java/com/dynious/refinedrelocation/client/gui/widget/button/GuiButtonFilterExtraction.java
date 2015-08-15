@@ -19,6 +19,7 @@ public class GuiButtonFilterExtraction extends GuiButtonToggle
         this.tile = tile;
         this.boundMessageId = boundMessageId;
         update();
+        setAdventureModeRestriction(true);
     }
 
     @Override
