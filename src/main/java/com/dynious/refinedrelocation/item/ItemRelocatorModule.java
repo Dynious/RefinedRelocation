@@ -14,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import org.lwjgl.input.Keyboard;
 
 import java.util.List;
 
@@ -89,12 +90,16 @@ public class ItemRelocatorModule extends Item implements IItemRelocatorModule
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
     {
-        list.add(StatCollector.translateToLocal(Strings.RELOCATOR_MODULE));
-
-        String[] info = StatCollector.translateToLocal(Strings.RELOCATOR_MODULE_INFO + itemStack.getItemDamage()).split("\\\\n");
-        for (String line : info)
+        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
         {
-            list.add("\u00A7f" + line);
+            list.add(StatCollector.translateToLocal(Strings.RELOCATOR_MODULE));
+            String[] tooltipLines = StatCollector.translateToLocal(Strings.RELOCATOR_MODULE_INFO + itemStack.getItemDamage()).split("\\\\n");
+            for (String s : tooltipLines)
+            {
+                list.add("\u00a73" + s);
+            }
+        } else {
+            list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
         }
     }
 

@@ -26,6 +26,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.input.Keyboard;
 
 import java.util.List;
 
@@ -171,9 +172,14 @@ public class ItemSortingUpgrade extends Item
     @Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean b)
     {
-        list.add(StatCollector.translateToLocal(Strings.SORTING_UPGRADE + itemstack.getItemDamage()));
-        if(itemstack.getItemDamage() == 0) {
-            list.add(StatCollector.translateToLocal(Strings.SORTING_UPGRADE_MATS));
+        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+        {
+            list.add("\u00a73" + StatCollector.translateToLocal(Strings.SORTING_UPGRADE + itemstack.getItemDamage()));
+            if(itemstack.getItemDamage() == 0) {
+                list.add("\u00a73" + StatCollector.translateToLocal(Strings.SORTING_UPGRADE_MATS));
+            }
+        } else {
+            list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
         }
     }
 

@@ -1,17 +1,22 @@
 package com.dynious.refinedrelocation.item;
 
+import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.input.Keyboard;
 
-public class ItemPowerLimiter extends ItemBlock
+import java.util.List;
+
+public class ItemBlockPowerLimiter extends ItemBlock
 {
-    public ItemPowerLimiter(Block block)
+    public ItemBlockPowerLimiter(Block block)
     {
         super(block);
         this.setHasSubtypes(true);
@@ -36,5 +41,22 @@ public class ItemPowerLimiter extends ItemBlock
     public int getMetadata(int par1)
     {
         return par1;
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag)
+    {
+        super.addInformation(itemStack, player, list, flag);
+
+        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+        {
+            String[] tooltipLines = StatCollector.translateToLocal(getUnlocalizedName(itemStack) + ".tooltip").split("\\\\n");
+            for (String s : tooltipLines)
+            {
+                list.add("\u00a73" + s);
+            }
+        } else {
+            list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
+        }
     }
 }

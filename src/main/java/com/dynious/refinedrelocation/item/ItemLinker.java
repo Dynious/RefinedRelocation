@@ -20,6 +20,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import org.lwjgl.input.Keyboard;
 
 import java.util.List;
 
@@ -46,11 +47,21 @@ public class ItemLinker extends Item
             int x = stack.getTagCompound().getInteger("tileX");
             int y = stack.getTagCompound().getInteger("tileY");
             int z = stack.getTagCompound().getInteger("tileZ");
-            list.add(StatCollector.translateToLocalFormatted(Strings.LINKED_POS, x, y, z, BlockHelper.getBlockDisplayName(par2EntityPlayer.getEntityWorld(), x, y, z)));
+            list.add("\u00a7a" + StatCollector.translateToLocal(Strings.LINKED_POS) + " \u00a7f" + x + ", " + y + ", " + z + " (" + BlockHelper.getBlockDisplayName(par2EntityPlayer.getEntityWorld(), x, y, z) + ")");
         }
         else
         {
             list.add(StatCollector.translateToLocal(Strings.UNLINKED));
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+        {
+            String[] tooltipLines = StatCollector.translateToLocal(getUnlocalizedName() + ".tooltip").split("\\\\n");
+            for (String s : tooltipLines)
+            {
+                list.add("\u00a73" + s);
+            }
+        } else {
+            list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
         }
     }
 

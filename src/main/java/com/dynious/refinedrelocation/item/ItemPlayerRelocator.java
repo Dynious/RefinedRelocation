@@ -30,6 +30,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -234,12 +235,12 @@ public class ItemPlayerRelocator extends Item
     {
         if (itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("x"))
         {
-            list.add(StatCollector.translateToLocalFormatted(Strings.LINKED_TO_AT, StatCollector.translateToLocal("tile.relocationController.name"), itemStack.getTagCompound().getInteger("x"), itemStack.getTagCompound().getInteger("y"), itemStack.getTagCompound().getInteger("z")));
+            list.add("\u00a7a" + StatCollector.translateToLocal(Strings.LINKED_TO_AT) + " \u00a7f" + itemStack.getTagCompound().getInteger("x") + ", " + itemStack.getTagCompound().getInteger("y") + ", " + itemStack.getTagCompound().getInteger("z"));
             if (itemStack.getTagCompound().getBoolean(INTER_LINK_TAG))
             {
                 WorldProvider p = WorldProvider.getProviderForDimension(itemStack.getTagCompound().getInteger(DIMENSION_TAG));
                 String worldString = p != null ? p.getDimensionName() : "<Error>";
-                list.add(StatCollector.translateToLocalFormatted(Strings.INTER_DIMENSIONAL, worldString));
+                list.add("\u00a7a" + StatCollector.translateToLocal(Strings.INTER_DIMENSIONAL) + " \u00a7f" + worldString);
             }
             if (!itemStack.getTagCompound().hasKey(UUID_TAG))
             {
@@ -247,8 +248,16 @@ public class ItemPlayerRelocator extends Item
             }
             if (getTimeLeft(itemStack, player) > 0)
             {
-                list.add("\u00A7e" + StatCollector.translateToLocalFormatted(Strings.COOLDOWN, MiscHelper.getDurationString(getTimeLeft(itemStack, player))));
+                list.add("\u00A7a" + StatCollector.translateToLocal(Strings.COOLDOWN) + " \u00a7f" + MiscHelper.getDurationString(getTimeLeft(itemStack, player)));
             }
+        } else {
+            if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
+            {
+                list.add("\u00A73" + StatCollector.translateToLocal(Strings.LINK_PLAYER_RELOCATOR));
+            } else {
+                list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
+            }
+
         }
     }
 

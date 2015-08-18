@@ -63,8 +63,8 @@ public class ModBlocks
         GameRegistry.registerBlock(sortingConnector, ItemBlockSortingConnector.class, Names.sortingConnector);
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
-        GameRegistry.registerBlock(relocationController, ItemRelocationController.class, Names.relocationController);
-        GameRegistry.registerBlock(powerLimiter, ItemPowerLimiter.class, Names.powerLimiter);
+        GameRegistry.registerBlock(relocationController, ItemBlockPlayerRelocatorBase.class, Names.relocationController);
+        GameRegistry.registerBlock(powerLimiter, ItemBlockPowerLimiter.class, Names.powerLimiter);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Items.iron_ingot, 'o', Blocks.obsidian, 'g', Blocks.glass_pane, 'e', Items.ender_pearl);
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 1, 1), "r r", " b ", "r r", 'r', Blocks.redstone_block, 'b', new ItemStack(blockExtender, 1, 0));

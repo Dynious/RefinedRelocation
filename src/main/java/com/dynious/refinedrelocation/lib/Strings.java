@@ -115,6 +115,8 @@ public class Strings
     public static final String DONT_CHECK_NBT = GUI_PREFIX + "dontCheckNBT";
     public static final String TOOLTIP_SHIFT = GUI_PREFIX + "tooltipShift";
     public static final String PRIORITY_ORDER = GUI_PREFIX + "priorityOrder";
+    public static final String LINK_RELOCATOR_BASE = GUI_PREFIX + "controllerLink";
+    public static final String LINK_PLAYER_RELOCATOR = GUI_PREFIX + "relocatorLink";
 
     private static final String ITEM_DESC_PREFIX = "itemDesc." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String LINKED_POS = ITEM_DESC_PREFIX + "linkedPos";

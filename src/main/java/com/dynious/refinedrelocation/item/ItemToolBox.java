@@ -22,6 +22,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -293,10 +294,16 @@ public class ItemToolBox extends Item
                 }
             }
         }
-        String[] info = StatCollector.translateToLocal(Strings.TOOLBOX_INFO).split("\\\\n");
-        for (String line : info)
+        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
         {
-            list.add("\u00A7f" + line);
+            list.add(StatCollector.translateToLocal(Strings.RELOCATOR_MODULE));
+            String[] tooltipLines = StatCollector.translateToLocal(Strings.TOOLBOX_INFO).split("\\\\n");
+            for (String s : tooltipLines)
+            {
+                list.add("\u00a73" + s);
+            }
+        } else {
+            list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
         }
     }
 

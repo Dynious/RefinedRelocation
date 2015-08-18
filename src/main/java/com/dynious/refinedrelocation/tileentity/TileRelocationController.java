@@ -115,6 +115,8 @@ public class TileRelocationController extends TileMultiBlockBase
             {
                 player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.TOGGLE_LOCK)));
             }
+        } else {
+            player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.LINK_RELOCATOR_BASE)));
         }
 
         markDirty(); // save to NBT
