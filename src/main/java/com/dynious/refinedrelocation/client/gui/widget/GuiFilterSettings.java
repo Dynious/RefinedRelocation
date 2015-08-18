@@ -38,9 +38,6 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
         }
         curX = x + w / 2 - 75;
 
-        new GuiButtonBlacklist(this, curX, curY, filterTile, MessageGUI.BLACKLIST);
-        curX += 27;
-
         if (filterTile instanceof TileBlockExtender && !(filterTile instanceof TileWirelessBlockExtender))
         {
             new GuiButtonRedstoneSignalStatus(this, curX, curY, (TileBlockExtender) filterTile, MessageGUI.REDSTONE_ENABLED);

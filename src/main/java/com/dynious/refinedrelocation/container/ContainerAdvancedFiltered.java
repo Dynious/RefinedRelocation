@@ -69,12 +69,6 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
 
     @Override
-    public void setBlackList(boolean value)
-    {
-        containerFiltered.setBlackList(value);
-    }
-
-    @Override
     public void setPriority(int priority)
     {
     }
@@ -124,9 +118,6 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
         }
         switch (messageId)
         {
-            case MessageGUI.BLACKLIST:
-                setBlackList(value);
-                break;
             case MessageGUI.SPREAD_ITEMS:
                 setSpreadItems(value);
                 break;

@@ -228,7 +228,7 @@ public class TileSortingInterface extends TileSortingConnector implements ISorti
         }
         else
         {
-            setPriority(filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL);
+            setPriority(Priority.NORMAL);
         }
         if (compound.hasKey("Items"))
         {

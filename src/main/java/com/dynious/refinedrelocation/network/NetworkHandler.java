@@ -2,10 +2,7 @@ package com.dynious.refinedrelocation.network;
 
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.network.packet.*;
-import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBooleanArray;
-import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
-import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBoolean;
-import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterString;
+import com.dynious.refinedrelocation.network.packet.filter.*;
 import com.dynious.refinedrelocation.network.packet.gui.*;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -53,6 +50,8 @@ public class NetworkHandler
 
         INSTANCE.registerMessage(MessageOpenFilterGUI.class, MessageOpenFilterGUI.class, 28, Side.SERVER);
         INSTANCE.registerMessage(MessageModSync.class, MessageModSync.class, 29, Side.CLIENT);
+        INSTANCE.registerMessage(MessageSetFilterBlacklist.class, MessageSetFilterBlacklist.class, 30, Side.SERVER);
+        INSTANCE.registerMessage(MessageSetFilterBlacklist.class, MessageSetFilterBlacklist.class, 31, Side.CLIENT);
     }
 
     @SideOnly(Side.CLIENT)

@@ -18,8 +18,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.List;
-
 public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
 {
     public static final String TYPE_NAME = "mod";
@@ -74,6 +72,7 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+        super.writeToNBT(compound);
         NBTTagList tagList = new NBTTagList();
         for (int i = 0; i < modStates.length; i++)
         {
@@ -88,6 +87,7 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
+        super.readFromNBT(compound);
         NBTTagList tagList = compound.getTagList("modStates", 8);
         for (int i = 0; i < tagList.tagCount(); i++)
         {

@@ -25,6 +25,8 @@ public interface IMultiFilterChild
 	void markDirty(boolean isDirty);
 	boolean isDirty();
 	void sendUpdate(EntityPlayerMP playerMP);
+	boolean isBlacklist();
+	void setBlacklist(boolean blacklist);
 
 	@SideOnly(Side.CLIENT)
 	IGuiWidgetWrapped getGuiWidget(int x, int y, int width, int height);

@@ -24,7 +24,6 @@ public class RelocatorModuleItemDetector extends RelocatorModuleFilter
     @Override
     public void init(IItemRelocator relocator, int side) {
         super.init(relocator, side);
-        filter.setBlacklists(true);
     }
 
     @Override

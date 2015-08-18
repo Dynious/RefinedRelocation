@@ -68,6 +68,7 @@ public class PresetFilter extends MultiFilterChildBase implements IChecklistFilt
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+        super.writeToNBT(compound);
         byte[] byteArray = new byte[presets.length];
         for (int i = 0; i < byteArray.length; i++)
         {
@@ -79,6 +80,7 @@ public class PresetFilter extends MultiFilterChildBase implements IChecklistFilt
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
+        super.readFromNBT(compound);
         byte[] byteArray = compound.getByteArray("activePresets");
         for (int i = 0; i < byteArray.length; i++)
         {

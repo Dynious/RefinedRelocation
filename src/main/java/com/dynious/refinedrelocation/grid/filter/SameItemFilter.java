@@ -92,6 +92,7 @@ public class SameItemFilter extends MultiFilterChildBase
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+        super.writeToNBT(compound);
         compound.setBoolean("checkMetadata", checkMetadata);
         compound.setBoolean("checkNBTData", checkNBTData);
     }
@@ -99,6 +100,7 @@ public class SameItemFilter extends MultiFilterChildBase
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
+        super.readFromNBT(compound);
         checkMetadata = compound.getBoolean("checkMetadata");
         checkNBTData = compound.getBoolean("checkNBTData");
     }

@@ -1,23 +1,21 @@
 package com.dynious.refinedrelocation.client.gui.widget.button;
 
-import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
-import com.dynious.refinedrelocation.client.gui.IGuiParent;
-import com.dynious.refinedrelocation.helper.GuiHelper;
+import com.dynious.refinedrelocation.client.gui.GuiFiltered;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBlacklist;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
 public class GuiButtonBlacklist extends GuiButtonToggle
 {
-    private final int boundMessageId;
-    protected IFilterTileGUI tile;
+    private final GuiFiltered parent;
 
-    public GuiButtonBlacklist(IGuiParent parent, int x, int y, IFilterTileGUI tile, int boundMessageId)
+    public GuiButtonBlacklist(GuiFiltered parent, int x, int y)
     {
-        super(parent, x, y, 24, 20, 24, 0, null, null);
-        this.boundMessageId = boundMessageId;
-        this.tile = tile;
+        super(parent, x, y, 16, 16, 176, 80, null, null);
+        this.parent = parent;
         update();
         setAdventureModeRestriction(true);
     }
@@ -25,13 +23,11 @@ public class GuiButtonBlacklist extends GuiButtonToggle
     @Override
     protected void onStateChangedByUser(boolean newState)
     {
-        if (tile == null)
+        int selectedFilterIndex = parent.getSelectedFilterIndex();
+        if(selectedFilterIndex != -1)
         {
-            return;
+            NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterBlacklist(selectedFilterIndex, newState));
         }
-
-        tile.getFilter().setBlacklists(newState);
-        GuiHelper.sendBooleanMessage(boundMessageId, newState);
     }
 
     @Override
@@ -54,11 +50,25 @@ public class GuiButtonBlacklist extends GuiButtonToggle
     @Override
     public void update()
     {
-        if (tile != null)
-        {
-            setState(tile.getFilter().isBlacklisting());
+        int selectedFilterIndex = parent.getSelectedFilterIndex();
+        if(selectedFilterIndex >= 0 && selectedFilterIndex < parent.getFilter().getFilterCount()) {
+            setState(parent.getFilter().getFilterAtIndex(parent.getSelectedFilterIndex()).isBlacklist());
         }
-
         super.update();
+    }
+
+    @Override
+    public boolean isInsideBounds(int x, int y)
+    {
+        return parent.hasFilterSelected() && super.isInsideBounds(x, y);
+    }
+
+    @Override
+    public void drawBackground(int mouseX, int mouseY)
+    {
+        if (parent.hasFilterSelected())
+        {
+            super.drawBackground(mouseX, mouseY);
+        }
     }
 }

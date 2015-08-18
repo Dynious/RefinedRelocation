@@ -365,7 +365,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
         }
         else
         {
-            setPriority(filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL);
+            setPriority(Priority.NORMAL);
         }
     }
 

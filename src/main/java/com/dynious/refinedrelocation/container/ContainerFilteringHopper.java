@@ -100,22 +100,9 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
             }
         }
 
-        if(tile.getFilter().isBlacklisting() != lastBlacklist || initialUpdate) {
-            for(Object crafter : crafters) {
-                NetworkHandler.INSTANCE.sendTo(new MessageGUIBoolean(MessageGUI.BLACKLIST, tile.getFilter().isBlacklisting()), (EntityPlayerMP) crafter);
-            }
-            lastBlacklist = tile.getFilter().isBlacklisting();
-        }
-
         if(initialUpdate) {
             initialUpdate = false;
         }
-    }
-
-    @Override
-    public void setBlackList(boolean value) {
-        lastBlacklist = value;
-        tile.getFilter().setBlacklists(value);
     }
 
     @Override
@@ -127,18 +114,7 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     }
 
     @Override
-    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
-    {
-        if(player instanceof EntityPlayerMP && ((EntityPlayerMP) player).theItemInWorldManager.getGameType().isAdventure()) {
-            ChatComponentText chatComponent = new ChatComponentText(StatCollector.translateToLocal(Strings.ADVENTURE_MODE));
-            chatComponent.getChatStyle().setColor(EnumChatFormatting.DARK_RED);
-            player.addChatMessage(chatComponent);
-            return;
-        }
-        if(messageId == MessageGUI.BLACKLIST) {
-            setBlackList(value);
-        }
-    }
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player) {}
 
     @Override
     public void onMessageAction(int messageId, EntityPlayer player) {}

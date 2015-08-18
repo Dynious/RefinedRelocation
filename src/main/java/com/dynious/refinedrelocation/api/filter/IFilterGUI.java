@@ -12,10 +12,6 @@ import java.util.List;
 @Deprecated
 public interface IFilterGUI extends IFilter
 {
-	boolean isBlacklisting();
-
-	void setBlacklists(boolean blacklists);
-
 	List<String> getWAILAInformation(NBTTagCompound compound);
 
 	void filterChanged();

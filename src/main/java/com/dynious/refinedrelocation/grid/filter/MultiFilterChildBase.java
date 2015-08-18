@@ -11,6 +11,7 @@ public abstract class MultiFilterChildBase implements IMultiFilterChild
     private IMultiFilter parentFilter;
     private int filterIndex;
     private boolean isDirty;
+    private boolean isBlacklist;
 
     @Override
     public void setParentFilter(IMultiFilter parentFilter, int filterIndex)
@@ -55,11 +56,13 @@ public abstract class MultiFilterChildBase implements IMultiFilterChild
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+        compound.setBoolean("isBlacklist", isBlacklist);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
+        isBlacklist = compound.getBoolean("isBlacklist");
     }
 
     @Override
@@ -77,5 +80,18 @@ public abstract class MultiFilterChildBase implements IMultiFilterChild
     @Override
     public void sendUpdate(EntityPlayerMP playerMP)
     {
+    }
+
+    @Override
+    public void setBlacklist(boolean blacklist)
+    {
+        this.isBlacklist = blacklist;
+        markDirty(true);
+    }
+
+    @Override
+    public boolean isBlacklist()
+    {
+        return isBlacklist;
     }
 }

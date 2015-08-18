@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.client.gui.widget.*;
+import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonBlacklist;
 import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonDeleteFilter;
 import com.dynious.refinedrelocation.container.ContainerFiltered;
 import com.dynious.refinedrelocation.helper.BlockHelper;
@@ -22,6 +23,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
     private IFilterTileGUI filterTile;
     private IFilterGUI filter;
     private GuiTabPanel panel;
+    private GuiButtonBlacklist blacklistFilterButton;
     private GuiButtonDeleteFilter deleteFilterButton;
     private final List<GuiTabButton> tabButtons = new ArrayList<GuiTabButton>();
     private int lastFilterCount;
@@ -62,6 +64,10 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
         if (deleteFilterButton != null)
         {
             removeChild(deleteFilterButton);
+        }
+        if (blacklistFilterButton != null)
+        {
+            removeChild(blacklistFilterButton);
         }
         for (GuiTabButton tabButton : tabButtons)
         {
@@ -119,6 +125,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
             }
         }
 
+        blacklistFilterButton = new GuiButtonBlacklist(this, width / 2 + 65 - 18, height / 2 - 65);
         deleteFilterButton = new GuiButtonDeleteFilter(this, width / 2 + 65, height / 2 - 65);
     }
 

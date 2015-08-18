@@ -63,6 +63,7 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+        super.writeToNBT(compound);
         NBTTagList tagList = new NBTTagList();
         for (int i = 0; i < tabStates.length; i++)
         {
@@ -77,6 +78,7 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
+        super.readFromNBT(compound);
         NBTTagList tagList = compound.getTagList("tabStates", 8);
         for (int i = 0; i < tagList.tagCount(); i++)
         {

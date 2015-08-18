@@ -5,9 +5,9 @@ import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.network.NetworkHandler;
+import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBlacklist;
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,7 +17,6 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
 
     public IFilterTileGUI tile;
 
-    private boolean lastBlacklist = true;
     private int lastPriority;
     private boolean initialUpdate = true;
 
@@ -55,16 +54,11 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
                     {
                         NetworkHandler.INSTANCE.sendTo(new MessageSetFilterType(i, filterChild.getTypeName()), (EntityPlayerMP) crafter);
                     }
+                    NetworkHandler.INSTANCE.sendTo(new MessageSetFilterBlacklist(i, filterChild.isBlacklist()), (EntityPlayerMP) crafter);
                     filterChild.sendUpdate((EntityPlayerMP) crafter);
                 }
                 filterChild.markDirty(false);
             }
-        }
-
-        if (tile.getFilter().isBlacklisting() != lastBlacklist || initialUpdate)
-        {
-            sendSyncMessage(new MessageGUIBoolean(MessageGUI.BLACKLIST, tile.getFilter().isBlacklisting()));
-            lastBlacklist = tile.getFilter().isBlacklisting();
         }
 
         if (tile instanceof ISortingInventory)
@@ -90,13 +84,6 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     }
 
     @Override
-    public void setBlackList(boolean value)
-    {
-        lastBlacklist = value;
-        tile.getFilter().setBlacklists(value);
-    }
-
-    @Override
     public void setPriority(int priority)
     {
         lastPriority = priority;
@@ -114,17 +101,6 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
         }
         if(messageId == MessageGUI.PRIORITY) {
             setPriority(value);
-        }
-    }
-
-    @Override
-    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
-    {
-        if(isRestrictedAccessWithError(player)) {
-            return;
-        }
-        if(messageId == MessageGUI.BLACKLIST) {
-            setBlackList(value);
         }
     }
 

@@ -225,7 +225,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
         }
         else
         {
-            setPriority(filter.isBlacklisting() ? Priority.LOW : Priority.NORMAL);
+            setPriority(Priority.NORMAL);
         }
     }
 

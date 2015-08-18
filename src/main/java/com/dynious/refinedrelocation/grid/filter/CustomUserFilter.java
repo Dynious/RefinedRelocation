@@ -65,12 +65,14 @@ public class CustomUserFilter extends MultiFilterChildBase
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
+        super.writeToNBT(compound);
         compound.setString("value", value);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
+        super.readFromNBT(compound);
         value = compound.getString("value");
     }
 
