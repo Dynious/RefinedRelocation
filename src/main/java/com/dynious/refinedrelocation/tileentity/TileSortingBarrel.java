@@ -55,7 +55,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
             int added = getStorage().isVoid() ? itemStack.stackSize : Math.min(getStorage().getMaxStoredCount() - getStorage().getAmount(), itemStack.stackSize);
             if (!simulate)
             {
-                getStorage().setAmount(Math.min(getStorage().getAmount() + added, getStorage().getMaxStoredCount()));
+                getStorage().addStack(itemStack);
                 BarrelPacketHandler.INSTANCE.sendToDimension(new Message0x01ContentUpdate(this), getWorldObj().provider.dimensionId);
             }
             itemStack.stackSize -= added;
@@ -79,7 +79,24 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
     @Override
     public void alterStackSize(int slot, int alteration)
     {
-        getStorage().setAmount(getStorage().getAmount() + alteration);
+        if (getStorage().hasItem())
+        {
+            if (alteration > 0)
+            {
+                ItemStack stack = getStorage().getItem().copy();
+                stack.stackSize = alteration;
+                getStorage().addStack(stack);
+            }
+            else
+            {
+                while (alteration > 0)
+                {
+                    int s = Math.min(-alteration, getStorage().getItem().getMaxStackSize());
+                    alteration += s;
+                    getStorage().getStack(s);
+                }
+            }
+        }
     }
 
     @Override
