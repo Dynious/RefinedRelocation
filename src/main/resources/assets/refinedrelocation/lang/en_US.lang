@@ -67,6 +67,10 @@ item.relocatorModule10.name=Multi Module
 item.relocatorModule11.name=Module Sneaky Extraction
 item.relocatorModule12.name=Module Crafting
 
+# Relocator localizations (FMP & non-FMP versions!)
+tile.relocator.tooltip=Item transportation.\nCombine with Modules.
+item.relocator.tooltip=Item transportation.\nCombine with Modules.
+
 # Inventory localizations
 container.sortingChest.name=Sorting Chest
 itemGroup.RefinedRelocation=Refined Relocation
