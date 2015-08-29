@@ -42,6 +42,7 @@ public class GuiButtonBlacklist extends GuiButtonToggle
             {
                 tooltip.add("\u00a77" + tooltipLine);
             }
+            tooltip.add("\u00a7b" + StatCollector.translateToLocal(Strings.FILTER_ORDER));
             tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
         }
         return tooltip;

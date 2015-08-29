@@ -54,20 +54,20 @@ public class MultiFilter implements IMultiFilter
         {
             return false;
         }
-        boolean foundInFilter = false;
-        for (IMultiFilterChild filter : filterList)
+        boolean passses = false;
+        for (int i = 0; i < filterList.size(); i++)
         {
+            IMultiFilterChild filter = filterList.get(i);
             if (filter.isInFilter(itemStack))
             {
                 if(filter.isBlacklist()) {
-                    foundInFilter = false;
-                    break;
+                    passses = false;
                 } else {
-                    foundInFilter = true;
+                    passses = true;
                 }
             }
         }
-        return foundInFilter;
+        return passses;
     }
 
     @Override
