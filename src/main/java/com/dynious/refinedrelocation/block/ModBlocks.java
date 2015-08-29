@@ -120,7 +120,7 @@ public class ModBlocks
         {
             relocator = new BlockRelocator();
             ModObjects.relocator = new ItemStack(relocator);
-            GameRegistry.registerBlock(relocator, Names.relocator);
+            GameRegistry.registerBlock(relocator, ItemBlockRelocator.class, Names.relocator);
             GameRegistry.addShapedRecipe(new ItemStack(relocator, 4, 0), "igi", "g g", "igi", 'i', Items.iron_ingot, 'g', Blocks.glass_pane);
         }
 
