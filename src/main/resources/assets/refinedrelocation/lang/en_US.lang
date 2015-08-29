@@ -77,10 +77,10 @@ itemGroup.RefinedRelocation=Refined Relocation
 
 # GUI localizations
 gui.refinedrelocation.blacklist=Blacklist
-gui.refinedrelocation.blacklistDesc=Items that pass this filter won't be allowed
+gui.refinedrelocation.blacklistDesc=Items included in this filter won't be allowed
 gui.refinedrelocation.whitelist=Whitelist
-gui.refinedrelocation.whitelistDesc=Only items that pass this filter will be allowed
-gui.refinedrelocation.filterOrder=Filters are checked from top to bottom
+gui.refinedrelocation.whitelistDesc=Items included in this filter will be allowed
+gui.refinedrelocation.filterOrder=Overrides filters above when item is included
 gui.refinedrelocation.click=Click
 gui.refinedrelocation.shiftClick=Shift+Click
 gui.refinedrelocation.filteredExtr=Filtered Extraction
