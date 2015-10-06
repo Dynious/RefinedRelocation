@@ -32,10 +32,6 @@ version = "1.1." + BUILD_NUMBER
 group = "com.dynious.refinedrelocation"
 archivesBaseName = "RefinedRelocation"
 
-if (env.BUILD_NUMBER != null) {
-    version += "-snapshot-" + env.BUILD_NUMBER
-}
-
 minecraft {
     version = "1.7.10-10.13.4.1492-1.7.10"
     
