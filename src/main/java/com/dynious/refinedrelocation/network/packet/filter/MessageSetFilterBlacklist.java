@@ -3,7 +3,6 @@ package com.dynious.refinedrelocation.network.packet.filter;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.container.IContainerFiltered;
 import com.dynious.refinedrelocation.network.NetworkHandler;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

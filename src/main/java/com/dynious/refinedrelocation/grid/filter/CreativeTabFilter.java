@@ -6,7 +6,6 @@ import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
 import com.dynious.refinedrelocation.event.InitialSyncHandler;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

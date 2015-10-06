@@ -7,7 +7,6 @@ import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.gui.GuiEditFilterButton;
 import com.dynious.refinedrelocation.client.gui.GuiFiltered;
-import com.dynious.refinedrelocation.client.gui.GuiFilteringHopper;
 import com.dynious.refinedrelocation.client.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.container.IContainerFiltered;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;

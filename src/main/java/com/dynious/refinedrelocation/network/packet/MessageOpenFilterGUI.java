@@ -1,12 +1,10 @@
 package com.dynious.refinedrelocation.network.packet;
 
 import com.dynious.refinedrelocation.api.APIUtils;
-import com.dynious.refinedrelocation.container.IContainerAdvanced;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.inventory.Container;
 
 public class MessageOpenFilterGUI implements IMessage, IMessageHandler<MessageOpenFilterGUI, IMessage>
 {
