@@ -129,6 +129,7 @@ public class MultiFilter implements IMultiFilter
             String userFilterString = compound.getString("userFilter");
             if (!userFilterString.isEmpty())
             {
+                userFilterString = userFilterString.replace(',', '\n');
                 CustomUserFilter userFilter = new CustomUserFilter();
                 userFilter.setParentFilter(this, filterList.size());
                 userFilter.setValue(userFilterString);
