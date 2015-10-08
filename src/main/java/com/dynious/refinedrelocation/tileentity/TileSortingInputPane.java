@@ -16,7 +16,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileSortingImporter extends TileSortingConnector implements IInventory
+public class TileSortingInputPane extends TileSortingConnector implements IInventory
 {
     public ItemStack[] bufferInventory = new ItemStack[1];
     protected List<EntityPlayer> crafters = new ArrayList<EntityPlayer>();
@@ -242,7 +242,7 @@ public class TileSortingImporter extends TileSortingConnector implements IInvent
     @Override
     public String getInventoryName()
     {
-        return Names.sortingImporter;
+        return Names.sortingInputPane;
     }
 
     @Override

@@ -40,9 +40,9 @@ public class GuiHelper
             } else if (tile instanceof TileSortingChest)
             {
                 guiId = GuiIds.SORTING_CHEST;
-            } else if (tile instanceof TileSortingImporter)
+            } else if (tile instanceof TileSortingInputPane)
             {
-                guiId = GuiIds.SORTING_IMPORTER;
+                guiId = GuiIds.SORTING_INPUT_PANE;
             } else if (tile instanceof TilePowerLimiter)
             {
                 guiId = GuiIds.POWER_LIMITER;

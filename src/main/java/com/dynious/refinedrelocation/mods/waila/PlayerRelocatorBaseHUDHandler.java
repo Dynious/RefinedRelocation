@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class RelocationControllerHUDHandler implements IWailaDataProvider
+public class PlayerRelocatorBaseHUDHandler implements IWailaDataProvider
 {
     private static final int TICKS_BETWEEN_UPDATE = 5;
     public static int tick = TICKS_BETWEEN_UPDATE; // Start at the amount of ticks so as to immediatly update.

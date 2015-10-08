@@ -10,7 +10,7 @@ public class Resources
     public static final ResourceLocation GUI_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "blockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBlockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BUFFER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBuffer.png");
-    public static final ResourceLocation GUI_SORTING_IMPORTER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "sortingImporter.png");
+    public static final ResourceLocation GUI_SORTING_INPUT_PANE = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "sortingInputPane.png");
     public static final ResourceLocation GUI_POWER_LIMITER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "powerLimiter.png");
     public static final ResourceLocation GUI_MODULE_STOCK = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleStock.png");
     public static final ResourceLocation GUI_MODULE_CRAFTING = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleCrafting.png");

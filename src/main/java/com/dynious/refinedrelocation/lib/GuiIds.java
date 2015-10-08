@@ -12,7 +12,7 @@ public class GuiIds
 
     public static final int SORTING_CHEST = 30;
     public static final int FILTERING_HOPPER = 31;
-    public static final int SORTING_IMPORTER = 32;
+    public static final int SORTING_INPUT_PANE = 32;
     public static final int POWER_LIMITER = 33;
 
     public static final int RELOCATOR_FILTER_BASE = 40;

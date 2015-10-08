@@ -67,10 +67,10 @@ public class GuiHandler implements IGuiHandler
                         return new ContainerFilteringHopper(player.inventory, (IMultiFilterTile) tile);
                     }
                     break;
-                case GuiIds.SORTING_IMPORTER:
-                    if (tile instanceof TileSortingImporter)
+                case GuiIds.SORTING_INPUT_PANE:
+                    if (tile instanceof TileSortingInputPane)
                     {
-                        return new ContainerSortingImporter(player, (TileSortingImporter) tile);
+                        return new ContainerSortingInputPane(player, (TileSortingInputPane) tile);
                     }
                     break;
                 case GuiIds.POWER_LIMITER:
@@ -141,10 +141,10 @@ public class GuiHandler implements IGuiHandler
                         return new GuiFilteringHopper(player.inventory, (TileFilteringHopper) tile);
                     }
                     break;
-                case GuiIds.SORTING_IMPORTER:
-                    if (tile instanceof TileSortingImporter)
+                case GuiIds.SORTING_INPUT_PANE:
+                    if (tile instanceof TileSortingInputPane)
                     {
-                        return new GuiSortingImporter(player, (TileSortingImporter) tile);
+                        return new GuiSortingInputPane(player, (TileSortingInputPane) tile);
                     }
                     break;
                 case GuiIds.POWER_LIMITER:

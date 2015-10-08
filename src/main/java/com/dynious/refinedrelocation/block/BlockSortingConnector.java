@@ -8,7 +8,7 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.tileentity.TileMESortingInterface;
 import com.dynious.refinedrelocation.tileentity.TileSortingConnector;
-import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
+import com.dynious.refinedrelocation.tileentity.TileSortingInputPane;
 import com.dynious.refinedrelocation.tileentity.TileSortingInterface;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -34,8 +34,8 @@ public class BlockSortingConnector extends BlockContainer
 {
     private final IIcon[] interfaceTextures = new IIcon[3];
     private final IIcon[] interfaceTexturesStuffed = new IIcon[3];
-    private IIcon importerTexture;
-    private IIcon importerTextureStuffed;
+    private IIcon inputPaneTexture;
+    private IIcon inputPaneStuffedTexture;
     private IIcon connectorTexture;
     private IIcon meInterfaceTexture;
 
@@ -63,7 +63,7 @@ public class BlockSortingConnector extends BlockContainer
             case 1:
                 return new TileSortingInterface();
             case 2:
-                return new TileSortingImporter();
+                return new TileSortingInputPane();
             case 3:
                 if (Mods.IS_AE2_LOADED)
                     return getNewTileMESortingInterface();
@@ -156,15 +156,15 @@ public class BlockSortingConnector extends BlockContainer
                     sideIdx = 2;
                 }
                 return icons[sideIdx];
-            } else if (tile instanceof TileSortingImporter)
+            } else if (tile instanceof TileSortingInputPane)
             {
-                TileSortingImporter sortingImporter = (TileSortingImporter) tile;
-                if (sortingImporter.isStuffed())
+                TileSortingInputPane sortingInputPane = (TileSortingInputPane) tile;
+                if (sortingInputPane.isStuffed())
                 {
-                    return importerTextureStuffed;
+                    return inputPaneStuffedTexture;
                 } else
                 {
-                    return importerTexture;
+                    return inputPaneTexture;
                 }
             }
         }
@@ -197,8 +197,8 @@ public class BlockSortingConnector extends BlockContainer
         interfaceTexturesStuffed[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInterface + "BackStuffed");
         interfaceTexturesStuffed[2] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInterface + "SideStuffed");
 
-        importerTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingImporter);
-        importerTextureStuffed = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingImporter + "Stuffed");
+        inputPaneTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInputPane);
+        inputPaneStuffedTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.sortingInputPane + "Stuffed");
         meInterfaceTexture = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.MESortingInterface);
     }
 
@@ -213,7 +213,7 @@ public class BlockSortingConnector extends BlockContainer
             case 1:
                 return interfaceTextures[1];
             case 2:
-                return importerTexture;
+                return inputPaneTexture;
             case 3:
                 return meInterfaceTexture;
         }

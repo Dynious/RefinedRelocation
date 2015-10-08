@@ -2,10 +2,9 @@ package com.dynious.refinedrelocation.event;
 
 import com.dynious.refinedrelocation.command.KongaHandler;
 import com.dynious.refinedrelocation.lib.Mods;
-import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.lib.Settings;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.mods.waila.RelocationControllerHUDHandler;
+import com.dynious.refinedrelocation.mods.waila.PlayerRelocatorBaseHUDHandler;
 import com.dynious.refinedrelocation.mods.waila.RelocatorHUDHandler;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -15,7 +14,6 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 
 public class TickEvent
 {
@@ -30,7 +28,7 @@ public class TickEvent
             if (Mods.IS_WAILA_LOADED)
             {
                 RelocatorHUDHandler.tick++;
-                RelocationControllerHUDHandler.tick++;
+                PlayerRelocatorBaseHUDHandler.tick++;
                 if (RelocatorHUDHandler.tick == RelocatorHUDHandler.TICKS_BETWEEN_STUFFED_ITEM_UPDATE)
                 {
                     RelocatorHUDHandler.stuffedItems = null;

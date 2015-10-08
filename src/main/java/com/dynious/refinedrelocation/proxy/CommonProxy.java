@@ -32,10 +32,10 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileSortingConnector.class, Names.sortingConnector);
         GameRegistry.registerTileEntity(TileFilteringHopper.class, Names.filteringHopper);
         GameRegistry.registerTileEntity(TileRelocationPortal.class, Names.relocationPortal);
-        GameRegistry.registerTileEntity(TileRelocationController.class, Names.relocationController);
+        GameRegistry.registerTileEntity(TilePlayerRelocatorBase.class, Names.playerRelocatorBase);
         GameRegistry.registerTileEntity(TilePowerLimiter.class, Names.powerLimiter);
         GameRegistry.registerTileEntity(TileSortingInterface.class, Names.sortingInterface);
-        GameRegistry.registerTileEntity(TileSortingImporter.class, Names.sortingImporter);
+        GameRegistry.registerTileEntity(TileSortingInputPane.class, Names.sortingInputPane);
         GameRegistry.registerTileEntity(TileRelocator.class, Names.relocator);
 
         if (Mods.IS_IRON_CHEST_LOADED)

@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.multiblock.BlockMultiBlockBase;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
-import com.dynious.refinedrelocation.tileentity.TileRelocationController;
+import com.dynious.refinedrelocation.tileentity.TilePlayerRelocatorBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -16,14 +16,14 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockRelocationController extends BlockMultiBlockBase
+public class BlockPlayerRelocatorBase extends BlockMultiBlockBase
 {
     private static IIcon[] icons = new IIcon[2];
 
-    protected BlockRelocationController()
+    protected BlockPlayerRelocatorBase()
     {
         super(Material.rock);
-        this.setBlockName(Names.relocationController);
+        this.setBlockName(Names.playerRelocatorBase);
         this.setHardness(3.0F);
         this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
     }
@@ -31,16 +31,16 @@ public class BlockRelocationController extends BlockMultiBlockBase
     @Override
     public TileMultiBlockBase createNewTileEntity(World world, int meta)
     {
-        return new TileRelocationController();
+        return new TilePlayerRelocatorBase();
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par7, float par8, float par9)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TileRelocationController)
+        if (tileEntity != null && tileEntity instanceof TilePlayerRelocatorBase)
         {
-            return ((TileRelocationController) tileEntity).onActivated(world, player, side);
+            return ((TilePlayerRelocatorBase) tileEntity).onActivated(world, player, side);
         }
         else
         {
@@ -52,9 +52,9 @@ public class BlockRelocationController extends BlockMultiBlockBase
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TileRelocationController)
+        if (tileEntity != null && tileEntity instanceof TilePlayerRelocatorBase)
         {
-            return ((TileRelocationController) tileEntity).isLocked ? icons[1] : icons[0];
+            return ((TilePlayerRelocatorBase) tileEntity).isLocked ? icons[1] : icons[0];
         }
         return icons[0];
     }
@@ -63,8 +63,8 @@ public class BlockRelocationController extends BlockMultiBlockBase
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        icons[0] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.relocationController);
-        icons[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.relocationController + "Locked");
-        blockIcon = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.relocationController); // For the Item icon
+        icons[0] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.playerRelocatorBase);
+        icons[1] = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.playerRelocatorBase + "Locked");
+        blockIcon = iconRegister.registerIcon(Resources.MOD_ID + ":" + Names.playerRelocatorBase); // For the Item icon
     }
 }

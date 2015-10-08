@@ -15,7 +15,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class TileRelocationController extends TileMultiBlockBase
+public class TilePlayerRelocatorBase extends TileMultiBlockBase
 {
     public boolean isLocked = false;
     private String linkedUUID;

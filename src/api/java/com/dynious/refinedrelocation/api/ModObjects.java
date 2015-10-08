@@ -16,10 +16,24 @@ public class ModObjects
     public static ItemStack sortingChest;
     public static ItemStack sortingConnector;
     public static ItemStack sortingInterface;
+
+    /**
+     * @deprecated use sortingInputPane instead
+     */
+    @Deprecated
     public static ItemStack sortingImporter;
+    public static ItemStack sortingInputPane;
+
     public static ItemStack filteringHopper;
     public static ItemStack relocationPortal;
+
+    /**
+     * @deprecated use playerRelocatorBase instead
+     */
+    @Deprecated
     public static ItemStack relocationController;
+    public static ItemStack playerRelocatorBase;
+
     public static ItemStack powerLimiter;
     public static ItemStack relocator;
 
@@ -33,5 +47,10 @@ public class ModObjects
     /* Mod Dependant Blocks (does not include metadata variants)*/
     public static ItemStack sortingIronChest;
     public static ItemStack sortingBarrel;
+    
+    /**
+     * @deprecated no longer functional, pending remove in 1.8
+     */
+    @Deprecated
     public static ItemStack sortingAlchemicalChest;
 }

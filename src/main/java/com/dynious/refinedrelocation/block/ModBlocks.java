@@ -24,7 +24,7 @@ public class ModBlocks
     public static BlockFilteringHopper filteringHopper;
     public static BlockSortingBarrel sortingBarrel;
     public static BlockRelocationPortal relocationPortal;
-    public static BlockRelocationController relocationController;
+    public static BlockPlayerRelocatorBase playerRelocatorBase;
     public static BlockPowerLimiter powerLimiter;
     public static BlockSortingAlchemicalChest sortingAlchemicalChest;
     public static BlockRelocator relocator;
@@ -37,7 +37,7 @@ public class ModBlocks
         sortingConnector = new BlockSortingConnector();
         filteringHopper = new BlockFilteringHopper();
         relocationPortal = new BlockRelocationPortal();
-        relocationController = new BlockRelocationController();
+        playerRelocatorBase = new BlockPlayerRelocatorBase();
         powerLimiter = new BlockPowerLimiter();
 
         ModObjects.blockExtender = new ItemStack(blockExtender);
@@ -51,10 +51,12 @@ public class ModBlocks
         ModObjects.sortingChest = new ItemStack(sortingChest);
         ModObjects.sortingConnector = new ItemStack(sortingConnector);
         ModObjects.sortingInterface = new ItemStack(sortingConnector, 1, 1);
-        ModObjects.sortingImporter = new ItemStack(sortingConnector, 1, 2);
+        ModObjects.sortingInputPane = new ItemStack(sortingConnector, 1, 2);
+        ModObjects.sortingImporter = ModObjects.sortingInputPane;
         ModObjects.filteringHopper = new ItemStack(filteringHopper);
         ModObjects.relocationPortal = new ItemStack(relocationPortal);
-        ModObjects.relocationController = new ItemStack(relocationController);
+        ModObjects.playerRelocatorBase = new ItemStack(playerRelocatorBase);
+        ModObjects.relocationController = ModObjects.playerRelocatorBase;
         ModObjects.powerLimiter = new ItemStack(powerLimiter);
 
         GameRegistry.registerBlock(blockExtender, ItemBlockExtender.class, Names.blockExtender);
@@ -63,7 +65,7 @@ public class ModBlocks
         GameRegistry.registerBlock(sortingConnector, ItemBlockSortingConnector.class, Names.sortingConnector);
         GameRegistry.registerBlock(filteringHopper, Names.filteringHopper);
         GameRegistry.registerBlock(relocationPortal, Names.relocationPortal);
-        GameRegistry.registerBlock(relocationController, ItemBlockPlayerRelocatorBase.class, Names.relocationController);
+        GameRegistry.registerBlock(playerRelocatorBase, ItemBlockPlayerRelocatorBase.class, Names.playerRelocatorBase);
         GameRegistry.registerBlock(powerLimiter, ItemBlockPowerLimiter.class, Names.powerLimiter);
 
         GameRegistry.addShapedRecipe(new ItemStack(blockExtender, 4, 0), "igi", "geg", "ioi", 'i', Items.iron_ingot, 'o', Blocks.obsidian, 'g', Blocks.glass_pane, 'e', Items.ender_pearl);
@@ -95,7 +97,7 @@ public class ModBlocks
 
         if (!Settings.DISABLE_PLAYER_RELOCATOR)
         {
-            GameRegistry.addShapedRecipe(new ItemStack(relocationController), "ded", "ece", "ded", 'd', Items.diamond, 'e', Items.ender_eye, 'c', Items.compass);
+            GameRegistry.addShapedRecipe(new ItemStack(playerRelocatorBase), "ded", "ece", "ded", 'd', Items.diamond, 'e', Items.ender_eye, 'c', Items.compass);
         }
 
         if (Mods.IS_IRON_CHEST_LOADED)

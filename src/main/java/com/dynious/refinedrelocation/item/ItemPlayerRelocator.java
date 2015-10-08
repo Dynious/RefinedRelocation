@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.helper.MiscHelper;
 import com.dynious.refinedrelocation.helper.ParticleHelper;
 import com.dynious.refinedrelocation.lib.*;
-import com.dynious.refinedrelocation.tileentity.TileRelocationController;
+import com.dynious.refinedrelocation.tileentity.TilePlayerRelocatorBase;
 import com.dynious.refinedrelocation.tileentity.TileRelocationPortal;
 import com.dynious.refinedrelocation.util.Vector3;
 import cpw.mods.fml.relauncher.Side;
@@ -70,14 +70,14 @@ public class ItemPlayerRelocator extends Item
             return false;
 
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileRelocationController)
+        if (tile != null && tile instanceof TilePlayerRelocatorBase)
         {
-            TileRelocationController tileController = (TileRelocationController) tile;
-            if (tileController.isFormed(true))
+            TilePlayerRelocatorBase tilePlayerRelocatorBase = (TilePlayerRelocatorBase) tile;
+            if (tilePlayerRelocatorBase.isFormed(true))
             {
-                if (tileController.isLocked)
+                if (tilePlayerRelocatorBase.isLocked)
                 {
-                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.CONTROLLER_LOCKED)));
+                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.PLAYER_RELOCATOR_BASE_LOCKED)));
                     return false;
                 }
 
@@ -87,12 +87,12 @@ public class ItemPlayerRelocator extends Item
                     stack.getTagCompound().setString(UUID_TAG, UUID.randomUUID().toString());
                 }
 
-                stack.getTagCompound().setBoolean(INTER_LINK_TAG, tileController.isIntraLinker());
+                stack.getTagCompound().setBoolean(INTER_LINK_TAG, tilePlayerRelocatorBase.isIntraLinker());
                 stack.getTagCompound().setInteger(DIMENSION_TAG, tile.getWorldObj().provider.dimensionId);
                 stack.getTagCompound().setInteger("x", x);
                 stack.getTagCompound().setInteger("y", y);
                 stack.getTagCompound().setInteger("z", z);
-                tileController.setLinkedUUID(stack.getTagCompound().getString(UUID_TAG));
+                tilePlayerRelocatorBase.setLinkedUUID(stack.getTagCompound().getString(UUID_TAG));
                 player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.PLAYER_RELOCATOR_LINK)));
             }
             return true;
@@ -137,13 +137,13 @@ public class ItemPlayerRelocator extends Item
             if (linkedWorld != null && (world == linkedWorld || stack.getTagCompound().getBoolean(INTER_LINK_TAG)))
             {
                 TileEntity connectedTile = linkedWorld.getTileEntity(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
-                if (connectedTile != null && connectedTile instanceof TileRelocationController && ((TileRelocationController) connectedTile).isFormed(true))
+                if (connectedTile != null && connectedTile instanceof TilePlayerRelocatorBase && ((TilePlayerRelocatorBase) connectedTile).isFormed(true))
                 {
-                    if ((world != linkedWorld && !((TileRelocationController) connectedTile).isIntraLinker()) || ArrayUtils.contains(Settings.PLAYER_RELOCATOR_DISABLED_AGES, world.provider.dimensionId))
+                    if ((world != linkedWorld && !((TilePlayerRelocatorBase) connectedTile).isIntraLinker()) || ArrayUtils.contains(Settings.PLAYER_RELOCATOR_DISABLED_AGES, world.provider.dimensionId))
                     {
                         return stack;
                     }
-                    if (!stack.getTagCompound().getString(UUID_TAG).equals(((TileRelocationController) connectedTile).getLinkedUUID()))
+                    if (!stack.getTagCompound().getString(UUID_TAG).equals(((TilePlayerRelocatorBase) connectedTile).getLinkedUUID()))
                     {
                         stack.getTagCompound().removeTag(UUID_TAG);
                         return stack;

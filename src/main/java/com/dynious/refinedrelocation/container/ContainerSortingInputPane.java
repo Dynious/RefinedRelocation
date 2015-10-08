@@ -1,19 +1,19 @@
 package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.container.slot.SlotPhantom;
-import com.dynious.refinedrelocation.tileentity.TileSortingImporter;
+import com.dynious.refinedrelocation.tileentity.TileSortingInputPane;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerSortingImporter extends ContainerPhantom
+public class ContainerSortingInputPane extends ContainerPhantom
 {
     public static final int MESSAGE_SWITCH_PAGE = 0;
 
-    private TileSortingImporter inventory;
+    private TileSortingInputPane inventory;
     private int page = 0;
 
-    public ContainerSortingImporter(EntityPlayer player, TileSortingImporter inventory)
+    public ContainerSortingInputPane(EntityPlayer player, TileSortingInputPane inventory)
     {
         allowStackSizes = false;
         this.inventory = inventory;

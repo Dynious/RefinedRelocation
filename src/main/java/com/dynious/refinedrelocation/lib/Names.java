@@ -16,10 +16,10 @@ public class Names
     public static final String filteringHopper = "filteringHopper";
     public static final String sortingBarrel = "sortingBarrel";
     public static final String relocationPortal = "relocationPortal";
-    public static final String relocationController = "relocationController";
+    public static final String playerRelocatorBase = "relocationController";
     public static final String powerLimiter = "powerLimiter";
     public static final String sortingInterface = "sortingInterface";
-    public static final String sortingImporter = "sortingImporter";
+    public static final String sortingInputPane = "sortingImporter";
     public static final String sortingAlchemicalChest = "sortingAlchemicalChest";
     public static final String relocator = "relocator";
     public static final String MESortingInterface = "MESortingInterface";

@@ -16,7 +16,7 @@ public class WailaProvider
         registrar.registerBodyProvider(new BlockExtenderHUDHandler(), BlockExtender.class);
         registrar.registerBodyProvider(new PowerLimiterHUDHandler(), BlockPowerLimiter.class);
         registrar.registerBodyProvider(new SortingInterfaceHUDHandler(), BlockSortingConnector.class);
-        registrar.registerBodyProvider(new RelocationControllerHUDHandler(), BlockRelocationController.class);
+        registrar.registerBodyProvider(new PlayerRelocatorBaseHUDHandler(), BlockPlayerRelocatorBase.class);
 
         registrar.registerStackProvider(new RelocatorHUDHandler(), BlockRelocator.class);
         registrar.registerBodyProvider(new RelocatorHUDHandler(), BlockRelocator.class);
@@ -29,7 +29,7 @@ public class WailaProvider
         registrar.registerNBTProvider(new PowerLimiterHUDHandler(), BlockPowerLimiter.class);
         registrar.registerNBTProvider(new ITileHUDHandler(), IFilterTile.class);
         registrar.registerNBTProvider(new ITileHUDHandler(), IAdvancedTile.class);
-        registrar.registerNBTProvider(new RelocationControllerHUDHandler(), BlockRelocationController.class);
+        registrar.registerNBTProvider(new PlayerRelocatorBaseHUDHandler(), BlockPlayerRelocatorBase.class);
 
         if (Mods.IS_FMP_LOADED)
         {
