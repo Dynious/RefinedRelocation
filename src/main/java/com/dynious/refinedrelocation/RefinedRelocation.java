@@ -21,6 +21,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeChunkManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,20 +38,30 @@ public class RefinedRelocation {
     @SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.COMMON_PROXY)
     public static CommonProxy proxy;
 
-    public static CreativeTabs tabRefinedRelocation = new CreativeTabRefinedRelocation(CreativeTabs.getNextID(), Reference.MOD_ID);
+    public static CreativeTabs tabRefinedRelocation = new CreativeTabs(Reference.MOD_ID) {
+        @Override
+        public Item getTabIconItem()
+        {
+            return new ItemStack(ModBlocks.blockExtender).getItem();
+        }
+
+        @Override
+        public ItemStack getIconItemStack()
+        {
+            return new ItemStack(ModBlocks.blockExtender);
+        }
+    };
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        Mods.init();
         VersionChecker.execute();
-
         ConfigHandler.init(event);
 
         FMLCommonHandler.instance().bus().register(new TickEvent());
 
         ModBlocks.init();
-
         ModItems.init();
-
         ModMultiBlocks.init();
 
         NetworkHandler.init();

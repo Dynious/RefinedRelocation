@@ -22,54 +22,53 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class APIHandler implements IAPIHandler
-{
+@SuppressWarnings("unused")
+public class APIHandler implements IAPIHandler {
     public static APIHandler instance = new APIHandler();
 
-    public Object getModInstance()
-    {
+    @Override
+    public Object getModInstance() {
         return RefinedRelocation.instance;
     }
 
-    public int getFilteringGUIID()
-    {
+    @Override
+    public int getFilteringGUIID() {
         return GuiIds.FILTERED;
     }
 
-    public IFilterGUI createStandardFilter(IFilterTileGUI filterTile)
-    {
+    @Override
+    public IFilterGUI createStandardFilter(IFilterTileGUI filterTile) {
         return new MultiFilter(filterTile);
     }
 
-    public ISortingMemberHandler createSortingMemberHandler(TileEntity owner)
-    {
+    @Override
+    public ISortingMemberHandler createSortingMemberHandler(TileEntity owner) {
         return new SortingMemberHandler(owner);
     }
 
-    public ISortingInventoryHandler createSortingInventoryHandler(TileEntity owner)
-    {
+    @Override
+    public ISortingInventoryHandler createSortingInventoryHandler(TileEntity owner) {
         return new SortingInventoryHandler(owner);
     }
 
-    public void registerRelocatorModule(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException
-    {
+    @Override
+    public void registerRelocatorModule(String identifier, Class<? extends IRelocatorModule> clazz) throws IllegalArgumentException {
         RelocatorModuleRegistry.add(identifier, clazz);
     }
 
-    public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side)
-    {
+    @Override
+    public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side) {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer())
             player.openGui(RefinedRelocation.instance, GuiIds.RELOCATOR_FILTER_BASE + side, relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
     }
 
-    public void registerToolboxClazz(Class clazz)
-    {
+    @Override
+    public void registerToolboxClazz(Class clazz) {
         ItemToolBox.addToolboxClass(clazz);
     }
 
     @Override
-    public ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate)
-    {
+    public ItemStack insert(TileEntity tile, ItemStack itemStack, ForgeDirection side, boolean simulate) {
         return IOHelper.insert(tile, itemStack, side, simulate);
     }
 
