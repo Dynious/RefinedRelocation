@@ -16,7 +16,7 @@ public class GuiButtonSpread extends GuiButtonToggle
 
     public GuiButtonSpread(IGuiParent parent, int x, int y, IAdvancedTile tile, int boundMessageId)
     {
-        super(parent, x, y, 24, 20, 48, 0, null, null);
+        super(parent, x, y, 24, 20, "button_stack", "button_spread", null, null);
         this.tile = tile;
         this.boundMessageId = boundMessageId;
         update();

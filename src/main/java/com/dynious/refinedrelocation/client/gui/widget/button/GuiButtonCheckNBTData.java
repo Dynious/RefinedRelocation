@@ -14,7 +14,7 @@ public class GuiButtonCheckNBTData extends GuiButtonToggle
 
     public GuiButtonCheckNBTData(IGuiParent parent, int x, int y, SameItemFilter filter, int boundMessageId)
     {
-        super(parent, x, y, 24, 20, 226, 80, null, null);
+        super(parent, x, y, 24, 20, "button_nbt_inactive", "button_nbt_active", null, null);
         this.boundMessageId = boundMessageId;
         this.filter = filter;
         update();

@@ -18,7 +18,7 @@ public class GuiButtonTicksBetweenExtractions extends GuiButtonCounter
 
     public GuiButtonTicksBetweenExtractions(IGuiParent parent, int x, int y, RelocatorModuleExtraction module)
     {
-        super(parent, x, y, 24, 20, 0, 0, Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION, Integer.MAX_VALUE, 1, 10);
+        super(parent, x, y, 24, 20, Settings.RELOCATOR_MIN_TICKS_BETWEEN_EXTRACTION, Integer.MAX_VALUE, 1, 10);
         this.module = module;
         update();
         setAdventureModeRestriction(true);

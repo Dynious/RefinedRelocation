@@ -9,7 +9,7 @@ public class GuiButtonOpenModuleGUI extends GuiScalableButton
 
     public GuiButtonOpenModuleGUI(GuiHome parent, int index, String buttonText)
     {
-        super(parent, 0, 0, Minecraft.getMinecraft().fontRenderer.getStringWidth(buttonText) + 3 * 2, 20, 0, 0, buttonText);
+        super(parent, 0, 0, Minecraft.getMinecraft().fontRenderer.getStringWidth(buttonText) + 3 * 2, 20, null, buttonText);
         this.index = index;
         update();
     }

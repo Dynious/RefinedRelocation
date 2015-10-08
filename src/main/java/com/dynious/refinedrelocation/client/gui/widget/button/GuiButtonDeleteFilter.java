@@ -14,7 +14,7 @@ public class GuiButtonDeleteFilter extends GuiButton
 
     public GuiButtonDeleteFilter(GuiFiltered parent, int x, int y)
     {
-        super(parent, x, y, 16, 16, 160, 80, "");
+        super(parent, x, y, 16, 16, "button_delete_filter", "");
         this.parent = parent;
         setTooltipString(StatCollector.translateToLocal(Strings.DELETE_FILTER));
         setAdventureModeRestriction(true);

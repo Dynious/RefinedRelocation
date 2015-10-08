@@ -17,19 +17,9 @@ public class GuiButtonCounter extends GuiButton
     protected double step;
     protected double shiftStep;
 
-    public GuiButtonCounter(IGuiParent parent, double min, double max, double step, double shiftStep)
+    public GuiButtonCounter(IGuiParent parent, int x, int y, int w, int h, int min, int max, int step, int shiftStep)
     {
-        super(parent, "");
-        this.min = min;
-        this.max = max;
-        this.step = step;
-        this.shiftStep = shiftStep;
-        setValue(min);
-    }
-
-    public GuiButtonCounter(IGuiParent parent, int x, int y, int w, int h, int textureX, int textureY, int min, int max, int step, int shiftStep)
-    {
-        super(parent, x, y, w, h, textureX, textureY, "");
+        super(parent, x, y, w, h, "button", "");
         this.min = min;
         this.max = max;
         this.step = step;

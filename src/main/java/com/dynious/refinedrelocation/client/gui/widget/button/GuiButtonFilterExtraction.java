@@ -15,7 +15,7 @@ public class GuiButtonFilterExtraction extends GuiButtonToggle
 
     public GuiButtonFilterExtraction(IGuiParent parent, int x, int y, IAdvancedFilteredTile tile, int boundMessageId)
     {
-        super(parent, x, y, 24, 20, 72, 0, null, null);
+        super(parent, x, y, 24, 20, "button_unfiltered_extraction", "button_filtered_extraction", null, null);
         this.tile = tile;
         this.boundMessageId = boundMessageId;
         update();

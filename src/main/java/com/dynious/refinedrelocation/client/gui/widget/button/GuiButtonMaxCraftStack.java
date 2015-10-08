@@ -15,7 +15,7 @@ public class GuiButtonMaxCraftStack extends GuiButtonCounter
 
     public GuiButtonMaxCraftStack(IGuiParent parent, int x, int y, RelocatorModuleCrafting tile)
     {
-        super(parent, x, y, 24, 20, 0, 0, 0, 64, 1, 16);
+        super(parent, x, y, 24, 20, 0, 64, 1, 16);
         this.tile = tile;
         update();
         setAdventureModeRestriction(true);

@@ -24,7 +24,7 @@ public class GuiUserFilter extends GuiWidgetBase implements IGuiWidgetWrapped
         userFilterLabel = new GuiLabel(this, x, y, StatCollector.translateToLocal(Strings.CUSTOM_FILTER));
         userFilterLabel.drawCentered = false;
 
-        userFilterHelp = new GuiButton(this, userFilterLabel.x + userFilterLabel.w + 5, userFilterLabel.y - 1, 10, 10, 0, 128, null);
+        userFilterHelp = new GuiButton(this, userFilterLabel.x + userFilterLabel.w + 5, userFilterLabel.y - 1, 10, 10, "button_help", null);
         userFilterHelp.setTooltipString(StatCollector.translateToLocal(Strings.NAME_MATCHING) + "\n\u00A77"
                 + StatCollector.translateToLocal(Strings.WILDCARD_CHARACTER) + ": \u00A73*\n\u00A77"
                 + StatCollector.translateToLocal(Strings.OREDICT_CHARACTER) + ": \u00A72!\n\u00A77"

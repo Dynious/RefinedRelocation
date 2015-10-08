@@ -41,6 +41,12 @@ public interface IMultiFilterChild
 	int getIconY();
 
 	@SideOnly(Side.CLIENT)
+	int getIconWidth();
+
+	@SideOnly(Side.CLIENT)
+	int getIconHeight();
+
+	@SideOnly(Side.CLIENT)
 	String getNameLangKey();
 
 	@SideOnly(Side.CLIENT)

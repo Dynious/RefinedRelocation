@@ -14,9 +14,9 @@ public class GuiButtonEnergyTypes extends GuiButton
     private ContainerPowerLimiter container;
     private EnergyType currentEnergyType;
 
-    public GuiButtonEnergyTypes(IGuiParent parent, int x, int y, int w, int h, ContainerPowerLimiter container)
+    public GuiButtonEnergyTypes(IGuiParent parent, int x, int y, ContainerPowerLimiter container)
     {
-        super(parent, x, y, w, h, 0, 0, "");
+        super(parent, x, y, "");
         this.container = container;
         if (container != null)
         {

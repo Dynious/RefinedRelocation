@@ -11,21 +11,10 @@ import org.lwjgl.opengl.GL11;
 public class GuiScalableButton extends GuiButton
 {
     protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
-    protected int textureX = 0;
-    protected int textureY = 0;
     protected GuiLabel label = null;
 
-    public GuiScalableButton(IGuiParent parent, String labelText)
-    {
-        super(parent, labelText);
-        this.label = new GuiLabel(this, x + w / 2, y + h / 2, labelText, 0xffffff, true);
-    }
-
-    public GuiScalableButton(IGuiParent parent, int x, int y, int w, int h, int textureX, int textureY, String labelText)
-    {
-        super(parent, x, y, w, h, textureX, textureY, labelText);
-        this.textureX = textureX;
-        this.textureY = textureY;
+    public GuiScalableButton(IGuiParent parent, int x, int y, int w, int h, String textureName, String labelText) {
+        super(parent, x, y, w, h, textureName, labelText);
         this.label = new GuiLabel(this, this.x + this.w / 2, this.y + this.h / 2, labelText, 0xffffff, true);
     }
 

@@ -1,6 +1,7 @@
 package com.dynious.refinedrelocation.proxy;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
+import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.renderer.*;
 import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.lib.Mods;
@@ -12,6 +13,8 @@ import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -48,6 +51,13 @@ public class ClientProxy extends CommonProxy
         {
             EE3Helper.addEE3Renders();
         }
+    }
+
+    @Override
+    public void init(FMLInitializationEvent event) {
+        super.init(event);
+
+        SharedAtlas.init(Minecraft.getMinecraft().getResourceManager());
     }
 
     @Override

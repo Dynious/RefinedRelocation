@@ -2,6 +2,8 @@ package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.api.filter.IChecklistFilter;
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
+import com.dynious.refinedrelocation.client.graphics.TextureRegion;
+import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
 import com.dynious.refinedrelocation.event.InitialSyncHandler;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -21,6 +23,8 @@ import net.minecraft.util.ResourceLocation;
 public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
 {
     public static final String TYPE_NAME = "mod";
+
+    private static TextureRegion iconTexture;
 
     private static String[] serverSideModIDs;
     private static String[] modNames;
@@ -118,23 +122,35 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ResourceLocation getIconSheet()
-    {
-        return Resources.GUI_SHARED;
+    public ResourceLocation getIconSheet() {
+        if (iconTexture == null) {
+            iconTexture = SharedAtlas.findRegion("icon_filter_mod");
+        }
+        return iconTexture.texture;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconX()
-    {
-        return 188;
+    public int getIconX() {
+        return iconTexture.getRegionX();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconY()
-    {
-        return 238;
+    public int getIconY() {
+        return iconTexture.getRegionY();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconWidth() {
+        return iconTexture.getRegionWidth();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconHeight() {
+        return iconTexture.getRegionHeight();
     }
 
     @Override

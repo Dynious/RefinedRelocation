@@ -46,7 +46,7 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
 
         if (filterTile instanceof ISortingInventory)
         {
-            new GuiButtonPriority(this, curX, curY, 24, 20, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
+            new GuiButtonPriority(this, curX, curY, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
         }
 
         curX = x + w / 2 - 80;

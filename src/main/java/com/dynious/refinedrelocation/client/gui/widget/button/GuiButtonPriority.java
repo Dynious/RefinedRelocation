@@ -10,32 +10,20 @@ import net.minecraft.util.StatCollector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiButtonPriority extends GuiButton
-{
+public class GuiButtonPriority extends GuiButton {
     private final int boundMessageId;
     private ISortingInventory tile;
 
-    public GuiButtonPriority(IGuiParent parent, ISortingInventory tile, int boundMessageId)
-    {
-        super(parent, "");
+    public GuiButtonPriority(IGuiParent parent, int x, int y, ISortingInventory tile, int boundMessageId) {
+        super(parent, x, y, "");
         this.boundMessageId = boundMessageId;
         this.tile = tile;
         setAdventureModeRestriction(true);
     }
 
-    public GuiButtonPriority(IGuiParent parent, int x, int y, int w, int h, ISortingInventory tile, int boundMessageId)
-    {
-        super(parent, x, y, w, h, 0, 0, "");
-        this.boundMessageId = boundMessageId;
-        this.tile = tile;
-        setAdventureModeRestriction(true);
-    }
-
-    public void setValue(ISortingInventory.Priority priority)
-    {
+    public void setValue(ISortingInventory.Priority priority) {
         String text = "";
-        switch (priority)
-        {
+        switch (priority) {
             case HIGH:
                 text = "+";
                 break;
@@ -56,11 +44,9 @@ public class GuiButtonPriority extends GuiButton
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
+    public List<String> getTooltip(int mouseX, int mouseY) {
         List<String> subTooltip = super.getTooltip(mouseX, mouseY);
-        if (isInsideBounds(mouseX, mouseY))
-        {
+        if (isInsideBounds(mouseX, mouseY)) {
             List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.PRIORITY) + ":");
             tooltip.add("\u00A77" + StatCollector.translateToLocal(tile.getPriority().name().replace('_', '-')));
@@ -73,15 +59,11 @@ public class GuiButtonPriority extends GuiButton
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown)
-    {
-        if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1))
-        {
-            if(!isAdventureModeRestriction() || !GuiRefinedRelocationContainer.isRestrictedAccessWithError())
-            {
+    public void mouseClicked(int mouseX, int mouseY, int type, boolean isShiftKeyDown) {
+        if (isInsideBounds(mouseX, mouseY) && (type == 0 || type == 1)) {
+            if (!isAdventureModeRestriction() || !GuiRefinedRelocationContainer.isRestrictedAccessWithError()) {
                 int amount = type == 0 ? -1 : 1;
-                if (tile.getPriority().ordinal() + amount >= 0 && tile.getPriority().ordinal() + amount < ISortingInventory.Priority.values().length)
-                {
+                if (tile.getPriority().ordinal() + amount >= 0 && tile.getPriority().ordinal() + amount < ISortingInventory.Priority.values().length) {
                     ISortingInventory.Priority newPriority = ISortingInventory.Priority.values()[tile.getPriority().ordinal() + amount];
                     tile.setPriority(newPriority);
                     GuiHelper.sendByteMessage(boundMessageId, (byte) newPriority.ordinal());
@@ -93,11 +75,10 @@ public class GuiButtonPriority extends GuiButton
     }
 
     @Override
-    public void update()
-    {
-        if (tile != null)
+    public void update() {
+        if (tile != null) {
             setValue(tile.getPriority());
-
+        }
         super.update();
     }
 }

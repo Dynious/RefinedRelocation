@@ -46,7 +46,7 @@ public class GuiInsertDirections extends GuiWidgetBase
         insertDirections[ForgeDirection.WEST.ordinal()] = new GuiInsertDirection(this, colX[0], colY[1], tile, ForgeDirection.WEST, ForgeDirection.getOrientation(facingRelativeSides[facingDir.ordinal()][ForgeDirection.WEST.ordinal()]));
         insertDirections[ForgeDirection.EAST.ordinal()] = new GuiInsertDirection(this, colX[2], colY[1], tile, ForgeDirection.EAST, ForgeDirection.getOrientation(facingRelativeSides[facingDir.ordinal()][ForgeDirection.EAST.ordinal()]));
 
-        GuiButton insertDirectionHelp = new GuiButton(this, x + w - 10, y, 10, 10, 0, 128, null);
+        GuiButton insertDirectionHelp = new GuiButton(this, x + w - 10, y, 10, 10, "button_help", null);
         if (tile instanceof TileBuffer)
         {
             insertDirectionHelp.setTooltipString(StatCollector.translateToLocal(Strings.BUFFER_INSERTION_INFO).replaceAll("\\\\n", "\n\u00A77"));

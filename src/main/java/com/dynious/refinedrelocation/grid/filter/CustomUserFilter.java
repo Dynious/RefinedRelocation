@@ -1,6 +1,8 @@
 package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
+import com.dynious.refinedrelocation.client.graphics.TextureRegion;
+import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.gui.widget.GuiUserFilter;
 import com.dynious.refinedrelocation.grid.MultiFilter;
 import com.dynious.refinedrelocation.helper.LogHelper;
@@ -16,6 +18,9 @@ import net.minecraft.util.ResourceLocation;
 public class CustomUserFilter extends MultiFilterChildBase
 {
     public static final String TYPE_NAME = "user";
+
+    private static TextureRegion iconTexture;
+
     private String value = "";
 
     @Override
@@ -134,23 +139,35 @@ public class CustomUserFilter extends MultiFilterChildBase
 
     @Override
     @SideOnly(Side.CLIENT)
-    public ResourceLocation getIconSheet()
-    {
-        return Resources.GUI_SHARED;
+    public ResourceLocation getIconSheet() {
+        if (iconTexture == null) {
+            iconTexture = SharedAtlas.findRegion("icon_filter_custom");
+        }
+        return iconTexture.texture;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconX()
-    {
-        return 116;
+    public int getIconX() {
+        return iconTexture.getRegionX();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getIconY()
-    {
-        return 238;
+    public int getIconY() {
+        return iconTexture.getRegionY();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconWidth() {
+        return iconTexture.getRegionWidth();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconHeight() {
+        return iconTexture.getRegionHeight();
     }
 
     @Override

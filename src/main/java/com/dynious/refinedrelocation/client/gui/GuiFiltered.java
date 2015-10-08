@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.client.gui;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
+import com.dynious.refinedrelocation.client.graphics.TextureRegion;
 import com.dynious.refinedrelocation.client.gui.widget.*;
 import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonBlacklist;
 import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonDeleteFilter;
@@ -79,7 +80,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
         int tabButtonX = width / 2 - 118;
         int tabButtonY = height / 2 - 60;
 
-        GuiTabButton settingsTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterSettings(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight(), filterTile), tabButtons.size(), 134, 238);
+        GuiTabButton settingsTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterSettings(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight(), filterTile), tabButtons.size(), SharedAtlas.findRegion("icon_settings"));
         settingsTabButton.setPlainTexture();
         if (!focusLast && filter.getFilterCount() == 0)
         {
@@ -91,7 +92,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
 
         if (filter.getFilterCount() == 0)
         {
-            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterTypeList(this, panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
+            GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterTypeList(this, panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), SharedAtlas.findRegion("icon_add_filter"));
             if (focusLast)
             {
                 panel.setActiveTabButton(emptyTabButton);
@@ -103,10 +104,9 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
             for (int i = 0; i < filter.getFilterCount(); i++)
             {
                 IMultiFilterChild filterChild = filter.getFilterAtIndex(i);
-                int iconTextureX = filterChild.getIconX();
-                int iconTextureY = filterChild.getIconY();
+                TextureRegion textureRegion = new TextureRegion(filterChild.getIconSheet(), filterChild.getTypeName(), filterChild.getIconX(), filterChild.getIconY(), filterChild.getIconWidth(), filterChild.getIconHeight());
                 IGuiWidgetBase page = new GuiWidgetWrapper(filterChild.getGuiWidget(panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()));
-                GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page, tabButtons.size(), iconTextureX, iconTextureY);
+                GuiTabButton tabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, page, tabButtons.size(), textureRegion);
                 tabButtons.add(tabButton);
                 tabButtonY += 25;
             }
@@ -119,7 +119,7 @@ public class GuiFiltered extends GuiRefinedRelocationContainer
             }
             if (filter.getFilterCount() < 4)
             {
-                GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterTypeList(this, panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), 62, 238);
+                GuiTabButton emptyTabButton = new GuiTabButton(this, panel, tabButtonX, tabButtonY, new GuiFilterTypeList(this, panel.getX(), panel.getY(), panel.getWidth(), panel.getHeight()), tabButtons.size(), SharedAtlas.findRegion("icon_add_filter"));
                 emptyTabButton.setPlainTexture();
                 tabButtons.add(emptyTabButton);
             }

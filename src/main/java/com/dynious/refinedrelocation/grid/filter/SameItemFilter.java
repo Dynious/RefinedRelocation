@@ -2,6 +2,8 @@ package com.dynious.refinedrelocation.grid.filter;
 
 import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
+import com.dynious.refinedrelocation.client.graphics.TextureRegion;
+import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.gui.widget.GuiSameItemFilter;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.lib.Resources;
@@ -16,6 +18,8 @@ import net.minecraft.util.ResourceLocation;
 public class SameItemFilter extends MultiFilterChildBase
 {
     public static final String TYPE_NAME = "sameItem";
+
+    private static TextureRegion iconTexture;
 
     public boolean checkMetadata = true;
     public boolean checkNBTData = true;
@@ -58,21 +62,36 @@ public class SameItemFilter extends MultiFilterChildBase
     @SideOnly(Side.CLIENT)
     public ResourceLocation getIconSheet()
     {
-        return Resources.GUI_SHARED;
+        if(iconTexture == null) {
+            iconTexture = SharedAtlas.findRegion("icon_filter_sameitem");
+        }
+        return iconTexture.texture;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getIconX()
     {
-        return 170;
+        return iconTexture.getRegionX();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public int getIconY()
     {
-        return 238;
+        return iconTexture.getRegionY();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconWidth() {
+        return iconTexture.getRegionWidth();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getIconHeight() {
+        return iconTexture.getRegionHeight();
     }
 
     @Override

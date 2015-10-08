@@ -19,6 +19,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public abstract class GuiRefinedRelocationContainer extends GuiContainer implements IGuiParent
 {
+
     protected IGuiWidgetBase rootNode;
 
     public GuiRefinedRelocationContainer(ContainerRefinedRelocation container)

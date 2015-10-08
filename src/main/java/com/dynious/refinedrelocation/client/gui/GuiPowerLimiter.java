@@ -35,7 +35,7 @@ public class GuiPowerLimiter extends GuiRefinedRelocationContainer
         new GuiLabel(this, width / 2, height / 2 - 32, StatCollector.translateToLocal(Strings.POWER_LIMITER));
 
         new GuiButtonRedstoneToggle(this, width / 2 - 60, height / 2 - 22, tile, MessageGUI.REDSTONE_TOGGLE);
-        btnEnergyTypes = new GuiButtonEnergyTypes(this, width / 2 - 30, height / 2 - 22, 24, 20, (ContainerPowerLimiter) inventorySlots);
+        btnEnergyTypes = new GuiButtonEnergyTypes(this, width / 2 - 30, height / 2 - 22, (ContainerPowerLimiter) inventorySlots);
 
         new GuiLabel(this, width / 2 - 60, height / 2 + 5, StatCollector.translateToLocal(Strings.MAX_ENERGY)).drawCentered = false;
 

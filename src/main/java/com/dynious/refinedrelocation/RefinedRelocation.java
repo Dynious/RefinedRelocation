@@ -80,6 +80,7 @@ public class RefinedRelocation
 
         BuildcraftIntegration.init();
 
+        proxy.init(event);
         proxy.initTileEntities();
 
         FMLInterModComms.sendMessage("Waila", "register", "com.dynious.refinedrelocation.mods.WailaProvider.callbackRegister");

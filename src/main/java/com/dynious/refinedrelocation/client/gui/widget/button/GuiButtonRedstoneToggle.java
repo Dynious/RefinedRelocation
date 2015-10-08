@@ -15,7 +15,7 @@ public class GuiButtonRedstoneToggle extends GuiButtonToggle
 
     public GuiButtonRedstoneToggle(IGuiParent parent, int x, int y, TilePowerLimiter tile, int boundMessageId)
     {
-        super(parent, x, y, 24, 20, 96, 0, null, null);
+        super(parent, x, y, 24, 20, "button_redstone_high", "button_redstone_pulse", null, null);
         this.boundMessageId = boundMessageId;
         this.tile = tile;
         update();

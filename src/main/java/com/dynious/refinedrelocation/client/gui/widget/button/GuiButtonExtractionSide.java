@@ -16,7 +16,7 @@ public class GuiButtonExtractionSide extends GuiButton
 
     public GuiButtonExtractionSide(IGuiParent parent, int x, int y, RelocatorModuleSneakyExtraction module)
     {
-        super(parent, x, y, 34, 20, 120, 0, ForgeDirection.getOrientation(module.getExtractionSide()).toString());
+        super(parent, x, y, 34, 20, "button_large", ForgeDirection.getOrientation(module.getExtractionSide()).toString());
         this.module = module;
         this.setTooltipString(StatCollector.translateToLocal(Strings.SNEAKY));
         setAdventureModeRestriction(true);

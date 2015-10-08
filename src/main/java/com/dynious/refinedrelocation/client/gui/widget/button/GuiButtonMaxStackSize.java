@@ -16,7 +16,7 @@ public class GuiButtonMaxStackSize extends GuiButtonCounter
 
     public GuiButtonMaxStackSize(IGuiParent parent, int x, int y, IAdvancedTile tile, int boundMessageId)
     {
-        super(parent, x, y, 24, 20, 0, 0, 0, 64, 1, 16);
+        super(parent, x, y, 24, 20, 0, 64, 1, 16);
         this.tile = tile;
         this.boundMessageId = boundMessageId;
         update();

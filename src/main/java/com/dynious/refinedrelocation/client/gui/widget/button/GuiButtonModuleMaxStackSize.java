@@ -14,7 +14,7 @@ public class GuiButtonModuleMaxStackSize extends GuiButtonCounter
 
     public GuiButtonModuleMaxStackSize(IGuiParent parent, int x, int y, RelocatorModuleExtraction module)
     {
-        super(parent, x, y, 24, 20, 0, 0, 0, 64, 1, 8);
+        super(parent, x, y, 24, 20, 0, 64, 1, 8);
         this.module = module;
         update();
         setAdventureModeRestriction(true);

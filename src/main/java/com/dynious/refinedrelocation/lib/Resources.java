@@ -10,8 +10,6 @@ public class Resources
     public static final ResourceLocation GUI_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "blockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBlockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BUFFER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBuffer.png");
-    public static final ResourceLocation GUI_SHARED = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "shared.png");
-    public static final ResourceLocation GUI_BUTTON = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "button.png");
     public static final ResourceLocation GUI_SORTING_IMPORTER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "sortingImporter.png");
     public static final ResourceLocation GUI_POWER_LIMITER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "powerLimiter.png");
     public static final ResourceLocation GUI_MODULE_STOCK = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleStock.png");
@@ -30,6 +28,5 @@ public class Resources
     public static final ResourceLocation MODEL_TEXTURE_OVERLAY_ALCHEMICAL_CHEST = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "chestFilterOverlayAlchemical.png");
     public static final String MODEL_LOCATION = "models/";
     public static final ResourceLocation MODEL_ENDERPEARL = new ResourceLocation(MOD_ID, MODEL_LOCATION + "enderPearl.obj");
-    public static final String BLOCK_SHEET_LOCATION = "textures/blocks/";
 
 }

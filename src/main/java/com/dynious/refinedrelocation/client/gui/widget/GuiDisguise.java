@@ -13,40 +13,31 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
-public class GuiDisguise extends GuiWidgetBase
-{
+public class GuiDisguise extends GuiWidgetBase {
     protected GuiButton button;
     protected TileBlockExtender tile;
 
-    public GuiDisguise(IGuiParent parent, int x, int y, int w, int h, TileBlockExtender tile)
-    {
+    public GuiDisguise(IGuiParent parent, int x, int y, int w, int h, TileBlockExtender tile) {
         super(parent, x, y, w, h);
         this.tile = tile;
-        button = new GuiButton(this, x, y, w, h, 144, 112, null);
+        button = new GuiButton(this, x, y, w, h, "button_masked", null);
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
+    public List<String> getTooltip(int mouseX, int mouseY) {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isInsideBounds(mouseX, mouseY))
-        {
-            if (tile.getDisguise() != null)
-            {
+        if (isInsideBounds(mouseX, mouseY)) {
+            if (tile.getDisguise() != null) {
                 Block disguisedAs = tile.getDisguise();
                 int meta = tile.blockDisguisedMetadata;
                 ItemStack item = new ItemStack(disguisedAs, 0, meta);
                 tooltip.add(StatCollector.translateToLocalFormatted(Strings.DISGUISED, item.getDisplayName()));
-                for (String s : StatCollector.translateToLocal(Strings.DISGUISED_INFO).split("\\\\n"))
-                {
+                for (String s : StatCollector.translateToLocal(Strings.DISGUISED_INFO).split("\\\\n")) {
                     tooltip.add("\u00A77" + s);
                 }
-            }
-            else
-            {
+            } else {
                 tooltip.add(StatCollector.translateToLocal(Strings.UNDISGUISED));
-                for (String s : StatCollector.translateToLocal(Strings.UNDISGUISED_INFO).split("\\\\n"))
-                {
+                for (String s : StatCollector.translateToLocal(Strings.UNDISGUISED_INFO).split("\\\\n")) {
                     tooltip.add("\u00A77" + s);
                 }
             }
@@ -55,17 +46,14 @@ public class GuiDisguise extends GuiWidgetBase
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY)
-    {
+    public void drawBackground(int mouseX, int mouseY) {
         GL11.glColor4f(1F, 1F, 1F, 1F);
-        if (tile.getDisguise() != null)
-        {
+        if (tile.getDisguise() != null) {
             Block disguisedAs = tile.getDisguise();
             int meta = tile.blockDisguisedMetadata;
 
             IIcon icon = disguisedAs.getIcon(tile.getConnectedDirection().ordinal(), meta);
-            if (icon != null)
-            {
+            if (icon != null) {
                 this.mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
                 this.drawTexturedModelRectFromIcon(x, y, icon, w, h);
             }

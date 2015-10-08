@@ -15,7 +15,7 @@ public class GuiButtonRedstoneSignalStatus extends GuiButtonToggle
 
     public GuiButtonRedstoneSignalStatus(IGuiParent parent, int x, int y, TileBlockExtender tile, int boundMessageId)
     {
-        super(parent, x, y, 24, 20, 202, 0, null, null);
+        super(parent, x, y, 24, 20, "button_redstone_inactive", "button_redstone_active", null, null);
         this.boundMessageId = boundMessageId;
         this.tile = tile;
         update();

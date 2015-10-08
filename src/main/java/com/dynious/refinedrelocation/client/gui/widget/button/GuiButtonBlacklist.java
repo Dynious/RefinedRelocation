@@ -8,38 +8,31 @@ import net.minecraft.util.StatCollector;
 
 import java.util.List;
 
-public class GuiButtonBlacklist extends GuiButtonToggle
-{
+public class GuiButtonBlacklist extends GuiButtonToggle {
     private final GuiFiltered parent;
 
-    public GuiButtonBlacklist(GuiFiltered parent, int x, int y)
-    {
-        super(parent, x, y, 16, 16, 176, 80, null, null);
+    public GuiButtonBlacklist(GuiFiltered parent, int x, int y) {
+        super(parent, x, y, 16, 16, "button_blacklist_small", "button_whitelist_small", null, null);
         this.parent = parent;
         update();
         setAdventureModeRestriction(true);
     }
 
     @Override
-    protected void onStateChangedByUser(boolean newState)
-    {
+    protected void onStateChangedByUser(boolean newState) {
         int selectedFilterIndex = parent.getSelectedFilterIndex();
-        if(selectedFilterIndex != -1)
-        {
+        if (selectedFilterIndex != -1) {
             NetworkHandler.INSTANCE.sendToServer(new MessageSetFilterBlacklist(selectedFilterIndex, newState));
         }
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
+    public List<String> getTooltip(int mouseX, int mouseY) {
         List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isInsideBounds(mouseX, mouseY))
-        {
+        if (isInsideBounds(mouseX, mouseY)) {
             tooltip.add(StatCollector.translateToLocal(getState() ? Strings.BLACKLIST : Strings.WHITELIST));
             String[] tooltipLines = StatCollector.translateToLocal(getState() ? Strings.BLACKLIST_DESC : Strings.WHITELIST_DESC).split("\\\\n");
-            for (String tooltipLine : tooltipLines)
-            {
+            for (String tooltipLine : tooltipLines) {
                 tooltip.add("\u00a77" + tooltipLine);
             }
             tooltip.add("\u00a7b" + StatCollector.translateToLocal(Strings.FILTER_ORDER));
@@ -49,26 +42,22 @@ public class GuiButtonBlacklist extends GuiButtonToggle
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         int selectedFilterIndex = parent.getSelectedFilterIndex();
-        if(selectedFilterIndex >= 0 && selectedFilterIndex < parent.getFilter().getFilterCount()) {
+        if (selectedFilterIndex >= 0 && selectedFilterIndex < parent.getFilter().getFilterCount()) {
             setState(parent.getFilter().getFilterAtIndex(parent.getSelectedFilterIndex()).isBlacklist());
         }
         super.update();
     }
 
     @Override
-    public boolean isInsideBounds(int x, int y)
-    {
+    public boolean isInsideBounds(int x, int y) {
         return parent.hasFilterSelected() && super.isInsideBounds(x, y);
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY)
-    {
-        if (parent.hasFilterSelected())
-        {
+    public void drawBackground(int mouseX, int mouseY) {
+        if (parent.hasFilterSelected()) {
             super.drawBackground(mouseX, mouseY);
         }
     }
