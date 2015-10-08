@@ -556,6 +556,34 @@ icon_filter_sameitem
   orig: 14, 8
   offset: 0, 0
   index: -1
+window_border_bottom
+  rotate: false
+  xy: 27, 166
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+window_border_left
+  rotate: false
+  xy: 60, 222
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+window_border_right
+  rotate: false
+  xy: 53, 156
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+window_border_top
+  rotate: false
+  xy: 60, 215
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
 checkbox
   rotate: false
   xy: 243, 247
@@ -582,5 +610,40 @@ checkbox_hover
   xy: 107, 105
   size: 8, 8
   orig: 8, 8
+  offset: 0, 0
+  index: -1
+window_center
+  rotate: false
+  xy: 55, 2
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+window_corner_bl
+  rotate: false
+  xy: 107, 98
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+window_corner_br
+  rotate: false
+  xy: 62, 2
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+window_corner_tl
+  rotate: false
+  xy: 107, 91
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+window_corner_tr
+  rotate: false
+  xy: 69, 2
+  size: 5, 5
+  orig: 5, 5
   offset: 0, 0
   index: -1

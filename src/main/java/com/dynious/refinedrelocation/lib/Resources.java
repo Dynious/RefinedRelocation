@@ -7,15 +7,11 @@ public class Resources
     public static final String MOD_ID = Reference.MOD_ID.toLowerCase();
     public static final ResourceLocation TEXTURE_BLUR = new ResourceLocation(MOD_ID, "textures/misc/blur.png");
     public static final String GUI_SHEET_LOCATION = "textures/gui/";
-    public static final ResourceLocation GUI_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "blockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBlockExtender.png");
     public static final ResourceLocation GUI_ADVANCED_BUFFER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "advancedBuffer.png");
     public static final ResourceLocation GUI_SORTING_INPUT_PANE = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "sortingInputPane.png");
-    public static final ResourceLocation GUI_POWER_LIMITER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "powerLimiter.png");
     public static final ResourceLocation GUI_MODULE_STOCK = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleStock.png");
     public static final ResourceLocation GUI_MODULE_CRAFTING = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "relocatorModuleCrafting.png");
-    public static final ResourceLocation GUI_MODULAR = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "modularGui.png");
-    public static final ResourceLocation GUI_MULTIFILTER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "multifilter.png");
     public static final ResourceLocation GUI_MODULAR_FILTER = new ResourceLocation(MOD_ID, GUI_SHEET_LOCATION + "modularFilter.png");
     public static final String MODEL_SHEET_LOCATION = "textures/model/";
     public static final ResourceLocation MODEL_TEXTURE_BLOCK_EXTENDER = new ResourceLocation(MOD_ID, MODEL_SHEET_LOCATION + "blockExtender0.png");

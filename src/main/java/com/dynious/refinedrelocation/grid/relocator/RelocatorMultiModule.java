@@ -5,7 +5,7 @@ import com.dynious.refinedrelocation.api.item.IItemRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.api.relocator.RelocatorModuleBase;
-import com.dynious.refinedrelocation.client.gui.GuiHome;
+import com.dynious.refinedrelocation.client.gui.GuiModuleMultiModule;
 import com.dynious.refinedrelocation.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.helper.StringHelper;
 import com.dynious.refinedrelocation.item.ModItems;
@@ -191,7 +191,7 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
         if (currentModule == -1)
-            return new GuiHome(this, modules, relocator, player, side);
+            return new GuiModuleMultiModule(this, modules, relocator, player, side);
         else
             return getCurrentModule().getGUI(relocator, side, player);
     }

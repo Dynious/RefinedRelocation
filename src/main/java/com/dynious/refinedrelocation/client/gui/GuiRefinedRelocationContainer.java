@@ -1,5 +1,6 @@
 package com.dynious.refinedrelocation.client.gui;
 
+import com.dynious.refinedrelocation.client.graphics.TextureRegion;
 import com.dynious.refinedrelocation.client.gui.widget.GuiWidgetBase;
 import com.dynious.refinedrelocation.container.ContainerRefinedRelocation;
 import com.dynious.refinedrelocation.lib.Settings;
@@ -18,6 +19,8 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiRefinedRelocationContainer extends GuiContainer implements IGuiParent {
+
+    private static TextureRegion[][] windowTexture;
 
     protected IGuiWidgetBase rootNode;
     private final List<String> tmpTooltip = new ArrayList<>();
@@ -155,6 +158,31 @@ public abstract class GuiRefinedRelocationContainer extends GuiContainer impleme
             return true;
         }
         return false;
+    }
+
+    public static void drawWindow(int x, int y, int width, int height) {
+        if(windowTexture == null) {
+            windowTexture = new TextureRegion[3][3];
+            windowTexture[0][0] = SharedAtlas.findRegion("window_corner_tl");
+            windowTexture[1][0] = SharedAtlas.findRegion("window_border_top");
+            windowTexture[2][0] = SharedAtlas.findRegion("window_corner_tr");
+            windowTexture[0][1] = SharedAtlas.findRegion("window_border_left");
+            windowTexture[1][1] = SharedAtlas.findRegion("window_center");
+            windowTexture[2][1] = SharedAtlas.findRegion("window_border_right");
+            windowTexture[0][2] = SharedAtlas.findRegion("window_corner_bl");
+            windowTexture[1][2] = SharedAtlas.findRegion("window_border_bottom");
+            windowTexture[2][2] = SharedAtlas.findRegion("window_corner_br");
+        }
+        final int borderSize = windowTexture[0][0].getRegionWidth();
+        windowTexture[0][0].draw(x, y);
+        windowTexture[1][0].draw(x + borderSize, y, width - borderSize * 2, borderSize);
+        windowTexture[2][0].draw(x + width - borderSize, y);
+        windowTexture[0][1].draw(x, y + borderSize, borderSize, height - borderSize * 2);
+        windowTexture[1][1].draw(x + borderSize, y + borderSize, width - borderSize * 2, height - borderSize * 2);
+        windowTexture[2][1].draw(x + width - borderSize, y + borderSize, borderSize, height - borderSize * 2);
+        windowTexture[0][2].draw(x, y + height - borderSize);
+        windowTexture[1][2].draw(x + borderSize, y + height - borderSize, width - borderSize * 2, borderSize);
+        windowTexture[2][2].draw(x + width - borderSize, y + height - borderSize);
     }
 
 }

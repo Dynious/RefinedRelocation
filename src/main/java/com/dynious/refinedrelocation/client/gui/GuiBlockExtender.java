@@ -10,47 +10,38 @@ import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 
-public class GuiBlockExtender extends GuiRefinedRelocationContainer
-{
+public class GuiBlockExtender extends GuiRefinedRelocationContainer {
     private TileBlockExtender blockExtender;
 
-    public GuiBlockExtender(InventoryPlayer invPlayer, TileBlockExtender blockExtender)
-    {
+    public GuiBlockExtender(InventoryPlayer invPlayer, TileBlockExtender blockExtender) {
         super(new ContainerBlockExtender(blockExtender));
         this.blockExtender = blockExtender;
+
+        xSize = 92;
+        ySize = 56;
     }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
 
         new GuiLabel(this, width / 2, height / 2 - 17, BlockHelper.getTileEntityDisplayName(blockExtender));
 
-        boolean allowChanges = isRestrictedAccessWithError();
         new GuiButtonRedstoneSignalStatus(this, width / 2 - 12, height / 2 - 5, blockExtender);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float par1, int x, int y)
-    {
-        int xSize = 92;
-        int ySize = 56;
-
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture(Resources.GUI_BLOCK_EXTENDER);
-        int xStart = (width - xSize) / 2;
-        int yStart = (height - ySize) / 2;
-        this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
+    protected void drawGuiContainerBackgroundLayer(float par1, int x, int y) {
+        GL11.glColor4f(1f, 1f, 1f, 1f);
+        drawWindow(guiLeft, guiTop, xSize, ySize);
 
         super.drawGuiContainerBackgroundLayer(par1, x, y);
     }
 
     @Override
-    public boolean doesGuiPauseGame()
-    {
+    public boolean doesGuiPauseGame() {
         return false;
     }
 }

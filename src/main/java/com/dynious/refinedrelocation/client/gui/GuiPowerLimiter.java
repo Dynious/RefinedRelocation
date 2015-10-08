@@ -14,22 +14,19 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-public class GuiPowerLimiter extends GuiRefinedRelocationContainer
-{
+public class GuiPowerLimiter extends GuiRefinedRelocationContainer {
     private final TilePowerLimiter tile;
     private GuiButtonEnergyTypes btnEnergyTypes;
 
-    public GuiPowerLimiter(TilePowerLimiter tile)
-    {
+    public GuiPowerLimiter(TilePowerLimiter tile) {
         super(new ContainerPowerLimiter(tile));
         this.tile = tile;
-        this.xSize = 147;
-        this.ySize = 91;
+        xSize = 147;
+        ySize = 91;
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
 
         new GuiLabel(this, width / 2, height / 2 - 32, StatCollector.translateToLocal(Strings.POWER_LIMITER));
@@ -45,27 +42,21 @@ public class GuiPowerLimiter extends GuiRefinedRelocationContainer
     }
 
     @Override
-    public void onGuiClosed()
-    {
+    public void onGuiClosed() {
         super.onGuiClosed();
 
         Keyboard.enableRepeatEvents(false);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
-    {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(Resources.GUI_POWER_LIMITER);
-        int xPos = (width - xSize) / 2;
-        int yPos = (height - ySize) / 2;
-        drawTexturedModalRect(xPos, yPos, 0, 0, xSize, ySize);
+    protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+        GL11.glColor4f(1f, 1f, 1f, 1f);
+        drawWindow(guiLeft, guiTop, xSize, ySize);
 
         super.drawGuiContainerBackgroundLayer(f, i, j);
     }
 
-    public EnergyType getCurrentEnergyType()
-    {
+    public EnergyType getCurrentEnergyType() {
         return btnEnergyTypes.getCurrentEnergyType();
     }
 }
