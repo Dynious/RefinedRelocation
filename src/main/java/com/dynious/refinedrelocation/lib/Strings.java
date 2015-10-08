@@ -123,8 +123,13 @@ public class Strings
     public static final String UNLINKED = ITEM_DESC_PREFIX + "unlinked";
     public static final String DISGUISED_AS = ITEM_DESC_PREFIX + "disguisedAs";
     public static final String CANNOT_DISGUISE_AS = ITEM_DESC_PREFIX + "cannotDisguiseAs";
+    public static final String CANNOT_COPY_NOT_EMPTY = ITEM_DESC_PREFIX + "cannotCopyNotEmpty";
+    public static final String CANNOT_COPY_INVALID = ITEM_DESC_PREFIX + "cannotCopyLinkInvalid";
+    public static final String COPIED_FROM = ITEM_DESC_PREFIX + "copiedFrom";
+    public static final String CANNOT_COPY_NO_LINK = ITEM_DESC_PREFIX + "cannotCopyNoLink";
     public static final String LINKER_SET = ITEM_DESC_PREFIX + "linkerSet";
     public static final String NO_LINK_TO_SELF = ITEM_DESC_PREFIX + "noLinkingToSelf";
+    public static final String NO_LINK = ITEM_DESC_PREFIX + "noLink";
     public static final String NO_LONGER_LINKED = ITEM_DESC_PREFIX + "noLongerLinked";
     public static final String INTER_DIMENSIONAL = ITEM_DESC_PREFIX + "interDimensional";
     public static final String BROKEN_LINK = ITEM_DESC_PREFIX + "brokenLink";
@@ -134,6 +139,7 @@ public class Strings
     public static final String TOOLBOX_INFO = ITEM_DESC_PREFIX + "toolBoxInfo";
     public static final String TOOLBOX_WRENCH_LIST_START = ITEM_DESC_PREFIX + "toolBoxWrenchListStart";
     public static final String SORTING_UPGRADE = ITEM_DESC_PREFIX + "sortingUpgrade";
+
     private static final String FILTER_NAME_PREFIX = "filterName." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String INGOT_FILTER = FILTER_NAME_PREFIX + "filterIngot";
     public static final String ORE_FILTER = FILTER_NAME_PREFIX + "filterOres";

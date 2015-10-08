@@ -33,10 +33,8 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.Interface(iface = "cofh.api.block.IDismantleable", modid = Mods.COFH_BLOCK_API_ID)
-public class BlockExtender extends BlockContainer implements IDismantleable
-{
-    public BlockExtender()
-    {
+public class BlockExtender extends BlockContainer implements IDismantleable {
+    public BlockExtender() {
         super(Material.rock);
         this.setBlockName(Names.blockExtender);
         this.setHardness(3.0F);
@@ -45,10 +43,8 @@ public class BlockExtender extends BlockContainer implements IDismantleable
 
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
-        switch (meta)
-        {
+    public TileEntity createNewTileEntity(World world, int meta) {
+        switch (meta) {
             case 0:
                 return new TileBlockExtender();
             case 1:
@@ -67,133 +63,45 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void getSubBlocks(Item item, CreativeTabs par2CreativeTabs,
-                             List par3List)
-    {
-        for (int metadata = 0; metadata < (Settings.DISABLE_WIRELESS_BLOCK_EXTENDER ? 4 : 5); ++metadata)
-        {
+                             List par3List) {
+        for (int metadata = 0; metadata < (Settings.DISABLE_WIRELESS_BLOCK_EXTENDER ? 4 : 5); ++metadata) {
             par3List.add(new ItemStack(item, 1, metadata));
         }
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z,
-                                    EntityPlayer player, int par6, float par7, float par8, float par9)
-    {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (player.isSneaking())
-        {
-            if (player.getCurrentEquippedItem() == null)
-            {
-                if (tile != null && tile instanceof TileBlockExtender && !(tile instanceof TileWirelessBlockExtender))
-                {
-                    TileBlockExtender blockExtender = (TileBlockExtender) tile;
-                    blockExtender.setRedstoneTransmissionEnabled(!blockExtender.isRedstoneTransmissionEnabled());
-                    if (world.isRemote)
-                    {
-                        player.addChatComponentMessage(
-                                new ChatComponentText(StatCollector.translateToLocal(Strings.REDSTONE_TRANSMISSION) + ' ' +
-                                        StatCollector.translateToLocal(blockExtender.isRedstoneTransmissionEnabled() ? Strings.ENABLED : Strings.DISABLED).toLowerCase()));
-                    }
-                    return true;
-                }
-            }
-            return false;
-        }
-        else
-        {
-            if (tile != null)
-            {
-                if (tile instanceof TileWirelessBlockExtender)
-                {
-                    TileWirelessBlockExtender wirelessTile = (TileWirelessBlockExtender) tile;
-                    if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.linker)
-                    {
-                        if (player.getCurrentEquippedItem().hasTagCompound())
-                        {
-                            NBTTagCompound tag = player.getCurrentEquippedItem().getTagCompound();
-                            int tileX = tag.getInteger("tileX");
-                            int tileY = tag.getInteger("tileY");
-                            int tileZ = tag.getInteger("tileZ");
-
-                            if (DistanceHelper.getDistanceSq(x, y, z, tileX, tileY, tileZ) <= Math.pow(Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER, 2))
-                            {
-                                if (tileX == x && tileY == y && tileZ == z)
-                                {
-                                    if (world.isRemote)
-                                    {
-                                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.NO_LINK_TO_SELF)));
-                                    }
-                                    return true;
-                                }
-
-                                wirelessTile.setLink(tileX, tileY, tileZ);
-                                if (world.isRemote)
-                                {
-                                    final String blockDisplayName = BlockHelper.getBlockDisplayName(tile.getWorldObj(), tileX, tileY, tileZ);
-                                    String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
-                                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH,
-                                            tileDisplayName, blockDisplayName, tileX, tileY, tileZ)));
-                                }
-                            }
-                            else
-                            {
-                                if (world.isRemote)
-                                {
-                                    String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
-                                    player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.TOO_FAR,
-                                            tileDisplayName, Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER)));
-                                }
-                            }
-                        }
-                        else if (wirelessTile.isLinked())
-                        {
-                            wirelessTile.clearLink();
-                            if (world.isRemote)
-                            {
-                                String tileDisplayName = BlockHelper.getTileEntityDisplayName(wirelessTile);
-                                player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.NO_LONGER_LINKED,
-                                        tileDisplayName)));
-                            }
-                        }
-                        return true;
-                    }
-                }
-                return GuiHelper.openGui(player, tile);
-            }
+        if (tile != null) {
+            return GuiHelper.openGui(player, tile);
         }
         return true;
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-    {
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
         super.onNeighborBlockChange(world, x, y, z, block);
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileBlockExtender)
-        {
+        if (tile != null && tile instanceof TileBlockExtender) {
             ((TileBlockExtender) tile).blocksChanged = true;
         }
     }
 
     @Override
-    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side)
-    {
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
         TileEntity tile = world.getTileEntity(x, y, z);
         return tile != null && tile instanceof TileBlockExtender && ((TileBlockExtender) tile).canConnectRedstone(side);
     }
 
     @Override
-    public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side)
-    {
+    public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int side) {
         return isProvidingWeakPower(world, x, y, z, side);
     }
 
     @Override
-    public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side)
-    {
+    public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
         TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile != null && tile instanceof TileBlockExtender)
-        {
+        if (tile != null && tile instanceof TileBlockExtender) {
             return ((TileBlockExtender) tile).isPoweringTo(side);
         }
         return 0;
@@ -201,8 +109,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void randomDisplayTick(World world, int x, int y, int z, Random random)
-    {
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
         TileBlockExtender tile = (TileBlockExtender) world.getTileEntity(x, y, z);
 
         if (!tile.isRedstoneTransmissionActive())
@@ -221,58 +128,49 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public boolean canProvidePower()
-    {
+    public boolean canProvidePower() {
         return true;
     }
 
     @Override
-    public boolean isOpaqueCube()
-    {
+    public boolean isOpaqueCube() {
         return false;
     }
 
     @Override
-    public boolean renderAsNormalBlock()
-    {
+    public boolean renderAsNormalBlock() {
         return false;
     }
 
     @Override
-    public boolean isBlockSolid(IBlockAccess world, int x, int y, int z, int side)
-    {
+    public boolean isBlockSolid(IBlockAccess world, int x, int y, int z, int side) {
         return true;
     }
 
     @Override
-    public int getRenderBlockPass()
-    {
+    public int getRenderBlockPass() {
         return 1;
     }
 
     @Override
-    protected String getTextureName()
-    {
+    protected String getTextureName() {
         return "obsidian";
     }
 
     @Override
-    public int damageDropped(int metadata)
-    {
+    public int damageDropped(int metadata) {
         return metadata;
     }
 
     @Optional.Method(modid = Mods.COFH_BLOCK_API_ID)
     @Override
     public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x,
-                                               int y, int z, boolean returnBlock)
-    {
+                                               int y, int z, boolean returnBlock) {
         int meta = world.getBlockMetadata(x, y, z);
 
         ArrayList<ItemStack> items = this.getDrops(world, x, y, z, meta, 0);
 
-        for (ItemStack item : items)
-        {
+        for (ItemStack item : items) {
             IOHelper.spawnItemInWorld(world, item, x, y, z);
         }
 
@@ -282,14 +180,12 @@ public class BlockExtender extends BlockContainer implements IDismantleable
 
     @Optional.Method(modid = Mods.COFH_BLOCK_API_ID)
     @Override
-    public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z)
-    {
+    public boolean canDismantle(EntityPlayer player, World world, int x, int y, int z) {
         return true;
     }
 
     @Override
-    public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis)
-    {
+    public boolean rotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
         TileBlockExtender tile = (TileBlockExtender) worldObj.getTileEntity(x, y, z);
         return tile.rotateBlock();
     }
@@ -297,8 +193,7 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     // Start block disguise delegation functions
 
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         // this ideally would get the disguise's render type
         // but this func doesn't have the world, x, y, z params needed to get the TileBlockExtender
         // so just return the 'standard' type
@@ -306,11 +201,9 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public int colorMultiplier(IBlockAccess world, int x, int y, int z)
-    {
+    public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TileBlockExtender)
-        {
+        if (tileEntity != null && tileEntity instanceof TileBlockExtender) {
             TileBlockExtender tile = (TileBlockExtender) tileEntity;
             Block blockDisguisedAs = tile.getDisguise();
             if (blockDisguisedAs != null)
@@ -320,11 +213,9 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side)
-    {
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (tileEntity != null && tileEntity instanceof TileBlockExtender)
-        {
+        if (tileEntity != null && tileEntity instanceof TileBlockExtender) {
             TileBlockExtender tile = (TileBlockExtender) tileEntity;
             Block blockDisguisedAs = tile.getDisguise();
             int disguisedMeta = tile.blockDisguisedMetadata;
@@ -335,14 +226,12 @@ public class BlockExtender extends BlockContainer implements IDismantleable
     }
 
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
-    {
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
         // translate the coordinates back to the BlockExtender, since they get sent offset for some reason
         ForgeDirection dir = ForgeDirection.getOrientation(side);
 
         TileEntity tileEntity = DirectionHelper.getTileAtSide(world, x, y, z, dir.getOpposite());
-        if (tileEntity != null && tileEntity instanceof TileBlockExtender)
-        {
+        if (tileEntity != null && tileEntity instanceof TileBlockExtender) {
             TileBlockExtender tile = (TileBlockExtender) tileEntity;
 
             if (tile.getDisguise() != null)

@@ -2,17 +2,16 @@ package com.dynious.refinedrelocation.tileentity;
 
 import net.minecraft.block.Block;
 
-public interface IDisguisable
-{
-    public boolean canDisguise();
+public interface IDisguisable {
+    boolean canDisguise();
 
-    public boolean canDisguiseAs(Block block, int metadata);
+    boolean canDisguiseAs(Block block, int metadata);
 
-    public Block getDisguise();
+    Block getDisguise();
 
-    public int getDisguiseMeta();
+    int getDisguiseMeta();
 
-    public void setDisguise(Block block, int metadata);
+    void setDisguise(Block block, int metadata);
 
-    public void clearDisguise();
+    void clearDisguise();
 }

@@ -47,8 +47,9 @@ tile.sortingPreciousChest.PlatinumChest.name=Sorting Platinum Chest
 tile.relocator.name=Relocator
 
 # Item localizations
-item.linker.name=Linker
-item.linker.tooltip=Can be used to link or disguise\n(Wireless) Block Extenders.
+item.linker0.name=Linker (Link Mode)
+item.linker1.name=Linker (Copy Mode)
+item.linker.tooltip=Can be used to link or disguise\n(Wireless) Block Extenders and copy sorting settings.\nShift-rightclick to link or change mode.\nRightclick to apply or clear link.
 item.sortingUpgrade.name=Sorting Upgrade
 item.playerRelocator.name=Player Relocator
 item.relocator.name=Relocator
@@ -199,6 +200,11 @@ gui.refinedrelocation.tooltipShift=- Shift for more -
 gui.refinedrelocation.priorityOrder=Priority Order
 
 #Item Description Localizations
+itemDesc.refinedrelocation.cannotCopyNotEmpty=Can not copy filter settings; this block already has filters defined.
+itemDesc.refinedrelocation.cannotCopyLinkInvalid=Can only link blocks with filters defined in Copy Mode.
+itemDesc.refinedrelocation.cannotCopyNoLink=Can not copy filter settings; no link target defined.
+itemDesc.refinedrelocation.noLink=Linker has not been linked yet.
+itemDesc.refinedrelocation.copiedFrom=Copied filter settings from %s to %s
 itemDesc.refinedrelocation.linkedPos=Linked position:
 itemDesc.refinedrelocation.linked=Linked: %s
 itemDesc.refinedrelocation.unlinked=Unlinked

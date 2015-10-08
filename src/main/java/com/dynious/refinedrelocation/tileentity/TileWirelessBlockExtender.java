@@ -4,18 +4,21 @@ import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.compat.IC2Helper;
+import com.dynious.refinedrelocation.lib.Settings;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.tile.IEnergySink;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
+public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender implements ILinkable
 {
     public int xConnected = Integer.MAX_VALUE;
     public int yConnected = Integer.MAX_VALUE;
@@ -23,21 +26,29 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     private int recheckTime = 0;
     private boolean IC2registerChange = false;
 
-    public void setLink(int x, int y, int z)
-    {
+    @Override
+    public void linkTo(World world, int x, int y, int z, EntityPlayer entityPlayer) {
         this.xConnected = x;
         this.yConnected = y;
         this.zConnected = z;
         this.blocksChanged = true;
-        if (worldObj != null)
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        if (world != null) {
+            world.markBlockForUpdate(xCoord, yCoord, zCoord);
+        }
     }
 
-    public void clearLink()
+    @Override
+    public void clearLink(EntityPlayer entityPlayer)
     {
-        setLink(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        linkTo(worldObj, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, entityPlayer);
     }
 
+    @Override
+    public int getMaxLinkRange() {
+        return Settings.MAX_RANGE_WIRELESS_BLOCK_EXTENDER;
+    }
+
+    @Override
     public boolean isLinked()
     {
         return this.xConnected != Integer.MAX_VALUE;
@@ -254,7 +265,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        setLink(pkt.func_148857_g().getInteger("xConnected"), pkt.func_148857_g().getInteger("yConnected"), pkt.func_148857_g().getInteger("zConnected"));
+        linkTo(worldObj, pkt.func_148857_g().getInteger("xConnected"), pkt.func_148857_g().getInteger("yConnected"), pkt.func_148857_g().getInteger("zConnected"), null);
     }
 
     @Override
@@ -271,7 +282,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        setLink(compound.getInteger("xConnected"), compound.getInteger("yConnected"), compound.getInteger("zConnected"));
+        linkTo(worldObj, compound.getInteger("xConnected"), compound.getInteger("yConnected"), compound.getInteger("zConnected"), null);
     }
 
     @Override
