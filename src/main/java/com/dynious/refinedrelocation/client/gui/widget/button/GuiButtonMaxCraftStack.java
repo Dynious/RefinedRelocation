@@ -9,12 +9,10 @@ import net.minecraft.util.StatCollector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiButtonMaxCraftStack extends GuiButtonCounter
-{
+public class GuiButtonMaxCraftStack extends GuiButtonCounter {
     protected RelocatorModuleCrafting tile;
 
-    public GuiButtonMaxCraftStack(IGuiParent parent, int x, int y, RelocatorModuleCrafting tile)
-    {
+    public GuiButtonMaxCraftStack(IGuiParent parent, int x, int y, RelocatorModuleCrafting tile) {
         super(parent, x, y, 24, 20, 0, 64, 1, 16);
         this.tile = tile;
         update();
@@ -22,8 +20,7 @@ public class GuiButtonMaxCraftStack extends GuiButtonCounter
     }
 
     @Override
-    protected void onValueChangedByUser(double newValue)
-    {
+    protected void onValueChangedByUser(double newValue) {
         if (tile == null)
             return;
 
@@ -32,22 +29,15 @@ public class GuiButtonMaxCraftStack extends GuiButtonCounter
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
-        List<String> subTooltip = super.getTooltip(mouseX, mouseY);
-        if (isInsideBounds(mouseX, mouseY))
-        {
-            List<String> tooltip = new ArrayList<String>();
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
+        if (isInsideBounds(mouseX, mouseY)) {
             tooltip.add(StatCollector.translateToLocal(Strings.MAX_CRAFT_STACK));
-            tooltip.addAll(subTooltip);
-            return tooltip;
         }
-        return subTooltip;
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         if (tile != null)
             setValue(tile.getMaxCraftStack());
 

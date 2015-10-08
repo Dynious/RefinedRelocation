@@ -50,8 +50,8 @@ public class GuiInsertDirection extends GuiWidgetBase {
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY) {
-        List<String> tooltip = super.getTooltip(mouseX, mouseY);
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
 
         if (isInsideBounds(mouseX, mouseY)) {
             TileEntity tile = (TileEntity) this.tile;
@@ -84,8 +84,6 @@ public class GuiInsertDirection extends GuiWidgetBase {
                 }
             }
         }
-
-        return tooltip;
     }
 
     public void drawBackground(int mouseX, int mouseY) {

@@ -30,5 +30,5 @@ public interface IGuiWidgetWrapped
 
     void handleMouseInput();
 
-    List<String> getTooltip(int mouseX, int mouseY);
+    void getTooltip(List<String> tooltip, int mouseX, int mouseY);
 }

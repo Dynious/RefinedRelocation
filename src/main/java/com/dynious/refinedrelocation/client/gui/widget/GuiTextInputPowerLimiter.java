@@ -4,22 +4,21 @@ import com.dynious.refinedrelocation.client.gui.GuiPowerLimiter;
 import com.dynious.refinedrelocation.helper.EnergyType;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.StringUtils;
 
 public class GuiTextInputPowerLimiter extends GuiTextInput
 {
-    private final int boundMessageId;
     protected GuiPowerLimiter parent;
     private TilePowerLimiter tile;
     private double maxAcceptedEnergy;
     private EnergyType currentEnergyType;
 
-    public GuiTextInputPowerLimiter(GuiPowerLimiter parent, int x, int y, int w, int h, TilePowerLimiter tile, int boundMessageId)
+    public GuiTextInputPowerLimiter(GuiPowerLimiter parent, int x, int y, int w, int h, TilePowerLimiter tile)
     {
         super(parent, x, y, w, h);
-        this.boundMessageId = boundMessageId;
         this.tile = tile;
         this.parent = parent;
         update();
@@ -35,7 +34,7 @@ public class GuiTextInputPowerLimiter extends GuiTextInput
 
         maxAcceptedEnergy = stringToMaxEnergy(text);
         tile.setMaxAcceptedEnergy(maxAcceptedEnergy);
-        GuiHelper.sendDoubleMessage(boundMessageId, maxAcceptedEnergy);
+        GuiHelper.sendDoubleMessage(MessageGUI.POWER_LIMIT, maxAcceptedEnergy);
     }
 
     @Override

@@ -31,12 +31,11 @@ public class GuiButtonModuleMaxStackSize extends GuiButtonCounter
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
-        List<String> tooltip = super.getTooltip(mouseX, mouseY);
-        if (isInsideBounds(mouseX, mouseY))
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
+        if (isInsideBounds(mouseX, mouseY)) {
             tooltip.add(0, StatCollector.translateToLocal(Strings.MODULE_MAX_STACK_SIZE));
-        return tooltip;
+        }
     }
 
     @Override

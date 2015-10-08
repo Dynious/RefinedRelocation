@@ -24,8 +24,8 @@ public class GuiDisguise extends GuiWidgetBase {
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY) {
-        List<String> tooltip = super.getTooltip(mouseX, mouseY);
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
         if (isInsideBounds(mouseX, mouseY)) {
             if (tile.getDisguise() != null) {
                 Block disguisedAs = tile.getDisguise();
@@ -42,7 +42,6 @@ public class GuiDisguise extends GuiWidgetBase {
                 }
             }
         }
-        return tooltip;
     }
 
     @Override

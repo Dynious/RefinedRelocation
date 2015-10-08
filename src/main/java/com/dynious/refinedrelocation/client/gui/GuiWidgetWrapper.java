@@ -69,11 +69,9 @@ public class GuiWidgetWrapper extends GuiWidgetBase
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
-        List<String> tooltipList = super.getTooltip(mouseX, mouseY);
-        tooltipList.addAll(wrappedWidget.getTooltip(mouseX, mouseY));
-        return tooltipList;
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
+        wrappedWidget.getTooltip(tooltip, mouseX, mouseY);
     }
 
 

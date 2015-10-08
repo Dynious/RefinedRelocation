@@ -43,15 +43,13 @@ public class GuiButtonFilterType extends GuiWidgetBase {
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY) {
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
         if (filter != null && isInsideBounds(mouseX, mouseY)) {
-            List<String> tooltip = new ArrayList<String>();
             tooltip.add("\u00a7a" + StatCollector.translateToLocal(filter.getNameLangKey()));
             String[] tooltipLines = StatCollector.translateToLocal(filter.getDescriptionLangKey()).split("\\\\n");
             Collections.addAll(tooltip, tooltipLines);
-            return tooltip;
         }
-        return super.getTooltip(mouseX, mouseY);
     }
 
     @Override

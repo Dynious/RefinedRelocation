@@ -30,7 +30,7 @@ public class GuiBlockExtender extends GuiRefinedRelocationContainer
         new GuiLabel(this, width / 2, height / 2 - 17, BlockHelper.getTileEntityDisplayName(blockExtender));
 
         boolean allowChanges = isRestrictedAccessWithError();
-        new GuiButtonRedstoneSignalStatus(this, width / 2 - 12, height / 2 - 5, blockExtender, MessageGUI.REDSTONE_ENABLED);
+        new GuiButtonRedstoneSignalStatus(this, width / 2 - 12, height / 2 - 5, blockExtender);
     }
 
     @Override

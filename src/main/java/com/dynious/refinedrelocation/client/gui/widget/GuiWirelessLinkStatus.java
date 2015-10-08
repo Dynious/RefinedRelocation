@@ -43,9 +43,8 @@ public class GuiWirelessLinkStatus extends GuiButton {
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY) {
-        List<String> tooltip = super.getTooltip(mouseX, mouseY);
-
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
         if (isInsideBounds(mouseX, mouseY)) {
             String colorCode = "\u00A7";
             String grayColor = colorCode + "7";
@@ -68,7 +67,6 @@ public class GuiWirelessLinkStatus extends GuiButton {
             }
         }
 
-        return tooltip;
     }
 
     @Override

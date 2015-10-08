@@ -88,11 +88,10 @@ public class GuiButtonPulseExtractionToggle extends GuiButton {
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY) {
-        List tooltip = super.getTooltip(mouseX, mouseY);
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
         if (isInsideBounds(mouseX, mouseY)) {
             tooltip.add(StatCollector.translateToLocal(Strings.MODULE_REDSTONE_CONTROL + module.redstoneControlState));
         }
-        return tooltip;
     }
 }

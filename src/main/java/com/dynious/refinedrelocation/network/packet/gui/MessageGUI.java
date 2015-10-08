@@ -8,7 +8,9 @@ public abstract class MessageGUI implements IMessage
 
     public static final int SPREAD_ITEMS = 1;
     public static final int MAX_STACK_SIZE = 2;
-    public static final int RESTRICT_EXTRACTION = 3;
+    public static final int FILTERED_EXTRACTION = 3;
+    public static final int CHECK_METADATA = 4;
+    public static final int CHECK_NBT = 5;
     public static final int PRIORITY = 6;
     public static final int REDSTONE_TOGGLE = 7;
     public static final int POWER_LIMIT = 8;

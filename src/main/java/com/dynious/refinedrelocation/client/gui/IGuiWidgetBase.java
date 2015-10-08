@@ -28,7 +28,7 @@ public interface IGuiWidgetBase extends IGuiParent
 
     void setVisible(boolean visible);
 
-    List<String> getTooltip(int mouseX, int mouseY);
+    void getTooltip(List<String> tooltip, int mouseX, int mouseY);
 
     void drawForeground(int mouseX, int mouseY);
 

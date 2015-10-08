@@ -51,7 +51,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
 
         if (tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate)
         {
-            sendSyncMessage(new MessageGUIBoolean(MessageGUI.RESTRICT_EXTRACTION, tile.getRestrictExtraction()));
+            sendSyncMessage(new MessageGUIBoolean(MessageGUI.FILTERED_EXTRACTION, tile.getRestrictExtraction()));
             lastRestrictExtraction = tile.getRestrictExtraction();
         }
 
@@ -121,7 +121,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
             case MessageGUI.SPREAD_ITEMS:
                 setSpreadItems(value);
                 break;
-            case MessageGUI.RESTRICT_EXTRACTION:
+            case MessageGUI.FILTERED_EXTRACTION:
                 setRestrictExtraction(value);
                 break;
             case MessageGUI.REDSTONE_ENABLED:

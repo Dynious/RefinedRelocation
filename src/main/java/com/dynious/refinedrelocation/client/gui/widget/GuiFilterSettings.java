@@ -5,7 +5,6 @@ import com.dynious.refinedrelocation.api.tileentity.IFilterTileGUI;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.client.gui.widget.button.*;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
@@ -26,11 +25,11 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
 
         if (filterTile instanceof IAdvancedTile)
         {
-            new GuiButtonMaxStackSize(this, curX, curY, (IAdvancedTile) filterTile, MessageGUI.MAX_STACK_SIZE);
+            new GuiButtonMaxStackSize(this, curX, curY, (IAdvancedTile) filterTile);
             curX += 27;
-            new GuiButtonSpread(this, curX, curY, (IAdvancedTile) filterTile, MessageGUI.SPREAD_ITEMS);
+            new GuiButtonSpread(this, curX, curY, (IAdvancedTile) filterTile);
             curX += 27;
-            new GuiButtonFilterExtraction(this, curX, curY, (IAdvancedFilteredTile) filterTile, MessageGUI.RESTRICT_EXTRACTION);
+            new GuiButtonFilterExtraction(this, curX, curY, (IAdvancedFilteredTile) filterTile);
 
             new GuiInsertDirections(this, x + w / 2 + 25, y + h / 2 - 57, 50, 50, (IAdvancedTile) filterTile).setAdventureModeRestriction(true);
 
@@ -40,13 +39,13 @@ public class GuiFilterSettings extends GuiWidgetBase implements IGuiWidgetWrappe
 
         if (filterTile instanceof TileBlockExtender && !(filterTile instanceof TileWirelessBlockExtender))
         {
-            new GuiButtonRedstoneSignalStatus(this, curX, curY, (TileBlockExtender) filterTile, MessageGUI.REDSTONE_ENABLED);
+            new GuiButtonRedstoneSignalStatus(this, curX, curY, (TileBlockExtender) filterTile);
             curX += 27;
         }
 
         if (filterTile instanceof ISortingInventory)
         {
-            new GuiButtonPriority(this, curX, curY, (ISortingInventory) filterTile, MessageGUI.PRIORITY);
+            new GuiButtonPriority(this, curX, curY, (ISortingInventory) filterTile);
         }
 
         curX = x + w / 2 - 80;

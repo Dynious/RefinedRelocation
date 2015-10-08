@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.client.gui.widget.button;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.TileBuffer;
 import net.minecraft.util.StatCollector;
@@ -11,14 +12,12 @@ import java.util.List;
 
 public class GuiButtonSpread extends GuiButtonToggle
 {
-    private final int boundMessageId;
     protected IAdvancedTile tile;
 
-    public GuiButtonSpread(IGuiParent parent, int x, int y, IAdvancedTile tile, int boundMessageId)
+    public GuiButtonSpread(IGuiParent parent, int x, int y, IAdvancedTile tile)
     {
         super(parent, x, y, 24, 20, "button_stack", "button_spread", null, null);
         this.tile = tile;
-        this.boundMessageId = boundMessageId;
         update();
         setAdventureModeRestriction(true);
     }
@@ -30,13 +29,12 @@ public class GuiButtonSpread extends GuiButtonToggle
             return;
 
         tile.setSpreadItems(newState);
-        GuiHelper.sendBooleanMessage(boundMessageId, newState);
+        GuiHelper.sendBooleanMessage(MessageGUI.SPREAD_ITEMS, newState);
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
-        List<String> tooltip = super.getTooltip(mouseX, mouseY);
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
         if (isInsideBounds(mouseX, mouseY))
         {
             if (tile instanceof TileBuffer)
@@ -69,7 +67,6 @@ public class GuiButtonSpread extends GuiButtonToggle
                 tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_TO_TOGGLE));
             }
         }
-        return tooltip;
     }
 
     @Override

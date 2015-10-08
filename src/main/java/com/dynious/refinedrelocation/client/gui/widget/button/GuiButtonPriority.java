@@ -5,18 +5,17 @@ import com.dynious.refinedrelocation.client.gui.GuiRefinedRelocationContainer;
 import com.dynious.refinedrelocation.client.gui.IGuiParent;
 import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.lib.Strings;
+import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuiButtonPriority extends GuiButton {
-    private final int boundMessageId;
     private ISortingInventory tile;
 
-    public GuiButtonPriority(IGuiParent parent, int x, int y, ISortingInventory tile, int boundMessageId) {
+    public GuiButtonPriority(IGuiParent parent, int x, int y, ISortingInventory tile) {
         super(parent, x, y, "");
-        this.boundMessageId = boundMessageId;
         this.tile = tile;
         setAdventureModeRestriction(true);
     }
@@ -44,18 +43,14 @@ public class GuiButtonPriority extends GuiButton {
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY) {
-        List<String> subTooltip = super.getTooltip(mouseX, mouseY);
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
         if (isInsideBounds(mouseX, mouseY)) {
-            List<String> tooltip = new ArrayList<String>();
             tooltip.add(StatCollector.translateToLocal(Strings.PRIORITY) + ":");
             tooltip.add("\u00A77" + StatCollector.translateToLocal(tile.getPriority().name().replace('_', '-')));
             tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_INCREASE));
             tooltip.add("\u00a7e" + StatCollector.translateToLocal(Strings.CLICK_DECREASE));
-            tooltip.addAll(subTooltip);
-            return tooltip;
         }
-        return subTooltip;
     }
 
     @Override
@@ -66,7 +61,7 @@ public class GuiButtonPriority extends GuiButton {
                 if (tile.getPriority().ordinal() + amount >= 0 && tile.getPriority().ordinal() + amount < ISortingInventory.Priority.values().length) {
                     ISortingInventory.Priority newPriority = ISortingInventory.Priority.values()[tile.getPriority().ordinal() + amount];
                     tile.setPriority(newPriority);
-                    GuiHelper.sendByteMessage(boundMessageId, (byte) newPriority.ordinal());
+                    GuiHelper.sendByteMessage(MessageGUI.PRIORITY, (byte) newPriority.ordinal());
                     setValue(newPriority);
                 }
             }

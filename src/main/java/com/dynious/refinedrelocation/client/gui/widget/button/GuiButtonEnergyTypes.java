@@ -25,9 +25,8 @@ public class GuiButtonEnergyTypes extends GuiButton
     }
 
     @Override
-    public List<String> getTooltip(int mouseX, int mouseY)
-    {
-        List<String> tooltip = super.getTooltip(mouseX, mouseY);
+    public void getTooltip(List<String> tooltip, int mouseX, int mouseY) {
+        super.getTooltip(tooltip, mouseX, mouseY);
         if (isInsideBounds(mouseX, mouseY))
         {
             if(currentEnergyType == null)
@@ -50,7 +49,6 @@ public class GuiButtonEnergyTypes extends GuiButton
                 }
             }
         }
-        return tooltip;
     }
 
     @Override
