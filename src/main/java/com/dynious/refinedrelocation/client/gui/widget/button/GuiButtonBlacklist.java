@@ -12,7 +12,7 @@ public class GuiButtonBlacklist extends GuiButtonToggle {
     private final GuiFiltered parent;
 
     public GuiButtonBlacklist(GuiFiltered parent, int x, int y) {
-        super(parent, x, y, 16, 16, "button_blacklist_small", "button_whitelist_small", null, null);
+        super(parent, x, y, 16, 16, "button_whitelist_small", "button_blacklist_small", null, null);
         this.parent = parent;
         update();
         setAdventureModeRestriction(true);
