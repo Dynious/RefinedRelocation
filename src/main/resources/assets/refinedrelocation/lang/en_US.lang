@@ -228,8 +228,6 @@ itemDesc.refinedrelocation.relocatorModuleInfo11=Can extract items\nfrom another
 itemDesc.refinedrelocation.relocatorModuleInfo12=Can craft items when\npassing through the module
 itemDesc.refinedrelocation.sortingUpgrade0=Upgrades Chests to their Sorting version
 itemDesc.refinedrelocation.sortingUpgrade1=Upgrades Barrels to their Sorting version
-itemDesc.refinedrelocation.sortingUpgradeMats=Needs two items of the chest material
-itemDesc.refinedrelocation.sortingUpgradeNoMat=Needs two %s to upgrade!
 itemDesc.refinedrelocation.planks=Planks
 
 #Filter Localization

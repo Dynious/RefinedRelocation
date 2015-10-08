@@ -76,8 +76,6 @@ public class Strings
     public static final String OUTPUT_SIDE = GUI_PREFIX + "outputSide";
     public static final String WAILA_MAX_STACK_SIZE = GUI_PREFIX + "wailaMaxStackSize";
     public static final String WAILA_REDSTONE_CONTROL = GUI_PREFIX + "wailaRedstoneControl";
-    public static final String WAILA_USER_FILTER = GUI_PREFIX + "wailaUserFilter";
-    public static final String WAILA_PRESETS = GUI_PREFIX + "wailaPresets";
     public static final String WAILA_ENABLED = GUI_PREFIX + "wailaEnabled";
     public static final String CONNECTED_DIRECTION = GUI_PREFIX + "wailaConnectedDirection";
     public static final String ELLIPSE = GUI_PREFIX + "ellipse";
@@ -131,15 +129,11 @@ public class Strings
     public static final String INTER_DIMENSIONAL = ITEM_DESC_PREFIX + "interDimensional";
     public static final String BROKEN_LINK = ITEM_DESC_PREFIX + "brokenLink";
     public static final String COOLDOWN = ITEM_DESC_PREFIX + "cooldown";
-    public static final String REL_CONT_DESC = ITEM_DESC_PREFIX + "relContDesc";
     public static final String RELOCATOR_MODULE = ITEM_DESC_PREFIX + "relocatorModule";
     public static final String RELOCATOR_MODULE_INFO = ITEM_DESC_PREFIX + "relocatorModuleInfo";
     public static final String TOOLBOX_INFO = ITEM_DESC_PREFIX + "toolBoxInfo";
     public static final String TOOLBOX_WRENCH_LIST_START = ITEM_DESC_PREFIX + "toolBoxWrenchListStart";
     public static final String SORTING_UPGRADE = ITEM_DESC_PREFIX + "sortingUpgrade";
-    public static final String SORTING_UPGRADE_MATS = ITEM_DESC_PREFIX + "sortingUpgradeMats";
-    public static final String SORTING_UPGRADE_NO_MAT = ITEM_DESC_PREFIX + "sortingUpgradeNoMat";
-    public static final String PLANKS = ITEM_DESC_PREFIX + "planks";
     private static final String FILTER_NAME_PREFIX = "filterName." + Reference.MOD_ID.toLowerCase() + ".";
     public static final String INGOT_FILTER = FILTER_NAME_PREFIX + "filterIngot";
     public static final String ORE_FILTER = FILTER_NAME_PREFIX + "filterOres";

@@ -8,6 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ModItems
 {
@@ -38,7 +39,7 @@ public class ModItems
         GameRegistry.registerItem(toolBox, Names.toolbox);
 
         GameRegistry.addShapedRecipe(new ItemStack(linker), "iri", "rer", "iri", 'i', Items.iron_ingot, 'r', Items.redstone, 'e', Items.ender_pearl);
-        GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade, 1, 0), "g g", " p ", 'g', Items.gold_ingot, 'p', Blocks.glass_pane);
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sortingUpgrade, 1, 0), "g g", " p ", "w w", 'g', Items.gold_ingot, 'p', Blocks.glass_pane, 'w', "plankWood"));
         GameRegistry.addShapedRecipe(new ItemStack(sortingUpgrade, 1, 1), "g g", " p ", "g g", 'g', Items.gold_nugget, 'p', Blocks.glass_pane);
 
         if (!Settings.DISABLE_PLAYER_RELOCATOR)
