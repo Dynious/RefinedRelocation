@@ -521,25 +521,25 @@ icon_link_active_hover
   orig: 16, 16
   offset: 0, 0
   index: -1
-icon_link_inactive_hover
+icon_link_inactive
   rotate: false
   xy: 89, 45
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-icon_settings
+icon_link_inactive_hover
   rotate: false
   xy: 89, 27
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-icon_filter_sameitem
+icon_settings
   rotate: false
-  xy: 91, 17
-  size: 14, 8
-  orig: 14, 8
+  xy: 91, 9
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
 icon_link_active
@@ -556,11 +556,11 @@ checkbox
   orig: 8, 8
   offset: 0, 0
   index: -1
-icon_link_inactive
+icon_filter_sameitem
   rotate: false
-  xy: 91, 5
-  size: 10, 10
-  orig: 10, 10
+  xy: 112, 184
+  size: 14, 8
+  orig: 14, 8
   offset: 0, 0
   index: -1
 checkbox_checked
