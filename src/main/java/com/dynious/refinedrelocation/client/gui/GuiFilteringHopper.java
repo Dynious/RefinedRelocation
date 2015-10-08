@@ -33,7 +33,7 @@ public class GuiFilteringHopper extends GuiContainer {
     public void initGui() {
         super.initGui();
 
-        editFilterButton = new GuiEditFilterButton(guiLeft - GuiEditFilterButton.WIDTH, guiTop - GuiEditFilterButton.HEIGHT);
+        editFilterButton = new GuiEditFilterButton(guiLeft - GuiEditFilterButton.WIDTH, guiTop + 13);
         buttonList.add(editFilterButton);
     }
 
