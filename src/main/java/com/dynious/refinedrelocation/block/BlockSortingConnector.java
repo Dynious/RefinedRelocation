@@ -37,6 +37,7 @@ public class BlockSortingConnector extends BlockContainer
     private IIcon inputPaneTexture;
     private IIcon inputPaneStuffedTexture;
     private IIcon connectorTexture;
+    @Deprecated
     private IIcon meInterfaceTexture;
 
     public BlockSortingConnector()
@@ -231,17 +232,4 @@ public class BlockSortingConnector extends BlockContainer
         return false;
     }
 
-    @Optional.Method(modid = Mods.AE2_ID)
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
-    {
-        if (!world.isRemote)
-        {
-            TileEntity tile = world.getTileEntity(x, y, z);
-            if (tile != null && tile instanceof TileMESortingInterface && entity instanceof EntityPlayer)
-            {
-                ((TileMESortingInterface) tile).setOwner((EntityPlayer) entity);
-            }
-        }
-    }
 }

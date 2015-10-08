@@ -56,7 +56,8 @@ public class ItemBlockSortingConnector extends ItemBlock {
             list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
         }
         if(itemStack.getItemDamage() == 3) {
-            list.add("\u00a7c" + "[Deprecated] This block will be removed in a future version of Refined Relocation.");
+            list.add("\u00a7cME Sorting Connectors have been removed from Refined Relocation.");
+            list.add("\u00a7cPut this block in your crafting table to get a normal ME Interface back.");
         }
     }
 
