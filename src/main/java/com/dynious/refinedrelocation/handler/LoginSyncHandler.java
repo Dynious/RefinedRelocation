@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.event;
+package com.dynious.refinedrelocation.handler;
 
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.network.packet.MessageModSync;
@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class InitialSyncHandler
+public class LoginSyncHandler
 {
     public static String[] getCreativeTabLabels()
     {

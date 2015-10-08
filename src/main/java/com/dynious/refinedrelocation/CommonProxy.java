@@ -1,13 +1,12 @@
 package com.dynious.refinedrelocation;
 
-import com.dynious.refinedrelocation.event.InitialSyncHandler;
+import com.dynious.refinedrelocation.handler.LoginSyncHandler;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
 import com.dynious.refinedrelocation.network.GuiHandler;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -57,9 +56,9 @@ public class CommonProxy {
     }
 
     public void registerEventHandlers() {
-        InitialSyncHandler ev = new InitialSyncHandler();
-        FMLCommonHandler.instance().bus().register(ev);
-        MinecraftForge.EVENT_BUS.register(ev);
+        LoginSyncHandler loginSyncHandler = new LoginSyncHandler();
+        FMLCommonHandler.instance().bus().register(loginSyncHandler);
+        MinecraftForge.EVENT_BUS.register(loginSyncHandler);
     }
 
     public void init(FMLInitializationEvent event) {}

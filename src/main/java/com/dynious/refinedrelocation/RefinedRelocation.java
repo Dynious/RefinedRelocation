@@ -1,11 +1,10 @@
 package com.dynious.refinedrelocation;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
-import com.dynious.refinedrelocation.command.CommandRefinedRelocation;
 import com.dynious.refinedrelocation.config.ConfigHandler;
-import com.dynious.refinedrelocation.event.TickEvent;
 import com.dynious.refinedrelocation.grid.filter.MultiFilterRegistry;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleRegistry;
+import com.dynious.refinedrelocation.handler.CommandRefinedRelocation;
 import com.dynious.refinedrelocation.helper.LoadingCallbackHelper;
 import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Mods;
@@ -16,7 +15,6 @@ import com.dynious.refinedrelocation.compat.JabbaHelper;
 import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.util.VersionChecker;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
@@ -57,8 +55,6 @@ public class RefinedRelocation {
         Mods.init();
         VersionChecker.execute();
         ConfigHandler.init(event);
-
-        FMLCommonHandler.instance().bus().register(new TickEvent());
 
         ModBlocks.init();
         ModItems.init();

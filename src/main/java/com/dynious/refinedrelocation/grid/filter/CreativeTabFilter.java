@@ -5,8 +5,7 @@ import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.graphics.TextureRegion;
 import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
-import com.dynious.refinedrelocation.event.InitialSyncHandler;
-import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.handler.LoginSyncHandler;
 import com.dynious.refinedrelocation.lib.Strings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +39,7 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
     {
         if (serverSideTabLabels == null)
         {
-            serverSideTabLabels = InitialSyncHandler.getCreativeTabLabels();
+            serverSideTabLabels = LoginSyncHandler.getCreativeTabLabels();
         }
         tabStates = new boolean[serverSideTabLabels.length];
     }

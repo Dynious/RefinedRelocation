@@ -5,8 +5,7 @@ import com.dynious.refinedrelocation.api.gui.IGuiWidgetWrapped;
 import com.dynious.refinedrelocation.client.graphics.TextureRegion;
 import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.gui.widget.GuiFilterList;
-import com.dynious.refinedrelocation.event.InitialSyncHandler;
-import com.dynious.refinedrelocation.lib.Resources;
+import com.dynious.refinedrelocation.handler.LoginSyncHandler;
 import com.dynious.refinedrelocation.lib.Strings;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
@@ -51,7 +50,7 @@ public class ModFilter extends MultiFilterChildBase implements IChecklistFilter
     {
         if (serverSideModIDs == null)
         {
-            serverSideModIDs = InitialSyncHandler.getModIDs();
+            serverSideModIDs = LoginSyncHandler.getModIDs();
         }
         modStates = new boolean[serverSideModIDs.length];
     }

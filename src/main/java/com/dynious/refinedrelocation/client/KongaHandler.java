@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.command;
+package com.dynious.refinedrelocation.client;
 
 import com.dynious.refinedrelocation.helper.LogHelper;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;

@@ -4,7 +4,6 @@ import com.dynious.refinedrelocation.CommonProxy;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.renderer.*;
-import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.compat.EE3Helper;
 import com.dynious.refinedrelocation.compat.FMPHelper;
@@ -20,11 +19,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
     @Override
-    public void initTileEntities()
-    {
+    public void initTileEntities() {
         super.initTileEntities();
 
         DirectionalRenderer.renderId = RenderingRegistry.getNextAvailableRenderId();
@@ -43,13 +40,11 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.sortingChest), new ItemRendererSortingChest());
         MinecraftForgeClient.registerItemRenderer(ModBlocks.relocator != null ? ItemBlock.getItemFromBlock(ModBlocks.relocator) : FMPHelper.partRelocator, new ItemRendererRelocator());
 
-        if (Mods.IS_IRON_CHEST_LOADED)
-        {
+        if (Mods.IS_IRON_CHEST_LOADED) {
             IronChestHelper.addIronChestRenders();
         }
 
-        if (Mods.IS_EE3_LOADED)
-        {
+        if (Mods.IS_EE3_LOADED) {
             EE3Helper.addEE3Renders();
         }
     }
@@ -62,11 +57,11 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void registerEventHandlers()
-    {
+    public void registerEventHandlers() {
         super.registerEventHandlers();
-        EventHandlerClient ev = new EventHandlerClient();
-        FMLCommonHandler.instance().bus().register(ev);
-        MinecraftForge.EVENT_BUS.register(ev);
+
+        EventHandlerClient eventHandler = new EventHandlerClient();
+        FMLCommonHandler.instance().bus().register(eventHandler);
+        MinecraftForge.EVENT_BUS.register(eventHandler);
     }
 }

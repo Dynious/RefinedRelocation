@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.command;
+package com.dynious.refinedrelocation.handler;
 
 import com.dynious.refinedrelocation.helper.MiscHelper;
 import com.dynious.refinedrelocation.lib.Commands;

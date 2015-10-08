@@ -1,5 +1,6 @@
-package com.dynious.refinedrelocation;
+package com.dynious.refinedrelocation.handler;
 
+import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.api.IAPIHandler;
 import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;

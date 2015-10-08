@@ -21,7 +21,7 @@ public final class APIUtils
     {
         try
         {
-            Class c = Class.forName("com.dynious.refinedrelocation.APIHandler");
+            Class c = Class.forName("com.dynious.refinedrelocation.handler.APIHandler");
             apiHandler = (IAPIHandler) c.getField("instance").get(c);
         } catch (Throwable e)
         {
