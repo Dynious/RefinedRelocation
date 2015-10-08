@@ -514,72 +514,72 @@ icon_filter_custom
   orig: 16, 16
   offset: 0, 0
   index: -1
-icon_link_active_hover
+icon_link_active
   rotate: false
   xy: 89, 63
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-icon_link_inactive
+icon_link_active_hover
   rotate: false
   xy: 89, 45
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-icon_link_inactive_hover
+icon_link_inactive
   rotate: false
   xy: 89, 27
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-icon_settings
+icon_link_inactive_hover
   rotate: false
   xy: 91, 9
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-icon_link_active
+icon_settings
   rotate: false
-  xy: 243, 245
-  size: 10, 10
-  orig: 10, 10
-  offset: 0, 0
-  index: -1
-checkbox
-  rotate: false
-  xy: 243, 235
-  size: 8, 8
-  orig: 8, 8
+  xy: 107, 135
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
 icon_filter_sameitem
   rotate: false
-  xy: 112, 184
+  xy: 107, 125
   size: 14, 8
   orig: 14, 8
   offset: 0, 0
   index: -1
+checkbox
+  rotate: false
+  xy: 243, 247
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 checkbox_checked
   rotate: false
-  xy: 107, 143
+  xy: 107, 115
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 checkbox_checked_hover
   rotate: false
-  xy: 107, 133
+  xy: 243, 237
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 checkbox_hover
   rotate: false
-  xy: 107, 123
+  xy: 107, 105
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
