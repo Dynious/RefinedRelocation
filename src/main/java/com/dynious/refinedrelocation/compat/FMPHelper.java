@@ -1,13 +1,13 @@
-package com.dynious.refinedrelocation.mods;
+package com.dynious.refinedrelocation.compat;
 
 import codechicken.multipart.PartMap;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.TileMultipart;
 import com.dynious.refinedrelocation.api.ModObjects;
 import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.mods.part.ItemPartRelocator;
-import com.dynious.refinedrelocation.mods.part.PartFactory;
-import com.dynious.refinedrelocation.mods.part.PartRelocator;
+import com.dynious.refinedrelocation.compat.part.ItemPartRelocator;
+import com.dynious.refinedrelocation.compat.part.PartFactory;
+import com.dynious.refinedrelocation.compat.part.PartRelocator;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.mods.waila;
+package com.dynious.refinedrelocation.compat.waila;
 
 import codechicken.multipart.TileMultipart;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
@@ -7,7 +7,7 @@ import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
 import com.dynious.refinedrelocation.helper.ItemStackHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Strings;
-import com.dynious.refinedrelocation.mods.part.PartRelocator;
+import com.dynious.refinedrelocation.compat.part.PartRelocator;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import mcp.mobius.waila.api.IWailaConfigHandler;

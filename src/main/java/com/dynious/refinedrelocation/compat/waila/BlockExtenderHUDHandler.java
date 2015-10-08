@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.mods.waila;
+package com.dynious.refinedrelocation.compat.waila;
 
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.helper.StringHelper;

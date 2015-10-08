@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.mods;
+package com.dynious.refinedrelocation.compat;
 
 import com.dynious.refinedrelocation.api.filter.IFilter;
 import com.dynious.refinedrelocation.tileentity.TileSortingBarrel;

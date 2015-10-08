@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.mods;
+package com.dynious.refinedrelocation.compat;
 
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;

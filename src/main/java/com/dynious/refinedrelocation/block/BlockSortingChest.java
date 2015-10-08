@@ -6,7 +6,7 @@ import com.dynious.refinedrelocation.helper.GuiHelper;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.mods.IronChestHelper;
+import com.dynious.refinedrelocation.compat.IronChestHelper;
 import com.dynious.refinedrelocation.tileentity.TileSortingChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

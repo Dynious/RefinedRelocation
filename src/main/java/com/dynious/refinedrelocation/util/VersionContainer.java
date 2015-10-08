@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.version;
+package com.dynious.refinedrelocation.util;
 
 import java.util.List;
 

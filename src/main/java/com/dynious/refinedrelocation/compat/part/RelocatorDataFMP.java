@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.lib;
+package com.dynious.refinedrelocation.compat.part;
 
 import codechicken.lib.vec.Cuboid6;
 

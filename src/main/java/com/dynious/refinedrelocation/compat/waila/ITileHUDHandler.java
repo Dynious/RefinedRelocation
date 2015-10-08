@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.mods.waila;
+package com.dynious.refinedrelocation.compat.waila;
 
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;

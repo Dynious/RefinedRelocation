@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.version;
+package com.dynious.refinedrelocation.util;
 
 import com.dynious.refinedrelocation.helper.LogHelper;
 import com.dynious.refinedrelocation.lib.Reference;

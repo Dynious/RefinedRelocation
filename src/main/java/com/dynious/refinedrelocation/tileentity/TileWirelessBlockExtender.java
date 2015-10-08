@@ -3,7 +3,7 @@ package com.dynious.refinedrelocation.tileentity;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import com.dynious.refinedrelocation.lib.Mods;
-import com.dynious.refinedrelocation.mods.IC2Helper;
+import com.dynious.refinedrelocation.compat.IC2Helper;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.inventory.IInventory;

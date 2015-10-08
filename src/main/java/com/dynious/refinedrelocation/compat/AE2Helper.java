@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.mods;
+package com.dynious.refinedrelocation.compat;
 
 import appeng.api.AEApi;
 import com.dynious.refinedrelocation.block.ModBlocks;

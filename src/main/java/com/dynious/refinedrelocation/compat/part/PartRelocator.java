@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.mods.part;
+package com.dynious.refinedrelocation.compat.part;
 
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
@@ -11,8 +11,7 @@ import com.dynious.refinedrelocation.client.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.lib.RelocatorDataFMP;
-import com.dynious.refinedrelocation.mods.FMPHelper;
+import com.dynious.refinedrelocation.compat.FMPHelper;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
 import cpw.mods.fml.common.FMLCommonHandler;

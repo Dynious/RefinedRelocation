@@ -1,13 +1,14 @@
-package com.dynious.refinedrelocation.proxy;
+package com.dynious.refinedrelocation.client;
 
+import com.dynious.refinedrelocation.CommonProxy;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.renderer.*;
 import com.dynious.refinedrelocation.event.EventHandlerClient;
 import com.dynious.refinedrelocation.lib.Mods;
-import com.dynious.refinedrelocation.mods.EE3Helper;
-import com.dynious.refinedrelocation.mods.FMPHelper;
-import com.dynious.refinedrelocation.mods.IronChestHelper;
+import com.dynious.refinedrelocation.compat.EE3Helper;
+import com.dynious.refinedrelocation.compat.FMPHelper;
+import com.dynious.refinedrelocation.compat.IronChestHelper;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;
 import com.dynious.refinedrelocation.tileentity.*;
 import cpw.mods.fml.client.registry.ClientRegistry;

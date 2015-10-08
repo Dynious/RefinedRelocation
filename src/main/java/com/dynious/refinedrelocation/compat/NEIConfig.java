@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.mods;
+package com.dynious.refinedrelocation.compat;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;

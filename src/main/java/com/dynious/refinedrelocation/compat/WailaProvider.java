@@ -1,10 +1,10 @@
-package com.dynious.refinedrelocation.mods;
+package com.dynious.refinedrelocation.compat;
 
 import codechicken.multipart.BlockMultipart;
 import com.dynious.refinedrelocation.api.tileentity.IFilterTile;
 import com.dynious.refinedrelocation.block.*;
 import com.dynious.refinedrelocation.lib.Mods;
-import com.dynious.refinedrelocation.mods.waila.*;
+import com.dynious.refinedrelocation.compat.waila.*;
 import com.dynious.refinedrelocation.tileentity.IAdvancedTile;
 import com.dynious.refinedrelocation.tileentity.IDisguisable;
 import mcp.mobius.waila.api.IWailaRegistrar;

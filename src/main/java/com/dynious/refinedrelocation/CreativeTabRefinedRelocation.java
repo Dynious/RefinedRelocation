@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.creativetab;
+package com.dynious.refinedrelocation;
 
 import com.dynious.refinedrelocation.block.ModBlocks;
 import net.minecraft.creativetab.CreativeTabs;

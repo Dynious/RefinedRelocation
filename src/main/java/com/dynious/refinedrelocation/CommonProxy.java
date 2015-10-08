@@ -1,4 +1,4 @@
-package com.dynious.refinedrelocation.proxy;
+package com.dynious.refinedrelocation;
 
 import com.dynious.refinedrelocation.event.InitialSyncHandler;
 import com.dynious.refinedrelocation.lib.Mods;
