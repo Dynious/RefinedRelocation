@@ -13,23 +13,26 @@ import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Reference;
 import com.dynious.refinedrelocation.mods.BuildcraftIntegration;
 import com.dynious.refinedrelocation.mods.FMPHelper;
+import com.dynious.refinedrelocation.mods.JabbaHelper;
 import com.dynious.refinedrelocation.multiblock.ModMultiBlocks;
 import com.dynious.refinedrelocation.network.NetworkHandler;
 import com.dynious.refinedrelocation.proxy.CommonProxy;
 import com.dynious.refinedrelocation.version.VersionChecker;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.ForgeChunkManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, dependencies = Reference.DEPENDENCIES, guiFactory = "com.dynious.refinedrelocation.config.GuiFactory")
-public class RefinedRelocation
-{
+public class RefinedRelocation {
+
+    public static Logger logger = LogManager.getLogger();
+
     @Mod.Instance(Reference.MOD_ID)
     public static RefinedRelocation instance;
 
@@ -39,14 +42,7 @@ public class RefinedRelocation
     public static CreativeTabs tabRefinedRelocation = new CreativeTabRefinedRelocation(CreativeTabs.getNextID(), Reference.MOD_ID);
 
     @Mod.EventHandler
-    public void serverStarting(FMLServerStartingEvent event)
-    {
-        event.registerServerCommand(new CommandRefinedRelocation());
-    }
-
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         VersionChecker.execute();
 
         ConfigHandler.init(event);
@@ -70,10 +66,8 @@ public class RefinedRelocation
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        if (Mods.IS_FMP_LOADED)
-        {
+    public void init(FMLInitializationEvent event) {
+        if (Mods.IS_FMP_LOADED) {
             FMPHelper.addFMPBlocks();
             FMPHelper.addFMPRecipes();
         }
@@ -85,5 +79,17 @@ public class RefinedRelocation
 
         FMLInterModComms.sendMessage("Waila", "register", "com.dynious.refinedrelocation.mods.WailaProvider.callbackRegister");
 
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        if (Mods.IS_JABBA_LOADED) {
+            JabbaHelper.enableDolly();
+        }
+    }
+
+    @Mod.EventHandler
+    public void serverStarting(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandRefinedRelocation());
     }
 }

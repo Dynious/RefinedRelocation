@@ -3,6 +3,7 @@ package com.dynious.refinedrelocation.lib;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModAPIManager;
 
+// TODO this isn't good, as loading this class somewhere before preInit (e.g. static code) would immediately set all booleans to false
 public class Mods
 {
     public static final String IRON_CHEST_ID = "IronChest";
