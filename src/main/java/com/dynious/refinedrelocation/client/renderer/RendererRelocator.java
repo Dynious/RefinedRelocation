@@ -1,12 +1,12 @@
 package com.dynious.refinedrelocation.client.renderer;
 
-import codechicken.lib.lighting.LightModel;
-import codechicken.lib.render.CCModel;
-import codechicken.lib.render.CCRenderState;
-import codechicken.lib.render.TextureUtils;
-import codechicken.lib.render.uv.IconTransformation;
-import codechicken.lib.vec.Translation;
-import codechicken.lib.vec.Vector3;
+import com.dynious.refinedrelocation.repack.codechicken.lib.lighting.LightModel;
+import com.dynious.refinedrelocation.repack.codechicken.lib.render.CCModel;
+import com.dynious.refinedrelocation.repack.codechicken.lib.render.CCRenderState;
+import com.dynious.refinedrelocation.repack.codechicken.lib.render.TextureUtils;
+import com.dynious.refinedrelocation.repack.codechicken.lib.render.uv.IconTransformation;
+import com.dynious.refinedrelocation.repack.codechicken.lib.vec.Translation;
+import com.dynious.refinedrelocation.repack.codechicken.lib.vec.Vector3;
 import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.lib.Resources;

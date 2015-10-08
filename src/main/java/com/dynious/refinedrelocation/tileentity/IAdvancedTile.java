@@ -1,16 +1,15 @@
 package com.dynious.refinedrelocation.tileentity;
 
-public interface IAdvancedTile
-{
-    public byte[] getInsertDirection();
+public interface IAdvancedTile {
+    byte[] getInsertDirection();
 
-    public void setInsertDirection(int from, int value);
+    void setInsertDirection(int from, int value);
 
-    public byte getMaxStackSize();
+    byte getMaxStackSize();
 
-    public void setMaxStackSize(byte maxStackSize);
+    void setMaxStackSize(byte maxStackSize);
 
-    public boolean getSpreadItems();
+    boolean getSpreadItems();
 
-    public void setSpreadItems(boolean spreadItems);
+    void setSpreadItems(boolean spreadItems);
 }

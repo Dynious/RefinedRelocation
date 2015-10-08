@@ -11,7 +11,7 @@ import com.dynious.refinedrelocation.client.renderer.RendererRelocator;
 import com.dynious.refinedrelocation.grid.relocator.TravellingItem;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;
-import com.dynious.refinedrelocation.lib.RelocatorData;
+import com.dynious.refinedrelocation.lib.RelocatorDataFMP;
 import com.dynious.refinedrelocation.mods.FMPHelper;
 import com.dynious.refinedrelocation.tileentity.IRelocator;
 import com.dynious.refinedrelocation.tileentity.TileRelocator;
@@ -56,7 +56,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public Cuboid6 getBounds()
     {
-        return RelocatorData.middleCuboid;
+        return RelocatorDataFMP.middleCuboid;
     }
 
     public Iterable<IndexedCuboid6> getSubParts()
@@ -66,10 +66,10 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
         {
             if (relocator.connectsToSide(i))
             {
-                list.add(new IndexedCuboid6(i, RelocatorData.sideCuboids[i]));
+                list.add(new IndexedCuboid6(i, RelocatorDataFMP.sideCuboids[i]));
             }
         }
-        list.add(new IndexedCuboid6(6, RelocatorData.middleCuboid));
+        list.add(new IndexedCuboid6(6, RelocatorDataFMP.middleCuboid));
         return list;
     }
 
@@ -154,7 +154,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     public Iterable<Cuboid6> getOcclusionBoxes()
     {
         List<Cuboid6> list = new ArrayList<Cuboid6>();
-        list.add(RelocatorData.middleCuboid);
+        list.add(RelocatorDataFMP.middleCuboid);
         return list;
     }
 
@@ -240,7 +240,7 @@ public class PartRelocator extends JCuboidPart implements IRelocator, ISidedInve
     @Override
     public boolean canConnectOnSide(int side)
     {
-        return tile().canAddPart(new NormallyOccludedPart(RelocatorData.sideCuboids[side]));
+        return tile().canAddPart(new NormallyOccludedPart(RelocatorDataFMP.sideCuboids[side]));
     }
 
     @Override

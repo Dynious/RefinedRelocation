@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.item;
 
-import codechicken.lib.raytracer.RayTracer;
+import com.dynious.refinedrelocation.repack.codechicken.lib.raytracer.RayTracer;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.lib.Names;

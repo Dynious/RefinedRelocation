@@ -1,9 +1,9 @@
 package com.dynious.refinedrelocation.block;
 
-import codechicken.lib.raytracer.IndexedCuboid6;
-import codechicken.lib.raytracer.RayTracer;
-import codechicken.lib.vec.BlockCoord;
-import codechicken.lib.vec.Vector3;
+import com.dynious.refinedrelocation.repack.codechicken.lib.raytracer.IndexedCuboid6;
+import com.dynious.refinedrelocation.repack.codechicken.lib.raytracer.RayTracer;
+import com.dynious.refinedrelocation.repack.codechicken.lib.vec.BlockCoord;
+import com.dynious.refinedrelocation.repack.codechicken.lib.vec.Vector3;
 import com.dynious.refinedrelocation.RefinedRelocation;
 import com.dynious.refinedrelocation.helper.IOHelper;
 import com.dynious.refinedrelocation.lib.Names;

@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.lib;
 
-import codechicken.lib.vec.Cuboid6;
+import com.dynious.refinedrelocation.repack.codechicken.lib.vec.Cuboid6;
 
 public class RelocatorData
 {

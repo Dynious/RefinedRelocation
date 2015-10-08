@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.client.renderer;
 
-import codechicken.lib.vec.Cuboid6;
+import com.dynious.refinedrelocation.repack.codechicken.lib.vec.Cuboid6;
 import com.dynious.refinedrelocation.multiblock.IMultiBlock;
 import com.dynious.refinedrelocation.multiblock.MultiBlockRegistry;
 import com.dynious.refinedrelocation.multiblock.TileMultiBlockBase;

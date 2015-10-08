@@ -1,6 +1,6 @@
 package com.dynious.refinedrelocation.event;
 
-import codechicken.lib.raytracer.RayTracer;
+import com.dynious.refinedrelocation.repack.codechicken.lib.raytracer.RayTracer;
 import com.dynious.refinedrelocation.api.tileentity.ISortingInventory;
 import com.dynious.refinedrelocation.api.tileentity.ISortingMember;
 import com.dynious.refinedrelocation.api.tileentity.handlers.IGridMemberHandler;

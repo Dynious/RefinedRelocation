@@ -26,7 +26,6 @@ apply plugin: 'forge'
 apply plugin: 'maven'
 
 ext.env = System.getenv()
-ext.cclVersion = "1.1.1.95"
 
 version = "1.1." + BUILD_NUMBER
 group = "com.dynious"
@@ -99,16 +98,14 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        include 'dependancies.info'
-                
+
         // replace version and mcversion
-        filter(ReplaceTokens, tokens: [VERSION: project.version, MCVERSION: project.minecraft.version, CCLVERSION: project.cclVersion])
+        filter(ReplaceTokens, tokens: [VERSION: project.version, MCVERSION: project.minecraft.version])
     }
         
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
-        exclude 'dependancies.info'
     }
 }
 
@@ -117,7 +114,7 @@ jar {
     appendix "mc" + minecraft.version
 
     manifest {
-        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin", "FMLCorePluginContainsFMLMod": "true", "FMLAT": "RefinedRelocation_at.cfg")
+        attributes("FMLAT": "RefinedRelocation_at.cfg")
     }
 }
 
@@ -130,7 +127,7 @@ task jarDev(type: Jar) {
     appendix "mc" + minecraft.version
 
 	manifest {
-        attributes("FMLCorePlugin": "com.dynious.refinedrelocation.asm.LoadingPlugin", "FMLCorePluginContainsFMLMod": "true", "FMLAT": "RefinedRelocation_at.cfg")
+        attributes("FMLAT": "RefinedRelocation_at.cfg")
     }
 }
 
