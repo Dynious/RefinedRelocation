@@ -20,8 +20,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+import net.minecraftforge.common.util.Constants;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -29,277 +28,242 @@ import java.util.List;
 
 import static mcp.mobius.waila.api.SpecialChars.*;
 
-public class ItemToolBox extends Item
-{
-    private static final List<Class<?>> WRENCH_CLASSES;
-    private static IIcon transparent;
+public class ItemToolBox extends Item {
 
-    static
-    {
-        String[] WRENCH_CLASS_NAMES = new String[]
-                {
-                        "ic2.core.item.tool.ItemToolWrench",
-                        "ic2.core.item.tool.ItemToolMeter",
-                        "buildcraft.api.tools.IToolWrench",
-                        "appeng.api.implementations.items.IAEWrench",
-                        "thermalexpansion.item.tool.ItemWrench",
-                        "com.carpentersblocks.api.ICarpentersChisel",
-                        "com.carpentersblocks.api.ICarpentersHammer",
-                        "com.iconmaster.aec.item.ItemAetometer",
-                        "factorization.charge.ItemChargeMeter",
-                        "mekanism.common.item.ItemConfigurator",
-                        "mekanism.common.item.ItemNetworkReader",
-                        "mrtjp.projectred.api.IScrewdriver",
-                        "com.yogpc.qp.ItemTool",
-                        "redstonearsenal.item.tool.ItemWrenchRF",
-                        "redstonearsenal.item.tool.ItemWrenchBattleRF",
-                        "aroma1997.core.items.wrench.ItemWrench"
-                };
-        WRENCH_CLASSES = new ArrayList<Class<?>>();
-        for (String className : WRENCH_CLASS_NAMES)
-        {
-            try
-            {
-                WRENCH_CLASSES.add(Class.forName(className));
-            } catch (ClassNotFoundException ignored)
-            {
+    private static final String[] WRENCH_CLASS_NAMES = new String[]{
+            "ic2.core.item.tool.ItemToolWrench",
+            "ic2.core.item.tool.ItemToolMeter",
+            "buildcraft.api.tools.IToolWrench",
+            "appeng.api.implementations.items.IAEWrench",
+            "thermalexpansion.item.tool.ItemWrench",
+            "com.carpentersblocks.api.ICarpentersChisel",
+            "com.carpentersblocks.api.ICarpentersHammer",
+            "com.iconmaster.aec.item.ItemAetometer",
+            "factorization.charge.ItemChargeMeter",
+            "mekanism.common.item.ItemConfigurator",
+            "mekanism.common.item.ItemNetworkReader",
+            "mrtjp.projectred.api.IScrewdriver",
+            "com.yogpc.qp.ItemTool",
+            "redstonearsenal.item.tool.ItemWrenchRF",
+            "redstonearsenal.item.tool.ItemWrenchBattleRF",
+            "aroma1997.core.items.wrench.ItemWrench"
+    };
+
+    public static void addToolboxClass(Class clazz) {
+        if (clazz != null && !wrenchClasses.contains(clazz)) {
+            wrenchClasses.add(clazz);
+        }
+    }
+
+    private static final List<Class<?>> wrenchClasses = new ArrayList<>();
+    private IIcon unknownIcon;
+    private IIcon transparentIcon;
+
+    public ItemToolBox() {
+        super();
+        setUnlocalizedName(Names.toolbox);
+        setCreativeTab(RefinedRelocation.tabRefinedRelocation);
+        setMaxStackSize(1);
+        setContainerItem(this);
+        for (String className : WRENCH_CLASS_NAMES) {
+            try {
+                wrenchClasses.add(Class.forName(className));
+            } catch (ClassNotFoundException ignored) {
             }
         }
     }
 
-    public ItemToolBox()
-    {
-        super();
-        this.setUnlocalizedName(Names.toolbox);
-        this.setCreativeTab(RefinedRelocation.tabRefinedRelocation);
-        this.setMaxStackSize(1);
-        this.setContainerItem(this);
-    }
-
-    public static boolean isItemWrench(Item item)
-    {
-        for (Class<?> clazz : WRENCH_CLASSES)
-        {
-            if (clazz.isAssignableFrom(item.getClass()) || ArrayUtils.contains(item.getClass().getInterfaces(), clazz))
+    public boolean isItemWrench(Item item) {
+        for (Class<?> clazz : wrenchClasses) {
+            if (clazz.isAssignableFrom(item.getClass())) {
                 return true;
+            }
         }
         return false;
     }
 
-    public static boolean doesToolBoxContainWrench(NBTTagCompound toolBoxCompound, Item wrench)
-    {
-        NBTTagList list = toolBoxCompound.getTagList("wrenches", 10);
-        for (int i = 0; i < list.tagCount(); i++)
-        {
-            NBTTagCompound compound = list.getCompoundTagAt(i);
-            ItemStack stack = ItemStack.loadItemStackFromNBT(compound);
-            if (stack.getItem() == wrench)
+    public boolean doesToolBoxContainWrench(NBTTagCompound toolBoxCompound, ItemStack wrenchStack) {
+        NBTTagList tagList = toolBoxCompound.getTagList("wrenches", Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < tagList.tagCount(); i++) {
+            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+            ItemStack itemStack = ItemStack.loadItemStackFromNBT(tagCompound);
+            if (itemStack.getHasSubtypes() ? itemStack.isItemEqual(wrenchStack) : itemStack.getItem() == wrenchStack.getItem()) {
                 return true;
+            }
         }
         return false;
     }
 
-    public static ItemStack getCurrentWrench(ItemStack stack)
-    {
-        if (stack.hasTagCompound())
-        {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-            byte index = stack.getTagCompound().getByte("index");
-            if (list.tagCount() > index)
-            {
-                NBTTagCompound compound = list.getCompoundTagAt(index);
-                return ItemStack.loadItemStackFromNBT(compound);
+    public ItemStack getCurrentWrench(ItemStack itemStack) {
+        if (itemStack.hasTagCompound()) {
+            NBTTagList tagList = itemStack.getTagCompound().getTagList("wrenches", Constants.NBT.TAG_COMPOUND);
+            int index = itemStack.getTagCompound().getByte("index");
+            if (tagList.tagCount() > index) {
+                NBTTagCompound tagCompound = tagList.getCompoundTagAt(index);
+                return ItemStack.loadItemStackFromNBT(tagCompound);
             }
         }
         return null;
     }
 
-    public static ArrayList<ItemStack> getWrenches(ItemStack stack)
-    {
-        if (stack.hasTagCompound())
-        {
-            ArrayList<ItemStack> wrenches = new ArrayList<ItemStack>();
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-            for (int x = 0; x < list.tagCount(); x++)
-            {
-                NBTTagCompound nbttagcompound1 = list.getCompoundTagAt(x);
-                wrenches.add(ItemStack.loadItemStackFromNBT(nbttagcompound1));
+    public ArrayList<ItemStack> getWrenches(ItemStack itemStack) {
+        if (itemStack.hasTagCompound()) {
+            ArrayList<ItemStack> wrenches = new ArrayList<>();
+            NBTTagList list = itemStack.getTagCompound().getTagList("wrenches", Constants.NBT.TAG_COMPOUND);
+            for (int i = 0; i < list.tagCount(); i++) {
+                NBTTagCompound tagCompound = list.getCompoundTagAt(i);
+                wrenches.add(ItemStack.loadItemStackFromNBT(tagCompound));
             }
             return wrenches;
         }
         return null;
     }
 
-    /*
-    Damage Stuffs
-     */
-
-    public static void addWrenchAtIndex(ItemStack stack, ItemStack wrench, byte index)
-    {
-        if (wrench == null || wrench.stackSize == 0)
-        {
-            removeWrenchAtIndex(stack, index);
+    public void addWrenchAtIndex(ItemStack itemStack, ItemStack wrenchStack, int index) {
+        if (wrenchStack == null || wrenchStack.stackSize == 0) {
+            removeWrenchAtIndex(itemStack, index);
             return;
         }
-        if (stack.hasTagCompound())
-        {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-            if (list.tagCount() > index)
-            {
-                NBTTagCompound compound = list.getCompoundTagAt(index);
-                wrench.writeToNBT(compound);
+        if (itemStack.hasTagCompound()) {
+            NBTTagList tagList = itemStack.getTagCompound().getTagList("wrenches", Constants.NBT.TAG_COMPOUND);
+            if (tagList.tagCount() > index) {
+                NBTTagCompound tagCompound = tagList.getCompoundTagAt(index);
+                wrenchStack.writeToNBT(tagCompound);
             }
         }
     }
 
-    public static void removeWrenchAtIndex(ItemStack stack, byte index)
-    {
-        if (stack.hasTagCompound())
-        {
-            NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-            if (list.tagCount() > index)
-            {
-                list.removeTag(index);
+    public void removeWrenchAtIndex(ItemStack itemStack, int index) {
+        if (itemStack.hasTagCompound()) {
+            NBTTagList tagList = itemStack.getTagCompound().getTagList("wrenches", Constants.NBT.TAG_COMPOUND);
+            if (tagList.tagCount() > index) {
+                tagList.removeTag(index);
                 index--;
-                if (index < 0)
+                if (index < 0) {
                     index = 0;
-                stack.getTagCompound().setByte("index", index);
+                }
+                itemStack.getTagCompound().setByte("index", (byte) index);
             }
         }
-    }
-
-    public static void addToolboxClass(Class clazz)
-    {
-        if (clazz != null && !WRENCH_CLASSES.contains(clazz))
-            WRENCH_CLASSES.add(clazz);
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
-    {
-        MovingObjectPosition mop = RayTracer.reTrace(world, player);
-        if (!stack.hasTagCompound())
-        {
-            NBTTagCompound compound = new NBTTagCompound();
-            compound.setTag("wrenches", new NBTTagList());
-            compound.setByte("index", (byte) 0);
-            stack.setTagCompound(compound);
+    public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player) {
+        ItemStack wrenchStack = getCurrentWrench(player.getHeldItem());
+        return wrenchStack != null && wrenchStack.getItem().doesSneakBypassUse(world, x, y, z, player);
+    }
+
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+        MovingObjectPosition mop = RayTracer.reTrace(world, entityPlayer);
+        if (!itemStack.hasTagCompound()) {
+            NBTTagCompound tagCompound = new NBTTagCompound();
+            tagCompound.setTag("wrenches", new NBTTagList());
+            tagCompound.setByte("index", (byte) 0);
+            itemStack.setTagCompound(tagCompound);
         }
-        if (player.isSneaking())
-        {
-            ItemStack[] mainInventory = player.inventory.mainInventory;
-            for (int i = 0; i < mainInventory.length; i++)
-            {
+        if (entityPlayer.isSneaking()) {
+            ItemStack[] mainInventory = entityPlayer.inventory.mainInventory;
+            for (int i = 0; i < mainInventory.length; i++) {
                 ItemStack invStack = mainInventory[i];
-                if (invStack != null && isItemWrench(invStack.getItem()) && !doesToolBoxContainWrench(stack.getTagCompound(), invStack.getItem()))
-                {
-                    NBTTagList list = stack.getTagCompound().getTagList("wrenches", 10);
-                    NBTTagCompound newTag = new NBTTagCompound();
+                if (invStack != null && isItemWrench(invStack.getItem()) && !doesToolBoxContainWrench(itemStack.getTagCompound(), invStack)) {
+                    NBTTagList tagList = itemStack.getTagCompound().getTagList("wrenches", Constants.NBT.TAG_COMPOUND);
+                    NBTTagCompound tagCompound = new NBTTagCompound();
                     ItemStack wrenchStack = invStack.splitStack(1);
-                    wrenchStack.writeToNBT(newTag);
-                    list.appendTag(newTag);
-                    if (invStack.stackSize == 0)
-                        player.inventory.setInventorySlotContents(i, null);
+                    wrenchStack.writeToNBT(tagCompound);
+                    tagList.appendTag(tagCompound);
+                    if (invStack.stackSize == 0) {
+                        entityPlayer.inventory.setInventorySlotContents(i, null);
+                    }
                 }
             }
-            if ((mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK))
-            {
-                byte index = stack.getTagCompound().getByte("index");
+            if (mop == null || mop.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
+                int index = itemStack.getTagCompound().getByte("index");
                 index++;
-                if (index >= stack.getTagCompound().getTagList("wrenches", 10).tagCount())
+                if (index >= itemStack.getTagCompound().getTagList("wrenches", Constants.NBT.TAG_COMPOUND).tagCount()) {
                     index = 0;
-                stack.getTagCompound().setByte("index", index);
+                }
+                itemStack.getTagCompound().setByte("index", (byte) index);
 
-                if (!world.isRemote)
-                {
-                    ArrayList<ItemStack> wrenches = getWrenches(stack);
-
-                    if (!wrenches.isEmpty())
-                    {
-                        String wrenchText = StatCollector.translateToLocal(Strings.TOOLBOX_WRENCH_LIST_START) + " ";
-                        for (int i = 0; i < wrenches.size(); i++)
-                        {
-                            ItemStack wrench = wrenches.get(i);
-                            ItemStack currentWrench = getCurrentWrench(stack);
-                            String modifier = wrench.getUnlocalizedName().equals(currentWrench.getUnlocalizedName()) ? "\u00A7a" : ""; // If current wrench, print in grey
-
-                            wrenchText += modifier + StringUtils.join(wrench.getDisplayName().split(" "), " " + modifier) + "\u00A7r"; // reset after item name
-
-                            if (i < wrenches.size() - 1)
-                                wrenchText += ", ";
-                            else
-                                wrenchText += ".";
+                if (!world.isRemote) {
+                    ArrayList<ItemStack> wrenches = getWrenches(itemStack);
+                    if (!wrenches.isEmpty()) {
+                        ItemStack currentWrench = getCurrentWrench(itemStack);
+                        StringBuilder sb = new StringBuilder(StatCollector.translateToLocal(Strings.TOOLBOX_WRENCH_LIST_START)).append(" ");
+                        for (int i = 0; i < wrenches.size(); i++) {
+                            if (i > 0) {
+                                sb.append(".");
+                            }
+                            ItemStack wrenchStack = wrenches.get(i);
+                            if (wrenchStack.getHasSubtypes() ? wrenchStack.isItemEqual(currentWrench) : wrenchStack.getItem() == currentWrench.getItem()) {
+                                sb.append("\u00a7a");
+                            }
+                            sb.append(wrenchStack.getDisplayName()).append("\u00a7r");
                         }
-
-                        player.addChatMessage(new ChatComponentText(wrenchText));
+                        sb.append(".");
+                        entityPlayer.addChatMessage(new ChatComponentText(sb.toString()));
                     }
                 }
             }
         }
-        return stack;
+        return itemStack;
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
-    {
-        if (!stack.hasTagCompound() || world.isRemote) return false;
-        NBTTagCompound stackCompound = stack.getTagCompound();
-
-        NBTTagList list = stackCompound.getTagList("wrenches", 10);
-        byte index = stackCompound.getByte("index");
-        if (list.tagCount() > index)
-        {
-            NBTTagCompound compound = list.getCompoundTagAt(index);
-            ItemStack wrenchStack = ItemStack.loadItemStackFromNBT(compound);
+    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        if (!itemStack.hasTagCompound()) {
+            return false;
+        }
+        NBTTagCompound tagCompound = itemStack.getTagCompound();
+        int index = tagCompound.getByte("index");
+        ItemStack wrenchStack = getCurrentWrench(itemStack);
+        if (wrenchStack != null) {
+            if (wrenchStack.getItem().onItemUseFirst(itemStack, entityPlayer, world, x, y, z, side, hitX, hitY, hitZ)) {
+                return true;
+            }
             Block block = world.getBlock(x, y, z);
-            if (block != null)
-            {
-                player.inventory.mainInventory[player.inventory.currentItem] = wrenchStack;
-                player.inventoryContainer.detectAndSendChanges();
-                if (!wrenchStack.getItem().onItemUseFirst(wrenchStack, player, world, x, y, z, side, hitX, hitY, hitZ))
-                {
-                    block.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
+            if (block != null) {
+                entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = wrenchStack;
+                if (!wrenchStack.getItem().onItemUseFirst(wrenchStack, entityPlayer, world, x, y, z, side, hitX, hitY, hitZ)) {
+                    block.onBlockActivated(world, x, y, z, entityPlayer, side, hitX, hitY, hitZ);
                 }
-                addWrenchAtIndex(stack, player.getCurrentEquippedItem(), index);
-                player.inventory.mainInventory[player.inventory.currentItem] = stack;
-                player.inventoryContainer.detectAndSendChanges();
+                addWrenchAtIndex(itemStack, entityPlayer.getCurrentEquippedItem(), index);
+                entityPlayer.inventory.mainInventory[entityPlayer.inventory.currentItem] = itemStack;
                 return true;
             }
         }
         return false;
     }
 
-    /*
-    Icon stuffs
-     */
+    @Override
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        if (!itemStack.hasTagCompound()) {
+            return false;
+        }
+        ItemStack wrenchStack = getCurrentWrench(itemStack);
+        return wrenchStack != null && wrenchStack.getItem().onItemUse(itemStack, entityPlayer, world, x, y, z, side, hitX, hitY, hitZ);
+    }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        if (wrench != null)
-        {
-            String modName = Mods.IS_WAILA_LOADED ? " (" + BLUE + ITALIC + ModIdentification.nameFromStack(wrench) + RESET + GRAY + ")" : "";
-            list.add(wrench.getDisplayName() + modName);
+    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean flag) {
+        ItemStack wrenchStack = getCurrentWrench(itemStack);
+        if (wrenchStack != null) {
+            String modName = Mods.IS_WAILA_LOADED ? " (" + BLUE + ITALIC + ModIdentification.nameFromStack(wrenchStack) + RESET + GRAY + ")" : "";
+            list.add(wrenchStack.getDisplayName() + modName);
 
-            wrench.getItem().addInformation(wrench, player, list, bool); // Add information from currently held wrench
+            wrenchStack.getItem().addInformation(wrenchStack, entityPlayer, list, flag);
 
-            if (Mods.IS_IC2_LOADED) // Add IC2 Charge meter
-            {
-                String charge = ElectricItem.manager.getToolTip(wrench);
-                if (charge != null)
-                {
+            if (Mods.IS_IC2_LOADED) {
+                String charge = ElectricItem.manager.getToolTip(wrenchStack);
+                if (charge != null) {
                     list.add(charge);
                 }
             }
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
-        {
-            list.add(StatCollector.translateToLocal(Strings.RELOCATOR_MODULE));
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
             String[] tooltipLines = StatCollector.translateToLocal(Strings.TOOLBOX_INFO).split("\\\\n");
-            for (String s : tooltipLines)
-            {
+            for (String s : tooltipLines) {
                 list.add("\u00a73" + s);
             }
         } else {
@@ -308,88 +272,80 @@ public class ItemToolBox extends Item
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack itemStack)
-    {
+    public ItemStack getContainerItem(ItemStack itemStack) {
         ItemStack copiedStack = itemStack.copy();
-        if (copiedStack.hasTagCompound())
-        {
-            NBTTagList list = copiedStack.getTagCompound().getTagList("wrenches", 10);
-            byte index = copiedStack.getTagCompound().getByte("index");
-            if (list.tagCount() > index)
-            {
+        if (copiedStack.hasTagCompound()) {
+            NBTTagList list = copiedStack.getTagCompound().getTagList("wrenches", Constants.NBT.TAG_COMPOUND);
+            int index = copiedStack.getTagCompound().getByte("index");
+            if (index < list.tagCount()) {
                 list.removeTag(index);
                 index--;
-                if (index < 0)
+                if (index < 0) {
                     index = 0;
-                copiedStack.getTagCompound().setByte("index", index);
+                }
+                copiedStack.getTagCompound().setByte("index", (byte) index);
             }
         }
         return copiedStack;
     }
 
     @Override
-    public int getDamage(ItemStack stack)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        return wrench == null ? super.getDamage(stack) : wrench.getItem().getDamage(wrench);
+    public int getDamage(ItemStack stack) {
+        ItemStack wrenchStack = getCurrentWrench(stack);
+        return wrenchStack == null ? super.getDamage(stack) : wrenchStack.getItem().getDamage(wrenchStack);
     }
 
     @Override
-    public int getDisplayDamage(ItemStack stack)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        return wrench == null ? super.getDisplayDamage(stack) : wrench.getItem().getDisplayDamage(wrench);
+    public int getDisplayDamage(ItemStack stack) {
+        ItemStack wrenchStack = getCurrentWrench(stack);
+        return wrenchStack == null ? super.getDisplayDamage(stack) : wrenchStack.getItem().getDisplayDamage(wrenchStack);
     }
 
     @Override
-    public int getMaxDamage(ItemStack stack)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        return wrench == null ? super.getMaxDamage(stack) : wrench.getItem().getMaxDamage(wrench);
+    public int getMaxDamage(ItemStack stack) {
+        ItemStack wrenchStack = getCurrentWrench(stack);
+        return wrenchStack == null ? super.getMaxDamage(stack) : wrenchStack.getItem().getMaxDamage(wrenchStack);
     }
 
     @Override
-    public boolean isDamaged(ItemStack stack)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        return wrench == null ? super.isDamaged(stack) : wrench.getItem().isDamaged(wrench);
+    public boolean isDamaged(ItemStack stack) {
+        ItemStack wrenchStack = getCurrentWrench(stack);
+        return wrenchStack == null ? super.isDamaged(stack) : wrenchStack.getItem().isDamaged(wrenchStack);
     }
 
     @Override
-    public void setDamage(ItemStack stack, int damage)
-    {
-        ItemStack wrench = getCurrentWrench(stack);
-        if (wrench != null) wrench.getItem().setDamage(wrench, damage);
+    public void setDamage(ItemStack stack, int damage) {
+        ItemStack wrenchStack = getCurrentWrench(stack);
+        if (wrenchStack != null) {
+            wrenchStack.getItem().setDamage(wrenchStack, damage);
+        }
     }
 
     @Override
-    public boolean requiresMultipleRenderPasses()
-    {
+    public boolean requiresMultipleRenderPasses() {
         return true;
     }
 
     @Override
-    public IIcon getIcon(ItemStack stack, int pass)
-    {
-        if (pass == 0)
-        {
+    public IIcon getIcon(ItemStack stack, int pass) {
+        if (pass == 0) {
             return itemIcon;
-        }
-        else if (pass == 1)
-        {
+        } else if (pass == 1) {
             ItemStack wrench = getCurrentWrench(stack);
-            if (wrench != null && wrench.getItem().getIcon(wrench, 0) != null)
-            {
-                return wrench.getItem().getIcon(wrench, 0);
+            IIcon wrenchIcon = wrench != null ? wrench.getItem().getIcon(wrench, 0) : null;
+            if (wrenchIcon != null) {
+                return wrenchIcon;
+            } else {
+                return unknownIcon;
             }
         }
-        return transparent;
+        return transparentIcon;
     }
 
     @Override
-    public void registerIcons(IIconRegister register)
-    {
+    public void registerIcons(IIconRegister register) {
         itemIcon = register.registerIcon(Resources.MOD_ID + ":" + Names.toolbox);
-        transparent = register.registerIcon(Resources.MOD_ID + ":" + "transparent");
+        unknownIcon = register.registerIcon(Resources.MOD_ID + ":" + "unknown");
+        transparentIcon = register.registerIcon(Resources.MOD_ID + ":" + "transparent");
     }
 }

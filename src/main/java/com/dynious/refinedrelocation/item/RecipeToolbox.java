@@ -17,7 +17,7 @@ public class RecipeToolbox implements IRecipe
             ItemStack stack = inventorycrafting.getStackInSlot(slot);
             if (stack != null && stack.getItem() instanceof ItemToolBox)
             {
-                ItemStack wrench = ItemToolBox.getCurrentWrench(stack);
+                ItemStack wrench = ModItems.toolBox.getCurrentWrench(stack);
                 if (wrench != null)
                 {
                     resultStack = wrench;
