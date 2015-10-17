@@ -57,10 +57,12 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
             {
                 getStorage().addStack(itemStack);
                 BarrelPacketHandler.INSTANCE.sendToDimension(new Message0x01ContentUpdate(this), getWorldObj().provider.dimensionId);
+            } else {
+                itemStack.stackSize -= added;
             }
-            itemStack.stackSize -= added;
-            if (itemStack.stackSize == 0)
+            if (itemStack.stackSize <= 0) {
                 return null;
+            }
         }
         return itemStack;
     }
