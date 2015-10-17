@@ -120,7 +120,7 @@ public class ItemLinker extends Item {
                         entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.TOO_FAR, tileDisplayName, linkable.getMaxLinkRange())));
                         return true;
                     }
-                    linkable.linkTo(world, x, y, z, entityPlayer);
+                    linkable.linkTo(world, linkedX, linkedY, linkedZ, entityPlayer);
                     String tileDisplayName = BlockHelper.getTileEntityDisplayName(tileEntity);
                     String blockDisplayName = BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ);
                     entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH, tileDisplayName, blockDisplayName, linkedX, linkedY, linkedZ)));

@@ -18,8 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender implements ILinkable
-{
+public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender implements ILinkable {
     public int xConnected = Integer.MAX_VALUE;
     public int yConnected = Integer.MAX_VALUE;
     public int zConnected = Integer.MAX_VALUE;
@@ -38,8 +37,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Override
-    public void clearLink(EntityPlayer entityPlayer)
-    {
+    public void clearLink(EntityPlayer entityPlayer) {
         linkTo(worldObj, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, entityPlayer);
     }
 
@@ -49,16 +47,13 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Override
-    public boolean isLinked()
-    {
+    public boolean isLinked() {
         return this.xConnected != Integer.MAX_VALUE;
     }
 
     @Override
-    public void updateEntity()
-    {
-        if (IC2registerChange)
-        {
+    public void updateEntity() {
+        if (IC2registerChange) {
             if (energySink == null)
                 IC2Helper.removeFromEnergyNet(this);
             else
@@ -67,74 +62,60 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
         }
         super.updateEntity();
         recheckTime++;
-        if (recheckTime >= 20)
-        {
+        if (recheckTime >= 20) {
             checkConnectedDirection(worldObj.getTileEntity(xConnected, yConnected, zConnected));
             recheckTime = 0;
         }
     }
 
     @Override
-    public void setConnectedSide(int connectedSide)
-    {
+    public void setConnectedSide(int connectedSide) {
     }
 
     @Override
-    public ForgeDirection getConnectedDirection()
-    {
+    public ForgeDirection getConnectedDirection() {
         return ForgeDirection.UNKNOWN;
     }
 
     @Override
-    public boolean canConnect()
-    {
+    public boolean canConnect() {
         return true;
     }
 
     @Override
-    public boolean canDisguise()
-    {
+    public boolean canDisguise() {
         return false;
     }
 
 
     @Override
-    public TileEntity getConnectedTile()
-    {
+    public TileEntity getConnectedTile() {
         return worldObj.getTileEntity(xConnected, yConnected, zConnected);
     }
 
     @Override
-    public boolean isRedstoneTransmissionActive()
-    {
+    public boolean isRedstoneTransmissionActive() {
         // never render as if redstone is active
         return false;
     }
 
     @Override
-    public boolean isRedstoneTransmissionEnabled()
-    {
+    public boolean isRedstoneTransmissionEnabled() {
         // always render as if redstone is enabled
         return true;
     }
 
     @Override
-    public IInventory getInventory()
-    {
+    public IInventory getInventory() {
         TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
-        if (tile != null && tile instanceof IInventory)
-        {
-            if (!tile.equals(inventory))
-            {
+        if (tile != null && tile instanceof IInventory) {
+            if (tile != inventory) {
                 setInventory((IInventory) tile);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
             return (IInventory) tile;
-        }
-        else
-        {
-            if (inventory != null)
-            {
+        } else {
+            if (inventory != null) {
                 setInventory(null);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
@@ -143,22 +124,16 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Override
-    public IFluidHandler getFluidHandler()
-    {
+    public IFluidHandler getFluidHandler() {
         TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
-        if (tile != null && tile instanceof IFluidHandler)
-        {
-            if (!tile.equals(fluidHandler))
-            {
+        if (tile != null && tile instanceof IFluidHandler) {
+            if (tile != fluidHandler) {
                 setFluidHandler((IFluidHandler) tile);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
             return (IFluidHandler) tile;
-        }
-        else
-        {
-            if (fluidHandler != null)
-            {
+        } else {
+            if (fluidHandler != null) {
                 setFluidHandler(null);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
@@ -168,22 +143,16 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 
     @Optional.Method(modid = Mods.IC2_ID)
     @Override
-    public IEnergySink getEnergySink()
-    {
+    public IEnergySink getEnergySink() {
         TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
-        if (tile != null && tile instanceof IEnergySink)
-        {
-            if (!tile.equals(energySink))
-            {
+        if (tile != null && tile instanceof IEnergySink) {
+            if (tile != energySink) {
                 saveSetEnergySink((IEnergySink) tile);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
             return (IEnergySink) tile;
-        }
-        else
-        {
-            if (energySink != null)
-            {
+        } else {
+            if (energySink != null) {
                 saveSetEnergySink(null);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
@@ -192,20 +161,14 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Optional.Method(modid = Mods.IC2_ID)
-    public void saveSetEnergySink(IEnergySink energySink)
-    {
-        if (this.energySink == null && energySink != null)
-        {
+    public void saveSetEnergySink(IEnergySink energySink) {
+        if (this.energySink == null && energySink != null) {
             this.energySink = energySink;
-            if (!worldObj.isRemote)
-            {
+            if (!worldObj.isRemote) {
                 IC2registerChange = true;
             }
-        }
-        else if (this.energySink != null)
-        {
-            if (energySink == null && !worldObj.isRemote)
-            {
+        } else if (this.energySink != null) {
+            if (energySink == null && !worldObj.isRemote) {
                 IC2registerChange = true;
             }
             this.energySink = energySink;
@@ -214,22 +177,16 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 
     @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
-    public IEnergyReceiver getEnergyReceiver()
-    {
+    public IEnergyReceiver getEnergyReceiver() {
         TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
-        if (tile != null && tile instanceof IEnergyReceiver)
-        {
-            if (!tile.equals(energyReceiver))
-            {
+        if (tile != null && tile instanceof IEnergyReceiver) {
+            if (tile != energyReceiver) {
                 setEnergyReceiver((IEnergyReceiver) tile);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
             return (IEnergyReceiver) tile;
-        }
-        else
-        {
-            if (energyReceiver != null)
-            {
+        } else {
+            if (energyReceiver != null) {
                 setEnergyReceiver(null);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
@@ -239,22 +196,16 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 
     @Optional.Method(modid = Mods.COFH_ENERGY_API_ID)
     @Override
-    public IEnergyProvider getEnergyProvider()
-    {
+    public IEnergyProvider getEnergyProvider() {
         TileEntity tile = worldObj.getTileEntity(xConnected, yConnected, zConnected);
-        if (tile != null && tile instanceof IEnergyProvider)
-        {
-            if (!tile.equals(energyProvider))
-            {
+        if (tile != null && tile instanceof IEnergyProvider) {
+            if (tile != energyProvider) {
                 setEnergyProvider((IEnergyProvider) tile);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
             return (IEnergyProvider) tile;
-        }
-        else
-        {
-            if (energyProvider != null)
-            {
+        } else {
+            if (energyProvider != null) {
                 setEnergyProvider(null);
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
             }
@@ -263,14 +214,12 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
-    {
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         linkTo(worldObj, pkt.func_148857_g().getInteger("xConnected"), pkt.func_148857_g().getInteger("yConnected"), pkt.func_148857_g().getInteger("zConnected"), null);
     }
 
     @Override
-    public Packet getDescriptionPacket()
-    {
+    public Packet getDescriptionPacket() {
         NBTTagCompound compound = new NBTTagCompound();
         compound.setInteger("xConnected", xConnected);
         compound.setInteger("yConnected", yConnected);
@@ -279,15 +228,13 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         linkTo(worldObj, compound.getInteger("xConnected"), compound.getInteger("yConnected"), compound.getInteger("zConnected"), null);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
-    {
+    public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setInteger("xConnected", xConnected);
         compound.setInteger("yConnected", yConnected);
