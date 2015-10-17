@@ -29,7 +29,7 @@ public class MessageGUIBooleanArray extends MessageGUI implements IMessageHandle
     public void fromBytes(ByteBuf buf)
     {
         super.fromBytes(buf);
-        values = new boolean[buf.readByte()];
+        values = new boolean[buf.readShort()];
         for(int i = 0; i < values.length; i++) {
             values[i] = buf.readBoolean();
         }
@@ -39,7 +39,7 @@ public class MessageGUIBooleanArray extends MessageGUI implements IMessageHandle
     public void toBytes(ByteBuf buf)
     {
         super.toBytes(buf);
-        buf.writeByte(values.length);
+        buf.writeShort(values.length);
         for(int i = 0; i < values.length; i++) {
             buf.writeBoolean(values[i]);
         }

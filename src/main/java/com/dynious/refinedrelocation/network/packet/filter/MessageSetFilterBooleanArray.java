@@ -32,7 +32,7 @@ public class MessageSetFilterBooleanArray implements IMessage, IMessageHandler<M
     {
         filterIndex = buf.readByte();
         filterOption = buf.readInt();
-        filterStates = new boolean[buf.readByte()];
+        filterStates = new boolean[buf.readShort()];
         for (int i = 0; i < filterStates.length; i++)
         {
             filterStates[i] = buf.readBoolean();
@@ -44,7 +44,7 @@ public class MessageSetFilterBooleanArray implements IMessage, IMessageHandler<M
     {
         buf.writeByte(filterIndex);
         buf.writeInt(filterOption);
-        buf.writeByte(filterStates.length);
+        buf.writeShort(filterStates.length);
         for (int i = 0; i < filterStates.length; i++)
         {
             buf.writeBoolean(filterStates[i]);
