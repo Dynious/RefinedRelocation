@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.CommonProxy;
 import com.dynious.refinedrelocation.block.ModBlocks;
 import com.dynious.refinedrelocation.client.gui.SharedAtlas;
 import com.dynious.refinedrelocation.client.renderer.*;
+import com.dynious.refinedrelocation.item.ModItems;
 import com.dynious.refinedrelocation.lib.Mods;
 import com.dynious.refinedrelocation.compat.EE3Helper;
 import com.dynious.refinedrelocation.compat.FMPHelper;
@@ -16,6 +17,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -35,6 +37,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileMultiBlockBase.class, new RendererMultiBlock());
         ClientRegistry.bindTileEntitySpecialRenderer(TileRelocator.class, new RendererRelocator());
 
+        MinecraftForgeClient.registerItemRenderer(ModItems.toolBox, new ItemRendererToolBox());
         MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.blockExtender), new ItemRendererBlockExtender());
         MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.buffer), new ItemRendererBuffer());
         MinecraftForgeClient.registerItemRenderer(ItemBlock.getItemFromBlock(ModBlocks.sortingChest), new ItemRendererSortingChest());

@@ -32,7 +32,6 @@ public class GuiModuleMultiModule extends GuiRefinedRelocationContainer {
 
         new GuiModuleList(this, multiModule, width / 2 - 80, height / 2 - 70 + headerLabel.h, 160, 113);
 
-        int curX = width / 2 - 80;
         int curY = height / 2 + 57;
         String[] helpLines = StatCollector.translateToLocal(Strings.MULTI_MODULE_HELP).split("\\\\n");
         for (String helpLine : helpLines) {

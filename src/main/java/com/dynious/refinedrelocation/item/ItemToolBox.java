@@ -56,8 +56,6 @@ public class ItemToolBox extends Item {
     }
 
     private static final List<Class<?>> wrenchClasses = new ArrayList<>();
-    private IIcon unknownIcon;
-    private IIcon transparentIcon;
 
     public ItemToolBox() {
         super();
@@ -200,7 +198,6 @@ public class ItemToolBox extends Item {
                             }
                             sb.append(wrenchStack.getDisplayName()).append("\u00a7r");
                         }
-                        sb.append(".");
                         entityPlayer.addChatMessage(new ChatComponentText(sb.toString()));
                     }
                 }
@@ -322,30 +319,12 @@ public class ItemToolBox extends Item {
     }
 
     @Override
-    public boolean requiresMultipleRenderPasses() {
-        return true;
-    }
-
-    @Override
     public IIcon getIcon(ItemStack stack, int pass) {
-        if (pass == 0) {
-            return itemIcon;
-        } else if (pass == 1) {
-            ItemStack wrench = getCurrentWrench(stack);
-            IIcon wrenchIcon = wrench != null ? wrench.getItem().getIcon(wrench, 0) : null;
-            if (wrenchIcon != null) {
-                return wrenchIcon;
-            } else {
-                return unknownIcon;
-            }
-        }
-        return transparentIcon;
+        return itemIcon;
     }
 
     @Override
     public void registerIcons(IIconRegister register) {
         itemIcon = register.registerIcon(Resources.MOD_ID + ":" + Names.toolbox);
-        unknownIcon = register.registerIcon(Resources.MOD_ID + ":" + "unknown");
-        transparentIcon = register.registerIcon(Resources.MOD_ID + ":" + "transparent");
     }
 }
