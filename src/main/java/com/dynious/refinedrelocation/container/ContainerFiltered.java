@@ -9,6 +9,7 @@ import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterBlack
 import com.dynious.refinedrelocation.network.packet.filter.MessageSetFilterType;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIByte;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
@@ -94,7 +95,7 @@ public class ContainerFiltered extends ContainerHierarchical implements IContain
     }
 
     @Override
-    public void onMessageByte(int messageId, byte value, EntityPlayer player)
+    public void onMessageByte(int messageId, byte value, EntityPlayer player, Side side)
     {
         if(isRestrictedAccessWithError(player)) {
             return;

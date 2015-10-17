@@ -55,7 +55,7 @@ public class MessageGUIBooleanArray extends MessageGUI implements IMessageHandle
             return null;
         }
 
-        ((IContainerNetworked) container).onMessageBooleanArray(message.id, message.values, entityPlayer);
+        ((IContainerNetworked) container).onMessageBooleanArray(message.id, message.values, entityPlayer, ctx.side);
 
         return null;
     }

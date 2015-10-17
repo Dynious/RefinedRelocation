@@ -18,6 +18,8 @@ public abstract class MessageGUI implements IMessage
     public static final int ENERGY_TYPES = 10;
     public static final int DIRECTIONS_START = 11;
     public static final int DIRECTIONS_END = 16;
+    public static final int REMOVE_MODULE = 17;
+    public static final int OPEN_MODULE = 18;
 
     protected int id = 0;
 

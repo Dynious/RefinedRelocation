@@ -49,7 +49,7 @@ public class MessageGUIBoolean extends MessageGUI implements IMessageHandler<Mes
             return null;
         }
 
-        ((IContainerNetworked) container).onMessageBoolean(message.id, message.value, entityPlayer);
+        ((IContainerNetworked) container).onMessageBoolean(message.id, message.value, entityPlayer, ctx.side);
 
         return null;
     }

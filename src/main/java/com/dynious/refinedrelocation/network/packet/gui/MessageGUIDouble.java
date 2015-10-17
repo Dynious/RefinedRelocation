@@ -49,7 +49,7 @@ public class MessageGUIDouble extends MessageGUI implements IMessageHandler<Mess
             return null;
         }
 
-        ((IContainerNetworked) container).onMessageDouble(message.id, message.value, entityPlayer);
+        ((IContainerNetworked) container).onMessageDouble(message.id, message.value, entityPlayer, ctx.side);
 
         return null;
     }

@@ -29,38 +29,34 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelocatorMultiModule extends RelocatorModuleBase
-{
+public class RelocatorMultiModule extends RelocatorModuleBase {
     private static IIcon icon;
-    private List<IRelocatorModule> modules = new ArrayList<IRelocatorModule>();
+    private List<IRelocatorModule> modules = new ArrayList<>();
     private int currentModule = -1; // -1 is the multi module
 
-    public IRelocatorModule getCurrentModule()
-    {
+    public RelocatorMultiModule() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 10));
+    }
+
+    public IRelocatorModule getCurrentModule() {
         return currentModule == -1 ? this : modules.get(currentModule);
     }
 
-    public void setCurrentModule(int newModule)
-    {
+    public void setCurrentModule(int newModule) {
         currentModule = newModule;
     }
 
-    public List<List<String>> getModuleInformation(NBTTagCompound compound)
-    {
-        List<List<String>> moduleInformation = new ArrayList<List<String>>();
+    public List<List<String>> getModuleInformation(NBTTagCompound compound) {
+        List<List<String>> moduleInformation = new ArrayList<>();
 
         NBTTagList list = compound.getTagList("multiModules", 10);
-        for (int i = 0; i < list.tagCount() && i <= 3; i++)
-        {
+        for (int i = 0; i < list.tagCount() && i <= 3; i++) {
             NBTTagCompound moduleCompound = list.getCompoundTagAt(i);
             IRelocatorModule module = RelocatorModuleRegistry.getModule(moduleCompound.getString("clazzIdentifier"));
-            if (module != null)
-            {
+            if (module != null) {
                 List<String> wailaInfo = module.getWailaInformation(moduleCompound);
-                if (!wailaInfo.isEmpty())
-                {
-                    for (int j = 0; j < wailaInfo.size(); j++)
-                    {
+                if (!wailaInfo.isEmpty()) {
+                    for (int j = 0; j < wailaInfo.size(); j++) {
                         wailaInfo.set(j, StringUtils.repeat(" ", 3) + wailaInfo.get(j));
                     }
                     wailaInfo.add(0, module.getDisplayName());
@@ -69,9 +65,8 @@ public class RelocatorMultiModule extends RelocatorModuleBase
             }
         }
 
-        if (list.tagCount() >= 4)
-        {
-            List<String> ellipse = new ArrayList<String>();
+        if (list.tagCount() >= 4) {
+            List<String> ellipse = new ArrayList<>();
             ellipse.add(StringHelper.getLocalizedString(Strings.ELLIPSE));
             moduleInformation.add(ellipse);
         }
@@ -80,67 +75,61 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return StatCollector.translateToLocal("item." + Names.relocatorModule + 10 + ".name");
     }
 
-    public boolean addModule(IRelocatorModule module)
-    {
-        for (IRelocatorModule module1 : modules)
-        {
-            if (module1.getClass() == module.getClass() || module instanceof RelocatorMultiModule)
+    public boolean addModule(IRelocatorModule module) {
+        for (IRelocatorModule module1 : modules) {
+            if (module1.getClass() == module.getClass() || module instanceof RelocatorMultiModule) {
                 return false;
+            }
         }
         modules.add(module);
         return true;
     }
 
+    public IRelocatorModule removeModule(int index) {
+        return modules.remove(index);
+    }
+
     @Override
-    public void init(IItemRelocator relocator, int side)
-    {
-        for (IRelocatorModule module : modules)
-        {
-            if (module != null)
+    public void init(IItemRelocator relocator, int side) {
+        for (IRelocatorModule module : modules) {
+            if (module != null) {
                 module.init(relocator, side);
+            }
         }
     }
 
     @Override
-    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
-    {
-        if (stack != null && stack.getItem() instanceof IItemRelocatorModule)
-        {
+    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack) {
+        if (stack != null && stack.getItem() instanceof IItemRelocatorModule) {
             IRelocatorModule module = ((IItemRelocatorModule) stack.getItem()).getRelocatorModule(stack);
-            if (module != null && addModule(module))
-            {
+            if (module != null && addModule(module)) {
                 module.init(relocator, side);
-                if (!player.capabilities.isCreativeMode)
+                if (!player.capabilities.isCreativeMode) {
                     stack.stackSize--;
+                }
                 return true;
             }
         }
-        if (!modules.isEmpty())
-            APIUtils.openRelocatorModuleGUI(relocator, player, side);
+        APIUtils.openRelocatorModuleGUI(relocator, player, side);
         return true;
     }
 
     @Override
-    public void onUpdate(IItemRelocator relocator, int side)
-    {
-        for (IRelocatorModule module : modules)
-        {
+    public void onUpdate(IItemRelocator relocator, int side) {
+        for (IRelocatorModule module : modules) {
             if (module != null)
                 module.onUpdate(relocator, side);
         }
     }
 
     @Override
-    public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate)
-    {
+    public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity inventory, ItemStack stack, boolean simulate) {
         ItemStack returned = stack;
-        for (IRelocatorModule module : modules)
-        {
+        for (IRelocatorModule module : modules) {
             if (module != null)
                 returned = module.outputToSide(relocator, side, inventory, stack, simulate);
             if (returned == null)
@@ -150,82 +139,73 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public void onRedstonePowerChange(boolean isPowered)
-    {
-        for (IRelocatorModule module : modules)
-        {
+    public void onRedstonePowerChange(boolean isPowered) {
+        for (IRelocatorModule module : modules) {
             if (module != null)
                 module.onRedstonePowerChange(isPowered);
         }
     }
 
     @Override
-    public int strongRedstonePower(int side)
-    {
+    public int strongRedstonePower(int side) {
         int power = 0;
-        for (IRelocatorModule module : modules)
-        {
-            if (module != null)
-            {
+        for (IRelocatorModule module : modules) {
+            if (module != null) {
                 int p = module.strongRedstonePower(side);
-                if (p > power)
+                if (p > power) {
                     power = p;
+                }
             }
         }
         return power;
     }
 
     @Override
-    public boolean connectsToRedstone()
-    {
-        for (IRelocatorModule module : modules)
-        {
-            if (module != null && module.connectsToRedstone())
+    public boolean connectsToRedstone() {
+        for (IRelocatorModule module : modules) {
+            if (module != null && module.connectsToRedstone()) {
                 return true;
+            }
         }
         return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
-    {
-        if (currentModule == -1)
-            return new GuiModuleMultiModule(this, modules, relocator, player, side);
-        else
+    public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player) {
+        if (currentModule == -1) {
+            return new GuiModuleMultiModule(this, relocator, side);
+        } else {
             return getCurrentModule().getGUI(relocator, side, player);
+        }
     }
 
     @Override
-    public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player)
-    {
-        if (currentModule == -1)
-            return new ContainerMultiModule(this, relocator, player, side);
-        else
+    public Container getContainer(IItemRelocator relocator, int side, EntityPlayer player) {
+        if (currentModule == -1) {
+            return new ContainerMultiModule(this, relocator, side);
+        } else {
             return getCurrentModule().getContainer(relocator, side, player);
+        }
     }
 
     @Override
-    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
-    {
-        for (IRelocatorModule module : modules)
-        {
-            if (module != null && !module.passesFilter(relocator, side, stack, input, simulate))
+    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate) {
+        for (IRelocatorModule module : modules) {
+            if (module != null && !module.passesFilter(relocator, side, stack, input, simulate)) {
                 return false;
+            }
         }
         return true;
     }
 
     @Override
-    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
+    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound) {
         NBTTagList list = compound.getTagList("multiModules", 10);
-        for (int i = 0; i < list.tagCount(); i++)
-        {
+        for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound compound1 = list.getCompoundTagAt(i);
             IRelocatorModule module = RelocatorModuleRegistry.getModule(compound1.getString("clazzIdentifier"));
-            if (module != null)
-            {
+            if (module != null) {
                 modules.add(module);
                 module.init(relocator, side);
                 module.readFromNBT(relocator, side, compound1);
@@ -234,13 +214,10 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound) {
         NBTTagList list = new NBTTagList();
-        for (IRelocatorModule module : modules)
-        {
-            if (module != null)
-            {
+        for (IRelocatorModule module : modules) {
+            if (module != null) {
                 NBTTagCompound compound1 = new NBTTagCompound();
                 compound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(module.getClass()));
                 module.writeToNBT(relocator, side, compound1);
@@ -251,15 +228,12 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
+    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound) {
         NBTTagList list = compound.getTagList("multiModules", 10);
-        for (int i = 0; i < list.tagCount(); i++)
-        {
+        for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound compound1 = list.getCompoundTagAt(i);
             IRelocatorModule module = RelocatorModuleRegistry.getModule(compound1.getString("clazzIdentifier"));
-            if (module != null)
-            {
+            if (module != null) {
                 modules.add(module);
                 module.init(relocator, side);
                 module.readClientData(relocator, side, compound1);
@@ -268,13 +242,10 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
+    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound) {
         NBTTagList list = new NBTTagList();
-        for (IRelocatorModule module : modules)
-        {
-            if (module != null)
-            {
+        for (IRelocatorModule module : modules) {
+            if (module != null) {
                 NBTTagCompound compound1 = new NBTTagCompound();
                 compound1.setString("clazzIdentifier", RelocatorModuleRegistry.getIdentifier(module.getClass()));
                 module.writeClientData(relocator, side, compound1);
@@ -285,27 +256,32 @@ public class RelocatorMultiModule extends RelocatorModuleBase
     }
 
     @Override
-    public List<ItemStack> getDrops(IItemRelocator relocator, int side)
-    {
-        List<ItemStack> drops = new ArrayList<ItemStack>();
-        for (IRelocatorModule module : modules)
-        {
-            if (module != null)
+    public List<ItemStack> getDrops(IItemRelocator relocator, int side) {
+        List<ItemStack> drops = new ArrayList<>();
+        for (IRelocatorModule module : modules) {
+            if (module != null) {
                 drops.addAll(module.getDrops(relocator, side));
+            }
         }
         drops.add(new ItemStack(ModItems.relocatorModule, 1, 10));
         return drops;
     }
 
     @Override
-    public IIcon getIcon(IItemRelocator relocator, int side)
-    {
+    public IIcon getIcon(IItemRelocator relocator, int side) {
         return icon;
     }
 
     @Override
-    public void registerIcons(IIconRegister register)
-    {
+    public void registerIcons(IIconRegister register) {
         icon = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleMulti");
+    }
+
+    public List<IRelocatorModule> getModules() {
+        return modules;
+    }
+
+    public int getModuleCount() {
+        return modules.size();
     }
 }

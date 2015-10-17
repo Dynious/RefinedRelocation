@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.api.filter.IFilterGUI;
 import com.dynious.refinedrelocation.api.filter.IMultiFilterChild;
 import com.dynious.refinedrelocation.api.tileentity.IMultiFilterTile;
 import com.dynious.refinedrelocation.container.slot.SlotHopper;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -106,23 +107,23 @@ public class ContainerFilteringHopper extends ContainerHopper implements IContai
     }
 
     @Override
-    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player) {}
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player, Side side) {}
 
     @Override
-    public void onMessageAction(int messageId, EntityPlayer player) {}
+    public void onMessageAction(int messageId, EntityPlayer player, Side side) {}
 
     @Override
-    public void onMessageString(int messageId, String value, EntityPlayer player) {}
+    public void onMessageString(int messageId, String value, EntityPlayer player, Side side) {}
 
     @Override
-    public void onMessageByte(int messageId, byte value, EntityPlayer player) {}
+    public void onMessageByte(int messageId, byte value, EntityPlayer player, Side side) {}
 
     @Override
-    public void onMessageDouble(int messageId, double value, EntityPlayer player) {}
+    public void onMessageDouble(int messageId, double value, EntityPlayer player, Side side) {}
 
     @Override
-    public void onMessageInteger(int messageId, int value, EntityPlayer player) {}
+    public void onMessageInteger(int messageId, int value, EntityPlayer player, Side side) {}
 
     @Override
-    public void onMessageBooleanArray(int messageId, boolean[] values, EntityPlayer player) {}
+    public void onMessageBooleanArray(int messageId, boolean[] values, EntityPlayer player, Side side) {}
 }

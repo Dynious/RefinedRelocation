@@ -34,6 +34,14 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     private long lastChange = -401;
     private IItemRelocator relocator;
 
+    public RelocatorModuleFilter() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 1));
+    }
+
+    public RelocatorModuleFilter(ItemStack moduleStack) {
+        super(moduleStack);
+    }
+
     @Override
     public void init(IItemRelocator relocator, int side)
     {

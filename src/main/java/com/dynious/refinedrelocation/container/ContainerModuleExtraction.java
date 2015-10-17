@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleExtraction;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerModuleExtraction extends ContainerHierarchical
@@ -67,7 +68,7 @@ public class ContainerModuleExtraction extends ContainerHierarchical
     }
 
     @Override
-    public void onMessageInteger(int messageId, int value, EntityPlayer player)
+    public void onMessageInteger(int messageId, int value, EntityPlayer player, Side side)
     {
         if(isRestrictedAccessWithError(player)) {
             return;

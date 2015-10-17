@@ -22,6 +22,10 @@ public class RelocatorModuleOneWay extends RelocatorModuleBase
 
     private boolean inputAllowed = true;
 
+    public RelocatorModuleOneWay() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 2));
+    }
+
     @Override
     public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
     {

@@ -59,8 +59,9 @@ public class APIHandler implements IAPIHandler {
 
     @Override
     public void openRelocatorModuleGUI(IItemRelocator relocator, EntityPlayer player, int side) {
-        if (FMLCommonHandler.instance().getEffectiveSide().isServer())
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
             player.openGui(RefinedRelocation.instance, GuiIds.RELOCATOR_FILTER_BASE + side, relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
+        }
     }
 
     @Override

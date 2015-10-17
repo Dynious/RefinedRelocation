@@ -16,6 +16,10 @@ public class RelocatorModuleBlockedExtraction extends RelocatorModuleExtraction
 {
     private static IIcon icon;
 
+    public RelocatorModuleBlockedExtraction() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 4));
+    }
+
     @Override
     public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
     {

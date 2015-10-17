@@ -49,7 +49,7 @@ public class MessageGUIInteger extends MessageGUI implements IMessageHandler<Mes
             return null;
         }
 
-        ((IContainerNetworked) container).onMessageInteger(message.id, message.value, entityPlayer);
+        ((IContainerNetworked) container).onMessageInteger(message.id, message.value, entityPlayer, ctx.side);
 
         return null;
     }

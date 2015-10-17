@@ -45,6 +45,10 @@ public class RelocatorModuleCrafting extends RelocatorModuleBase
     private int maxCraftStack = 64;
     private boolean input = false;
 
+    public RelocatorModuleCrafting() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 12));
+    }
+
     @Override
     public boolean isItemDestination()
     {

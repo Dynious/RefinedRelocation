@@ -59,4 +59,6 @@ public interface IRelocatorModule
     String getDisplayName();
 
     List<String> getWailaInformation(NBTTagCompound nbtData);
+
+    ItemStack getModuleItemStack();
 }

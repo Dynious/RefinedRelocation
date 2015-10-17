@@ -174,4 +174,6 @@ public class Strings
 
     public static final String ADVENTURE_MODE = "misc.refinedrelocation.adventureMode";
 
+    public static final String MULTI_MODULE = GUI_PREFIX + "multiModule";
+    public static final String MULTI_MODULE_HELP = GUI_PREFIX + "multiModuleHelp";
 }

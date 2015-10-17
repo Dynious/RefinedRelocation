@@ -37,6 +37,10 @@ public class RelocatorModuleStock extends RelocatorModuleBase implements IInvent
 
     private ItemStack[] itemStacksToStock = new ItemStack[9];
 
+    public RelocatorModuleStock() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 6));
+    }
+
     @Override
     public ItemStack outputToSide(IItemRelocator relocator, int side, TileEntity tile, ItemStack stack, boolean simulate)
     {

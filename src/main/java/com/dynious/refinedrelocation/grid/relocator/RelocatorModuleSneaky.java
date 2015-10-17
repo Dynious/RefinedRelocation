@@ -35,6 +35,10 @@ public class RelocatorModuleSneaky extends RelocatorModuleBase
     private int outputSide = -1;
     private TileRelocator tileRelocator;
 
+    public RelocatorModuleSneaky() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 5));
+    }
+
     @Override
     public void init(IItemRelocator relocator, int side)
     {

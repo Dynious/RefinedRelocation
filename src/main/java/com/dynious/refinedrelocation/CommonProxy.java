@@ -62,4 +62,5 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {}
+
 }

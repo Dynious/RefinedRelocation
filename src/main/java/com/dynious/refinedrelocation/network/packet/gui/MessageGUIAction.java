@@ -31,7 +31,7 @@ public class MessageGUIAction extends MessageGUI implements IMessageHandler<Mess
             return null;
         }
 
-        ((IContainerNetworked) container).onMessageAction(message.id, entityPlayer);
+        ((IContainerNetworked) container).onMessageAction(message.id, entityPlayer, ctx.side);
 
         return null;
     }

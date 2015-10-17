@@ -4,6 +4,7 @@ import com.dynious.refinedrelocation.container.slot.SlotGhost;
 import com.dynious.refinedrelocation.container.slot.SlotUntouchable;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleCrafting;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
@@ -109,7 +110,7 @@ public class ContainerModuleCrafting extends ContainerPhantom
     }
 
     @Override
-    public void onMessageInteger(int messageId, int value, EntityPlayer player)
+    public void onMessageInteger(int messageId, int value, EntityPlayer player, Side side)
     {
         if(isRestrictedAccessWithError(player)) {
             return;

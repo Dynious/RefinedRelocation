@@ -1,23 +1,24 @@
 package com.dynious.refinedrelocation.client.gui;
 
 import com.dynious.refinedrelocation.api.relocator.IItemRelocator;
-import com.dynious.refinedrelocation.api.relocator.IRelocatorModule;
-import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonOpenModuleGUI;
+import com.dynious.refinedrelocation.client.gui.widget.GuiLabel;
+import com.dynious.refinedrelocation.client.gui.widget.GuiModuleList;
 import com.dynious.refinedrelocation.container.ContainerMultiModule;
 import com.dynious.refinedrelocation.grid.relocator.RelocatorMultiModule;
-import com.dynious.refinedrelocation.helper.GuiHelper;
-import com.dynious.refinedrelocation.lib.Resources;
-import net.minecraft.entity.player.EntityPlayer;
+import com.dynious.refinedrelocation.lib.Strings;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
-import java.util.List;
-
 public class GuiModuleMultiModule extends GuiRefinedRelocationContainer {
-    private final List<IRelocatorModule> modules;
 
-    public GuiModuleMultiModule(RelocatorMultiModule multiModule, List<IRelocatorModule> modules, IItemRelocator relocator, EntityPlayer player, int side) {
-        super(new ContainerMultiModule(multiModule, relocator, player, side));
-        this.modules = modules;
+    private final RelocatorMultiModule multiModule;
+    private int lastModuleCount;
+
+    public GuiModuleMultiModule(RelocatorMultiModule multiModule, IItemRelocator relocator, int side) {
+        super(new ContainerMultiModule(multiModule, relocator, side));
+        this.multiModule = multiModule;
+        lastModuleCount = multiModule.getModuleCount();
+
         xSize = 176;
         ySize = 174;
     }
@@ -26,15 +27,28 @@ public class GuiModuleMultiModule extends GuiRefinedRelocationContainer {
     public void initGui() {
         super.initGui();
 
-        for (int i = 0; i < modules.size(); i++) {
-            IRelocatorModule module = modules.get(i);
-            new GuiButtonOpenModuleGUI(this, i, module.getDisplayName());
+        GuiLabel headerLabel = new GuiLabel(this, width / 2 - 80, height / 2 - 75, StatCollector.translateToLocal(Strings.MULTI_MODULE));
+        headerLabel.drawCentered = false;
+
+        new GuiModuleList(this, multiModule, width / 2 - 80, height / 2 - 70 + headerLabel.h, 160, 113);
+
+        int curX = width / 2 - 80;
+        int curY = height / 2 + 57;
+        String[] helpLines = StatCollector.translateToLocal(Strings.MULTI_MODULE_HELP).split("\\\\n");
+        for (String helpLine : helpLines) {
+            new GuiLabel(this, width / 2, curY, helpLine).drawCentered = true;
+            curY += 12;
         }
     }
 
-    public void onButtonClicked(int index) {
-        ((ContainerMultiModule) inventorySlots).openOrActive(index);
-        GuiHelper.sendActionMessage(index);
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+
+        if (lastModuleCount != multiModule.getModuleCount()) {
+            initGui();
+            lastModuleCount = multiModule.getModuleCount();
+        }
     }
 
     @Override

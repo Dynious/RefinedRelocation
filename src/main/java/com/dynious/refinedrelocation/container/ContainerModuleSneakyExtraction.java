@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.grid.relocator.RelocatorModuleSneakyExtraction;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIInteger;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
@@ -30,9 +31,9 @@ public class ContainerModuleSneakyExtraction extends ContainerModuleExtraction
     }
 
     @Override
-    public void onMessageInteger(int messageId, int value, EntityPlayer player)
+    public void onMessageInteger(int messageId, int value, EntityPlayer player, Side side)
     {
-        super.onMessageInteger(messageId, value, player);
+        super.onMessageInteger(messageId, value, player, side);
         if(isRestrictedAccessWithError(player)) {
             return;
         }

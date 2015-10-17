@@ -41,6 +41,14 @@ public class RelocatorModuleExtraction extends RelocatorModuleBase
     private boolean isPowered = false;
     private boolean hasHadPulse = false;
 
+    public RelocatorModuleExtraction() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 3));
+    }
+
+    public RelocatorModuleExtraction(ItemStack moduleStack) {
+        super(moduleStack);
+    }
+
     @Override
     public void init(IItemRelocator relocator, int side)
     {

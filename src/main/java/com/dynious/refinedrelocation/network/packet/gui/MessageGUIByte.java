@@ -49,7 +49,7 @@ public class MessageGUIByte extends MessageGUI implements IMessageHandler<Messag
             return null;
         }
 
-        ((IContainerNetworked) container).onMessageByte(message.id, message.value, entityPlayer);
+        ((IContainerNetworked) container).onMessageByte(message.id, message.value, entityPlayer, ctx.side);
 
         return null;
     }

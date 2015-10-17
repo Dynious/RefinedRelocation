@@ -29,6 +29,10 @@ public class RelocatorModuleSneakyExtraction extends RelocatorModuleExtraction
     private int extractionSide = -1;
     private TileRelocator tileRelocator;
 
+    public RelocatorModuleSneakyExtraction() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 11));
+    }
+
     @Override
     protected int getExtractionSide(int side)
     {

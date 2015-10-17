@@ -16,9 +16,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class GuiButtonFilterType extends GuiWidgetBase {
-    private static final int ICON_WIDTH = 18;
-    private static final int ICON_HEIGHT = 18;
-
     private IMultiFilterChild filter;
     private final GuiLabel descLabel;
     private final GuiLabel descLabel2;
@@ -65,7 +62,7 @@ public class GuiButtonFilterType extends GuiWidgetBase {
     @Override
     public void drawBackground(int mouseX, int mouseY) {
         mc.getTextureManager().bindTexture(Resources.GUI_MODULAR_FILTER);
-        drawTexturedModalRect(x, y, 0, 198, 151, 34);
+        drawTexturedModalRect(x, y, 0, 198, 151, 27);
 
         if (filter == null || !isInsideBounds(mouseX, mouseY)) {
             Gui.drawRect(x, y + 1, x + w, y + 1 + h, 0x44ffffff);

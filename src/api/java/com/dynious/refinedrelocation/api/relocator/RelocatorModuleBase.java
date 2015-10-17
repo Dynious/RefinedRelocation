@@ -18,6 +18,12 @@ import java.util.List;
 
 public abstract class RelocatorModuleBase implements IRelocatorModule
 {
+    private ItemStack moduleStack;
+
+    public RelocatorModuleBase(ItemStack moduleStack) {
+        this.moduleStack = moduleStack;
+    }
+
     @Override
     public void init(IItemRelocator relocator, int side)
     {
@@ -133,5 +139,10 @@ public abstract class RelocatorModuleBase implements IRelocatorModule
     {
         List<String> information = new ArrayList<String>();
         return information;
+    }
+
+    @Override
+    public ItemStack getModuleItemStack() {
+        return moduleStack;
     }
 }

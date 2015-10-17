@@ -17,22 +17,22 @@ import java.util.List;
 @Optional.Interface(iface = "cofh.api.transport.IItemDuct", modid = Mods.COFH_TRANSPORT_API_ID)
 public interface IRelocator extends IItemRelocator, IItemDuct
 {
-    public IRelocator[] getConnectedRelocators();
+    IRelocator[] getConnectedRelocators();
 
-    public boolean canConnectOnSide(int side);
+    boolean canConnectOnSide(int side);
 
-    public boolean passesFilter(ItemStack itemStack, int side, boolean input, boolean simulate);
+    boolean passesFilter(ItemStack itemStack, int side, boolean input, boolean simulate);
 
-    public void receiveTravellingItem(TravellingItem item);
+    void receiveTravellingItem(TravellingItem item);
 
-    public List<TravellingItem> getItems(boolean includeItemsToAdd);
+    List<TravellingItem> getItems(boolean includeItemsToAdd);
 
     @SideOnly(Side.CLIENT)
-    public GuiScreen getGUI(int side, EntityPlayer player);
+    GuiScreen getGUI(int side, EntityPlayer player);
 
-    public Container getContainer(int side, EntityPlayer player);
+    Container getContainer(int side, EntityPlayer player);
 
-    public byte getRenderType();
+    byte getRenderType();
 
-    public ItemStack getItemStackWithId(byte id);
+    ItemStack getItemStackWithId(byte id);
 }

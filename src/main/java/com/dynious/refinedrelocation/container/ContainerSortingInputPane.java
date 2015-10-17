@@ -2,6 +2,7 @@ package com.dynious.refinedrelocation.container;
 
 import com.dynious.refinedrelocation.container.slot.SlotPhantom;
 import com.dynious.refinedrelocation.tileentity.TileSortingInputPane;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -152,7 +153,7 @@ public class ContainerSortingInputPane extends ContainerPhantom
     }
 
     @Override
-    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player, Side side)
     {
         switch(messageId) {
             case MESSAGE_SWITCH_PAGE:

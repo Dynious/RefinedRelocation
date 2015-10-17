@@ -21,6 +21,10 @@ public class RelocatorModuleItemDetector extends RelocatorModuleFilter
     private boolean emitRedstoneSignal = false;
     private int tick = 0;
 
+    public RelocatorModuleItemDetector() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 9));
+    }
+
     @Override
     public void init(IItemRelocator relocator, int side) {
         super.init(relocator, side);

@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBooleanArray;
 import com.dynious.refinedrelocation.tileentity.TilePowerLimiter;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.Arrays;
@@ -68,7 +69,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     }
 
     @Override
-    public void onMessageDouble(int messageId, double value, EntityPlayer player)
+    public void onMessageDouble(int messageId, double value, EntityPlayer player, Side side)
     {
         if(isRestrictedAccessWithError(player)) {
             return;
@@ -79,7 +80,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     }
 
     @Override
-    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player, Side side)
     {
         if(isRestrictedAccessWithError(player)) {
             return;
@@ -90,7 +91,7 @@ public class ContainerPowerLimiter extends ContainerRefinedRelocation
     }
 
     @Override
-    public void onMessageBooleanArray(int messageId, boolean[] values, EntityPlayer player)
+    public void onMessageBooleanArray(int messageId, boolean[] values, EntityPlayer player, Side side)
     {
         if(isRestrictedAccessWithError(player)) {
             return;

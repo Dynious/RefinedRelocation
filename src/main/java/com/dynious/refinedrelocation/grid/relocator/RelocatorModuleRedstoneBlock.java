@@ -18,26 +18,24 @@ import net.minecraft.util.StatCollector;
 import java.util.Arrays;
 import java.util.List;
 
-public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
-{
+public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase {
     private static IIcon[] icons = new IIcon[4];
     private boolean blockOnSignal = true;
 
+    public RelocatorModuleRedstoneBlock() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 7));
+    }
+
     @Override
-    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate)
-    {
+    public boolean passesFilter(IItemRelocator relocator, int side, ItemStack stack, boolean input, boolean simulate) {
         return blockOnSignal ? !relocator.getRedstoneState() : relocator.getRedstoneState();
     }
 
     @Override
-    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack)
-    {
-        if (player.worldObj.isRemote)
-        {
+    public boolean onActivated(IItemRelocator relocator, EntityPlayer player, int side, ItemStack stack) {
+        if (player.worldObj.isRemote) {
             return true;
-        }
-        else
-        {
+        } else {
             blockOnSignal = !blockOnSignal;
             player.addChatMessage(new ChatComponentText(StatCollector.translateToLocal(blockOnSignal ? Strings.REDSTONE_BLOCK_ENABLED_CHAT : Strings.REDSTONE_BLOCK_DISABLED_CHAT)));
             TileRelocator.markUpdate(relocator.getTileEntity().getWorldObj(), relocator.getTileEntity().xCoord, relocator.getTileEntity().yCoord, relocator.getTileEntity().zCoord);
@@ -46,50 +44,42 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
     }
 
     @Override
-    public boolean connectsToRedstone()
-    {
+    public boolean connectsToRedstone() {
         return true;
     }
 
     @Override
-    public List<ItemStack> getDrops(IItemRelocator relocator, int side)
-    {
+    public List<ItemStack> getDrops(IItemRelocator relocator, int side) {
         return Arrays.asList(new ItemStack(ModItems.relocatorModule, 1, 7));
     }
 
     @Override
-    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
+    public void readFromNBT(IItemRelocator relocator, int side, NBTTagCompound compound) {
         blockOnSignal = compound.getBoolean("blockOnSignal");
     }
 
     @Override
-    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
+    public void writeToNBT(IItemRelocator relocator, int side, NBTTagCompound compound) {
         compound.setBoolean("blockOnSignal", blockOnSignal);
     }
 
     @Override
-    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
+    public void readClientData(IItemRelocator relocator, int side, NBTTagCompound compound) {
         readFromNBT(relocator, side, compound);
     }
 
     @Override
-    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound)
-    {
+    public void writeClientData(IItemRelocator relocator, int side, NBTTagCompound compound) {
         writeToNBT(relocator, side, compound);
     }
 
     @Override
-    public IIcon getIcon(IItemRelocator relocator, int side)
-    {
+    public IIcon getIcon(IItemRelocator relocator, int side) {
         return relocator.getRedstoneState() ? (blockOnSignal ? icons[0] : icons[1]) : (blockOnSignal ? icons[2] : icons[3]);
     }
 
     @Override
-    public void registerIcons(IIconRegister register)
-    {
+    public void registerIcons(IIconRegister register) {
         icons[0] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockRSBlock");
         icons[1] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockRSPass");
         icons[2] = register.registerIcon(Resources.MOD_ID + ":" + "relocatorModuleRedstoneBlockPass");
@@ -97,16 +87,15 @@ public class RelocatorModuleRedstoneBlock extends RelocatorModuleBase
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return StatCollector.translateToLocal("item." + Names.relocatorModule + 7 + ".name");
     }
 
     @Override
-    public List<String> getWailaInformation(NBTTagCompound nbtData)
-    {
+    public List<String> getWailaInformation(NBTTagCompound nbtData) {
         List<String> information = super.getWailaInformation(nbtData);
         information.add(StatCollector.translateToLocal(nbtData.getBoolean("blockOnSignal") ? Strings.REDSTONE_BLOCK_ENABLED : Strings.REDSTONE_BLOCK_DISABLED));
         return information;
     }
+
 }

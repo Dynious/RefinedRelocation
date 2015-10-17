@@ -24,6 +24,10 @@ public class RelocatorModuleSpread extends RelocatorModuleBase
 {
     private static IIcon icon;
 
+    public RelocatorModuleSpread() {
+        super(new ItemStack(ModItems.relocatorModule, 1, 8));
+    }
+
     @Override
     public String getDisplayName()
     {

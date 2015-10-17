@@ -5,6 +5,7 @@ import com.dynious.refinedrelocation.network.packet.gui.MessageGUI;
 import com.dynious.refinedrelocation.network.packet.gui.MessageGUIBoolean;
 import com.dynious.refinedrelocation.tileentity.IAdvancedFilteredTile;
 import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ContainerAdvancedFiltered extends ContainerHierarchical implements IContainerAdvancedFiltered
@@ -100,7 +101,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
 
 
     @Override
-    public void onMessageByte(int messageId, byte value, EntityPlayer player)
+    public void onMessageByte(int messageId, byte value, EntityPlayer player, Side side)
     {
         if(isRestrictedAccessWithError(player)) {
             return;
@@ -111,7 +112,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
 
     @Override
-    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player)
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player, Side side)
     {
         if(isRestrictedAccessWithError(player)) {
             return;
