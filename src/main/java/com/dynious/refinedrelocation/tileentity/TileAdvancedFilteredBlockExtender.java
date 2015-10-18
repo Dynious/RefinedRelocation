@@ -49,8 +49,9 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
 
     public void setConnectedSide(int connectedSide)
     {
+        ForgeDirection lastConnectedDirection = connectedDirection;
         super.setConnectedSide(connectedSide);
-        if (connectedDirection != ForgeDirection.UNKNOWN)
+        if (connectedDirection != ForgeDirection.UNKNOWN && lastConnectedDirection != connectedDirection)
         {
             for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++)
             {
