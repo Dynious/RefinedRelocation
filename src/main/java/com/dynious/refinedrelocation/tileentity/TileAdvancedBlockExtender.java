@@ -28,6 +28,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
         int numDirs = ForgeDirection.VALID_DIRECTIONS.length;
         value = (value % numDirs + numDirs) % numDirs;
         insertDirection[from] = (byte) value;
+        markDirty();
     }
 
     @Override
@@ -51,6 +52,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
     public void setSpreadItems(boolean spreadItems)
     {
         this.spreadItems = spreadItems;
+        markDirty();
     }
 
     @Override
@@ -127,6 +129,7 @@ public class TileAdvancedBlockExtender extends TileBlockExtender implements IAdv
     public void setMaxStackSize(byte maxStackSize)
     {
         this.maxStackSize = maxStackSize;
+        markDirty();
     }
 
     @Override

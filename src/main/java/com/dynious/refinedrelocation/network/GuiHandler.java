@@ -92,12 +92,12 @@ public class GuiHandler implements IGuiHandler {
                     }
                 case GuiIds.FILTERED:
                     if (tile instanceof IFilterTileGUI) {
-                        return new GuiFiltered((IFilterTileGUI) tile);
+                        return new GuiFiltered((IFilterTileGUI) tile, new ContainerFiltered((IFilterTileGUI) tile));
                     }
                     break;
                 case GuiIds.ADVANCED_FILTERED_BLOCK_EXTENDER:
                     if (tile instanceof TileAdvancedFilteredBlockExtender) {
-                        return new GuiFiltered((IMultiFilterTile) tile);
+                        return new GuiFiltered((IMultiFilterTile) tile, new ContainerAdvancedFiltered((IAdvancedFilteredTile) tile));
                     }
                     break;
                 case GuiIds.ADVANCED_BUFFER:

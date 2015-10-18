@@ -26,7 +26,6 @@ public class NetworkHandler
         INSTANCE.registerMessage(MessageSetFilterBooleanArray.class, MessageSetFilterBooleanArray.class, 6, Side.SERVER);
         INSTANCE.registerMessage(MessageSetFilterBooleanArray.class, MessageSetFilterBooleanArray.class, 7, Side.CLIENT);
 
-        INSTANCE.registerMessage(MessageInsertDirection.class, MessageInsertDirection.class, 8, Side.SERVER);
         INSTANCE.registerMessage(MessageTabSync.class, MessageTabSync.class, 9, Side.CLIENT);
         INSTANCE.registerMessage(MessageItemList.class, MessageItemList.class, 10, Side.CLIENT);
         INSTANCE.registerMessage(MessageKonga.class, MessageKonga.class, 11, Side.CLIENT);

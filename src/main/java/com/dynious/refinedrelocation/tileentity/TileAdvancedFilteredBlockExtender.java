@@ -30,11 +30,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     public void setRestrictionExtraction(boolean restrict)
     {
         restrictExtraction = restrict;
-    }
-
-    public byte[] getInsertDirections()
-    {
-        return insertDirection;
+        markDirty();
     }
 
     @Override
@@ -48,6 +44,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
         int numDirs = ForgeDirection.VALID_DIRECTIONS.length;
         value = (value % numDirs + numDirs) % numDirs;
         insertDirection[from] = (byte) value;
+        markDirty();
     }
 
     public void setConnectedSide(int connectedSide)
@@ -128,6 +125,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     public void setMaxStackSize(byte maxStackSize)
     {
         this.maxStackSize = maxStackSize;
+        markDirty();
     }
 
     @Override
@@ -140,6 +138,7 @@ public class TileAdvancedFilteredBlockExtender extends TileBlockExtender impleme
     public void setSpreadItems(boolean spreadItems)
     {
         this.spreadItems = spreadItems;
+        markDirty();
     }
 
     @Override

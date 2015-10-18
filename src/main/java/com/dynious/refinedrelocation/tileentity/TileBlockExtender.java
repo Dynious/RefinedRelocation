@@ -705,6 +705,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
             this.checkRedstonePower();
         }
+        markDirty();
     }
 
     public boolean isRedstoneTransmissionActive() {
@@ -713,5 +714,6 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
 
     public void setRedstoneTransmissionActive(boolean state) {
         isRedstonePowered = state;
+        markDirty();
     }
 }

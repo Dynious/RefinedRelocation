@@ -8,10 +8,12 @@ import com.dynious.refinedrelocation.client.gui.widget.*;
 import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonBlacklist;
 import com.dynious.refinedrelocation.client.gui.widget.button.GuiButtonDeleteFilter;
 import com.dynious.refinedrelocation.container.ContainerFiltered;
+import com.dynious.refinedrelocation.container.ContainerRefinedRelocation;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Resources;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileAdvancedFilteredBlockExtender;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -28,8 +30,8 @@ public class GuiFiltered extends GuiRefinedRelocationContainer {
     private final List<GuiTabButton> tabButtons = new ArrayList<GuiTabButton>();
     private int lastFilterCount;
 
-    public GuiFiltered(IFilterTileGUI filterTile) {
-        super(new ContainerFiltered(filterTile));
+    public GuiFiltered(IFilterTileGUI filterTile, ContainerRefinedRelocation container) {
+        super(container);
         this.filterTile = filterTile;
         this.filter = filterTile.getFilter();
         lastFilterCount = filter.getFilterCount();

@@ -8,8 +8,7 @@ import com.dynious.refinedrelocation.tileentity.TileBlockExtender;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ContainerAdvancedFiltered extends ContainerHierarchical implements IContainerAdvancedFiltered
-{
+public class ContainerAdvancedFiltered extends ContainerHierarchical implements IContainerAdvancedFiltered {
 
     public IAdvancedFilteredTile tile;
 
@@ -20,16 +19,14 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     private boolean lastRestrictExtraction = false;
     private boolean initialUpdate = true;
 
-    public ContainerAdvancedFiltered(IAdvancedFilteredTile tile)
-    {
+    public ContainerAdvancedFiltered(IAdvancedFilteredTile tile) {
         this.tile = tile;
 
         this.containerFiltered = new ContainerFiltered(tile, this);
         this.containerAdvanced = new ContainerAdvanced(tile, this);
     }
 
-    public ContainerAdvancedFiltered(IAdvancedFilteredTile tile, ContainerHierarchical parentContainer)
-    {
+    public ContainerAdvancedFiltered(IAdvancedFilteredTile tile, ContainerHierarchical parentContainer) {
         super(parentContainer);
 
         this.tile = tile;
@@ -39,86 +36,77 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer entityplayer)
-    {
+    public boolean canInteractWith(EntityPlayer entityplayer) {
         return true;
     }
 
     @Override
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         ((ContainerAdvanced) containerAdvanced).detectAndSendChanges();
         ((ContainerFiltered) containerFiltered).detectAndSendChanges();
 
-        if (tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate)
-        {
+        if (tile.getRestrictExtraction() != lastRestrictExtraction || initialUpdate) {
             sendSyncMessage(new MessageGUIBoolean(MessageGUI.FILTERED_EXTRACTION, tile.getRestrictExtraction()));
             lastRestrictExtraction = tile.getRestrictExtraction();
         }
 
-        if (initialUpdate)
-        {
+        if (initialUpdate) {
             initialUpdate = false;
         }
     }
 
     @Override
-    public void setRestrictExtraction(boolean restrictExtraction)
-    {
+    public void setRestrictExtraction(boolean restrictExtraction) {
         tile.setRestrictionExtraction(restrictExtraction);
         lastRestrictExtraction = restrictExtraction;
     }
 
     @Override
-    public void setPriority(int priority)
-    {
+    public void setPriority(int priority) {
     }
 
     @Override
-    public IFilterGUI getFilter()
-    {
+    public IFilterGUI getFilter() {
         return tile.getFilter();
     }
 
     @Override
-    public void setInsertDirection(int from, int value)
-    {
+    public void setInsertDirection(int from, int value) {
         containerAdvanced.setInsertDirection(from, value);
     }
 
     @Override
-    public void setMaxStackSize(byte maxStackSize)
-    {
+    public void setMaxStackSize(byte maxStackSize) {
         containerAdvanced.setMaxStackSize(maxStackSize);
     }
 
     @Override
-    public void setSpreadItems(boolean spreadItems)
-    {
+    public void setSpreadItems(boolean spreadItems) {
         containerAdvanced.setSpreadItems(spreadItems);
     }
     // end delegate methods
 
 
     @Override
-    public void onMessageByte(int messageId, byte value, EntityPlayer player, Side side)
-    {
-        if(isRestrictedAccessWithError(player)) {
+    public void onMessageByte(int messageId, byte value, EntityPlayer player, Side side) {
+        if (isRestrictedAccessWithError(player)) {
             return;
         }
-        if(messageId == MessageGUI.MAX_STACK_SIZE) {
+        if (messageId >= MessageGUI.DIRECTIONS_START && messageId <= MessageGUI.DIRECTIONS_END) {
+            setInsertDirection(messageId - MessageGUI.DIRECTIONS_START, value);
+            return;
+        }
+        if (messageId == MessageGUI.MAX_STACK_SIZE) {
             setMaxStackSize(value);
         }
     }
 
     @Override
-    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player, Side side)
-    {
-        if(isRestrictedAccessWithError(player)) {
+    public void onMessageBoolean(int messageId, boolean value, EntityPlayer player, Side side) {
+        if (isRestrictedAccessWithError(player)) {
             return;
         }
-        switch (messageId)
-        {
+        switch (messageId) {
             case MessageGUI.SPREAD_ITEMS:
                 setSpreadItems(value);
                 break;
@@ -126,8 +114,7 @@ public class ContainerAdvancedFiltered extends ContainerHierarchical implements 
                 setRestrictExtraction(value);
                 break;
             case MessageGUI.REDSTONE_ENABLED:
-                if (tile instanceof TileBlockExtender)
-                {
+                if (tile instanceof TileBlockExtender) {
                     ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(value);
                 }
                 break;

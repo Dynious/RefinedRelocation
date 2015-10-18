@@ -66,7 +66,8 @@ public class RelocatorModuleFilter extends RelocatorModuleBase
     @SideOnly(Side.CLIENT)
     public GuiScreen getGUI(IItemRelocator relocator, int side, EntityPlayer player)
     {
-        return new GuiFiltered(getFilterTile(this, relocator));
+        IMultiFilterTile filterTile = getFilterTile(this, relocator);
+        return new GuiFiltered(filterTile, new ContainerFiltered(filterTile));
     }
 
     @Override
