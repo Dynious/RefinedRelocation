@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.1.4",
-			"changeLog":"Too much. See CurseForge.",
-			"updateURL":"http://minecraft.curseforge.com/projects/refined-relocation/files/2261459/download"
+			"modVersion":"1.1.10",
+			"changeLog":"Fixing a bunch of old and new issues.",
+			"updateURL":"minecraft.curseforge.com/projects/refined-relocation/files/2262968/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
