@@ -46,6 +46,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     protected TileEntity[] tiles = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
     protected boolean isRedstonePowered = false;
     protected boolean isRedstoneEnabled = true;
+    private boolean wasConnected;
     //Prevent looping, do not allow outputting while outputting
     private boolean isOutputting = false;
 
@@ -91,8 +92,9 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     public void setConnectedSide(int connectedSide) {
         this.connectedDirection = ForgeDirection.getOrientation(connectedSide);
         this.blocksChanged = true;
-        if (worldObj != null)
+        if (worldObj != null) {
             worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
+        }
     }
 
     public ForgeDirection getConnectedDirection() {
@@ -185,24 +187,16 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     public void updateEntity() {
         super.updateEntity();
         if (canConnect()) {
-            TileEntity tile = null;
+            TileEntity connectedTile = getConnectedTile();
 
             if (connectedDirection != previousConnectedDirection) {
-                //Look up the tile we are connected to
-                tile = getConnectedTile();
-
                 resetConnections();
-                checkConnectedDirection(tile);
+                checkConnectedDirection(connectedTile);
                 previousConnectedDirection = connectedDirection;
                 worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
             }
 
             if (blocksChanged) {
-                //If we haven't looked up the tile we are connected to, do that
-                if (tile == null) {
-                    tile = getConnectedTile();
-                }
-
                 for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
                     if (direction != connectedDirection) {
                         tiles[direction.ordinal()] = DirectionHelper.getTileAtSide(this, direction);
@@ -210,16 +204,18 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
                 }
                 this.checkRedstonePower();
 
-                if (tile == null) {
+                if (connectedTile == null && wasConnected) {
                     resetConnections();
                     worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
                     worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
                 } else {
-                    checkConnectedDirection(tile);
+                    checkConnectedDirection(connectedTile);
                 }
 
                 blocksChanged = false;
             }
+
+            wasConnected = connectedTile != null;
         }
     }
 
@@ -702,7 +698,7 @@ public class TileBlockExtender extends TileIndustrialCraft implements ISidedInve
     }
 
     public void setRedstoneTransmissionEnabled(boolean state) {
-        boolean wasRedstoneEnabled = isRedstoneTransmissionEnabled();
+        boolean wasRedstoneEnabled = isRedstoneEnabled;
         isRedstoneEnabled = state;
 
         if (worldObj != null && isRedstoneEnabled != wasRedstoneEnabled) {

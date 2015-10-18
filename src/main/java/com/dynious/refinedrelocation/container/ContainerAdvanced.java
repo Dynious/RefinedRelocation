@@ -14,6 +14,7 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
     private boolean lastSpreadItems = false;
     private byte[] lastInsertDirection = {1, 1, 1, 1, 1, 1, 1};
     private byte lastMaxStackSize = 64;
+    private boolean lastRedstoneTransmission;
     private boolean initialUpdate = true;
 
     public ContainerAdvanced(IAdvancedTile tile) {
@@ -51,6 +52,12 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
             lastSpreadItems = tile.getSpreadItems();
         }
 
+        boolean redstoneTransmissionEnabled = ((TileBlockExtender) tile).isRedstoneTransmissionEnabled();
+        if(tile instanceof TileBlockExtender && (redstoneTransmissionEnabled != lastRedstoneTransmission) || initialUpdate) {
+            sendSyncMessage(new MessageGUIBoolean(MessageGUI.REDSTONE_ENABLED, redstoneTransmissionEnabled));
+            lastRedstoneTransmission = redstoneTransmissionEnabled;
+        }
+
         if (initialUpdate) {
             initialUpdate = false;
         }
@@ -74,6 +81,13 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
         lastSpreadItems = spreadItems;
     }
 
+    public void setRedstoneTransmissionEnabled(boolean redstoneTransmissionEnabled) {
+        if (tile instanceof TileBlockExtender) {
+            ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(redstoneTransmissionEnabled);
+        }
+        lastRedstoneTransmission = redstoneTransmissionEnabled;
+    }
+
     @Override
     public void onMessageBoolean(int messageId, boolean value, EntityPlayer player, Side side) {
         if (isRestrictedAccessWithError(player)) {
@@ -84,9 +98,7 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
                 setSpreadItems(value);
                 break;
             case MessageGUI.REDSTONE_ENABLED:
-                if (tile instanceof TileBlockExtender) {
-                    ((TileBlockExtender) tile).setRedstoneTransmissionEnabled(value);
-                }
+                setRedstoneTransmissionEnabled(value);
                 break;
         }
     }
