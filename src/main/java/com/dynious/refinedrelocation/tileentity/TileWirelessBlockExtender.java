@@ -27,7 +27,7 @@ public class TileWirelessBlockExtender extends TileAdvancedFilteredBlockExtender
 
     @Override
     public void linkTo(World world, int x, int y, int z, EntityPlayer entityPlayer) {
-        if(x == xCoord && z == yCoord && y == zCoord) {
+        if(x == xCoord && y == yCoord && z == zCoord) {
             clearLink(entityPlayer);
             return;
         }
