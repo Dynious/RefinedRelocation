@@ -41,7 +41,7 @@ public class GuiFilterList extends GuiWidgetBase implements IGuiWidgetWrapped
         headerLabel.drawCentered = false;
         listOffsetY = headerLabel.h + 8;
 
-        numFiltersPerScreen = (int) Math.floor(((h - listOffsetY + 2 * ROW_SPACING) / (ROW_HEIGHT + ROW_SPACING)));
+        numFiltersPerScreen = (int) Math.min(Math.floor(((h - listOffsetY + 2 * ROW_SPACING) / (ROW_HEIGHT + ROW_SPACING))), filter.getOptionCount());
 
         filters = new GuiCheckboxFilter[numFiltersPerScreen];
         for (int i = 0; i < numFiltersPerScreen; i++)
