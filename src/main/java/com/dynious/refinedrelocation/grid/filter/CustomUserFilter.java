@@ -28,7 +28,7 @@ public class CustomUserFilter extends MultiFilterChildBase {
     public boolean isInFilter(ItemStack itemStack) {
         // TODO cache patterns instead of re-compiling them all the time
         String[] oreNames = null;
-        String filter = value.toLowerCase().replaceAll("\\s+", "");
+        String filter = value.toLowerCase();
         String itemName = null;
         for (String s : filter.split("[\n,]")) {
             boolean isOreDict = s.startsWith("!");
@@ -49,7 +49,7 @@ public class CustomUserFilter extends MultiFilterChildBase {
             } else {
                 if (itemName == null) {
                     try {
-                        itemName = itemStack.getDisplayName().toLowerCase().replaceAll("\\s+", "");
+                        itemName = itemStack.getDisplayName().toLowerCase();
                     } catch (Exception e) {
                         LogHelper.error("Encountered an error when retrieving item name of: " + itemStack.toString());
                         break;
