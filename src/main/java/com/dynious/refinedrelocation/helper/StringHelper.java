@@ -25,12 +25,6 @@ public final class StringHelper
         return StatCollector.translateToLocal(Strings.DIRECTION + direction);
     }
 
-    public static String getBlockNameFromSide(World world, int x, int y, int z, int side)
-    {
-        ForgeDirection direction = ForgeDirection.getOrientation(side);
-        return BlockHelper.getBlockDisplayName(world, x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
-    }
-
     public static String getLocalizedString(String unlocalizedString)
     {
         return StatCollector.translateToLocal(unlocalizedString);

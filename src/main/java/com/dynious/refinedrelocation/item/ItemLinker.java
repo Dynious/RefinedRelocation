@@ -52,7 +52,9 @@ public class ItemLinker extends Item {
             int linkedX = linkCompound.getInteger("tileX");
             int linkedY = linkCompound.getInteger("tileY");
             int linkedZ = linkCompound.getInteger("tileZ");
-            list.add("\u00a7a" + StatCollector.translateToLocal(Strings.LINKED_POS) + " \u00a7f" + linkedX + ", " + linkedY + ", " + linkedZ + " (" + BlockHelper.getBlockDisplayName(entityPlayer.getEntityWorld(), linkedX, linkedY, linkedZ) + ")");
+            Block linkedBlock = entityPlayer.getEntityWorld().getBlock(linkedX, linkedY, linkedZ);
+            int linkedMetadata = entityPlayer.getEntityWorld().getBlockMetadata(linkedX, linkedY, linkedZ);
+            list.add("\u00a7a" + StatCollector.translateToLocal(Strings.LINKED_POS) + " \u00a7f" + linkedX + ", " + linkedY + ", " + linkedZ + " (" + BlockHelper.getBlockDisplayName(linkedBlock, linkedMetadata) + ")");
         } else {
             list.add(StatCollector.translateToLocal(Strings.UNLINKED));
         }
@@ -80,28 +82,30 @@ public class ItemLinker extends Item {
         if(mode == 0) {
             if(tileEntity instanceof IDisguisable && ((IDisguisable) tileEntity).canDisguise()) {
                 IDisguisable disguisable = (IDisguisable) tileEntity;
+                Block block = world.getBlock(x, y, z);
+                int metadata = world.getBlockMetadata(x, y, z);
                 if (isLinked(itemStack)) {
                     NBTTagCompound linkCompound = itemStack.getTagCompound().getCompoundTag("Link");
                     int linkedX = linkCompound.getInteger("tileX");
                     int linkedY = linkCompound.getInteger("tileY");
                     int linkedZ = linkCompound.getInteger("tileZ");
-                    int linkedBlockMetadata = world.getBlockMetadata(linkedX, linkedY, linkedZ);
                     Block linkedBlock = world.getBlock(linkedX, linkedY, linkedZ);
+                    int linkedMetadata = world.getBlockMetadata(linkedX, linkedY, linkedZ);
                     TileEntity linkedTile = world.getTileEntity(linkedX, linkedY, linkedZ);
                     if (linkedTile != null && linkedTile instanceof IDisguisable) {
                         linkedBlock = ((IDisguisable) linkedTile).getDisguise();
-                        linkedBlockMetadata = ((IDisguisable) linkedTile).getDisguiseMeta();
+                        linkedMetadata = ((IDisguisable) linkedTile).getDisguiseMeta();
                     }
-                    if (linkedBlock != null && disguisable.canDisguiseAs(linkedBlock, linkedBlockMetadata)) {
-                        disguisable.setDisguise(linkedBlock, linkedBlockMetadata);
-                        entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.DISGUISED_AS, BlockHelper.getBlockDisplayName(world, x, y, z), BlockHelper.getBlockDisplayName(linkedBlock, linkedBlockMetadata)))));
+                    if (linkedBlock != null && disguisable.canDisguiseAs(linkedBlock, linkedMetadata)) {
+                        disguisable.setDisguise(linkedBlock, linkedMetadata);
+                        entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.DISGUISED_AS, BlockHelper.getBlockDisplayName(block, metadata), BlockHelper.getBlockDisplayName(linkedBlock, linkedMetadata)))));
                     } else {
-                        entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.CANNOT_DISGUISE_AS, BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ)))));
+                        entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.CANNOT_DISGUISE_AS, BlockHelper.getBlockDisplayName(linkedBlock, linkedMetadata)))));
                     }
                     return true;
                 } else if (disguisable.getDisguise() != null) {
                     disguisable.clearDisguise();
-                    entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocal(Strings.UNDISGUISED) + " " + BlockHelper.getBlockDisplayName(world, x, y, z))));
+                    entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocal(Strings.UNDISGUISED) + " " + BlockHelper.getBlockDisplayName(block, metadata))));
                     return true;
                 }
             } else if(tileEntity instanceof ILinkable) {
@@ -111,6 +115,8 @@ public class ItemLinker extends Item {
                     int linkedX = linkCompound.getInteger("tileX");
                     int linkedY = linkCompound.getInteger("tileY");
                     int linkedZ = linkCompound.getInteger("tileZ");
+                    Block linkedBlock = world.getBlock(linkedX, linkedY, linkedZ);
+                    int linkedMetadata = world.getBlockMetadata(linkedX, linkedY, linkedZ);
                     if(x == linkedX && y == linkedY && z == linkedZ) {
                         entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal(Strings.NO_LINK_TO_SELF)));
                         return true;
@@ -122,7 +128,7 @@ public class ItemLinker extends Item {
                     }
                     linkable.linkTo(world, linkedX, linkedY, linkedZ, entityPlayer);
                     String tileDisplayName = BlockHelper.getTileEntityDisplayName(tileEntity);
-                    String blockDisplayName = BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ);
+                    String blockDisplayName = BlockHelper.getBlockDisplayName(linkedBlock, linkedMetadata);
                     entityPlayer.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocalFormatted(Strings.LINKED_WITH, tileDisplayName, blockDisplayName, linkedX, linkedY, linkedZ)));
                     return true;
                 } else if(linkable.isLinked()) {
@@ -150,6 +156,8 @@ public class ItemLinker extends Item {
                 int linkedX = linkCompound.getInteger("tileX");
                 int linkedY = linkCompound.getInteger("tileY");
                 int linkedZ = linkCompound.getInteger("tileZ");
+                Block linkedBlock = world.getBlock(linkedX, linkedY, linkedZ);
+                int linkedMetadata = world.getBlockMetadata(linkedX, linkedY, linkedZ);
                 TileEntity linkedTile = world.getTileEntity(linkedX, linkedY, linkedZ);
                 if (!(linkedTile instanceof IFilterTileGUI)) {
                     entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocal(Strings.CANNOT_COPY_NO_LINK))));
@@ -160,7 +168,7 @@ public class ItemLinker extends Item {
                 NBTTagCompound copyCompound = new NBTTagCompound();
                 linkedMultiFilter.getFilter().writeToNBT(copyCompound);
                 multiFilter.getFilter().readFromNBT(copyCompound);
-                entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.COPIED_FROM, BlockHelper.getBlockDisplayName(world, linkedX, linkedY, linkedZ), BlockHelper.getBlockDisplayName(world, x, y, z)))));
+                entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.COPIED_FROM, BlockHelper.getBlockDisplayName(linkedBlock, linkedMetadata), BlockHelper.getBlockDisplayName(world.getBlock(x, y, z), world.getBlockMetadata(x, y, z))))));
                 return true;
             } else {
                 entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.CANNOT_COPY_NO_LINK))));
@@ -178,6 +186,8 @@ public class ItemLinker extends Item {
         if(!entityPlayer.isSneaking()) {
             return true;
         }
+        Block block = world.getBlock(x, y, z);
+        int metadata = world.getBlockMetadata(x, y, z);
         TileEntity tile = world.getTileEntity(x, y, z);
         int mode = getMode(itemStack);
         if(mode == 0) {
@@ -186,16 +196,16 @@ public class ItemLinker extends Item {
             }
         } else if(mode == 1) {
             if(!(tile instanceof IFilterTileGUI)) {
-                entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.CANNOT_COPY_INVALID, x, y, z, BlockHelper.getBlockDisplayName(world, x, y, z)))));
+                entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.CANNOT_COPY_INVALID, x, y, z, BlockHelper.getBlockDisplayName(block, metadata)))));
                 return true;
             }
             if(((IFilterTileGUI) tile).getFilter().getFilterCount() == 0) {
-                entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.CANNOT_COPY_INVALID, x, y, z, BlockHelper.getBlockDisplayName(world, x, y, z)))));
+                entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.CANNOT_COPY_INVALID, x, y, z, BlockHelper.getBlockDisplayName(block, metadata)))));
                 return true;
             }
         }
         linkTileAtPosition(itemStack, x, y, z);
-        entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.LINKER_SET, x, y, z, BlockHelper.getBlockDisplayName(world, x, y, z)))));
+        entityPlayer.addChatComponentMessage(new ChatComponentText((StatCollector.translateToLocalFormatted(Strings.LINKER_SET, x, y, z, BlockHelper.getBlockDisplayName(block, metadata)))));
         return true;
     }
 

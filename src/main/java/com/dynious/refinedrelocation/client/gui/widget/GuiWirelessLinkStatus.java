@@ -7,6 +7,7 @@ import com.dynious.refinedrelocation.client.gui.widget.button.GuiButton;
 import com.dynious.refinedrelocation.helper.BlockHelper;
 import com.dynious.refinedrelocation.lib.Strings;
 import com.dynious.refinedrelocation.tileentity.TileWirelessBlockExtender;
+import net.minecraft.block.Block;
 import net.minecraft.util.StatCollector;
 
 import java.util.List;
@@ -51,7 +52,9 @@ public class GuiWirelessLinkStatus extends GuiButton {
             String yellowColor = colorCode + "e";
             tooltip.add(StatCollector.translateToLocal(Strings.WIRELESS_LINK));
             if (linked) {
-                tooltip.add(grayColor + StatCollector.translateToLocalFormatted(Strings.LINKED_TO_AT, BlockHelper.getBlockDisplayName(tile.getWorldObj(), tile.xConnected, tile.yConnected, tile.zConnected), tile.xConnected, tile.yConnected, tile.zConnected));
+                Block linkedBlock = tile.getWorldObj().getBlock(tile.xConnected, tile.yConnected, tile.zConnected);
+                int linkedMetadata = tile.getWorldObj().getBlockMetadata(tile.xConnected, tile.yConnected, tile.zConnected);
+                tooltip.add(grayColor + StatCollector.translateToLocalFormatted(Strings.LINKED_TO_AT, BlockHelper.getBlockDisplayName(linkedBlock, linkedMetadata), tile.xConnected, tile.yConnected, tile.zConnected));
 
                 if (tile.hasConnection()) {
                     tooltip.add(grayColor + StatCollector.translateToLocal(Strings.CONNECTIONS) + ":");

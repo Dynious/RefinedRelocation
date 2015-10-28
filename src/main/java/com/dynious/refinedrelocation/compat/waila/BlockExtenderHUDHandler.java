@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.SpecialChars;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,62 +20,44 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
-public class BlockExtenderHUDHandler implements IWailaDataProvider
-{
-    private static String getLocalizedRedstoneState(TileBlockExtender blockExtender)
-    {
-        if (blockExtender.isRedstoneTransmissionEnabled())
-        {
+public class BlockExtenderHUDHandler implements IWailaDataProvider {
+    private static String getLocalizedRedstoneState(TileBlockExtender blockExtender) {
+        if (blockExtender.isRedstoneTransmissionEnabled()) {
             return blockExtender.isRedstoneTransmissionActive() ? StatCollector.translateToLocal(Strings.ACTIVE) : StatCollector.translateToLocal(Strings.INACTIVE);
-        }
-        else
-        {
+        } else {
             return StatCollector.translateToLocal(Strings.DISABLED);
         }
     }
 
     @Override
-    public ItemStack getWailaStack(IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
-    {
+    public ItemStack getWailaStack(IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler) {
         return null;
     }
 
     @Override
-    public List<String> getWailaHead(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
-    {
+    public List<String> getWailaHead(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler) {
         return strings;
     }
 
     @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
-    {
-        if (iWailaDataAccessor.getTileEntity() instanceof TileBlockExtender)
-        {
+    public List<String> getWailaBody(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler) {
+        if (iWailaDataAccessor.getTileEntity() instanceof TileBlockExtender) {
             TileBlockExtender blockExtender = (TileBlockExtender) iWailaDataAccessor.getTileEntity();
 
-            if (blockExtender instanceof TileWirelessBlockExtender)
-            {
+            if (blockExtender instanceof TileWirelessBlockExtender) {
                 TileWirelessBlockExtender wirelessBlockExtender = (TileWirelessBlockExtender) blockExtender;
 
-                if (wirelessBlockExtender.isLinked())
-                {
-                    strings.add(StatCollector.translateToLocal(Strings.LINKED_TO) + SpecialChars.TAB +
-                            BlockHelper.getBlockDisplayName(wirelessBlockExtender.getWorldObj(), wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected) +
-                            " " + StringHelper.formatCoordinates(wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected));
-                }
-                else
-                {
+                if (wirelessBlockExtender.isLinked()) {
+                    Block linkedBlock = wirelessBlockExtender.getWorldObj().getBlock(wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected);
+                    int linkedMetadata = wirelessBlockExtender.getWorldObj().getBlockMetadata(wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected);
+                    strings.add(StatCollector.translateToLocal(Strings.LINKED_TO) + SpecialChars.TAB + BlockHelper.getBlockDisplayName(linkedBlock, linkedMetadata) + " " + StringHelper.formatCoordinates(wirelessBlockExtender.xConnected, wirelessBlockExtender.yConnected, wirelessBlockExtender.zConnected));
+                } else {
                     strings.add(StatCollector.translateToLocal(Strings.UNLINKED));
                 }
-            }
-            else
-            {
-                if (blockExtender.hasConnection())
-                {
+            } else {
+                if (blockExtender.hasConnection()) {
                     strings.add(StatCollector.translateToLocal(Strings.CONNECTED_TO) + SpecialChars.TAB + BlockHelper.getTileEntityDisplayName(blockExtender.getConnectedTile()));
-                }
-                else
-                {
+                } else {
                     strings.add(StatCollector.translateToLocal(Strings.NOT_CONNECTED));
                 }
 
@@ -89,14 +72,12 @@ public class BlockExtenderHUDHandler implements IWailaDataProvider
     }
 
     @Override
-    public List<String> getWailaTail(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler)
-    {
+    public List<String> getWailaTail(ItemStack itemStack, List<String> strings, IWailaDataAccessor iWailaDataAccessor, IWailaConfigHandler iWailaConfigHandler) {
         return strings;
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP entityPlayerMP, TileEntity tileEntity, NBTTagCompound nbtTagCompound, World world, int i, int i1, int i2)
-    {
+    public NBTTagCompound getNBTData(EntityPlayerMP entityPlayerMP, TileEntity tileEntity, NBTTagCompound nbtTagCompound, World world, int i, int i1, int i2) {
         if (tileEntity != null)
             tileEntity.writeToNBT(nbtTagCompound);
         return nbtTagCompound;
