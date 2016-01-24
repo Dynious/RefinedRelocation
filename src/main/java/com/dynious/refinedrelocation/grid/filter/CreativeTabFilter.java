@@ -45,21 +45,14 @@ public class CreativeTabFilter extends MultiFilterChildBase implements IChecklis
     }
 
     @Override
-    public boolean isInFilter(ItemStack itemStack)
-    {
+    public boolean isInFilter(ItemStack itemStack) {
         CreativeTabs tab;
-        if (itemStack.getItem() instanceof ItemBlock)
-        {
+        if (itemStack.getItem() instanceof ItemBlock) {
             tab = Block.getBlockById(ItemBlock.getIdFromItem(itemStack.getItem())).displayOnCreativeTab;
-        } else
-        {
+        } else {
             tab = itemStack.getItem().tabToDisplayOn;
         }
-        if (tab != null)
-        {
-            return tabStates[tab.tabIndex];
-        }
-        return false;
+        return tab != null && tab.tabIndex < tabStates.length && tabStates[tab.tabIndex];
     }
 
     @Override
