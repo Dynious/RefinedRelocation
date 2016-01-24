@@ -83,7 +83,7 @@ dependencies {
     compile "codechicken:ForgeMultipart:1.7.10-1.2.0.345:dev"
     compile "net.industrial-craft:industrialcraft-2:2.2.781-experimental:api"
     compile "mcp.mobius.waila:Waila:1.5.10_1.7.10:dev"
-    compile ("appeng:appliedenergistics2:rv2-stable-10:dev") {
+    compile ("appeng:appliedenergistics2:rv3-beta-5:dev") {
         transitive = false
     }
     compile "com.pahimar.ee3:EquivalentExchange3:1.7.10-0.3.507:dev"

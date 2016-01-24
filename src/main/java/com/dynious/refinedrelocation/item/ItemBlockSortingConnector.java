@@ -55,9 +55,6 @@ public class ItemBlockSortingConnector extends ItemBlock {
         } else {
             list.add("\u00a76" + StatCollector.translateToLocal(Strings.TOOLTIP_SHIFT));
         }
-        if(itemStack.getItemDamage() == 3) {
-            list.add("\u00a7c" + "[Deprecated] This block will be removed in a future version of Refined Relocation.");
-        }
     }
 
 }

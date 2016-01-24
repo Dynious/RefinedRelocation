@@ -20,7 +20,6 @@ import appeng.api.storage.data.IItemList;
 import appeng.api.util.AECableType;
 import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
-import appeng.core.WorldSettings;
 import appeng.core.sync.GuiBridge;
 import appeng.helpers.IPriorityHost;
 import appeng.util.Platform;
@@ -264,7 +263,7 @@ public class TileMESortingInterface extends TileSortingConnector implements ICel
             }
             else if (owner != null)
             {
-                this.node.setPlayerID(WorldSettings.getInstance().getPlayerID(this.owner.getGameProfile()));
+                this.node.setPlayerID(AEApi.instance().registries().players().getID(owner));
                 this.owner = null;
             }
             this.node.updateState();
