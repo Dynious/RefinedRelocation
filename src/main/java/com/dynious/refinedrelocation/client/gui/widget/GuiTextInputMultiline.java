@@ -5,7 +5,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -220,7 +219,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase
 
     private int getStartOfWord(int position)
     {
-        position = MathHelper.clamp_int(position, 0, text.length() - 1);
+        position = Math.max(Math.min(position, text.length() - 1), 0);
         if (text.charAt(position) == '\n')
         {
             return position;
@@ -246,7 +245,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase
 
     private int getStartOfNextWord(int position)
     {
-        position = MathHelper.clamp_int(position, 0, text.length() - 1);
+        position = Math.max(Math.min(position, text.length() - 1), 0);
         if (text.charAt(position) == '\n')
         {
             return position;
@@ -375,12 +374,12 @@ public class GuiTextInputMultiline extends GuiWidgetBase
         int cursorLineEnd = getEndOfLine(this.cursorPosition, 1);
         int cursorLineX = Math.min(getLineLength(this.cursorPosition), (this.cursorPosition - cursorLineStart));
         String lineText = text.substring(cursorLineStart, cursorLineEnd);
-        lineScrollOffset = MathHelper.clamp_int(lineScrollOffset, 0, lineText.length());
+        lineScrollOffset = Math.max(Math.min(lineScrollOffset, lineText.length()), 0);
         if (cursorLineX == lineScrollOffset)
         {
             lineScrollOffset -= fontRenderer.trimStringToWidth(lineText, visibleWidth, true).length();
         }
-        lineScrollOffset = MathHelper.clamp_int(lineScrollOffset, 0, lineText.length());
+        lineScrollOffset = Math.max(Math.min(lineScrollOffset, lineText.length()), 0);
         String visibleLineText = fontRenderer.trimStringToWidth(lineText.substring(lineScrollOffset), visibleWidth);
         int l = visibleLineText.length() + lineScrollOffset;
         if (cursorLineX > l)
@@ -390,7 +389,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase
         {
             lineScrollOffset -= lineScrollOffset - cursorLineX;
         }
-        lineScrollOffset = MathHelper.clamp_int(lineScrollOffset, 0, lineText.length());
+        lineScrollOffset = Math.max(Math.min(lineScrollOffset, lineText.length()), 0);
     }
 
     public void scroll(int x, int y)
@@ -414,7 +413,7 @@ public class GuiTextInputMultiline extends GuiWidgetBase
             int lineNumber = Math.round((float) relY / (float) fontRenderer.FONT_HEIGHT) + scrollOffset + 1;
             int startOfLine = getStartOfLine(getEndOfLine(0, lineNumber), 1);
             int endOfLine = getEndOfLine(startOfLine, 1);
-            String visibleLine = fontRenderer.trimStringToWidth(text.substring(startOfLine + lineScrollOffset, endOfLine), w - MARGIN);
+            String visibleLine = fontRenderer.trimStringToWidth(text.substring(Math.max(startOfLine + lineScrollOffset, 0), endOfLine), w - MARGIN);
             setCursorPosition(startOfLine + fontRenderer.trimStringToWidth(visibleLine, relX).length() + lineScrollOffset);
         }
     }
