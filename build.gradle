@@ -86,7 +86,7 @@ dependencies {
     compile ("appeng:appliedenergistics2:rv3-beta-5:dev") {
         transitive = false
     }
-    compile "com.pahimar.ee3:EquivalentExchange3:1.7.10-0.3.507:dev"
+    compile "com.pahimar.ee3:EquivalentExchange3:1.7.10-0.3.0.509:dev"
     compile "mcp.mobius.jabba:Jabba:1.2.1a_1.7.10:dev"
     compile name: 'buildcraft', version: '7.1.8', classifier: "dev", ext: 'jar'
     compile name: 'InventoryTweaks', version: '147', classifier: "deobf", ext: 'jar'
