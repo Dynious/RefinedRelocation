@@ -52,10 +52,12 @@ public class ContainerAdvanced extends ContainerHierarchical implements IContain
             lastSpreadItems = tile.getSpreadItems();
         }
 
-        boolean redstoneTransmissionEnabled = ((TileBlockExtender) tile).isRedstoneTransmissionEnabled();
-        if(tile instanceof TileBlockExtender && (redstoneTransmissionEnabled != lastRedstoneTransmission) || initialUpdate) {
-            sendSyncMessage(new MessageGUIBoolean(MessageGUI.REDSTONE_ENABLED, redstoneTransmissionEnabled));
-            lastRedstoneTransmission = redstoneTransmissionEnabled;
+        if(tile instanceof  TileBlockExtender) {
+            boolean redstoneTransmissionEnabled = ((TileBlockExtender) tile).isRedstoneTransmissionEnabled();
+            if (tile instanceof TileBlockExtender && (redstoneTransmissionEnabled != lastRedstoneTransmission) || initialUpdate) {
+                sendSyncMessage(new MessageGUIBoolean(MessageGUI.REDSTONE_ENABLED, redstoneTransmissionEnabled));
+                lastRedstoneTransmission = redstoneTransmissionEnabled;
+            }
         }
 
         if (initialUpdate) {
