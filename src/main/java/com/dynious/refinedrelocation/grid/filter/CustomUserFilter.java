@@ -71,7 +71,7 @@ public class CustomUserFilter extends MultiFilterChildBase {
             if(matcher.group(1) != null) {
                 matcher.appendReplacement(sb, ".*");
             } else {
-                matcher.appendReplacement(sb, "\\\\Q" + matcher.group(0) + "\\\\E");
+                matcher.appendReplacement(sb, Matcher.quoteReplacement(matcher.group(0)));
             }
         }
         matcher.appendTail(sb);
