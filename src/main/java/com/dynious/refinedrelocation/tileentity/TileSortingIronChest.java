@@ -241,6 +241,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     public void invalidate()
     {
         sortingInventoryHandler.onTileRemoved();
+        isFirstRun = true;
         super.invalidate();
     }
 
@@ -248,6 +249,7 @@ public class TileSortingIronChest extends TileEntityIronChest implements ISortin
     public void onChunkUnload()
     {
         sortingInventoryHandler.onTileRemoved();
+        isFirstRun = true;
         super.onChunkUnload();
     }
 }

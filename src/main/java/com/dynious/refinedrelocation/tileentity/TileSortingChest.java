@@ -399,6 +399,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     public void invalidate()
     {
         sortingInventoryHandler.onTileRemoved();
+        isFirstTick = true;
         super.invalidate();
     }
 
@@ -406,6 +407,7 @@ public class TileSortingChest extends TileEntity implements ISortingInventory, I
     public void onChunkUnload()
     {
         sortingInventoryHandler.onTileRemoved();
+        isFirstTick = true;
         super.onChunkUnload();
     }
 

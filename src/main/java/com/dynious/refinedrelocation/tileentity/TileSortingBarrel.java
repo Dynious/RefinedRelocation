@@ -121,6 +121,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
     public void invalidate()
     {
         sortingInventoryHandler.onTileRemoved();
+        isFirstRun = true;
         super.invalidate();
     }
 
@@ -128,6 +129,7 @@ public class TileSortingBarrel extends TileEntityBarrel implements ISpecialSorti
     public void onChunkUnload()
     {
         sortingInventoryHandler.onTileRemoved();
+        isFirstRun = true;
         super.onChunkUnload();
     }
 
