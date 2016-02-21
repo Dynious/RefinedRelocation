@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.1.12",
-			"changeLog":"Fixed two crashes and custom filters not working correctly.",
-			"updateURL":"http://minecraft.curseforge.com/projects/refined-relocation/files/2264421/download"
+			"modVersion":"1.1.21",
+			"changeLog":"Several bugfixes. See changelog on Curse.",
+			"updateURL":"http://minecraft.curseforge.com/projects/refined-relocation/files/2279974/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
