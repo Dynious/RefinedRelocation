@@ -65,7 +65,7 @@ public class CustomUserFilter extends MultiFilterChildBase {
 
     private static final Pattern WILDCARD_PATTERN = Pattern.compile("[^*]+|(\\*)");
     private static String getRegexWildcardPattern(String s) {
-        Matcher matcher = WILDCARD_PATTERN.matcher(s);
+        Matcher matcher = WILDCARD_PATTERN.matcher(Pattern.quote(s));
         StringBuffer sb = new StringBuffer();
         while(matcher.find()) {
             if(matcher.group(1) != null) {
