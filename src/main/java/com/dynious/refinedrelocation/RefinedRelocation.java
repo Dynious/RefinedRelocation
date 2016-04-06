@@ -52,9 +52,9 @@ public class RefinedRelocation {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        ConfigHandler.init(event);
         Mods.init();
         VersionChecker.execute();
-        ConfigHandler.init(event);
 
         ModBlocks.init();
         ModItems.init();
