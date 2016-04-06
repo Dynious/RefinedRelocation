@@ -79,7 +79,7 @@ public class Grid implements IGrid
     @Override
     public List<IGridMemberHandler> getMembers()
     {
-        return Collections.unmodifiableList(members);
+        return Collections.unmodifiableList(members != null ? members : Collections.<IGridMemberHandler>emptyList());
     }
 
     /**
