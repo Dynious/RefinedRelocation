@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.1.21",
-			"changeLog":"Several bugfixes. See changelog on Curse.",
-			"updateURL":"http://minecraft.curseforge.com/projects/refined-relocation/files/2279974/download"
+			"modVersion":"1.1.25",
+			"changeLog":"Removed dependency on AE2 rv3, rv2 is good enough",
+			"updateURL":"http://minecraft.curseforge.com/projects/refined-relocation/files/2283024/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
