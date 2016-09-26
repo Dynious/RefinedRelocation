@@ -1,0 +1,15 @@
+package com.dynious.refinedrelocation.api
+
+
+
+import net.minecraft.item.Item;
+
+
+
+public class ItemObj{
+
+    public static ItemLinker linker;
+    public static ItemSortingUpgrade sortingUpgrade;
+    public static ItemPlayerRelocator playerRelocator;
+
+}
