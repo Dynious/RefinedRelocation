@@ -1,0 +1,17 @@
+package com.dynious.refinedrelocation.api
+
+import net.minecraft.block.Block;
+
+public class BlockObj{
+		public static boolean isHere = false;
+    public static Block blockExtender;
+    public static Block buffer;
+    public static Block sortingChest;
+    public static Block sortingIronChest;
+    public static Block sortingConnector;
+    public static Block filteringHopper;
+    public static Block sortingBarrel;
+    public static Block relocationPortal;
+    public static Block relocationController;
+    public static Block powerLimiter;
+}
