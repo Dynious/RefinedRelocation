@@ -514,6 +514,13 @@ icon_filter_custom
   orig: 16, 16
   offset: 0, 0
   index: -1
+icon_filter_regex
+  rotate: false
+  xy: 112, 173
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 icon_link_active
   rotate: false
   xy: 89, 63

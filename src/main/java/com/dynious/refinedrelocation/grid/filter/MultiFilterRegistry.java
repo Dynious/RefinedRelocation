@@ -66,6 +66,7 @@ public class MultiFilterRegistry
         APIUtils.registerMultiFilterChild(CreativeTabFilter.TYPE_NAME, CreativeTabFilter.class);
         APIUtils.registerMultiFilterChild(PresetFilter.TYPE_NAME, PresetFilter.class);
         APIUtils.registerMultiFilterChild(CustomUserFilter.TYPE_NAME, CustomUserFilter.class);
+        APIUtils.registerMultiFilterChild(CustomRegexFilter.TYPE_NAME, CustomRegexFilter.class);
         APIUtils.registerMultiFilterChild(SameItemFilter.TYPE_NAME, SameItemFilter.class);
         APIUtils.registerMultiFilterChild(ModFilter.TYPE_NAME, ModFilter.class);
     }

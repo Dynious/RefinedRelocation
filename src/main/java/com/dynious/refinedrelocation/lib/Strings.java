@@ -46,6 +46,8 @@ public class Strings
     public static final String WILDCARD_CHARACTER = GUI_PREFIX + "wildcardChar";
     public static final String OREDICT_CHARACTER = GUI_PREFIX + "oredictChar";
     public static final String COMMA_SEPARATION = GUI_PREFIX + "commaSeparation";
+    public static final String REGEX_PATTERNS_VALID = GUI_PREFIX + "regexPatternsValid";
+    public static final String NEWLINE_SEPARATION = GUI_PREFIX + "newlineSeparation";
     public static final String WIRELESS_LINK = GUI_PREFIX + "wirelessLink";
     public static final String LINKED_TO_AT = GUI_PREFIX + "linkedToAt";
     public static final String CONNECTIONS = GUI_PREFIX + "connections";
@@ -87,6 +89,8 @@ public class Strings
     public static final String SELECT_FILTER_TYPE = GUI_PREFIX + "selectFilterType";
     public static final String CUSTOM_FILTER = GUI_PREFIX + "customFilter";
     public static final String CUSTOM_FILTER_DESCRIPTION = GUI_PREFIX + "customFilterDesc";
+    public static final String REGEX_FILTER = GUI_PREFIX + "regexFilter";
+    public static final String REGEX_FILTER_DESCRIPTION = GUI_PREFIX + "regexFilterDesc";
     public static final String PRESET_FILTER = GUI_PREFIX + "presetFilter";
     public static final String PRESET_FILTER_DESCRIPTION = GUI_PREFIX + "presetFilterDesc";
     public static final String CREATIVE_FILTER = GUI_PREFIX + "creativeFilter";
