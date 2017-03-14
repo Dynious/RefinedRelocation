@@ -1,6 +1,8 @@
 Refined Relocation
 ==============
 
+# Further updates for Minecraft 1.7.10 are unlikely. For more recent versions, head over to [Refined Relocation 2](https://github.com/blay09/RefinedRelocation2).
+
 This is the official GitHub page for Refined Relocation!
 
 [Minecraft Forums page](http://www.minecraftforum.net/topic/2210752-/)
