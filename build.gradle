@@ -60,13 +60,12 @@ repositories {
         name "waila"
         url "http://mobiusstrip.eu/maven"
     }
+    maven {
+        url "http://blay09.net:8081/artifactory/repo/"
+    }
     ivy {
         name "BuildCraft"
         artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
-    }
-    ivy {
-        name "InventoryTweaks"
-        artifactPattern "http://build.technicpack.net/job/Inventory-Tweaks/[revision]/artifact/build/libs/[module]-[classifier]-1.58-[revision].[ext]"
     }
     ivy {
         name "IronChest"
@@ -88,8 +87,8 @@ dependencies {
     }
     compile "com.pahimar.ee3:EquivalentExchange3:1.7.10-0.3.0.509:dev"
     compile "mcp.mobius.jabba:Jabba:1.2.1a_1.7.10:dev"
+    compile "hosted-api:InventoryTweaks:1.59-dev"
     compile name: 'buildcraft', version: '7.1.8', classifier: "dev", ext: 'jar'
-    compile name: 'InventoryTweaks', version: '147', classifier: "deobf", ext: 'jar'
     compile name: 'ironchest', version: '1.7.10-6.0.62.742', classifier: "deobf", ext: 'jar'
     compile name: 'CoFHLib', version: '[1.7.10]1.0.3-175', classifier: "dev", ext: 'jar'
 }
