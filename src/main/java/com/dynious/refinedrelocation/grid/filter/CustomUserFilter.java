@@ -16,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class CustomUserFilter extends MultiFilterChildBase {
     public static final String TYPE_NAME = "user";
@@ -30,13 +31,22 @@ public class CustomUserFilter extends MultiFilterChildBase {
         String[] oreNames = null;
         String filter = value.toLowerCase();
         String itemName = null;
+        Pattern pattern = null;
+        Matcher matcher = null;
         for (String s : filter.split("[\n,]")) {
             boolean isOreDict = s.startsWith("!");
             if(isOreDict) {
                 s = s.substring(1);
             }
-            Pattern pattern = Pattern.compile(getRegexWildcardPattern(s));
-            Matcher matcher = pattern.matcher("");
+
+            try {
+                pattern = Pattern.compile(getRegexWildcardPattern(s));
+                matcher = pattern.matcher("");
+            } catch (PatternSyntaxException e) {
+                LogHelper.error("Invalid regex pattern '" + e.getPattern() + "' from filter '" + s + "'");
+                continue;
+            }
+
             if (isOreDict) {
                 if (oreNames == null) {
                     oreNames = MultiFilter.getOreNames(itemStack);
@@ -69,7 +79,7 @@ public class CustomUserFilter extends MultiFilterChildBase {
         StringBuffer sb = new StringBuffer();
         while(matcher.find()) {
             if(matcher.group(1) != null) {
-                matcher.appendReplacement(sb, ".*");
+                matcher.appendReplacement(sb, "\\\\E.*\\\\Q");
             } else {
                 matcher.appendReplacement(sb, Matcher.quoteReplacement(matcher.group(0)));
             }
