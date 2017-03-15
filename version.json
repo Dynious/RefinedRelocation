@@ -2,9 +2,9 @@
 	"versionList": [
 		{
 			"mcVersion":"Minecraft 1.7.10",
-			"modVersion":"1.1.28",
-			"changeLog":"Slaughtered two crashes and a bug.",
-			"updateURL":"http://minecraft.curseforge.com/projects/refined-relocation/files/2292633/download"
+			"modVersion":"1.1.34",
+			"changeLog":"Fixed wildcard sorting, added regex filter.",
+			"updateURL":"https://minecraft.curseforge.com/projects/refined-relocation/files/2393121/download"
 		},
 		{
 			"mcVersion":"Minecraft 1.7.2",
